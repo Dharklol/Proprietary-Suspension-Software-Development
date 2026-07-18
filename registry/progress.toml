@@ -1,0 +1,39 @@
+[phase_0]
+status = "active"
+objective = "Establish conventions, registries, migration dispositions, and benchmark gates before authoritative physics implementation."
+
+[[phase_0.workstreams]]
+id = "P0-W01"
+title = "Governance and conventions"
+status = "active"
+exit_criterion = "Convention specification reviewed and frozen."
+
+[[phase_0.workstreams]]
+id = "P0-W02"
+title = "Canonical quantity dictionary"
+status = "active"
+exit_criterion = "All MVP quantities have stable IDs and unambiguous definitions."
+
+[[phase_0.workstreams]]
+id = "P0-W03"
+title = "Literature concordance"
+status = "active"
+exit_criterion = "Every accepted equation or model has equation-level references and applicability notes."
+
+[[phase_0.workstreams]]
+id = "P0-W04"
+title = "Legacy calculator migration"
+status = "active"
+exit_criterion = "Every legacy block has a disposition and replacement path."
+
+[[phase_0.workstreams]]
+id = "P0-W05"
+title = "Verification benchmark suite"
+status = "active"
+exit_criterion = "MVP equations pass dimensional, limiting-case, and independent benchmark checks."
+
+[[phase_0.workstreams]]
+id = "P0-W06"
+title = "Sensor and data registry"
+status = "active"
+exit_criterion = "Sensors, channels, calibrations, data roles, and uncertainty paths are defined."

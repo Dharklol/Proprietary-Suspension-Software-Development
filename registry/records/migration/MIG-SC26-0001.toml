@@ -1,0 +1,14 @@
+[record]
+id = "MIG-SC26-0001"
+type = "migration"
+title = "Suspension Calculations 2026 workbook"
+status = "active"
+disposition = "unknown"
+description = "Top-level migration record for the legacy Suspension Calculations 2026 workbook. Child records will inventory each tab and formula block."
+source_artifact = "Google Drive: Suspension Calculations 2026"
+replacement_ids = []
+blocking_issues = [
+  "Complete sheet and formula-block inventory.",
+  "Resolve unit, sign, naming, and legacy-parameter ambiguity.",
+  "Cross-check equations against accepted literature and limiting cases."
+]

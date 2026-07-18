@@ -1,0 +1,16 @@
+[record]
+id = "RISK-VAL-0001"
+type = "risk"
+title = "Circular calibration and validation"
+status = "active"
+description = "The same data or model assumptions could be used to calibrate parameters, filter disagreeing samples, and then claim independent model validation."
+severity = "critical"
+cause = "Unclassified datasets, model-based filtering without reason codes, or reuse of held-out validation runs."
+effect = "Artificially low residuals, hidden model-form error, and unjustified design confidence."
+controls = [
+  "Classify data as sensor calibration, installation calibration, parameter identification, validation, or regression.",
+  "Preserve raw data and exclusion reason codes.",
+  "Prevent validation datasets from entering fitting pipelines by default.",
+  "Report model extrapolation separately from sensor-quality failures."
+]
+affected_ids = []

@@ -1,0 +1,32 @@
+version = "0.1.0"
+
+[id_prefixes]
+quantity = "QTY"
+equation = "EQ"
+model = "MOD"
+parameter = "PAR"
+sensor = "SNS"
+channel = "CH"
+assumption = "ASM"
+risk = "RISK"
+benchmark = "BENCH"
+migration = "MIG"
+
+[enums]
+status = ["proposed", "active", "deprecated", "blocked", "archived"]
+disposition = ["accepted", "accepted_with_restrictions", "rewrite", "benchmark_only", "research", "deprecated", "unknown"]
+maturity = ["M0", "M1", "M2", "M3", "M4", "M5", "M6"]
+severity = ["informational", "low", "medium", "high", "critical"]
+verification_level = ["none", "A", "B", "C", "D", "E", "F"]
+
+[required_fields]
+quantity = ["id", "type", "title", "status", "maturity", "description", "dimension", "canonical_unit"]
+equation = ["id", "type", "title", "status", "disposition", "maturity", "description", "outputs", "inputs", "assumptions", "verification_level"]
+model = ["id", "type", "title", "status", "disposition", "maturity", "description", "inputs", "outputs", "assumptions", "verification_level"]
+parameter = ["id", "type", "title", "status", "description", "quantity_id", "value", "unit", "source_type", "uncertainty"]
+sensor = ["id", "type", "title", "status", "description", "measurand_quantity_id", "location", "calibration_status"]
+channel = ["id", "type", "title", "status", "description", "source_sensor_id", "quantity_id", "sample_rate_hz", "calibration_id"]
+assumption = ["id", "type", "title", "status", "description", "severity", "affected_ids"]
+risk = ["id", "type", "title", "status", "description", "severity", "cause", "effect", "controls", "affected_ids"]
+benchmark = ["id", "type", "title", "status", "description", "verification_level", "target_ids", "acceptance_criteria"]
+migration = ["id", "type", "title", "status", "disposition", "description", "source_artifact", "replacement_ids", "blocking_issues"]

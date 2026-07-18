@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local settings and secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Generated outputs
+artifacts/
+reports/generated/
+coverage.xml
+htmlcov/
+
+# Large or raw engineering data
+*.xrk
+*.ld
+*.mat
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.mf4
+*.tdms
+raw_data/
+telemetry/
+
+# Proprietary external exports should be catalogued, not committed blindly
+external_exports/

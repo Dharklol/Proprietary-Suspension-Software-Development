@@ -1,0 +1,14 @@
+[record]
+id = "MIG-LLTD-0001"
+type = "migration"
+title = "LLTD and chassis-compliance calculator"
+status = "active"
+disposition = "rewrite"
+description = "Top-level migration record for the existing LLTD calculator. The rigid elastic roll-stiffness chain may be retained after verification; the placeholder independent series-softening chassis model requires replacement by a coupled front-chassis-rear formulation."
+source_artifact = "Google Drive: LLTD Calculator"
+replacement_ids = []
+blocking_issues = [
+  "Create equation-level records for rigid elastic LLTD.",
+  "Derive and verify the coupled torsional-compliance model.",
+  "Relabel model-assisted measured LLTD as an estimate with propagated uncertainty."
+]
