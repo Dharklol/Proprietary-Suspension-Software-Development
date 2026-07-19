@@ -1,0 +1,9 @@
+[record]
+id = "QTY-STEER-0012"
+type = "quantity"
+title = "Nominal tie-rod joint-center distance"
+status = "proposed"
+maturity = "M0"
+description = "Center-to-center distance between the declared rack inner joint and upright outer joint in the named reference configuration."
+dimension = "length"
+canonical_unit = "m"
