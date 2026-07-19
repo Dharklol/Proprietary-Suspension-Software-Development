@@ -1,0 +1,20 @@
+id = "MIG-LLTD-0001"
+title = "LLTD Calculator"
+source_type = "google_sheet"
+source_url = "https://docs.google.com/spreadsheets/d/1kwAzxos_H7goRRTbuyWT3U6eArh5o65v6DR0wY28b6s"
+captured_filename = "LLTD Calculator"
+captured_format = "xlsx"
+sha256 = "9af4fcd0da6ffd9c31b16f50f48687aba919f038cbc24366d0622014898d9049"
+sheet_count = 7
+inventory_revision = "0.1.0"
+inventory_status = "structural_complete_semantic_open"
+authority_status = "not_authoritative"
+source_preservation = "Original workbook remains immutable in Google Drive."
+notes = [
+  "No workbook-defined names.",
+  "No formal table objects.",
+  "No data-validation rules.",
+  "No hidden sheets.",
+  "Compliance model explicitly identifies itself as a placeholder.",
+  "Measured LLTD is explicitly identified as a proxy."
+]

@@ -1,0 +1,19 @@
+id = "MIG-SC26-0001"
+title = "Suspension Calculations 2026"
+source_type = "google_sheet"
+source_url = "https://docs.google.com/spreadsheets/d/1mW6JVHnSgvJJmXwYGV9AZV3ybRiolN9vPI8NAJjdvLA"
+captured_filename = "Suspension Calculations 2026"
+captured_format = "xlsx"
+sha256 = "8faf626624075aa3c842ac153debf7eb30be44489d551f6c421786875b09a162"
+sheet_count = 17
+inventory_revision = "0.1.0"
+inventory_status = "structural_complete_semantic_open"
+authority_status = "not_authoritative"
+source_preservation = "Original workbook remains immutable in Google Drive."
+notes = [
+  "No workbook-defined names.",
+  "No formal table objects.",
+  "No data-validation rules.",
+  "No hidden sheets.",
+  "Contains historical, approximate, and externally-derived values."
+]

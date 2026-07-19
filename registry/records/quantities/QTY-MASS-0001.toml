@@ -1,0 +1,14 @@
+[record]
+id = "QTY-MASS-0001"
+type = "quantity"
+title = "Total vehicle mass"
+status = "proposed"
+maturity = "M0"
+description = "Mass of the complete vehicle in the specified operating configuration, including the explicitly selected driver, fuel, ballast, and installed components."
+dimension = "mass"
+canonical_unit = "kg"
+frame = "none"
+reference_point = "none"
+sign_convention = "positive scalar"
+aliases = ["vehicle mass", "total mass"]
+notes = "Do not use weight or normal-force terminology for this quantity. Configuration membership must be explicit."
