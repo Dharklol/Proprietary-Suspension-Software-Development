@@ -1,0 +1,9 @@
+[record]
+id = "QTY-STEER-0011"
+type = "quantity"
+title = "Secant steering-wheel-to-road-wheel ratio"
+status = "proposed"
+maturity = "M0"
+description = "Finite steering-wheel input divided by a declared road-wheel output over a named interval, with zero handling and denominator definition stated."
+dimension = "dimensionless"
+canonical_unit = "1"
