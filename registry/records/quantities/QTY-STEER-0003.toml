@@ -1,0 +1,9 @@
+[record]
+id = "QTY-STEER-0003"
+type = "quantity"
+title = "Pinion angle"
+status = "proposed"
+maturity = "M0"
+description = "Angular displacement of the steering pinion from the declared rack-center zero."
+dimension = "angle"
+canonical_unit = "rad"
