@@ -1,0 +1,9 @@
+[record]
+id = "BENCH-STEER-0001"
+type = "benchmark"
+title = "Legacy steering motion study comparison"
+status = "proposed"
+description = "Compare the reviewed rigid steering model against the recovered CAD motion study using the same geometry, inputs, coordinate conventions, and sweep."
+verification_level = "E"
+target_ids = ["MOD-STEER-0001", "MIG-STR-0001"]
+acceptance_criteria = ["Source revision and sweep are recorded", "Left and right road-wheel curves agree within reviewed tolerances", "Intentional differences are explained by documented assumptions"]
