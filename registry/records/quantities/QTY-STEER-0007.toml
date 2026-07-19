@@ -1,0 +1,9 @@
+[record]
+id = "QTY-STEER-0007"
+type = "quantity"
+title = "Right road-wheel steer angle"
+status = "proposed"
+maturity = "M0"
+description = "Yaw orientation of the right road-wheel plane relative to its declared zero and reference frame."
+dimension = "angle"
+canonical_unit = "rad"
