@@ -23,3 +23,7 @@ All notable project changes should be recorded here. Model releases must identif
 - Steering source-recovery search log and team-assisted recovery worksheet.
 - Steering requirement-role matrix for inverse design.
 - Steering analytical, limiting-case, cross-tool, and physical benchmark plan.
+- Box manifest and directory inventory for the recovered WUFR-26 steering geometry, six motion-study CSV exports, reference workbook, and supporting CAD files.
+- Source designation of `GEOMETRY FINAL.SLDPRT` as the WUFR-26 legacy SolidWorks benchmark parent, pending benchmark freeze metadata.
+- WUFR-25 `Steering_range_optimization.m` semantic audit and benchmark-only disposition.
+- Explicit FDR-to-CSV mapping requirement and circular-validation controls for the final WUFR-26 steering benchmark.
