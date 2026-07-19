@@ -25,10 +25,14 @@ The inventory records:
 |---|---|---|---|
 | `MIG-SC26-0001` | Suspension Calculations 2026 | Structural inventory complete; semantic audit open | `suspension_calculations_2026/workbook_inventory.md` |
 | `MIG-LLTD-0001` | LLTD Calculator | Structural inventory complete; semantic audit open | `lltd_calculator/workbook_inventory.md` |
+| `MIG-STR-0001` | Tie-rod optimizer and steering motion study | Transition specification active; source recovery open | `steering_tie_rod_optimizer/transition_specification.md` |
+
+`MIG-STR-0001` is the first proposed calculator implementation after its documentation and benchmark gate is satisfied. Priority does not waive any Phase 0 review requirement.
 
 ## Inventory status vocabulary
 
 - **Observed:** directly present in the workbook.
+- **Team-described:** described by the team but not yet recovered from the original artifact.
 - **Inferred:** interpretation based on labels, formulas, and surrounding context; requires review.
 - **Conflict:** two or more values, units, definitions, or methods cannot all be canonical without a resolution rule.
 - **Unknown:** purpose or provenance cannot be established from the workbook alone.
@@ -38,12 +42,13 @@ The inventory records:
 ## Required next documentation
 
 1. Cell/block-level disposition register for each sheet.
-2. Canonical-quantity mapping for every retained input and output.
-3. Equation cards with literature sources and validity envelopes.
-4. Parameter provenance records for WUFR-26/WUFR-27 values.
-5. Benchmark definitions for calculations retained as hand checks.
-6. Retired-item records for abandoned or unidentified content.
+2. Source-level inventory for the steering optimizer and motion study.
+3. Canonical-quantity mapping for every retained input and output.
+4. Equation and mechanism cards with literature sources and validity envelopes.
+5. Parameter provenance records for WUFR-26/WUFR-27 values.
+6. Benchmark definitions for calculations retained as hand checks.
+7. Retired-item records for abandoned or unidentified content.
 
 ## Source preservation
 
-The original workbooks remain immutable source artifacts in Drive. Git records their hashes, inventory, decisions, and later benchmark extracts. The software must never use workbook cell addresses as its runtime API.
+The original workbooks and external design artifacts remain immutable source evidence. Git records their hashes, inventory, decisions, and later benchmark extracts. The software must never use workbook cell addresses or copied polynomial coefficients as its runtime API.
