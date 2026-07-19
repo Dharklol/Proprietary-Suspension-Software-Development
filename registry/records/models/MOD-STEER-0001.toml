@@ -5,27 +5,37 @@ title = "Rigid steering-linkage inverse-design model"
 status = "proposed"
 disposition = "rewrite"
 maturity = "M0"
-description = "Proposed rigid steering-kinematics model and constrained inverse-design workflow that returns tie-rod length, left/right road-wheel maps, inner/outer steering relation, Ackermann metrics, steering ratios, turning capability, and constraint margins."
+description = "Proposed rigid nominal-height steering-kinematics evaluator and constrained inverse-design workflow that returns tie-rod length, left/right road-wheel maps, inner/outer steering relation, Ackermann metrics, steering ratios, turning capability, and constraint margins."
 inputs = [
-  "Reviewed vehicle, steering-axis, upright, rack, steering-arm, and joint geometry",
-  "Steering-wheel-to-pinion and pinion-to-rack transmission definitions",
-  "Parameter roles: fixed, design variable, discrete option, hard constraint, acceptable band, target, derived output, or report-only",
-  "Input sweep and target steering curves",
-  "Packaging, articulation, manufacturing, adjustment, rack-travel, and turning constraints"
+  "QTY-GEO-0001 wheelbase",
+  "QTY-GEO-0004 front steering-axis ground-intersection track",
+  "Reviewed body/road frames and named reference configuration",
+  "Reviewed steering-axis lines, upright poses, rack axis, rack inner-joint points, and steering-arm outer-joint points",
+  "QTY-STEER-0001 steering-wheel angle where the full transmission is evaluated",
+  "QTY-STEER-0002 primary steering-shaft angle where modeled or measured",
+  "QTY-STEER-0003 pinion angle",
+  "QTY-STEER-0004 rack displacement",
+  "QTY-STEER-0005 rack displacement per pinion angle or reviewed variable-ratio function",
+  "QTY-ALIGN-0001 and QTY-ALIGN-0002 static toe definitions",
+  "Parameter roles: evidence, fixed, design variable, discrete option, hard constraint, acceptable band, target, derived output, or report-only",
+  "Input sweep, target steering curves, packaging envelopes, articulation limits, manufacturing limits, adjustment limits, rack travel, and turning constraints"
 ]
 outputs = [
-  "Nominal left and right tie-rod center-to-center lengths",
-  "Steering-wheel angle, pinion angle, rack displacement, and left/right road-wheel angle maps",
+  "QTY-STEER-0012 nominal left and right tie-rod joint-center distances",
+  "QTY-STEER-0004 rack displacement versus QTY-STEER-0006 and QTY-STEER-0007 left/right road-wheel angle maps",
+  "Steering-wheel and pinion input maps where transmission inputs are available",
   "Inside-versus-outside road-wheel relation for both turn directions",
-  "Ackermann reference, error, and reviewed coefficient metrics",
-  "Local and secant steering ratios",
-  "Turning-radius capability and full-lock margins",
-  "Feasibility, active constraints, constraint margins, sensitivities, and solver diagnostics"
+  "QTY-STEER-0013 Ackermann reference and QTY-STEER-0014 Ackermann error",
+  "QTY-STEER-0010 local and QTY-STEER-0011 secant steering ratios",
+  "QTY-STEER-0015 turning-path capabilities with named reference paths",
+  "Feasibility, active constraints, constraint margins, branch identity, singularity margin, sensitivities, and solver diagnostics"
 ]
 assumptions = [
-  "First implementation uses rigid links and joints at nominal ride height.",
+  "First implementation uses rigid links and joints at a named nominal ride-height reference configuration.",
   "The mechanism branch is explicitly identified and maintained.",
-  "No compliance, backlash, friction, steering loads, tire-force optimization, suspension travel, or collision verification is implied by the first model.",
+  "Left/right quantities are canonical; inside/outside labels are assigned from turn direction.",
+  "Ideal Ackermann is a low-speed reference or optional target, not a universal performance optimum.",
+  "No compliance, backlash, friction, steering loads, tire-force optimization, suspension travel, collision verification, or transient behavior is implied by the first model.",
   "External CAD and multibody motion studies are comparison evidence rather than runtime dependencies."
 ]
 verification_level = "none"
