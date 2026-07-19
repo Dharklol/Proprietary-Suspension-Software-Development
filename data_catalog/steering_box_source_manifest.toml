@@ -1,0 +1,134 @@
+version = "0.1.0"
+status = "active"
+recorded_date = "2026-07-19"
+box_folder_id = "333299255935"
+box_folder_path = "WashURacing/6. WUFR-26/WUFR-26 CAD AND DRAWINGS/6. STEERING/998. GEOMETRY"
+related_ids = ["MIG-STR-0001", "MOD-STEER-0001", "BENCH-STEER-0001"]
+
+[hash_policy]
+provider_hash = "Box SHA-1 is recorded for discovery and change detection."
+project_hash = "A locally computed SHA-256 of immutable downloaded bytes is still required before benchmark freeze."
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0001"
+name = "GEOMETRY FINAL.SLDPRT"
+box_file_id = "1971276311204"
+box_file_version_id = "2551939123052"
+size_bytes = 104508
+box_sha1 = "7323d2abfc391e3c814a94573e027f101318458c"
+created_by = "Koeppel, Jesse"
+modified_at = "2026-06-23T20:50:37Z"
+vehicle_revision = "WUFR-26"
+role = "team-designated final geometry and SolidWorks benchmark source"
+evidence_state = "source located; benchmark designation confirmed; freeze pending raw-byte SHA-256 and internal study metadata"
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0002"
+name = "Steering Length Optimization Tests.xlsx"
+box_file_id = "1939770957296"
+size_bytes = 9692
+box_sha1 = "2069922fc3dac8889d84a92275e35486caef3284"
+vehicle_revision = "WUFR-26 design study"
+role = "reference comparison table for candidate geometry tests; not final design authority"
+evidence_state = "reference recovered"
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0003"
+name = "3.5INREV_WUFR25.csv"
+box_file_id = "1939621786957"
+size_bytes = 9616
+box_sha1 = "2b698b9819431fb36a1812c0a51808bf698c28e5"
+role = "one of six second-motion-study Ackermann-curve exports"
+evidence_state = "export recovered; configuration mapping open"
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0004"
+name = "Test_1.csv"
+box_file_id = "1938720503009"
+size_bytes = 9715
+box_sha1 = "195964c13ae1d3720711f2c4ebb0f9ff9c8a0012"
+role = "one of six second-motion-study Ackermann-curve exports"
+evidence_state = "export recovered; configuration mapping open"
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0005"
+name = "Test_2.csv"
+box_file_id = "1938779118142"
+size_bytes = 14717
+box_sha1 = "593c2f8b918ee4c103168af30c8b7e763f5bbff8"
+role = "one of six second-motion-study Ackermann-curve exports"
+evidence_state = "export recovered; configuration mapping open"
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0006"
+name = "Test_3.csv"
+box_file_id = "1938821987892"
+size_bytes = 7859
+box_sha1 = "2753dd225b2c95c2cc0c6635f9e3f7b1493692cc"
+role = "one of six second-motion-study Ackermann-curve exports"
+evidence_state = "export recovered; configuration mapping open"
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0007"
+name = "Test_4.csv"
+box_file_id = "1939641496772"
+size_bytes = 9005
+box_sha1 = "4464738af0fa8b8fc43edd1f71c51734b37ce57d"
+role = "one of six second-motion-study Ackermann-curve exports"
+evidence_state = "export recovered; configuration mapping open"
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0008"
+name = "WUFR_25.csv"
+box_file_id = "1939617196379"
+size_bytes = 2594
+box_sha1 = "b7a1d419995a4f63132839c819d18460b825a401"
+role = "one of six second-motion-study Ackermann-curve exports"
+evidence_state = "export recovered; configuration mapping open"
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0009"
+name = "STEERING ACKERMAN CALC.SLDPRT"
+box_file_id = "1938696794169"
+size_bytes = 107962
+box_sha1 = "5f167423d028189c6f844a524474eb1ecc210516"
+role = "supporting SolidWorks Ackermann calculation part"
+evidence_state = "candidate source located; relationship to final study pending inspection"
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0010"
+name = "STEERING GEOMETRY 2.SLDPRT"
+box_file_id = "1938932569209"
+size_bytes = 12637528
+box_sha1 = "c72aaeeef42bc0cb2ad1ae0b1c01af388f6147c6"
+role = "supporting SolidWorks steering geometry and probable second motion-study source"
+evidence_state = "candidate source located; internal motion-study identity pending inspection"
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0011"
+name = "STEERING GEOMETRY.SLDPRT"
+box_file_id = "1938693851076"
+size_bytes = 12656726
+box_sha1 = "2136e377e144fe513d5750d807b082ce5a33a6e1"
+role = "supporting or preceding SolidWorks steering geometry"
+evidence_state = "candidate source located; lineage pending inspection"
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0012"
+name = "Steering_range_optimization.m"
+box_file_id = "2025945253796"
+size_bytes = 2819
+box_sha1 = "4a4dfbf78a96e00840aef9f86e30dfee06331d65"
+box_folder_path = "WashURacing/5. WUFR-25/WUFR-25 CAD & SOLIDWORKS DRAWINGS/4. STEERING/GEOMETRY"
+created_by = "Torres, Ian"
+created_at = "2025-10-24"
+vehicle_revision = "WUFR-25"
+role = "historical steering range and effort trade-study script"
+evidence_state = "source text recovered and semantically inventoried"
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0013"
+name = "Steering FDR final-results table"
+box_file_id = ""
+role = "team-designated final design-decision record and mapping authority for the selected WUFR-26 result"
+evidence_state = "team-confirmed source exists; exact file, path, table, and hash not yet recovered"
