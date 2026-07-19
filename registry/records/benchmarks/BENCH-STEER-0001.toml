@@ -1,17 +1,21 @@
 [record]
 id = "BENCH-STEER-0001"
 type = "benchmark"
-title = "WUFR-26 final SolidWorks steering comparison"
+title = "WUFR-26 final SolidWorks Test 3 steering comparison"
 status = "proposed"
-description = "Compare the rigid steering evaluator with the final WUFR-26 SolidWorks geometry and the FDR-selected motion-study CSV. Reference and alternative studies remain separate evidence."
+description = "Compare the rigid steering evaluator with GEOMETRY FINAL.SLDPRT and the FDR-selected Test_3.csv response. The FDR defines Test 3 and a rack placement 0.5 inch rearward relative to the previous-year datum; the reference workbook Test 3 column is supporting design-intent evidence."
 verification_level = "E"
 target_ids = ["MOD-STEER-0001", "MIG-STR-0001"]
 acceptance_criteria = [
   "GEOMETRY FINAL.SLDPRT revision, configuration, study definition, dependencies, and project hash are recorded",
-  "The steering FDR maps the selected WUFR-26 design to one recovered CSV",
-  "Input and left-right output definitions, signs, units, zero, and sweep resolution are recorded",
+  "The exact steering FDR artifact and table beneath the final-geometry statement are catalogued and hashed",
+  "The selected candidate is Test 3 and the selected raw response is Test_3.csv",
+  "The previous-year rack datum, longitudinal sign, and canonical meaning of 0.5 inch back are recorded",
+  "The Test 3 workbook column is retained as supporting input and summary-output evidence rather than independent validation",
+  "Input and left-right output definitions, signs, units, zero, sweep resolution, and valid populated scenario rows are recorded",
+  "Steer_Angle, Measurement1, and the complementary road-wheel output are mapped to canonical quantities",
   "Tie-rod closure and left-right curves agree within declared CAD export tolerances",
-  "Residuals, derivatives, center behavior, full-lock behavior, symmetry, and discontinuities are reported",
+  "Residuals, derivatives, center behavior, full-lock behavior, symmetry, missing scenarios, and discontinuities are reported",
   "Identification data are not reused as independent validation",
   "Non-selected CSV studies remain separate regression cases"
 ]
