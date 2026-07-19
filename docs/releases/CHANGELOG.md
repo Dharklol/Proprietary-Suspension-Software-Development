@@ -18,3 +18,8 @@ All notable project changes should be recorded here. Model releases must identif
 - External source-recovery register.
 - Equation-card and benchmark backlog.
 - Physics implementation authorization matrix.
+- Proposed steering canonical-definition subset covering geometry, transmission, road-wheel angles, tie-rod length, ratios, Ackermann metrics, and turning paths.
+- Formal proposed quantity records for the first rigid-steering review subset.
+- Steering source-recovery search log and team-assisted recovery worksheet.
+- Steering requirement-role matrix for inverse design.
+- Steering analytical, limiting-case, cross-tool, and physical benchmark plan.
