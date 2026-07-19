@@ -1,6 +1,6 @@
 # Steering Source-Recovery Log
 
-**Status:** Active; principal WUFR-26 CAD source located  
+**Status:** Active; WUFR-26 final Test 3 lineage established  
 **Related IDs:** `MIG-STR-0001`, `MOD-STEER-0001`, `BENCH-STEER-0001`, `CAT-EXT-0001` through `CAT-EXT-0004`, `CAT-EXT-0016`, `CAT-EXT-0025`
 
 ## Purpose
@@ -16,6 +16,7 @@ This log records actual searches and recovered steering artifacts separately fro
 - **Export recovered:** a derived table, CSV, screenshot, or report exists, but its exact source configuration is not fully mapped.
 - **Source recovered:** immutable bytes, project hash, lineage, definitions, and required metadata are catalogued.
 - **Benchmark source designated:** the team has selected the source that should define the legacy comparison.
+- **Selection mapping established:** the design-decision record, candidate label, raw export, and parent model have been linked, but benchmark definitions or hashes remain open.
 - **Benchmark frozen:** a versioned extract with parent hash, expected inputs, expected outputs, and tolerances is approved.
 - **Formally unavailable:** required locations and responsible reviewers have completed and documented the search.
 
@@ -44,6 +45,18 @@ This log records actual searches and recovered steering artifacts separately fro
 - **Result:** the principal CAD source, six study exports, comparison workbook, supporting SolidWorks parts, and WUFR-25 MATLAB script were located and provider hashes recorded.
 - **Disposition:** source recovery now proceeds through configuration/study extraction, SHA-256 capture, CSV-to-test mapping, and FDR linkage rather than broad file discovery.
 
+### Selection clarification `SRCH-STEER-0003`
+
+- **Date:** 2026-07-19
+- **Team authority statement:** the WUFR-26 steering FDR table beneath `SO EVERYONE KNOWS, here is the FINAL geometry specifications:` states that the final geometry is based on `Test 3`.
+- **Relative placement meaning:** `0.5 inch back` means the chosen rack placement is 0.5 in rearward relative to the previous-year rack placement.
+- **Mapped reference record:** the `Test 3` column in `Steering Length Optimization Tests.xlsx`.
+- **Mapped raw export:** `Test_3.csv`, Box file ID `1938821987892`, Box SHA-1 `2753dd225b2c95c2cc0c6635f9e3f7b1493692cc`.
+- **Mapped parent CAD:** `GEOMETRY FINAL.SLDPRT`, Box file ID `1971276311204`.
+- **Disposition:** `Selection mapping established`. The selected CSV is no longer open, but the exact FDR file/hash, SolidWorks internal study metadata, output identity, canonical frame, and project SHA-256 remain required before benchmark freeze.
+
+The detailed lineage and workbook observations are recorded in `data_catalog/wufr26_test3_selected_lineage.md`.
+
 ## Recovered WUFR-26 source directory
 
 **Box path:** `WashURacing/6. WUFR-26/WUFR-26 CAD AND DRAWINGS/6. STEERING/998. GEOMETRY`  
@@ -64,24 +77,35 @@ The controlled manifest is `data_catalog/steering_box_source_manifest.toml`. The
 | Team authority statement | Final benchmark geometry |
 | Current evidence state | `Benchmark source designated` |
 
-This designation identifies which CAD source should be reproduced. It does not yet freeze a benchmark because the active SolidWorks configuration, motion-study definitions, units, coordinate system, warnings, external references, raw-byte SHA-256, and selected CSV remain open.
+This designation identifies which CAD source should be reproduced. It does not yet freeze a benchmark because the active SolidWorks configuration, motion-study definitions, units, coordinate system, warnings, external references, and raw-byte SHA-256 remain open.
 
-### Second-motion-study CSV set
+### Selected second-motion-study export
 
-The following six files are team-confirmed alternative studies from the second motion study used to graph Ackermann curves:
+| Field | Recovered value |
+|---|---|
+| Selected candidate | `Test 3` |
+| File | `Test_3.csv` |
+| Box file ID | `1938821987892` |
+| Box SHA-1 | `2753dd225b2c95c2cc0c6635f9e3f7b1493692cc` |
+| Selection authority | WUFR-26 steering FDR final geometry table |
+| Reference cross-check | `Test 3` column in `Steering Length Optimization Tests.xlsx` |
+| Current evidence state | `Selection mapping established` |
+
+The extracted CSV representation identifies a SolidWorks design study with 231 scenario columns, a driver row named `Steer_Angle`, and a monitored angular row named `Measurement1`. The leading scenario cells appear incomplete in the extracted representation. The raw bytes must therefore be parsed before the sweep domain or expected point count is frozen.
+
+### Alternative second-motion-study CSV set
+
+The other five files are preserved as alternative geometry studies used to graph Ackermann curves:
 
 | File | Box file ID | Box SHA-1 | Current state |
 |---|---:|---|---|
-| `3.5INREV_WUFR25.csv` | `1939621786957` | `2b698b9819431fb36a1812c0a51808bf698c28e5` | Export recovered; study mapping open |
-| `Test_1.csv` | `1938720503009` | `195964c13ae1d3720711f2c4ebb0f9ff9c8a0012` | Export recovered; study mapping open |
-| `Test_2.csv` | `1938779118142` | `593c2f8b918ee4c103168af30c8b7e763f5bbff8` | Export recovered; study mapping open |
-| `Test_3.csv` | `1938821987892` | `2753dd225b2c95c2cc0c6635f9e3f7b1493692cc` | Export recovered; study mapping open |
-| `Test_4.csv` | `1939641496772` | `4464738af0fa8b8fc43edd1f71c51734b37ce57d` | Export recovered; study mapping open |
-| `WUFR_25.csv` | `1939617196379` | `b7a1d419995a4f63132839c819d18460b825a401` | Export recovered; study mapping open |
+| `3.5INREV_WUFR25.csv` | `1939621786957` | `2b698b9819431fb36a1812c0a51808bf698c28e5` | Export recovered; alternative-study mapping open |
+| `Test_1.csv` | `1938720503009` | `195964c13ae1d3720711f2c4ebb0f9ff9c8a0012` | Export recovered; alternative-study mapping open |
+| `Test_2.csv` | `1938779118142` | `593c2f8b918ee4c103168af30c8b7e763f5bbff8` | Export recovered; alternative-study mapping open |
+| `Test_4.csv` | `1939641496772` | `4464738af0fa8b8fc43edd1f71c51734b37ce57d` | Export recovered; alternative-study mapping open |
+| `WUFR_25.csv` | `1939617196379` | `b7a1d419995a4f63132839c819d18460b825a401` | Export recovered; historical/alternative mapping open |
 
-One CSV contains the selected WUFR-26 curve. It must be identified by linking the FDR table and SolidWorks study setup; filename, curve appearance, or numerical similarity is not sufficient.
-
-Inspected exports show SolidWorks design-study scenario tables with signed steering-input sweeps, monitored angular dimensions, and `WHEEL OUTPUT` rows. Output identity and sign remain unresolved until the monitored dimensions are mapped to left/right road-wheel definitions.
+These files remain useful evidence. Non-selected studies are not deleted, averaged, or relabeled as bad data.
 
 ### Reference comparison workbook
 
@@ -90,10 +114,13 @@ Inspected exports show SolidWorks design-study scenario tables with signed steer
 | File | `Steering Length Optimization Tests.xlsx` |
 | Box file ID | `1939770957296` |
 | Box SHA-1 | `2069922fc3dac8889d84a92275e35486caef3284` |
+| Selected reference column | `Test 3` |
 | Current evidence role | Candidate-test reference and design-intent evidence |
-| Authority restriction | Not the final selected result |
+| Authority restriction | Not the final selected-result authority |
 
-The workbook includes a baseline and five tests with rack offset/type, rack displacement, tie-rod length, steering-arm length, left/right turn outputs, steering input, effort-reduction estimates, and joint coordinates. These values are retained as observations until units, definitions, source configurations, and the FDR selection are linked.
+The workbook `Test 3` column includes rack offset/type, rack displacement, tie-rod length, steering-arm length, left/right turn outputs, steering input, effort-reduction estimate, and joint coordinates. These values are retained in the workbook's native definitions until units, coordinate frame, datums, and output meanings are documented.
+
+The FDR's relative `0.5 inch back` statement must not be silently equated to the workbook's `Rack Offset = 2.62` field. The former controls relative design intent; the latter remains a legacy workbook quantity until its reference is resolved.
 
 ### Supporting SolidWorks items
 
@@ -118,36 +145,37 @@ The script performs a one-variable steering-range/effort trade study. It does no
 
 ## Calculator lineage
 
-The `Steer Ratio` sheet in `Suspension Calculations 2026` contains imported SolidWorks data for WUFR-24 and WUFR-25. It remains useful historical export evidence but is not the WUFR-26 source. The WUFR-26 curve must enter the migration through the selected second-motion-study CSV and its parent `GEOMETRY FINAL.SLDPRT` source.
+The `Steer Ratio` sheet in `Suspension Calculations 2026` contains imported SolidWorks data for WUFR-24 and WUFR-25. It remains useful historical export evidence but is not the WUFR-26 source. The WUFR-26 curve enters the migration through `Test_3.csv` and its parent `GEOMETRY FINAL.SLDPRT` source.
 
 ## Artifact-specific status
 
 | Catalog ID | Artifact | Current state | Evidence presently available | Next recovery action |
 |---|---|---|---|---|
-| `CAT-EXT-0001` | Legacy tie-rod optimization process | Partial source chain located | Reference workbook, six CAD exports, final CAD source, and team-described final FDR result | Recover FDR table, identify selected CSV, extract exact sweep variables, objective, bounds, and final tie-rod definition |
+| `CAT-EXT-0001` | Legacy tie-rod optimization process | Selection mapping established | Test 3 FDR selection, Test 3 workbook column, `Test_3.csv`, final CAD source | Recover exact objective/bounds, final tie-rod definition, and SolidWorks study metadata |
 | `CAT-EXT-0002` | WUFR-24 steering CAD motion study | Export recovered | Pasted design-study table in `Steer Ratio` | Recover original WUFR-24 CAD model only if needed for historical regression |
 | `CAT-EXT-0003` | WUFR-25 steering CAD motion study | Source candidates and export recovered | Calculator export, WUFR-25 CAD geometry, and MATLAB range trade study | Freeze exact parent CAD/export relationship before historical benchmark use |
-| `CAT-EXT-0004` | WUFR-26 steering CAD and motion-study source | Benchmark source designated | `GEOMETRY FINAL.SLDPRT`, six CSVs, comparison workbook, supporting CAD | Recover FDR, map final CSV, capture SolidWorks study metadata and SHA-256 |
+| `CAT-EXT-0004` | WUFR-26 steering CAD and motion-study source | Selection mapping established | `GEOMETRY FINAL.SLDPRT`, `Test_3.csv`, FDR Test 3 statement, reference workbook | Catalog exact FDR artifact; capture SolidWorks metadata, output definitions, and SHA-256 |
 | `CAT-EXT-0016` | Steering geometry source | Source located | Final and supporting WUFR-26 CAD parts plus steering assembly/drawings | Export canonical hardpoints and steering-axis/rack definitions with frame and units |
 | `CAT-EXT-0025` | Physical steering sweep | Not yet identified | No confirmed raw physical sweep | Search testing records or define a new fixture test |
 
 ## Next controlled actions
 
-1. Recover the steering FDR artifact and exact final-results table.
-2. Use the FDR to map the selected design to one of the six CSVs and to the matching test column in the reference workbook.
-3. Download immutable source bytes and compute SHA-256.
-4. Inspect `GEOMETRY FINAL.SLDPRT` in SolidWorks and record active configuration, study names, dimensions, equations, mates, coordinate system, units, warnings, and external references.
-5. Extract the full selected steering map without polynomial fitting.
-6. Record left/right output identities, zero, sign, sweep resolution, and validity domain.
+1. Catalog the exact WUFR-26 steering FDR file, table location, version, and hash.
+2. Download immutable bytes for `GEOMETRY FINAL.SLDPRT`, `Test_3.csv`, the workbook, and the FDR and compute SHA-256.
+3. Inspect `GEOMETRY FINAL.SLDPRT` in SolidWorks and record active configuration, study names, dimensions, equations, mates, coordinate system, units, warnings, and external references.
+4. Map `Steer_Angle` and `Measurement1` to canonical driver and road-wheel output quantities; locate the complementary wheel-angle output used for the Ackermann graph.
+5. Parse the complete selected steering map without polynomial fitting or manual repair and identify valid populated scenario rows.
+6. Resolve the previous-year datum and coordinate direction behind the FDR's `0.5 inch back` specification.
 7. Freeze the other five CSVs as alternative-configuration evidence for optimizer regression and tradeoff review.
 8. Create a physical sweep plan if no independent vehicle/fixture data can be recovered.
 
 ## Recovery decision rules
 
 1. `GEOMETRY FINAL.SLDPRT` is the selected legacy CAD source, but source designation alone is not benchmark freeze.
-2. The FDR selects the design result; the CAD and raw CSV define the mechanism response.
-3. The reference workbook documents explored configurations and cannot independently prove the final configuration.
-4. A polynomial copied into the calculator is not the mechanism source.
-5. A curve used to identify unknown geometry cannot also be claimed as independent validation of that identified geometry.
-6. The six alternative CSVs are preserved; non-selected studies are not deleted as bad data.
-7. A provider SHA-1 is recorded for discovery, but project SHA-256 remains required before freeze.
+2. The FDR selects Test 3; `Test_3.csv` defines the selected legacy response once its output meanings are resolved.
+3. The reference workbook documents Test 3 inputs and summary outputs but cannot independently prove the response it summarizes.
+4. The phrase `0.5 inch back` is a relative design specification and cannot become a canonical coordinate without a declared frame and datum.
+5. A polynomial copied into the calculator is not the mechanism source.
+6. A curve used to identify unknown geometry cannot also be claimed as independent validation of that identified geometry.
+7. The five alternative CSVs are preserved; non-selected studies are not deleted as bad data.
+8. A provider SHA-1 is recorded for discovery, but project SHA-256 remains required before freeze.
