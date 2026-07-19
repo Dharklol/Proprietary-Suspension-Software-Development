@@ -1,0 +1,31 @@
+[record]
+id = "MOD-STEER-0001"
+type = "model"
+title = "Rigid steering-linkage inverse-design model"
+status = "proposed"
+disposition = "rewrite"
+maturity = "M0"
+description = "Proposed rigid steering-kinematics model and constrained inverse-design workflow that returns tie-rod length, left/right road-wheel maps, inner/outer steering relation, Ackermann metrics, steering ratios, turning capability, and constraint margins."
+inputs = [
+  "Reviewed vehicle, steering-axis, upright, rack, steering-arm, and joint geometry",
+  "Steering-wheel-to-pinion and pinion-to-rack transmission definitions",
+  "Parameter roles: fixed, design variable, discrete option, hard constraint, acceptable band, target, derived output, or report-only",
+  "Input sweep and target steering curves",
+  "Packaging, articulation, manufacturing, adjustment, rack-travel, and turning constraints"
+]
+outputs = [
+  "Nominal left and right tie-rod center-to-center lengths",
+  "Steering-wheel angle, pinion angle, rack displacement, and left/right road-wheel angle maps",
+  "Inside-versus-outside road-wheel relation for both turn directions",
+  "Ackermann reference, error, and reviewed coefficient metrics",
+  "Local and secant steering ratios",
+  "Turning-radius capability and full-lock margins",
+  "Feasibility, active constraints, constraint margins, sensitivities, and solver diagnostics"
+]
+assumptions = [
+  "First implementation uses rigid links and joints at nominal ride height.",
+  "The mechanism branch is explicitly identified and maintained.",
+  "No compliance, backlash, friction, steering loads, tire-force optimization, suspension travel, or collision verification is implied by the first model.",
+  "External CAD and multibody motion studies are comparison evidence rather than runtime dependencies."
+]
+verification_level = "none"
