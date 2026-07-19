@@ -1,9 +1,17 @@
 [record]
 id = "BENCH-STEER-0001"
 type = "benchmark"
-title = "Legacy steering motion study comparison"
+title = "WUFR-26 final SolidWorks steering comparison"
 status = "proposed"
-description = "Compare the reviewed rigid steering model against the recovered CAD motion study using the same geometry, inputs, coordinate conventions, and sweep."
+description = "Compare the rigid steering evaluator with the final WUFR-26 SolidWorks geometry and the FDR-selected motion-study CSV. Reference and alternative studies remain separate evidence."
 verification_level = "E"
 target_ids = ["MOD-STEER-0001", "MIG-STR-0001"]
-acceptance_criteria = ["Source revision and sweep are recorded", "Left and right road-wheel curves agree within reviewed tolerances", "Intentional differences are explained by documented assumptions"]
+acceptance_criteria = [
+  "GEOMETRY FINAL.SLDPRT revision, configuration, study definition, dependencies, and project hash are recorded",
+  "The steering FDR maps the selected WUFR-26 design to one recovered CSV",
+  "Input and left-right output definitions, signs, units, zero, and sweep resolution are recorded",
+  "Tie-rod closure and left-right curves agree within declared CAD export tolerances",
+  "Residuals, derivatives, center behavior, full-lock behavior, symmetry, and discontinuities are reported",
+  "Identification data are not reused as independent validation",
+  "Non-selected CSV studies remain separate regression cases"
+]
