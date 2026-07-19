@@ -1,123 +1,153 @@
 # Steering Source-Recovery Log
 
-**Status:** Active  
+**Status:** Active; principal WUFR-26 CAD source located  
 **Related IDs:** `MIG-STR-0001`, `MOD-STEER-0001`, `BENCH-STEER-0001`, `CAT-EXT-0001` through `CAT-EXT-0004`, `CAT-EXT-0016`, `CAT-EXT-0025`
 
 ## Purpose
 
-This log records actual searches and recovered steering artifacts separately from the recovery backlog. It prevents a similarly named file, copied curve, screenshot, or remembered value from being treated as the original source.
+This log records actual searches and recovered steering artifacts separately from the recovery backlog. It prevents a similarly named file, copied curve, screenshot, remembered value, or final summary table from being treated as the complete mechanism source.
 
 ## Evidence-state vocabulary
 
 - **Not searched:** no documented search has been performed.
 - **Search attempted:** one or more locations were searched, but completeness is not established.
 - **Candidate located:** a possibly relevant artifact was found; identity and lineage remain unverified.
-- **Export recovered:** a derived table, screenshot, or report exists, but the generating model is missing.
-- **Source recovered:** original bytes and required metadata are catalogued.
-- **Benchmark frozen:** a versioned extract with parent hash and expected outputs is approved.
+- **Source located:** the original source item and provider metadata were found, but project hashing or internal model metadata may remain open.
+- **Export recovered:** a derived table, CSV, screenshot, or report exists, but its exact source configuration is not fully mapped.
+- **Source recovered:** immutable bytes, project hash, lineage, definitions, and required metadata are catalogued.
+- **Benchmark source designated:** the team has selected the source that should define the legacy comparison.
+- **Benchmark frozen:** a versioned extract with parent hash, expected inputs, expected outputs, and tolerances is approved.
 - **Formally unavailable:** required locations and responsible reviewers have completed and documented the search.
 
-## Search record
+## Search records
 
 ### Search `SRCH-STEER-0001`
 
 - **Date:** 2026-07-18
-- **Performed by:** project documentation agent
-- **Locations attempted:** indexed project sources available to ChatGPT; GitHub repository; direct Google Drive connector invocation
-- **Queries:** `tie rod`, `tie rod length`, `C-factor`, `steering optimizer`, `Ackermann motion study`, `Steer Ratio`, `SolidWorks design study`, `WUFR-24`, `WUFR-25`, `WUFR-26`
-- **Result:** no exact legacy tie-rod optimizer or original steering CAD assembly/motion-study definition was located in the indexed project source search.
-- **Known evidence found:**
-  - `Suspension Calculations 2026` contains imported WUFR-24/WUFR-25 steering-study tables and polynomial fits;
-  - the Ackermann sheet contains historical WUFR-24/WUFR-25/WUFR-26 values;
-  - the repository contains the structural inventory and transition specification;
-  - literature sources describe rack-and-tie-rod geometry but are not team-design evidence.
-- **Limitation:** the direct Google Drive search action was unavailable during this attempt. This search does not establish that the artifacts are absent from Drive, Box, team computers, or CAD storage.
-- **Disposition:** `Search attempted`; continue with team-assisted artifact names and storage paths.
+- **Locations attempted:** indexed project sources available to ChatGPT, GitHub repository, and direct Google Drive connector invocation.
+- **Result:** spreadsheet exports and historical values were located, but the exact CAD source was not yet found.
+- **Limitation:** Drive search was unavailable during this attempt.
+- **Disposition:** superseded by the Box-assisted search below; retained as search history.
+
+### Search `SRCH-STEER-0002`
+
+- **Date:** 2026-07-19
+- **Locations searched:** Box WUFR-26 and WUFR-25 CAD trees, the WUFR-26 `6. STEERING/998. GEOMETRY` directory, and the WUFR-25 steering geometry directory.
+- **Team clarifications applied:**
+  - `GEOMETRY FINAL.SLDPRT` is the final WUFR-26 benchmark geometry;
+  - `Steering Length Optimization Tests.xlsx` is a reference comparison workbook, not the final authority;
+  - the final selected result is recorded in a steering FDR table;
+  - `Steering_range_optimization.m` is the sole MATLAB file for the WUFR-25 steering-range study;
+  - six CSVs represent different studies produced from the second motion study to graph Ackermann curves;
+  - the calculator `Steer Ratio` tab contains WUFR-24 and WUFR-25 SolidWorks exports only;
+  - one of the six CSVs contains the WUFR-26 curve.
+- **Result:** the principal CAD source, six study exports, comparison workbook, supporting SolidWorks parts, and WUFR-25 MATLAB script were located and provider hashes recorded.
+- **Disposition:** source recovery now proceeds through configuration/study extraction, SHA-256 capture, CSV-to-test mapping, and FDR linkage rather than broad file discovery.
+
+## Recovered WUFR-26 source directory
+
+**Box path:** `WashURacing/6. WUFR-26/WUFR-26 CAD AND DRAWINGS/6. STEERING/998. GEOMETRY`  
+**Box folder ID:** `333299255935`
+
+The controlled manifest is `data_catalog/steering_box_source_manifest.toml`. The human-readable directory inventory is `data_catalog/steering_box_directory_inventory.md`.
+
+### Primary benchmark source
+
+| Field | Recovered value |
+|---|---|
+| File | `GEOMETRY FINAL.SLDPRT` |
+| Box file ID | `1971276311204` |
+| Box file version ID | `2551939123052` |
+| Box SHA-1 | `7323d2abfc391e3c814a94573e027f101318458c` |
+| Size | `104508` bytes |
+| Vehicle | WUFR-26 |
+| Team authority statement | Final benchmark geometry |
+| Current evidence state | `Benchmark source designated` |
+
+This designation identifies which CAD source should be reproduced. It does not yet freeze a benchmark because the active SolidWorks configuration, motion-study definitions, units, coordinate system, warnings, external references, raw-byte SHA-256, and selected CSV remain open.
+
+### Second-motion-study CSV set
+
+The following six files are team-confirmed alternative studies from the second motion study used to graph Ackermann curves:
+
+| File | Box file ID | Box SHA-1 | Current state |
+|---|---:|---|---|
+| `3.5INREV_WUFR25.csv` | `1939621786957` | `2b698b9819431fb36a1812c0a51808bf698c28e5` | Export recovered; study mapping open |
+| `Test_1.csv` | `1938720503009` | `195964c13ae1d3720711f2c4ebb0f9ff9c8a0012` | Export recovered; study mapping open |
+| `Test_2.csv` | `1938779118142` | `593c2f8b918ee4c103168af30c8b7e763f5bbff8` | Export recovered; study mapping open |
+| `Test_3.csv` | `1938821987892` | `2753dd225b2c95c2cc0c6635f9e3f7b1493692cc` | Export recovered; study mapping open |
+| `Test_4.csv` | `1939641496772` | `4464738af0fa8b8fc43edd1f71c51734b37ce57d` | Export recovered; study mapping open |
+| `WUFR_25.csv` | `1939617196379` | `b7a1d419995a4f63132839c819d18460b825a401` | Export recovered; study mapping open |
+
+One CSV contains the selected WUFR-26 curve. It must be identified by linking the FDR table and SolidWorks study setup; filename, curve appearance, or numerical similarity is not sufficient.
+
+Inspected exports show SolidWorks design-study scenario tables with signed steering-input sweeps, monitored angular dimensions, and `WHEEL OUTPUT` rows. Output identity and sign remain unresolved until the monitored dimensions are mapped to left/right road-wheel definitions.
+
+### Reference comparison workbook
+
+| Field | Recovered value |
+|---|---|
+| File | `Steering Length Optimization Tests.xlsx` |
+| Box file ID | `1939770957296` |
+| Box SHA-1 | `2069922fc3dac8889d84a92275e35486caef3284` |
+| Current evidence role | Candidate-test reference and design-intent evidence |
+| Authority restriction | Not the final selected result |
+
+The workbook includes a baseline and five tests with rack offset/type, rack displacement, tie-rod length, steering-arm length, left/right turn outputs, steering input, effort-reduction estimates, and joint coordinates. These values are retained as observations until units, definitions, source configurations, and the FDR selection are linked.
+
+### Supporting SolidWorks items
+
+- `STEERING ACKERMAN CALC.SLDPRT`, Box ID `1938696794169`, SHA-1 `5f167423d028189c6f844a524474eb1ecc210516`;
+- `STEERING GEOMETRY 2.SLDPRT`, Box ID `1938932569209`, SHA-1 `c72aaeeef42bc0cb2ad1ae0b1c01af388f6147c6`;
+- `STEERING GEOMETRY.SLDPRT`, Box ID `1938693851076`, SHA-1 `2136e377e144fe513d5750d807b082ce5a33a6e1`;
+- `ASSEMBLIES` subfolder, Box ID `337880624540`.
+
+These are candidate dependencies or predecessors. They do not supersede `GEOMETRY FINAL.SLDPRT` and must be examined only to establish external references, study lineage, and implementation context.
+
+## WUFR-25 MATLAB source
+
+| Field | Recovered value |
+|---|---|
+| File | `Steering_range_optimization.m` |
+| Box file ID | `2025945253796` |
+| Box SHA-1 | `4a4dfbf78a96e00840aef9f86e30dfee06331d65` |
+| Path | `WUFR-25 CAD & SOLIDWORKS DRAWINGS/4. STEERING/GEOMETRY` |
+| Current evidence state | Source text recovered and inventoried |
+
+The script performs a one-variable steering-range/effort trade study. It does not calculate tie-rod geometry, left/right road-wheel kinematics, or Ackermann curves. Its preliminary disposition is historical design-intent evidence and benchmark-only reproduction. The detailed audit is `migration/legacy_calculators/steering_tie_rod_optimizer/wufr25_matlab_audit.md`.
+
+## Calculator lineage
+
+The `Steer Ratio` sheet in `Suspension Calculations 2026` contains imported SolidWorks data for WUFR-24 and WUFR-25. It remains useful historical export evidence but is not the WUFR-26 source. The WUFR-26 curve must enter the migration through the selected second-motion-study CSV and its parent `GEOMETRY FINAL.SLDPRT` source.
 
 ## Artifact-specific status
 
 | Catalog ID | Artifact | Current state | Evidence presently available | Next recovery action |
 |---|---|---|---|---|
-| `CAT-EXT-0001` | Legacy tie-rod-length optimizer | Search attempted | Team description of inputs, sweeps, and tie-rod-length output | Obtain exact filename, tool type, author, storage path, and a copy of original bytes |
-| `CAT-EXT-0002` | WUFR-24 steering CAD motion study | Export recovered | Pasted design-study table in `Steer Ratio` | Recover CAD assembly/configuration and study definition |
-| `CAT-EXT-0003` | WUFR-25 steering CAD motion study | Export recovered | Pasted design-study table in `Steer Ratio` | Recover CAD assembly/configuration and study definition |
-| `CAT-EXT-0004` | WUFR-26 steering study or measurement | Candidate evidence only | Historical values in `Ackerman Steering` | Identify whether values came from CAD, setup measurement, or calculation |
-| `CAT-EXT-0016` | Steering geometry source | Search attempted | Spreadsheet values and team knowledge | Recover hardpoint export, drawing, CAD revision, or measurement record |
-| `CAT-EXT-0025` | Physical steering sweep | Not searched in team storage | No confirmed raw test file | Identify any rack/wheel-angle test or plan a new fixture test |
+| `CAT-EXT-0001` | Legacy tie-rod optimization process | Partial source chain located | Reference workbook, six CAD exports, final CAD source, and team-described final FDR result | Recover FDR table, identify selected CSV, extract exact sweep variables, objective, bounds, and final tie-rod definition |
+| `CAT-EXT-0002` | WUFR-24 steering CAD motion study | Export recovered | Pasted design-study table in `Steer Ratio` | Recover original WUFR-24 CAD model only if needed for historical regression |
+| `CAT-EXT-0003` | WUFR-25 steering CAD motion study | Source candidates and export recovered | Calculator export, WUFR-25 CAD geometry, and MATLAB range trade study | Freeze exact parent CAD/export relationship before historical benchmark use |
+| `CAT-EXT-0004` | WUFR-26 steering CAD and motion-study source | Benchmark source designated | `GEOMETRY FINAL.SLDPRT`, six CSVs, comparison workbook, supporting CAD | Recover FDR, map final CSV, capture SolidWorks study metadata and SHA-256 |
+| `CAT-EXT-0016` | Steering geometry source | Source located | Final and supporting WUFR-26 CAD parts plus steering assembly/drawings | Export canonical hardpoints and steering-axis/rack definitions with frame and units |
+| `CAT-EXT-0025` | Physical steering sweep | Not yet identified | No confirmed raw physical sweep | Search testing records or define a new fixture test |
 
-## Team-assisted recovery worksheet
+## Next controlled actions
 
-For each candidate file the reviewer should fill in:
-
-| Field | Required entry |
-|---|---|
-| Exact filename | |
-| Storage URL or controlled path | |
-| File type | |
-| Author/owner | |
-| Created/modified date | |
-| Software and version | |
-| Vehicle revision | |
-| CAD configuration/display state | |
-| Input definition | |
-| Output definitions | |
-| Sweep start/stop/step | |
-| Objective and constraints | |
-| Coordinate and sign convention | |
-| Source versus export relationship | |
-| Known manual edits | |
-| SHA-256 | |
-| Access restrictions | |
-| Reviewer | |
-
-## Minimum recovery packages
-
-### Legacy optimizer package
-
-A complete package includes:
-
-- original workbook, script, executable configuration, or CAD design study;
-- all referenced input files;
-- exact variable names, units, ranges, and sweep resolution;
-- objective or selection rule;
-- infeasibility behavior;
-- tie-rod-length definition;
-- one known input/output case;
-- software/version and vehicle revision;
-- source hash and owner.
-
-### CAD motion-study package
-
-A complete package includes:
-
-- CAD assembly and configuration revision;
-- steering and suspension mates or joint definitions;
-- rack-center and reference ride-height state;
-- motion-study driver definition;
-- left/right wheel-angle measurement definition;
-- sweep domain and resolution;
-- raw export before spreadsheet fitting;
-- solver settings and warnings;
-- source and export hashes.
-
-### Physical sweep package
-
-A complete package includes:
-
-- vehicle setup and alignment;
-- steering input channel and measurement location;
-- rack displacement and left/right road-wheel angle measurements;
-- sensor/fixture calibrations;
-- loading and compliance condition;
-- sample rate and synchronization;
-- repeated sweeps in both directions;
-- raw immutable data and uncertainty report.
+1. Recover the steering FDR artifact and exact final-results table.
+2. Use the FDR to map the selected design to one of the six CSVs and to the matching test column in the reference workbook.
+3. Download immutable source bytes and compute SHA-256.
+4. Inspect `GEOMETRY FINAL.SLDPRT` in SolidWorks and record active configuration, study names, dimensions, equations, mates, coordinate system, units, warnings, and external references.
+5. Extract the full selected steering map without polynomial fitting.
+6. Record left/right output identities, zero, sign, sweep resolution, and validity domain.
+7. Freeze the other five CSVs as alternative-configuration evidence for optimizer regression and tradeoff review.
+8. Create a physical sweep plan if no independent vehicle/fixture data can be recovered.
 
 ## Recovery decision rules
 
-1. A polynomial copied into the spreadsheet is not the mechanism source.
-2. A motion-study screenshot is not a benchmark table.
-3. A current CAD model is not assumed identical to the historical model.
-4. A value remembered by a member is a lead, not parameter authority.
-5. Recreated geometry must be labeled reconstruction and cannot replace the original artifact in legacy-reproduction mode.
-6. Failure to locate a source does not block a new analytical model forever, but it blocks claims of reproducing or validating against that source.
+1. `GEOMETRY FINAL.SLDPRT` is the selected legacy CAD source, but source designation alone is not benchmark freeze.
+2. The FDR selects the design result; the CAD and raw CSV define the mechanism response.
+3. The reference workbook documents explored configurations and cannot independently prove the final configuration.
+4. A polynomial copied into the calculator is not the mechanism source.
+5. A curve used to identify unknown geometry cannot also be claimed as independent validation of that identified geometry.
+6. The six alternative CSVs are preserved; non-selected studies are not deleted as bad data.
+7. A provider SHA-1 is recorded for discovery, but project SHA-256 remains required before freeze.
