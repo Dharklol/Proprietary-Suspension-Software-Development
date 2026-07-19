@@ -73,3 +73,27 @@ id = "P0-DOC-006"
 title = "Implementation authorization"
 status = "active"
 exit_criterion = "No physics implementation begins without an explicit bounded authorization record."
+
+[[phase_0.tasks]]
+id = "P0-STR-001"
+title = "Steering canonical definition subset"
+status = "active"
+exit_criterion = "Frames, geometry objects, transmission quantities, road-wheel angles, tie-rod length, steering ratios, Ackermann metrics, and turning-path definitions are reviewed and frozen for the rigid steering evaluator."
+
+[[phase_0.tasks]]
+id = "P0-STR-002"
+title = "Steering source recovery"
+status = "active"
+exit_criterion = "The legacy optimizer and best available WUFR CAD motion-study package are recovered and hashed or their absence is formally accepted for prototype scope."
+
+[[phase_0.tasks]]
+id = "P0-STR-003"
+title = "Steering requirement-role matrix"
+status = "active"
+exit_criterion = "Current WUFR steering values are classified as evidence, fixed parameters, design variables, discrete options, hard constraints, acceptable bands, targets, or derived outputs."
+
+[[phase_0.tasks]]
+id = "P0-STR-004"
+title = "Steering benchmark geometry"
+status = "active"
+exit_criterion = "The idealized symmetric benchmark geometry and Level A/B expected results are frozen before mechanism code begins."
