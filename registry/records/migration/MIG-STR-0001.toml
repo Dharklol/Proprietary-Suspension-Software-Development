@@ -1,0 +1,16 @@
+[record]
+id = "MIG-STR-0001"
+type = "migration"
+title = "Steering geometry and tie-rod optimizer"
+status = "active"
+disposition = "rewrite"
+description = "Transition the separate tie-rod-length optimizer, CAD motion-study sweep, and manual Ackermann/steering-ratio transfer into one constrained steering-kinematics inverse-design workflow."
+source_artifact = "Legacy tie-rod optimizer and CAD motion study; exact source artifacts not yet captured"
+replacement_ids = ["MOD-STEER-0001"]
+blocking_issues = [
+  "Recover or formally retire the legacy optimizer and motion-study source artifacts.",
+  "Resolve C-factor, steering input, road-wheel angle, tie-rod length, rack location, and steering-arm geometry definitions.",
+  "Classify WUFR requirements as fixed values, design variables, hard constraints, acceptable bands, objectives, or derived outputs.",
+  "Freeze benchmark geometry, sweep inputs, and expected left/right road-wheel curves with provenance.",
+  "Review coordinate frames, sign conventions, mechanism branch, packaging constraints, and first-release fidelity."
+]
