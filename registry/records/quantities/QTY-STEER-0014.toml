@@ -1,0 +1,9 @@
+[record]
+id = "QTY-STEER-0014"
+type = "quantity"
+title = "Ackermann steering error"
+status = "proposed"
+maturity = "M0"
+description = "Actual outside road-wheel angle minus the declared ideal Ackermann reference outside-wheel angle at the same selected independent variable and turn direction."
+dimension = "angle"
+canonical_unit = "rad"
