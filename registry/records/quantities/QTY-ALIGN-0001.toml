@@ -1,0 +1,9 @@
+[record]
+id = "QTY-ALIGN-0001"
+type = "quantity"
+title = "Left wheel static toe angle"
+status = "proposed"
+maturity = "M0"
+description = "Left road-wheel steer angle at the named reference configuration and rack-center condition under the project toe sign convention."
+dimension = "angle"
+canonical_unit = "rad"
