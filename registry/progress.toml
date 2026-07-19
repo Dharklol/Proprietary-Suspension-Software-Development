@@ -24,7 +24,7 @@ exit_criterion = "Every accepted equation or model has equation-level references
 id = "P0-W04"
 title = "Legacy calculator migration"
 status = "active"
-exit_criterion = "Every legacy block has a disposition and replacement path."
+exit_criterion = "Every legacy block has a stable ID, disposition, canonical input/output mapping, and replacement path."
 
 [[phase_0.workstreams]]
 id = "P0-W05"
@@ -38,12 +38,38 @@ title = "Sensor and data registry"
 status = "active"
 exit_criterion = "Sensors, channels, calibrations, data roles, and uncertainty paths are defined."
 
-[[phase_0.priority_transitions]]
-id = "P0-T01"
-title = "Steering geometry and tie-rod optimizer"
+[[phase_0.tasks]]
+id = "P0-DOC-001"
+title = "Stable legacy block IDs"
 status = "active"
-migration_id = "MIG-STR-0001"
-proposed_model_id = "MOD-STEER-0001"
-implementation_order = 1
-documentation_gate = "Source recovery, canonical definitions, requirement-role classification, benchmark geometry, expected steering curves, and verification plan reviewed before code."
-exit_criterion = "The rigid steering inverse-design model is fully specified and authorized as the first calculator migration."
+exit_criterion = "Every meaningful workbook and external-process block has a permanent migration ID."
+
+[[phase_0.tasks]]
+id = "P0-DOC-002"
+title = "Canonical quantity mapping"
+status = "active"
+exit_criterion = "Every retained legacy input and output maps to a reviewed canonical quantity."
+
+[[phase_0.tasks]]
+id = "P0-DOC-003"
+title = "Evidence and redundancy controls"
+status = "active"
+exit_criterion = "Duplicate, derived, calibration, identification, validation, and historical evidence relationships are classified."
+
+[[phase_0.tasks]]
+id = "P0-DOC-004"
+title = "External source recovery"
+status = "active"
+exit_criterion = "Priority external artifacts are recovered and hashed or formally declared unavailable."
+
+[[phase_0.tasks]]
+id = "P0-DOC-005"
+title = "Equation cards and benchmark plans"
+status = "active"
+exit_criterion = "Candidate equations have sources, applicability, and verification plans before implementation."
+
+[[phase_0.tasks]]
+id = "P0-DOC-006"
+title = "Implementation authorization"
+status = "active"
+exit_criterion = "No physics implementation begins without an explicit bounded authorization record."
