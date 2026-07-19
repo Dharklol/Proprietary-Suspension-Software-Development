@@ -37,3 +37,13 @@ id = "P0-W06"
 title = "Sensor and data registry"
 status = "active"
 exit_criterion = "Sensors, channels, calibrations, data roles, and uncertainty paths are defined."
+
+[[phase_0.priority_transitions]]
+id = "P0-T01"
+title = "Steering geometry and tie-rod optimizer"
+status = "active"
+migration_id = "MIG-STR-0001"
+proposed_model_id = "MOD-STEER-0001"
+implementation_order = 1
+documentation_gate = "Source recovery, canonical definitions, requirement-role classification, benchmark geometry, expected steering curves, and verification plan reviewed before code."
+exit_criterion = "The rigid steering inverse-design model is fully specified and authorized as the first calculator migration."
