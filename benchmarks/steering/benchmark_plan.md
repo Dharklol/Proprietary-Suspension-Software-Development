@@ -1,6 +1,6 @@
 # Steering Geometry Benchmark Plan
 
-**Status:** Proposed; WUFR-26 benchmark source designated but not frozen  
+**Status:** Proposed; WUFR-26 Test 3 selection mapped but benchmark not frozen  
 **Primary targets:** `MOD-STEER-0001`, future steering mechanism equations, `BENCH-STEER-0001`
 
 ## Purpose
@@ -11,16 +11,19 @@ A benchmark result must identify geometry revision, conventions, model layer, in
 
 ## Recovered legacy evidence hierarchy
 
-The WUFR-26 legacy comparison must use the following authority hierarchy:
+The WUFR-26 legacy comparison uses the following authority hierarchy:
 
 1. **Mechanism source:** `GEOMETRY FINAL.SLDPRT`, Box file ID `1971276311204`, is the team-designated final WUFR-26 geometry and primary SolidWorks benchmark source.
-2. **Design-selection record:** the steering FDR table identifies the final chosen design/result. It must be recovered and hashed before the selected CSV can be frozen.
-3. **Raw response evidence:** six CSV files in the same Box directory are exports from different studies performed with the second SolidWorks motion study to graph Ackermann curves. One contains the selected WUFR-26 curve.
-4. **Alternative-design record:** `Steering Length Optimization Tests.xlsx` records candidate tests and tradeoffs but is not final design authority.
-5. **Historical calculator evidence:** the `Steer Ratio` sheet contains WUFR-24 and WUFR-25 SolidWorks exports only. It is not the WUFR-26 source.
-6. **Historical objective evidence:** WUFR-25 `Steering_range_optimization.m` is a steering-range/effort scalar trade study, not a geometry solver or Ackermann model.
+2. **Design-selection record:** the WUFR-26 steering FDR table beneath `SO EVERYONE KNOWS, here is the FINAL geometry specifications:` selects `Test 3` and states the relative rack-placement intent as `0.5 inch back` from the previous-year placement.
+3. **Selected raw response evidence:** `Test_3.csv`, Box file ID `1938821987892`, is the second-motion-study export mapped to the selected configuration.
+4. **Reference candidate record:** the `Test 3` column of `Steering Length Optimization Tests.xlsx` records the selected candidate's legacy inputs and summary outputs but is not final design authority.
+5. **Alternative-study evidence:** the other five CSV files are separate Ackermann-curve studies and remain regression/tradeoff cases.
+6. **Historical calculator evidence:** the `Steer Ratio` sheet contains WUFR-24 and WUFR-25 SolidWorks exports only. It is not the WUFR-26 source.
+7. **Historical objective evidence:** WUFR-25 `Steering_range_optimization.m` is a steering-range/effort scalar trade study, not a geometry solver or Ackermann model.
 
-The source manifest is `data_catalog/steering_box_source_manifest.toml`. No source is considered benchmark-frozen until immutable bytes have project SHA-256 hashes and all input/output definitions are resolved.
+The source manifest is `data_catalog/steering_box_source_manifest.toml`; the selected mapping is documented in `data_catalog/wufr26_test3_selected_lineage.md`. No source is benchmark-frozen until immutable bytes have project SHA-256 hashes and all input/output definitions are resolved.
+
+The FDR phrase `0.5 inch back` is a relative requirement. It must not be converted into a canonical longitudinal coordinate until the previous-year datum, reference point, positive axis, and vehicle frame are defined.
 
 ## Benchmark hierarchy
 
@@ -73,32 +76,37 @@ Agreement tolerances are set before comparison.
 
 ### Level E — external-tool and legacy comparison
 
-#### `BENCH-STEER-0001` — WUFR-26 final SolidWorks comparison
+#### `BENCH-STEER-0001` — WUFR-26 final SolidWorks Test 3 comparison
 
 **Designated parent source:** `GEOMETRY FINAL.SLDPRT`  
-**Selection authority:** steering FDR final-results table  
-**Expected raw response source:** one of the six second-motion-study CSVs
+**Selection authority:** WUFR-26 steering FDR final-geometry table  
+**Selected candidate:** `Test 3`  
+**Selected raw response source:** `Test_3.csv`  
+**Reference candidate record:** `Steering Length Optimization Tests.xlsx`, `Test 3` column
 
 Required frozen inputs:
 
 - downloaded parent CAD bytes and SHA-256;
+- downloaded `Test_3.csv` bytes and SHA-256;
+- exact FDR artifact, table location, revision, and SHA-256;
 - SolidWorks version and file version;
 - active configuration and suppression state;
 - external references, equations, and design tables;
 - vehicle/steering revision;
 - reference ride height, alignment, and rack center;
+- previous-year rack datum and the canonical interpretation of `0.5 inch back`;
 - exact motion-study name and driver quantity;
-- sweep start, stop, direction, and resolution;
+- sweep start, stop, direction, resolution, and valid populated scenario rows;
 - left and right output definitions, signs, and zero;
-- selected CSV, its parent relationship, and SHA-256;
+- relationship between `Steer_Angle`, `Measurement1`, the complementary road-wheel output, and the plotted Ackermann curves;
 - solver/motion-study warnings;
 - expected table with source numerical resolution.
 
-The comparison report includes raw curves, residual curves, maximum absolute error, RMS error, center-region derivative error, full-lock error, tie-rod closure residual, and any branch or discontinuity differences.
+The comparison report includes raw curves, residual curves, maximum absolute error, RMS error, center-region derivative error, full-lock error, tie-rod closure residual, and any branch, missing-scenario, or discontinuity differences.
 
 #### Alternative-study regression set
 
-The five non-selected CSVs remain useful as separate regression cases. They should test whether the evaluator can reproduce multiple geometry configurations without tuning implementation constants to the final design. Each requires a configuration map from the reference workbook/FDR/CAD dimensions.
+The five non-selected CSVs remain useful as separate regression cases. They test whether the evaluator can reproduce multiple geometry configurations without tuning implementation constants to Test 3. Each requires a configuration map from the workbook, FDR context, and SolidWorks dimensions.
 
 #### WUFR-24 and WUFR-25 historical curves
 
@@ -158,16 +166,17 @@ Required lineage:
 
 ### `GEO-STEER-WUFR26-FINAL-001`
 
-Purpose: reproduce the final WUFR-26 SolidWorks steering mechanism.
+Purpose: reproduce the final WUFR-26 Test 3 SolidWorks steering mechanism.
 
-Parent source is fixed as `GEOMETRY FINAL.SLDPRT`. The geometry set remains unfrozen until:
+The parent and selected export are fixed as `GEOMETRY FINAL.SLDPRT` and `Test_3.csv`. The geometry set remains unfrozen until:
 
-- the FDR table identifies the selected test;
-- the selected CSV is mapped;
+- the exact FDR artifact and table are catalogued and hashed;
 - hardpoints and axes are exported in a declared frame;
-- the reference configuration is documented;
+- the previous-year rack datum and `0.5 inch back` direction are documented;
+- the reference configuration and motion study are documented;
 - SHA-256 hashes are recorded;
-- output quantity definitions are resolved.
+- driver and output quantity definitions are resolved;
+- the valid populated CSV scenarios are identified.
 
 ### `GEO-STEER-WUFR26-ALT-001` through `-005`
 
@@ -185,6 +194,7 @@ Exact numerical tolerances are deferred until geometry scales and source resolut
 - minimum singularity margin;
 - constraint-status agreement;
 - interpolation error where a sampled map is used;
+- missing or blank scenario handling;
 - extrapolation attempts, which must fail explicitly.
 
 Tolerances distinguish:
@@ -196,11 +206,11 @@ Tolerances distinguish:
 
 ## Circular-validation controls
 
-1. Geometry read directly from the CAD file may be evaluated against the CSV from the same CAD study as a cross-tool reproduction test.
-2. Geometry inferred or adjusted from that CSV makes the CSV identification data, not independent validation data.
-3. The FDR table selects the design but does not independently validate its curve.
-4. The reference workbook may explain test inputs but cannot validate the result it summarizes.
-5. Polynomial fits in the calculator cannot be used to validate the raw curve from which they were fitted.
+1. Geometry read directly from the CAD file may be evaluated against `Test_3.csv` as a cross-tool reproduction test.
+2. Geometry inferred or adjusted from `Test_3.csv` makes that CSV identification data, not independent validation data.
+3. The FDR selects Test 3 and defines relative design intent but does not independently validate its curve.
+4. The workbook Test 3 column may explain inputs and summary outputs but cannot validate the response it summarizes.
+5. Polynomial fits in the calculator cannot validate the raw curve from which they were fitted.
 6. A physical sweep or separately constructed analytical/independent model is required for stronger evidence beyond legacy reproduction.
 
 ## Optimizer verification
@@ -227,7 +237,7 @@ Prototype implementation may begin only when:
 - `GEO-STEER-BASIC-001` is frozen;
 - Level A and B expected results are approved;
 - at least one independent Level C or D calculation is defined;
-- the FDR/CSV mapping and CAD definitions needed for the intended legacy reproduction scope are recovered or explicitly deferred;
+- the Test 3 source chain is catalogued sufficiently for the intended legacy-reproduction scope, or remaining source metadata are explicitly deferred;
 - result and failure schemas are approved.
 
 Production design authority additionally requires the agreed Level E and/or Level F evidence and model-maturity review.
