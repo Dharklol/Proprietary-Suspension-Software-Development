@@ -1,0 +1,9 @@
+[record]
+id = "QTY-STEER-0001"
+type = "quantity"
+title = "Steering-wheel angle"
+status = "proposed"
+maturity = "M0"
+description = "Angular displacement of the steering wheel from its declared zero with explicit polarity and unwrap convention."
+dimension = "angle"
+canonical_unit = "rad"
