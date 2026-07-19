@@ -1,0 +1,9 @@
+[record]
+id = "QTY-GEO-0004"
+type = "quantity"
+title = "Front steering-axis ground-intersection track"
+status = "proposed"
+maturity = "M0"
+description = "Distance between left and right steering-axis intersections with the declared road reference plane in the named reference configuration."
+dimension = "length"
+canonical_unit = "m"
