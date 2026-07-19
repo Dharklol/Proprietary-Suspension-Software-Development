@@ -1,0 +1,9 @@
+[record]
+id = "QTY-STEER-0004"
+type = "quantity"
+title = "Rack displacement"
+status = "proposed"
+maturity = "M0"
+description = "Signed translation of the steering rack along its declared directed axis from rack center."
+dimension = "length"
+canonical_unit = "m"
