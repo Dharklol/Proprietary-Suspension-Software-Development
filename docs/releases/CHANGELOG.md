@@ -57,6 +57,7 @@ All notable project changes should be recorded here. Model releases must identif
 - Level E steering comparison primitives for source-preserving transposed-CSV parsing, periodic monitor normalization, explicit signal identity, domain-limited interpolation, and residual metrics.
 - WUFR-26 Level E comparison contract, readiness gate, dense 205-point nominal sweep script, and SolidWorks export requirements.
 - WUFR-26 `Dimension2` ray-construction and folded-branch diagnostic separating the internal monitor from the optimizer's direct turn-angle goals.
+- Machine-readable Test 1-4 and previous-year Desmos wheel-angle fits, plus a traceable polynomial evaluator and frozen tests.
 
 ### Changed
 
@@ -76,3 +77,4 @@ All notable project changes should be recorded here. Model releases must identif
 - `MOD-STEER-0001` advances to M1/Level C for the bounded prototype after implementing the frozen analytical and synthetic benchmark contract; WUFR-26 Level E/F correlation remains open.
 - Level E comparison now refuses mismatched canonical signal identities, units, unsupported extrapolation, and unresolved SolidWorks metadata instead of producing provisional residuals.
 - The optimizer's wheel-plane/ground-plane intersection versus x-axis turn-angle construction is explicitly separated from the folded `Dimension2` internal ray monitor.
+- The selected Test 3 Desmos wheel-angle fits replace `Dimension2` as the primary available projected wheel-angle comparison reference; `Dimension2` remains supplementary source-archeology evidence.
