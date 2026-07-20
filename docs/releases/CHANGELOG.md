@@ -37,6 +37,9 @@ All notable project changes should be recorded here. Model releases must identif
 - Fully specified `GEO-STEER-BASIC-001` synthetic mechanism fixture with expected closure, sweep, derivative, symmetry, Ackermann, radius, singularity, and deliberate failure results.
 - Proposed analytical and limiting-case benchmark records `BENCH-STEER-0002` through `BENCH-STEER-0008`.
 - Steering preimplementation freeze packet separating the fundamental evaluator gate from the still-open WUFR-26 Level E and physical Level F gates.
+- Parameter-observation and active-value governance for separating quantity definitions, source observations, derived values, reconciliation, and reviewed active selections.
+- WUFR-26 steering design-spec source catalog and inactive observations for wheelbase, axle sum toe, C-factor, and through-center steering ratio.
+- Proposed `QTY-ALIGN-0003` axle sum-toe quantity and recovered WUFR-26 C-factor definition.
 
 ### Changed
 

@@ -1,0 +1,22 @@
+[record]
+id = "PAR-GEO-0001"
+type = "parameter"
+title = "WUFR-26 design-spec wheelbase observation"
+status = "proposed"
+description = "Inactive candidate observation of WUFR-26 wheelbase reported in the design specification."
+quantity_id = "QTY-GEO-0001"
+value = 1.562
+unit = "m"
+source_type = "design_specification"
+uncertainty = "not provided"
+source_catalog_id = "CAT-STEER-SPEC-0001"
+source_native_value = 1562.0
+source_native_unit = "mm"
+source_location = "Wheelbase and Track / Wheelbase"
+vehicle_revision = "WUFR-26"
+evidence_role = "candidate_observation"
+authority_state = "inactive_observation"
+conversion = "1562 mm multiplied by 1e-3 m/mm"
+applicability = "Reported design geometry; exact built/setup state not independently established."
+open_items = ["Confirm against current CAD axle-center definition", "Assign uncertainty or bounded-use restriction"]
+related_model_ids = ["MOD-STEER-0001"]

@@ -1,0 +1,26 @@
+catalog_id = "CAT-STEER-SPEC-0001"
+status = "source_located"
+evidence_role = "candidate_observation_source"
+title = "WUFR-26 design specification sheet"
+vehicle_revision = "WUFR-26"
+provider = "Box"
+file_name = "2026_FSAE_Design_IC_Spec_Sheet_WashU_Racing.xlsx"
+storage_context = "WUFR-26 Spec Sheet folder"
+project_sha256 = "pending_raw_byte_capture"
+authority_note = "Evidence of reported design intent and source-label definitions; not automatic as-built measurement authority."
+
+wheelbase_native = "1562 mm"
+front_track_native = "1232 mm; tread-center track"
+front_total_toe_native = "-1.00 deg; positive toe-in and negative toe-out"
+static_ackermann_native = "67.7 percent; definition unresolved"
+center_steering_ratio_native = "3.12:1; handwheel angle to average road-wheel angle through center"
+c_factor_native = "88.9 mm per revolution of steering input/pinion shaft"
+steering_arm_length_native = "69.9 mm; kingpin axis to outer tie-rod center"
+
+open_items = [
+  "Capture immutable source bytes and SHA-256.",
+  "Do not substitute tread-center track for steering-axis ground-intersection track.",
+  "Do not infer left/right toe from axle sum toe without an explicit assumption.",
+  "Recover the Ackermann percentage definition.",
+  "Reconcile C-factor and steering-arm evidence against CAD, drawings, or measurement."
+]
