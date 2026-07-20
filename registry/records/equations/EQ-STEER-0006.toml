@@ -1,0 +1,25 @@
+[record]
+id = "EQ-STEER-0006"
+type = "equation"
+title = "Low-speed kinematic turning-radius construction"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Calculate explicitly named no-slip turning radii from incremental inside/outside road-wheel angles, wheelbase, and steering-axis track."
+outputs = ["QTY-STEER-0015 vehicle turning radius under kinematic assumptions", "Inside-derived and outside-derived radius mismatch"]
+inputs = ["QTY-GEO-0001 wheelbase", "QTY-GEO-0004 front steering-axis ground-intersection track", "Inside and outside incremental road-wheel angles"]
+assumptions = [
+  "Planar low-speed no-slip construction.",
+  "Static toe is treated separately from incremental steer.",
+  "The radius reference path is named explicitly."
+]
+verification_level = "none"
+canonical_equations = [
+  "R_rear_from_inside = l/tan(delta_i) + t/2",
+  "R_rear_from_outside = l/tan(delta_o) - t/2"
+]
+source_basis = ["Exact Ackermann geometry from EQ-STEER-0001", "Guiggiani (2022), Section 3.4.1", "Gillespie (1992), Chapter 8"]
+validity = "Low-speed kinematic interpretation with valid nonzero steering angles."
+failure_behavior = ["Report straight-line infinite-radius limit explicitly", "For non-Ackermann actual angles report both radii and mismatch rather than silently averaging", "Keep rear-axle, CG, tire-path, and body-envelope radii separate"]
+benchmark_ids = ["BENCH-STEER-0007"]
+migration_ids = ["MIG-SC26-ACK-001", "MIG-STR-0001"]
