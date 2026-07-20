@@ -1,0 +1,138 @@
+{
+  "ackermann_25_deg_reference_deg": 19.059109112714346,
+  "authorization_id": "AUTH-STEER-0001",
+  "benchmark_ids": [
+    "BENCH-STEER-0002",
+    "BENCH-STEER-0003",
+    "BENCH-STEER-0004",
+    "BENCH-STEER-0005",
+    "BENCH-STEER-0006",
+    "BENCH-STEER-0007",
+    "BENCH-STEER-0008"
+  ],
+  "center_local_gain_rad_per_m": -18.124999999999993,
+  "model_id": "MOD-STEER-0001",
+  "synthetic_conventional_ratio_magnitude": 5.517241379310347,
+  "synthetic_road_wheel_gain_rad_per_rad": -0.18124999999999994,
+  "synthetic_states": [
+    {
+      "ackermann_error_deg": -2.8109113025161783,
+      "ackermann_outside_reference_deg": 11.87739908635311,
+      "left_branch_signature": -1,
+      "left_closure_residual_m": 6.994405055138486e-15,
+      "left_heading_deg": 14.020640662524677,
+      "rack_displacement_m": -0.01,
+      "radius_from_inside_m": 7.007415190300699,
+      "radius_from_outside_m": 9.426683485912825,
+      "right_branch_signature": 1,
+      "right_closure_residual_m": -6.106226635438361e-16,
+      "right_heading_deg": 9.066487783836932,
+      "turn_direction": "left"
+    },
+    {
+      "ackermann_error_deg": -0.5661374595049228,
+      "ackermann_outside_reference_deg": 5.3766416975292355,
+      "left_branch_signature": -1,
+      "left_closure_residual_m": 1.049160758270773e-14,
+      "left_heading_deg": 5.782318645700684,
+      "rack_displacement_m": -0.005,
+      "radius_from_inside_m": 16.40020269261769,
+      "radius_from_outside_m": 18.412090135667732,
+      "right_branch_signature": 1,
+      "right_closure_residual_m": 1.27675647831893e-15,
+      "right_heading_deg": 4.810504238024312,
+      "turn_direction": "left"
+    },
+    {
+      "left_branch_signature": -1,
+      "left_closure_residual_m": 5.551115123125783e-17,
+      "left_heading_deg": 0.0,
+      "rack_displacement_m": 0.0,
+      "right_branch_signature": 1,
+      "right_closure_residual_m": 5.551115123125783e-17,
+      "right_heading_deg": 0.0
+    },
+    {
+      "ackermann_error_deg": -0.566137459504918,
+      "ackermann_outside_reference_deg": 5.37664169752923,
+      "left_branch_signature": -1,
+      "left_closure_residual_m": 1.27675647831893e-15,
+      "left_heading_deg": -4.810504238024312,
+      "rack_displacement_m": 0.005,
+      "radius_from_inside_m": 16.400202692617707,
+      "radius_from_outside_m": 18.412090135667732,
+      "right_branch_signature": 1,
+      "right_closure_residual_m": 1.049160758270773e-14,
+      "right_heading_deg": -5.782318645700678,
+      "turn_direction": "right"
+    },
+    {
+      "ackermann_error_deg": -2.810911302516172,
+      "ackermann_outside_reference_deg": 11.877399086353103,
+      "left_branch_signature": -1,
+      "left_closure_residual_m": -6.106226635438361e-16,
+      "left_heading_deg": -9.066487783836932,
+      "rack_displacement_m": 0.01,
+      "radius_from_inside_m": 7.007415190300701,
+      "radius_from_outside_m": 9.426683485912825,
+      "right_branch_signature": 1,
+      "right_closure_residual_m": 6.994405055138486e-15,
+      "right_heading_deg": -14.020640662524672,
+      "turn_direction": "right"
+    }
+  ],
+  "wufr26_nominal_incremental_rotation_states": [
+    {
+      "left_closure_residual_m": 8.43769498715119e-15,
+      "left_status": "success",
+      "left_upright_rotation_deg": 13.649764837670732,
+      "rack_displacement_m": -0.0127,
+      "right_closure_residual_m": -7.216449660063518e-16,
+      "right_status": "success",
+      "right_upright_rotation_deg": 11.724851856652714
+    },
+    {
+      "left_closure_residual_m": -1.27675647831893e-15,
+      "left_status": "success",
+      "left_upright_rotation_deg": 6.464096363883965,
+      "rack_displacement_m": -0.00635,
+      "right_closure_residual_m": 2.7755575615628914e-15,
+      "right_status": "success",
+      "right_upright_rotation_deg": 6.011453160333649
+    },
+    {
+      "left_closure_residual_m": 0.0,
+      "left_status": "success",
+      "left_upright_rotation_deg": 0.0,
+      "rack_displacement_m": 0.0,
+      "right_closure_residual_m": 0.0,
+      "right_status": "success",
+      "right_upright_rotation_deg": 0.0
+    },
+    {
+      "left_closure_residual_m": 2.7755575615628914e-15,
+      "left_status": "success",
+      "left_upright_rotation_deg": -6.011453160333649,
+      "rack_displacement_m": 0.00635,
+      "right_closure_residual_m": -1.27675647831893e-15,
+      "right_status": "success",
+      "right_upright_rotation_deg": -6.464096363883961
+    },
+    {
+      "left_closure_residual_m": -7.216449660063518e-16,
+      "left_status": "success",
+      "left_upright_rotation_deg": -11.724851856652709,
+      "rack_displacement_m": 0.0127,
+      "right_closure_residual_m": 8.43769498715119e-15,
+      "right_status": "success",
+      "right_upright_rotation_deg": -13.649764837670729
+    }
+  ],
+  "wufr26_unavailable_outputs": [
+    "projected_road_wheel_heading",
+    "absolute_toe_inclusive_heading",
+    "steering_wheel_to_road_wheel_ratio",
+    "ackermann_error",
+    "turning_radius"
+  ]
+}

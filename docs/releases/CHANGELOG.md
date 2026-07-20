@@ -52,6 +52,8 @@ All notable project changes should be recorded here. Model releases must identif
 - `AUTH-STEER-0001` bounded prototype authorization packet for the rigid steering evaluator, including permitted functions, numerical-method requirements, failure semantics, benchmark gates, provenance, prohibited scope, and promotion gates.
 - Versioned `WUFR26_DESIGN_NOMINAL_V0` configuration separating direct, transformed, mirrored, derived, and provisional geometry roles.
 - Machine-readable capability restrictions that allow WUFR nominal mechanism closure and upright rotation while marking heading-, ratio-, Ackermann-, and radius-dependent outputs unavailable until their prerequisites are reviewed.
+- Standard-library `pssd_steering` bounded rigid mechanism evaluator with explicit geometry validation, Rodrigues rotation, rigid tie-rod closure, analytical Jacobians, branch-preserving bisection, singularity diagnostics, and unavailable-output reason codes.
+- Automated `BENCH-STEER-0002` through `BENCH-STEER-0008` tests, a benchmark runner, implementation documentation, and a recorded WUFR-26 nominal upright-rotation sweep.
 
 ### Changed
 
@@ -68,3 +70,4 @@ All notable project changes should be recorded here. Model releases must identif
 - The first WUFR-26 implementation boundary is tightened to mechanism closure and upright rotation; projected road-wheel heading requires a separately defined wheel-plane basis.
 - `MOD-STEER-0001` and `EQ-STEER-0001` through `0007` move to bounded prototype authorization only under `AUTH-STEER-0001`; the inverse-design optimizer remains documentation-only.
 - `GEO-STEER-BASIC-001` and the preimplementation packet are frozen as the required analytical/synthetic implementation contract rather than treated as optional examples.
+- `MOD-STEER-0001` advances to M1/Level C for the bounded prototype after implementing the frozen analytical and synthetic benchmark contract; WUFR-26 Level E/F correlation remains open.
