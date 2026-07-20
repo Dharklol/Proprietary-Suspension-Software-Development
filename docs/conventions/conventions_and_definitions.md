@@ -13,7 +13,7 @@
 
 ## 2. Vehicle body frame
 
-The proposed body-fixed frame follows the right-handed ISO-style convention:
+The proposed body-fixed calculation frame follows the right-handed ISO 8855-style convention:
 
 - `+x`: forward;
 - `+y`: vehicle left;
@@ -29,12 +29,41 @@ This convention must be approved before model equations are accepted.
 
 ## 3. Required frame metadata
 
-Every vector or moment quantity identifies:
+Every point, vector, or moment quantity identifies:
 
 - coordinate frame;
-- reference point;
+- origin or reference point;
+- basis directions and handedness;
+- unit system;
 - force direction convention, such as road-on-tire or tire-on-road;
-- whether the frame is inertial, body-fixed, wheel-fixed, tire-fixed, sensor-fixed, or external-tool-specific.
+- whether the frame is inertial, body-fixed, wheel-fixed, tire-fixed, sensor-fixed, CAD-specific, or external-tool-specific;
+- the exact import/export transform and its source evidence.
+
+A standard name or software name does not by itself establish the axes, signs, origin, or units of a specific file.
+
+### 3.1 Simulation and CAD policy
+
+- Physics, optimization, and simulation calculations use `CANONICAL_ISO8855_BODY`.
+- CAD may retain an ISO 4130-oriented vehicle reference coordinate system or another documented model coordinate system.
+- Native CAD global coordinates are never assumed to equal the project calculation frame.
+- Every CAD, multibody, kinematics, FEA, and logger adapter declares its source frame and transformation.
+- Source values remain recoverable after conversion; transformed values store source ID, adapter revision, and configuration.
+
+### 3.2 WUFR-26 recovered adapters
+
+For the final OptimumK suspension workbook, `OPTK_WUFR26_EXPORT` uses millimetres and the observed tuple order longitudinal, lateral-positive-right, vertical-positive-up. Convert points to the canonical frame using:
+
+```text
+[x_can, y_can, z_can] = 0.001 * [x_optk, -y_optk, z_optk]
+```
+
+For the raw WUFR-26 steering-study coordinates in inches, use:
+
+```text
+[x_can, y_can, z_can] = 0.0254 * [z_sw, -x_sw, y_sw]
+```
+
+These are source-specific mappings documented in `wufr26_coordinate_frame_reconciliation.md`. They are not universal OptimumK or SolidWorks defaults.
 
 ## 4. Steering quantities
 
@@ -81,8 +110,9 @@ Tire adapters must record and convert the source convention rather than assume c
 Before freezing this specification, review:
 
 - tire coordinate and slip definitions against the selected Pacejka and Guiggiani formulations;
-- imported OptimumK, ADAMS, ANSYS, and logger frame conventions;
+- imported ADAMS, ANSYS, logger, and future OptimumK frame adapters;
 - positive damper and ride-height travel;
 - steering sensor electrical polarity;
 - aerodynamic coefficient signs and reference area;
-- left/right and inside/outside naming in mirrored maneuvers.
+- left/right and inside/outside naming in mirrored maneuvers;
+- the project-wide CAD vehicle-reference origin and ISO 4130 implementation.
