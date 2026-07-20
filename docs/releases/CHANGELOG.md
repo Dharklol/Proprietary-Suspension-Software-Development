@@ -49,6 +49,9 @@ All notable project changes should be recorded here. Model releases must identif
 - Nominal WUFR-26 steering hardpoint source merge using final OptimumK upright points and final-FDR tie-rod pickups.
 - Team-confirmed front-left interpretation of the steering FDR coordinates and corrected SolidWorks-to-OptimumK lateral sign mapping.
 - Nominal static-toe reference-state rule: zero solved upright rotation represents the imported nonzero-toe geometry, while projected and absolute wheel heading remain gated on a reviewed wheel-plane basis and toe convention.
+- `AUTH-STEER-0001` bounded prototype authorization packet for the rigid steering evaluator, including permitted functions, numerical-method requirements, failure semantics, benchmark gates, provenance, prohibited scope, and promotion gates.
+- Versioned `WUFR26_DESIGN_NOMINAL_V0` configuration separating direct, transformed, mirrored, derived, and provisional geometry roles.
+- Machine-readable capability restrictions that allow WUFR nominal mechanism closure and upright rotation while marking heading-, ratio-, Ackermann-, and radius-dependent outputs unavailable until their prerequisites are reviewed.
 
 ### Changed
 
@@ -63,3 +66,5 @@ All notable project changes should be recorded here. Model releases must identif
 - The FDR tie-rod pair is no longer treated as a right-side point set; it is the front-left set in a lateral-positive-left SolidWorks frame.
 - Static toe is treated as embedded in the imported nominal reference orientation and is not removed by modifying hardpoint coordinates.
 - The first WUFR-26 implementation boundary is tightened to mechanism closure and upright rotation; projected road-wheel heading requires a separately defined wheel-plane basis.
+- `MOD-STEER-0001` and `EQ-STEER-0001` through `0007` move to bounded prototype authorization only under `AUTH-STEER-0001`; the inverse-design optimizer remains documentation-only.
+- `GEO-STEER-BASIC-001` and the preimplementation packet are frozen as the required analytical/synthetic implementation contract rather than treated as optional examples.

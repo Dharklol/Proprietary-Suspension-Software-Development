@@ -37,9 +37,9 @@ Before an item can move to `prototype_authorized`, it requires:
 
 | Item | Scope | Current state | Earliest allowable work | Blocking documentation/evidence | Intended first use |
 |---|---|---|---|---|---|
-| `MIG-STR-0001` / `MOD-STEER-0001` | Rigid steering linkage inverse design | `documentation_candidate` | Equation cards, source recovery, benchmark extraction, UI/result schema design | Recover legacy optimizer/CAD sources; freeze C-factor, geometry, input/output, constraints, and benchmark curves | First calculator transition candidate |
-| `EQ-STEER-0001` | Ideal low-speed Ackermann reference | `documentation_candidate` | Derivation and benchmark card | Freeze steering-axis track, wheelbase, angle and radius definitions | Benchmark/reference only |
-| `EQ-STEER-0002` through `0007` | Link closure, sweep, ratio, radius, Ackermann error | `not_authorized` | Documentation and analytical fixtures | Complete geometry fidelity and convention review | Future steering prototype |
+| `MOD-STEER-0001` | Bounded rigid nominal-height steering evaluator | `prototype_authorized` under `AUTH-STEER-0001` after its approval PR merges | Implement geometry schema, rigid closure, branch-controlled position solve, diagnostics, and frozen tests | Higher-use outputs remain gated by wheel-plane/toe, transmission, stops, Level E CAD reproduction, and Level F physical evidence | Experimental evaluator and verification backbone |
+| `MIG-STR-0001` | Steering geometry and tie-rod inverse-design workflow | `documentation_candidate` | Requirement, constraint, objective, sensitivity, and result-schema design only | Evaluator implementation and benchmarks must pass; optimizer-specific constraints and robustness evidence remain open | Future constrained inverse-design layer |
+| `EQ-STEER-0001` through `EQ-STEER-0007` | Ackermann reference, rigid closure/position, transmission staging, ratios, radius, and error | `prototype_authorized` only within `AUTH-STEER-0001` | Implement the exact documented functions and frozen synthetic/analytical tests | WUFR-specific derived outputs must return unavailable when required wheel-plane, toe, transmission, or path metadata is absent | Fundamental evaluator functions; no production authority |
 | `EQ-STEER-0010` through `0015` | Tire effort/compliance/tire-informed optimization | `not_authorized` | Literature/model planning only | Canonical tire, load, compliance, and steering-force models | Later steering fidelity layers |
 | `MIG-SC26-LT-001` / `EQ-MASS-0001` | Static mass distribution | `documentation_candidate` | Equation card and hand benchmark | Resolve mass/weight naming, CG source, vehicle configuration | Fundamental benchmark and future core calculation |
 | `MIG-SC26-LT-002` / `EQ-LOAD-0090` | Legacy fixed-coefficient transfer method | `benchmark_implementation_only` after benchmark card approval | Exact reproduction test only | Freeze source cells, inputs, outputs, and intentional limitations | Regression and migration comparison |
@@ -65,23 +65,36 @@ Before an item can move to `prototype_authorized`, it requires:
 | `MIG-SC26-ARB-001`, `MIG-SC26-NF-001`, `MIG-SC26-UNK-001` | Missing/unknown source pointers | `not_authorized` | Source search only | Recover artifact or formally deprecate | None until identified |
 | `MIG-SC26-BEAM-001` | Empty sheet | `retired` | None | None | No replacement dependency |
 
-## 4. Steering first-transition gate
+## 4. Steering first-transition gates
 
-The steering inverse-design workflow may move to `prototype_authorized` only after all of the following are checked:
+### 4.1 Fundamental evaluator gate
 
-- legacy optimizer recovered or formally unavailable after documented search;
-- CAD motion-study geometry and exports recovered and hashed;
-- body, rack, steering-axis, wheel, and joint frames frozen;
-- C-factor replaced by an explicit transmission quantity;
-- steering-wheel, shaft, pinion, rack, left-wheel, and right-wheel quantities defined;
-- tie-rod joint-center definition, adjustment range, and hardware limits documented;
-- each input classified as fixed, design variable, discrete option, hard condition, acceptable band, target, or derived result;
-- ideal Ackermann retained as reference/boundary, not universal performance objective;
-- first-release rigid kinematic scope accepted;
-- analytical, mirror, closure, monotonicity, singularity, turning-radius, ratio, and CAD-comparison benchmarks frozen;
-- result provenance, solver diagnostics, failure states, and export schema reviewed.
+The following are accepted for bounded prototype implementation:
 
-Tire-informed, steering-effort, compliance, tolerance, and transient objectives remain required architectural extensions but do not block the bounded rigid first prototype as long as the interface and quantity meanings already accommodate them.
+- rigid nominal-height scope;
+- body, rack, steering-axis, joint, angle, side, and reference-state definitions;
+- exact equation/function packet `EQ-STEER-0001` through `0007`;
+- `GEO-STEER-BASIC-001` analytical/synthetic expectations;
+- branch, singularity, infeasibility, provenance, and failure semantics;
+- nominal WUFR-26 hardpoint source merge and explicit mirror/provisional-value labeling;
+- direct rack displacement as the permitted WUFR-26 mechanism input while its transmission remains unresolved.
+
+The controlling authorization is `docs/models/steering/rigid_steering_prototype_authorization.md`.
+
+### 4.2 Gates that remain open
+
+The following continue to block optimizer, production, or higher-fidelity claims:
+
+- complete immutable source hashes and exact FDR source metadata;
+- independently checked current left/right installed geometry;
+- wheel-plane basis and exact per-wheel toe convention;
+- pinion/steering-wheel to rack transmission and correct center ratio;
+- installed stop travel, rod-end articulation, thread engagement, and packaging limits;
+- Level E comparison against transformed raw SolidWorks response with approved tolerances;
+- Level F physical steering sweep with uncertainty;
+- tire-informed, effort, compliance, tolerance, and transient objectives.
+
+Ideal Ackermann remains a reference/boundary, not a universal performance objective. No open gate may be silently replaced by a spreadsheet value, polynomial fit, symmetry assumption, or CAD-only agreement.
 
 ## 5. Change-control rule
 
