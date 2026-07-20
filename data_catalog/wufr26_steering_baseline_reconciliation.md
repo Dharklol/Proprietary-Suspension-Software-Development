@@ -134,7 +134,7 @@ The hardpoints above describe the nominal mechanism in the OptimumK static-toe s
 solver upright rotation = 0
 ```
 
-means the imported centered geometry at its nominal static toe. The first evaluator may calculate incremental steer relative to this state. It may not claim absolute toe-inclusive road-wheel heading until the wheel-plane basis and the exact per-wheel toe definition are reviewed.
+means the imported centered geometry at its nominal static toe. The closure solver may calculate upright rotation relative to this state. It may not claim projected road-wheel heading until an initial wheel-forward or wheel-plane basis is supplied. It may not claim absolute toe-inclusive heading until the exact per-wheel toe definition is also reviewed.
 
 Static toe is a reference-orientation quantity; it must not be removed by altering the imported joint coordinates.
 
@@ -149,7 +149,7 @@ inner-joint spacing = 0.441960 m
 nominal tie-rod joint-center distance = 0.329890 m
 ```
 
-This is sufficient for an explicitly labeled nominal-design, incremental rigid steering evaluator.
+This is sufficient for an explicitly labeled nominal-design mechanism-closure evaluator and upright-rotation sweep.
 
 ## Source-authority rule
 
@@ -211,4 +211,4 @@ The existing CSV template remains suitable. Screenshots may supplement but canno
 
 ## Work status
 
-The synthetic evaluator and a versioned `WUFR26_DESIGN_NOMINAL_V0` incremental-geometry case are unblocked after review of this source merge. The implementation must separate the solved upright rotation about the steering axis from projected road-wheel heading. The latter requires an initial wheel-plane basis. Absolute toe-inclusive wheel heading, production CAD reproduction, installed/as-built claims, and physical validation remain blocked until the remaining setup and assembly evidence is reviewed.
+The synthetic evaluator and a versioned `WUFR26_DESIGN_NOMINAL_V0` mechanism-closure case are unblocked after review of this source merge. Projected road-wheel heading, absolute toe-inclusive wheel heading, production CAD reproduction, installed/as-built claims, and physical validation remain blocked until the required wheel-plane/setup and assembly evidence is reviewed.
