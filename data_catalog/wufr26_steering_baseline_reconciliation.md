@@ -12,7 +12,7 @@ This packet records the intended WUFR-26 steering reference model, recovered nom
 
 The eventual active WUFR-26 model represents the real/as-built or competition-intended steering assembly at a declared setup.
 
-`GEOMETRY FINAL.SLDPRT` is instantiated inside the fuller linkage subassembly. It remains the selected Test 3 mechanism-study source and parent of the final motion response. The final OptimumK suspension workbook supplies the nominal upright geometry, while the steering FDR final table supplies the later steering-specific tie-rod pickups.
+`GEOMETRY FINAL.SLDPRT` is instantiated inside the fuller linkage subassembly. It remains the selected Test 3 mechanism-study source and parent of the final motion response. The final OptimumK suspension workbook supplies the nominal upright geometry, while the steering FDR final table supplies the later steering-specific front-left tie-rod pickups.
 
 The design-source configuration and installed-state configuration are connected evidence layers. Agreement must be checked rather than assumed.
 
@@ -40,9 +40,9 @@ Project SHA-256 remains pending immutable-byte capture.
 | Provider SHA-1 | `15eadfb93369192038888da92ebaa6674db56cfa` |
 | Modified | `2025-10-13T16:51:15Z` |
 | Related CAD | `SU-00001-AA 2026 SUSPENSION GEOMETRY.SLDPRT` |
-| Evidence role | Nominal final suspension hardpoints and steering-axis construction |
+| Evidence role | Nominal final suspension hardpoints, steering-axis construction, and nonzero static-toe reference state |
 
-The workbook records coordinate matrix `[[1,0,0],[0,-1,0],[0,0,1]]`. Its right-side points use positive lateral coordinates. The reviewed adapter converts this export into the project right-handed body frame by negating lateral position and converting millimetres to metres.
+The workbook records coordinate matrix `[[1,0,0],[0,-1,0],[0,0,1]]`. Its right-side points use positive lateral coordinates and its left-side points use negative lateral coordinates. The reviewed adapter converts this export into the project right-handed body frame by negating lateral position and converting millimetres to metres.
 
 ## Recovered reference observations
 
@@ -50,8 +50,8 @@ The workbook records coordinate matrix `[[1,0,0],[0,-1,0],[0,0,1]]`. Its right-s
 |---|---:|---|
 | Wheelbase | `1562 mm` spec; `1562.400 mm` OptimumK | Reconciliation required before active selection |
 | Front tread-center track | `1232 mm` | Consistency evidence; not Ackermann track |
-| Front axle sum toe | `-1.00 deg` in spec | Left/right split unresolved |
-| OptimumK static toe | `-1.00 deg` per side field | Definition conflicts with spec sum-toe interpretation; inactive |
+| Front axle sum toe | `-1.00 deg` in spec | Exact relationship to OptimumK side fields unresolved |
+| OptimumK static toe | `-1.00 deg` in each front-side field | Nonzero toe reference state confirmed; exact per-wheel heading convention inactive |
 | Front static camber | `-2.25 deg` | Shim stack unresolved |
 | Caster / KPI | `2.51 deg / 8.6 deg` | Steering-axis consistency evidence |
 | Trail / scrub radius | `6.89 mm / 5.06 mm` | Derived-geometry consistency evidence |
@@ -60,14 +60,16 @@ The workbook records coordinate matrix `[[1,0,0],[0,-1,0],[0,0,1]]`. Its right-s
 | Static Ackermann | `67.7%` | Unresolved metric; not an optimizer target |
 | Nominal ride height | Not recovered | Required installed/reference-configuration field |
 
+A quick CAD inspection independently confirms the presence of static toe in the centered geometry by showing different near/far distances from a wheel-ring reference to the vehicle center plane. That inspection is qualitative consistency evidence; it does not replace a numerical wheel-plane export.
+
 ## Coordinate reconciliation
 
 The recovered source adapters are defined in `docs/conventions/wufr26_coordinate_frame_reconciliation.md`.
 
-For raw steering-study triplets in inches:
+For raw Test 3 steering-study triplets in inches:
 
 ```text
-[x_optk, y_optk, z_optk] = 25.4 * [z_sw, x_sw, y_sw]
+[x_optk, y_optk, z_optk] = 25.4 * [z_sw, -x_sw, y_sw]
 ```
 
 For the final OptimumK export in millimetres:
@@ -76,47 +78,65 @@ For the final OptimumK export in millimetres:
 [x_can, y_can, z_can] = 0.001 * [x_optk, -y_optk, z_optk]
 ```
 
-The Test 3 inner pickup maps within `0.05 mm` of the final OptimumK value. The outer pickup differs by approximately `2.25 mm` vector magnitude, showing a later geometry revision rather than a failed axis mapping.
+For the steering FDR SolidWorks vehicle-order coordinates in millimetres:
+
+```text
+[x_can, y_can, z_can] = 0.001 * [x_fdr, y_fdr, z_fdr]
+```
+
+The Test 3 front-left inner pickup maps within `0.05 mm` of the final OptimumK left-side value. The outer pickup differs by approximately `2.25 mm` vector magnitude, showing a later geometry revision rather than a failed axis mapping.
 
 ## Nominal steering geometry source merge
 
 ### Steering-axis construction
 
-Right-side final OptimumK export points, millimetres:
+Front-left final OptimumK export points, millimetres:
 
 ```text
-Lower upright point = [ 0.000, 587.096, 157.117]
-Upper upright point = [-6.487, 564.662, 305.056]
+Lower upright point = [ 0.000, -587.096, 157.117]
+Upper upright point = [-6.487, -564.662, 305.056]
 ```
 
-These points define the nominal steering-axis line. Their canonical right-side values are:
+These points define the nominal steering-axis line. Their canonical front-left values are:
 
 ```text
-Lower = [ 0.000000, -0.587096, 0.157117] m
-Upper = [-0.006487, -0.564662, 0.305056] m
+Lower = [ 0.000000, 0.587096, 0.157117] m
+Upper = [-0.006487, 0.564662, 0.305056] m
 ```
 
 ### Selected tie-rod pickups
 
-The steering FDR final table reports the right-side vehicle-order coordinates:
+The team confirmed that the steering FDR table is the front-left corner when viewed from behind the vehicle facing the nose. The table reports SolidWorks vehicle-order coordinates:
 
 ```text
 Tie Rod Inner = [-79.298, 220.980, 162.865] mm
 Tie Rod Outer = [-61.933, 549.102, 192.223] mm
 ```
 
-Canonical right-side values are:
+Canonical front-left values are:
 
 ```text
-Inner = [-0.079298, -0.220980, 0.162865] m
-Outer = [-0.061933, -0.549102, 0.192223] m
+Inner = [-0.079298, 0.220980, 0.162865] m
+Outer = [-0.061933, 0.549102, 0.192223] m
 ```
 
 Their joint-center distance is `329.890 mm`, or `12.9878 in`, consistent with the selected 13-in Test 3 tie rod.
 
-The FDR inner point is exactly `12.700 mm` rearward of the final OptimumK tie-rod inner point and also differs vertically. This is the documented 0.5-in steering revision, not a coordinate-system artifact. The FDR tie-rod pickups therefore supersede the generic OptimumK tie-rod points for the selected nominal steering configuration.
+After the FDR points are converted into the OptimumK lateral-sign convention, the FDR inner point is exactly `12.700 mm` rearward of the final OptimumK front-left tie-rod inner point and also differs vertically. This is the documented 0.5-in steering revision, not a coordinate-system artifact. The FDR tie-rod pickups therefore supersede the generic OptimumK tie-rod points for the selected nominal steering configuration.
 
-A symmetric left side may be generated by changing the sign of the canonical lateral coordinate, but it must remain labeled as a derived symmetry assumption until independently checked.
+A symmetric front-right side may be generated by changing the sign of the canonical lateral coordinate, but it must remain labeled as a derived symmetry assumption until independently checked.
+
+### Static-toe reference state
+
+The hardpoints above describe the nominal mechanism in the OptimumK static-toe state, not a zero-toe wheel state. Therefore:
+
+```text
+solver upright rotation = 0
+```
+
+means the imported centered geometry at its nominal static toe. The first evaluator may calculate incremental steer relative to this state. It may not claim absolute toe-inclusive road-wheel heading until the wheel-plane basis and the exact per-wheel toe definition are reviewed.
+
+Static toe is a reference-orientation quantity; it must not be removed by altering the imported joint coordinates.
 
 ### Derived centered-rack geometry
 
@@ -133,8 +153,8 @@ This is sufficient for an explicitly labeled nominal-design, incremental rigid s
 
 ## Source-authority rule
 
-1. Use the final OptimumK workbook for suspension hardpoints and the steering-axis construction.
-2. Use the steering FDR final table for selected tie-rod inner and outer pickups.
+1. Use the final OptimumK workbook for suspension hardpoints, steering-axis construction, and the nominal nonzero-toe reference state.
+2. Use the steering FDR final table for selected front-left tie-rod inner and outer pickups.
 3. Use `Steering Length Optimization Tests.xlsx`, Test 3, for transform and design-intent evidence.
 4. Use `GEOMETRY FINAL.SLDPRT` and `2026Ackermann.csv` for response reproduction.
 5. Use active assembly export or physical measurement for installed/as-built validation.
@@ -180,10 +200,10 @@ The purchased rack is one assembly in the steering BOM, while the cost report re
 The remaining native assembly request is now a Level E/F correlation and active-value gate rather than a blocker to the nominal-design evaluator. Export or measure:
 
 - active assembly and subassembly configurations, component references, suppression states, and warnings;
-- left and right hardpoints to test the symmetry assumption;
+- front-right hardpoints to test the nominal mirror assumption;
 - rack-stop contact positions and actual centered state;
 - pinion angle versus signed rack displacement;
-- wheel-plane bases and actual left/right static toe;
+- left/right wheel-plane bases and exact static-toe headings;
 - camber shim stack, ride height, wheel-travel state, and tie-rod adjustment;
 - installed tie-rod joint-center lengths and uncertainty.
 
