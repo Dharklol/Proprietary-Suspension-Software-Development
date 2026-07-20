@@ -211,4 +211,4 @@ The existing CSV template remains suitable. Screenshots may supplement but canno
 
 ## Work status
 
-The synthetic evaluator and a versioned `WUFR26_DESIGN_NOMINAL_V0` incremental-geometry case are unblocked after review of this source merge. Absolute toe-inclusive wheel heading, production CAD reproduction, installed/as-built claims, and physical validation remain blocked until the remaining setup and assembly evidence is reviewed.
+The synthetic evaluator and a versioned `WUFR26_DESIGN_NOMINAL_V0` incremental-geometry case are unblocked after review of this source merge. The implementation must separate the solved upright rotation about the steering axis from projected road-wheel heading. The latter requires an initial wheel-plane basis. Absolute toe-inclusive wheel heading, production CAD reproduction, installed/as-built claims, and physical validation remain blocked until the remaining setup and assembly evidence is reviewed.
