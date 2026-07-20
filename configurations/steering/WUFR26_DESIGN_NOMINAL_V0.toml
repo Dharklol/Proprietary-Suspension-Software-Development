@@ -42,7 +42,7 @@ right_inner_joint_at_center = [-0.079298, -0.220980, 0.162865]
 inner_joint_spacing = 0.441960
 operational_displacement_min = -0.0254
 operational_displacement_max = 0.0254
-operational_domain_role = "nominal design-study range of +/-1.00 in from center; total span 2.00 in; not installed stop authority"
+operational_domain_role = "provisional nominal design-study range of +/-1.00 in from center; total span 2.00 in; not installed stop authority"
 center_definition = "Steer Input = 0 deg and midpoint of the nominal design-study range"
 source_csv_displacement_min = -0.025188333333333333
 source_csv_displacement_max = 0.025188333333333333
