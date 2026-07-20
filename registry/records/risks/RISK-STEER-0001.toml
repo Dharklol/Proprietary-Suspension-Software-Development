@@ -1,0 +1,26 @@
+[record]
+id = "RISK-STEER-0001"
+type = "risk"
+title = "Conflicting steering drawing and BOM identity"
+status = "active"
+description = "WUFR-26 steering artifacts contain conflicting part-number assignments and at least one subsystem-prefix mismatch, so an old assembly drawing or filename could be mistaken for current component authority."
+severity = "high"
+cause = "Assembly and part drawings were revised at different times; older PDFs and copied CAD files remain beside current sources; part numbers were reassigned without every historical BOM being regenerated."
+effect = "The wrong rack, pinion, potentiometer component, tie-rod end cap, dimension, or source revision could enter the canonical geometry, parameter registry, benchmark, manufacturing review, or optimizer constraints."
+controls = [
+  "Resolve identity from current assembly CAD active configuration and matching current drawing revision, not filename alone.",
+  "Record part number, revision, source file, provider file/version ID, provider hash, and modification date together.",
+  "Treat the January ST-A0603-AA rack assembly PDF as historical until its BOM is reconciled with the current rack assembly CAD and current 60306 through 60310 drawing family.",
+  "Resolve the SU-60502-AA versus ST-60502-AA end-cap title-block mismatch against the tie-rod assembly BOM and source CAD.",
+  "Preserve conflicting artifacts and document supersession rather than deleting them.",
+  "Require immutable-byte capture and project SHA-256 before benchmark or active-value freeze.",
+  "Block active steering geometry and C-factor selection until rack, tie-rod, and upright source identities are reconciled."
+]
+affected_ids = [
+  "MIG-STR-0001",
+  "MOD-STEER-0001",
+  "BENCH-STEER-0001",
+  "PAR-STEER-0001",
+  "QTY-STEER-0005",
+  "QTY-STEER-0012"
+]
