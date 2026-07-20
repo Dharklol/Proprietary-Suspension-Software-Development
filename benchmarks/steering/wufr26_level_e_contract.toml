@@ -1,0 +1,62 @@
+version = "0.1.0"
+contract_id = "WUFR26-STEER-LEVEL-E-V0"
+status = "blocked_pending_solidworks_export"
+model_id = "MOD-STEER-0001"
+authorization_id = "AUTH-STEER-0001"
+
+[source]
+file_name = "2026Ackermann.csv"
+provider = "Box"
+provider_file_id = "2357045252883"
+provider_file_version_id = "2611346929683"
+provider_sha1 = "69d71c0977287a13385683204344e78816b48512"
+point_count = 205
+raw_input_row = "Steer Input"
+raw_output_row = "Dimension2"
+
+[signal_mapping]
+input_quantity_id = "unresolved"
+input_unit = "deg_observed"
+input_sign = "unresolved"
+output_quantity_id = "unresolved"
+output_unit = "deg_observed"
+output_sign = "unresolved"
+periodic_monitor_period_deg = 360.0
+center_input_observation = 0.0
+center_output_observation_deg = 20.57
+center_output_role = "observed monitor value only; not an approved toe or wheel-heading datum"
+
+[solidworks_state]
+active_assembly_configuration = "unresolved"
+active_geometry_component_configuration = "unresolved"
+motion_study_name = "unresolved"
+driver_definition = "unresolved"
+monitor_definition = "unresolved"
+suppression_and_warning_state = "unresolved"
+rack_center_construction = "unresolved"
+stop_state = "unresolved"
+
+[required_geometry]
+left_wheel_forward_direction = "unresolved"
+right_wheel_forward_direction = "unresolved"
+left_static_toe = "unresolved"
+right_static_toe = "unresolved"
+front_right_hardpoints = "unresolved"
+pinion_or_input_to_rack_map = "unresolved"
+
+[comparison]
+interpolation = "linear_inside_overlap_only"
+extrapolation_allowed = false
+polynomial_fit_used_as_reference = false
+residual_definition = "candidate evaluator output minus normalized SolidWorks output after matching canonical quantities"
+metrics = ["mean_error", "rmse", "maximum_absolute_error", "point_residuals"]
+acceptance_tolerance = "unresolved_until_signal_mapping_and_first_residual_review"
+
+[restrictions]
+items = [
+  "Do not compare rack displacement directly with Steer Input until identity and scaling are reviewed.",
+  "Do not compare upright rotation directly with Dimension2 until monitor construction is reviewed.",
+  "Do not treat 20.57 deg as a wheel-heading or toe datum.",
+  "Do not use a polynomial fit as independent validation evidence.",
+  "Do not claim installed or physical validation from Level E agreement."
+]
