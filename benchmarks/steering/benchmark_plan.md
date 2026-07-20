@@ -1,11 +1,19 @@
 # Steering Geometry Benchmark Plan
 
-**Status:** Proposed; WUFR-26 final mechanism and final-motion export located, benchmark not frozen  
-**Primary targets:** `MOD-STEER-0001`, future steering mechanism equations, `BENCH-STEER-0001`
+**Status:** Analytical preimplementation packet proposed; WUFR-26 Level E benchmark remains open  
+**Primary targets:** `MOD-STEER-0001`, `EQ-STEER-0001` through `EQ-STEER-0007`, `BENCH-STEER-0001` through `BENCH-STEER-0008`
 
 ## Purpose
 
 This plan defines the evidence required before the rigid steering evaluator or inverse-design workflow can be authorized for design decisions. Matching SolidWorks is a cross-tool reproduction test, not proof of physical correctness.
+
+The immediate implementation gate is defined in:
+
+- `docs/models/steering/rigid_steering_function_specification.md`;
+- `benchmarks/steering/preimplementation_freeze_packet.md`;
+- `benchmarks/steering/GEO-STEER-BASIC-001.toml`;
+- equation records `EQ-STEER-0001` through `0007`;
+- benchmark records `BENCH-STEER-0002` through `0008`.
 
 ## WUFR-26 authority hierarchy
 
@@ -20,44 +28,58 @@ This plan defines the evidence required before the rigid steering evaluator or i
 
 The source manifest is `data_catalog/steering_box_source_manifest.toml`. The selected lineage is `data_catalog/wufr26_test3_selected_lineage.md`. The fit reconstruction is `migration/legacy_calculators/steering_tie_rod_optimizer/steer_ratio_fit_reconstruction.md`.
 
+## Stable benchmark records
+
+| Stable ID | Level | Scope |
+|---|---|---|
+| `BENCH-STEER-0001` | E | Final WUFR-26 SolidWorks comparison |
+| `BENCH-STEER-0002` | C | Exact Ackermann analytical pairs |
+| `BENCH-STEER-0003` | A | Reference tie-rod closure and branch |
+| `BENCH-STEER-0004` | B | Sweep, symmetry, continuity, and singularity behavior |
+| `BENCH-STEER-0005` | A | Steering transmission identity and unit conversion |
+| `BENCH-STEER-0006` | B | Local derivative, gain, and ratio verification |
+| `BENCH-STEER-0007` | B | Turning-radius reconstruction and mismatch reporting |
+| `BENCH-STEER-0008` | B | Ackermann error sign, inside/outside aliases, and toe treatment |
+
+The previous descriptive A/B/C case names remain useful subcases, but the stable records above are the durable references.
+
 ## Benchmark hierarchy
 
 ### Level A — dimensional and algebraic
 
-| ID | Case | Expected result |
-|---|---|---|
-| `BENCH-STEER-A001` | Zero input at rack center | Declared static left/right toe and no unexplained offset |
-| `BENCH-STEER-A002` | Tie-rod closure | Inner-to-outer distance equals nominal link length within tolerance |
-| `BENCH-STEER-A003` | Unit conversions | `m/rad`, `mm/rev`, and steering-wheel/pinion conversions agree |
-| `BENCH-STEER-A004` | Differentiation | Analytical or automatic derivatives agree with finite differences |
-| `BENCH-STEER-A005` | Result lineage | Every point links to geometry, model, solver, and source revision |
-| `BENCH-STEER-A006` | Angle transformation | Branch orientation and reference subtraction reproduce reviewed points |
+Required cases include:
+
+- zero input at rack center reproduces declared static left/right toe;
+- inner-to-outer distance equals nominal tie-rod length;
+- `m/rad`, `mm/rev`, and steering-wheel/pinion conversions agree;
+- implicit/analytical derivatives agree with finite differences;
+- every point links to geometry, model, solver, and source revision;
+- angular branch unwrapping, monitor-datum subtraction, and toe handling remain separate operations.
 
 ### Level B — limiting, symmetry, and topology
 
-| ID | Case | Expected result |
-|---|---|---|
-| `BENCH-STEER-B001` | Mirrored geometry | Opposite sweeps mirror left/right outputs |
-| `BENCH-STEER-B002` | Parallel steer | Left/right angles remain equal apart from declared toe |
-| `BENCH-STEER-B003` | Ideal Ackermann | Exact low-speed inner/outer relation is reproduced |
-| `BENCH-STEER-B004` | Zero-track limit | Left/right curves converge |
-| `BENCH-STEER-B005` | Small-angle limit | Exact and small-angle references converge |
-| `BENCH-STEER-B006` | Singularity approach | Condition metric degrades and solver stops before branch crossing |
-| `BENCH-STEER-B007` | Reversed rack direction | Signs transform by convention rather than hidden fixes |
-| `BENCH-STEER-B008` | Unequal tie rods | Intended asymmetry remains visible |
+Required cases include:
+
+- mirrored geometry and opposite sweeps mirror left/right outputs;
+- parallel-steer and exact Ackermann reference cases;
+- zero-track and small-angle limits;
+- singularity approach degrades the condition metric and stops the solver before branch crossing;
+- reversed rack direction transforms signs through convention rather than hidden fixes;
+- intended unequal tie rods/asymmetry remain visible;
+- total toe-inclusive heading and incremental steering displacement remain separately available.
 
 ### Level C — analytical and published mechanisms
 
-- `BENCH-STEER-C001`: exact no-slip Ackermann angles.
-- `BENCH-STEER-C002`: independently hand-computed planar rack/tie-rod closure.
-- `BENCH-STEER-C003`: published trapezoidal-linkage case with complete definitions.
-- `BENCH-STEER-C004`: reviewed rack steering relation with tie-rod length, steering-arm length, rack-to-axis distance, and rack displacement.
+- exact no-slip Ackermann angle/radius pairs;
+- independently computed planar rack/tie-rod closure;
+- published trapezoidal-linkage cases only when definitions are complete;
+- reviewed rack steering relation with joint-center geometry and input identity.
 
 Published cases are adopted only when definitions can be translated without ambiguity.
 
 ### Level D — independent implementation
 
-`BENCH-STEER-D001` uses a separately authored implementation and compares rack displacement, left/right wheel angle, closure, local derivatives, inner/outer relation, and Ackermann error. Tolerances are set before comparison.
+A separately authored implementation compares rack displacement, left/right wheel heading, closure, local derivatives, inner/outer relation, Ackermann error, radius outputs, branch identity, and failure states. Tolerances are set before comparison.
 
 ### Level E — WUFR-26 SolidWorks comparison
 
@@ -77,20 +99,29 @@ Required frozen inputs:
 - immutable source bytes and SHA-256 for all listed artifacts;
 - exact FDR file, table location, author/revision, and hash;
 - SolidWorks version, file version, active configuration, suppression state, dependencies, equations, design tables, and warnings;
-- vehicle state, ride height, alignment, rack center, and stops;
+- vehicle state, ride height, static alignment, rack center, and installed stops;
 - previous-year rack datum and canonical meaning of the 0.5-in rearward change;
 - exact motion-study name, driver quantity, sweep domain, and operational subset;
 - definitions, signs, zero, and wheel identity for `Steer Input`, `Dimension2`, `Steer_Angle`, and `Measurement1`;
-- reviewed angular branch orientation and straight-ahead reference;
+- reviewed angular branch orientation, monitor datum, and static-toe treatment;
 - raw transformed expected table and source resolution.
 
 The comparison report includes raw and transformed curves, interpolation residuals, maximum and RMS angle error, center derivative error, full-lock error, closure residual, symmetry residual, branch handling, and discontinuities.
 
 #### Final-export transformation check
 
-`2026Ackermann.csv` has 205 samples from `-102` to `+102 deg`. Its raw angular monitor crosses a measurement branch between `-77` and `-76 deg`. The benchmark must reproduce the reviewed branch orientation and subtract the reviewed straight-ahead reference before comparing road-wheel angle.
+`2026Ackermann.csv` has 205 samples from `-102` to `+102 deg`. Its raw angular monitor crosses a measurement branch between `-77` and `-76 deg`. The benchmark must reproduce the reviewed branch orientation before converting the monitor to a wheel quantity.
 
-A provisional reference of `20.57 deg` at exported input zero is documented for reconstruction only. It is not frozen parameter authority.
+The unwrapped monitor is `20.57 deg` at exported input zero. That number is an observation, not automatically the datum to subtract. The historical WUFR fits retain approximately one degree of static toe, so the controlled transformation must separately record:
+
+```text
+unwrapped angular monitor
+-> monitor-specific datum subtraction
+-> total toe-inclusive wheel heading
+-> subtraction of rack-center heading when incremental steer is required
+```
+
+A forced-zero transformation is allowed only as a separately named incremental normalization. It is not the historical total-heading curve.
 
 #### Historical calculator comparison
 
@@ -108,13 +139,25 @@ The five non-selected candidate CSVs remain separate configurations. They test w
 
 ### Level F — physical steering sweep
 
-`BENCH-STEER-F001` measures steering-wheel and shaft angle where available, rack displacement, left/right road-wheel angle, sweep direction, repeated cycles, setup, load, calibration, synchronization, and uncertainty. Both sweep directions are required to expose backlash, hysteresis, compliance, and zero uncertainty.
+The physical benchmark measures steering-wheel and shaft angle where available, rack displacement, left/right road-wheel heading, sweep direction, repeated cycles, setup, load, calibration, synchronization, and uncertainty. Both sweep directions are required to expose backlash, hysteresis, compliance, and zero uncertainty.
 
 ## Geometry sets
 
 ### `GEO-STEER-BASIC-001`
 
-Idealized symmetric fixture for signs, closure, symmetry, derivatives, exact Ackermann, and singularity handling.
+The fully specified synthetic fixture is stored in `GEO-STEER-BASIC-001.toml`. It freezes:
+
+- exact frame and geometry;
+- tie-rod length;
+- five solved rack positions;
+- mirror behavior;
+- center derivatives;
+- Ackermann references/errors;
+- rear-axle-center radii;
+- tolerances;
+- deliberate branch-failure states.
+
+It is a planar special case of the spatial model and is not a WUFR parameter set.
 
 ### `GEO-STEER-WUFR25-HIST-001`
 
@@ -122,7 +165,7 @@ Historical WUFR-25 CAD/export case, separate from the WUFR-25 MATLAB effort/rang
 
 ### `GEO-STEER-WUFR26-FINAL-001`
 
-Final WUFR-26 Test 3 geometry. Parent source is `GEOMETRY FINAL.SLDPRT`; primary response is `2026Ackermann.csv`; `Test_3.csv` is a cross-check. Freeze requires hardpoints/axes, source hashes, study metadata, quantity definitions, angle transformation, and physical domain.
+Final WUFR-26 Test 3 geometry. Parent source is `GEOMETRY FINAL.SLDPRT`; primary response is `2026Ackermann.csv`; `Test_3.csv` is a cross-check. Freeze requires hardpoints/axes, source hashes, study metadata, quantity definitions, total/incremental angle transformation, and physical domain.
 
 ### `GEO-STEER-WUFR26-ALT-001` through `-005`
 
@@ -131,14 +174,15 @@ Non-selected WUFR-26 studies preserved for tradeoff and optimizer-regression tes
 ## Acceptance metrics
 
 - mechanism closure residual;
-- road-wheel-angle absolute and RMS error;
+- road-wheel-heading absolute and RMS error;
+- total-heading and incremental-steer distinction;
 - local road-wheel-gain error;
 - conventional-ratio error where defined;
 - Ackermann-reference error difference;
 - left/right mirror residual;
 - minimum singularity margin;
 - constraint-status agreement;
-- angular-branch and reference-offset agreement;
+- angular-branch, monitor-datum, and static-toe agreement;
 - interpolation error;
 - missing-scenario handling;
 - explicit extrapolation failure.
@@ -161,6 +205,6 @@ The optimizer is verified only after the evaluator passes its gate. Cases includ
 
 ## Authorization gate
 
-Prototype implementation requires reviewed canonical definitions, a frozen basic geometry set, approved Level A/B expectations, one independent Level C/D case, sufficiently catalogued WUFR-26 source lineage, and approved result/failure schemas.
+A bounded evaluator prototype may be considered only after review accepts the function specification, equation records, `GEO-STEER-BASIC-001`, Level A/B/C expected results, result/failure schema, and branch-control behavior.
 
-Production design authority additionally requires agreed Level E and/or Level F evidence and model-maturity review.
+WUFR-26 cross-tool maturity additionally requires the Level E source and signal freeze. Production design authority requires agreed Level E and/or Level F evidence and a model-maturity review.
