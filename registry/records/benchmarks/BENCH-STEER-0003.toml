@@ -1,0 +1,15 @@
+[record]
+id = "BENCH-STEER-0003"
+type = "benchmark"
+title = "Rigid steering reference closure"
+status = "proposed"
+description = "Verify tie-rod length derivation, zero-state closure, wheel heading, and intended reference branch using GEO-STEER-BASIC-001."
+verification_level = "A"
+target_ids = ["EQ-STEER-0002", "EQ-STEER-0003", "MOD-STEER-0001"]
+acceptance_criteria = [
+  "Both tie-rod lengths equal 0.3138470965295043 m within 1e-12 m.",
+  "Physical closure residual is below 1e-10 m.",
+  "Total and incremental headings are zero for the fixture.",
+  "The near-zero branch is selected rather than the alternate assembly root."
+]
+fixture = "benchmarks/steering/GEO-STEER-BASIC-001.toml"
