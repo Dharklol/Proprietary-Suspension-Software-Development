@@ -125,5 +125,5 @@ exit_criterion = "WUFR-26 steering assembly, rack, tie-rod, and front-upright dr
 [[phase_0.tasks]]
 id = "P0-STR-008"
 title = "WUFR-26 steering baseline reconciliation"
-status = "active"
-exit_criterion = "The real-geometry baseline, specification observations, rejected steering ratio, rack-center/travel interpretation, geometry-study assembly relationship, and exact SolidWorks export requirements are reviewed."
+status = "review_ready"
+exit_criterion = "The real-geometry baseline, specification observations, rejected steering ratio, rack-center/travel interpretation, coordinate adapters, front-left FDR identity, static-toe reference state, geometry-study assembly relationship, and remaining SolidWorks correlation requirements are reviewed."
