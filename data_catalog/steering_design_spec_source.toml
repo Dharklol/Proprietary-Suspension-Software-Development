@@ -5,22 +5,48 @@ title = "WUFR-26 design specification sheet"
 vehicle_revision = "WUFR-26"
 provider = "Box"
 file_name = "2026_FSAE_Design_IC_Spec_Sheet_WashU_Racing.xlsx"
-storage_context = "WUFR-26 Spec Sheet folder"
+storage_context = "WashURacing / 6. WUFR-26 / Spec Sheet"
+provider_file_id = "2149814001036"
+provider_file_version_id = "2510738677599"
+provider_sha1 = "588669d320ff8097ec0bc85a85a970640d5a4d38"
+provider_modified_at = "2026-06-06T04:43:43Z"
+provider_size_bytes = 45432
 project_sha256 = "pending_raw_byte_capture"
-authority_note = "Evidence of reported design intent and source-label definitions; not automatic as-built measurement authority."
+authority_note = "Evidence of reported design intent and source-label definitions; not automatic as-built measurement authority. The reported 3.12:1 steering ratio is explicitly rejected by the team and prohibited from active use."
 
 wheelbase_native = "1562 mm"
 front_track_native = "1232 mm; tread-center track"
 front_total_toe_native = "-1.00 deg; positive toe-in and negative toe-out"
+front_static_camber_native = "-2.25 deg"
+front_caster_native = "2.51 deg"
+front_kinematic_trail_native = "6.89 mm"
+front_scrub_radius_native = "5.06 mm"
+front_kpi_native = "8.6 deg"
+front_spindle_offset_native = "22.0 mm"
+front_wheel_native = "10 x 7 in; 22 mm offset"
+front_tire_native = "18 x 7.5-10 Hoosier R20"
+front_camber_adjustment_native = "shims"
 static_ackermann_native = "67.7 percent; definition unresolved"
-center_steering_ratio_native = "3.12:1; handwheel angle to average road-wheel angle through center"
+center_steering_ratio_native = "3.12:1; known incorrect; rejected observation"
 c_factor_native = "88.9 mm per revolution of steering input/pinion shaft"
 steering_arm_length_native = "69.9 mm; kingpin axis to outer tie-rod center"
+
+team_clarifications = [
+  "The active WUFR-26 model represents the real/as-built steering geometry.",
+  "GEOMETRY FINAL.SLDPRT is a component inside the fuller linkage subassembly rather than a disconnected geometry concept.",
+  "Rack center is the midpoint between equal left and right displacement limits set by the installed stops.",
+  "Reported current rack travel is 1.00 in total; provisional interpretation is +/-0.50 in from center pending CAD/stop verification.",
+  "ST-60306 through ST-60310 are current rack-family cost-report drawings; omission from the purchased-rack assembly BOM is not evidence that those identities are obsolete.",
+  "The design-spec steering ratio value is wrong and must not be used as a target, benchmark expectation, or active parameter."
+]
 
 open_items = [
   "Capture immutable source bytes and SHA-256.",
   "Do not substitute tread-center track for steering-axis ground-intersection track.",
   "Do not infer left/right toe from axle sum toe without an explicit assumption.",
   "Recover the Ackermann percentage definition.",
-  "Reconcile C-factor and steering-arm evidence against CAD, drawings, or measurement."
+  "Reconcile C-factor and steering-arm evidence against CAD, drawings, or measurement.",
+  "Verify the reported 1.00-in total rack travel against the active assembly and installed stops.",
+  "Recover nominal ride height and exact camber-shim stack from setup/CAD evidence.",
+  "Replace the rejected steering-ratio report value with a derived value from the reviewed steering transmission and mechanism."
 ]
