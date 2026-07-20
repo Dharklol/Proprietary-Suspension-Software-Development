@@ -1,32 +1,33 @@
 # Steering-Angle and Steer-Ratio Fit Reconstruction
 
-**Status:** Historical calculator transformation reconstructed; WUFR-26 reference angle and signal identities remain proposed pending CAD review  
+**Status:** Historical calculator transformation reconstructed; WUFR-26 monitor datum, static toe, and signal identities remain proposed pending CAD review  
 **Related IDs:** `MIG-STR-0001`, `MIG-SC26-SR-001`, `MIG-SC26-SR-003`, `BENCH-STEER-0001`, `MOD-STEER-0001`
 
 ## Purpose
 
-This note reconstructs how the historical `Steer Ratio` calculator converted SolidWorks angular-monitor outputs into a signed road-wheel curve and then into the plotted quantity called `Steer Ratio`. It also records the provisional processing of the WUFR-26 `2026Ackermann.csv` export.
+This note reconstructs how the historical `Steer Ratio` calculator converted SolidWorks angular-monitor outputs into signed road-wheel curves and then into the plotted quantity called `Steer Ratio`. It also records provisional processing of the WUFR-26 `2026Ackermann.csv` export.
 
-The reconstruction separates four operations that had been visually combined in the spreadsheet:
+The reconstruction separates five operations that had been visually combined:
 
 1. angular-branch unwrapping;
-2. subtraction of the straight-ahead reference angle;
-3. curve fitting or interpolation;
-4. differentiation and ratio-definition conversion.
+2. subtraction of a monitor-specific angular datum;
+3. retention or removal of static toe;
+4. curve fitting or interpolation;
+5. differentiation and ratio-definition conversion.
+
+The distinction between toe-inclusive wheel heading and incremental steer is required. Earlier provisional work forced the WUFR-26 zero-input output to zero. The recovered Desmos equations show that the historical process generally retained about one degree of static toe, so that forced-zero transformation is no longer preferred.
 
 ## Recovered historical transformation
 
-The WUFR-25 source exports preserve both the raw angular monitor and the converted wheel output, which makes the legacy operation identifiable.
+The WUFR-25 source exports preserve both the raw angular monitor and the converted wheel output.
 
 ### `WUFR_25.csv`
 
-The relation is, within the exported rounding,
+Within exported rounding:
 
 ```text
 wheel_output_deg = Dimension2_deg - 32.9 deg
 ```
-
-Examples:
 
 | Steering input | Raw `Dimension2` | `WHEEL OUTPUT` | Check |
 |---:|---:|---:|---:|
@@ -36,15 +37,34 @@ Examples:
 
 ### `3.5INREV_WUFR25.csv`
 
-The relation is, within the exported rounding,
+Within exported rounding:
 
 ```text
 wheel_output_deg = Dimension2_deg - 33.0 deg
 ```
 
-The spreadsheet note commonly interpreted as “making angles negative” therefore represents reference-angle subtraction, not an arbitrary sign assignment. Negative road-wheel angles occur because the raw monitored angle is below the straight-ahead reference angle.
+The spreadsheet note interpreted as “making angles negative” therefore represents datum subtraction, not arbitrary sign assignment. Negative values occur because the monitored angle is below the chosen monitor datum.
 
-Some SolidWorks angular dimensions additionally return an unsigned or acute-angle branch. When that branch crosses zero, it must first be unwrapped before the reference angle is subtracted.
+Critically, zero steering input produces approximately `-1 deg`, not zero. The processed quantity is therefore a toe-inclusive signed wheel heading for one side. Under the historical mirror relation, the opposite side is approximately `+1 deg` at rack center.
+
+Some SolidWorks angular dimensions additionally return an unsigned or acute-angle branch. When that branch crosses zero, it must be unwrapped before datum subtraction.
+
+## Canonical angle separation
+
+The replacement must represent at least two distinct quantities:
+
+```text
+total wheel heading:
+    delta_total(input)
+
+static toe at rack center:
+    delta_static = delta_total(input_center)
+
+incremental wheel steer:
+    delta_incremental(input) = delta_total(input) - delta_static
+```
+
+The historical Desmos fits appear to represent `delta_total`. A steering-ratio derivative may use either total or incremental angle because the constant static-toe term differentiates to zero. Ackermann comparisons, inside/outside angle maps, setup outputs, and CAD reproduction must state which representation is used.
 
 ## WUFR-26 `2026Ackermann.csv`
 
@@ -58,48 +78,53 @@ Some SolidWorks angular dimensions additionally return an unsigned or acute-angl
 - Scenario domain: `-102 deg` through `+102 deg` in `1 deg` increments
 - Point count: `205`
 
-The file was team-provided as the WUFR-26 final-geometry second-motion-study result. It is a derived SolidWorks export, not independent physical validation.
+The file is the team-provided WUFR-26 final-geometry second-motion-study result. It is a derived SolidWorks export, not independent physical validation.
 
 ### Angular unwrapping
 
-The raw `Dimension2` values approach `0.17 deg` at steering-input values `-77 deg` and `-76 deg`, then increase on both sides. This is consistent with an angular monitor crossing its zero branch between those samples rather than with a physical reversal of steering motion.
+The raw `Dimension2` values approach `0.17 deg` at steering-input values `-77 deg` and `-76 deg`, then increase on both sides. This is consistent with an angular monitor crossing its zero branch rather than physical reversal.
 
-The provisional continuous monitored angle is therefore
+The provisional continuous monitored angle is:
 
 ```text
 unwrapped_angle = -Dimension2,  for Steer Input <= -77 deg
 unwrapped_angle = +Dimension2,  for Steer Input >= -76 deg
 ```
 
-The branch crossing is provisionally bracketed by `[-77 deg, -76 deg]`. Linear interpolation of the rounded values places it near `-76.5 deg`, but that value is not a frozen mechanism zero because the export is rounded to `0.01 deg` and the SolidWorks measurement definition has not been inspected.
+The crossing is provisionally bracketed by `[-77 deg, -76 deg]`. Linear interpolation of rounded values places it near `-76.5 deg`, but that is not a frozen mechanism zero.
 
-### Straight-ahead reference subtraction
+### Monitor datum and static toe
 
-Road-wheel steer angle is obtained from
-
-```text
-road_wheel_angle = unwrapped_angle - reference_angle
-```
-
-The correct `reference_angle` is the unwrapped monitored angle at the reviewed straight-ahead/rack-center configuration. It must come from the CAD study definition or an approved setup definition, not from a visual curve shift.
-
-For a provisional reconstruction only, taking `Steer Input = 0 deg` as straight ahead gives
+The total left-wheel heading should be represented as:
 
 ```text
-reference_angle_provisional = 20.57 deg
+delta_total_left = unwrapped_angle - monitor_datum
 ```
 
-and therefore
+The correct `monitor_datum` must be recovered from the SolidWorks measurement definition or from an approved transformation record. It is not necessarily the unwrapped angle at rack center because the historical output retains static toe.
+
+At exported input zero:
 
 ```text
-road_wheel_angle_provisional = unwrapped_angle - 20.57 deg
+unwrapped_angle = 20.57 deg
 ```
 
-This provisional offset makes the raw point at zero input equal to zero road-wheel angle. It is not yet parameter authority. A different reviewed rack-center input would change only the vertical offset of the wheel-angle curve; it would not change its local derivative or the steering-ratio calculation.
+Two distinct provisional normalizations can be shown, but neither is parameter authority:
 
-## Historical polynomial fit
+```text
+incremental-only normalization:
+    delta_incremental_provisional = unwrapped_angle - 20.57 deg
 
-The calculator wheel-angle graphs use unconstrained cubic least-squares trendlines of signed road-wheel angle versus steering input. Reproducing the same method for the complete WUFR-26 export gives the following cubic for the **unwrapped monitored angle**, with `x` in exported input degrees:
+historical-style toe-inclusive example, assuming left static toe = -1.00 deg:
+    monitor_datum_example = 21.57 deg
+    delta_total_left_example = unwrapped_angle - 21.57 deg
+```
+
+The `21.57 deg` value is only an illustrative consequence of a `-1 deg` toe assumption. It must not be frozen without the WUFR-26 static-toe specification and CAD monitor definition.
+
+## Independent cubic audit fit
+
+An unconstrained cubic least-squares fit to the complete **unwrapped monitored angle** table gives, with `x` in exported input degrees:
 
 ```text
 a_hat(x) =
@@ -117,29 +142,45 @@ Fit statistics over all 205 exported points:
 | RMSE | `0.15304 deg` |
 | Maximum absolute residual | `0.69702 deg` |
 
-Using the provisional `20.57 deg` reference changes only the intercept:
+Subtracting `20.57 deg` gives an incremental-angle audit fit:
 
 ```text
-delta_hat_provisional(x) =
+delta_incremental_hat(x) =
     2.62594499e-6 x^3
   - 4.24498175e-4 x^2
   + 2.25972043e-1 x
   + 1.39324317e-1
 ```
 
-The fitted curve is not forced through the raw zero point, which explains its small nonzero intercept. That matches the historical Excel trendline behavior.
+The nonzero intercept results from the unconstrained global regression. It should not be interpreted as the historical static toe.
 
-Higher-order polynomials reduce residuals, but they are not adopted as canonical models. They add global oscillation and extrapolation risk while obscuring the source table. The canonical implementation should preserve the raw transformed table and use a shape-preserving interpolant inside the approved physical domain.
+A toe-inclusive fit uses the same nonconstant coefficients and a different reviewed intercept. For example, a `21.57 deg` monitor datum would give an intercept near `-0.86068 deg`, close to the historical Desmos pattern, but that example remains unapproved.
+
+The independent cubic is audit evidence, not the canonical mechanism model. The canonical implementation should preserve the transformed raw table and use a shape-preserving interpolant inside the approved physical domain.
+
+## Captured historical Desmos behavior
+
+The WUFR-26 candidate comparison uses quartic left-wheel functions and constructs the right wheel as:
+
+```text
+W_Right(x) = -W_Left(-x)
+```
+
+The displayed center intercepts are approximately `-0.99 deg` to `-1.25 deg`. This confirms that the historical plotted curves retain toe or another rack-center wheel-heading offset. Detailed coefficients and source comparisons are recorded in `test_1_to_4_fit_evidence.md`.
+
+The mirror equation enforces geometric symmetry. It does not independently identify or validate both physical wheel responses.
 
 ## What the calculator calls `Steer Ratio`
 
-The historical spreadsheet computes a point-to-point slope of road-wheel angle versus steering input:
+The historical spreadsheet computes a point-to-point slope of wheel angle versus steering input:
 
 ```text
 g = Delta(road-wheel angle) / Delta(steering input)
 ```
 
-This is a local **road-wheel gain**, with units of road-wheel degrees per input degree. It is the inverse of the conventional steering ratio when the input is steering-wheel angle:
+This is local **road-wheel gain**, not conventional steering ratio. Static toe has no effect on this derivative.
+
+When the input is confirmed to be steering-wheel angle:
 
 ```text
 conventional steering ratio =
@@ -147,9 +188,9 @@ conventional steering ratio =
   = 1 / g
 ```
 
-The WUFR-24 and WUFR-25 spreadsheet blocks use inconsistent forward/backward placement of the finite difference, which shifts the displayed gain horizontally by approximately half a sample. A centered difference should be used for interior points in the replacement implementation, with explicit one-sided treatment at the domain boundaries.
+The WUFR-24 and WUFR-25 spreadsheet blocks use inconsistent forward/backward finite-difference placement, shifting the displayed gain horizontally by about half a sample. The replacement should use a centered difference for interior sampled data or the verified derivative of the interpolant, with explicit one-sided boundary handling.
 
-Differentiating the WUFR-26 historical cubic gives
+Differentiating the WUFR-26 independent cubic gives:
 
 ```text
 g_hat(x) =
@@ -158,37 +199,41 @@ g_hat(x) =
   + 2.25972043e-1
 ```
 
-The corresponding conventional ratio is
+The corresponding reciprocal is:
 
 ```text
 R_hat(x) = 1 / g_hat(x)
 ```
 
-only after `Steer Input` is confirmed to be steering-wheel angle. If the SolidWorks driver is a shaft, pinion, mate, or sketch angle, `g_hat` is only the local ratio between that driver and the monitored wheel angle. The missing upstream transmission must then be applied separately.
+only after `Steer Input` is confirmed as steering-wheel angle. If the driver is a shaft, pinion, mate, or sketch angle, the missing upstream transmission must be applied separately.
 
 ## Recommended canonical processing chain
 
 ```text
-immutable CSV
+immutable CAD export
   -> schema and point-count validation
   -> angular-branch unwrapping
-  -> reviewed straight-ahead reference subtraction
-  -> signed left/right road-wheel quantity mapping
-  -> shape-preserving interpolation within physical lock limits
-  -> analytical or numerically verified derivative
+  -> reviewed monitor-datum subtraction
+  -> toe-inclusive left/right wheel-heading map
+  -> explicit rack-center static-toe extraction
+  -> optional incremental-steer map
+  -> shape-preserving interpolation within physical limits
+  -> verified derivative
   -> local road-wheel gain
-  -> reciprocal conventional ratio where well-conditioned
+  -> reciprocal conventional ratio where defined
 ```
 
-The original cubic and finite-difference curves remain useful for legacy reproduction, but the polynomial is not the source of truth.
+The historical polynomial and finite-difference curves remain useful for legacy reproduction, but neither is the source of truth.
 
 ## Required benchmark checks
 
 1. Confirm the SolidWorks definition and orientation of `Dimension2`.
 2. Confirm whether `Steer Input` is steering-wheel, shaft, pinion, mate, or sketch angle.
-3. Confirm the straight-ahead/rack-center input and reference angle.
-4. Confirm the branch-unwrapping rule from the CAD measurement orientation.
-5. Restrict the benchmark to the physical steering range declared by the FDR/CAD stops rather than assuming every exported scenario is operational.
-6. Compare raw transformed points, interpolated values, derivatives, and reciprocal ratios separately.
-7. Retain `Test_3.csv` as selection-era cross-check evidence rather than silently replacing it.
-8. Do not use the fitted curve as independent validation of the geometry that generated it.
+3. Confirm rack-center input and WUFR-26 left/right static toe.
+4. Recover the monitor datum used to convert `Dimension2` into signed wheel heading.
+5. Confirm the branch-unwrapping rule from the CAD measurement orientation.
+6. Identify whether `2026Ackermann.csv` monitors the physical left wheel, right wheel, inside branch, or outside branch.
+7. Restrict the benchmark to declared physical steering limits.
+8. Compare raw transformed points, toe-inclusive maps, incremental maps, derivatives, and reciprocal ratios separately.
+9. Retain `Test_3.csv` as selection-era cross-check evidence.
+10. Do not use a fitted curve as independent validation of the geometry that generated it.
