@@ -133,3 +133,9 @@ id = "P0-STR-009"
 title = "Bounded rigid steering prototype authorization"
 status = "review_ready"
 exit_criterion = "AUTH-STEER-0001 is reviewed and merged with permitted functions, numerical behavior, configurations, benchmark requirements, provenance, prohibited scope, and promotion gates explicitly recorded."
+
+[[phase_0.tasks]]
+id = "P0-STR-010"
+title = "WUFR-26 Level E comparison preparation"
+status = "active"
+exit_criterion = "The source parser, periodic monitor normalization, canonical signal-matching gate, dense nominal sweep, residual metrics, and exact SolidWorks export requirements are reviewed before numerical CAD comparison."
