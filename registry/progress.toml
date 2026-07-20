@@ -97,3 +97,15 @@ id = "P0-STR-004"
 title = "Steering benchmark geometry"
 status = "active"
 exit_criterion = "The idealized symmetric benchmark geometry and Level A/B expected results are frozen before mechanism code begins."
+
+[[phase_0.tasks]]
+id = "P0-PAR-001"
+title = "Steering parameter-observation seed"
+status = "review_ready"
+exit_criterion = "Recovered WUFR steering dimensions and settings are stored as non-authoritative observations with provenance, units, frame, uncertainty, and applicability before active-value selection."
+
+[[phase_0.tasks]]
+id = "P0-PAR-002"
+title = "Steering active-value reconciliation"
+status = "planned"
+exit_criterion = "Wheelbase, static toe, C-factor, center ratio, steering-axis track, hardpoints, and mechanical limits have reviewed active selections or explicit unresolved states for a named WUFR configuration."
