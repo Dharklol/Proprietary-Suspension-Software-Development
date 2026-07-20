@@ -1,5 +1,20 @@
 """Bounded rigid-steering evaluator authorized by AUTH-STEER-0001."""
 
+from .comparison import (
+    LEVEL_E_REQUIRED_METADATA,
+    ComparisonMetrics,
+    ComparisonStatus,
+    MonitorNormalization,
+    SeriesComparison,
+    SeriesError,
+    SignalSeries,
+    compare_series,
+    interpolate_linear,
+    level_e_missing_metadata,
+    normalize_periodic_monitor,
+    parse_transposed_csv_text,
+    unwrap_periodic,
+)
 from .config import load_geometry
 from .core import (
     AxisLine,
@@ -42,13 +57,20 @@ from .derived import (
 
 __all__ = [
     "AxisLine",
+    "ComparisonMetrics",
+    "ComparisonStatus",
     "FailureCode",
     "GeometryError",
     "HeadingResult",
     "InsideOutside",
+    "LEVEL_E_REQUIRED_METADATA",
+    "MonitorNormalization",
     "PositionResult",
     "RackGeometry",
     "RootBracket",
+    "SeriesComparison",
+    "SeriesError",
+    "SignalSeries",
     "SolverSettings",
     "SolverStatus",
     "SteeringCorner",
@@ -61,13 +83,18 @@ __all__ = [
     "closure_length_residual",
     "closure_rotation_derivative",
     "closure_squared_residual",
+    "compare_series",
     "conventional_steering_ratio",
     "evaluate_wheel_heading",
     "exact_ackermann_outside_reference",
     "implicit_upright_gain",
+    "interpolate_linear",
+    "level_e_missing_metadata",
     "load_geometry",
     "local_road_wheel_gain",
     "metres_per_radian_to_millimetres_per_revolution",
+    "normalize_periodic_monitor",
+    "parse_transposed_csv_text",
     "rotate_point_about_axis",
     "secant_ratio",
     "solve_corner_position",
@@ -75,5 +102,6 @@ __all__ = [
     "staged_transmission",
     "translate_rack_joint",
     "turning_radii",
+    "unwrap_periodic",
     "wheel_heading",
 ]
