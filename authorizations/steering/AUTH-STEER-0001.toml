@@ -1,8 +1,9 @@
 version = "0.1.0"
 authorization_id = "AUTH-STEER-0001"
-status = "proposed_for_merge_approval"
+status = "active"
 title = "Bounded rigid steering evaluator prototype authorization"
-effective_condition = "This authorization becomes effective when the pull request containing it is reviewed and merged."
+effective_condition = "Effective after merge of PR #9."
+effective_merge_commit = "e7cf3f856a9169d06c78413c9467884fa7bc41ad"
 review_record = "Git history and pull-request approval"
 
 [scope]
@@ -96,3 +97,5 @@ human_readable_authorization = "docs/models/steering/rigid_steering_prototype_au
 function_specification = "docs/models/steering/rigid_steering_function_specification.md"
 freeze_packet = "benchmarks/steering/preimplementation_freeze_packet.md"
 nominal_configuration = "configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml"
+implementation_document = "docs/models/steering/rigid_steering_implementation_v0.1.0.md"
+implementation_results = "benchmarks/steering/implementation_results_v0.1.0.json"
