@@ -127,3 +127,9 @@ id = "P0-STR-008"
 title = "WUFR-26 steering baseline reconciliation"
 status = "review_ready"
 exit_criterion = "The real-geometry baseline, specification observations, rejected steering ratio, rack-center/travel interpretation, coordinate adapters, front-left FDR identity, static-toe reference state, geometry-study assembly relationship, and remaining SolidWorks correlation requirements are reviewed."
+
+[[phase_0.tasks]]
+id = "P0-STR-009"
+title = "Bounded rigid steering prototype authorization"
+status = "review_ready"
+exit_criterion = "AUTH-STEER-0001 is reviewed and merged with permitted functions, numerical behavior, configurations, benchmark requirements, provenance, prohibited scope, and promotion gates explicitly recorded."
