@@ -1,0 +1,17 @@
+[record]
+id = "BENCH-STEER-0004"
+type = "benchmark"
+title = "Rigid steering sweep, symmetry, and branch control"
+status = "proposed"
+description = "Verify solved left/right headings, mirror symmetry, branch continuity, closure, singularity reporting, and deliberate failure outside the intended GEO-STEER-BASIC-001 branch."
+verification_level = "B"
+target_ids = ["EQ-STEER-0002", "EQ-STEER-0003", "MOD-STEER-0001"]
+acceptance_criteria = [
+  "Five frozen states match headings within 2e-8 rad.",
+  "Mirror symmetry holds within 2e-8 rad.",
+  "Closure residual remains below 1e-10 m at accepted states.",
+  "The declared branch remains continuous and monotonic on each half sweep.",
+  "Evaluation at plus or minus 0.013 m fails rather than substituting another assembly root.",
+  "The branch fold near 0.012311218851833117 m is reported before crossing."
+]
+fixture = "benchmarks/steering/GEO-STEER-BASIC-001.toml"
