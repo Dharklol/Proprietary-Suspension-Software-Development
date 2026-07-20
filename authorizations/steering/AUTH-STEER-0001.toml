@@ -1,0 +1,98 @@
+version = "0.1.0"
+authorization_id = "AUTH-STEER-0001"
+status = "proposed_for_merge_approval"
+title = "Bounded rigid steering evaluator prototype authorization"
+effective_condition = "This authorization becomes effective when the pull request containing it is reviewed and merged."
+review_record = "Git history and pull-request approval"
+
+[scope]
+model_ids = ["MOD-STEER-0001"]
+equation_ids = [
+  "EQ-STEER-0001",
+  "EQ-STEER-0002",
+  "EQ-STEER-0003",
+  "EQ-STEER-0004",
+  "EQ-STEER-0005",
+  "EQ-STEER-0006",
+  "EQ-STEER-0007"
+]
+benchmark_ids = [
+  "BENCH-STEER-0002",
+  "BENCH-STEER-0003",
+  "BENCH-STEER-0004",
+  "BENCH-STEER-0005",
+  "BENCH-STEER-0006",
+  "BENCH-STEER-0007",
+  "BENCH-STEER-0008"
+]
+configuration_ids = ["GEO-STEER-BASIC-001", "WUFR26_DESIGN_NOMINAL_V0"]
+
+[permitted]
+items = [
+  "Immutable geometry/frame schema with explicit side and source roles.",
+  "Rack translation along a declared axis.",
+  "Rigid steering-axis rotation using exact axis-angle kinematics.",
+  "Tie-rod joint-center distance closure.",
+  "Bracket-preserving scalar position solve on the intended branch.",
+  "Closure, branch, feasibility, singularity, provenance, and failure diagnostics.",
+  "All frozen analytical and GEO-STEER-BASIC-001 outputs.",
+  "WUFR26_DESIGN_NOMINAL_V0 rack-displacement-to-upright-rotation evaluation and mechanism diagnostics."
+]
+
+[conditional_outputs]
+synthetic_fixture = [
+  "Projected and total road-wheel headings.",
+  "Inside/outside aliases.",
+  "Local gain and secant ratio.",
+  "Ackermann reference and error.",
+  "Named turning-radius constructions."
+]
+wufr26_nominal = [
+  "Only outputs whose prerequisite metadata are explicitly present.",
+  "Unavailable outputs must return a reason code rather than a guessed value."
+]
+
+[prohibited]
+items = [
+  "Hardpoint or tie-rod optimization.",
+  "Production design ranking or release authority.",
+  "As-built or installed-geometry claims.",
+  "Automatic constraint relaxation or alternate-root substitution.",
+  "Tire, steering-effort, compliance, tolerance, suspension-travel, load, or transient models.",
+  "CAD polynomial fits as replacements for mechanism equations.",
+  "Absolute WUFR-26 wheel heading, steering-wheel ratio, Ackermann, or turning-radius claims without reviewed prerequisites.",
+  "UI development beyond minimal developer-facing execution and diagnostics."
+]
+
+[numerics]
+root_method_requirement = "Safeguarded bracket-preserving scalar method such as bisection or reviewed Brent-Dekker implementation."
+unconstrained_newton_default_allowed = false
+alternate_root_fallback_allowed = false
+hidden_clipping_allowed = false
+extrapolation_allowed = false
+library_rule = "Any external routine must have package, version range, function contract, tolerances, and failure behavior documented in the implementation pull request."
+
+[required_before_code_merge]
+items = [
+  "Implement BENCH-STEER-0002 through BENCH-STEER-0008 as automated tests.",
+  "Show benchmark results and tolerances in the implementation pull request.",
+  "Preserve direct, transformed, mirrored, derived, and provisional provenance roles.",
+  "Return structured failures for invalid geometry, no closure root, branch ambiguity, singularity, nonconvergence, domain violation, and missing prerequisites.",
+  "Keep optimizer modules absent or disabled."
+]
+
+[promotion_gates]
+items = [
+  "All frozen analytical and synthetic tests pass.",
+  "Numerical implementation review is complete.",
+  "WUFR wheel-plane, toe, transmission, and stop definitions are recovered for requested outputs.",
+  "Level E raw SolidWorks response comparison passes an approved tolerance.",
+  "Level F physical evidence is reviewed before as-built validation claims.",
+  "A separate focused authorization approves optimizer or production use."
+]
+
+[references]
+human_readable_authorization = "docs/models/steering/rigid_steering_prototype_authorization.md"
+function_specification = "docs/models/steering/rigid_steering_function_specification.md"
+freeze_packet = "benchmarks/steering/preimplementation_freeze_packet.md"
+nominal_configuration = "configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml"
