@@ -1,0 +1,22 @@
+[record]
+id = "EQ-STEER-0004"
+type = "equation"
+title = "Steering-wheel, pinion, and rack transmission chain"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Represent steering-wheel, shaft, pinion, and rack relations as explicit staged functions rather than one ambiguous steering-input or C-factor scalar."
+outputs = ["QTY-STEER-0002 primary steering-shaft angle", "QTY-STEER-0003 pinion angle", "QTY-STEER-0004 rack displacement"]
+inputs = ["QTY-STEER-0001 steering-wheel angle", "Reviewed column relation", "QTY-STEER-0005 rack displacement per pinion angle or variable-ratio function"]
+assumptions = [
+  "The first rigid version has no torsional compliance, backlash, or friction.",
+  "Each stage has an explicit zero and polarity.",
+  "A constant rack relation is used only for a constant-ratio pinion/rack geometry."
+]
+verification_level = "none"
+canonical_equation = "s(theta_p) = C_rp * theta_p for a reviewed constant relation; otherwise use a versioned function and derivative."
+source_basis = ["Rigid gear/transmission kinematics", "Gillespie (1992), Chapter 8, distinction between steering-wheel reduction, rack translation, linkage geometry, and angle-dependent road-wheel ratio"]
+validity = "Unloaded rigid transmission inside its mechanical range."
+failure_behavior = ["Reject ambiguous C-factor units", "Reject missing zero or polarity", "Report input identity rather than assuming a SolidWorks driver is steering-wheel angle"]
+benchmark_ids = ["BENCH-STEER-0005"]
+migration_ids = ["MIG-STR-0001", "MIG-SC26-SR-001", "MIG-SC26-SR-003"]
