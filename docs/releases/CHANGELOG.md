@@ -41,10 +41,25 @@ All notable project changes should be recorded here. Model releases must identif
 - WUFR-26 steering design-spec source catalog and inactive observations for wheelbase, axle sum toe, C-factor, and through-center steering ratio.
 - Proposed `QTY-ALIGN-0003` axle sum-toe quantity and recovered WUFR-26 C-factor definition.
 - WUFR-26 steering drawing/BOM authority manifest covering system assemblies, rack, tie rods, front uprights, drawing-number conventions, source hierarchy, and active-geometry extraction requirements.
-- `RISK-STEER-0001` for conflicting rack-family part-number assignments and the tie-rod end-cap subsystem-prefix mismatch.
+- `RISK-STEER-0001` for steering BOM scope, historical identity, and title-block mismatch risk.
+- WUFR-26 steering baseline-reconciliation packet linking `GEOMETRY FINAL.SLDPRT` to the active linkage assembly and defining the remaining native SolidWorks export.
+- `PAR-STEER-0003` provisional symmetric one-sided rack-travel observation derived from the reported 1.00-in total travel.
+- SolidWorks geometry-export CSV template for steering axes, joints, rack states, wheel planes, setup, and transmission sweep.
+- Catalog and coordinate adapter for `WUFR-26 FINAL 8.21.2025.xlsx`, including numerical reconciliation with Test 3 and the steering FDR pickup table.
+- Nominal WUFR-26 steering hardpoint source merge using final OptimumK upright points and final-FDR tie-rod pickups.
+- Team-confirmed front-left interpretation of the steering FDR coordinates and corrected SolidWorks-to-OptimumK lateral sign mapping.
+- Nominal static-toe reference-state rule: zero solved upright rotation represents the imported nonzero-toe geometry, while projected and absolute wheel heading remain gated on a reviewed wheel-plane basis and toe convention.
 
 ### Changed
 
 - Ackermann comparisons now default to incremental steer with static toe handled separately, while total toe-inclusive wheel heading remains a required output.
 - The WUFR-26 zero-input `20.57 deg` monitor value is treated as an observation rather than a frozen toe-inclusive subtraction datum.
-- Production steering geometry and design-study geometry are now separate evidence chains that must be reconciled rather than assumed identical.
+- Design-study and active-assembly geometry are treated as connected evidence layers because `GEOMETRY FINAL.SLDPRT` is instantiated inside the fuller linkage subassembly; the active configuration still requires explicit export.
+- Current `ST-60306` through `ST-60310` rack-family identities are accepted from the individual drawings; omission from the purchased-rack BOM is classified as a BOM/cost-report scope difference.
+- `RISK-STEER-0001` severity is reduced after identity clarification, while native active-assembly reference confirmation remains required.
+- The specification's `3.12:1` steering ratio is now a rejected observation prohibited from active calculations, targets, benchmarks, and validation.
+- Rack center is defined as the midpoint between equal left/right stop limits; the reported 1.00-in total travel is provisionally interpreted as `+/-0.50 in` pending CAD or measurement verification.
+- The native SolidWorks assembly export is reclassified from a blocker to nominal-design mechanism evaluation into a Level E/F installed-state correlation gate.
+- The FDR tie-rod pair is no longer treated as a right-side point set; it is the front-left set in a lateral-positive-left SolidWorks frame.
+- Static toe is treated as embedded in the imported nominal reference orientation and is not removed by modifying hardpoint coordinates.
+- The first WUFR-26 implementation boundary is tightened to mechanism closure and upright rotation; projected road-wheel heading requires a separately defined wheel-plane basis.

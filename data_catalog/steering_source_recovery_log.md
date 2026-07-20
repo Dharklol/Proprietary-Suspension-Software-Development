@@ -1,11 +1,11 @@
 # Steering Source-Recovery Log
 
-**Status:** WUFR-26 final design-study source, final-motion export, and production steering drawing/BOM hierarchy located; benchmark and active geometry not frozen  
-**Related IDs:** `MIG-STR-0001`, `MOD-STEER-0001`, `BENCH-STEER-0001`, `CAT-EXT-0001` through `CAT-EXT-0004`, `CAT-EXT-0016`, `CAT-EXT-0025`, `RISK-STEER-0001`
+**Status:** WUFR-26 nominal design geometry and coordinate adapters recovered; installed SolidWorks state remains a correlation gate  
+**Related IDs:** `MIG-STR-0001`, `MOD-STEER-0001`, `BENCH-STEER-0001`, `CAT-EXT-0001` through `CAT-EXT-0004`, `CAT-EXT-0016`, `CAT-EXT-0025`, `CAT-STEER-SPEC-0001`, `CAT-STEER-GEO-0001`, `RISK-STEER-0001`
 
 ## Purpose
 
-This log distinguishes mechanism sources, design-selection records, candidate-study exports, final-motion exports, production drawings, calculator transformations, and independent validation evidence.
+This log distinguishes mechanism sources, design-selection records, candidate exports, final-motion exports, nominal suspension geometry, production drawings, active assembly state, calculator transformations, setup observations, and independent validation evidence.
 
 ## Evidence states
 
@@ -13,11 +13,13 @@ This log distinguishes mechanism sources, design-selection records, candidate-st
 - **Source located:** original item and provider metadata found; project hash or internal metadata may remain open.
 - **Export recovered:** derived table or result found; source configuration may remain open.
 - **Selection mapping established:** FDR selection, candidate record, export, and parent model linked.
-- **Production identity mapped:** assembly, drawing, BOM, and folder hierarchy located; active configuration and revisions may remain open.
-- **Benchmark source designated:** team-selected mechanism/result source identified.
+- **Coordinate reconciled:** source frames and numerical transforms are supported by common points.
+- **Nominal design geometry merged:** reviewed source hierarchy supplies a complete bounded design-source geometry subset.
+- **Production identity mapped:** assembly, drawing, BOM, and folder hierarchy located; active native configuration may remain open.
+- **Baseline reconciled:** intended model state, scalar observations, rejected values, and remaining gates recorded.
 - **Benchmark frozen:** immutable bytes, definitions, expected outputs, domain, and tolerances approved.
 
-## Search history
+## Search and clarification history
 
 ### `SRCH-STEER-0001` — 2026-07-18
 
@@ -25,24 +27,17 @@ Indexed project sources and GitHub were searched. Historical calculator tables w
 
 ### `SRCH-STEER-0002` — 2026-07-19
 
-Box steering geometry directories were searched. `GEOMETRY FINAL.SLDPRT`, six candidate-study CSVs, `Steering Length Optimization Tests.xlsx`, supporting SolidWorks parts, and WUFR-25 `Steering_range_optimization.m` were located.
+Box steering directories were searched. `GEOMETRY FINAL.SLDPRT`, six candidate-study CSVs, `Steering Length Optimization Tests.xlsx`, supporting SolidWorks parts, and WUFR-25 `Steering_range_optimization.m` were located.
 
 ### `SRCH-STEER-0003` — final selection clarification
 
-The WUFR-26 steering FDR table beneath `SO EVERYONE KNOWS, here is the FINAL geometry specifications:` selects `Test 3`. The phrase `0.5 inch back` means 0.5 in rearward relative to the previous-year rack placement.
+The WUFR-26 steering FDR table beneath `SO EVERYONE KNOWS, here is the FINAL geometry specifications:` selects Test 3. `0.5 inch back` means 0.5 in rearward relative to the previous-year rack placement.
 
-This links:
-
-- FDR selection: `Test 3`;
-- reference workbook: `Test 3` column;
-- selection-era export: `Test_3.csv`;
-- parent source: `GEOMETRY FINAL.SLDPRT`.
+This links the FDR selection, Test 3 reference-workbook column, `Test_3.csv`, and `GEOMETRY FINAL.SLDPRT`.
 
 ### `SRCH-STEER-0004` — final-motion export and calculator transformation
 
-The team added `2026Ackermann.csv` to the WUFR-26 geometry directory as the export from the final-geometry second motion study.
-
-Recovered metadata:
+`2026Ackermann.csv` was identified as the final-geometry second-motion-study export.
 
 | Field | Value |
 |---|---|
@@ -50,112 +45,140 @@ Recovered metadata:
 | Box file version ID | `2611346929683` |
 | Box SHA-1 | `69d71c0977287a13385683204344e78816b48512` |
 | Size | `8270` bytes |
-| Input row | `Steer Input`, `-102` through `+102 deg`, `1 deg` step |
-| Output row | `Dimension2`, monitored angle in degrees |
-| Point count | `205` |
+| Input | `Steer Input`, `-102` through `+102 deg`, `1 deg` step |
+| Output | `Dimension2`, monitored angle in degrees |
+| Points | `205` |
 
-The raw angular output crosses its measurement branch between inputs `-77 deg` and `-76 deg`. Historical WUFR-25 exports show that the calculator then subtracts a fixed straight-ahead reference angle before fitting the road-wheel curve.
+The angular output crosses a measurement branch between inputs `-77 deg` and `-76 deg`. Historical exports establish that the monitor must be continuously oriented and referenced before fitting. The calculator's `Steer Ratio` calculation is road-wheel gain unless reciprocated and referenced to actual steering-wheel input.
 
-The exact reconstruction is documented in `migration/legacy_calculators/steering_tie_rod_optimizer/steer_ratio_fit_reconstruction.md`.
+### `SRCH-STEER-0005` — production drawing and BOM hierarchy
 
-### `SRCH-STEER-0005` — production drawing, BOM, and part-number hierarchy
+The top-level steering, rack, tie-rod, and front-upright assemblies and drawings were reviewed. The system mapping includes `ST-A0601-AA` through `ST-A0606-AA` and `WT-A0802-AA`.
 
-The WUFR-26 steering system folder, top-level assembly drawing, rack assembly, tie-rod assembly, front-upright assembly, manufacturing drawings, and drawing-number standard were reviewed.
+An older rack assembly PDF and the current component-drawing family differ in scope. The right-thread tie-rod end-cap also contains an apparent `SU` versus `ST` title-block prefix mismatch.
 
-Established mappings include:
+### `SRCH-STEER-0006` — baseline and rack-family clarification
 
-- `ST-A0601-AA`: steering wheel;
-- `ST-A0602-AA`: quick release;
-- `ST-A0603-AA`: steering rack;
-- `ST-A0604-AA`: steering column;
-- `ST-A0605-AA`: tie rods;
-- `ST-A0606-AA`: sensor mounts;
-- `WT-A0802-AA`: front upright assembly.
+The team clarified:
 
-The drawing standard requires the BOM to govern number changes and requires previous revisions to be preserved. Current-looking filenames are therefore not sufficient without revision and assembly context.
+- the active WUFR-26 model represents the real/as-built geometry;
+- `GEOMETRY FINAL.SLDPRT` is a component inside the fuller linkage subassembly;
+- rack center is the midpoint between equal left/right stop limits;
+- current reported rack travel is 1.00 in total, provisionally interpreted as `+/-0.50 in` from center;
+- `ST-60306` through `ST-60310` are current rack-family drawings required for cost-report decomposition even though the purchased rack is represented as one assembly in the steering BOM;
+- the design-spec `3.12:1` steering ratio is wrong.
 
-Two conflicts were found:
+The specification source was located:
 
-1. the January rack assembly PDF assigns `ST-60306-AA` and `ST-60307-AA` to steering-potentiometer parts, while the current drawing family assigns them to rack and pinion and uses `ST-60309-AA` and `ST-60310-AA` for the potentiometer parts;
-2. the right-thread tie-rod end-cap drawing file and assembly BOM use `ST-60502-AA`, while its extracted title block appears to show `SU-60502-AA`.
+| Field | Value |
+|---|---|
+| File | `2026_FSAE_Design_IC_Spec_Sheet_WashU_Racing.xlsx` |
+| Box file ID | `2149814001036` |
+| Version ID | `2510738677599` |
+| Provider SHA-1 | `588669d320ff8097ec0bc85a85a970640d5a4d38` |
+| Modified | `2026-06-06T04:43:43Z` |
 
-The source hierarchy, mappings, and restrictions are documented in `data_catalog/wufr26_steering_drawing_bom_manifest.md`. The identity risk is `RISK-STEER-0001`.
+The wrong `3.12:1` value is preserved as a rejected observation. The 1.00-in total-travel statement is preserved as a provisional observation pending active CAD/stop confirmation.
 
-## Final WUFR-26 design-study authority hierarchy
+### `SRCH-STEER-0007` — final suspension geometry and coordinate reconciliation
 
-1. **Design-selection authority:** WUFR-26 steering FDR final-geometry table.
-2. **Selected configuration:** `Test 3`.
-3. **Relative rack-placement intent:** 0.5 in rearward from the previous-year placement.
-4. **Mechanism source:** `GEOMETRY FINAL.SLDPRT`, Box ID `1971276311204`.
-5. **Primary final-motion response:** `2026Ackermann.csv`, Box ID `2357045252883`.
-6. **Selection-era cross-check:** `Test_3.csv`, Box ID `1938821987892`.
-7. **Design-intent reference:** `Steering Length Optimization Tests.xlsx`, Test 3 column.
+`WUFR-26 FINAL 8.21.2025.xlsx` was located as the final OptimumK suspension geometry export used for `SU-00001-AA 2026 SUSPENSION GEOMETRY.SLDPRT`.
 
-The detailed mapping is `data_catalog/wufr26_test3_selected_lineage.md`.
+| Field | Value |
+|---|---|
+| Box file ID | `2014803790843` |
+| Version ID | `2224178574043` |
+| Provider SHA-1 | `15eadfb93369192038888da92ebaa6674db56cfa` |
+| Modified | `2025-10-13T16:51:15Z` |
+| User coordinate matrix | `[[1,0,0],[0,-1,0],[0,0,1]]` |
 
-## Production-geometry authority hierarchy
+The final OptimumK export uses longitudinal, lateral-positive-right, vertical-positive-up coordinates in millimetres. The raw Test 3 steering-study triplets use lateral-positive-left, vertical-positive-up, longitudinal-positive-forward coordinates in inches.
 
-1. current steering, rack, tie-rod, and upright assembly CAD active configurations;
-2. matching current assembly BOMs and manufacturing drawings;
-3. final design-study geometry as comparison and design-intent evidence;
-4. current design specification as scalar consistency evidence;
-5. historical drawings, copied CAD files, and prior-car exports.
-
-Production geometry and design-study geometry must be compared explicitly. They are not assumed identical.
-
-## Reconstructed calculator logic
-
-The WUFR-25 exports retain both raw and converted output rows:
+Recovered adapter:
 
 ```text
-WUFR_25.csv:
-wheel_output = Dimension2 - 32.9 deg
-
-3.5INREV_WUFR25.csv:
-wheel_output = Dimension2 - 33.0 deg
+[x_optk, y_optk, z_optk] = 25.4 * [z_sw, -x_sw, y_sw]
 ```
 
-Therefore the historical angle conversion is a straight-ahead reference subtraction. Where the SolidWorks angle monitor crosses its zero branch, the raw values must first be oriented into one continuous angle.
+The Test 3 front-left inner point maps within `0.05 mm` of the final OptimumK left-side point. The outer point differs by approximately `2.25 mm` vector magnitude, indicating a later geometry revision rather than a failed transform.
 
-The spreadsheet quantity labelled `Steer Ratio` is the point-to-point slope
+The team confirmed the steering FDR tie-rod pair is the front-left corner when viewed from behind facing the nose. The FDR frame is longitudinal, lateral-positive-left, vertical-positive-up, in millimetres. Its canonical adapter is therefore direct unit conversion:
 
 ```text
-Delta road-wheel angle / Delta steering input
+[x_can, y_can, z_can] = 0.001 * [x_fdr, y_fdr, z_fdr]
 ```
 
-which is local road-wheel gain. Conventional steering ratio is the reciprocal only when the input is steering-wheel angle. WUFR-24 and WUFR-25 use inconsistent forward/backward difference placement, so the replacement model requires an explicit derivative convention.
+The FDR front-left inner pickup is exactly `12.700 mm` rearward of the final OptimumK front-left tie-rod inner point after both are expressed in one frame. This is the selected 0.5-in steering revision, not a coordinate conversion.
+
+### `SRCH-STEER-0008` — nominal static-toe reference state
+
+The team confirmed that the final OptimumK geometry is recorded at the listed nonzero static-toe state rather than at zero toe. The workbook displays `Static Toe = -1.000 deg` in each front-side field. A quick CAD inspection also confirms nonzero toe qualitatively through unequal near/far distances from a wheel-ring reference to the vehicle center plane.
+
+This establishes that zero mechanism rotation means the imported nominal static-toe state. Incremental steering evaluation is unblocked. Absolute toe-inclusive road-wheel heading remains gated on a numerical wheel-plane basis and reconciliation of the OptimumK side-field definition with the specification's axle-sum-toe wording.
+
+## Final design-study hierarchy
+
+1. WUFR-26 steering FDR final-geometry table.
+2. Selected configuration: Test 3.
+3. Relative rack-placement intent: 0.5 in rearward from previous year.
+4. Mechanism-study component: `GEOMETRY FINAL.SLDPRT`, Box ID `1971276311204`.
+5. Final response: `2026Ackermann.csv`, Box ID `2357045252883`.
+6. Selection-era cross-check: `Test_3.csv`, Box ID `1938821987892`.
+7. Design-intent reference: `Steering Length Optimization Tests.xlsx`, Test 3.
+
+## Active-geometry hierarchy
+
+1. Active WUFR-26 vehicle/steering assembly configuration and declared setup.
+2. `GEOMETRY FINAL.SLDPRT` component instance within that linkage assembly.
+3. Final OptimumK workbook for suspension hardpoints and steering-axis construction.
+4. Steering FDR final table for selected front-left tie-rod pickups.
+5. Current assembly references and matching drawings for rack, tie rods, uprights, and mounts.
+6. Final motion-study response for cross-tool comparison.
+7. Specification values as scalar consistency evidence, excluding rejected values.
+8. Historical drawings, copied CAD files, and prior-car exports.
+
+The design-study and active-assembly chains are connected. The nominal design geometry is sufficient for a bounded incremental evaluator. Native configuration state is still required before installed/as-built geometry is frozen.
 
 ## Current artifact status
 
 | Catalog ID | Artifact | Current state | Next action |
 |---|---|---|---|
-| `CAT-EXT-0001` | Legacy steering optimization process | Selection mapping established | Recover objective, bounds, final variable definitions, and study settings |
+| `CAT-EXT-0001` | Legacy steering optimization process | Selection mapping established | Retain historical objective/bounds evidence |
 | `CAT-EXT-0002` | WUFR-24 motion study | Calculator export only | Recover parent CAD only if historical regression is needed |
-| `CAT-EXT-0003` | WUFR-25 motion study | Raw/converted export and CAD candidates located | Freeze CAD-to-export lineage |
-| `CAT-EXT-0004` | WUFR-26 final CAD and motion study | Source and final export designated | Hash bytes and record SolidWorks configuration, driver, monitor, domain, and warnings |
-| `CAT-EXT-0016` | Steering production geometry | Drawing/BOM hierarchy mapped; conflicts identified | Extract active assembly references, resolve conflicts, and export hardpoints/axes in a declared frame |
+| `CAT-EXT-0003` | WUFR-25 motion study | Raw/converted export and CAD candidates located | Freeze CAD-to-export lineage if used |
+| `CAT-EXT-0004` | WUFR-26 final CAD and motion study | Source and final export designated | Export active configuration, driver, monitor, domain, and warnings for Level E correlation |
+| `CAT-EXT-0016` | Steering active geometry | Nominal design geometry merged; installed state open | Export active assembly references, opposite-side hardpoints, wheel planes, stops, and setup |
 | `CAT-EXT-0025` | Physical steering sweep | Not identified | Recover a test or define a fixture plan |
+| `CAT-STEER-SPEC-0001` | WUFR-26 specification | Source metadata located; ratio rejected | Capture immutable bytes; use remaining values as observations only |
+| `CAT-STEER-GEO-0001` | Final OptimumK suspension geometry | Source and adapter located | Capture SHA-256 and retain as nominal suspension geometry authority |
 
 ## Benchmark-freeze requirements
 
-1. Catalog the exact FDR file, version, table location, and SHA-256.
-2. Compute SHA-256 for `GEOMETRY FINAL.SLDPRT`, `2026Ackermann.csv`, `Test_3.csv`, and the reference workbook.
-3. Record SolidWorks version, active configuration, dependencies, equations, study settings, and warnings.
-4. Map `Steer Input`, `Dimension2`, `Steer_Angle`, and `Measurement1` to canonical quantities.
-5. Confirm the angular-branch orientation and straight-ahead reference.
-6. Declare physical steering limits; do not assume every exported scenario is operational.
-7. Compare transformed raw points before comparing polynomial fits.
-8. Retain the non-selected candidate CSVs as separate regression cases.
-9. Reconcile design-study geometry with current rack, tie-rod, upright, and vehicle assembly revisions.
-10. Resolve part-number conflicts recorded in `RISK-STEER-0001`.
-11. Obtain independent physical or analytical evidence for validation beyond CAD reproduction.
+1. Catalog the exact FDR version/table and project SHA-256.
+2. Compute project SHA-256 for final CAD, final CSV, Test 3 CSV, reference workbook, and final OptimumK geometry workbook.
+3. Record SolidWorks version, active configurations, dependencies, equations, study settings, warnings, and component suppression state.
+4. Export the exact `GEOMETRY FINAL.SLDPRT` component instance inside the active linkage assembly.
+5. Map SolidWorks drivers and monitors to canonical quantities.
+6. Export or measure the front-right hardpoints to test the nominal symmetry assumption.
+7. Export wheel-plane bases and reconcile the exact per-wheel static-toe convention before claiming absolute wheel headings.
+8. Confirm rack-center definition and the reported 1.00-in total travel against both stop states.
+9. Record camber shim stack, ride height, wheel/tire state, tie-rod adjustment, and absence/presence of compliance load.
+10. Derive the correct center steering ratio; do not use `3.12:1` as expected evidence.
+11. Compare transformed raw points before comparing polynomial fits.
+12. Retain non-selected candidate CSVs as regression cases.
+13. Obtain independent physical or analytical evidence beyond CAD reproduction.
+
+The exact installed-state export request is `data_catalog/wufr26_steering_baseline_reconciliation.md`.
 
 ## Decision rules
 
-- The FDR selects the configuration but does not validate its curve.
-- `0.5 inch back` is relative design intent, not an absolute coordinate.
-- `2026Ackermann.csv` is the primary final-motion export; `Test_3.csv` remains a cross-check.
-- A polynomial fitted to an export cannot independently validate that export.
-- A manufacturing drawing controls its stated part features, not the installed assembly hardpoint by itself.
-- A BOM establishes identity only for its stated drawing revision.
+- The FDR selects a configuration but does not validate its curve.
+- `0.5 inch back` is relative intent, not an absolute coordinate.
+- `2026Ackermann.csv` is the primary final response; `Test_3.csv` is a cross-check.
+- A fitted polynomial cannot independently validate its source export.
+- A manufacturing drawing controls stated features, not the installed hardpoint by itself.
+- BOM scope may differ from cost-report drawing scope for a purchased assembly.
+- Rejected observations remain preserved but are numerically prohibited downstream.
+- The front-left FDR point set must not be mislabeled as front-right.
+- Static toe is embedded in the imported nominal reference state and must not be removed by changing hardpoint coordinates.
 - Provider SHA-1 supports discovery; project SHA-256 is required for freeze.
