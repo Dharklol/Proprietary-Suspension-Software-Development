@@ -54,6 +54,13 @@ from .derived import (
     turning_radii,
 )
 from .legacy_fits import WheelAnglePolynomialFit, load_wheel_angle_fits
+from .projection import (
+    ROAD_NORMAL,
+    WheelPlaneReference,
+    projected_wheel_heading,
+    reference_from_static_alignment,
+    road_intersection_direction,
+)
 from .solidworks import (
     LinearInputMap,
     parse_solidworks_design_study_csv_text,
@@ -71,6 +78,7 @@ __all__ = [
     "LinearInputMap",
     "MonitorNormalization",
     "PositionResult",
+    "ROAD_NORMAL",
     "RackGeometry",
     "RootBracket",
     "SeriesComparison",
@@ -84,6 +92,7 @@ __all__ = [
     "TurningRadii",
     "WarningCode",
     "WheelAnglePolynomialFit",
+    "WheelPlaneReference",
     "ackermann_error",
     "assign_inside_outside",
     "closure_length_residual",
@@ -103,6 +112,9 @@ __all__ = [
     "normalize_periodic_monitor",
     "parse_solidworks_design_study_csv_text",
     "parse_transposed_csv_text",
+    "projected_wheel_heading",
+    "reference_from_static_alignment",
+    "road_intersection_direction",
     "rotate_point_about_axis",
     "secant_ratio",
     "solve_corner_position",
