@@ -54,6 +54,8 @@ All notable project changes should be recorded here. Model releases must identif
 - Machine-readable capability restrictions that allow WUFR nominal mechanism closure and upright rotation while marking heading-, ratio-, Ackermann-, and radius-dependent outputs unavailable until their prerequisites are reviewed.
 - Standard-library `pssd_steering` bounded rigid mechanism evaluator with explicit geometry validation, Rodrigues rotation, rigid tie-rod closure, analytical Jacobians, branch-preserving bisection, singularity diagnostics, and unavailable-output reason codes.
 - Automated `BENCH-STEER-0002` through `BENCH-STEER-0008` tests, a benchmark runner, implementation documentation, and a recorded WUFR-26 nominal upright-rotation sweep.
+- Level E steering comparison primitives for source-preserving transposed-CSV parsing, periodic monitor normalization, explicit signal identity, domain-limited interpolation, and residual metrics.
+- WUFR-26 Level E comparison contract, readiness gate, dense 205-point nominal sweep script, and SolidWorks export requirements.
 
 ### Changed
 
@@ -71,3 +73,4 @@ All notable project changes should be recorded here. Model releases must identif
 - `MOD-STEER-0001` and `EQ-STEER-0001` through `0007` move to bounded prototype authorization only under `AUTH-STEER-0001`; the inverse-design optimizer remains documentation-only.
 - `GEO-STEER-BASIC-001` and the preimplementation packet are frozen as the required analytical/synthetic implementation contract rather than treated as optional examples.
 - `MOD-STEER-0001` advances to M1/Level C for the bounded prototype after implementing the frozen analytical and synthetic benchmark contract; WUFR-26 Level E/F correlation remains open.
+- Level E comparison now refuses mismatched canonical signal identities, units, unsupported extrapolation, and unresolved SolidWorks metadata instead of producing provisional residuals.
