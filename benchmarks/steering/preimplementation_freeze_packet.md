@@ -1,13 +1,13 @@
 # Steering Preimplementation Freeze Packet
 
-**Status:** Proposed for review  
+**Status:** Reviewed and frozen for bounded prototype implementation  
 **Scope:** Analytical and synthetic verification required before rigid steering mechanism code  
 **Target:** `MOD-STEER-0001`, `EQ-STEER-0001` through `EQ-STEER-0007`  
 **Excluded from this freeze:** WUFR-26 Level E CAD signal/datum closure and physical Level F validation
 
 ## 1. Freeze intent
 
-This packet freezes the model form, function behavior, synthetic fixture, expected analytical values, and failure semantics needed to implement a bounded rigid steering evaluator. It does not freeze WUFR-26 car parameters that still depend on CAD/FDR/drawing review.
+This packet freezes the model form, function behavior, synthetic fixture, expected analytical values, and failure semantics needed to implement a bounded rigid steering evaluator. It does not freeze WUFR-26 car parameters that still depend on installed CAD, setup, or physical review.
 
 The implementation gate is intentionally split:
 
@@ -15,11 +15,11 @@ The implementation gate is intentionally split:
 2. **WUFR-26 cross-tool gate:** final car geometry, SolidWorks signal identities, static toe/datum, stops, and comparison tolerance.
 3. **Physical-correlation gate:** measured steering sweep with uncertainty, compliance, backlash, and hysteresis.
 
-Only the first gate is proposed for freeze here.
+Only the first gate is frozen here. `AUTH-STEER-0001` permits a bounded prototype against this gate while the latter two remain open.
 
 ## 2. Frozen equation and function set
 
-The proposed first evaluator contains:
+The first evaluator contains:
 
 - `EQ-STEER-0001`: exact low-speed Ackermann reference;
 - `EQ-STEER-0002`: rigid tie-rod closure;
@@ -45,7 +45,7 @@ The normative human-readable specification is `docs/models/steering/rigid_steeri
 
 ## 4. Synthetic geometry fixture
 
-`GEO-STEER-BASIC-001.toml` is the frozen machine-readable fixture candidate.
+`GEO-STEER-BASIC-001.toml` is the frozen machine-readable fixture.
 
 It is a planar symmetric special case of the proposed three-dimensional model:
 
@@ -64,7 +64,7 @@ This fixture is intentionally not dimensioned like a WUFR car. Its purpose is to
 
 ## 5. Frozen analytical Ackermann cases
 
-For wheelbase `l = 1.6 m` and steering-axis track `t = 1.2 m`, the following exact pairs are proposed:
+For wheelbase `l = 1.6 m` and steering-axis track `t = 1.2 m`, the following exact pairs are frozen:
 
 | Inside incremental angle | Outside reference angle | Rear-axle-center radius | Cotangent difference |
 |---:|---:|---:|---:|
@@ -178,7 +178,7 @@ The first implementation must demonstrate:
 - no extrapolation beyond the requested or source domain;
 - clear separation between numerical failure and physical infeasibility.
 
-The exact root library is not frozen. The behavior is.
+The exact root library is not frozen. The behavior is. The implementation pull request must document the selected algorithm or library routine, version constraints, tolerances, and failure contract.
 
 ## 9. Result schema acceptance
 
@@ -188,41 +188,43 @@ Every point must retain:
 - equation/model revisions;
 - input quantity identity and units;
 - rack displacement;
-- left/right total and incremental headings;
-- inside/outside alias and turn direction;
+- left/right total and incremental headings where available;
+- inside/outside alias and turn direction where available;
 - closure residuals;
 - branch ID and root bracket;
 - singularity/Jacobian diagnostic;
-- Ackermann reference/error;
-- named radius values;
-- solver status and failure code.
+- Ackermann reference/error where available;
+- named radius values where available;
+- solver status and failure code;
+- explicit unavailable reasons for outputs whose prerequisites are absent.
 
 Plots and UI tables are downstream views of these results and are not part of this freeze.
 
 ## 10. WUFR-26 items intentionally left open
 
-The following do not block the synthetic evaluator but block final WUFR-26 benchmark freeze or higher maturity:
+The following do not block the synthetic evaluator or nominal hardpoint closure, but block final WUFR-26 benchmark freeze or higher maturity:
 
 - exact steering FDR file/version/hash;
-- WUFR-26 static toe and alignment configuration;
+- exact per-wheel static-toe convention and numerical wheel-plane bases;
 - identity of SolidWorks `Steer Input`;
 - identity and orientation of `Dimension2`;
 - monitor datum needed to produce toe-inclusive wheel heading;
 - active SolidWorks configuration, motion-study settings, suppression state, and warnings;
 - installed rack-stop travel and road-wheel mechanical limits;
-- exact current-car steering-axis and joint coordinates with frame metadata;
+- independent front-right installed hardpoints and setup state;
+- pinion/steering-wheel to rack transmission;
 - Test 1 fit-source discrepancy;
 - physical sweep data and uncertainty.
 
 The recovered `20.57 deg` value at zero input is an angular-monitor observation. It is not frozen as the toe-inclusive datum.
 
-## 11. Authorization recommendation after review
+## 11. Authorization decision
 
-After this packet is reviewed and merged, `MOD-STEER-0001` may be considered for **bounded prototype authorization** limited to:
+`AUTH-STEER-0001` authorizes a bounded prototype limited to:
 
 - the rigid nominal-height evaluator;
-- synthetic and analytical fixtures;
-- WUFR geometry ingestion only when required definitions are supplied;
-- no optimizer, tire target, steering effort, compliance, or design authority yet.
+- analytical and `GEO-STEER-BASIC-001` fixtures;
+- `WUFR26_DESIGN_NOMINAL_V0` rack-displacement-to-upright-rotation evaluation with explicit missing-output states;
+- no optimizer, tire target, steering effort, compliance, production authority, or as-built claim.
 
-The implementation PR must include tests implementing the frozen cases. Passing registry CI alone is not engineering verification.
+The implementation pull request must include tests implementing the frozen cases. Passing registry CI alone is not engineering verification. Any expansion beyond this scope requires another focused authorization decision.
