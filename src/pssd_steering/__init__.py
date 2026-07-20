@@ -53,6 +53,7 @@ from .derived import (
     staged_transmission,
     turning_radii,
 )
+from .legacy_fits import WheelAnglePolynomialFit, load_wheel_angle_fits
 from .solidworks import (
     LinearInputMap,
     parse_solidworks_design_study_csv_text,
@@ -82,6 +83,7 @@ __all__ = [
     "TransmissionResult",
     "TurningRadii",
     "WarningCode",
+    "WheelAnglePolynomialFit",
     "ackermann_error",
     "assign_inside_outside",
     "closure_length_residual",
@@ -95,6 +97,7 @@ __all__ = [
     "interpolate_linear",
     "level_e_missing_metadata",
     "load_geometry",
+    "load_wheel_angle_fits",
     "local_road_wheel_gain",
     "metres_per_radian_to_millimetres_per_revolution",
     "normalize_periodic_monitor",
