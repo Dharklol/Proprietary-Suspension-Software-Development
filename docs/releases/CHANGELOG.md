@@ -48,7 +48,7 @@ All notable project changes should be recorded here. Model releases must identif
 - Catalog and coordinate adapter for `WUFR-26 FINAL 8.21.2025.xlsx`, including numerical reconciliation with Test 3 and the steering FDR pickup table.
 - Nominal WUFR-26 steering hardpoint source merge using final OptimumK upright points and final-FDR tie-rod pickups.
 - Team-confirmed front-left interpretation of the steering FDR coordinates and corrected SolidWorks-to-OptimumK lateral sign mapping.
-- Nominal static-toe reference-state rule: zero solved upright rotation represents the imported nonzero-toe geometry, while absolute wheel heading remains gated on a reviewed wheel-plane basis.
+- Nominal static-toe reference-state rule: zero solved upright rotation represents the imported nonzero-toe geometry, while projected and absolute wheel heading remain gated on a reviewed wheel-plane basis and toe convention.
 
 ### Changed
 
@@ -62,3 +62,4 @@ All notable project changes should be recorded here. Model releases must identif
 - The native SolidWorks assembly export is reclassified from a blocker to nominal-design mechanism evaluation into a Level E/F installed-state correlation gate.
 - The FDR tie-rod pair is no longer treated as a right-side point set; it is the front-left set in a lateral-positive-left SolidWorks frame.
 - Static toe is treated as embedded in the imported nominal reference orientation and is not removed by modifying hardpoint coordinates.
+- The first WUFR-26 implementation boundary is tightened to mechanism closure and upright rotation; projected road-wheel heading requires a separately defined wheel-plane basis.
