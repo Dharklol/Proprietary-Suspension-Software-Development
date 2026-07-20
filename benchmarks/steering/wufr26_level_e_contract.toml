@@ -1,6 +1,6 @@
-version = "0.2.0"
+version = "0.3.0"
 contract_id = "WUFR26-STEER-LEVEL-E-V0"
-status = "blocked_pending_dimension2_reference_identity"
+status = "blocked_pending_dimension2_second_ray_identity"
 model_id = "MOD-STEER-0001"
 authorization_id = "AUTH-STEER-0001"
 
@@ -23,14 +23,14 @@ input_sign = "positive input increases native Rack Length and maps to canonical 
 input_to_rack_relation = "rack_displacement_m = input_deg * 0.00024694444444444446"
 rack_travel_per_revolution_m = 0.0889
 steering_wheel_to_pinion_relation = "reported 1:1 for the design assembly"
-output_quantity_id = "unresolved_dimension2_angular_monitor"
+output_quantity_id = "unsigned_included_angle_between_two_hub_centered_construction_rays"
 output_unit = "deg"
-output_sign = "unresolved"
-output_known_construction = "Monitor Only angle between two pink construction rays in the steering calculator; exact selected entities, side, orientation, and branch convention remain unresolved"
+output_sign = "unsigned or branch-folded; near-zero alignment occurs between -77 deg and -76 deg input"
+output_known_construction = "Dimension2 is the included angle between two magenta rays sharing the hub/steering pivot. At least one ray is associated with the tie-rod or steering-arm construction. Exact second-ray identity, selected-entity order, side, and branch convention remain unresolved."
 periodic_monitor_period_deg = 360.0
 center_input_observation = 0.0
 center_output_observation_deg = 20.57
-center_output_role = "observed monitor value only; not an approved toe, wheel-heading, or upright-rotation datum"
+center_output_role = "observed internal ray-angle datum only; not an approved toe, wheel-heading, or upright-rotation datum"
 
 [solidworks_state]
 full_assembly = "FSA STEERING"
@@ -41,7 +41,7 @@ active_geometry_component_configuration = "team reports active/default state; ex
 study_type = "SolidWorks Design Study"
 study_name = "Design Study 1"
 driver_definition = "Steer Input global variable swept from -102 deg to +102 deg in 1-deg exported scenarios"
-monitor_definition = "Dimension2, Monitor Only; exact reference entities unresolved"
+monitor_definition = "Dimension2, Monitor Only; included angle between two magenta hub-centered rays; exact selected entities unresolved"
 suppression_and_warning_state = "reference chassis model suppressed; no reported errors or warnings"
 rack_center_construction = "Steer Input = 0 deg at the centered design-study state"
 nominal_rack_domain = "+/-1.00 in from center, 2.00 in total design span"
@@ -53,7 +53,14 @@ file_or_study = "STEERING GEOMETRY 2, Design Study 1"
 variables_and_sweeps = "steering-arm length and historical tie-rod-length configurations"
 goals = "right-turn angle close to 25 deg and left-turn angle close to 33 deg"
 visible_nominal_values = "steering arm 2.75 in, tie rod 13.5 in in one optimizer state; separate final/Test 3 response geometry uses approximately 13.0-in tie-rod joint-center length"
-role = "design-selection context only; not the 205-point response signal itself"
+turn_angle_goal_construction = "team Slack evidence states that the wheel-center-plane/ground-plane intersection axis is measured against the SolidWorks x-axis"
+role = "design-selection context only; the turn-angle goal construction is not automatically the same quantity as the separate Dimension2 monitor"
+
+[video_reference]
+location = "WUFR-27 / Suspension / PDR-FDR / Steering / Design Study Tutorials"
+item = "second design study tutorial"
+time_window = "approximately 1:15 to 2:00"
+authority_state = "team-directed source location; video frames and immutable file identity not yet frozen"
 
 [required_geometry]
 left_wheel_forward_direction = "unresolved"
@@ -63,12 +70,24 @@ right_static_toe = "nonzero/mirrored assumption; exact numerical per-wheel conve
 front_right_hardpoints = "unresolved independent export; nominal model remains mirrored"
 pinion_or_input_to_rack_map = "resolved for design-study mapping; installed measurement remains open"
 
+[dimension2_diagnostic]
+raw_minimum = "0.17 deg at both -77 deg and -76 deg Steer Input"
+branch_reconstruction = "phi_signed = -Dimension2 at input <= -77 deg; phi_signed = +Dimension2 at input >= -76 deg; diagnostic incremental angle = phi_signed - 20.57 deg"
+endpoint_reconstruction = "-30.81 deg at -102 deg input and +21.27 deg at +102 deg input"
+comparison_quantity = "nominal evaluator -left upright rotation; diagnostic only because canonical identity is not matched"
+mean_residual_deg = -0.14440287338656324
+rmse_deg = 0.9197095305135609
+maximum_absolute_residual_deg = 2.4685599615802687
+maximum_residual_location = "-102 deg Steer Input"
+interpretation = "close tracking with systematic gain-shaped residual supports linkage continuity but demonstrates that Dimension2 must not be equated directly with upright rotation or road-wheel heading"
+validation_role = "non-validation diagnostic"
+
 [consistency_check]
 source_endpoint_input_deg = 102.0
 source_endpoint_rack_displacement_m = 0.025188333333333333
 model_endpoint_rotation_pair_deg = "at -102 deg input: nominal front-left +33.27856 deg and mirrored front-right +22.45550 deg; signs reverse at +102 deg"
 design_study_visible_target_or_result_deg = "approximately 32.81 deg and 22.22 deg in supplied optimizer screenshots"
-interpretation = "close agreement supports geometry and input scaling, but is not a Level E residual because Dimension2 is not yet mapped to the same canonical output"
+interpretation = "optimizer turn-angle agreement supports geometry and input scaling. Dimension2 is a separate folded internal ray-angle response and remains unavailable for canonical Level E residuals."
 
 [comparison]
 interpolation = "linear_inside_overlap_only"
@@ -76,12 +95,14 @@ extrapolation_allowed = false
 polynomial_fit_used_as_reference = false
 residual_definition = "candidate evaluator output minus normalized SolidWorks output after matching canonical output quantity"
 metrics = ["mean_error", "rmse", "maximum_absolute_error", "point_residuals"]
-acceptance_tolerance = "unresolved_until_dimension2_mapping_and_first_residual_review"
+acceptance_tolerance = "unresolved_until_dimension2_entity_mapping_or_direct_turn_angle_export"
 
 [restrictions]
 items = [
-  "Do not compare upright rotation directly with Dimension2 until the monitor references, side, sign, and branch construction are reviewed.",
+  "Do not compare upright rotation directly with Dimension2 until both selected rays, side, entity order, and branch construction are reviewed.",
+  "Do not assign the optimizer's wheel-plane-versus-x-axis goal definition automatically to Dimension2.",
   "Do not treat 20.57 deg as a wheel-heading, toe, or upright-rotation datum.",
+  "Do not treat the diagnostic branch reconstruction or its residual metrics as Level E validation.",
   "Do not treat the +/-1.00-in design-study range as proof of installed physical stop travel.",
   "Do not use a polynomial fit as independent validation evidence.",
   "Do not claim installed or physical validation from Level E agreement."
