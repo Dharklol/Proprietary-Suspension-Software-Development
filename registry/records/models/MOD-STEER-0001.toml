@@ -2,10 +2,10 @@
 id = "MOD-STEER-0001"
 type = "model"
 title = "Rigid steering-linkage inverse-design model"
-status = "proposed"
+status = "active"
 disposition = "rewrite"
-maturity = "M0"
-description = "Proposed rigid nominal-height steering-kinematics evaluator and later constrained inverse-design workflow that returns tie-rod length, left/right road-wheel maps, inner/outer steering relation, Ackermann metrics, steering ratios, turning capability, and constraint margins. The evaluator is implemented and verified before optimization."
+maturity = "M1"
+description = "Bounded rigid nominal-height steering-kinematics evaluator with a separately unauthorized future constrained inverse-design workflow. The implemented evaluator returns rigid closure, upright rotation, branch and singularity diagnostics, and derived heading/Ackermann/radius/ratio quantities only where their prerequisites are explicitly supplied."
 inputs = [
   "QTY-GEO-0001 wheelbase",
   "QTY-GEO-0004 front steering-axis ground-intersection track",
@@ -22,24 +22,24 @@ inputs = [
 ]
 outputs = [
   "QTY-STEER-0012 nominal left and right tie-rod joint-center distances",
-  "QTY-STEER-0004 rack displacement versus QTY-STEER-0006 and QTY-STEER-0007 left/right total-heading and incremental-steer maps",
-  "Steering-wheel and pinion input maps where transmission inputs are available",
-  "Inside-versus-outside road-wheel relation for both turn directions",
-  "QTY-STEER-0013 Ackermann reference and QTY-STEER-0014 Ackermann error",
-  "QTY-STEER-0010 local and QTY-STEER-0011 secant steering ratios",
-  "QTY-STEER-0015 turning-path capabilities with named reference paths",
-  "Feasibility, active constraints, constraint margins, branch identity, singularity margin, sensitivities, and solver diagnostics"
+  "QTY-STEER-0004 rack displacement versus available QTY-STEER-0006 and QTY-STEER-0007 left/right total-heading and incremental-steer maps",
+  "Steering-wheel and pinion input maps only where transmission inputs are available",
+  "Inside-versus-outside road-wheel relation for both turn directions where wheel headings are available",
+  "QTY-STEER-0013 Ackermann reference and QTY-STEER-0014 Ackermann error where prerequisites exist",
+  "QTY-STEER-0010 local and QTY-STEER-0011 secant steering ratios where signal identities exist",
+  "QTY-STEER-0015 turning-path capabilities with named reference paths where prerequisites exist",
+  "Feasibility, active constraints, constraint margins, branch identity, singularity margin, provenance, and solver diagnostics"
 ]
 assumptions = [
   "First implementation uses rigid links and joints at a named nominal ride-height reference configuration.",
-  "The mechanism branch is explicitly identified and maintained.",
-  "Left/right quantities are canonical; inside/outside labels are assigned from turn direction.",
+  "The mechanism branch is explicitly identified by the reference closure-Jacobian sign and maintained.",
+  "Left/right quantities are canonical; inside/outside labels are assigned from turn direction rather than angle magnitude.",
   "Total toe-inclusive wheel heading and incremental steer are separate outputs.",
   "Ideal Ackermann is a low-speed reference or optional target, not a universal performance optimum.",
   "No compliance, backlash, friction, steering loads, tire-force optimization, suspension travel, collision verification, or transient behavior is implied by the first model.",
   "External CAD and multibody motion studies are comparison evidence rather than runtime dependencies."
 ]
-verification_level = "none"
+verification_level = "C"
 equation_ids = ["EQ-STEER-0001", "EQ-STEER-0002", "EQ-STEER-0003", "EQ-STEER-0004", "EQ-STEER-0005", "EQ-STEER-0006", "EQ-STEER-0007"]
 benchmark_ids = ["BENCH-STEER-0001", "BENCH-STEER-0002", "BENCH-STEER-0003", "BENCH-STEER-0004", "BENCH-STEER-0005", "BENCH-STEER-0006", "BENCH-STEER-0007", "BENCH-STEER-0008"]
 preimplementation_specification = "docs/models/steering/rigid_steering_function_specification.md"
@@ -48,6 +48,11 @@ authorization_state = "prototype_authorized"
 authorization_id = "AUTH-STEER-0001"
 authorization_document = "docs/models/steering/rigid_steering_prototype_authorization.md"
 authorized_configurations = ["GEO-STEER-BASIC-001", "WUFR26_DESIGN_NOMINAL_V0"]
+implementation_state = "bounded_prototype_implemented_for_review"
+implementation_package = "src/pssd_steering"
+implementation_document = "docs/models/steering/rigid_steering_implementation_v0.1.0.md"
+implementation_tests = "tests/test_rigid_steering_benchmarks.py"
+implementation_results = "benchmarks/steering/implementation_results_v0.1.0.json"
 prototype_scope = "Bounded rigid evaluator only. WUFR26_DESIGN_NOMINAL_V0 is limited to rack-displacement-to-upright-rotation and mechanism diagnostics until wheel-plane, toe, transmission, and path prerequisites are reviewed."
 prohibited_scope = "Optimizer, production design authority, as-built claims, tire/effort/compliance/tolerance/transient layers, and unsupported derived outputs."
-first_code_scope = "Implement the frozen equations and analytical/synthetic tests behind an experimental interface; optimizer remains unauthorized until evaluator benchmarks pass and a separate authorization is approved."
+first_code_scope = "Frozen equations and BENCH-STEER-0002 through 0008 are implemented behind a standard-library experimental interface; optimizer remains unauthorized until a separate authorization is approved."
