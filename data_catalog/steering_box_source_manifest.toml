@@ -132,3 +132,17 @@ name = "Steering FDR final-results table"
 box_file_id = ""
 role = "team-designated final design-decision record and mapping authority for the selected WUFR-26 result"
 evidence_state = "team-confirmed source exists; exact file, path, table, and hash not yet recovered"
+
+[[artifacts]]
+manifest_id = "STEER-BOX-0014"
+name = "2026Ackermann.csv"
+box_file_id = "2357045252883"
+box_file_version_id = "2611346929683"
+size_bytes = 8270
+box_sha1 = "69d71c0977287a13385683204344e78816b48512"
+created_by = "Koeppel, Jesse"
+created_at = "2026-07-20T00:00:42Z"
+modified_at = "2026-07-20T00:00:42Z"
+vehicle_revision = "WUFR-26 final geometry"
+role = "team-provided final second-motion-study export for wheel-angle and local-ratio reconstruction"
+evidence_state = "export located and parsed; output reference, input identity, physical domain, and SHA-256 remain open"
