@@ -1,0 +1,24 @@
+[record]
+id = "PAR-ALIGN-0001"
+type = "parameter"
+title = "WUFR-26 design-spec front axle sum-toe observation"
+status = "proposed"
+description = "Inactive candidate observation of front axle sum toe from the WUFR-26 design specification."
+quantity_id = "QTY-ALIGN-0003"
+value = -0.017453292519943295
+unit = "rad"
+source_type = "design_specification"
+uncertainty = "not provided"
+source_catalog_id = "CAT-STEER-SPEC-0001"
+source_native_value = -1.0
+source_native_unit = "deg"
+source_location = "Suspension Parameters / Static Sum Toe"
+vehicle_revision = "WUFR-26"
+axle = "front"
+evidence_role = "candidate_observation"
+authority_state = "inactive_observation"
+source_sign_convention = "positive toe-in; negative toe-out"
+conversion = "-1 deg multiplied by pi/180 rad/deg"
+applicability = "Reported design/setup intent; left/right split and as-built setup are not established."
+open_items = ["Freeze per-wheel toe sign convention", "Recover left/right setup or approve a named symmetry assumption", "Assign uncertainty"]
+related_model_ids = ["MOD-STEER-0001"]
