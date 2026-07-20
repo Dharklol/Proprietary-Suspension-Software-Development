@@ -1,4 +1,4 @@
-version = "0.1.0"
+version = "0.2.0"
 status = "proposed"
 benchmark_id = "BENCH-STEER-0001"
 geometry_set = "GEO-STEER-WUFR26-FINAL-001"
@@ -34,10 +34,15 @@ estimated_crossing = -76.5
 rule = "Use opposite orientation signs on the two sides of the angular-monitor crossing to form one continuous angle."
 
 [reference]
-status = "proposed_pending_rack_center_review"
-reference_input = 0.0
-reference_angle = 20.57
-rule = "road_wheel_angle = continuous_monitored_angle - reference_angle"
+status = "proposed_pending_static_toe_and_cad_review"
+rack_center_input_provisional = 0.0
+observed_unwrapped_angle_at_input_zero = 20.57
+incremental_zeroing_offset_provisional = 20.57
+incremental_zeroing_is_parameter_authority = false
+historical_toe_inclusive_monitor_datum = "unresolved"
+rule_total_heading = "total_wheel_heading = continuous_monitored_angle - monitor_datum"
+rule_incremental_steer = "incremental_wheel_steer = total_wheel_heading - rack_center_static_toe"
+note = "Recovered Desmos fits retain about one degree of left/right static toe at rack center. Do not force total wheel heading to zero at input zero."
 
 [cubic_fit]
 fit_target = "continuous monitored angle versus exported input"
@@ -47,17 +52,20 @@ r_squared = 0.9998873730071459
 rmse_deg = 0.1530403267531919
 max_abs_residual_deg = 0.6970230429740152
 canonical_use = false
+note = "Subtracting a constant datum changes only the intercept. The fit does not determine static toe or monitor datum."
 
 [cubic_derivative]
 coefficient_order = ["x2", "x1", "x0"]
 coefficients = [7.877834966210495e-6, -8.489963504389125e-4, 2.2597204342520530e-1]
-ratio_note = "Take the reciprocal only after the exported input is confirmed to be steering-wheel angle."
+ratio_note = "Static toe cancels from the derivative. Take the reciprocal only after the exported input is confirmed to be steering-wheel angle."
 
 [open_items]
 items = [
   "SolidWorks definition of Dimension2",
   "Identity of Steer Input",
-  "Reviewed rack-center reference angle",
+  "Reviewed rack-center input",
+  "WUFR-26 left and right static toe",
+  "Monitor datum used for toe-inclusive wheel heading",
   "Physical steering range",
   "Left-right output mapping",
   "SolidWorks configuration and study settings",
