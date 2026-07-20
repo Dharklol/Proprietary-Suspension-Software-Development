@@ -1,7 +1,8 @@
 version = "0.1.0"
 geometry_id = "GEO-STEER-BASIC-001"
-status = "proposed_for_freeze"
+status = "frozen_for_bounded_prototype"
 purpose = "Fully specified planar-symmetric special case of the spatial rigid steering model for closure, branch, symmetry, derivative, Ackermann, and failure tests."
+authorization_id = "AUTH-STEER-0001"
 
 [conventions]
 length_unit = "m"
