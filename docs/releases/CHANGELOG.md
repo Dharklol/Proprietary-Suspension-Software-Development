@@ -23,7 +23,11 @@ All notable project changes should be recorded here. Model releases must identif
 - Steering source-recovery search log and team-assisted recovery worksheet.
 - Steering requirement-role matrix for inverse design.
 - Steering analytical, limiting-case, cross-tool, and physical benchmark plan.
-- Box manifest and directory inventory for the recovered WUFR-26 steering geometry, six motion-study CSV exports, reference workbook, and supporting CAD files.
-- Source designation of `GEOMETRY FINAL.SLDPRT` as the WUFR-26 legacy SolidWorks benchmark parent, pending benchmark freeze metadata.
+- Box manifest and directory inventory for the recovered WUFR-26 steering geometry, candidate motion-study CSV exports, reference workbook, and supporting CAD files.
+- Source designation of `GEOMETRY FINAL.SLDPRT` as the WUFR-26 legacy SolidWorks benchmark parent, pending benchmark-freeze metadata.
 - WUFR-25 `Steering_range_optimization.m` semantic audit and benchmark-only disposition.
-- Explicit FDR-to-CSV mapping requirement and circular-validation controls for the final WUFR-26 steering benchmark.
+- FDR Test 3 selection mapping and explicit interpretation of `0.5 inch back` as a relative rearward rack-placement change.
+- Catalog and structural parse of `2026Ackermann.csv` as the WUFR-26 final-geometry second-motion-study export.
+- Reconstruction of the historical angular unwrapping, straight-ahead reference subtraction, cubic wheel-angle fit, finite-difference road-wheel gain, and reciprocal conventional steering-ratio definitions.
+- Machine-readable WUFR-26 Ackermann export metadata and provisional fit coefficients.
+- Updated `BENCH-STEER-0001` authority hierarchy using `2026Ackermann.csv` as the primary final response and `Test_3.csv` as selection-era cross-check evidence.
