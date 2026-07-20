@@ -1,4 +1,4 @@
-version = "0.1.0"
+version = "0.2.0"
 configuration_id = "WUFR26_DESIGN_NOMINAL_V0"
 status = "candidate_for_bounded_prototype"
 vehicle_revision = "WUFR-26"
@@ -8,7 +8,7 @@ purpose = "Nominal design-source rigid steering geometry for incremental mechani
 authorization_id = "AUTH-STEER-0001"
 model_id = "MOD-STEER-0001"
 permitted_use = "Rigid rack-displacement-to-upright-rotation evaluation with closure, branch, feasibility, and singularity diagnostics."
-prohibited_use = "Production design authority, absolute wheel heading, steering-wheel ratio, Ackermann/turning-radius claims without missing prerequisites, optimizer use, and as-built validation."
+prohibited_use = "Production design authority, unsupported absolute wheel outputs, optimizer use, and as-built validation."
 
 [conventions]
 length_unit = "m"
@@ -40,10 +40,24 @@ axis_direction = [0.0, 1.0, 0.0]
 left_inner_joint_at_center = [-0.079298, 0.220980, 0.162865]
 right_inner_joint_at_center = [-0.079298, -0.220980, 0.162865]
 inner_joint_spacing = 0.441960
-operational_displacement_min = -0.0127
-operational_displacement_max = 0.0127
-operational_domain_role = "provisional interpretation of 1.00 in total installed travel as +/-0.50 in from center"
-center_definition = "midpoint between equal left and right stop limits; stop-state CAD/measurement confirmation pending"
+operational_displacement_min = -0.0254
+operational_displacement_max = 0.0254
+operational_domain_role = "nominal design-study range of +/-1.00 in from center; total span 2.00 in; not installed stop authority"
+center_definition = "Steer Input = 0 deg and midpoint of the nominal design-study range"
+source_csv_displacement_min = -0.025188333333333333
+source_csv_displacement_max = 0.025188333333333333
+source_csv_domain_role = "mapped from -102 to +102 deg using 3.5 in/rev divided by 360 deg/rev"
+
+[input_transmission]
+source_signal = "Steer Input"
+source_signal_unit = "deg"
+source_signal_role = "SolidWorks Design Study steering/pinion input angle; reported steering-wheel relation is 1:1"
+rack_travel_per_revolution_m = 0.0889
+rack_travel_per_input_degree_m = 0.00024694444444444446
+rack_travel_per_input_radian_m = 0.014148874440869498
+mapping = "rack_displacement_m = Steer_Input_deg * 0.00024694444444444446"
+positive_sign = "positive input increases native Rack Length and maps to canonical +y rack translation"
+authority_boundary = "design-study signal mapping only; installed transmission and stops remain unverified"
 
 [left]
 side_role = "direct nominal front-left source geometry"
@@ -55,7 +69,7 @@ outer_tie_rod_joint_at_center = [-0.061933, 0.549102, 0.192223]
 nominal_tie_rod_length = 0.32989010635816285
 reference_branch_upright_rotation = 0.0
 static_toe_presence = "confirmed nonzero in OptimumK/CAD nominal state"
-static_toe_numeric_definition = "unresolved: OptimumK shows -1 deg per front-side field while the spec describes -1 deg axle sum"
+static_toe_numeric_definition = "unresolved; positive toe is toe-out"
 wheel_forward_direction_at_center = "unavailable_pending_numerical_wheel_plane_export"
 
 [right]
@@ -69,13 +83,14 @@ outer_tie_rod_joint_at_center = [-0.061933, -0.549102, 0.192223]
 nominal_tie_rod_length = 0.32989010635816285
 reference_branch_upright_rotation = 0.0
 static_toe_presence = "assumed mirrored from nominal front-left source state"
-static_toe_numeric_definition = "unresolved"
+static_toe_numeric_definition = "unresolved; positive toe is toe-out"
 wheel_forward_direction_at_center = "unavailable_pending_numerical_wheel_plane_export"
 
 [capabilities]
 closure_and_upright_rotation = true
 mirror_comparison = true
 branch_and_singularity_diagnostics = true
+design_study_input_to_rack_mapping = true
 projected_road_wheel_heading = false
 absolute_toe_inclusive_heading = false
 steering_wheel_to_road_wheel_ratio = false
@@ -84,10 +99,10 @@ turning_radius = false
 
 [open_gates]
 items = [
+  "Identify the exact references and sign convention used by Dimension2.",
   "Independently export or measure front-right hardpoints.",
-  "Export left/right wheel-plane forward directions and exact per-wheel static toe.",
-  "Confirm installed rack stop positions and total versus operational travel.",
-  "Recover pinion angle to signed rack displacement relation.",
-  "Recover ride height, camber shim stack, tie-rod adjustment, and installed uncertainty.",
-  "Reproduce the raw SolidWorks response and complete physical correlation before as-built claims."
+  "Export left/right wheel-plane directions and exact per-wheel static toe.",
+  "Confirm installed rack stops and installed transmission.",
+  "Recover setup state and installed uncertainty.",
+  "Complete SolidWorks response and physical correlation before as-built claims."
 ]
