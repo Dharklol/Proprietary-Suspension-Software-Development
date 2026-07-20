@@ -1,0 +1,29 @@
+record_type,object_id,side,role,x_mm,y_mm,z_mm,dx,dy,dz,value,unit,frame_id,configuration_id,source_feature,source_file,notes
+metadata,coordinate_system,,origin,0,0,0,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,Define axis directions and handedness in notes
+metadata,road_plane,,normal,,,,0,0,1,,,WUFR26_BODY,ACTIVE_CONFIG,,,Replace with active road-plane normal
+point,steering_axis_point_1,left,steering_axis,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,
+point,steering_axis_point_2,left,steering_axis,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,
+point,steering_axis_point_1,right,steering_axis,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,
+point,steering_axis_point_2,right,steering_axis,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,
+point,outer_tie_rod_joint,left,joint_center,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,
+point,outer_tie_rod_joint,right,joint_center,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,
+axis,rack_axis,,axis_line,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,Enter point in xyz and unit direction in dxdydz
+point,inner_tie_rod_joint,left,rack_center_joint,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,
+point,inner_tie_rod_joint,right,rack_center_joint,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,
+scalar,rack_stop,left,signed_displacement,,,,,,,,-12.7,mm,WUFR26_BODY,ACTIVE_CONFIG,,,Replace provisional value with exported result
+scalar,rack_stop,right,signed_displacement,,,,,,,,12.7,mm,WUFR26_BODY,ACTIVE_CONFIG,,,Replace provisional value with exported result
+vector,wheel_forward,left,rack_center_orientation,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,Enter unit vector in dxdydz
+vector,wheel_normal,left,rack_center_orientation,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,Enter unit vector in dxdydz
+vector,wheel_forward,right,rack_center_orientation,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,Enter unit vector in dxdydz
+vector,wheel_normal,right,rack_center_orientation,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,Enter unit vector in dxdydz
+point,front_axle_center,,reference_center,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,
+point,rear_axle_center,,reference_center,,,,,,,,WUFR26_BODY,ACTIVE_CONFIG,,,
+scalar,tie_rod_joint_center_length,left,nominal_setup,,,,,,,,mm,WUFR26_BODY,ACTIVE_CONFIG,,,
+scalar,tie_rod_joint_center_length,right,nominal_setup,,,,,,,,mm,WUFR26_BODY,ACTIVE_CONFIG,,,
+scalar,static_toe,left,nominal_setup,,,,,,,,deg,WUFR26_BODY,ACTIVE_CONFIG,,,
+scalar,static_toe,right,nominal_setup,,,,,,,,deg,WUFR26_BODY,ACTIVE_CONFIG,,,
+scalar,static_camber,left,nominal_setup,,,,,,,,deg,WUFR26_BODY,ACTIVE_CONFIG,,,
+scalar,static_camber,right,nominal_setup,,,,,,,,deg,WUFR26_BODY,ACTIVE_CONFIG,,,
+scalar,ride_height,,nominal_setup,,,,,,,,mm,WUFR26_BODY,ACTIVE_CONFIG,,,
+scalar,pinion_angle,,transmission_sweep,,,,,,,,deg,WUFR26_BODY,ACTIVE_CONFIG,,,Repeat rows with matching rack displacement
+scalar,rack_displacement,,transmission_sweep,,,,,,,,mm,WUFR26_BODY,ACTIVE_CONFIG,,,Repeat rows with matching pinion angle
