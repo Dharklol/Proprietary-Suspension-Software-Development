@@ -45,6 +45,9 @@ All notable project changes should be recorded here. Model releases must identif
 - WUFR-26 steering baseline-reconciliation packet linking `GEOMETRY FINAL.SLDPRT` to the active linkage assembly and defining the remaining native SolidWorks export.
 - `PAR-STEER-0003` provisional symmetric one-sided rack-travel observation derived from the reported 1.00-in total travel.
 - SolidWorks geometry-export CSV template for steering axes, joints, rack states, wheel planes, setup, and transmission sweep.
+- `CAT-STEER-GEO-0001` catalog for `WUFR-26 FINAL 8.21.2025.xlsx`, the final OptimumK suspension hardpoint source used for `SU-00001-AA 2026 SUSPENSION GEOMETRY.SLDPRT`.
+- WUFR-26 OptimumK, raw steering-study, steering-FDR, and canonical-body coordinate-frame reconciliation with numerical common-point checks.
+- Nominal WUFR-26 steering-axis and tie-rod geometry merge suitable for an explicitly labeled incremental design-source evaluator case.
 
 ### Changed
 
@@ -55,3 +58,6 @@ All notable project changes should be recorded here. Model releases must identif
 - `RISK-STEER-0001` severity is reduced after identity clarification, while native active-assembly reference confirmation remains required.
 - The specification's `3.12:1` steering ratio is now a rejected observation prohibited from active calculations, targets, benchmarks, and validation.
 - Rack center is defined as the midpoint between equal left/right stop limits; the reported 1.00-in total travel is provisionally interpreted as `+/-0.50 in` pending CAD or measurement verification.
+- The canonical simulation frame is explicitly separated from source-specific OptimumK and SolidWorks/CAD frames through versioned import adapters.
+- The steering FDR tie-rod pickups supersede the generic final-OptimumK tie-rod pickups for the selected nominal steering configuration; OptimumK remains the steering-axis hardpoint source.
+- Active assembly export is reclassified from a blocker to all WUFR-26 geometry work into a Level E/F installed-state correlation gate; the bounded nominal-design incremental case may proceed after review.
