@@ -1,0 +1,23 @@
+[record]
+id = "EQ-STEER-0002"
+type = "equation"
+title = "Rigid tie-rod joint-center closure"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Enforce the constant center-to-center length of each rigid tie rod between the rack inner joint and upright outer joint, and derive nominal tie-rod length at the reference configuration."
+outputs = ["QTY-STEER-0012 nominal tie-rod joint-center distance", "Tie-rod physical length residual"]
+inputs = ["Rack inner-joint point", "Upright outer-joint point", "Declared reference configuration", "Left/right tie-rod length"]
+assumptions = [
+  "Tie rod and connected bodies are rigid.",
+  "Joint centers are correctly defined and joints supply the required articulation.",
+  "Compliance, backlash, clearance, and contact are excluded."
+]
+verification_level = "none"
+canonical_equation = "F_j = 0.5 * (||p_out,j - p_in,j||^2 - L_j^2) = 0"
+source_basis = ["Euclidean distance invariance for a rigid link", "Standard holonomic distance constraint in rigid multibody kinematics"]
+validity = "Rigid nominal-height mechanism and later rigid geometry states where joint articulation remains valid."
+numerical_method = "Use the squared constraint for root evaluation; report the unsquared physical residual ||p_out-p_in||-L in metres."
+failure_behavior = ["Report inconsistent reference geometry", "Reject closure beyond tolerance", "Report joint-limit violations separately"]
+benchmark_ids = ["BENCH-STEER-0003", "BENCH-STEER-0004"]
+migration_ids = ["MIG-STR-0001"]
