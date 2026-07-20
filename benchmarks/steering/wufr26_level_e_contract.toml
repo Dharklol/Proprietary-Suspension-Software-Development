@@ -1,6 +1,6 @@
-version = "0.1.0"
+version = "0.2.0"
 contract_id = "WUFR26-STEER-LEVEL-E-V0"
-status = "blocked_pending_solidworks_export"
+status = "blocked_pending_dimension2_reference_identity"
 model_id = "MOD-STEER-0001"
 authorization_id = "AUTH-STEER-0001"
 
@@ -11,52 +11,78 @@ provider_file_id = "2357045252883"
 provider_file_version_id = "2611346929683"
 provider_sha1 = "69d71c0977287a13385683204344e78816b48512"
 point_count = 205
+study_name = "Design Study 1"
 raw_input_row = "Steer Input"
 raw_output_row = "Dimension2"
+solidworks_version = "SolidWorks 2025 SP3.2 Academic Use Only, observed in team screenshot"
 
 [signal_mapping]
-input_quantity_id = "unresolved"
-input_unit = "deg_observed"
-input_sign = "unresolved"
-output_quantity_id = "unresolved"
-output_unit = "deg_observed"
+input_quantity_id = "steering_or_pinion_input_angle_design_study"
+input_unit = "deg"
+input_sign = "positive input increases native Rack Length and maps to canonical +y rack translation"
+input_to_rack_relation = "rack_displacement_m = input_deg * 0.00024694444444444446"
+rack_travel_per_revolution_m = 0.0889
+steering_wheel_to_pinion_relation = "reported 1:1 for the design assembly"
+output_quantity_id = "unresolved_dimension2_angular_monitor"
+output_unit = "deg"
 output_sign = "unresolved"
+output_known_construction = "Monitor Only angle between two pink construction rays in the steering calculator; exact selected entities, side, orientation, and branch convention remain unresolved"
 periodic_monitor_period_deg = 360.0
 center_input_observation = 0.0
 center_output_observation_deg = 20.57
-center_output_role = "observed monitor value only; not an approved toe or wheel-heading datum"
+center_output_role = "observed monitor value only; not an approved toe, wheel-heading, or upright-rotation datum"
 
 [solidworks_state]
-active_assembly_configuration = "unresolved"
-active_geometry_component_configuration = "unresolved"
-motion_study_name = "unresolved"
-driver_definition = "unresolved"
-monitor_definition = "unresolved"
-suppression_and_warning_state = "unresolved"
-rack_center_construction = "unresolved"
-stop_state = "unresolved"
+full_assembly = "FSA STEERING"
+geometry_component = "GEOMETRY FINAL.SLDPRT"
+geometry_component_contents = "steering rack, steering columns, steering-wheel outline, and tie rods"
+active_assembly_configuration = "team reports active/default state; exact configuration label not separately named"
+active_geometry_component_configuration = "team reports active/default state; exact configuration label not separately named"
+study_type = "SolidWorks Design Study"
+study_name = "Design Study 1"
+driver_definition = "Steer Input global variable swept from -102 deg to +102 deg in 1-deg exported scenarios"
+monitor_definition = "Dimension2, Monitor Only; exact reference entities unresolved"
+suppression_and_warning_state = "reference chassis model suppressed; no reported errors or warnings"
+rack_center_construction = "Steer Input = 0 deg at the centered design-study state"
+nominal_rack_domain = "+/-1.00 in from center, 2.00 in total design span"
+exported_rack_domain = "+/-0.9916666667 in or +/-0.025188333333333333 m from the +/-102-deg source range"
+stop_state = "design-study limit resolved; installed physical stop state remains unverified"
+
+[optimizer_context]
+file_or_study = "STEERING GEOMETRY 2, Design Study 1"
+variables_and_sweeps = "steering-arm length and historical tie-rod-length configurations"
+goals = "right-turn angle close to 25 deg and left-turn angle close to 33 deg"
+visible_nominal_values = "steering arm 2.75 in, tie rod 13.5 in in one optimizer state; separate final/Test 3 response geometry uses approximately 13.0-in tie-rod joint-center length"
+role = "design-selection context only; not the 205-point response signal itself"
 
 [required_geometry]
 left_wheel_forward_direction = "unresolved"
 right_wheel_forward_direction = "unresolved"
-left_static_toe = "unresolved"
-right_static_toe = "unresolved"
-front_right_hardpoints = "unresolved"
-pinion_or_input_to_rack_map = "unresolved"
+left_static_toe = "nonzero confirmed; exact numerical per-wheel convention unresolved; positive toe means toe-out"
+right_static_toe = "nonzero/mirrored assumption; exact numerical per-wheel convention unresolved"
+front_right_hardpoints = "unresolved independent export; nominal model remains mirrored"
+pinion_or_input_to_rack_map = "resolved for design-study mapping; installed measurement remains open"
+
+[consistency_check]
+source_endpoint_input_deg = 102.0
+source_endpoint_rack_displacement_m = 0.025188333333333333
+model_endpoint_rotation_pair_deg = "at -102 deg input: nominal front-left +33.27856 deg and mirrored front-right +22.45550 deg; signs reverse at +102 deg"
+design_study_visible_target_or_result_deg = "approximately 32.81 deg and 22.22 deg in supplied optimizer screenshots"
+interpretation = "close agreement supports geometry and input scaling, but is not a Level E residual because Dimension2 is not yet mapped to the same canonical output"
 
 [comparison]
 interpolation = "linear_inside_overlap_only"
 extrapolation_allowed = false
 polynomial_fit_used_as_reference = false
-residual_definition = "candidate evaluator output minus normalized SolidWorks output after matching canonical quantities"
+residual_definition = "candidate evaluator output minus normalized SolidWorks output after matching canonical output quantity"
 metrics = ["mean_error", "rmse", "maximum_absolute_error", "point_residuals"]
-acceptance_tolerance = "unresolved_until_signal_mapping_and_first_residual_review"
+acceptance_tolerance = "unresolved_until_dimension2_mapping_and_first_residual_review"
 
 [restrictions]
 items = [
-  "Do not compare rack displacement directly with Steer Input until identity and scaling are reviewed.",
-  "Do not compare upright rotation directly with Dimension2 until monitor construction is reviewed.",
-  "Do not treat 20.57 deg as a wheel-heading or toe datum.",
+  "Do not compare upright rotation directly with Dimension2 until the monitor references, side, sign, and branch construction are reviewed.",
+  "Do not treat 20.57 deg as a wheel-heading, toe, or upright-rotation datum.",
+  "Do not treat the +/-1.00-in design-study range as proof of installed physical stop travel.",
   "Do not use a polynomial fit as independent validation evidence.",
   "Do not claim installed or physical validation from Level E agreement."
 ]
