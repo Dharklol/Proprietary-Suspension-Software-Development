@@ -40,8 +40,11 @@ All notable project changes should be recorded here. Model releases must identif
 - Parameter-observation and active-value governance for separating quantity definitions, source observations, derived values, reconciliation, and reviewed active selections.
 - WUFR-26 steering design-spec source catalog and inactive observations for wheelbase, axle sum toe, C-factor, and through-center steering ratio.
 - Proposed `QTY-ALIGN-0003` axle sum-toe quantity and recovered WUFR-26 C-factor definition.
+- WUFR-26 steering drawing/BOM authority manifest covering system assemblies, rack, tie rods, front uprights, drawing-number conventions, source hierarchy, and active-geometry extraction requirements.
+- `RISK-STEER-0001` for conflicting rack-family part-number assignments and the tie-rod end-cap subsystem-prefix mismatch.
 
 ### Changed
 
 - Ackermann comparisons now default to incremental steer with static toe handled separately, while total toe-inclusive wheel heading remains a required output.
 - The WUFR-26 zero-input `20.57 deg` monitor value is treated as an observation rather than a frozen toe-inclusive subtraction datum.
+- Production steering geometry and design-study geometry are now separate evidence chains that must be reconciled rather than assumed identical.
