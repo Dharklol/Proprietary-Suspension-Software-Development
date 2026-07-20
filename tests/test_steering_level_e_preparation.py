@@ -99,7 +99,7 @@ class ComparisonTests(unittest.TestCase):
             input_unit="m",
             output_unit="rad",
             inputs=(-0.5, 0.0, 0.5),
-            outputs=(-0.9, 0.0, 1.1),
+            outputs=(-0.9, 0.0, 0.9),
         )
         result = compare_series(reference, candidate)
         self.assertEqual(result.status, ComparisonStatus.AVAILABLE)
