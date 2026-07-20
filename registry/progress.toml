@@ -121,3 +121,9 @@ id = "P0-STR-007"
 title = "Steering drawing and BOM authority"
 status = "review_ready"
 exit_criterion = "WUFR-26 steering assembly, rack, tie-rod, and front-upright drawing/BOM hierarchy is mapped; conflicting part identities are recorded; and the active-geometry extraction path is defined."
+
+[[phase_0.tasks]]
+id = "P0-STR-008"
+title = "WUFR-26 steering baseline reconciliation"
+status = "active"
+exit_criterion = "The real-geometry baseline, specification observations, rejected steering ratio, rack-center/travel interpretation, geometry-study assembly relationship, and exact SolidWorks export requirements are reviewed."
