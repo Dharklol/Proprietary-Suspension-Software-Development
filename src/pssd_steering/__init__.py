@@ -1,7 +1,6 @@
 """Bounded rigid-steering evaluator authorized by AUTH-STEER-0001."""
 
 from .comparison import (
-    LEVEL_E_REQUIRED_METADATA,
     ComparisonMetrics,
     ComparisonStatus,
     MonitorNormalization,
@@ -54,6 +53,11 @@ from .derived import (
     staged_transmission,
     turning_radii,
 )
+from .solidworks import (
+    LinearInputMap,
+    parse_solidworks_design_study_csv_text,
+    transform_linear_input,
+)
 
 __all__ = [
     "AxisLine",
@@ -63,7 +67,7 @@ __all__ = [
     "GeometryError",
     "HeadingResult",
     "InsideOutside",
-    "LEVEL_E_REQUIRED_METADATA",
+    "LinearInputMap",
     "MonitorNormalization",
     "PositionResult",
     "RackGeometry",
@@ -94,12 +98,14 @@ __all__ = [
     "local_road_wheel_gain",
     "metres_per_radian_to_millimetres_per_revolution",
     "normalize_periodic_monitor",
+    "parse_solidworks_design_study_csv_text",
     "parse_transposed_csv_text",
     "rotate_point_about_axis",
     "secant_ratio",
     "solve_corner_position",
     "solve_sweep",
     "staged_transmission",
+    "transform_linear_input",
     "translate_rack_joint",
     "turning_radii",
     "unwrap_periodic",
