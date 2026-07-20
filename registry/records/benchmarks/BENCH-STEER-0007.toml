@@ -1,0 +1,15 @@
+[record]
+id = "BENCH-STEER-0007"
+type = "benchmark"
+title = "Kinematic turning-radius reconstruction"
+status = "proposed"
+description = "Verify exact rear-axle-center radius reconstruction for Ackermann pairs and explicit radius mismatch reporting for a non-Ackermann mechanism."
+verification_level = "B"
+target_ids = ["EQ-STEER-0006", "EQ-STEER-0001"]
+acceptance_criteria = [
+  "Inside-derived and outside-derived radii for exact Ackermann cases agree within 2e-9 m.",
+  "Straight-line input returns an explicit infinite-radius state rather than a divide-by-zero artifact.",
+  "Non-Ackermann fixture states retain separate inside-derived and outside-derived radii and mismatch.",
+  "Rear-axle-center, CG, tire-path, and body-envelope radius names are not conflated."
+]
+fixture = "benchmarks/steering/preimplementation_freeze_packet.md"

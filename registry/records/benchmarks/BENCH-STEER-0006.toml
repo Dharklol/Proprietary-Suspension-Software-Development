@@ -1,0 +1,16 @@
+[record]
+id = "BENCH-STEER-0006"
+type = "benchmark"
+title = "Local steering gain and ratio verification"
+status = "proposed"
+description = "Verify implicit closure derivatives, centered finite differences, transmission-chain gain, and conventional reciprocal ratio using GEO-STEER-BASIC-001."
+verification_level = "B"
+target_ids = ["EQ-STEER-0005", "EQ-STEER-0003"]
+acceptance_criteria = [
+  "Left and right rack-center gains equal -18.125 rad/m within 1e-8 relative error.",
+  "Centered finite differences agree with implicit derivatives within 1e-6 relative error away from boundaries.",
+  "With the synthetic transmission, road-wheel gain equals -0.18125 rad/rad.",
+  "Conventional ratio magnitude equals 5.517241379310345 only when steering-wheel input is declared.",
+  "Zero-gain or unknown-input reciprocal ratios return ratio_undefined."
+]
+fixture = "benchmarks/steering/GEO-STEER-BASIC-001.toml"

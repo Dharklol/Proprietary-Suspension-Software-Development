@@ -28,7 +28,17 @@ All notable project changes should be recorded here. Model releases must identif
 - WUFR-25 `Steering_range_optimization.m` semantic audit and benchmark-only disposition.
 - FDR Test 3 selection mapping and explicit interpretation of `0.5 inch back` as a relative rearward rack-placement change.
 - Catalog and structural parse of `2026Ackermann.csv` as the WUFR-26 final-geometry second-motion-study export.
-- Reconstruction of the historical angular-branch orientation, straight-ahead reference subtraction, cubic wheel-angle fit, finite-difference road-wheel gain, and reciprocal conventional steering-ratio definitions.
-- Machine-readable WUFR-26 Ackermann export metadata and provisional fit coefficients.
+- Reconstruction of the historical angular-branch orientation, monitor-datum subtraction, toe-inclusive wheel heading, incremental steer, wheel-angle fit, road-wheel gain, and reciprocal conventional steering-ratio definitions.
+- Machine-readable WUFR-26 Ackermann export metadata and provisional audit-fit coefficients.
 - Updated `BENCH-STEER-0001` authority hierarchy using `2026Ackermann.csv` as the primary final response and `Test_3.csv` as selection-era cross-check evidence.
 - Explicit correction that the calculator quantity labeled `Steer Ratio` is road-wheel gain unless reciprocated and referenced to steering-wheel input.
+- Rigid steering evaluator function specification documenting equation sources, validity, numerical behavior, branch control, failure semantics, and future car-specific extensions.
+- Proposed equation records `EQ-STEER-0001` through `EQ-STEER-0007` for Ackermann reference, tie-rod closure, spatial position solution, transmission, ratios, turning radius, and Ackermann error.
+- Fully specified `GEO-STEER-BASIC-001` synthetic mechanism fixture with expected closure, sweep, derivative, symmetry, Ackermann, radius, singularity, and deliberate failure results.
+- Proposed analytical and limiting-case benchmark records `BENCH-STEER-0002` through `BENCH-STEER-0008`.
+- Steering preimplementation freeze packet separating the fundamental evaluator gate from the still-open WUFR-26 Level E and physical Level F gates.
+
+### Changed
+
+- Ackermann comparisons now default to incremental steer with static toe handled separately, while total toe-inclusive wheel heading remains a required output.
+- The WUFR-26 zero-input `20.57 deg` monitor value is treated as an observation rather than a frozen toe-inclusive subtraction datum.

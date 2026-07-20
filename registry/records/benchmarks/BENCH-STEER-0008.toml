@@ -1,0 +1,16 @@
+[record]
+id = "BENCH-STEER-0008"
+type = "benchmark"
+title = "Ackermann error sign, alias, and toe treatment"
+status = "proposed"
+description = "Verify dimensional Ackermann error, turn-dependent inside/outside aliases, and separation of total toe-inclusive wheel heading from incremental steer."
+verification_level = "B"
+target_ids = ["EQ-STEER-0007", "EQ-STEER-0001", "QTY-ALIGN-0001", "QTY-ALIGN-0002"]
+acceptance_criteria = [
+  "Exact Ackermann pairs produce zero error within 2e-10 rad.",
+  "GEO-STEER-BASIC-001 reproduces the stored negative Ackermann errors.",
+  "Adding reviewed static toe to total headings does not alter incremental-angle error after correct removal.",
+  "Inside/outside aliases are assigned from turn direction rather than angle magnitude.",
+  "The error sign is actual outside incremental steer minus reference outside steer."
+]
+fixture = "benchmarks/steering/GEO-STEER-BASIC-001.toml"

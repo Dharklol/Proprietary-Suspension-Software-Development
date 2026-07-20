@@ -1,0 +1,22 @@
+[record]
+id = "EQ-STEER-0007"
+type = "equation"
+title = "Ackermann error over a steering sweep"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Assign maneuver-dependent inside/outside aliases from canonical left/right outputs and calculate dimensional Ackermann error using incremental steering angles."
+outputs = ["QTY-STEER-0014 Ackermann steering error", "Inside/outside road-wheel map for each turn direction"]
+inputs = ["QTY-STEER-0006 left road-wheel angle", "QTY-STEER-0007 right road-wheel angle", "Left/right static toe", "QTY-STEER-0013 Ackermann reference outside-wheel angle", "Declared turn direction"]
+assumptions = [
+  "Left/right quantities are authoritative and inside/outside are analysis-time aliases.",
+  "Default Ackermann comparison uses incremental steer after removal of static toe.",
+  "The independent variable and turn direction are declared."
+]
+verification_level = "none"
+canonical_equation = "E_A = delta_outside,incremental - delta_outside,reference"
+source_basis = ["Dimensional comparison to EQ-STEER-0001", "Guiggiani (2022), Section 3.4, separation of static toe and steering-dependent toe"]
+validity = "Within the reviewed steering sweep and exact reference domain."
+failure_behavior = ["Do not infer inside wheel from angle magnitude", "Report sign convention and toe treatment", "Keep percentages or Ackermann coefficients as separately defined report quantities"]
+benchmark_ids = ["BENCH-STEER-0008"]
+migration_ids = ["MIG-SC26-ACK-003", "MIG-STR-0001"]

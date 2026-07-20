@@ -1,0 +1,15 @@
+[record]
+id = "BENCH-STEER-0005"
+type = "benchmark"
+title = "Steering transmission identity and unit conversion"
+status = "proposed"
+description = "Verify explicit steering-wheel, pinion, and rack signal identities using a synthetic constant transmission relation without assigning a WUFR C-factor."
+verification_level = "A"
+target_ids = ["EQ-STEER-0004"]
+acceptance_criteria = [
+  "A one-to-one steering-wheel-to-pinion relation and 0.010 m/rad rack relation produce plus or minus 0.010 m at plus or minus 1 rad.",
+  "0.010 m/rad converts to 62.83185307179586 mm/rev within 1e-12 relative error.",
+  "Zeros, polarities, and numerator/denominator identities are retained.",
+  "Ambiguous C-factor input is rejected."
+]
+fixture = "benchmarks/steering/preimplementation_freeze_packet.md"

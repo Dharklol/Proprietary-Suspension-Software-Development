@@ -1,0 +1,26 @@
+[record]
+id = "EQ-STEER-0001"
+type = "equation"
+title = "Exact low-speed Ackermann outside-wheel reference"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Calculate the exact no-slip low-speed outside-wheel incremental steer angle from the inside-wheel incremental steer angle, wheelbase, and front steering-axis ground-intersection track."
+outputs = ["QTY-STEER-0013 Ackermann reference outside-wheel angle"]
+inputs = ["QTY-GEO-0001 wheelbase", "QTY-GEO-0004 front steering-axis ground-intersection track", "Inside road-wheel incremental steer magnitude"]
+assumptions = [
+  "Planar low-speed no-slip construction.",
+  "Rigid wheels and a flat declared road plane.",
+  "Angles are incremental steering angles with static toe treated separately.",
+  "The reference is a benchmark or low-speed target candidate, not the universal race-car optimum."
+]
+verification_level = "none"
+canonical_equation = "delta_o_ref = atan2(l, l/tan(delta_i) + t)"
+source_basis = [
+  "Guiggiani (2022), Section 3.4.1, equations 3.67-3.68, pages 88-89.",
+  "Gillespie (1992), Chapter 8, equations 8-1 and 8-2."
+]
+validity = "Positive inside/outside turn magnitudes below mechanical lock; quadrant and zero-angle handling must be explicit."
+failure_behavior = ["Reject undefined tan/cotangent states", "Reject nonpositive wheelbase or track", "Do not extrapolate the reference into tire-force optimality claims"]
+benchmark_ids = ["BENCH-STEER-0002"]
+migration_ids = ["MIG-SC26-ACK-001", "MIG-STR-0001"]

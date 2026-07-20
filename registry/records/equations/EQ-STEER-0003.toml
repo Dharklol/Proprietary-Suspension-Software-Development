@@ -1,0 +1,33 @@
+[record]
+id = "EQ-STEER-0003"
+type = "equation"
+title = "Rigid steering-linkage position solution"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Translate rack inner joints, rotate upright-fixed points about directed three-dimensional steering axes, solve left/right tie-rod closure on the declared mechanism branch, and extract total and incremental road-wheel headings."
+outputs = ["QTY-STEER-0006 left road-wheel steer angle", "QTY-STEER-0007 right road-wheel steer angle", "Branch identity", "Closure and singularity diagnostics"]
+inputs = ["QTY-STEER-0004 rack displacement", "Rack axis and center joint points", "Left/right steering-axis lines", "Upright outer-joint points and wheel-frame directions", "QTY-STEER-0012 tie-rod lengths", "QTY-ALIGN-0001 and QTY-ALIGN-0002 static toe"]
+assumptions = [
+  "Rigid bodies and joints at one named nominal-height configuration.",
+  "Steering axes are fixed during the sweep.",
+  "The reference assembly branch is declared.",
+  "Road-wheel heading is obtained from the wheel direction projected into the declared road plane."
+]
+verification_level = "none"
+canonical_equations = [
+  "p_in,j(s) = p_in,j,0 + s e_r",
+  "p_out,j(delta) = a_j + R(k_j,delta)(p_out,j,0-a_j)",
+  "F_j(delta,s) = 0",
+  "delta_incremental,j = unwrap(delta_total,j - delta_total,j(s=0))"
+]
+source_basis = [
+  "Standard Rodrigues axis-angle rigid rotation.",
+  "Rigid-link closure from EQ-STEER-0002.",
+  "Gillespie (1992), Chapter 8, for practical rack/tie-rod linkage and nonvertical steering-axis geometry."
+]
+validity = "Rigid nominal-height steering kinematics inside reviewed rack, wheel-angle, articulation, and branch limits."
+numerical_method = "Continue outward from rack center using a sign-changing bracket and a safeguarded bracket-preserving scalar root method; do not default to unconstrained Newton iteration."
+failure_behavior = ["No closure root", "Multiple-branch ambiguity", "Branch discontinuity", "Singularity margin violation", "Invalid wheel-direction projection", "Input outside domain"]
+benchmark_ids = ["BENCH-STEER-0003", "BENCH-STEER-0004"]
+migration_ids = ["MIG-STR-0001", "MIG-SC26-SR-001", "MIG-SC26-SR-003"]

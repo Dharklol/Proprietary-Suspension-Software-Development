@@ -1,0 +1,114 @@
+version = "0.1.0"
+geometry_id = "GEO-STEER-BASIC-001"
+status = "proposed_for_freeze"
+purpose = "Fully specified planar-symmetric special case of the spatial rigid steering model for closure, branch, symmetry, derivative, Ackermann, and failure tests."
+
+[conventions]
+length_unit = "m"
+angle_unit = "rad"
+body_axes = "+x forward, +y vehicle left, +z upward"
+road_plane = "z = 0"
+positive_road_wheel_heading = "left yaw by right-hand rule about +z"
+positive_rack_displacement = "translation along +y"
+turn_mapping = "negative rack displacement produces a left turn in this fixture"
+
+[vehicle]
+wheelbase = 1.6
+steering_axis_ground_intersection_track = 1.2
+
+[rack]
+axis_origin = [-0.2, 0.0, 0.0]
+axis_direction = [0.0, 1.0, 0.0]
+left_inner_joint_at_center = [-0.2, 0.25, 0.0]
+right_inner_joint_at_center = [-0.2, -0.25, 0.0]
+operational_displacement_min = -0.010
+operational_displacement_max = 0.010
+geometric_branch_limit_magnitude = 0.012311218851833117
+
+[left]
+steering_axis_point = [0.0, 0.6, 0.0]
+steering_axis_direction = [0.0, 0.0, 1.0]
+outer_tie_rod_joint_at_center = [-0.08, 0.54, 0.0]
+wheel_forward_direction_at_center = [1.0, 0.0, 0.0]
+static_toe = 0.0
+nominal_tie_rod_length = 0.3138470965295043
+reference_branch_upright_rotation = 0.0
+mechanical_angle_min = -1.0
+mechanical_angle_max = 1.0
+
+[right]
+steering_axis_point = [0.0, -0.6, 0.0]
+steering_axis_direction = [0.0, 0.0, 1.0]
+outer_tie_rod_joint_at_center = [-0.08, -0.54, 0.0]
+wheel_forward_direction_at_center = [1.0, 0.0, 0.0]
+static_toe = 0.0
+nominal_tie_rod_length = 0.3138470965295043
+reference_branch_upright_rotation = 0.0
+mechanical_angle_min = -1.0
+mechanical_angle_max = 1.0
+
+[[expected_states]]
+rack_displacement = -0.010
+left_heading_deg = 14.02064066254202
+right_heading_deg = 9.066487783839722
+inside_heading_deg = 14.02064066254202
+outside_heading_deg = 9.066487783839722
+ackermann_outside_reference_deg = 11.877399086365623
+ackermann_error_deg = -2.810911302525901
+rear_axle_radius_from_inside = 7.007415190292448
+
+[[expected_states]]
+rack_displacement = -0.005
+left_heading_deg = 5.782318645713388
+right_heading_deg = 4.81050423802314
+inside_heading_deg = 5.782318645713388
+outside_heading_deg = 4.81050423802314
+ackermann_outside_reference_deg = 5.376641697540224
+ackermann_error_deg = -0.5661374595170844
+rear_axle_radius_from_inside = 16.40020269258274
+
+[[expected_states]]
+rack_displacement = 0.0
+left_heading_deg = 0.0
+right_heading_deg = 0.0
+left_gain_rad_per_m = -18.125
+right_gain_rad_per_m = -18.125
+
+[[expected_states]]
+rack_displacement = 0.005
+left_heading_deg = -4.81050423802314
+right_heading_deg = -5.7823186457132385
+inside_heading_deg = 5.7823186457132385
+outside_heading_deg = 4.81050423802314
+ackermann_outside_reference_deg = 5.376641697540094
+ackermann_error_deg = -0.5661374595169548
+rear_axle_radius_from_inside = 16.400202692583154
+
+[[expected_states]]
+rack_displacement = 0.010
+left_heading_deg = -9.066487783839792
+right_heading_deg = -14.020640662541956
+inside_heading_deg = 14.020640662541956
+outside_heading_deg = 9.066487783839792
+ackermann_outside_reference_deg = 11.877399086365578
+ackermann_error_deg = -2.8109113025257852
+rear_axle_radius_from_inside = 7.007415190292479
+
+[tolerances]
+closure_residual_m = 1.0e-10
+heading_abs_rad = 2.0e-8
+symmetry_abs_rad = 2.0e-8
+center_gain_relative = 1.0e-8
+finite_difference_gain_relative = 1.0e-6
+ackermann_abs_rad = 2.0e-10
+radius_abs_m = 2.0e-9
+
+[failure_cases]
+outside_branch_positive_rack_displacement = 0.013
+outside_branch_negative_rack_displacement = -0.013
+expected_failure = "no_closure_root or singularity/domain failure on the intended near-zero branch; another assembly root must not be substituted"
+
+[derivation]
+tie_rod_length = "sqrt(0.12^2 + 0.29^2)"
+branch_limit = "For the limiting outside link, distance between steering axis and rack joint equals steering-arm radius plus tie-rod length."
+expected_value_method = "Independent double-precision solution of the stated rigid distance constraints followed by the exact Ackermann equations; values are frozen as benchmark expectations, not WUFR parameters."

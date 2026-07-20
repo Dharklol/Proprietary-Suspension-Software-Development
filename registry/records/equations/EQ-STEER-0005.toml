@@ -1,0 +1,28 @@
+[record]
+id = "EQ-STEER-0005"
+type = "equation"
+title = "Local steering gain and secant steering ratio"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Calculate explicitly named local derivatives and finite-interval ratios between steering-wheel, pinion, rack, and selected road-wheel quantities."
+outputs = ["QTY-STEER-0010 local steering-wheel-to-road-wheel ratio", "QTY-STEER-0011 secant steering-wheel-to-road-wheel ratio", "Local road-wheel gain"]
+inputs = ["Versioned steering transmission functions", "Solved left/right road-wheel maps", "Declared numerator and denominator quantities", "Declared evaluation point or interval"]
+assumptions = [
+  "The relevant derivative exists and the denominator is nonzero.",
+  "Static toe is a constant offset and does not alter a local derivative.",
+  "Conventional steering ratio is the reciprocal of road-wheel gain only when the input is steering-wheel angle."
+]
+verification_level = "none"
+canonical_equations = [
+  "d(delta_j)/ds = -(partial F_j/partial s)/(partial F_j/partial delta_j)",
+  "d(delta_j)/d(theta_sw) = d(delta_j)/ds * ds/d(theta_p) * d(theta_p)/d(theta_sw)",
+  "R_local = d(theta_sw)/d(delta_output)",
+  "R_secant = Delta(theta_sw)/Delta(delta_output)"
+]
+source_basis = ["Implicit differentiation of the rigid closure equation", "Chain rule", "Gillespie (1992), Chapter 8, steering-wheel-to-road-wheel ratio normally varies with angle"]
+validity = "Inside the solved mechanism domain and away from zero-gain or singular states."
+numerical_method = "Use analytical/implicit derivatives where available and verify against centered finite differences away from boundaries."
+failure_behavior = ["Report ratio undefined near zero output derivative", "Do not label road-wheel gain as conventional steering ratio", "Do not assign finite-difference values to the wrong abscissa silently"]
+benchmark_ids = ["BENCH-STEER-0006"]
+migration_ids = ["MIG-SC26-SR-002", "MIG-SC26-SR-004", "MIG-STR-0001"]

@@ -5,7 +5,7 @@ title = "Rigid steering-linkage inverse-design model"
 status = "proposed"
 disposition = "rewrite"
 maturity = "M0"
-description = "Proposed rigid nominal-height steering-kinematics evaluator and constrained inverse-design workflow that returns tie-rod length, left/right road-wheel maps, inner/outer steering relation, Ackermann metrics, steering ratios, turning capability, and constraint margins."
+description = "Proposed rigid nominal-height steering-kinematics evaluator and later constrained inverse-design workflow that returns tie-rod length, left/right road-wheel maps, inner/outer steering relation, Ackermann metrics, steering ratios, turning capability, and constraint margins. The evaluator is implemented and verified before optimization."
 inputs = [
   "QTY-GEO-0001 wheelbase",
   "QTY-GEO-0004 front steering-axis ground-intersection track",
@@ -22,7 +22,7 @@ inputs = [
 ]
 outputs = [
   "QTY-STEER-0012 nominal left and right tie-rod joint-center distances",
-  "QTY-STEER-0004 rack displacement versus QTY-STEER-0006 and QTY-STEER-0007 left/right road-wheel angle maps",
+  "QTY-STEER-0004 rack displacement versus QTY-STEER-0006 and QTY-STEER-0007 left/right total-heading and incremental-steer maps",
   "Steering-wheel and pinion input maps where transmission inputs are available",
   "Inside-versus-outside road-wheel relation for both turn directions",
   "QTY-STEER-0013 Ackermann reference and QTY-STEER-0014 Ackermann error",
@@ -34,8 +34,14 @@ assumptions = [
   "First implementation uses rigid links and joints at a named nominal ride-height reference configuration.",
   "The mechanism branch is explicitly identified and maintained.",
   "Left/right quantities are canonical; inside/outside labels are assigned from turn direction.",
+  "Total toe-inclusive wheel heading and incremental steer are separate outputs.",
   "Ideal Ackermann is a low-speed reference or optional target, not a universal performance optimum.",
   "No compliance, backlash, friction, steering loads, tire-force optimization, suspension travel, collision verification, or transient behavior is implied by the first model.",
   "External CAD and multibody motion studies are comparison evidence rather than runtime dependencies."
 ]
 verification_level = "none"
+equation_ids = ["EQ-STEER-0001", "EQ-STEER-0002", "EQ-STEER-0003", "EQ-STEER-0004", "EQ-STEER-0005", "EQ-STEER-0006", "EQ-STEER-0007"]
+benchmark_ids = ["BENCH-STEER-0001", "BENCH-STEER-0002", "BENCH-STEER-0003", "BENCH-STEER-0004", "BENCH-STEER-0005", "BENCH-STEER-0006", "BENCH-STEER-0007", "BENCH-STEER-0008"]
+preimplementation_specification = "docs/models/steering/rigid_steering_function_specification.md"
+preimplementation_freeze_packet = "benchmarks/steering/preimplementation_freeze_packet.md"
+first_code_scope = "Bounded evaluator only; optimizer remains unauthorized until evaluator benchmarks pass."
