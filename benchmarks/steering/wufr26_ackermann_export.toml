@@ -1,0 +1,65 @@
+version = "0.1.0"
+status = "proposed"
+benchmark_id = "BENCH-STEER-0001"
+geometry_set = "GEO-STEER-WUFR26-FINAL-001"
+vehicle_revision = "WUFR-26"
+evidence_role = "SolidWorks second-motion-study legacy comparison"
+
+[source]
+name = "2026Ackermann.csv"
+box_file_id = "2357045252883"
+box_file_version_id = "2611346929683"
+box_sha1 = "69d71c0977287a13385683204344e78816b48512"
+size_bytes = 8270
+parent_folder_id = "333299255935"
+parent_geometry_name = "GEOMETRY FINAL.SLDPRT"
+
+[observed_table]
+study_title = "Design Study 1"
+scenario_count = 205
+input_label = "Steer Input"
+input_unit = "deg"
+input_start = -102.0
+input_stop = 102.0
+input_step = 1.0
+output_label = "Dimension2"
+output_unit = "deg"
+
+[angle_branch]
+status = "proposed_pending_cad_review"
+left_sample = -77.0
+right_sample = -76.0
+minimum_exported_angle = 0.17
+estimated_crossing = -76.5
+rule = "Use opposite orientation signs on the two sides of the angular-monitor crossing to form one continuous angle."
+
+[reference]
+status = "proposed_pending_rack_center_review"
+reference_input = 0.0
+reference_angle = 20.57
+rule = "road_wheel_angle = continuous_monitored_angle - reference_angle"
+
+[cubic_fit]
+fit_target = "continuous monitored angle versus exported input"
+coefficient_order = ["x3", "x2", "x1", "x0"]
+coefficients = [2.6259449887368317e-6, -4.2449817521945623e-4, 2.2597204342520530e-1, 2.0709324316935610e1]
+r_squared = 0.9998873730071459
+rmse_deg = 0.1530403267531919
+max_abs_residual_deg = 0.6970230429740152
+canonical_use = false
+
+[cubic_derivative]
+coefficient_order = ["x2", "x1", "x0"]
+coefficients = [7.877834966210495e-6, -8.489963504389125e-4, 2.2597204342520530e-1]
+ratio_note = "Take the reciprocal only after the exported input is confirmed to be steering-wheel angle."
+
+[open_items]
+items = [
+  "SolidWorks definition of Dimension2",
+  "Identity of Steer Input",
+  "Reviewed rack-center reference angle",
+  "Physical steering range",
+  "Left-right output mapping",
+  "SolidWorks configuration and study settings",
+  "SHA-256 of immutable source bytes"
+]
