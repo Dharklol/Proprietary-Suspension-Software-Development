@@ -1,0 +1,9 @@
+[record]
+id = "QTY-STEER-0015"
+type = "quantity"
+title = "Vehicle turning radius under kinematic assumptions"
+status = "proposed"
+maturity = "M0"
+description = "Radius of a specifically named vehicle, wheel, or body reference path under declared low-speed kinematic assumptions; the path identity is mandatory."
+dimension = "length"
+canonical_unit = "m"

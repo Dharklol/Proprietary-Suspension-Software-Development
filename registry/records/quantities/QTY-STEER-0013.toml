@@ -1,0 +1,9 @@
+[record]
+id = "QTY-STEER-0013"
+type = "quantity"
+title = "Ackermann reference outside-wheel angle"
+status = "proposed"
+maturity = "M0"
+description = "Ideal no-slip low-speed outside road-wheel angle for a declared inside-wheel angle, wheelbase, steering-axis track, and road plane."
+dimension = "angle"
+canonical_unit = "rad"

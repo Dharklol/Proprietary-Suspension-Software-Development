@@ -1,0 +1,9 @@
+[record]
+id = "QTY-STEER-0005"
+type = "quantity"
+title = "Rack displacement per pinion angle"
+status = "proposed"
+maturity = "M0"
+description = "Local or constant steering-rack transmission relation between rack displacement and pinion angle; legacy C-factor is an alias only after definition recovery."
+dimension = "length_per_angle"
+canonical_unit = "m/rad"

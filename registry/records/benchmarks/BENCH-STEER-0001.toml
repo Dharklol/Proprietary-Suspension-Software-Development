@@ -1,9 +1,22 @@
 [record]
 id = "BENCH-STEER-0001"
 type = "benchmark"
-title = "Legacy steering motion study comparison"
+title = "WUFR-26 final SolidWorks steering comparison"
 status = "proposed"
-description = "Compare the reviewed rigid steering model against the recovered CAD motion study using the same geometry, inputs, coordinate conventions, and sweep."
+description = "Compare the rigid steering evaluator with GEOMETRY FINAL.SLDPRT and the final-geometry 2026Ackermann.csv response. The FDR selects Test 3 and specifies a rack placement 0.5 inch rearward relative to the previous-year datum. Test_3.csv and the reference workbook remain selection-era cross-check evidence."
 verification_level = "E"
 target_ids = ["MOD-STEER-0001", "MIG-STR-0001"]
-acceptance_criteria = ["Source revision and sweep are recorded", "Left and right road-wheel curves agree within reviewed tolerances", "Intentional differences are explained by documented assumptions"]
+acceptance_criteria = [
+  "GEOMETRY FINAL.SLDPRT revision, configuration, study definition, dependencies, and project hash are recorded",
+  "The exact steering FDR artifact and final-geometry table are catalogued and hashed",
+  "The selected configuration is Test 3 and the primary final response is 2026Ackermann.csv",
+  "Test_3.csv and the Test 3 workbook column remain selection-era cross-check and design-intent evidence",
+  "The previous-year rack datum, longitudinal sign, and meaning of 0.5 inch back are recorded",
+  "Steer Input, Dimension2, Steer_Angle, and Measurement1 are mapped to canonical quantities",
+  "Angle branch orientation, reference angle, signs, units, zero, wheel identity, and physical domain are recorded",
+  "The transformed raw response is reproduced within declared CAD export tolerances",
+  "Road-wheel gain and conventional steering ratio are reported as distinct quantities",
+  "Residuals, derivatives, center behavior, full-lock behavior, symmetry, branch handling, and discontinuities are reported",
+  "Identification data and fitted curves are not reused as independent validation",
+  "Non-selected candidate studies remain separate regression cases"
+]

@@ -1,0 +1,9 @@
+[record]
+id = "QTY-STEER-0006"
+type = "quantity"
+title = "Left road-wheel steer angle"
+status = "proposed"
+maturity = "M0"
+description = "Toe-inclusive yaw orientation of the left road-wheel plane in its declared frame. Incremental steer is derived by subtracting the left static toe at the named rack-center reference configuration."
+dimension = "angle"
+canonical_unit = "rad"
