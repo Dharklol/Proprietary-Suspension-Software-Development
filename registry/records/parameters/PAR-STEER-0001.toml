@@ -1,0 +1,24 @@
+[record]
+id = "PAR-STEER-0001"
+type = "parameter"
+title = "WUFR-26 design-spec rack displacement per pinion angle"
+status = "proposed"
+description = "Inactive candidate observation of effective steering-rack travel per revolution of the steering input/pinion shaft, reported as C-factor."
+quantity_id = "QTY-STEER-0005"
+value = 0.014148874440869498
+unit = "m/rad"
+source_type = "design_specification_derived_unit_conversion"
+uncertainty = "not provided"
+source_catalog_id = "CAT-STEER-SPEC-0001"
+source_native_value = 88.9
+source_native_unit = "mm/rev"
+source_location = "Steer Ratio, C-Factor, Steer Arm Length / c-factor"
+vehicle_revision = "WUFR-26"
+evidence_role = "candidate_observation"
+authority_state = "inactive_observation"
+source_definition = "Effective steering-rack travel per revolution of the steering input/pinion shaft."
+conversion = "0.0889 m/rev divided by 2*pi rad/rev"
+applicability = "Reported effective design relation; installed rack/pinion state is not independently reconciled."
+open_items = ["Compare with rack and pinion CAD or drawing", "Compare with measured pinion-angle-to-rack-displacement sweep", "Assign polarity, zero, and uncertainty"]
+related_model_ids = ["MOD-STEER-0001"]
+related_benchmark_ids = ["BENCH-STEER-0001", "BENCH-STEER-0005"]
