@@ -1,0 +1,123 @@
+version = "0.4.0"
+contract_id = "WUFR26-STEER-LEVEL-E-V0"
+status = "fit_reference_available_pending_canonical_wheel_plane_projection"
+model_id = "MOD-STEER-0001"
+authorization_id = "AUTH-STEER-0001"
+
+[source]
+file_name = "2026Ackermann.csv"
+provider = "Box"
+provider_file_id = "2357045252883"
+provider_file_version_id = "2611346929683"
+provider_sha1 = "69d71c0977287a13385683204344e78816b48512"
+point_count = 205
+study_name = "Design Study 1"
+raw_input_row = "Steer Input"
+raw_output_row = "Dimension2"
+solidworks_version = "SolidWorks 2025 SP3.2 Academic Use Only, observed in team screenshot"
+
+[signal_mapping]
+input_quantity_id = "steering_or_pinion_input_angle_design_study"
+input_unit = "deg"
+input_sign = "positive input increases native Rack Length and maps to canonical +y rack translation"
+input_to_rack_relation = "rack_displacement_m = input_deg * 0.00024694444444444446"
+rack_travel_per_revolution_m = 0.0889
+steering_wheel_to_pinion_relation = "reported 1:1 for the design assembly"
+output_quantity_id = "unsigned_included_angle_between_two_hub_centered_construction_rays"
+output_unit = "deg"
+output_sign = "unsigned or branch-folded; near-zero alignment occurs between -77 deg and -76 deg input"
+output_known_construction = "Dimension2 is the included angle between two magenta rays sharing the hub/steering pivot. At least one ray is associated with the tie-rod or steering-arm construction. Exact second-ray identity, selected-entity order, side, and branch convention remain unresolved."
+periodic_monitor_period_deg = 360.0
+center_input_observation = 0.0
+center_output_observation_deg = 20.57
+center_output_role = "observed internal ray-angle datum only; not an approved toe, wheel-heading, or upright-rotation datum"
+
+[solidworks_state]
+full_assembly = "FSA STEERING"
+geometry_component = "GEOMETRY FINAL.SLDPRT"
+geometry_component_contents = "steering rack, steering columns, steering-wheel outline, and tie rods"
+active_assembly_configuration = "team reports active/default state; exact configuration label not separately named"
+active_geometry_component_configuration = "team reports active/default state; exact configuration label not separately named"
+study_type = "SolidWorks Design Study"
+study_name = "Design Study 1"
+driver_definition = "Steer Input global variable swept from -102 deg to +102 deg in 1-deg exported scenarios"
+monitor_definition = "Dimension2, Monitor Only; included angle between two magenta hub-centered rays; exact selected entities unresolved"
+suppression_and_warning_state = "reference chassis model suppressed; no reported errors or warnings"
+rack_center_construction = "Steer Input = 0 deg at the centered design-study state"
+nominal_rack_domain = "+/-1.00 in from center, 2.00 in total design span"
+exported_rack_domain = "+/-0.9916666667 in or +/-0.025188333333333333 m from the +/-102-deg source range"
+stop_state = "design-study limit resolved; installed physical stop state remains unverified"
+
+[optimizer_context]
+file_or_study = "STEERING GEOMETRY 2, Design Study 1"
+variables_and_sweeps = "steering-arm length and historical tie-rod-length configurations"
+goals = "right- and left-wheel turn-angle goals near 25 deg and 33 deg"
+visible_nominal_values = "steering arm 2.75 in, tie rod 13.5 in in one optimizer state; separate selected Test 3 geometry uses approximately 13.0-in tie-rod joint-center length"
+turn_angle_goal_construction = "team Slack evidence states that the wheel-center-plane/ground-plane intersection axis is measured against the SolidWorks x-axis"
+role = "design-selection context; the goal quantity is a projected road-wheel heading and is separate from Dimension2"
+
+[desmos_wheel_angle_reference]
+source_id = "WUFR26-DESMOS-WHEEL-FITS-V0"
+source_file = "benchmarks/steering/wufr26_desmos_wheel_angle_fits.toml"
+selected_fit = "test3"
+reference_role = "fit-derived projected left/right road-wheel angle versus historical steering input"
+left_polynomial = "-2e-8*x^4 + 3e-6*x^3 - 2e-4*x^2 + 0.2427*x - 1.1394 deg"
+right_polynomial = "-left(-x)"
+center_left_deg = -1.1394
+center_right_deg = 1.1394
+input_domain_used_for_selection_deg = [-102.0, 102.0]
+use_rule = "Primary available wheel-angle response reference for the selected Test 3 geometry. Compare total and incremental curves only after freezing the historical-to-canonical sign and side adapter and generating the identical projected wheel-plane quantity."
+limitations = [
+  "Polynomial coefficients are fitted evidence rather than raw SolidWorks goal samples.",
+  "The mirrored right branch enforces symmetry and cannot reveal physical asymmetry.",
+  "Agreement is cross-tool design evidence, not independent or physical validation."
+]
+
+[video_reference]
+location = "WUFR-27 / Suspension / PDR-FDR / Steering / Design Study Tutorials"
+item = "second design study tutorial"
+time_window = "approximately 1:15 to 2:00"
+authority_state = "team-directed source location; video frames and immutable file identity not yet frozen"
+
+[required_geometry]
+front_static_camber = "-2.25 deg per side from WUFR-26 FINAL 8.21.2025.xlsx"
+front_static_toe = "-1.00 deg per side in OptimumK local-side convention; team states positive toe means toe-out"
+center_wheel_ground_intersection_direction = "derivable from side, static toe, and +x forward convention"
+moving_wheel_plane_projection = "pending implementation and review of an exact wheel-plane-normal rotation and ground-plane intersection construction"
+front_right_hardpoints = "nominal mirror remains acceptable for the symmetric fit comparison; independent export remains required for as-built claims"
+pinion_or_input_to_rack_map = "resolved for design-study mapping; installed measurement remains open"
+
+[dimension2_diagnostic]
+raw_minimum = "0.17 deg at both -77 deg and -76 deg Steer Input"
+branch_reconstruction = "phi_signed = -Dimension2 at input <= -77 deg; phi_signed = +Dimension2 at input >= -76 deg; diagnostic incremental angle = phi_signed - 20.57 deg"
+endpoint_reconstruction = "-30.81 deg at -102 deg input and +21.27 deg at +102 deg input"
+comparison_quantity = "nominal evaluator -left upright rotation; diagnostic only because canonical identity is not matched"
+mean_residual_deg = -0.14440287338656324
+rmse_deg = 0.9197095305135609
+maximum_absolute_residual_deg = 2.4685599615802687
+maximum_residual_location = "-102 deg Steer Input"
+interpretation = "close tracking with systematic gain-shaped residual supports linkage continuity but demonstrates that Dimension2 must not be equated directly with upright rotation or road-wheel heading"
+validation_role = "supplementary non-validation diagnostic"
+
+[comparison]
+primary_reference = "selected Test 3 Desmos projected wheel-angle fits"
+supplementary_reference = "2026Ackermann.csv Dimension2 internal ray-angle monitor"
+interpolation = "linear_inside_overlap_only for raw series; direct evaluation for frozen polynomial fits"
+extrapolation_allowed = false
+polynomial_fit_used_as_reference = true
+polynomial_fit_independent_validation = false
+residual_definition = "candidate canonical projected road-wheel heading minus the convention-adapted Desmos projected road-wheel angle"
+metrics = ["mean_error", "rmse", "maximum_absolute_error", "point_residuals"]
+acceptance_tolerance = "unresolved_until_wheel_plane_projection_and_first_fit_residual_review"
+
+[restrictions]
+items = [
+  "Do not compare upright rotation directly with a projected road-wheel-angle fit.",
+  "Do not compare upright rotation directly with Dimension2 until both selected rays, side, entity order, and branch construction are reviewed.",
+  "Do not assign the optimizer's wheel-plane-versus-x-axis goal definition automatically to Dimension2.",
+  "Do not treat 20.57 deg as a wheel-heading, toe, or upright-rotation datum.",
+  "Do not treat the diagnostic Dimension2 reconstruction or its residual metrics as Level E validation.",
+  "Do not treat the +/-1.00-in design-study range as proof of installed physical stop travel.",
+  "Do not treat a polynomial fit as independent validation evidence.",
+  "Do not claim installed or physical validation from Level E agreement."
+]

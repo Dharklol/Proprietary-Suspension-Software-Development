@@ -54,6 +54,10 @@ All notable project changes should be recorded here. Model releases must identif
 - Machine-readable capability restrictions that allow WUFR nominal mechanism closure and upright rotation while marking heading-, ratio-, Ackermann-, and radius-dependent outputs unavailable until their prerequisites are reviewed.
 - Standard-library `pssd_steering` bounded rigid mechanism evaluator with explicit geometry validation, Rodrigues rotation, rigid tie-rod closure, analytical Jacobians, branch-preserving bisection, singularity diagnostics, and unavailable-output reason codes.
 - Automated `BENCH-STEER-0002` through `BENCH-STEER-0008` tests, a benchmark runner, implementation documentation, and a recorded WUFR-26 nominal upright-rotation sweep.
+- Level E steering comparison primitives for source-preserving transposed-CSV parsing, periodic monitor normalization, explicit signal identity, domain-limited interpolation, and residual metrics.
+- WUFR-26 Level E comparison contract, readiness gate, dense 205-point nominal sweep script, and SolidWorks export requirements.
+- WUFR-26 `Dimension2` ray-construction and folded-branch diagnostic separating the internal monitor from the optimizer's direct turn-angle goals.
+- Machine-readable Test 1-4 and previous-year Desmos wheel-angle fits, plus a traceable polynomial evaluator and frozen tests.
 
 ### Changed
 
@@ -63,7 +67,7 @@ All notable project changes should be recorded here. Model releases must identif
 - Current `ST-60306` through `ST-60310` rack-family identities are accepted from the individual drawings; omission from the purchased-rack BOM is classified as a BOM/cost-report scope difference.
 - `RISK-STEER-0001` severity is reduced after identity clarification, while native active-assembly reference confirmation remains required.
 - The specification's `3.12:1` steering ratio is now a rejected observation prohibited from active calculations, targets, benchmarks, and validation.
-- Rack center is defined as the midpoint between equal left/right stop limits; the reported 1.00-in total travel is provisionally interpreted as `+/-0.50 in` pending CAD or measurement verification.
+- The nominal design-study rack range is corrected to approximately `+/-1.00 in` from center, or `2.00 in` total; installed physical stop authority remains open.
 - The native SolidWorks assembly export is reclassified from a blocker to nominal-design mechanism evaluation into a Level E/F installed-state correlation gate.
 - The FDR tie-rod pair is no longer treated as a right-side point set; it is the front-left set in a lateral-positive-left SolidWorks frame.
 - Static toe is treated as embedded in the imported nominal reference orientation and is not removed by modifying hardpoint coordinates.
@@ -71,3 +75,6 @@ All notable project changes should be recorded here. Model releases must identif
 - `MOD-STEER-0001` and `EQ-STEER-0001` through `0007` move to bounded prototype authorization only under `AUTH-STEER-0001`; the inverse-design optimizer remains documentation-only.
 - `GEO-STEER-BASIC-001` and the preimplementation packet are frozen as the required analytical/synthetic implementation contract rather than treated as optional examples.
 - `MOD-STEER-0001` advances to M1/Level C for the bounded prototype after implementing the frozen analytical and synthetic benchmark contract; WUFR-26 Level E/F correlation remains open.
+- Level E comparison now refuses mismatched canonical signal identities, units, unsupported extrapolation, and unresolved SolidWorks metadata instead of producing provisional residuals.
+- The optimizer's wheel-plane/ground-plane intersection versus x-axis turn-angle construction is explicitly separated from the folded `Dimension2` internal ray monitor.
+- The selected Test 3 Desmos wheel-angle fits replace `Dimension2` as the primary available projected wheel-angle comparison reference; `Dimension2` remains supplementary source-archeology evidence.

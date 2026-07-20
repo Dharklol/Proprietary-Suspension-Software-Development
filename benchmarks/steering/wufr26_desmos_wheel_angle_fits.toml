@@ -1,0 +1,69 @@
+version = "0.1.0"
+benchmark_source_id = "WUFR26-DESMOS-WHEEL-FITS-V0"
+status = "fit_derived_design_study_reference"
+vehicle_revision = "WUFR-26"
+
+[source]
+workbook_name = "Steering Length Optimization Tests.xlsx"
+provider = "Box"
+provider_file_id = "1939770957296"
+provider_file_version_id = "2140326128861"
+provider_sha1 = "2069922fc3dac8889d84a92275e35486caef3284"
+expression_source = "team-recovered historical Desmos equations"
+
+[conventions]
+input_quantity = "historical steering input"
+input_unit = "deg"
+output_quantity = "toe-inclusive total left/right road-wheel angle in the historical Desmos convention"
+output_unit = "deg"
+left_polynomial = "c0 + c1*x + c2*x^2 + c3*x^3 + c4*x^4"
+right_mirror = "right(x) = -left(-x)"
+static_value = "total angle evaluated at x = 0 deg"
+incremental_value = "total angle minus the same-side static value"
+restrictions = [
+  "The right curve is symmetry-derived and cannot reveal physical left/right asymmetry.",
+  "The polynomial is a fit-derived reference, not independent evidence from the source samples.",
+  "A coordinate/sign adapter is required before comparison with canonical ISO-style wheel heading.",
+  "Do not use a fitted curve as a replacement for future raw SolidWorks goal exports or physical measurements."
+]
+
+[fits.test1]
+role = "historical_candidate"
+c0 = -1.2479
+c1 = 0.245
+c2 = -0.0003
+c3 = 0.000002
+c4 = -0.00000001
+
+[fits.test2]
+role = "historical_candidate"
+c0 = -0.9946
+c1 = 0.2344
+c2 = -0.0002
+c3 = 0.000001
+c4 = -0.000000007
+
+[fits.test3]
+role = "selected_geometry_fit_reference"
+c0 = -1.1394
+c1 = 0.2427
+c2 = -0.0002
+c3 = 0.000003
+c4 = -0.00000002
+source_setup = "13.0-in tie rod, approximately 2.70-in steering arm, 102-deg input in the selection workbook"
+
+[fits.test4]
+role = "historical_candidate"
+c0 = -0.9889
+c1 = 0.2348
+c2 = -0.0002
+c3 = 0.000001
+c4 = -0.000000006
+
+[fits.previous_year]
+role = "historical_baseline"
+c0 = -1.0131
+c1 = 0.2796
+c2 = -0.0003
+c3 = 0.000003
+c4 = -0.00000002
