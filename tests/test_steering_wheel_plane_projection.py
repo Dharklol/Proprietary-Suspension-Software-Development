@@ -1,6 +1,5 @@
 import math
-
-import pytest
+import unittest
 
 from pssd_steering import (
     AxisLine,
@@ -23,46 +22,50 @@ def _corner(side: str, axis_direction=(0.0, 0.0, 1.0)) -> SteeringCorner:
     )
 
 
-def test_static_toe_out_convention_is_side_local() -> None:
-    toe = math.radians(-1.0)
-    camber = math.radians(-2.25)
-    left = reference_from_static_alignment("left", toe_out=toe, camber=camber)
-    right = reference_from_static_alignment("right", toe_out=toe, camber=camber)
+class WheelPlaneProjectionTests(unittest.TestCase):
+    def test_static_toe_out_convention_is_side_local(self) -> None:
+        toe = math.radians(-1.0)
+        camber = math.radians(-2.25)
+        left = reference_from_static_alignment("left", toe_out=toe, camber=camber)
+        right = reference_from_static_alignment("right", toe_out=toe, camber=camber)
 
-    left_total, left_incremental = projected_wheel_heading(_corner("left"), left, 0.0)
-    right_total, right_incremental = projected_wheel_heading(_corner("right"), right, 0.0)
+        left_total, left_incremental = projected_wheel_heading(_corner("left"), left, 0.0)
+        right_total, right_incremental = projected_wheel_heading(_corner("right"), right, 0.0)
 
-    assert math.degrees(left_total) == pytest.approx(-1.0)
-    assert math.degrees(right_total) == pytest.approx(1.0)
-    assert left_incremental == pytest.approx(0.0)
-    assert right_incremental == pytest.approx(0.0)
+        self.assertAlmostEqual(math.degrees(left_total), -1.0, places=12)
+        self.assertAlmostEqual(math.degrees(right_total), 1.0, places=12)
+        self.assertAlmostEqual(left_incremental, 0.0, places=15)
+        self.assertAlmostEqual(right_incremental, 0.0, places=15)
+
+    def test_vertical_steering_axis_reduces_to_yaw_rotation(self) -> None:
+        reference = reference_from_static_alignment(
+            "left", toe_out=math.radians(-1.0), camber=math.radians(-2.25)
+        )
+        total, incremental = projected_wheel_heading(
+            _corner("left"), reference, math.radians(12.0)
+        )
+        self.assertAlmostEqual(math.degrees(total), 11.0, places=12)
+        self.assertAlmostEqual(math.degrees(incremental), 12.0, places=12)
+
+    def test_inclined_axis_and_camber_use_plane_intersection_not_forward_projection(self) -> None:
+        reference = reference_from_static_alignment(
+            "left", toe_out=math.radians(-1.0), camber=math.radians(-2.25)
+        )
+        corner = _corner("left", axis_direction=(-0.0433, -0.1498, 0.9878))
+        total, incremental = projected_wheel_heading(corner, reference, math.radians(20.0))
+
+        self.assertTrue(math.isfinite(total))
+        self.assertTrue(math.isfinite(incremental))
+        # With camber and an inclined kingpin axis, projected heading is not exactly
+        # the upright rotation plus static toe.
+        self.assertNotAlmostEqual(math.degrees(total), 19.0, places=4)
+
+    def test_plane_parallel_to_road_is_rejected(self) -> None:
+        with self.assertRaisesRegex(GeometryError, "parallel to the road plane"):
+            road_intersection_direction(
+                (0.0, 0.0, 1.0), forward_hint=(1.0, 0.0, 0.0)
+            )
 
 
-def test_vertical_steering_axis_reduces_to_yaw_rotation() -> None:
-    reference = reference_from_static_alignment(
-        "left", toe_out=math.radians(-1.0), camber=math.radians(-2.25)
-    )
-    total, incremental = projected_wheel_heading(
-        _corner("left"), reference, math.radians(12.0)
-    )
-    assert math.degrees(total) == pytest.approx(11.0)
-    assert math.degrees(incremental) == pytest.approx(12.0)
-
-
-def test_inclined_axis_and_camber_use_plane_intersection_not_forward_projection() -> None:
-    reference = reference_from_static_alignment(
-        "left", toe_out=math.radians(-1.0), camber=math.radians(-2.25)
-    )
-    corner = _corner("left", axis_direction=(-0.0433, -0.1498, 0.9878))
-    total, incremental = projected_wheel_heading(corner, reference, math.radians(20.0))
-
-    assert math.isfinite(total)
-    assert math.isfinite(incremental)
-    # With camber and an inclined kingpin axis, projected heading is not exactly
-    # the upright rotation plus static toe.
-    assert math.degrees(total) != pytest.approx(19.0, abs=1.0e-4)
-
-
-def test_plane_parallel_to_road_is_rejected() -> None:
-    with pytest.raises(GeometryError, match="parallel to the road plane"):
-        road_intersection_direction((0.0, 0.0, 1.0), forward_hint=(1.0, 0.0, 0.0))
+if __name__ == "__main__":
+    unittest.main()
