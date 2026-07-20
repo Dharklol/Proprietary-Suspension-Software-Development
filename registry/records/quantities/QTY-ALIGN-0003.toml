@@ -1,0 +1,13 @@
+[record]
+id = "QTY-ALIGN-0003"
+type = "quantity"
+title = "Axle sum toe"
+status = "proposed"
+maturity = "M0"
+description = "Signed sum of the declared left and right per-wheel toe angles for one axle in a named reference configuration. The per-wheel toe sign convention and axle identity must be stated."
+dimension = "angle"
+canonical_unit = "rad"
+frame = "declared vehicle/road frame"
+reference_point = "left and right road-wheel heading at the named rack-center/setup configuration"
+sign_convention = "Project convention pending freeze; source adapters must preserve native toe-in/toe-out sign."
+notes = "Axle sum toe does not define the left/right split. A symmetric split is a separate assumption or derived configuration record."
