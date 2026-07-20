@@ -113,5 +113,5 @@ exit_criterion = "Final WUFR-26 geometry, signal identities, static toe/datum, o
 [[phase_0.tasks]]
 id = "P0-PAR-001"
 title = "Steering parameter-observation seed"
-status = "planned"
+status = "review_ready"
 exit_criterion = "Recovered WUFR steering dimensions and settings are stored as non-authoritative observations with provenance, units, frame, uncertainty, and applicability before active-value selection."
