@@ -41,10 +41,17 @@ All notable project changes should be recorded here. Model releases must identif
 - WUFR-26 steering design-spec source catalog and inactive observations for wheelbase, axle sum toe, C-factor, and through-center steering ratio.
 - Proposed `QTY-ALIGN-0003` axle sum-toe quantity and recovered WUFR-26 C-factor definition.
 - WUFR-26 steering drawing/BOM authority manifest covering system assemblies, rack, tie rods, front uprights, drawing-number conventions, source hierarchy, and active-geometry extraction requirements.
-- `RISK-STEER-0001` for conflicting rack-family part-number assignments and the tie-rod end-cap subsystem-prefix mismatch.
+- `RISK-STEER-0001` for steering BOM scope, historical identity, and title-block mismatch risk.
+- WUFR-26 steering baseline-reconciliation packet linking `GEOMETRY FINAL.SLDPRT` to the active linkage assembly and defining the remaining native SolidWorks export.
+- `PAR-STEER-0003` provisional symmetric one-sided rack-travel observation derived from the reported 1.00-in total travel.
+- SolidWorks geometry-export CSV template for steering axes, joints, rack states, wheel planes, setup, and transmission sweep.
 
 ### Changed
 
 - Ackermann comparisons now default to incremental steer with static toe handled separately, while total toe-inclusive wheel heading remains a required output.
 - The WUFR-26 zero-input `20.57 deg` monitor value is treated as an observation rather than a frozen toe-inclusive subtraction datum.
-- Production steering geometry and design-study geometry are now separate evidence chains that must be reconciled rather than assumed identical.
+- Design-study and active-assembly geometry are treated as connected evidence layers because `GEOMETRY FINAL.SLDPRT` is instantiated inside the fuller linkage subassembly; the active configuration still requires explicit export.
+- Current `ST-60306` through `ST-60310` rack-family identities are accepted from the individual drawings; omission from the purchased-rack BOM is classified as a BOM/cost-report scope difference.
+- `RISK-STEER-0001` severity is reduced after identity clarification, while native active-assembly reference confirmation remains required.
+- The specification's `3.12:1` steering ratio is now a rejected observation prohibited from active calculations, targets, benchmarks, and validation.
+- Rack center is defined as the midpoint between equal left/right stop limits; the reported 1.00-in total travel is provisionally interpreted as `+/-0.50 in` pending CAD or measurement verification.
