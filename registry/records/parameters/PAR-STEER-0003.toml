@@ -1,0 +1,24 @@
+[record]
+id = "PAR-STEER-0003"
+type = "parameter"
+title = "Provisional WUFR-26 symmetric one-sided rack-travel bound"
+status = "proposed"
+description = "Inactive provisional observation derived from the team-reported 1.00-in total rack travel and the definition of rack center as the midpoint between equal left and right installed stop limits."
+quantity_id = "QTY-STEER-0004"
+value = 0.0127
+unit = "m"
+source_type = "team_configuration_clarification_derived_unit_conversion"
+uncertainty = "not provided"
+source_native_value = 1.0
+source_native_unit = "in_total_travel"
+source_location = "Team clarification dated 2026-07-20"
+vehicle_revision = "WUFR-26"
+evidence_role = "provisional_observation"
+authority_state = "inactive_observation"
+reference_zero = "rack center defined as midpoint between equal left and right installed stop limits"
+range_interpretation = "provisional signed bounds are -0.0127 m to +0.0127 m; total span is 0.0254 m"
+conversion = "1.00 in total multiplied by 0.0254 m/in and divided by two"
+applicability = "Provisional operational/mechanical bound for planning and export requirements only; not approved as a solver constraint until active CAD or direct measurement confirms the installed stop state."
+open_items = ["Confirm that 1.00 in means total rather than one-sided travel", "Confirm whether the value is mechanical or operational travel", "Verify equal left/right limits in the active SolidWorks assembly and installed car", "Record sign, tolerance, compliance, and stop-contact definition"]
+related_model_ids = ["MOD-STEER-0001"]
+related_benchmark_ids = ["BENCH-STEER-0001"]
