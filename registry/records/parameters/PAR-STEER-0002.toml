@@ -1,0 +1,25 @@
+[record]
+id = "PAR-STEER-0002"
+type = "parameter"
+title = "WUFR-26 design-spec through-center steering-ratio observation"
+status = "proposed"
+description = "Candidate observation of the WUFR-26 through-center handwheel-to-average-road-wheel steering ratio reported in the design specification."
+quantity_id = "QTY-STEER-0010"
+value = 3.12
+unit = "1"
+source_type = "design_specification"
+uncertainty = "not provided"
+source_catalog_id = "CAT-STEER-SPEC-0001"
+source_native_value = 3.12
+source_native_unit = "handwheel_angle_per_average_road_wheel_angle"
+source_location = "Steer Ratio, C-Factor, Steer Arm Length / Steer Ratio"
+vehicle_revision = "WUFR-26"
+evidence_role = "candidate_observation"
+authority_state = "inactive_observation"
+operating_point = "through center"
+numerator = "steering-wheel angle"
+denominator = "average left and right road-wheel angle"
+applicability = "Reported center summary; exact derivative method, average rule, static-toe treatment, steering-column/u-joint state, and as-built configuration remain open."
+open_items = ["Confirm local derivative rather than finite secant", "Confirm arithmetic average of left/right incremental steer", "Confirm column and universal-joint effects included", "Compare against full transmission and mechanism derivative", "Assign uncertainty"]
+related_model_ids = ["MOD-STEER-0001"]
+related_benchmark_ids = ["BENCH-STEER-0001", "BENCH-STEER-0006"]
