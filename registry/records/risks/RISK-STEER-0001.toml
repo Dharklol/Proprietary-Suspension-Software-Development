@@ -1,26 +1,29 @@
 [record]
 id = "RISK-STEER-0001"
 type = "risk"
-title = "Conflicting steering drawing and BOM identity"
+title = "Steering BOM scope and drawing identity mismatch"
 status = "active"
-description = "WUFR-26 steering artifacts contain conflicting part-number assignments and at least one subsystem-prefix mismatch, so an old assembly drawing or filename could be mistaken for current component authority."
-severity = "high"
-cause = "Assembly and part drawings were revised at different times; older PDFs and copied CAD files remain beside current sources; part numbers were reassigned without every historical BOM being regenerated."
-effect = "The wrong rack, pinion, potentiometer component, tie-rod end cap, dimension, or source revision could enter the canonical geometry, parameter registry, benchmark, manufacturing review, or optimizer constraints."
+description = "WUFR-26 steering artifacts include an older/incomplete rack assembly BOM, current cost-report component drawings, copied CAD files, and one subsystem-prefix mismatch. Current ST-60306 through ST-60310 identities are clarified, but the active assembly references and the ST/SU end-cap prefix still require native CAD confirmation."
+severity = "medium"
+cause = "The purchased rack is represented as one assembly in the steering BOM while the cost report requires separate rack-component drawings; historical PDFs and current drawings have different scopes and dates; the right-thread end-cap title block appears to contain a subsystem-prefix typo."
+effect = "An older BOM, copied CAD file, or title-block typo could be mistaken for the active component reference, causing incorrect source lineage, C-factor evidence, stop geometry, tie-rod identity, or benchmark metadata."
 controls = [
-  "Resolve identity from current assembly CAD active configuration and matching current drawing revision, not filename alone.",
+  "Use current ST-60306 through ST-60310 drawings for present rack-family identity; treat omission from the purchased-rack BOM as a scope limitation rather than reassignment evidence.",
+  "Resolve installed identity from the active SolidWorks assembly configuration and component reference list.",
   "Record part number, revision, source file, provider file/version ID, provider hash, and modification date together.",
-  "Treat the January ST-A0603-AA rack assembly PDF as historical until its BOM is reconciled with the current rack assembly CAD and current 60306 through 60310 drawing family.",
-  "Resolve the SU-60502-AA versus ST-60502-AA end-cap title-block mismatch against the tie-rod assembly BOM and source CAD.",
-  "Preserve conflicting artifacts and document supersession rather than deleting them.",
+  "Treat older rack assembly PDFs and email-suffixed CAD copies as historical unless matched to the active configuration.",
+  "Resolve the SU-60502-AA versus ST-60502-AA end-cap title-block mismatch against source CAD.",
+  "Preserve superseded or conflicting artifacts rather than deleting them.",
   "Require immutable-byte capture and project SHA-256 before benchmark or active-value freeze.",
-  "Block active steering geometry and C-factor selection until rack, tie-rod, and upright source identities are reconciled."
+  "Block active steering geometry and C-factor selection until rack, tie-rod, upright, and vehicle assembly references are exported."
 ]
 affected_ids = [
   "MIG-STR-0001",
   "MOD-STEER-0001",
   "BENCH-STEER-0001",
   "PAR-STEER-0001",
+  "PAR-STEER-0003",
+  "QTY-STEER-0004",
   "QTY-STEER-0005",
   "QTY-STEER-0012"
 ]
