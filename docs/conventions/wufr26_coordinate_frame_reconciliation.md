@@ -120,8 +120,10 @@ This evidence establishes the presence of static toe in the imported nominal geo
 For the rigid evaluator:
 
 - zero solved upright rotation means the imported nominal static-toe mechanism state;
-- solver output is incremental steer relative to that state;
-- absolute toe-inclusive road-wheel heading requires a reviewed wheel-plane basis and per-wheel toe convention;
+- the closure solver's primary angular output is rotation of the upright about its steering axis;
+- projected road-wheel heading requires an initial wheel-forward or wheel-plane basis;
+- incremental road-wheel heading may be reported only after that basis is supplied or derived under an explicitly reviewed assumption;
+- absolute toe-inclusive road-wheel heading additionally requires the per-wheel toe convention;
 - static toe must not be subtracted from hardpoint geometry as though the points were recorded at zero toe.
 
 ## Authority rule
@@ -151,6 +153,6 @@ The mirrored inner joints imply a rack-center point `[-0.079298, 0, 0.162865] m`
 
 ## Remaining gates
 
-This is enough for an explicitly labeled nominal-design incremental steering evaluator. It does not establish installed hardpoints, the exact per-wheel static-toe convention and wheel-plane basis, shim stack and ride height, actual stop states, pinion-to-rack transmission, tolerances, compliance, or active assembly warning state.
+This is enough for an explicitly labeled nominal-design mechanism-closure evaluator and upright-rotation sweep. It does not establish installed hardpoints, the exact per-wheel static-toe convention and wheel-plane basis, projected road-wheel headings, shim stack and ride height, actual stop states, pinion-to-rack transmission, tolerances, compliance, or active assembly warning state.
 
 The project should retain one ISO 8855-style right-handed simulation frame. CAD may use an ISO 4130-oriented vehicle reference, but every CAD model still requires a source-specific adapter; a standard label cannot authorize an unverified axis permutation, sign change, or origin shift.
