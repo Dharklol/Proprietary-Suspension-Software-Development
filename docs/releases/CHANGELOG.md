@@ -58,6 +58,8 @@ All notable project changes should be recorded here. Model releases must identif
 - WUFR-26 Level E comparison contract, readiness gate, dense 205-point nominal sweep script, and SolidWorks export requirements.
 - WUFR-26 `Dimension2` ray-construction and folded-branch diagnostic separating the internal monitor from the optimizer's direct turn-angle goals.
 - Machine-readable Test 1-4 and previous-year Desmos wheel-angle fits, plus a traceable polynomial evaluator and frozen tests.
+- Canonical wheel-plane/road-plane projection and explicit historical convention adapter for the WUFR-26 Test 3 comparison.
+- Frozen `WUFR26-STEER-LEVEL-E-TEST3-V0` residual result, compact/full JSON CLI reports, CI artifacts, residual-band review, and documented acceptance disposition.
 
 ### Changed
 
@@ -78,3 +80,5 @@ All notable project changes should be recorded here. Model releases must identif
 - Level E comparison now refuses mismatched canonical signal identities, units, unsupported extrapolation, and unresolved SolidWorks metadata instead of producing provisional residuals.
 - The optimizer's wheel-plane/ground-plane intersection versus x-axis turn-angle construction is explicitly separated from the folded `Dimension2` internal ray monitor.
 - The selected Test 3 Desmos wheel-angle fits replace `Dimension2` as the primary available projected wheel-angle comparison reference; `Dimension2` remains supplementary source-archeology evidence.
+- Total-angle residuals retain the canonical OptimumK static datum instead of being silently re-centered to the historical fit static value.
+- `P0-STR-010` advances to review-ready after the numerical comparison, residual-shape review, and descriptive-only acceptance disposition were frozen.
