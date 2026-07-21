@@ -13,7 +13,8 @@ The team supplied the following design-source observations:
 - the inboard tie-rod pickup points are the moving rack points and translate by `1.00 in` to either side in the nominal study;
 - the FDR projected full-input wheel-turn values are `22.22 deg` for the less-steered/right wheel and `32.81 deg` for the more-steered/left wheel;
 - CAD angular exports are reported to use `+/-0.1 deg` tolerance;
-- the reported CAD length tolerance was phrased as `+/-0.005 thou` and needs exact unit confirmation;
+- CAD length exports use a team-confirmed five-thou tolerance: `+/-0.005 in = +/-0.127 mm = +/-0.000127 m`;
+- the CAD export tolerances are source observations and are not installed fabrication tolerances or physical validation acceptance thresholds;
 - the intended model use is future steering-system development, not retrospective as-built certification.
 
 ## General steering-geometry screenshot
