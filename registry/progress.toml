@@ -108,7 +108,7 @@ exit_criterion = "EQ-STEER-0001 through 0007 have reviewed sources, equations, v
 id = "P0-STR-006"
 title = "WUFR-26 steering benchmark and installed-state freeze"
 status = "active"
-exit_criterion = "The nominal design geometry and descriptive Level E result are frozen; installed stops, transmission, setup uncertainty, backlash/compliance characterization, source hashes, and independently justified Level F tolerances remain to be frozen."
+exit_criterion = "The nominal design geometry and descriptive Level E result are frozen; installed stops, staged transmission correlation, setup uncertainty, component-level backlash/compliance attribution, source hashes, and independently justified Level F tolerances remain to be frozen."
 
 [[phase_0.tasks]]
 id = "P0-PAR-001"
@@ -144,4 +144,4 @@ exit_criterion = "The source parser, canonical wheel-plane projection, conventio
 id = "P0-STR-011"
 title = "WUFR-26 Level F uncertainty and physical correlation"
 status = "active"
-exit_criterion = "Installed rack center/stops, transmission, setup, left/right response, repeatability, backlash, compliance, hysteresis, sensor calibration, and uncertainty are measured with an independently justified acceptance rule."
+exit_criterion = "Existing whole-system free-play, historical compliance, calculated steering-load, and available-sensor evidence are source-linked; installed stops, primary-shaft-to-rack correlation, left/right rack-to-wheel response, repeatability, staged backlash/compliance attribution, sensor calibration, uncertainty, and an independently justified acceptance rule remain to be completed."
