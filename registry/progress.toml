@@ -84,8 +84,10 @@ review_record = "docs/reviews/phase0_steering_definition_role_closeout.md"
 [[phase_0.tasks]]
 id = "P0-STR-002"
 title = "Steering source recovery"
-status = "active"
+status = "review_ready"
 exit_criterion = "The legacy optimizer and best available WUFR CAD motion-study package are recovered and hashed or their absence is formally accepted for prototype scope."
+review_record = "docs/reviews/phase0_steering_source_hash_review.md"
+remaining_gate = "Raw immutable provider downloads and project SHA-256 values, or reviewer-approved formal-unavailability dispositions, are still required before completion."
 
 [[phase_0.tasks]]
 id = "P0-STR-003"
