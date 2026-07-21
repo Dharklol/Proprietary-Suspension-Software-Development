@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import math
 import tomllib
 import unittest
 
@@ -8,22 +9,41 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def load_toml(*parts: str) -> dict:
+    with ROOT.joinpath(*parts).open("rb") as stream:
+        return tomllib.load(stream)
+
+
 class WUFR26EvidenceFreezeTests(unittest.TestCase):
     def setUp(self) -> None:
-        with (
-            ROOT
-            / "configurations"
-            / "steering"
-            / "WUFR26_DESIGN_NOMINAL_V0.toml"
-        ).open("rb") as stream:
-            self.configuration = tomllib.load(stream)
-        with (
-            ROOT
-            / "benchmarks"
-            / "steering"
-            / "wufr26_level_e_test3_result.toml"
-        ).open("rb") as stream:
-            self.result = tomllib.load(stream)
+        self.configuration = load_toml(
+            "configurations",
+            "steering",
+            "WUFR26_DESIGN_NOMINAL_V0.toml",
+        )
+        self.result = load_toml(
+            "benchmarks",
+            "steering",
+            "wufr26_level_e_test3_result.toml",
+        )
+        self.free_play = load_toml(
+            "registry",
+            "records",
+            "parameters",
+            "PAR-STEER-0004.toml",
+        )["record"]
+        self.compliance_first = load_toml(
+            "registry",
+            "records",
+            "parameters",
+            "PAR-STEER-0005.toml",
+        )["record"]
+        self.compliance_second = load_toml(
+            "registry",
+            "records",
+            "parameters",
+            "PAR-STEER-0006.toml",
+        )["record"]
 
     def test_team_supplied_rack_center_confirms_canonical_mapping(self) -> None:
         rack = self.configuration["rack"]
@@ -102,6 +122,27 @@ class WUFR26EvidenceFreezeTests(unittest.TestCase):
         self.assertAlmostEqual(metres, inches * 0.0254, places=12)
         self.assertAlmostEqual(millimetres, 0.127, places=12)
         self.assertAlmostEqual(metres, 0.000127, places=12)
+
+    def test_current_system_free_play_is_four_degrees_in_radians(self) -> None:
+        self.assertEqual(self.free_play["quantity_id"], "QTY-STEER-0016")
+        self.assertAlmostEqual(self.free_play["source_native_value"], 4.0, places=12)
+        self.assertAlmostEqual(
+            self.free_play["value"],
+            math.radians(self.free_play["source_native_value"]),
+            places=12,
+        )
+        self.assertIn("do not add", self.free_play["component_attribution"])
+
+    def test_historical_directional_compliance_values_remain_separate(self) -> None:
+        for record in (self.compliance_first, self.compliance_second):
+            expected = math.radians(record["source_native_value"])
+            self.assertEqual(record["quantity_id"], "QTY-STEER-0017")
+            self.assertAlmostEqual(record["value"], expected, places=12)
+        self.assertNotAlmostEqual(
+            self.compliance_first["value"],
+            self.compliance_second["value"],
+            places=12,
+        )
 
 
 if __name__ == "__main__":
