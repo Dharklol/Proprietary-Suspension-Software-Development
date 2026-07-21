@@ -60,6 +60,14 @@ All notable project changes should be recorded here. Model releases must identif
 - Machine-readable Test 1-4 and previous-year Desmos wheel-angle fits, plus a traceable polynomial evaluator and frozen tests.
 - Canonical wheel-plane/road-plane projection and explicit historical convention adapter for the WUFR-26 Test 3 comparison.
 - Frozen `WUFR26-STEER-LEVEL-E-TEST3-V0` residual result, compact/full JSON CLI reports, CI artifacts, residual-band review, and documented acceptance disposition.
+- Team-supplied FDR projected endpoint cross-checks at `22.22 deg` and `32.81 deg`, exact nominal CAD left/right reflection authority, and direct rack-center coordinate confirmation.
+- WUFR-26 CAD screenshot observation record covering steering geometry, upper-column dimensions, named 3D sketches, and unresolved external-reference indicators.
+- `RISK-STEER-0002` for rack, gear, rod-end, column, quick-release, structural, tire, and fixture compliance/backlash uncertainty.
+- Proposed Level F measurement protocol using bidirectional sweeps, reversal deadband, component isolation, compliance tests, stop verification, and uncertainty reporting.
+- Source-linked WUFR-26 steering force/compliance evidence packet with exact `Suspension Calculations 2026` cell references for parked/cornering rack force, column moment, bevel-gear force components, and known bearing-force sign caveats.
+- `QTY-STEER-0016` and `QTY-STEER-0017` definitions for whole-system free play and directional angular compliance.
+- `PAR-STEER-0004` through `PAR-STEER-0006` for the current approximate `4 deg` whole-system free play and the historical `0.26/0.47 deg/N*m` directional compliance observations.
+- `SNS-STEER-0001` and `SNS-STEER-0002` for the installed rack linear potentiometer and planned primary-shaft rotary potentiometer.
 
 ### Changed
 
@@ -81,4 +89,9 @@ All notable project changes should be recorded here. Model releases must identif
 - The optimizer's wheel-plane/ground-plane intersection versus x-axis turn-angle construction is explicitly separated from the folded `Dimension2` internal ray monitor.
 - The selected Test 3 Desmos wheel-angle fits replace `Dimension2` as the primary available projected wheel-angle comparison reference; `Dimension2` remains supplementary source-archeology evidence.
 - Total-angle residuals retain the canonical OptimumK static datum instead of being silently re-centered to the historical fit static value.
-- `P0-STR-010` advances to review-ready after the numerical comparison, residual-shape review, and descriptive-only acceptance disposition were frozen.
+- `P0-STR-010` is complete after team acceptance of the frozen descriptive Level E comparison and FDR endpoint cross-check.
+- `P0-STR-006` remains active but now focuses on installed stops, transmission, setup uncertainty, compliance/backlash attribution, source hashes, and independent Level F acceptance criteria.
+- `P0-STR-011` now starts from existing free-play/compliance/load evidence and available instrumentation rather than treating all installed evidence as missing.
+- `WUFR26_DESIGN_NOMINAL_V0` advances to a frozen nominal design-source configuration; exact CAD reflection is authoritative for the design model but not for as-built symmetry.
+- `PAR-STEER-0003` becomes active for nominal design-study rack-point motion, resolves five thou as `+/-0.005 in`, and keeps installed stop authority separate.
+- The Level F protocol is adapted to the installed rack pot, planned primary-shaft rotary pot, torque rig, digital angle gauge, and calipers, with explicit no-double-counting rules for supplier and whole-system backlash.

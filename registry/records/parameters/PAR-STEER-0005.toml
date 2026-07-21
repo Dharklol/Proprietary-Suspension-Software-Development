@@ -1,0 +1,20 @@
+[record]
+id = "PAR-STEER-0005"
+type = "parameter"
+title = "Historical constrained steering compliance, first direction"
+status = "proposed"
+description = "Directional whole-system steering-wheel angular compliance measured with the steering output constrained after the free-play limit was engaged. The source reports 1.55 deg deflection under 5.9 N*m, or 0.26 deg/N*m."
+quantity_id = "QTY-STEER-0017"
+value = 0.004537856055185257
+unit = "rad/N*m"
+source_type = "historical_physical_test_observation"
+uncertainty = "Single reported point; force-gauge, lever-arm, angle-gauge, fixture, tire constraint, preload, and repeatability uncertainties were not quantified."
+source_native_value = 0.26
+source_native_unit = "deg/N*m"
+source_location = "Google Doc Steering Compliance Test, post-test note: Start 6.05 deg, End 7.6 deg, Torque 5.9 N*m"
+source_file_id = "1-v5CJDZ8OCKXtyIP1dahvR50OqjGEUocytBonaA_tCQ"
+vehicle_revision = "WUFR-25 steering system tested during WUFR-26 development"
+evidence_role = "historical_directional_compliance_observation"
+authority_state = "benchmark_only_until_setup_and_repeatability_are_recovered"
+applicability = "Historical comparison and test-method recovery only. Do not average with the opposite direction without retaining hysteresis information."
+related_risk_ids = ["RISK-STEER-0002"]

@@ -1,0 +1,9 @@
+[record]
+id = "QTY-STEER-0017"
+type = "quantity"
+title = "Steering-wheel angular compliance per applied torque"
+status = "proposed"
+maturity = "M0"
+description = "Slope of steering-wheel angular deflection with respect to applied steering-wheel torque after the free-play limit is engaged, for a named output constraint, direction, load range, and setup. Directional values must remain separate when hysteresis or asymmetric compliance is present."
+dimension = "angle / torque"
+canonical_unit = "rad/N*m"

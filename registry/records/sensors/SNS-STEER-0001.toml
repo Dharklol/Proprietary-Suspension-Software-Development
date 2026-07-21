@@ -1,0 +1,12 @@
+[record]
+id = "SNS-STEER-0001"
+type = "sensor"
+title = "Installed steering-rack linear potentiometer"
+status = "active"
+description = "Existing installed linear potentiometer used to measure signed steering-rack displacement. The exact make, model, electrical range, logger channel, calibration coefficients, sample rate, and mounting datum remain to be linked before Level F use."
+measurand_quantity_id = "QTY-STEER-0004"
+location = "WUFR-26 steering rack"
+calibration_status = "installed_and_available; calibration record and channel mapping pending"
+vehicle_revision = "WUFR-26"
+evidence_role = "available_physical_measurement_channel"
+related_task = "P0-STR-011"

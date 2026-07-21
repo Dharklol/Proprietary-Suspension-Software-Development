@@ -1,22 +1,29 @@
 [record]
 id = "BENCH-STEER-0001"
 type = "benchmark"
-title = "WUFR-26 final SolidWorks steering comparison"
-status = "proposed"
-description = "Compare the rigid steering evaluator with GEOMETRY FINAL.SLDPRT and the final-geometry 2026Ackermann.csv response. The FDR selects Test 3 and specifies a rack placement 0.5 inch rearward relative to the previous-year datum. Test_3.csv and the reference workbook remain selection-era cross-check evidence."
+title = "WUFR-26 final steering design-source and physical correlation"
+status = "active"
+description = "Frozen descriptive Level E comparison of the rigid steering evaluator with the selected Test 3 projected-wheel-angle fit, the WUFR-26 FDR endpoint turn-angle observations, GEOMETRY FINAL.SLDPRT evidence, and the supplementary 2026Ackermann.csv Dimension2 monitor. Level F installed-state validation remains open."
 verification_level = "E"
 target_ids = ["MOD-STEER-0001", "MIG-STR-0001"]
 acceptance_criteria = [
-  "GEOMETRY FINAL.SLDPRT revision, configuration, study definition, dependencies, and project hash are recorded",
-  "The exact steering FDR artifact and final-geometry table are catalogued and hashed",
-  "The selected configuration is Test 3 and the primary final response is 2026Ackermann.csv",
-  "Test_3.csv and the Test 3 workbook column remain selection-era cross-check and design-intent evidence",
-  "The previous-year rack datum, longitudinal sign, and meaning of 0.5 inch back are recorded",
-  "Steer Input, Dimension2, Steer_Angle, and Measurement1 are mapped to canonical quantities",
-  "Angle branch orientation, reference angle, signs, units, zero, wheel identity, and physical domain are recorded",
-  "The transformed raw response is reproduced within declared CAD export tolerances",
-  "Road-wheel gain and conventional steering ratio are reported as distinct quantities",
-  "Residuals, derivatives, center behavior, full-lock behavior, symmetry, branch handling, and discontinuities are reported",
-  "Identification data and fitted curves are not reused as independent validation",
+  "GEOMETRY FINAL.SLDPRT, the design-study input mapping, source identities, and project hashes are recorded",
+  "The exact steering FDR artifact and final-geometry table are catalogued and hashed when immutable metadata is available",
+  "The nominal CAD left/right hardpoints use the team-confirmed exact reflection rule",
+  "The centered rack coordinate maps from SolidWorks [0, 162.865, -79.298] mm to canonical [-0.079298, 0, 0.162865] m",
+  "Static toe and camber use the WUFR-26 setup sheet and remain separate from incremental steer",
+  "The selected configuration is Test 3 and the frozen full-curve reference is the Test 3 projected-wheel-angle fit",
+  "The FDR full-input projected turn-angle observations of 22.22 deg and 32.81 deg are retained as endpoint design-intent cross-checks",
+  "The historical input, side, output-sign, and static-datum adapter is explicit and frozen",
+  "The 205-point total and incremental residuals, center behavior, full-lock behavior, symmetry, branch handling, and discontinuities are reported",
+  "The frozen Level E result remains descriptive with no pass/fail tolerance derived from the observed residuals",
+  "Dimension2 remains a supplementary internal-monitor diagnostic rather than a road-wheel-heading validation signal",
+  "Identification data, fitted curves, and FDR design-review values are not reused as independent physical validation",
+  "Level F requires measured rack position and both projected wheel headings with bidirectional sweeps, repeatability, backlash, compliance, and uncertainty",
+  "Installed rack stops, installed transmission, setup state, and physical left/right asymmetry are measured before as-built claims",
   "Non-selected candidate studies remain separate regression cases"
 ]
+level_e_result = "benchmarks/steering/wufr26_level_e_test3_result.toml"
+level_e_disposition = "frozen_descriptive_nominal_design_consistency"
+level_f_protocol = "docs/verification/steering/wufr26_level_f_measurement_protocol.md"
+open_risk_ids = ["RISK-STEER-0001", "RISK-STEER-0002"]

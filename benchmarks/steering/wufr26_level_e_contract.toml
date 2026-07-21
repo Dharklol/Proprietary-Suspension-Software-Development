@@ -1,6 +1,6 @@
 version = "0.5.0"
 contract_id = "WUFR26-STEER-LEVEL-E-V0"
-status = "numerical_fit_comparison_review_ready"
+status = "numerical_fit_comparison_frozen"
 model_id = "MOD-STEER-0001"
 authorization_id = "AUTH-STEER-0001"
 
@@ -42,7 +42,7 @@ study_type = "SolidWorks Design Study"
 study_name = "Design Study 1"
 driver_definition = "Steer Input global variable swept from -102 deg to +102 deg in 1-deg exported scenarios"
 monitor_definition = "Dimension2, Monitor Only; included angle between two magenta hub-centered rays; exact selected entities unresolved"
-suppression_and_warning_state = "reference chassis model suppressed; no reported errors or warnings"
+suppression_and_warning_state = "reference chassis model suppressed; no reported errors or warnings; screenshot-visible external-reference indicators remain unresolved"
 rack_center_construction = "Steer Input = 0 deg at the centered design-study state"
 nominal_rack_domain = "+/-1.00 in from center, 2.00 in total design span"
 exported_rack_domain = "+/-0.9916666667 in or +/-0.025188333333333333 m from the +/-102-deg source range"
@@ -84,8 +84,8 @@ front_static_camber = "-2.25 deg per side from WUFR-26 FINAL 8.21.2025.xlsx"
 front_static_toe = "-1.00 deg per side in OptimumK local-side convention; team states positive toe means toe-out"
 center_wheel_ground_intersection_direction = "derived from side, static toe, and +x forward convention"
 moving_wheel_plane_projection = "implemented as wheel-plane-normal rotation about the steering axis followed by road-plane intersection and forward-branch selection"
-front_right_hardpoints = "nominal mirror remains acceptable for the symmetric fit comparison; independent export remains required for as-built claims"
-pinion_or_input_to_rack_map = "resolved for design-study mapping; installed measurement remains open"
+front_right_hardpoints = "team confirms the nominal CAD is an exact reflection; physical symmetry remains an installed-state question"
+pinion_or_input_to_rack_map = "resolved for design-study mapping; installed staged measurement remains open"
 
 [historical_adapter]
 input_sign = 1.0
@@ -116,7 +116,7 @@ polynomial_fit_used_as_reference = true
 polynomial_fit_independent_validation = false
 residual_definition = "candidate convention-adapted canonical projected road-wheel heading minus the Desmos projected road-wheel angle"
 metrics = ["mean_error", "rmse", "maximum_absolute_error", "point_residuals"]
-acceptance_disposition = "descriptive_only_no_pass_fail_tolerance"
+acceptance_disposition = "frozen_descriptive_only_no_pass_fail_tolerance"
 acceptance_reason = "The Test 3 polynomial is fit-derived, symmetry-enforced, and not independent validation evidence. The observed residual envelope is frozen for regression and review rather than treated as a validation threshold."
 
 [numerical_result]
@@ -130,6 +130,22 @@ canonical_to_historical_static_difference_magnitude_deg = 0.1394
 residual_shape = "mirror-antisymmetric and increasingly gain-shaped toward full input; material endpoint mismatch remains"
 review_conclusion = "nominal design-source consistency supported; independent or as-built validation not established"
 
+[fdr_endpoint_cross_check]
+less_steered_projected_angle_deg = 22.22
+more_steered_projected_angle_deg = 32.81
+candidate_less_steered_projected_angle_deg = 22.331423447425923
+candidate_more_steered_projected_angle_deg = 32.9627794651282
+role = "team-supplied final-design-review endpoint check; design-review evidence, not an independent physical sample"
+
+[physical_evidence_boundary]
+evidence_document = "docs/models/steering/wufr26_force_compliance_evidence.md"
+level_f_protocol = "docs/verification/steering/wufr26_level_f_measurement_protocol.md"
+whole_system_free_play_parameter = "PAR-STEER-0004"
+historical_compliance_parameters = ["PAR-STEER-0005", "PAR-STEER-0006"]
+rack_displacement_sensor = "SNS-STEER-0001"
+planned_primary_shaft_sensor = "SNS-STEER-0002"
+rule = "Physical backlash, compliance, hysteresis, tire scrub, and sensor uncertainty are separate layers. Do not alter the rigid Level E curve by applying a constant free-play or compliance correction, and do not add supplier component backlash to measured whole-system free play."
+
 [restrictions]
 items = [
   "Do not compare upright rotation directly with a projected road-wheel-angle fit.",
@@ -140,5 +156,7 @@ items = [
   "Do not treat the +/-1.00-in design-study range as proof of installed physical stop travel.",
   "Do not treat a polynomial fit as independent validation evidence.",
   "Do not use the frozen observed residual envelope as a future validation tolerance without independent justification.",
-  "Do not claim installed or physical validation from Level E agreement."
+  "Do not claim installed or physical validation from Level E agreement.",
+  "Do not add supplier gear backlash to the whole-system free-play observation.",
+  "Do not treat historical compliance or free-play observations from different states as one averaged active value."
 ]

@@ -1,14 +1,14 @@
-version = "0.3.0"
+version = "0.4.1"
 configuration_id = "WUFR26_DESIGN_NOMINAL_V0"
-status = "candidate_for_bounded_prototype"
+status = "frozen_for_nominal_design_source_development"
 vehicle_revision = "WUFR-26"
-purpose = "Nominal design-source rigid steering geometry for mechanism closure, upright rotation, and canonical wheel-plane projection. Not an installed/as-built configuration."
+purpose = "Nominal design-source rigid steering geometry for mechanism closure, upright rotation, canonical wheel-plane projection, and future steering-system development. Not an installed/as-built configuration."
 
 [authorization]
 authorization_id = "AUTH-STEER-0001"
 model_id = "MOD-STEER-0001"
-permitted_use = "Rigid rack-displacement-to-upright-rotation evaluation with closure, branch, feasibility, singularity diagnostics, and source-bounded wheel-plane projection."
-prohibited_use = "Production design authority, optimizer use, and as-built validation."
+permitted_use = "Rigid rack-displacement-to-upright-rotation evaluation with closure, branch, feasibility, singularity diagnostics, source-bounded wheel-plane projection, and frozen descriptive Level E comparison."
+prohibited_use = "Production design authority, compliance-free physical prediction, optimizer use, and as-built validation."
 
 [conventions]
 length_unit = "m"
@@ -25,11 +25,11 @@ camber_convention = "side-local positive camber means wheel top outward"
 [source_authority]
 steering_axis_source = "WUFR-26 FINAL 8.21.2025.xlsx from OptimumK"
 tie_rod_pickup_source = "WUFR-26 steering FDR final geometry table, front-left SolidWorks coordinates"
-static_alignment_source = "WUFR-26 FINAL 8.21.2025.xlsx"
+static_alignment_source = "WUFR-26 FINAL 8.21.2025.xlsx; team confirms the SolidWorks setup follows this setup sheet"
 coordinate_adapter = "docs/conventions/wufr26_coordinate_frame_reconciliation.md"
-response_comparison_source = "GEOMETRY FINAL.SLDPRT and 2026Ackermann.csv"
-installed_state_authority = "future active assembly export or physical measurement"
-source_role_rule = "Direct, transformed, mirrored, derived, and provisional values must remain distinguishable in result provenance."
+response_comparison_source = "GEOMETRY FINAL.SLDPRT, 2026Ackermann.csv, Test 3 Desmos fits, and WUFR-26 FDR projected endpoint values"
+installed_state_authority = "future active assembly export and physical measurement"
+source_role_rule = "Direct, transformed, mirrored, derived, provisional, and physically measured values must remain distinguishable in result provenance."
 
 [vehicle]
 wheelbase = 1.5624
@@ -40,13 +40,17 @@ steering_axis_track_role = "derived from mirrored nominal steering axes intersec
 [rack]
 axis_origin = [-0.079298, 0.0, 0.162865]
 axis_direction = [0.0, 1.0, 0.0]
+solidworks_native_center_mm = [0.0, 162.865, -79.298]
+solidworks_native_axis_order = "lateral-positive-left, vertical-positive-up, longitudinal-positive-forward"
+center_coordinate_reconciliation = "Team-supplied CAD rack center maps exactly to canonical [-0.079298, 0, 0.162865] m."
 left_inner_joint_at_center = [-0.079298, 0.220980, 0.162865]
 right_inner_joint_at_center = [-0.079298, -0.220980, 0.162865]
 inner_joint_spacing = 0.441960
 operational_displacement_min = -0.0254
 operational_displacement_max = 0.0254
-operational_domain_role = "provisional nominal design-study range of +/-1.00 in from center; total span 2.00 in; not installed stop authority"
+operational_domain_role = "frozen nominal design-study range of +/-1.00 in from center; provisional for installed operational stops and margin"
 center_definition = "Steer Input = 0 deg and midpoint of the nominal design-study range"
+inner_joint_motion_model = "The modeled rack points are the inboard tie-rod pickups and translate rigidly by the signed rack displacement along the rack axis."
 source_csv_displacement_min = -0.025188333333333333
 source_csv_displacement_max = 0.025188333333333333
 source_csv_domain_role = "mapped from -102 to +102 deg using 3.5 in/rev divided by 360 deg/rev"
@@ -60,7 +64,7 @@ rack_travel_per_input_degree_m = 0.00024694444444444446
 rack_travel_per_input_radian_m = 0.014148874440869498
 mapping = "rack_displacement_m = Steer_Input_deg * 0.00024694444444444446"
 positive_sign = "positive input increases native Rack Length and maps to canonical +y rack translation"
-authority_boundary = "design-study signal mapping only; installed transmission and stops remain unverified"
+authority_boundary = "design-study signal mapping only; installed transmission, backlash, and stops remain unverified"
 
 [left]
 side_role = "direct nominal front-left source geometry"
@@ -73,11 +77,11 @@ nominal_tie_rod_length = 0.32989010635816285
 reference_branch_upright_rotation = 0.0
 static_toe = -0.017453292519943295
 static_camber = -0.039269908169872414
-static_alignment_role = "design-source per-side alignment; positive toe-out and positive top-out camber conventions"
+static_alignment_role = "design-source per-side alignment from the setup sheet; positive toe-out and positive top-out camber conventions"
 wheel_plane_reference = "derive with reference_from_static_alignment and rotate the plane normal about the steering axis"
 
 [right]
-side_role = "derived nominal mirror assumption; not independently checked"
+side_role = "team-confirmed exact mirrored CAD reflection of the nominal front-left hardpoints; not an as-built symmetry claim"
 mirror_rule = "change the sign of canonical y for all front-left geometry and apply the same side-local toe/camber values"
 steering_axis_lower_point = [0.0, -0.587096, 0.157117]
 steering_axis_upper_point = [-0.006487, -0.564662, 0.305056]
@@ -88,8 +92,36 @@ nominal_tie_rod_length = 0.32989010635816285
 reference_branch_upright_rotation = 0.0
 static_toe = -0.017453292519943295
 static_camber = -0.039269908169872414
-static_alignment_role = "mirrored design-source per-side alignment; positive toe-out and positive top-out camber conventions"
+static_alignment_role = "exact mirrored design-source per-side alignment; positive toe-out and positive top-out camber conventions"
 wheel_plane_reference = "derive with reference_from_static_alignment and rotate the plane normal about the steering axis"
+
+[level_e]
+result_id = "WUFR26-STEER-LEVEL-E-TEST3-V0"
+status = "frozen_descriptive_nominal_design_consistency"
+full_curve_reference = "selected Test 3 Desmos projected wheel-angle fit"
+fdr_projected_endpoint_less_steered_deg = 22.22
+fdr_projected_endpoint_more_steered_deg = 32.81
+candidate_projected_endpoint_less_steered_deg = 22.331423447425923
+candidate_projected_endpoint_more_steered_deg = 32.9627794651282
+acceptance_boundary = "Frozen for nominal design-source development without a physical pass/fail tolerance."
+
+[uncertainty]
+cad_angular_export_tolerance_deg = 0.1
+cad_length_export_tolerance_in = 0.005
+cad_length_export_tolerance_mm = 0.127
+cad_length_export_tolerance_m = 0.000127
+cad_length_export_tolerance_role = "Team-confirmed five-thou CAD export tolerance. It is an export/geometry tolerance observation, not an installed fabrication tolerance or Level F acceptance threshold."
+as_built_hardpoint_alignment = "2026 welded hardpoint alignment was not measured; team expects deviation no larger than the reported CAD tolerance, but this remains an unverified estimate until physically measured"
+rigid_model_exclusions = [
+  "rack housing and rack-bushing compliance",
+  "rack-and-pinion or other gear mesh backlash",
+  "steering-column shaft and joint torsional compliance",
+  "rod-end radial and axial play plus tie-rod axial compliance",
+  "quick-release interface backlash",
+  "upright, steering-arm, chassis, wheel-bearing, wheel, and fixture compliance",
+  "friction, hysteresis, preload, temperature, and direction-history effects"
+]
+measurement_rule = "Physical validation must use bidirectional/reversal sweeps and report deadband, hysteresis, repeatability, and uncertainty separately from rigid kinematic residuals."
 
 [capabilities]
 closure_and_upright_rotation = true
@@ -98,16 +130,19 @@ branch_and_singularity_diagnostics = true
 design_study_input_to_rack_mapping = true
 projected_road_wheel_heading = true
 absolute_toe_inclusive_heading = true
+nominal_design_level_e_consistency = true
 steering_wheel_to_road_wheel_ratio = false
 ackermann_error = false
 turning_radius = false
+compliance_or_backlash_prediction = false
+as_built_validation = false
 
 [open_gates]
 items = [
-  "Obtain direct raw left/right projected wheel-angle samples or physical measurements before defining a validation tolerance.",
-  "Identify the exact references and sign convention used by Dimension2.",
-  "Independently export or measure front-right hardpoints.",
-  "Confirm installed rack stops and installed transmission.",
-  "Recover setup state and installed uncertainty.",
-  "Complete SolidWorks response and physical correlation before as-built claims."
+  "Identify the exact references and sign convention used by Dimension2 if the internal monitor remains of interest.",
+  "Measure installed left and right rack stops and installed transmission.",
+  "Measure physical left/right geometry or wheel response to test as-built symmetry rather than assuming CAD reflection survives fabrication.",
+  "Measure compliance, backlash, hysteresis, and repeatability for the rack, gear mesh, rod ends, column, quick release, and supporting structures.",
+  "Recover installed setup state and quantify uncertainty.",
+  "Complete Level F physical correlation before as-built claims."
 ]
