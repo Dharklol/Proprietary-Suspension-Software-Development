@@ -5,7 +5,7 @@ title = "Rigid steering-linkage inverse-design model"
 status = "active"
 disposition = "rewrite"
 maturity = "M1"
-description = "Bounded rigid nominal-height steering-kinematics evaluator with a separately unauthorized future constrained inverse-design workflow. The implemented evaluator returns rigid closure, upright rotation, branch and singularity diagnostics, projected wheel heading, and derived Ackermann/radius/ratio quantities only where their prerequisites are explicitly supplied. The WUFR-26 nominal configuration has a frozen descriptive Level E design-source comparison."
+description = "Bounded rigid nominal-height steering-kinematics evaluator with a separately unauthorized future constrained inverse-design workflow. The implemented evaluator returns rigid closure, upright rotation, branch and singularity diagnostics, projected wheel heading, and derived Ackermann/radius/ratio quantities only where their prerequisites are explicitly supplied. The WUFR-26 nominal configuration has a frozen descriptive Level E design-source comparison. Existing installed free-play, historical compliance, calculated load, and sensor evidence are linked as a separate physical layer and are not applied as rigid-model correction constants."
 inputs = [
   "QTY-GEO-0001 wheelbase",
   "QTY-GEO-0004 front steering-axis ground-intersection track",
@@ -38,6 +38,7 @@ assumptions = [
   "Total toe-inclusive wheel heading and incremental steer are separate outputs.",
   "Ideal Ackermann is a low-speed reference or optional target, not a universal performance optimum.",
   "The WUFR-26 nominal CAD right side is an exact reflection of the left, but installed symmetry is not implied.",
+  "Existing whole-system free-play and compliance observations are comparison evidence, not rigid-joint properties.",
   "No compliance, backlash, friction, steering loads, tire-force optimization, suspension travel, collision verification, or transient behavior is implied by the first model.",
   "External CAD and multibody motion studies are comparison evidence rather than runtime dependencies."
 ]
@@ -60,13 +61,16 @@ prohibited_scope = "Production design authority, as-built claims, tire/effort/co
 first_code_scope = "Frozen equations and BENCH-STEER-0002 through 0008 are implemented behind a standard-library experimental interface; optimizer remains unauthorized until a separate authorization is approved."
 level_e_state = "WUFR26-STEER-LEVEL-E-TEST3-V0 frozen as descriptive nominal design-source consistency; model-level verification remains C until the benchmark governance and independent acceptance criteria justify promotion."
 level_f_protocol = "docs/verification/steering/wufr26_level_f_measurement_protocol.md"
+physical_evidence_document = "docs/models/steering/wufr26_force_compliance_evidence.md"
 uncertainty_risk_ids = ["RISK-STEER-0002"]
+physical_observation_parameter_ids = ["PAR-STEER-0004", "PAR-STEER-0005", "PAR-STEER-0006"]
+available_or_planned_sensor_ids = ["SNS-STEER-0001", "SNS-STEER-0002"]
 physical_effects_to_measure = [
   "rack housing and rack-bushing compliance",
-  "gear-mesh backlash",
+  "gear-mesh backlash and shaft-to-rack deadband",
   "column and joint torsional compliance",
   "rod-end play and tie-rod compliance",
   "quick-release backlash",
-  "upright, steering-arm, chassis, bearing, wheel, and fixture compliance",
+  "upright, steering-arm, chassis, bearing, wheel, tire, and fixture compliance",
   "friction, hysteresis, repeatability, preload, and direction history"
 ]
