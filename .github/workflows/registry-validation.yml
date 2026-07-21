@@ -19,14 +19,18 @@ jobs:
         run: python scripts/validate_registry.py
       - name: Run tests
         run: python -m unittest discover -s tests
-      - name: Run WUFR-26 Level E summary
-        run: >-
-          python scripts/run_wufr26_level_e_prep.py
-          --summary
-          --output wufr26_level_e_summary.json
-      - name: Upload WUFR-26 Level E summary
+      - name: Generate WUFR-26 Level E reports
+        run: |
+          python scripts/run_wufr26_level_e_prep.py \
+            --output wufr26_level_e_report.json > /dev/null
+          python scripts/run_wufr26_level_e_prep.py \
+            --summary \
+            --output wufr26_level_e_summary.json
+      - name: Upload WUFR-26 Level E reports
         uses: actions/upload-artifact@v4
         with:
-          name: wufr26-level-e-summary
-          path: wufr26_level_e_summary.json
+          name: wufr26-level-e-reports
+          path: |
+            wufr26_level_e_report.json
+            wufr26_level_e_summary.json
           if-no-files-found: error
