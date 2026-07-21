@@ -1,4 +1,4 @@
-version = "0.1.0"
+version = "0.2.0"
 
 [id_prefixes]
 quantity = "QTY"
@@ -7,6 +7,7 @@ model = "MOD"
 parameter = "PAR"
 sensor = "SNS"
 channel = "CH"
+calibration = "CAL"
 assumption = "ASM"
 risk = "RISK"
 benchmark = "BENCH"
@@ -26,6 +27,7 @@ model = ["id", "type", "title", "status", "disposition", "maturity", "descriptio
 parameter = ["id", "type", "title", "status", "description", "quantity_id", "value", "unit", "source_type", "uncertainty"]
 sensor = ["id", "type", "title", "status", "description", "measurand_quantity_id", "location", "calibration_status"]
 channel = ["id", "type", "title", "status", "description", "source_sensor_id", "quantity_id", "sample_rate_hz", "calibration_id"]
+calibration = ["id", "type", "title", "status", "description", "sensor_id", "quantity_id", "method", "input_unit", "output_unit", "validity_state", "uncertainty"]
 assumption = ["id", "type", "title", "status", "description", "severity", "affected_ids"]
 risk = ["id", "type", "title", "status", "description", "severity", "cause", "effect", "controls", "affected_ids"]
 benchmark = ["id", "type", "title", "status", "description", "verification_level", "target_ids", "acceptance_criteria"]

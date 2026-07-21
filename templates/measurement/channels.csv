@@ -1,0 +1,1 @@
+channel_id,sensor_id,quantity_id,acquisition_device,acquisition_channel,raw_unit,canonical_unit,sample_rate_hz,clock_id,calibration_id,polarity,zero_reference,status

@@ -1,0 +1,92 @@
+version = "0.1.0"
+package_kind = "physical_measurement"
+
+[files]
+session = "session.toml"
+channels = "channels.csv"
+calibrations = "calibrations.csv"
+raw_samples = "raw_samples.csv"
+steering_points = "steering_points.csv"
+
+[session]
+required_fields = [
+  "session_id",
+  "vehicle_revision",
+  "test_type",
+  "data_role",
+  "started_at_utc",
+  "operator",
+  "test_location",
+  "configuration_id",
+  "registry_commit",
+  "time_base",
+  "setup_record",
+]
+
+[channels]
+required_columns = [
+  "channel_id",
+  "sensor_id",
+  "quantity_id",
+  "acquisition_device",
+  "acquisition_channel",
+  "raw_unit",
+  "canonical_unit",
+  "sample_rate_hz",
+  "clock_id",
+  "calibration_id",
+  "polarity",
+  "zero_reference",
+  "status",
+]
+
+[calibrations]
+required_columns = [
+  "calibration_id",
+  "sensor_id",
+  "quantity_id",
+  "method",
+  "input_unit",
+  "output_unit",
+  "performed_at_utc",
+  "valid_from_utc",
+  "valid_to_utc",
+  "coefficients_json",
+  "fit_rmse",
+  "uncertainty_1sigma",
+  "status",
+  "source_sha256",
+]
+
+[raw_samples]
+required_columns = [
+  "time_s",
+  "sequence",
+  "channel_id",
+  "raw_value",
+  "quality_flag",
+]
+
+[steering_points]
+required_columns = [
+  "point_id",
+  "repeat_index",
+  "approach_direction",
+  "target_fraction",
+  "measured_rack_m",
+  "primary_shaft_rad",
+  "steering_wheel_rad",
+  "steering_wheel_torque_nm",
+  "left_heading_rad",
+  "right_heading_rad",
+  "hold_start_s",
+  "hold_end_s",
+  "quality_flag",
+]
+
+[enums]
+data_role = ["calibration", "identification", "validation", "diagnostic"]
+channel_status = ["active", "planned", "disabled"]
+calibration_status = ["active", "expired", "superseded", "planned"]
+quality_flag = ["ok", "suspect", "invalid", "missing"]
+approach_direction = ["increasing", "decreasing"]

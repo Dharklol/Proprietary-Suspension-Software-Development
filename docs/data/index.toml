@@ -1,0 +1,6 @@
+version = "0.1.0"
+measurement_contract = "docs/data/measurement_data_contract.md"
+sensor_crosswalk = "docs/data/wufr27_sensor_list_crosswalk.md"
+schema_policy = "docs/data/schema_versioning_policy.md"
+data_role_policy = "docs/data/data_role_policy.md"
+collection_checklist = "docs/data/collection_checklist.md"

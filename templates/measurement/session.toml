@@ -1,0 +1,13 @@
+[session]
+session_id = "REPLACE-WITH-IMMUTABLE-SESSION-ID"
+vehicle_revision = "WUFR-26"
+test_type = "steering_level_f"
+data_role = "validation"
+started_at_utc = "YYYY-MM-DDTHH:MM:SSZ"
+operator = "REPLACE"
+test_location = "REPLACE"
+configuration_id = "REPLACE"
+registry_commit = "REPLACE-WITH-GIT-COMMIT"
+time_base = "logger_monotonic_seconds"
+setup_record = "setup.md"
+notes = "Record only session-specific context here; sensor inventory belongs in the Drive sensor list."

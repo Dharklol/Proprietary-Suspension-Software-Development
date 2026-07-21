@@ -1,0 +1,1 @@
+calibration_id,sensor_id,quantity_id,method,input_unit,output_unit,performed_at_utc,valid_from_utc,valid_to_utc,coefficients_json,fit_rmse,uncertainty_1sigma,status,source_sha256
