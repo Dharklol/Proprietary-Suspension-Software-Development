@@ -3,17 +3,20 @@ id = "RISK-STEER-0002"
 type = "risk"
 title = "Unmodeled steering compliance, backlash, and hysteresis"
 status = "active"
-description = "The nominal steering evaluator is rigid, while the installed system can contain backlash, clearance, friction, and elastic compliance in the quick release, column, gears, rack, rod ends, tie rods, steering arms, uprights, bearings, chassis mounts, wheels, and measurement fixtures. These effects can alter center feel, steering ratio, wheel-angle response, symmetry, and repeatability."
+description = "The nominal steering evaluator is rigid, while the installed system contains backlash, clearance, friction, and elastic compliance in the quick release, column couplings, bevel gears, rack, rod ends, tie rods, steering arms, uprights, bearings, chassis mounts, wheels, tires, and measurement fixtures. Whole-system free-play and historical compliance measurements exist, but component attribution, repeatability, setup uncertainty, and a synchronized installed transfer map remain open."
 severity = "high"
-cause = "The first authorized model intentionally represents ideal rigid joints and links. Installed clearances, gear mesh, preload, component stiffness, fabrication error, temperature, wear, and direction history have not been measured or parameterized."
-effect = "A nominal CAD-correlated result could be mistaken for installed steering response. Future steering-system decisions could understate deadband, overstate effective gain, misidentify the source of left/right differences, or set an unjustified validation tolerance."
+cause = "The first authorized model intentionally represents ideal rigid joints and links. Existing evidence includes an approximate current 4 deg total steering-wheel free-play observation under parked tire scrub, historical 2.35 deg free play and 0.26/0.47 deg per N*m directional compliance points, calculated steering loads, and a supplier gear-backlash range. These observations were produced under different states or procedures and do not yet isolate the contributing interfaces."
+effect = "A nominal CAD-correlated result could be mistaken for installed steering response. Future steering-system decisions could understate deadband, overstate effective gain, double-count supplier and system backlash, misidentify the source of left/right differences, or set an unjustified validation tolerance."
 controls = [
   "Keep rigid kinematic residuals separate from physical deadband, hysteresis, repeatability, and elastic compliance.",
-  "List rack housing/bushings, gear mesh, rod ends, tie rods, column joints, quick release, steering arms, uprights, bearings, chassis mounts, wheels, and fixtures in every physical uncertainty budget.",
+  "Use PAR-STEER-0004 as a whole-system free-play observation only; do not add or subtract supplier gear backlash without staged measurements.",
+  "Retain PAR-STEER-0005 and PAR-STEER-0006 as separate directional historical compliance points rather than averaging them.",
+  "Link calculated rack, column, and bevel-gear loads to exact Suspension Calculations 2026 cells through docs/models/steering/wufr26_force_compliance_evidence.md.",
+  "List rack housing/bushings, gear mesh, rod ends, tie rods, column joints, quick release, steering arms, uprights, bearings, chassis mounts, wheels, tires, and fixtures in every physical uncertainty budget.",
   "Use bidirectional and reversal sweeps so direction-dependent backlash is observable.",
-  "Measure steering-wheel angle, pinion or lower-column angle, rack displacement, and both projected wheel headings when possible so component groups can be isolated.",
+  "Use the installed rack linear potentiometer and planned primary-shaft rotary potentiometer to isolate shaft-to-rack deadband before attributing rack-to-wheel effects.",
   "Measure physical rack center and left/right stops rather than assuming the nominal +/-1.00-in design-study range.",
-  "Do not use the frozen Level E residual envelope or reported CAD export tolerance as a Level F pass/fail threshold.",
+  "Do not use the frozen Level E residual envelope, CAD export tolerance, or supplier gear backlash as a Level F pass/fail threshold.",
   "Require setup-state, calibration, repeatability, and uncertainty records before installed-state model promotion.",
   "Follow docs/verification/steering/wufr26_level_f_measurement_protocol.md."
 ]
@@ -21,6 +24,11 @@ affected_ids = [
   "MOD-STEER-0001",
   "BENCH-STEER-0001",
   "PAR-STEER-0003",
+  "PAR-STEER-0004",
+  "PAR-STEER-0005",
+  "PAR-STEER-0006",
+  "SNS-STEER-0001",
+  "SNS-STEER-0002",
   "QTY-STEER-0001",
   "QTY-STEER-0002",
   "QTY-STEER-0003",
@@ -29,5 +37,7 @@ affected_ids = [
   "QTY-STEER-0006",
   "QTY-STEER-0007",
   "QTY-STEER-0010",
-  "QTY-STEER-0011"
+  "QTY-STEER-0011",
+  "QTY-STEER-0016",
+  "QTY-STEER-0017"
 ]
