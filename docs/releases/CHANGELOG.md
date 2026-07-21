@@ -60,6 +60,10 @@ All notable project changes should be recorded here. Model releases must identif
 - Machine-readable Test 1-4 and previous-year Desmos wheel-angle fits, plus a traceable polynomial evaluator and frozen tests.
 - Canonical wheel-plane/road-plane projection and explicit historical convention adapter for the WUFR-26 Test 3 comparison.
 - Frozen `WUFR26-STEER-LEVEL-E-TEST3-V0` residual result, compact/full JSON CLI reports, CI artifacts, residual-band review, and documented acceptance disposition.
+- Team-supplied FDR projected endpoint cross-checks at `22.22 deg` and `32.81 deg`, exact nominal CAD left/right reflection authority, and direct rack-center coordinate confirmation.
+- WUFR-26 CAD screenshot observation record covering steering geometry, upper-column dimensions, named 3D sketches, and unresolved external-reference indicators.
+- `RISK-STEER-0002` for rack, gear, rod-end, column, quick-release, structural, and fixture compliance/backlash uncertainty.
+- Proposed Level F measurement protocol using bidirectional sweeps, reversal deadband, component isolation, compliance tests, stop verification, and uncertainty reporting.
 
 ### Changed
 
@@ -81,4 +85,8 @@ All notable project changes should be recorded here. Model releases must identif
 - The optimizer's wheel-plane/ground-plane intersection versus x-axis turn-angle construction is explicitly separated from the folded `Dimension2` internal ray monitor.
 - The selected Test 3 Desmos wheel-angle fits replace `Dimension2` as the primary available projected wheel-angle comparison reference; `Dimension2` remains supplementary source-archeology evidence.
 - Total-angle residuals retain the canonical OptimumK static datum instead of being silently re-centered to the historical fit static value.
-- `P0-STR-010` advances to review-ready after the numerical comparison, residual-shape review, and descriptive-only acceptance disposition were frozen.
+- `P0-STR-010` is complete after team acceptance of the frozen descriptive Level E comparison and FDR endpoint cross-check.
+- `P0-STR-006` remains active but now focuses on installed stops, transmission, setup uncertainty, compliance/backlash, source hashes, and independent Level F acceptance criteria.
+- `P0-STR-011` tracks WUFR-26 Level F uncertainty and physical correlation.
+- `WUFR26_DESIGN_NOMINAL_V0` advances to a frozen nominal design-source configuration; exact CAD reflection is authoritative for the design model but not for as-built symmetry.
+- `PAR-STEER-0003` becomes active for nominal design-study rack-point motion while installed stop authority remains open.
