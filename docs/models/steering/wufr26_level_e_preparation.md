@@ -1,154 +1,122 @@
 # WUFR-26 Steering Level E Comparison
 
-**Status:** Canonical projected-wheel-heading comparison executed and review-ready; independent validation remains open  
+**Status:** Frozen descriptive nominal design-source consistency  
+**Result:** `WUFR26-STEER-LEVEL-E-TEST3-V0`  
 **Model:** `MOD-STEER-0001`  
-**Authorization:** `AUTH-STEER-0001`  
-**Result:** `WUFR26-STEER-LEVEL-E-TEST3-V0`
+**Authorization:** `AUTH-STEER-0001`
 
-## Purpose and authority boundary
+## Frozen scope
 
-This comparison checks whether the recovered nominal rigid steering geometry, Design Study input scaling, wheel-plane projection, and historical Desmos response fit are mutually consistent. It is a cross-tool nominal-design comparison, not an installed-state or physical validation.
+The WUFR-26 nominal rigid steering evaluator has been compared with the selected Test 3 projected-wheel-angle fit over the recovered 205-point `-102 deg` to `+102 deg` input domain. The comparison uses the exact wheel-plane-normal rotation and road-plane intersection quantity rather than upright rotation or the folded `Dimension2` monitor.
 
-The historical Test 3 reference is a fitted, symmetry-enforced curve. It is useful for design-source reconciliation but cannot support an independently justified pass/fail tolerance.
+The team reviewed the numerical result on 2026-07-21 and accepted it for nominal design-source steering development. The result is descriptive only: no physical pass/fail tolerance is inferred from the observed residuals.
 
-## Recovered input and geometry state
+## Source and input mapping
 
-The design-source steering assembly is `FSA STEERING`, with `GEOMETRY FINAL.SLDPRT` as the steering geometry component. The relevant SolidWorks Design Study is `Design Study 1`.
-
-The recovered driver is `Steer Input`, swept from `-102 deg` through `+102 deg`. Increasing native rack length maps to canonical `+y` rack translation:
+The design-source steering assembly is `FSA STEERING`, with `GEOMETRY FINAL.SLDPRT` as the geometry component and `Design Study 1` as the recovered study.
 
 ```text
 rack_displacement_m = Steer_Input_deg * 3.5 in/rev * 0.0254 m/in / 360 deg/rev
                     = Steer_Input_deg * 0.00024694444444444446 m/deg
 ```
 
-The source range therefore maps to approximately `-25.1883 mm` through `+25.1883 mm`. The nominal Design Study domain is approximately `+/-25.4 mm`; this remains design-source authority rather than proof of installed physical stops.
+The exported `-102 deg` to `+102 deg` range maps to approximately `-25.1883 mm` to `+25.1883 mm`. The nominal study representation permits `1.00 in` to either side of center. The moving rack points are the inboard tie-rod pickup points and translate rigidly along the rack axis.
 
-## Frozen historical wheel-angle reference
-
-The selected Test 3 fit is:
+The team supplied the centered SolidWorks coordinate:
 
 ```text
-left_total(x)  = -2e-8*x^4 + 3e-6*x^3 - 2e-4*x^2 + 0.2427*x - 1.1394 deg
-right_total(x) = -left_total(-x)
+SW native [lateral, vertical, longitudinal] = [0.000, 162.865, -79.298] mm
+canonical [forward, left, up]               = [-0.079298, 0.000000, 0.162865] m
 ```
 
-The historical static values are `-1.1394 deg` left and `+1.1394 deg` right. Incremental angle is total angle minus the same side's static value.
+This exactly confirms the existing rack-axis origin and coordinate adapter.
 
-The fit is stored in `benchmarks/steering/wufr26_desmos_wheel_angle_fits.toml`. Its limitations remain explicit:
+## Static alignment and symmetry
 
-- the raw optimizer goal samples are not frozen;
-- the polynomial is not independent validation;
-- the mirrored right branch cannot reveal physical asymmetry;
-- physical Level F validation is separate.
-
-## Canonical wheel-plane construction
-
-The nominal OptimumK setup supplies:
+The nominal setup uses the values in `WUFR-26 FINAL 8.21.2025.xlsx`:
 
 ```text
 static camber = -2.25 deg per side
 static toe    = -1.00 deg per side
 ```
 
-The implementation in `src/pssd_steering/projection.py`:
+Positive side-local toe is toe-out. The team confirms that the SolidWorks setup follows this setup sheet.
 
-1. constructs the centered wheel plane from side, static toe, and static camber;
-2. rotates the wheel-plane normal with the upright about the steering axis;
-3. intersects the rotated wheel plane with the road plane;
-4. selects the forward branch of the intersection line;
-5. measures signed heading against canonical `+x`.
+The team also confirms that the nominal CAD left hardpoints are a perfect reflection of the right hardpoints. Exact reflection is therefore authoritative for the nominal design model. It remains an assumption for the fabricated car until physical measurements test as-built symmetry.
 
-Rotating only a generic forward vector is not used because camber and an inclined steering axis can make it differ from the wheel-plane/road-plane intersection.
+## Historical full-curve reference
 
-## Historical convention adapter
-
-The reviewed adapter used for `WUFR26-STEER-LEVEL-E-TEST3-V0` is:
+The selected Test 3 fit is:
 
 ```text
-historical input sign  = +1 * canonical Design Study input
-historical side map    = same-side left/right
-historical increment   = -1 * canonical signed incremental heading
+left_total(x) = -2e-8*x^4 + 3e-6*x^3 - 2e-4*x^2 + 0.2427*x - 1.1394 deg
+right_total(x) = -left_total(-x)
 ```
 
-Total curves retain the canonical OptimumK static datum. Incremental curves are centered independently. This prevents the total-angle comparison from silently replacing the canonical `+/-1.00 deg` static alignment with the historical `+/-1.1394 deg` fit datum.
+The canonical-to-historical adapter is frozen as:
 
-## Numerical result
+- historical input maps directly to the reviewed Design Study input;
+- left/right side identities are retained;
+- historical incremental response orientation is the negative of canonical signed heading;
+- canonical and historical static values are preserved separately.
 
-The comparison uses all 205 integer input points from `-102 deg` through `+102 deg`.
+## Frozen numerical result
 
-| Quantity | Left | Right |
+| Metric | Left | Right |
 |---|---:|---:|
 | Canonical static heading | `-1.0000 deg` | `+1.0000 deg` |
 | Historical static heading | `-1.1394 deg` | `+1.1394 deg` |
-| Static difference, candidate minus reference | `+0.1394 deg` | `-0.1394 deg` |
 | Incremental mean residual | `-0.32312 deg` | `+0.32312 deg` |
 | Incremental RMSE | `0.55323 deg` | `0.55323 deg` |
-| Incremental maximum absolute residual | `1.36194 deg` at `+102 deg` | `1.36194 deg` at `-102 deg` |
-| Total mean residual | `-0.18372 deg` | `+0.18372 deg` |
+| Incremental maximum absolute residual | `1.36194 deg` | `1.36194 deg` |
 | Total RMSE | `0.48519 deg` | `0.48519 deg` |
-| Total maximum absolute residual | `1.22254 deg` at `+102 deg` | `1.22254 deg` at `-102 deg` |
+| Total maximum absolute residual | `1.22254 deg` | `1.22254 deg` |
 
-Residual is always candidate minus historical reference.
+Residual is candidate minus the historical Test 3 reference. The residual is mirror-antisymmetric, small near center, and increasingly gain-shaped toward full travel.
 
-### Residual shape
+## FDR projected endpoint cross-check
 
-The residual is mirror-antisymmetric to numerical precision. It is small near center and grows systematically toward full rack travel:
+The team identified projected full-input wheel-turn values in the WUFR-26 FDR:
 
-| Shared input band | Incremental RMSE | Maximum absolute incremental residual |
-|---|---:|---:|
-| `+/-25 deg` | `0.06130 deg` | `0.16742 deg` |
-| `+/-50 deg` | `0.18478 deg` | `0.53697 deg` |
-| `+/-75 deg` | `0.35833 deg` | `1.01677 deg` |
-| Full `+/-102 deg` | `0.55323 deg` | `1.36194 deg` |
-
-At full input, the less-steered/outside branch is `22.33142 deg` incremental versus the `23.69336 deg` fit reference, a `-1.36194 deg` or `-5.75%` magnitude difference. The more-steered/inside branch is `32.96278 deg` versus `32.18469 deg`, a `+0.77809 deg` or `+2.42%` magnitude difference.
-
-The shape is consistent with a gain or geometry-detail mismatch rather than a sign, side, center, or rack-scaling failure. Likely contributors include the fit-derived reference, the approximately recovered selected geometry, and the mirrored rather than independently exported right side.
-
-## Acceptance disposition
-
-No pass/fail tolerance is assigned to this fit comparison. The observed residual metrics are frozen as regression and review evidence only.
-
-The review conclusion is:
-
-> The recovered rigid geometry, input scaling, wheel-plane projection, and convention adapter are mutually consistent with the selected historical fit at nominal-design level, while the endpoint residual remains material enough to block tighter correlation or validation claims.
-
-A future validation tolerance requires direct left/right projected-wheel-angle samples or physical measurements with a frozen setup state, source identity, uncertainty, and independently justified acceptance limits.
-
-## Reproducible CLI output
-
-A full 205-point report can be generated with:
-
-```bash
-python scripts/run_wufr26_level_e_prep.py \
-  --output wufr26_level_e_report.json
+```text
+less-steered / right wheel = 22.22 deg
+more-steered / left wheel  = 32.81 deg
 ```
 
-A compact summary suitable for CI and review is:
+The nominal model predicts:
 
-```bash
-python scripts/run_wufr26_level_e_prep.py \
-  --summary \
-  --output wufr26_level_e_summary.json
+```text
+less-steered = 22.33142 deg  -> +0.11142 deg, +0.501 percent
+more-steered = 32.96278 deg  -> +0.15278 deg, +0.466 percent
 ```
 
-CI executes the registry validator, unit tests, and both report modes, then uploads the reports as a workflow artifact.
-
-The frozen result metadata and reviewed metrics are stored in `benchmarks/steering/wufr26_level_e_test3_result.toml`.
+This is a strong design-intent endpoint check. It does not replace physical validation because the FDR values are design-review evidence rather than independent measurements.
 
 ## `Dimension2` remains supplementary
 
-`Dimension2` is an unsigned or branch-folded included angle between two hub-centered construction rays. It is not the projected road-wheel heading used by the optimizer goals. Its branch reconstruction remains useful for source archaeology, but it is not part of the primary wheel-heading comparison and is not validation evidence.
+`Dimension2` is an unsigned or branch-folded included angle between two hub-centered construction rays. It is not a continuously signed road-wheel-heading output. Its diagnostic reconstruction remains useful for source archaeology, but it is not used as the primary Level E road-wheel-angle reference.
 
-## Remaining gates
+## CAD screenshot observations
 
-The next evidence needed for stronger claims is:
+The 2026-07-21 screenshots show the rack, tie rods, column path, steering-wheel envelope, reference planes, and named sketches `Full Steering`, `Front Axel`, `Rack ACTUAL`, and `Tie Rod ACTUAL`. Several column dimensions are legible, including `269.65 mm`, `57.91 mm`, `50.80 mm`, and `6.35 mm`, but selected entities are not sufficiently clear to promote those values into active parameters.
 
-- direct raw left/right projected wheel-angle samples from the relevant CAD study;
-- independently exported front-right geometry;
-- installed rack-stop and transmission measurements;
-- setup-state and uncertainty records;
-- physical steering-angle or toe measurements for Level F validation.
+The full observation record is `docs/models/steering/wufr26_cad_observations_2026-07-21.md`.
 
-The nominal geometry remains design-source mechanism evidence, not an installed or as-built claim.
+## Acceptance and authority
+
+The Level E result is frozen for future nominal steering-system development. It supports the recovered geometry, rack input mapping, wheel-plane projection, side convention, and overall steering response.
+
+It does **not** establish:
+
+- installed rack center or physical stops;
+- installed steering-wheel-to-pinion-to-rack transmission;
+- as-built left/right hardpoint symmetry;
+- compliance, backlash, friction, hysteresis, or repeatability;
+- a physical validation tolerance;
+- Level F validation.
+
+## Next gate
+
+The next verification work is `P0-STR-011`: physical Level F correlation and uncertainty characterization. The protocol is `docs/verification/steering/wufr26_level_f_measurement_protocol.md`.
+
+Physical testing must explicitly include rack, gear mesh, rod ends, tie rods, steering column, quick release, supporting structures, wheel bearings, wheels, and measurement fixtures in the compliance/backlash budget.
