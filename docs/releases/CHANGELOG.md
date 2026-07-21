@@ -68,6 +68,8 @@ All notable project changes should be recorded here. Model releases must identif
 - `QTY-STEER-0016` and `QTY-STEER-0017` definitions for whole-system free play and directional angular compliance.
 - `PAR-STEER-0004` through `PAR-STEER-0006` for the current approximate `4 deg` whole-system free play and the historical `0.26/0.47 deg/N*m` directional compliance observations.
 - `SNS-STEER-0001` and `SNS-STEER-0002` for the installed rack linear potentiometer and planned primary-shaft rotary potentiometer.
+- Phase 0 steering review closeout packet documenting the completion decisions and re-correlation rules for the six review-ready steering tasks.
+- Automated closeout tests that keep installed-state and Level F tasks active while freezing the benchmark, equation, parameter-governance, drawing-authority, baseline-reconciliation, and authorization tasks.
 
 ### Changed
 
@@ -95,3 +97,6 @@ All notable project changes should be recorded here. Model releases must identif
 - `WUFR26_DESIGN_NOMINAL_V0` advances to a frozen nominal design-source configuration; exact CAD reflection is authoritative for the design model but not for as-built symmetry.
 - `PAR-STEER-0003` becomes active for nominal design-study rack-point motion, resolves five thou as `+/-0.005 in`, and keeps installed stop authority separate.
 - The Level F protocol is adapted to the installed rack pot, planned primary-shaft rotary pot, torque rig, digital angle gauge, and calipers, with explicit no-double-counting rules for supplier and whole-system backlash.
+- `P0-STR-004`, `P0-STR-005`, `P0-PAR-001`, `P0-STR-007`, `P0-STR-008`, and `P0-STR-009` advance from `review_ready` to `complete` under the closeout review.
+- `AUTH-STEER-0001` advances to an active reviewed/frozen authorization record and explicitly permits nominal wheel-plane/Level E outputs while retaining optimizer, physical-model, and as-built prohibitions.
+- The steering parameter-observation seed and drawing/BOM authority manifest are updated to remove obsolete `1.00 in total travel` language and distinguish nominal-design authority from installed-state evidence.

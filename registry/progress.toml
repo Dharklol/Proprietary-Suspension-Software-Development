@@ -95,14 +95,16 @@ exit_criterion = "Current WUFR steering values are classified as evidence, fixed
 [[phase_0.tasks]]
 id = "P0-STR-004"
 title = "Steering benchmark geometry"
-status = "review_ready"
+status = "complete"
 exit_criterion = "GEO-STEER-BASIC-001 and Level A/B/C expected results are reviewed and frozen before mechanism code begins."
+review_record = "docs/reviews/phase0_steering_review_closeout.md"
 
 [[phase_0.tasks]]
 id = "P0-STR-005"
 title = "Rigid steering function and equation packet"
-status = "review_ready"
+status = "complete"
 exit_criterion = "EQ-STEER-0001 through 0007 have reviewed sources, equations, validity limits, numerical behavior, failure states, and benchmark links."
+review_record = "docs/reviews/phase0_steering_review_closeout.md"
 
 [[phase_0.tasks]]
 id = "P0-STR-006"
@@ -113,26 +115,30 @@ exit_criterion = "The nominal design geometry and descriptive Level E result are
 [[phase_0.tasks]]
 id = "P0-PAR-001"
 title = "Steering parameter-observation seed"
-status = "review_ready"
+status = "complete"
 exit_criterion = "Recovered WUFR steering dimensions and settings are stored as non-authoritative observations with provenance, units, frame, uncertainty, and applicability before active-value selection."
+review_record = "docs/reviews/phase0_steering_review_closeout.md"
 
 [[phase_0.tasks]]
 id = "P0-STR-007"
 title = "Steering drawing and BOM authority"
-status = "review_ready"
+status = "complete"
 exit_criterion = "WUFR-26 steering assembly, rack, tie-rod, and front-upright drawing/BOM hierarchy is mapped; conflicting part identities are recorded; and the active-geometry extraction path is defined."
+review_record = "docs/reviews/phase0_steering_review_closeout.md"
 
 [[phase_0.tasks]]
 id = "P0-STR-008"
 title = "WUFR-26 steering baseline reconciliation"
-status = "review_ready"
+status = "complete"
 exit_criterion = "The real-geometry baseline, specification observations, rejected steering ratio, rack-center/travel interpretation, coordinate adapters, front-left FDR identity, static-toe reference state, geometry-study assembly relationship, and remaining SolidWorks correlation requirements are reviewed."
+review_record = "docs/reviews/phase0_steering_review_closeout.md"
 
 [[phase_0.tasks]]
 id = "P0-STR-009"
 title = "Bounded rigid steering prototype authorization"
-status = "review_ready"
+status = "complete"
 exit_criterion = "AUTH-STEER-0001 is reviewed and merged with permitted functions, numerical behavior, configurations, benchmark requirements, provenance, prohibited scope, and promotion gates explicitly recorded."
+review_record = "docs/reviews/phase0_steering_review_closeout.md"
 
 [[phase_0.tasks]]
 id = "P0-STR-010"
