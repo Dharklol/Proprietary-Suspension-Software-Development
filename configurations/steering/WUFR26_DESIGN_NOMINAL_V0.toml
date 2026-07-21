@@ -1,4 +1,4 @@
-version = "0.4.0"
+version = "0.4.1"
 configuration_id = "WUFR26_DESIGN_NOMINAL_V0"
 status = "frozen_for_nominal_design_source_development"
 vehicle_revision = "WUFR-26"
@@ -107,8 +107,11 @@ acceptance_boundary = "Frozen for nominal design-source development without a ph
 
 [uncertainty]
 cad_angular_export_tolerance_deg = 0.1
-cad_length_export_tolerance_raw = "+/-0.005 reported by the team as 'thou'; exact intended unit wording must be confirmed before SI conversion"
-as_built_hardpoint_alignment = "2026 welded hardpoint alignment was not measured; team expects deviation no larger than the reported CAD tolerance, but this is an unverified estimate"
+cad_length_export_tolerance_in = 0.005
+cad_length_export_tolerance_mm = 0.127
+cad_length_export_tolerance_m = 0.000127
+cad_length_export_tolerance_role = "Team-confirmed five-thou CAD export tolerance. It is an export/geometry tolerance observation, not an installed fabrication tolerance or Level F acceptance threshold."
+as_built_hardpoint_alignment = "2026 welded hardpoint alignment was not measured; team expects deviation no larger than the reported CAD tolerance, but this remains an unverified estimate until physically measured"
 rigid_model_exclusions = [
   "rack housing and rack-bushing compliance",
   "rack-and-pinion or other gear mesh backlash",
@@ -136,7 +139,6 @@ as_built_validation = false
 
 [open_gates]
 items = [
-  "Confirm the exact intended unit behind the reported +/-0.005 CAD length tolerance.",
   "Identify the exact references and sign convention used by Dimension2 if the internal monitor remains of interest.",
   "Measure installed left and right rack stops and installed transmission.",
   "Measure physical left/right geometry or wheel response to test as-built symmetry rather than assuming CAD reflection survives fabrication.",
