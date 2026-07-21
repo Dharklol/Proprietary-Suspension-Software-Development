@@ -19,3 +19,5 @@ jobs:
         run: python scripts/validate_registry.py
       - name: Run tests
         run: python -m unittest discover -s tests
+      - name: Run WUFR-26 Level E summary
+        run: python scripts/run_wufr26_level_e_prep.py --summary
