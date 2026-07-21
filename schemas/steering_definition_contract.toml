@@ -1,0 +1,104 @@
+version = "0.1.0"
+status = "frozen_for_rigid_steering_evaluator"
+review_record = "docs/reviews/phase0_steering_definition_role_closeout.md"
+
+[units]
+length = "m"
+angle = "rad"
+ratio = "1"
+
+[body_frame]
+id = "CANONICAL_ISO8855_BODY"
+handedness = "right-handed"
+positive_x = "vehicle forward"
+positive_y = "vehicle left"
+positive_z = "upward"
+positive_rotation = "right-hand rule about the declared directed axis"
+road_plane_default = "z = 0 only for a named nominal flat-road configuration"
+
+[road_wheel_heading]
+definition = "Forward-oriented intersection of the wheel centre plane and declared road plane, resolved as atan2(y,x) in the canonical body frame."
+positive = "counterclockwise yaw viewed from +z; wheel points toward vehicle left"
+left_quantity_id = "QTY-STEER-0006"
+right_quantity_id = "QTY-STEER-0007"
+incremental_rule = "wrapped total heading minus the same side's centered total heading"
+inside_outside_rule = "analysis-time aliases determined by turn direction; never stored as fixed side identities"
+
+[static_toe]
+left_quantity_id = "QTY-ALIGN-0001"
+right_quantity_id = "QTY-ALIGN-0002"
+storage_convention = "side-local toe-out angle"
+positive = "front of the wheel points away from the vehicle centerline"
+global_heading_left = "heading_left = toe_left"
+global_heading_right = "heading_right = -toe_right"
+rule = "Static toe remains separate from incremental steering and is not removed by modifying hardpoints."
+
+[static_camber]
+storage_convention = "side-local top-out angle"
+positive = "wheel top leans away from the vehicle centerline"
+
+[geometry_object.point]
+required_fields = ["coordinates", "frame_id", "configuration_id", "source_id", "source_role", "unit", "uncertainty"]
+rule = "Joint-center points, not visual CAD edges, are authoritative for the rigid mechanism."
+
+[geometry_object.axis_line]
+required_fields = ["point", "direction", "frame_id", "configuration_id", "source_id", "source_role", "uncertainty"]
+direction_rule = "Direction vector is normalized and its sign is retained because angular polarity uses a directed axis."
+
+[geometry_object.wheel_plane]
+required_fields = ["side", "normal_at_center", "forward_at_center", "frame_id", "configuration_id", "source_id", "source_role"]
+rule = "The forward vector resolves the 180-degree ambiguity of the plane/road intersection."
+
+[geometry_object.reference_configuration]
+required_fields = ["configuration_id", "vehicle_revision", "road_plane", "rack_center", "left_static_toe", "right_static_toe", "left_static_camber", "right_static_camber", "load_state", "compliance_state", "source_authority"]
+optional_fields = ["ride_height", "heave", "roll", "pitch", "wheel_travel", "driver_mass_state", "tire_state", "tie_rod_adjustment", "camber_shim_stack"]
+missing_field_rule = "Unavailable setup fields remain explicit unknowns and limit applicability; they are never silently set to zero."
+
+[zeros]
+steering_wheel = "A named configuration or measurement session assigns the physical zero and directed axis."
+primary_shaft = "A named sensor/model section assigns zero; it is not assumed identical to steering-wheel or pinion zero."
+pinion = "Declared pinion zero corresponding to the named rack-center state."
+rack = "Signed displacement is zero at the named rack center; total travel and left/right stop positions are separate fields."
+road_wheel = "Total heading retains static toe; incremental heading uses the same-side centered total heading as zero."
+
+[transmission]
+steering_wheel_angle = "QTY-STEER-0001"
+primary_shaft_angle = "QTY-STEER-0002"
+pinion_angle = "QTY-STEER-0003"
+rack_displacement = "QTY-STEER-0004"
+rack_per_pinion_angle = "QTY-STEER-0005"
+rule = "Each stage remains distinct so ratio variation, free play, compliance, and sensor locations can be identified."
+
+[ratios]
+local_quantity_id = "QTY-STEER-0010"
+secant_quantity_id = "QTY-STEER-0011"
+local_definition = "d(steering-wheel angle)/d(selected road-wheel incremental angle) at a declared state and approach branch"
+secant_definition = "finite steering-wheel input change divided by the corresponding selected road-wheel incremental-angle change over a declared interval"
+required_metadata = ["numerator_quantity_id", "denominator_quantity_id", "side_or_representation", "reference_state", "domain", "approach_direction", "zero_handling"]
+rule = "No output may be named only steering ratio."
+
+[ackermann]
+reference_quantity_id = "QTY-STEER-0013"
+error_quantity_id = "QTY-STEER-0014"
+reference_definition = "Exact planar no-slip outside-wheel incremental-steer magnitude for a selected positive inside-wheel incremental-steer magnitude, wheelbase, and steering-axis ground-intersection track."
+error_definition = "actual outside-wheel incremental-steer magnitude minus the Ackermann reference at the same inside-wheel magnitude and turn direction"
+required_metadata = ["turn_direction", "inside_side", "outside_side", "wheelbase_id", "track_id", "road_plane", "input_domain"]
+rule = "The reference is a low-speed benchmark or target candidate, not a universal tire-force optimum."
+
+[turning_path]
+quantity_id = "QTY-STEER-0015"
+definition = "Radius of one explicitly named vehicle, wheel, tire, or body-envelope reference path under declared low-speed kinematic assumptions."
+required_metadata = ["path_reference_id", "turn_direction", "road_plane", "reference_configuration", "kinematic_assumptions"]
+common_path_references = ["rear_axle_center", "vehicle_cg", "front_left_wheel_center", "front_right_wheel_center", "outside_front_tire_envelope", "outside_body_envelope", "competition_turning_circle_point"]
+rule = "Values with different path_reference_id values are different outputs and must not be compared as though they were one radius."
+
+[result_map]
+required_metadata = ["configuration_id", "model_id", "model_version", "input_quantity_id", "input_unit", "output_quantity_ids", "output_units", "domain", "sample_order", "source_ids", "adapter_revision", "failure_status"]
+fit_metadata = ["fit_type", "fit_order", "fit_domain", "residual_metrics", "source_map_sha256", "extrapolation_allowed"]
+extrapolation_allowed_default = false
+failure_rule = "Invalid geometry, branch loss, singularity, unavailable prerequisites, and out-of-domain requests return explicit status rather than guessed values."
+
+[deferred]
+quantity_ids = ["QTY-STEER-0008", "QTY-STEER-0009"]
+items = ["mean road-wheel angle averaging rule", "equivalent single-track curvature construction", "normalized Ackermann coefficient or percentage"]
+rule = "Deferred quantities are not aliases for the frozen left/right wheel headings and may not be used until separately reviewed."
