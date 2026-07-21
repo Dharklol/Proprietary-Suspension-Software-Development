@@ -1,103 +1,152 @@
 #!/usr/bin/env python3
-"""Generate the WUFR-26 nominal sweep on the recovered Design Study input grid."""
+"""Generate the WUFR-26 canonical projected-heading Level E comparison."""
 
 from __future__ import annotations
 
+import argparse
+from dataclasses import asdict
 import json
-import math
 from pathlib import Path
 
-from pssd_steering import level_e_missing_metadata, load_geometry, solve_sweep
-
+from pssd_steering import load_geometry, load_wheel_angle_fits
+from pssd_steering.level_e import compare_wufr26_projected_heading
 
 SOURCE_INPUT_MIN_DEG = -102
 SOURCE_INPUT_MAX_DEG = 102
 RACK_TRAVEL_IN_PER_REV = 3.5
 RACK_TRAVEL_M_PER_INPUT_DEG = RACK_TRAVEL_IN_PER_REV * 0.0254 / 360.0
+SUMMARY_SAMPLE_INPUTS_DEG = (-102.0, -50.0, 0.0, 50.0, 102.0)
 
 
-def main() -> int:
-    root = Path(__file__).resolve().parents[1]
-    geometry = load_geometry(root / "configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml")
-
-    source_inputs_deg = list(range(SOURCE_INPUT_MIN_DEG, SOURCE_INPUT_MAX_DEG + 1))
-    displacements = [value * RACK_TRAVEL_M_PER_INPUT_DEG for value in source_inputs_deg]
-    if displacements[0] < geometry.rack.displacement_min or displacements[-1] > geometry.rack.displacement_max:
-        raise RuntimeError("Recovered Design Study input mapping exceeds the declared geometry domain")
-
-    solved = solve_sweep(geometry, displacements)
-
-    states = []
-    for index, (input_deg, displacement) in enumerate(zip(source_inputs_deg, displacements)):
-        left = solved["left"][index]
-        right = solved["right"][index]
-        states.append(
-            {
-                "steer_input_deg": input_deg,
-                "rack_displacement_m": displacement,
-                "left_status": left.status.value,
-                "left_upright_rotation_rad": left.upright_rotation,
-                "left_upright_rotation_deg": (
-                    math.degrees(left.upright_rotation)
-                    if left.upright_rotation is not None
-                    else None
-                ),
-                "left_closure_residual_m": left.closure_length_residual,
-                "left_singularity_ratio": left.singularity_ratio_to_reference,
-                "right_status": right.status.value,
-                "right_upright_rotation_rad": right.upright_rotation,
-                "right_upright_rotation_deg": (
-                    math.degrees(right.upright_rotation)
-                    if right.upright_rotation is not None
-                    else None
-                ),
-                "right_closure_residual_m": right.closure_length_residual,
-                "right_singularity_ratio": right.singularity_ratio_to_reference,
-            }
-        )
-
-    metadata = {
-        "source_file_id_and_version": "box:2357045252883/version:2611346929683",
-        "source_hash": "69d71c0977287a13385683204344e78816b48512",
-        "active_solidworks_configuration": "FSA STEERING with GEOMETRY FINAL steering component",
-        "motion_study_name_and_settings": "Design Study 1; 205 scenarios from -102 to +102 deg",
-        "input_signal_identity": (
-            "steering/pinion input angle with reported 1:1 steering-wheel relation; "
-            "rack displacement = input_deg * 3.5 in/rev / 360 deg/rev"
-        ),
-        "output_signal_identity": "unresolved",
-        "input_sign_and_unit": (
-            "degrees; positive input increases native Rack Length and maps to canonical +y rack translation"
-        ),
-        "output_sign_unit_and_monitor_definition": "unresolved",
-        "rack_center_or_zero_input_definition": "Steer Input = 0 deg is the centered design-study rack state",
-        "static_toe_and_wheel_plane_reference": "unresolved",
-        "evaluated_domain_and_stop_state": (
-            "-102 to +102 deg maps to -0.0251883333 to +0.0251883333 m; "
-            "nominal design travel is +/-1.0 in, not proof of installed physical stops"
-        ),
+def _side_report(side) -> dict:
+    return {
+        "canonical_static_deg": side.canonical_static_deg,
+        "historical_static_deg": side.historical_static_deg,
+        "static_difference_deg": side.canonical_static_deg - side.historical_static_deg,
+        "total": {
+            "status": side.total.status.value,
+            "metrics": asdict(side.total.metrics) if side.total.metrics is not None else None,
+            "residuals_deg": list(side.total.residuals),
+            "message": side.total.message,
+        },
+        "incremental": {
+            "status": side.incremental.status.value,
+            "metrics": (
+                asdict(side.incremental.metrics)
+                if side.incremental.metrics is not None
+                else None
+            ),
+            "residuals_deg": list(side.incremental.residuals),
+            "message": side.incremental.message,
+        },
     }
 
-    report = {
+
+def _residual_summary(inputs_deg: list[float], comparison: dict) -> dict:
+    residuals = comparison["residuals_deg"]
+    maximum_index = max(range(len(residuals)), key=lambda index: abs(residuals[index]))
+    samples: dict[str, float] = {}
+    for sample_input in SUMMARY_SAMPLE_INPUTS_DEG:
+        sample_index = inputs_deg.index(sample_input)
+        samples[f"{sample_input:g}"] = residuals[sample_index]
+    return {
+        "status": comparison["status"],
+        "metrics": comparison["metrics"],
+        "maximum_absolute_residual_input_deg": inputs_deg[maximum_index],
+        "signed_residual_at_maximum_deg": residuals[maximum_index],
+        "selected_residuals_deg": samples,
+    }
+
+
+def _summary_report(report: dict) -> dict:
+    inputs_deg = [
+        float(value)
+        for value in range(
+            int(report["source_input_domain_deg"][0]),
+            int(report["source_input_domain_deg"][1]) + 1,
+        )
+    ]
+    summary = {
+        "geometry_id": report["geometry_id"],
+        "geometry_version": report["geometry_version"],
+        "authorization_id": report["authorization_id"],
+        "reference_fit": report["reference_fit"],
+        "sample_count": report["sample_count"],
+        "source_input_domain_deg": report["source_input_domain_deg"],
+        "rack_metres_per_input_degree": report["rack_metres_per_input_degree"],
+        "adapter": report["adapter"],
+        "comparison_status": report["comparison_status"],
+        "acceptance_status": report["acceptance_status"],
+        "authority_boundary": report["authority_boundary"],
+    }
+    for side_name in ("left", "right"):
+        side = report[side_name]
+        summary[side_name] = {
+            "canonical_static_deg": side["canonical_static_deg"],
+            "historical_static_deg": side["historical_static_deg"],
+            "static_difference_deg": side["static_difference_deg"],
+            "total": _residual_summary(inputs_deg, side["total"]),
+            "incremental": _residual_summary(inputs_deg, side["incremental"]),
+        }
+    return summary
+
+
+def build_report() -> dict:
+    root = Path(__file__).resolve().parents[1]
+    geometry = load_geometry(root / "configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml")
+    fits = load_wheel_angle_fits(
+        root / "benchmarks/steering/wufr26_desmos_wheel_angle_fits.toml"
+    )
+    source_inputs_deg = tuple(
+        float(value) for value in range(SOURCE_INPUT_MIN_DEG, SOURCE_INPUT_MAX_DEG + 1)
+    )
+    result = compare_wufr26_projected_heading(
+        geometry,
+        fits["test3"],
+        source_inputs_deg,
+        rack_metres_per_input_degree=RACK_TRAVEL_M_PER_INPUT_DEG,
+    )
+
+    return {
         "geometry_id": geometry.geometry_id,
         "geometry_version": geometry.version,
         "authorization_id": "AUTH-STEER-0001",
+        "reference_fit": "test3",
         "sample_count": len(source_inputs_deg),
         "source_input_domain_deg": [source_inputs_deg[0], source_inputs_deg[-1]],
         "rack_metres_per_input_degree": RACK_TRAVEL_M_PER_INPUT_DEG,
-        "mapped_source_rack_domain_m": [displacements[0], displacements[-1]],
-        "declared_nominal_rack_domain_m": [
-            geometry.rack.displacement_min,
-            geometry.rack.displacement_max,
-        ],
-        "states": states,
-        "level_e_missing_metadata": list(level_e_missing_metadata(metadata)),
-        "comparison_status": "blocked_only_on_output_monitor_identity_and_required_heading_basis",
-        "prohibited_interpretation": (
-            "Dimension2 is not treated as upright rotation or road-wheel heading until its two reference entities and sign are reviewed"
+        "adapter": asdict(result.adapter),
+        "left": _side_report(result.left),
+        "right": _side_report(result.right),
+        "comparison_status": "numerical_design_source_comparison_available",
+        "acceptance_status": "pending_residual_review_and_tolerance_freeze",
+        "authority_boundary": (
+            "Cross-tool nominal design evidence only; not independent validation or an as-built claim"
         ),
     }
-    print(json.dumps(report, indent=2, sort_keys=True))
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--summary",
+        action="store_true",
+        help="Print metrics, extrema, and selected residuals instead of all 205 residuals.",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        help="Optionally write the selected JSON payload to this path.",
+    )
+    arguments = parser.parse_args()
+
+    report = build_report()
+    payload = _summary_report(report) if arguments.summary else report
+    serialized = json.dumps(payload, indent=2, sort_keys=True)
+    if arguments.output is not None:
+        arguments.output.parent.mkdir(parents=True, exist_ok=True)
+        arguments.output.write_text(serialized + "\n", encoding="utf-8")
+    print(serialized)
     return 0
 
 

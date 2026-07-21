@@ -1,135 +1,154 @@
-# WUFR-26 Steering Level E Preparation
+# WUFR-26 Steering Level E Comparison
 
-**Status:** Direct left/right wheel-angle fits are available from the historical Desmos work; canonical comparison now waits on the reviewed wheel-plane projection and convention adapter  
+**Status:** Canonical projected-wheel-heading comparison executed and review-ready; independent validation remains open  
 **Model:** `MOD-STEER-0001`  
-**Authorization:** `AUTH-STEER-0001`
+**Authorization:** `AUTH-STEER-0001`  
+**Result:** `WUFR26-STEER-LEVEL-E-TEST3-V0`
 
-## Work sequence decision
+## Purpose and authority boundary
 
-The evaluator and comparison infrastructure were completed before requesting CAD measurements. Team screenshots, the recovered `2026Ackermann.csv`, the steering-length test workbook, the OptimumK final setup, the historical Desmos equations, and the existing coordinate adapter now resolve the design-source input and response paths without reopening the native SolidWorks model.
+This comparison checks whether the recovered nominal rigid steering geometry, Design Study input scaling, wheel-plane projection, and historical Desmos response fit are mutually consistent. It is a cross-tool nominal-design comparison, not an installed-state or physical validation.
 
-## Added infrastructure
+The historical Test 3 reference is a fitted, symmetry-enforced curve. It is useful for design-source reconciliation but cannot support an independently justified pass/fail tolerance.
 
-`src/pssd_steering/comparison.py` provides traceable signal records, periodic normalization, domain-limited interpolation, residual metrics, and explicit unavailable states.
+## Recovered input and geometry state
 
-`src/pssd_steering/solidworks.py` provides native Design Study CSV parsing and the reviewed steering-input-to-rack mapping.
+The design-source steering assembly is `FSA STEERING`, with `GEOMETRY FINAL.SLDPRT` as the steering geometry component. The relevant SolidWorks Design Study is `Design Study 1`.
 
-`src/pssd_steering/legacy_fits.py` provides traceable evaluation of the recovered Desmos wheel-angle polynomials, preserving total, static and incremental definitions and the historical right-side mirror relation.
-
-## Recovered SolidWorks input state
-
-The design-source steering assembly is `FSA STEERING`, with `GEOMETRY FINAL.SLDPRT` as the steering geometry component. The relevant SolidWorks Design Study is named `Design Study 1`.
-
-Team evidence records:
-
-- SolidWorks 2025 SP3.2 Academic Use Only;
-- the reference chassis model suppressed;
-- no reported errors or warnings;
-- `Steer Input` swept from `-102 deg` through `+102 deg`;
-- rack equation `Rack Length = 8.7 + Steer Input * rack ratio`;
-- `rack ratio = 3.5 / 360` inches per input degree;
-- a reported 1:1 steering-wheel-to-pinion relation for the design assembly.
-
-The reviewed coordinate adapter maps increasing native rack length to canonical `+y` rack translation:
+The recovered driver is `Steer Input`, swept from `-102 deg` through `+102 deg`. Increasing native rack length maps to canonical `+y` rack translation:
 
 ```text
 rack_displacement_m = Steer_Input_deg * 3.5 in/rev * 0.0254 m/in / 360 deg/rev
                     = Steer_Input_deg * 0.00024694444444444446 m/deg
 ```
 
-The exported `-102 deg` to `+102 deg` range maps to approximately `-25.1883 mm` to `+25.1883 mm`.
+The source range therefore maps to approximately `-25.1883 mm` through `+25.1883 mm`. The nominal Design Study domain is approximately `+/-25.4 mm`; this remains design-source authority rather than proof of installed physical stops.
 
-## Rack-travel correction
+## Frozen historical wheel-angle reference
 
-The nominal design study permits approximately **1.00 in to either side of center**, or **2.00 in total**. The configuration domain is now `-25.4 mm` to `+25.4 mm`; the historical CSV samples the slightly smaller range produced by its `+/-102 deg` limits.
-
-This is design-study authority only. Installed physical stops, backlash, compliance and operational margin still require CAD inspection or measurement.
-
-## Direct wheel-angle reference from Desmos
-
-The historical Desmos graphs provide the actual fitted left and right wheel-angle response versus steering input. This removes the need to identify `Dimension2` before performing the intended wheel-angle cross-tool comparison.
-
-The frozen selected Test 3 fit is:
+The selected Test 3 fit is:
 
 ```text
-left_total(x) = -2e-8*x^4 + 3e-6*x^3 - 2e-4*x^2 + 0.2427*x - 1.1394 deg
+left_total(x)  = -2e-8*x^4 + 3e-6*x^3 - 2e-4*x^2 + 0.2427*x - 1.1394 deg
 right_total(x) = -left_total(-x)
 ```
 
-with `x` in degrees of the historical steering-input convention.
+The historical static values are `-1.1394 deg` left and `+1.1394 deg` right. Incremental angle is total angle minus the same side's static value.
 
-The center values are:
+The fit is stored in `benchmarks/steering/wufr26_desmos_wheel_angle_fits.toml`. Its limitations remain explicit:
 
-```text
-left_static  = -1.1394 deg
-right_static = +1.1394 deg
-```
+- the raw optimizer goal samples are not frozen;
+- the polynomial is not independent validation;
+- the mirrored right branch cannot reveal physical asymmetry;
+- physical Level F validation is separate.
 
-and incremental wheel angle is defined side-by-side as total angle minus that side's center value.
+## Canonical wheel-plane construction
 
-The fits are frozen in `benchmarks/steering/wufr26_desmos_wheel_angle_fits.toml`. Test 3 is the primary selected-geometry fit. Tests 1, 2 and 4 remain historical design candidates, and the previous-year fit remains a baseline.
-
-### Source role and limitations
-
-These curves are the primary available **projected road-wheel-angle response reference** for the selected Test 3 geometry. They are more appropriate than `Dimension2` for comparison with the wheel-plane/ground-plane intersection angle used by the optimizer goals.
-
-They remain fit-derived evidence:
-
-- the underlying raw goal samples are not frozen;
-- the polynomial itself is not independent validation;
-- the mirrored right branch enforces ideal symmetry;
-- a reviewed historical-to-canonical sign and side adapter is still required;
-- physical Level F validation remains separate.
-
-## Wheel-plane basis recovered from OptimumK
-
-`WUFR-26 FINAL 8.21.2025.xlsx` records the nominal front setup as:
+The nominal OptimumK setup supplies:
 
 ```text
 static camber = -2.25 deg per side
 static toe    = -1.00 deg per side
 ```
 
-The team convention is positive toe-out. Therefore the centered ground-plane wheel directions and full wheel-plane normals can be constructed from side, toe, camber and the canonical body frame.
+The implementation in `src/pssd_steering/projection.py`:
 
-The next implementation must use the exact geometric quantity described by the optimizer setup:
+1. constructs the centered wheel plane from side, static toe, and static camber;
+2. rotates the wheel-plane normal with the upright about the steering axis;
+3. intersects the rotated wheel plane with the road plane;
+4. selects the forward branch of the intersection line;
+5. measures signed heading against canonical `+x`.
 
-1. construct the nominal wheel plane from static toe and camber;
-2. rotate its normal with the upright about the steering axis;
-3. intersect the rotated wheel plane with the road plane;
-4. select the forward branch of that intersection line;
-5. calculate the signed angle against canonical `+x`;
-6. apply the explicit historical Desmos side/sign adapter;
-7. compare total and incremental left/right curves.
+Rotating only a generic forward vector is not used because camber and an inclined steering axis can make it differ from the wheel-plane/road-plane intersection.
 
-Rotating only a nominal forward vector is not accepted as a substitute because an inclined steering axis and nonzero camber can make that differ from the wheel-plane/ground-plane intersection.
+## Historical convention adapter
+
+The reviewed adapter used for `WUFR26-STEER-LEVEL-E-TEST3-V0` is:
+
+```text
+historical input sign  = +1 * canonical Design Study input
+historical side map    = same-side left/right
+historical increment   = -1 * canonical signed incremental heading
+```
+
+Total curves retain the canonical OptimumK static datum. Incremental curves are centered independently. This prevents the total-angle comparison from silently replacing the canonical `+/-1.00 deg` static alignment with the historical `+/-1.1394 deg` fit datum.
+
+## Numerical result
+
+The comparison uses all 205 integer input points from `-102 deg` through `+102 deg`.
+
+| Quantity | Left | Right |
+|---|---:|---:|
+| Canonical static heading | `-1.0000 deg` | `+1.0000 deg` |
+| Historical static heading | `-1.1394 deg` | `+1.1394 deg` |
+| Static difference, candidate minus reference | `+0.1394 deg` | `-0.1394 deg` |
+| Incremental mean residual | `-0.32312 deg` | `+0.32312 deg` |
+| Incremental RMSE | `0.55323 deg` | `0.55323 deg` |
+| Incremental maximum absolute residual | `1.36194 deg` at `+102 deg` | `1.36194 deg` at `-102 deg` |
+| Total mean residual | `-0.18372 deg` | `+0.18372 deg` |
+| Total RMSE | `0.48519 deg` | `0.48519 deg` |
+| Total maximum absolute residual | `1.22254 deg` at `+102 deg` | `1.22254 deg` at `-102 deg` |
+
+Residual is always candidate minus historical reference.
+
+### Residual shape
+
+The residual is mirror-antisymmetric to numerical precision. It is small near center and grows systematically toward full rack travel:
+
+| Shared input band | Incremental RMSE | Maximum absolute incremental residual |
+|---|---:|---:|
+| `+/-25 deg` | `0.06130 deg` | `0.16742 deg` |
+| `+/-50 deg` | `0.18478 deg` | `0.53697 deg` |
+| `+/-75 deg` | `0.35833 deg` | `1.01677 deg` |
+| Full `+/-102 deg` | `0.55323 deg` | `1.36194 deg` |
+
+At full input, the less-steered/outside branch is `22.33142 deg` incremental versus the `23.69336 deg` fit reference, a `-1.36194 deg` or `-5.75%` magnitude difference. The more-steered/inside branch is `32.96278 deg` versus `32.18469 deg`, a `+0.77809 deg` or `+2.42%` magnitude difference.
+
+The shape is consistent with a gain or geometry-detail mismatch rather than a sign, side, center, or rack-scaling failure. Likely contributors include the fit-derived reference, the approximately recovered selected geometry, and the mirrored rather than independently exported right side.
+
+## Acceptance disposition
+
+No pass/fail tolerance is assigned to this fit comparison. The observed residual metrics are frozen as regression and review evidence only.
+
+The review conclusion is:
+
+> The recovered rigid geometry, input scaling, wheel-plane projection, and convention adapter are mutually consistent with the selected historical fit at nominal-design level, while the endpoint residual remains material enough to block tighter correlation or validation claims.
+
+A future validation tolerance requires direct left/right projected-wheel-angle samples or physical measurements with a frozen setup state, source identity, uncertainty, and independently justified acceptance limits.
+
+## Reproducible CLI output
+
+A full 205-point report can be generated with:
+
+```bash
+python scripts/run_wufr26_level_e_prep.py \
+  --output wufr26_level_e_report.json
+```
+
+A compact summary suitable for CI and review is:
+
+```bash
+python scripts/run_wufr26_level_e_prep.py \
+  --summary \
+  --output wufr26_level_e_summary.json
+```
+
+CI executes the registry validator, unit tests, and both report modes, then uploads the reports as a workflow artifact.
+
+The frozen result metadata and reviewed metrics are stored in `benchmarks/steering/wufr26_level_e_test3_result.toml`.
 
 ## `Dimension2` remains supplementary
 
-The follow-up screenshot and raw CSV establish that `Dimension2` is an unsigned or branch-folded included angle between two magenta hub-centered construction rays. It reaches `0.17 deg` near `-77 deg` input, then increases on both sides. It is not a continuously signed road-wheel-heading output.
+`Dimension2` is an unsigned or branch-folded included angle between two hub-centered construction rays. It is not the projected road-wheel heading used by the optimizer goals. Its branch reconstruction remains useful for source archaeology, but it is not part of the primary wheel-heading comparison and is not validation evidence.
 
-The diagnostic branch reconstruction and its residuals remain useful for source archaeology, but `Dimension2` is no longer the critical path for the direct wheel-angle comparison. Its exact second ray is needed only to finish interpreting that separate internal monitor.
+## Remaining gates
 
-The full diagnostic is recorded in `docs/models/steering/wufr26_dimension2_ray_diagnostic.md`.
+The next evidence needed for stronger claims is:
 
-## Numerical consistency already established
+- direct raw left/right projected wheel-angle samples from the relevant CAD study;
+- independently exported front-right geometry;
+- installed rack-stop and transmission measurements;
+- setup-state and uncertainty records;
+- physical steering-angle or toe measurements for Level F validation.
 
-At the exact source endpoint rack displacement of `25.1883 mm`, the nominal rigid model predicts upright-rotation magnitudes of approximately:
-
-- `33.27856 deg` on the inner/more-steered nominal side;
-- `22.45550 deg` on the outer/less-steered nominal side.
-
-The historical Test 3 response and visible optimizer results are close to these values, supporting the recovered geometry and input scaling. Formal residuals must nevertheless use projected wheel heading rather than upright rotation.
-
-## Revised comparison sequence
-
-1. Freeze the historical Desmos Test 3 total and incremental wheel-angle curves.
-2. Construct the nominal left/right wheel-plane normals from the reviewed static toe and camber.
-3. Implement exact wheel-plane/road-plane projection after upright rotation.
-4. Freeze the historical-to-canonical input, side and output-sign adapter.
-5. Generate the same projected quantity over the shared input domain.
-6. Report left/right point residuals, mean error, RMSE and maximum absolute error.
-7. Review residual shape before setting a Level E tolerance.
-8. Keep the `Dimension2` diagnostic and physical Level F validation separate.
-
-The nominal geometry remains design-source mechanism evidence, not an installed/as-built claim.
+The nominal geometry remains design-source mechanism evidence, not an installed or as-built claim.

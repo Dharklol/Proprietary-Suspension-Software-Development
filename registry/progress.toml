@@ -136,6 +136,6 @@ exit_criterion = "AUTH-STEER-0001 is reviewed and merged with permitted function
 
 [[phase_0.tasks]]
 id = "P0-STR-010"
-title = "WUFR-26 Level E comparison preparation"
-status = "active"
-exit_criterion = "The source parser, periodic monitor normalization, canonical signal-matching gate, dense nominal sweep, residual metrics, and exact SolidWorks export requirements are reviewed before numerical CAD comparison."
+title = "WUFR-26 Level E comparison and residual review"
+status = "review_ready"
+exit_criterion = "The source parser, canonical wheel-plane projection, convention adapter, dense nominal sweep, residual metrics, result record, and acceptance disposition are reviewed and frozen for nominal design-source comparison."
