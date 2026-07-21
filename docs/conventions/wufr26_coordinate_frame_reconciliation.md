@@ -1,19 +1,20 @@
 # WUFR-26 Coordinate-Frame Reconciliation
 
-**Status:** Proposed, review ready  
+**Status:** Reviewed and frozen for the nominal WUFR-26 design-source configuration; installed-state validation remains open  
 **Related source:** `CAT-STEER-GEO-0001`
 
 ## Purpose
 
-This document reconciles the final WUFR-26 OptimumK suspension export, the raw SolidWorks steering-study coordinates, and the steering FDR pickup table. Standard and software names do not replace an explicit basis, handedness, origin, unit, and transform.
+This document reconciles the final WUFR-26 OptimumK suspension export, the raw SolidWorks steering-study coordinates, the steering FDR pickup table, and the later team-supplied CAD observations. Standard and software names do not replace an explicit basis, handedness, origin, unit, and transform.
 
 ## Sources
 
 | Artifact | Box ID | Version ID | Provider SHA-1 | Role |
 |---|---:|---:|---|---|
-| `WUFR-26 FINAL 8.21.2025.xlsx` | `2014803790843` | `2224178574043` | `15eadfb93369192038888da92ebaa6674db56cfa` | Final suspension hardpoints used for `SU-00001-AA 2026 SUSPENSION GEOMETRY.SLDPRT` |
+| `WUFR-26 FINAL 8.21.2025.xlsx` | `2014803790843` | `2224178574043` | `15eadfb93369192038888da92ebaa6674db56cfa` | Final suspension hardpoints and setup values used for the nominal geometry |
 | `Steering Length Optimization Tests.xlsx` | `1939770957296` | `2140326128861` | `2069922fc3dac8889d84a92275e35486caef3284` | Test 3 raw steering-study coordinates and design intent |
-| Steering FDR final table | pending exact file metadata | pending | pending | Selected final front-left tie-rod pickup coordinates |
+| Steering FDR final table | pending exact file metadata | pending | pending | Selected final front-left tie-rod pickup coordinates and projected endpoint turn-angle observations |
+| Team CAD observations dated 2026-07-21 | project conversation | n/a | n/a | Rack-center coordinate, exact left/right design reflection, setup-sheet authority, rack-point motion rule, and screenshots of geometry/column sketches |
 
 The OptimumK workbook records the user coordinate matrix `[[1,0,0],[0,-1,0],[0,0,1]]`. Its exported table uses positive lateral coordinates for the right side and negative values for the left side.
 
@@ -50,6 +51,22 @@ The project calculation frame is right-handed: `+x` forward, `+y` vehicle left, 
 ```
 
 No translation was required for the recovered comparison points. This does not imply that every SolidWorks model shares the same origin.
+
+## Direct rack-center confirmation
+
+The team supplied the centered CAD rack coordinate in the steering-study axis order:
+
+```text
+SolidWorks native [lateral, vertical, longitudinal] = [0.000, 162.865, -79.298] mm
+```
+
+Applying the frozen adapter gives:
+
+```text
+canonical [forward, left, up] = [-0.079298, 0.000000, 0.162865] m
+```
+
+This exactly matches the rack-axis origin already used by `WUFR26_DESIGN_NOMINAL_V0`. The observation therefore confirms the axis permutation, signs, and center location for the nominal design-source geometry.
 
 ## Transform check
 
@@ -111,48 +128,67 @@ outer = [ -3.166, +0.402, -1.204] mm
 
 The inner longitudinal difference is exactly 0.500 in rearward. It is a steering-specific geometry revision, not merely a coordinate-frame difference.
 
-## Nominal reference state and static toe
+## Nominal reference state and setup-sheet authority
 
-The OptimumK geometry was exported at its listed nonzero static-toe setting, not at a zero-toe wheel orientation. The workbook displays `Static Toe = -1.000 deg` for both front-side fields. A quick CAD inspection also confirms that the centered geometry contains nonzero toe by comparing the near and far distances of a wheel-ring reference to the vehicle center plane.
-
-This evidence establishes the presence of static toe in the imported nominal geometry. It does not yet freeze the exact per-wheel heading because the OptimumK field definition must be reconciled with the specification's axle-sum-toe wording, and a numerical wheel-plane basis has not been exported.
+The OptimumK geometry was exported at its listed nonzero static-toe and static-camber settings. The workbook displays `Static Toe = -1.000 deg` and `Static Camber = -2.250 deg` for both front-side fields. The team confirms that the SolidWorks steering setup is based on this setup sheet.
 
 For the rigid evaluator:
 
-- zero solved upright rotation means the imported nominal static-toe mechanism state;
+- zero solved upright rotation means the imported nominal static-alignment mechanism state;
 - the closure solver's primary angular output is rotation of the upright about its steering axis;
-- projected road-wheel heading requires an initial wheel-forward or wheel-plane basis;
-- incremental road-wheel heading may be reported only after that basis is supplied or derived under an explicitly reviewed assumption;
-- absolute toe-inclusive road-wheel heading additionally requires the per-wheel toe convention;
-- static toe must not be subtracted from hardpoint geometry as though the points were recorded at zero toe.
+- projected road-wheel heading is obtained from the reviewed wheel-plane basis and road-plane intersection;
+- incremental road-wheel heading is reported relative to each side's centered projected heading;
+- total toe-inclusive heading retains the canonical setup-sheet static datum;
+- static toe and camber must not be subtracted from hardpoint geometry as though the points were recorded at zero alignment.
+
+## Left/right reflection authority
+
+The team confirms that the nominal design CAD left-side hardpoints are a perfect reflection of the right-side hardpoints. For the design-source model, changing the sign of canonical `y` is therefore an authoritative CAD construction rule rather than an unverified nominal assumption.
+
+This does **not** establish as-built symmetry. Welding, fixturing, setup, rod-end adjustment, rack centering, and compliance can break the CAD reflection. Physical or metrology evidence is still required for installed-state claims.
+
+## Rack-point motion rule
+
+The modeled rack points are the inboard tie-rod pickup points at the centered state. They translate rigidly along the rack axis by up to `1.00 in` to either side in the nominal design study. This is the correct rigid mechanism representation even though the old fitment trackers are no longer reliable.
+
+The `+/-1.00 in` value remains a design-study motion bound, not proof of the installed hardware stop positions or operational margin.
 
 ## Authority rule
 
 For the WUFR-26 nominal steering design configuration:
 
-1. use `WUFR-26 FINAL 8.21.2025.xlsx` for upper and lower upright points and the steering-axis construction;
+1. use `WUFR-26 FINAL 8.21.2025.xlsx` for upper and lower upright points, steering-axis construction, static toe, and static camber;
 2. use the steering FDR final table for the selected front-left tie-rod inner and outer pickups;
-3. use Test 3 as transform and design-intent evidence;
-4. use `GEOMETRY FINAL.SLDPRT` and `2026Ackermann.csv` for response reproduction;
-5. use active assembly export or physical measurement for installed-state validation.
+3. reflect canonical `y` exactly for the nominal right-side CAD geometry;
+4. use Test 3 as transform and design-intent evidence;
+5. use `GEOMETRY FINAL.SLDPRT`, the Test 3 fit, and the FDR projected endpoint values for nominal response comparison;
+6. use active assembly metrology or physical measurement for installed-state validation.
 
 The generic OptimumK tie-rod points must not overwrite the later FDR steering points. The FDR tie-rod table does not replace the OptimumK upright points.
 
-## Canonical nominal front-left candidate
+## Canonical nominal front-left configuration
 
 | Object | x (m) | y (m) | z (m) | Source |
 |---|---:|---:|---:|---|
 | Lower steering-axis point | 0.000000 | 0.587096 | 0.157117 | OptimumK final |
 | Upper steering-axis point | -0.006487 | 0.564662 | 0.305056 | OptimumK final |
-| Rack inner joint | -0.079298 | 0.220980 | 0.162865 | Steering FDR |
+| Rack inner joint | -0.079298 | 0.220980 | 0.162865 | Steering FDR and direct CAD center confirmation |
 | Upright outer joint | -0.061933 | 0.549102 | 0.192223 | Steering FDR |
 
-A symmetric front-right side may be derived by changing the sign of `y`, but it remains an explicit nominal-symmetry assumption until checked independently.
+The mirrored inner joints imply rack-center point `[-0.079298, 0, 0.162865] m`, rack direction `[0,+1,0]`, and inner-joint spacing `0.441960 m`.
 
-The mirrored inner joints imply a rack-center point `[-0.079298, 0, 0.162865] m`, rack direction `[0,+1,0]`, and inner-joint spacing `0.441960 m`.
+## Reported uncertainty and remaining gates
 
-## Remaining gates
+The team reports a CAD angular export tolerance of `+/-0.1 deg`. The reported length tolerance was phrased as `+/-0.005 thou`; its intended unit must be clarified before conversion or use as an acceptance band. The team expects 2026 welding-induced hardpoint error to be no larger than the CAD tolerance, but no as-built measurement currently supports that estimate.
 
-This is enough for an explicitly labeled nominal-design mechanism-closure evaluator and upright-rotation sweep. It does not establish installed hardpoints, the exact per-wheel static-toe convention and wheel-plane basis, projected road-wheel headings, shim stack and ride height, actual stop states, pinion-to-rack transmission, tolerances, compliance, or active assembly warning state.
+The nominal design-source frame, symmetry rule, rack center, static alignment, and Level E comparison are now frozen. Remaining installed-state gates are:
 
-The project should retain one ISO 8855-style right-handed simulation frame. CAD may use an ISO 4130-oriented vehicle reference, but every CAD model still requires a source-specific adapter; a standard label cannot authorize an unverified axis permutation, sign change, or origin shift.
+- exact installed rack-center and left/right stop measurement;
+- installed steering-wheel/pinion/rack transmission measurement;
+- physical left/right hardpoint or wheel-angle measurement;
+- backlash, compliance, hysteresis, and repeatability characterization;
+- interpretation of the visible `->?` external-reference indicators in the supplied feature-tree screenshot;
+- confirmation of the intended CAD length-tolerance unit;
+- Level F acceptance criteria based on independent measurement uncertainty.
+
+The project retains one ISO 8855-style right-handed simulation frame. CAD may use an ISO 4130-oriented vehicle reference, but every CAD model still requires a source-specific adapter; a standard label cannot authorize an unverified axis permutation, sign change, or origin shift.
