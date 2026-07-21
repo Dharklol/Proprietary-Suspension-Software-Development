@@ -1,4 +1,4 @@
-version = "0.1.0"
+version = "0.2.0"
 result_id = "WUFR26-STEER-LEVEL-E-TEST3-V0"
 status = "review_ready_descriptive_cross_tool_consistency"
 contract_id = "WUFR26-STEER-LEVEL-E-V0"
@@ -58,6 +58,27 @@ rmse_deg = 0.4851912020564492
 maximum_absolute_error_deg = 1.2225362325740718
 maximum_error_input_deg = -102.0
 signed_error_at_maximum_deg = 1.2225362325740718
+
+[residual_band_review]
+mirror_antisymmetry_max_discrepancy_deg = 1.2434497875801753e-14
+incremental_rmse_within_25_deg_input = 0.06129506759094872
+incremental_maximum_absolute_error_within_25_deg_input = 0.16741787407916853
+incremental_rmse_within_50_deg_input = 0.18478027290076865
+incremental_maximum_absolute_error_within_50_deg_input = 0.5369721672217178
+incremental_rmse_within_75_deg_input = 0.3583291824749571
+incremental_maximum_absolute_error_within_75_deg_input = 1.0167706994992614
+incremental_rmse_full_domain = 0.5532296534491544
+incremental_maximum_absolute_error_full_domain = 1.3619362325740774
+
+[endpoint_review]
+less_steered_reference_incremental_deg = 23.69335968
+less_steered_candidate_incremental_deg = 22.331423447425923
+less_steered_magnitude_error_deg = -1.3619362325740774
+less_steered_magnitude_error_percent = -5.748176919475514
+more_steered_reference_incremental_deg = 32.18468832
+more_steered_candidate_incremental_deg = 32.9627794651282
+more_steered_magnitude_error_deg = 0.7780911451282009
+more_steered_magnitude_error_percent = 2.4175817313871097
 
 [review]
 residual_shape = "Mirror-antisymmetric, small near center, and increasingly gain-shaped toward full rack travel. The less-steered/outside branch underpredicts magnitude by about 1.36 deg at full input; the more-steered/inside branch differs by about 0.78 deg at the opposite full-input endpoint."
