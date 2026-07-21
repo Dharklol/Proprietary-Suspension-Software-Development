@@ -1,0 +1,9 @@
+[record]
+id = "QTY-STEER-0016"
+type = "quantity"
+title = "Total steering-system free play"
+status = "proposed"
+maturity = "M0"
+description = "Total reversible steering-wheel angular motion between opposite output-engagement limits under a named setup, load, and detection threshold. This is a system-level deadband/free-play quantity and must not be treated as elastic compliance or attributed to one component without staged measurements."
+dimension = "angle"
+canonical_unit = "rad"
