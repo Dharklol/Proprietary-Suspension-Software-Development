@@ -1,0 +1,33 @@
+[record]
+id = "RISK-STEER-0002"
+type = "risk"
+title = "Unmodeled steering compliance, backlash, and hysteresis"
+status = "active"
+description = "The nominal steering evaluator is rigid, while the installed system can contain backlash, clearance, friction, and elastic compliance in the quick release, column, gears, rack, rod ends, tie rods, steering arms, uprights, bearings, chassis mounts, wheels, and measurement fixtures. These effects can alter center feel, steering ratio, wheel-angle response, symmetry, and repeatability."
+severity = "high"
+cause = "The first authorized model intentionally represents ideal rigid joints and links. Installed clearances, gear mesh, preload, component stiffness, fabrication error, temperature, wear, and direction history have not been measured or parameterized."
+effect = "A nominal CAD-correlated result could be mistaken for installed steering response. Future steering-system decisions could understate deadband, overstate effective gain, misidentify the source of left/right differences, or set an unjustified validation tolerance."
+controls = [
+  "Keep rigid kinematic residuals separate from physical deadband, hysteresis, repeatability, and elastic compliance.",
+  "List rack housing/bushings, gear mesh, rod ends, tie rods, column joints, quick release, steering arms, uprights, bearings, chassis mounts, wheels, and fixtures in every physical uncertainty budget.",
+  "Use bidirectional and reversal sweeps so direction-dependent backlash is observable.",
+  "Measure steering-wheel angle, pinion or lower-column angle, rack displacement, and both projected wheel headings when possible so component groups can be isolated.",
+  "Measure physical rack center and left/right stops rather than assuming the nominal +/-1.00-in design-study range.",
+  "Do not use the frozen Level E residual envelope or reported CAD export tolerance as a Level F pass/fail threshold.",
+  "Require setup-state, calibration, repeatability, and uncertainty records before installed-state model promotion.",
+  "Follow docs/verification/steering/wufr26_level_f_measurement_protocol.md."
+]
+affected_ids = [
+  "MOD-STEER-0001",
+  "BENCH-STEER-0001",
+  "PAR-STEER-0003",
+  "QTY-STEER-0001",
+  "QTY-STEER-0002",
+  "QTY-STEER-0003",
+  "QTY-STEER-0004",
+  "QTY-STEER-0005",
+  "QTY-STEER-0006",
+  "QTY-STEER-0007",
+  "QTY-STEER-0010",
+  "QTY-STEER-0011"
+]
