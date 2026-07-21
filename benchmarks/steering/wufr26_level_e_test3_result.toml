@@ -1,0 +1,68 @@
+version = "0.1.0"
+result_id = "WUFR26-STEER-LEVEL-E-TEST3-V0"
+status = "review_ready_descriptive_cross_tool_consistency"
+contract_id = "WUFR26-STEER-LEVEL-E-V0"
+model_id = "MOD-STEER-0001"
+authorization_id = "AUTH-STEER-0001"
+geometry_id = "WUFR26_DESIGN_NOMINAL_V0"
+geometry_version = "0.3.0"
+reference_source_id = "WUFR26-DESMOS-WHEEL-FITS-V0"
+reference_fit = "test3"
+sample_count = 205
+input_domain_deg = [-102.0, 102.0]
+rack_metres_per_input_degree = 0.00024694444444444444
+numerical_code_commit = "b43d2535efb822ecebeae628d4ab85ded6e94aff"
+ci_workflow_run = 130
+full_report_sha256 = "db3808abaf056c75fae4fc452eef9ce3715362c7016294fad6d6c2f1efdd2b6c"
+summary_report_sha256 = "51cc8159728f3e702b94f1f6d75490c1e16cfdaf8d9c7684ef5be1374a681666"
+generator = "scripts/run_wufr26_level_e_prep.py"
+
+[adapter]
+input_sign = 1.0
+output_sign = -1.0
+side_mapping = "same_side"
+description = "Historical input maps directly to the reviewed Design Study input; historical incremental response orientation is the negative of canonical signed heading; left/right identities are retained."
+
+[static_alignment]
+canonical_left_deg = -1.0
+canonical_right_deg = 1.0
+historical_left_deg = -1.1394
+historical_right_deg = 1.1394
+left_difference_deg = 0.1394
+right_difference_deg = -0.1394
+
+[left.incremental]
+mean_error_deg = -0.3231165957765028
+rmse_deg = 0.5532296534491544
+maximum_absolute_error_deg = 1.3619362325740774
+maximum_error_input_deg = 102.0
+signed_error_at_maximum_deg = -1.3619362325740774
+
+[left.total]
+mean_error_deg = -0.18371659577650343
+rmse_deg = 0.48519120205645005
+maximum_absolute_error_deg = 1.222536232574079
+maximum_error_input_deg = 102.0
+signed_error_at_maximum_deg = -1.222536232574079
+
+[right.incremental]
+mean_error_deg = 0.3231165957765008
+rmse_deg = 0.5532296534491531
+maximum_absolute_error_deg = 1.3619362325740703
+maximum_error_input_deg = -102.0
+signed_error_at_maximum_deg = 1.3619362325740703
+
+[right.total]
+mean_error_deg = 0.18371659577650104
+rmse_deg = 0.4851912020564492
+maximum_absolute_error_deg = 1.2225362325740718
+maximum_error_input_deg = -102.0
+signed_error_at_maximum_deg = 1.2225362325740718
+
+[review]
+residual_shape = "Mirror-antisymmetric, small near center, and increasingly gain-shaped toward full rack travel. The less-steered/outside branch underpredicts magnitude by about 1.36 deg at full input; the more-steered/inside branch differs by about 0.78 deg at the opposite full-input endpoint."
+conclusion = "The recovered rigid geometry, input scaling, wheel-plane projection, and convention adapter are mutually consistent with the selected historical fit at nominal-design level, but the systematic endpoint residual remains material and requires better source geometry or direct raw goal exports before tighter correlation claims."
+acceptance_disposition = "descriptive_only_no_pass_fail_tolerance"
+acceptance_reason = "The selected Test 3 polynomial is fit-derived, symmetry-enforced, and not independent validation evidence. Observed residual metrics are frozen for regression and review, not used as a validation pass criterion."
+promotion_gate = "Obtain direct left/right projected wheel-angle samples or physical measurements with source identity, setup state, uncertainty, and an independently justified tolerance."
+authority_boundary = "Nominal design-source cross-tool consistency only; not installed, as-built, or physical validation."
