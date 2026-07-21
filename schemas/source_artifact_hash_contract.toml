@@ -1,0 +1,36 @@
+version = "0.1.0"
+
+[hashes]
+project_algorithm = "sha256"
+provider_algorithm = "sha1"
+project_hash_required_for_freeze = true
+provider_hash_sufficient_for_discovery_only = true
+
+[required_fields]
+artifact = [
+  "artifact_id",
+  "name",
+  "provider",
+  "provider_file_id",
+  "provider_version_id",
+  "size_bytes",
+  "provider_sha1",
+  "project_sha256",
+  "evidence_role",
+  "freeze_state",
+]
+
+[enums]
+freeze_state = [
+  "provider_identified",
+  "raw_bytes_acquired",
+  "sha256_verified",
+  "formally_unavailable",
+]
+
+[rules]
+project_sha256_format = "64 lowercase hexadecimal characters or empty while freeze_state is provider_identified"
+provider_sha1_format = "40 lowercase hexadecimal characters"
+raw_byte_rule = "Compute SHA-256 over the immutable provider download without conversion, resave, decompression, or spreadsheet re-export."
+identity_rule = "A provider file ID and version ID identify one exact provider object revision; a filename alone is insufficient."
+derivative_rule = "Derived tables and fitted coefficients receive separate artifact IDs and retain parent artifact hashes."
