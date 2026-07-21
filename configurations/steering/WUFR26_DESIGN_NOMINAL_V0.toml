@@ -104,7 +104,7 @@ turning_radius = false
 
 [open_gates]
 items = [
-  "Review first canonical projection residual against the frozen Desmos Test 3 fit.",
+  "Obtain direct raw left/right projected wheel-angle samples or physical measurements before defining a validation tolerance.",
   "Identify the exact references and sign convention used by Dimension2.",
   "Independently export or measure front-right hardpoints.",
   "Confirm installed rack stops and installed transmission.",
