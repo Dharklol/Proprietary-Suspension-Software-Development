@@ -1,6 +1,6 @@
-version = "0.4.0"
+version = "0.5.0"
 contract_id = "WUFR26-STEER-LEVEL-E-V0"
-status = "fit_reference_available_pending_canonical_wheel_plane_projection"
+status = "numerical_fit_comparison_review_ready"
 model_id = "MOD-STEER-0001"
 authorization_id = "AUTH-STEER-0001"
 
@@ -82,10 +82,17 @@ authority_state = "team-directed source location; video frames and immutable fil
 [required_geometry]
 front_static_camber = "-2.25 deg per side from WUFR-26 FINAL 8.21.2025.xlsx"
 front_static_toe = "-1.00 deg per side in OptimumK local-side convention; team states positive toe means toe-out"
-center_wheel_ground_intersection_direction = "derivable from side, static toe, and +x forward convention"
-moving_wheel_plane_projection = "pending implementation and review of an exact wheel-plane-normal rotation and ground-plane intersection construction"
+center_wheel_ground_intersection_direction = "derived from side, static toe, and +x forward convention"
+moving_wheel_plane_projection = "implemented as wheel-plane-normal rotation about the steering axis followed by road-plane intersection and forward-branch selection"
 front_right_hardpoints = "nominal mirror remains acceptable for the symmetric fit comparison; independent export remains required for as-built claims"
 pinion_or_input_to_rack_map = "resolved for design-study mapping; installed measurement remains open"
+
+[historical_adapter]
+input_sign = 1.0
+output_sign = -1.0
+side_mapping = "same_side"
+static_rule = "Total candidate curves retain the canonical OptimumK static datum; incremental candidate curves are centered independently. Historical fit static values remain unchanged."
+review_state = "frozen_for_WUFR26-STEER-LEVEL-E-TEST3-V0"
 
 [dimension2_diagnostic]
 raw_minimum = "0.17 deg at both -77 deg and -76 deg Steer Input"
@@ -102,13 +109,26 @@ validation_role = "supplementary non-validation diagnostic"
 [comparison]
 primary_reference = "selected Test 3 Desmos projected wheel-angle fits"
 supplementary_reference = "2026Ackermann.csv Dimension2 internal ray-angle monitor"
+result_record = "benchmarks/steering/wufr26_level_e_test3_result.toml"
 interpolation = "linear_inside_overlap_only for raw series; direct evaluation for frozen polynomial fits"
 extrapolation_allowed = false
 polynomial_fit_used_as_reference = true
 polynomial_fit_independent_validation = false
-residual_definition = "candidate canonical projected road-wheel heading minus the convention-adapted Desmos projected road-wheel angle"
+residual_definition = "candidate convention-adapted canonical projected road-wheel heading minus the Desmos projected road-wheel angle"
 metrics = ["mean_error", "rmse", "maximum_absolute_error", "point_residuals"]
-acceptance_tolerance = "unresolved_until_wheel_plane_projection_and_first_fit_residual_review"
+acceptance_disposition = "descriptive_only_no_pass_fail_tolerance"
+acceptance_reason = "The Test 3 polynomial is fit-derived, symmetry-enforced, and not independent validation evidence. The observed residual envelope is frozen for regression and review rather than treated as a validation threshold."
+
+[numerical_result]
+result_id = "WUFR26-STEER-LEVEL-E-TEST3-V0"
+sample_count = 205
+incremental_rmse_deg_per_side = 0.5532296534491544
+incremental_maximum_absolute_error_deg = 1.3619362325740774
+total_rmse_deg_per_side = 0.48519120205645005
+total_maximum_absolute_error_deg = 1.222536232574079
+canonical_to_historical_static_difference_magnitude_deg = 0.1394
+residual_shape = "mirror-antisymmetric and increasingly gain-shaped toward full input; material endpoint mismatch remains"
+review_conclusion = "nominal design-source consistency supported; independent or as-built validation not established"
 
 [restrictions]
 items = [
@@ -119,5 +139,6 @@ items = [
   "Do not treat the diagnostic Dimension2 reconstruction or its residual metrics as Level E validation.",
   "Do not treat the +/-1.00-in design-study range as proof of installed physical stop travel.",
   "Do not treat a polynomial fit as independent validation evidence.",
+  "Do not use the frozen observed residual envelope as a future validation tolerance without independent justification.",
   "Do not claim installed or physical validation from Level E agreement."
 ]
