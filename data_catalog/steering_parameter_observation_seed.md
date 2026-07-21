@@ -1,98 +1,120 @@
 # WUFR-26 Steering Parameter-Observation Seed
 
-**Status:** Candidate, rejected, and provisional observations; no value is active by appearing here  
+**Status:** Reviewed Phase 0 observation seed; task complete  
 **Primary source:** `CAT-STEER-SPEC-0001`  
 **Vehicle revision:** WUFR-26  
-**Related model:** `MOD-STEER-0001`
+**Related model:** `MOD-STEER-0001`  
+**Review record:** `docs/reviews/phase0_steering_review_closeout.md`
 
 ## Purpose
 
-This seed converts steering-relevant values from the WUFR-26 design specification and team configuration clarifications into traceable observations while preserving source definitions and unresolved mappings. The specification is useful design-intent evidence. It does not replace active CAD geometry, drawings, setup records, or physical measurement.
+This seed records how steering-relevant source values enter the project as observations without becoming authoritative merely because they appear in a specification, workbook, drawing, CAD model, test note, or conversation. Active values are selected only through a reviewed configuration or parameter record.
 
-## Direct canonical candidates
+## Observation classes now represented
 
-| Observation | Source-native value | Canonical candidate | Authority state | Main restriction |
-|---|---:|---:|---|---|
-| `PAR-GEO-0001` wheelbase | `1562 mm` | `1.562 m`, `QTY-GEO-0001` | Inactive observation | Built/setup uncertainty not provided |
-| `PAR-ALIGN-0001` front axle sum toe | `-1.00 deg` | `-0.017453292519943295 rad`, `QTY-ALIGN-0003` | Inactive observation | Does not determine left/right split |
-| `PAR-STEER-0001` rack displacement per pinion angle | `88.9 mm/rev` | `0.014148874440869498 m/rad`, `QTY-STEER-0005` | Inactive observation | Reconcile with rack geometry or measurement |
-| `PAR-STEER-0003` one-sided rack bound | `1.00 in total travel` | provisional `+/-0.0127 m`, `QTY-STEER-0004` | Inactive provisional observation | Confirm total-versus-operational travel and installed stop state |
+| Class | Examples | Rule |
+|---|---|---|
+| Inactive design-intent observation | wheelbase, axle sum toe, C-factor | Preserve source value, units, definition, and mapping restrictions. |
+| Rejected observation | reported `3.12:1` steering ratio | Preserve lineage but prohibit downstream numerical use. |
+| Active nominal-design value | WUFR-26 hardpoints, static alignment, nominal rack-study domain | Authoritative only for `WUFR26_DESIGN_NOMINAL_V0`, not the installed vehicle. |
+| Historical physical observation | directional compliance and earlier free-play results | Preserve test state and direction; do not average across different states. |
+| Current installed-system observation | approximately `4 deg` whole-system steering-wheel free play under parked tire scrub | Treat as a system total without component attribution. |
+| Supplier/component observation | KHK gear identity and backlash range | Keep separate from whole-system measurements and require source capture for freeze. |
 
-The C-factor conversion is:
+## Direct design-spec observations
+
+| Observation | Source-native value | Canonical mapping | Current authority |
+|---|---:|---:|---|
+| `PAR-GEO-0001` wheelbase | `1562 mm` | `1.562 m`, `QTY-GEO-0001` | Inactive specification observation; nominal configuration uses the reviewed OptimumK value where stated. |
+| `PAR-ALIGN-0001` front axle sum toe | `-1.00 deg` | `-0.017453292519943295 rad`, `QTY-ALIGN-0003` | Inactive axle-sum observation; it does not define two per-wheel headings. |
+| `PAR-STEER-0001` rack displacement per pinion revolution | `88.9 mm/rev` | `0.014148874440869498 m/rad`, `QTY-STEER-0005` | Design-source transmission observation; installed staged measurement remains open. |
+| `PAR-STEER-0002` through-center ratio | `3.12:1` | none accepted | Rejected historical observation. |
+
+## Corrected nominal rack-study observation
+
+The original seed interpreted `1.00 in` as total rack travel and derived `+/-0.50 in`. That interpretation is obsolete.
+
+The team clarified that the nominal CAD design study permits approximately:
 
 ```text
-88.9 mm/rev = 0.0889 m / (2*pi rad) = 0.014148874440869498 m/rad
+one-sided displacement = +/-1.00 in = +/-25.4 mm = +/-0.0254 m
+total nominal span      = 2.00 in = 50.8 mm = 0.0508 m
 ```
 
-The rack-travel conversion is:
+`PAR-STEER-0003` is active for the nominal design-source study domain. The exported `-102 deg` to `+102 deg` scenarios cover approximately `-25.1883 mm` to `+25.1883 mm`. Neither value proves the installed physical stop positions.
+
+## Frozen nominal geometry and alignment
+
+`WUFR26_DESIGN_NOMINAL_V0` contains the current nominal-design authority:
+
+- steering-axis construction from the final OptimumK source;
+- steering-specific tie-rod points from the FDR final table;
+- exact mirrored CAD right-side geometry;
+- centered rack point `[-0.079298, 0, 0.162865] m` in the canonical frame;
+- static toe `-1.00 deg` per side under the reviewed local-side toe-out convention;
+- static camber `-2.25 deg` per side;
+- CAD export tolerances of `+/-0.005 in` and `+/-0.1 deg` as source/export tolerances only.
+
+These values are frozen for nominal steering-system development. They are not installed or as-built measurements.
+
+## Physical observations
+
+### Whole-system free play
+
+`PAR-STEER-0004` records the latest approximate observation:
 
 ```text
-1.00 in total travel = 25.4 mm total travel
-centered symmetric interpretation = +/-12.7 mm = +/-0.0127 m
+4.0 deg total at the steering wheel
+vehicle stationary with the front tires scrub-constrained
 ```
 
-Both are unit conversions or interpretations of reported observations, not independent evidence.
+This value may include quick release, column couplings, bevel gears, rack/pinion, rack support, rod ends, tie rods, upright/bearing motion, tire scrub, and measurement threshold. Supplier backlash must not be added to it.
 
-## Rejected steering-ratio report value
+### Historical compliance
 
-`PAR-STEER-0002` preserves the design-spec value `3.12:1` only as a rejected historical observation. The team has confirmed that this value is wrong. It is prohibited from:
+`PAR-STEER-0005` and `PAR-STEER-0006` preserve directional historical values:
 
-- active vehicle configurations;
-- benchmark expected values;
-- optimizer targets or constraints;
-- validation claims;
-- replacement of the full steering input-to-road-wheel map.
+```text
+0.26 deg/N*m
+0.47 deg/N*m
+```
 
-The replacement center ratio will be derived from the reviewed steering-wheel/shaft/pinion transmission and the rigid mechanism derivative at a declared rack-center setup.
+The directional difference is retained. These values are benchmark/test-method evidence until setup, calibration, repeatability, and state are fully recovered.
 
 ## Baseline setup observations retained without active mapping
 
-| Source field | Value | Use | Why not active yet |
+| Source field | Value | Use | Restriction |
 |---|---:|---|---|
-| Front track | `1232 mm` | Geometry evidence | Defined at tread centers, not steering-axis ground intersections |
-| Front axle sum toe | `-1.00 deg` | Setup evidence | Per-wheel split and as-built uncertainty unresolved |
-| Front static camber | `-2.25 deg` | Reference-configuration evidence | Exact shim stack and measured as-built state unresolved |
-| Caster | `2.51 deg` | Steering-axis consistency check | Insufficient without an axis point and frame |
-| KPI | `8.6 deg` | Steering-axis consistency check | Same limitation as caster |
-| Kinematic trail | `6.89 mm` | Future geometry/effort check | Reference construction requires confirmation |
-| Scrub radius | `5.06 mm` | Future geometry/effort check | Setup state and sign not established |
-| Spindle offset | `22.0 mm` | Geometry consistency check | Frame and sign remain incomplete |
-| Static Ackermann | `67.7%` | Historical/report comparison | Percentage definition and evaluation angle unresolved |
-| Steering-arm length | `69.9 mm` | Packaging and consistency check | Scalar length does not replace axis and point geometry |
-| Front wheel | `10 x 7 in`, `22 mm offset` | Reference wheel/clearance evidence | Exact installed wheel revision and coordinate reference still need confirmation |
-| Front tire | `18 x 7.5-10 Hoosier R20` | Reference tire envelope | Inflation/load state not specified here |
-| Front camber adjustment | `shims` | Configuration method | Does not identify nominal shim stack |
-| Ackermann adjustable | `No` | Configuration statement | Does not define the actual geometry or metric |
-
-No nominal ride-height value was recovered from the extracted specification content. Ride height remains an open reference-configuration field.
-
-## Geometry-source clarification
-
-The active WUFR-26 model is intended to represent the real/as-built steering geometry. `GEOMETRY FINAL.SLDPRT` is a component within the fuller linkage subassembly, so its design-study lineage and the installed-assembly lineage are connected. They still require an explicit active-configuration export because mates, shims, stops, adjustment, and vehicle setup determine the installed state.
-
-Rack center is defined operationally as the midpoint between equal left and right displacement limits imposed by the installed stops. The current reported travel is 1.00 in total. Until the active SolidWorks assembly or a direct measurement confirms it, the resulting `+/-0.50 in` bound remains provisional.
+| Front tread-center track | `1232 mm` | Geometry consistency | Not steering-axis ground-intersection track. |
+| Front static camber | `-2.25 deg` | Nominal setup source | Installed shim stack and measured state remain separate. |
+| Caster / KPI | `2.51 deg / 8.6 deg` | Axis consistency | Scalars do not replace the reviewed steering-axis line. |
+| Trail / scrub radius | `6.89 mm / 5.06 mm` | Geometry and force cross-check | Setup and sign definitions must stay explicit. |
+| Steering-arm length | `69.9 mm` | Packaging consistency | Does not replace axis and outer-joint coordinates. |
+| Static Ackermann | `67.7%` | Historical/report evidence | Percentage definition remains unresolved. |
+| Front wheel/tire | `10 x 7 in`, `18 x 7.5-10` | Envelope/setup evidence | Installed revision, pressure, and load state remain required for physical testing. |
 
 ## Important non-equivalences
 
-- Tread-center front track is not Ackermann track.
+- Tread-center track is not Ackermann track.
 - Axle sum toe is not two per-wheel toe values.
-- The rejected `3.12:1` value is not evidence for the correct center ratio.
 - A center ratio is not the complete steering map.
-- A recovered C-factor definition is not yet a validated installed value.
-- Total rack travel, one-sided travel, and signed displacement from center are separate quantities.
-- A manufactured stop dimension is not the installed travel limit by itself.
-- Agreement with a design specification is consistency evidence, not physical validation.
+- C-factor is not installed steering-wheel-to-wheel ratio.
+- Nominal CAD travel is not installed stop travel.
+- CAD export tolerance is not fabrication uncertainty or validation tolerance.
+- Supplier gear backlash is not whole-system steering free play.
+- Deadband is not elastic compliance.
+- Agreement with design sources is not physical validation.
 
-## Recommended resolution order
+## Current resolution path
 
-1. Export the active SolidWorks configuration, component references, and declared vehicle coordinate system.
-2. Export rack axis, centered inner-joint points, left/right stop states, and pinion-to-rack relation.
-3. Export steering-axis lines and outer tie-rod joint centers.
-4. Record nominal toe, camber shim stack, ride height, wheel/tire state, and installed tie-rod lengths.
-5. Derive the center steering ratio from the reviewed transmission plus mechanism; do not compare against `3.12:1` as an expected value.
-6. Derive steering-axis ground-intersection track from the steering-axis lines and road plane.
-7. Keep `67.7% Ackermann` unresolved until its metric is recovered.
+1. Keep the nominal geometry and Level E result frozen for design-source development.
+2. Calibrate and link the installed rack linear potentiometer.
+3. Select, install, and calibrate the primary-shaft rotary potentiometer.
+4. Measure installed stops and staged primary-shaft-to-rack behavior.
+5. Measure left/right wheel heading at selected rack positions with the digital angle gauge.
+6. Retain directional deadband, hysteresis, compliance, and repeatability separately.
+7. Define a Level F acceptance rule independently of observed residuals.
 
-## Downstream restrictions
+## Closeout decision
 
-Candidate and provisional observations may populate review and comparison tables. They may not silently become active solver inputs. Rejected observations remain preserved for lineage but cannot be used numerically downstream. The evaluator may use a value only through a reviewed configuration/active-value record, and the optimizer may not target the reported Ackermann percentage until that metric is defined.
+The observation seed exit criterion is satisfied: recovered values are preserved with source role, units, uncertainty, applicability, and explicit active-value boundaries. New measurements may add or supersede parameter records without reopening the observation-governance seed unless the governance model itself changes.
