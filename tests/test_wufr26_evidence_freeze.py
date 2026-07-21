@@ -92,6 +92,17 @@ class WUFR26EvidenceFreezeTests(unittest.TestCase):
             "frozen_descriptive_only_no_pass_fail_tolerance",
         )
 
+    def test_five_thou_cad_tolerance_has_consistent_si_conversion(self) -> None:
+        uncertainty = self.configuration["uncertainty"]
+        inches = uncertainty["cad_length_export_tolerance_in"]
+        millimetres = uncertainty["cad_length_export_tolerance_mm"]
+        metres = uncertainty["cad_length_export_tolerance_m"]
+        self.assertAlmostEqual(inches, 0.005, places=12)
+        self.assertAlmostEqual(millimetres, inches * 25.4, places=12)
+        self.assertAlmostEqual(metres, inches * 0.0254, places=12)
+        self.assertAlmostEqual(millimetres, 0.127, places=12)
+        self.assertAlmostEqual(metres, 0.000127, places=12)
+
 
 if __name__ == "__main__":
     unittest.main()
