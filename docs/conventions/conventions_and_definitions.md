@@ -1,6 +1,6 @@
 # Conventions and Definitions Specification
 
-**Status:** Proposed; not frozen  
+**Status:** Project-wide specification remains proposed; the rigid-steering subset is frozen by `schemas/steering_definition_contract.toml`  
 **Normative intent:** Internal calculations use one explicit convention. Import/export adapters perform conversions at their boundaries.
 
 ## 1. Units
@@ -11,9 +11,11 @@
 - Mass, weight, normal force, and load are separate quantities.
 - Torsional and roll stiffness are stored per radian.
 
+These unit rules are active for the frozen rigid-steering subset.
+
 ## 2. Vehicle body frame
 
-The proposed body-fixed calculation frame follows the right-handed ISO 8855-style convention:
+The body-fixed calculation frame follows the right-handed ISO 8855-style convention:
 
 - `+x`: forward;
 - `+y`: vehicle left;
@@ -25,7 +27,7 @@ Positive rotations follow the right-hand rule:
 - positive pitch about `+y` raises the front;
 - positive yaw about `+z` turns the vehicle left.
 
-This convention must be approved before model equations are accepted.
+This frame and rotation rule are reviewed and frozen for the rigid steering evaluator. Other model domains still require their own convention review before project-wide Phase 0 closure.
 
 ## 3. Required frame metadata
 
@@ -67,15 +69,20 @@ These are source-specific mappings documented in `wufr26_coordinate_frame_reconc
 
 ## 4. Steering quantities
 
-The canonical dictionary must not use a generic `steering_angle`. Distinct quantities include:
+The canonical dictionary must not use a generic `steering_angle`. The reviewed steering subset distinguishes:
 
 - steering-wheel angle;
 - primary-shaft angle;
+- pinion angle;
 - rack displacement;
 - left road-wheel steer angle;
 - right road-wheel steer angle;
-- mean road-wheel steer angle;
-- equivalent single-track steer angle.
+- side-local static toe;
+- local and secant steering ratios with named numerator and denominator;
+- Ackermann reference and error;
+- path-qualified turning radius.
+
+Mean road-wheel steer angle and equivalent single-track steer angle remain deliberately deferred. The normative steering definitions and sign conversions are in `steering_canonical_definitions.md` and `schemas/steering_definition_contract.toml`.
 
 ## 5. Suspension quantities
 
@@ -105,14 +112,16 @@ Tire adapters must record and convert the source convention rather than assume c
 - **Quasi-transient:** states progress through local equilibria while selected slow states evolve.
 - **Transient:** state derivatives and stored energy are represented explicitly.
 
-## 8. Open convention decisions
+## 8. Open project-wide convention decisions
 
-Before freezing this specification, review:
+Before freezing the complete project-wide specification, review:
 
 - tire coordinate and slip definitions against the selected Pacejka and Guiggiani formulations;
-- imported ADAMS, ANSYS, logger, and future OptimumK frame adapters;
+- imported ADAMS, ANSYS, logger, and future OptimumK frame adapters outside the frozen steering sources;
 - positive damper and ride-height travel;
-- steering sensor electrical polarity;
+- steering sensor electrical polarity for each installed measurement session;
 - aerodynamic coefficient signs and reference area;
-- left/right and inside/outside naming in mirrored maneuvers;
+- left/right and inside/outside naming in non-steering mirrored analyses;
 - the project-wide CAD vehicle-reference origin and ISO 4130 implementation.
+
+These open items do not reopen the frozen rigid-steering semantics unless they expose a direct conflict with the steering contract.

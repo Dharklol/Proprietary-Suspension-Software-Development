@@ -1,0 +1,209 @@
+version = "0.1.0"
+requirement_set_id = "WUFR26_STEERING_REQUIREMENT_ROLES_V0"
+status = "frozen_for_nominal_benchmark_scope"
+vehicle_configuration_id = "WUFR26_DESIGN_NOMINAL_V0"
+model_id = "MOD-STEER-0001"
+review_record = "docs/reviews/phase0_steering_definition_role_closeout.md"
+solver_mode = "evaluation_only"
+optimizer_authorized = false
+
+[role_vocabulary]
+allowed = ["evidence_only", "fixed_parameter", "bounded_design_variable", "discrete_option", "hard_equality", "hard_lower_bound", "hard_upper_bound", "acceptable_band", "target_value", "target_curve", "derived_output", "report_only"]
+rule = "One item has one active solver role within this requirement set. Multiple observations may support one selected fixed value without becoming duplicate solver inputs."
+
+[[items]]
+id = "wheelbase"
+canonical_id = "QTY-GEO-0001"
+role = "fixed_parameter"
+source = "WUFR26_DESIGN_NOMINAL_V0.vehicle.wheelbase"
+restriction = "Nominal OptimumK design observation; not an as-built value."
+
+[[items]]
+id = "steering_axis_track"
+canonical_id = "QTY-GEO-0004"
+role = "derived_output"
+source = "Mirrored nominal steering-axis lines intersected with the named road plane"
+restriction = "May be held fixed after derivation for Ackermann reference calculations; must not be replaced by tread-center track."
+
+[[items]]
+id = "left_steering_axis"
+canonical_id = "geometry:left_steering_axis"
+role = "fixed_parameter"
+source = "WUFR26_DESIGN_NOMINAL_V0.left.steering_axis_*"
+restriction = "Nominal design-source axis."
+
+[[items]]
+id = "right_steering_axis"
+canonical_id = "geometry:right_steering_axis"
+role = "fixed_parameter"
+source = "Exact CAD reflection of the nominal left axis"
+restriction = "Design-model symmetry only; not an as-built symmetry claim."
+
+[[items]]
+id = "rack_axis"
+canonical_id = "geometry:rack_axis"
+role = "fixed_parameter"
+source = "WUFR26_DESIGN_NOMINAL_V0.rack"
+restriction = "No rack-position optimization is authorized in this requirement set."
+
+[[items]]
+id = "rack_inner_joint_spacing"
+canonical_id = "geometry:rack_inner_joint_spacing"
+role = "fixed_parameter"
+source = "WUFR26_DESIGN_NOMINAL_V0.rack.inner_joint_spacing"
+restriction = "Moving inboard tie-rod points translate rigidly with the rack."
+
+[[items]]
+id = "rack_displacement_domain"
+canonical_id = "QTY-STEER-0004"
+role = "hard_lower_bound"
+source = "WUFR26_DESIGN_NOMINAL_V0.rack.operational_displacement_min"
+restriction = "Paired with rack_displacement_upper_bound; nominal design-study domain only."
+
+[[items]]
+id = "rack_displacement_upper_bound"
+canonical_id = "QTY-STEER-0004"
+role = "hard_upper_bound"
+source = "WUFR26_DESIGN_NOMINAL_V0.rack.operational_displacement_max"
+restriction = "No extrapolation; installed stops remain unverified."
+
+[[items]]
+id = "design_study_input_to_rack"
+canonical_id = "QTY-STEER-0005"
+role = "fixed_parameter"
+source = "WUFR26_DESIGN_NOMINAL_V0.input_transmission"
+restriction = "Design-study pinion/input mapping only; not installed steering-wheel transmission authority."
+
+[[items]]
+id = "left_outer_tie_rod_joint"
+canonical_id = "geometry:left_outer_tie_rod_joint"
+role = "fixed_parameter"
+source = "WUFR26_DESIGN_NOMINAL_V0.left.outer_tie_rod_joint_at_center"
+restriction = "Front-left FDR final geometry source."
+
+[[items]]
+id = "right_outer_tie_rod_joint"
+canonical_id = "geometry:right_outer_tie_rod_joint"
+role = "fixed_parameter"
+source = "Exact CAD reflection of left outer joint"
+restriction = "Design-model symmetry only."
+
+[[items]]
+id = "left_static_toe"
+canonical_id = "QTY-ALIGN-0001"
+role = "fixed_parameter"
+source = "WUFR26_DESIGN_NOMINAL_V0.left.static_toe"
+restriction = "Side-local toe-out sign; static alignment remains separate from incremental steer."
+
+[[items]]
+id = "right_static_toe"
+canonical_id = "QTY-ALIGN-0002"
+role = "fixed_parameter"
+source = "WUFR26_DESIGN_NOMINAL_V0.right.static_toe"
+restriction = "Side-local toe-out sign; global right heading uses the reviewed side conversion."
+
+[[items]]
+id = "left_static_camber"
+canonical_id = "alignment:left_static_camber"
+role = "fixed_parameter"
+source = "WUFR26_DESIGN_NOMINAL_V0.left.static_camber"
+restriction = "Side-local top-out sign."
+
+[[items]]
+id = "right_static_camber"
+canonical_id = "alignment:right_static_camber"
+role = "fixed_parameter"
+source = "WUFR26_DESIGN_NOMINAL_V0.right.static_camber"
+restriction = "Side-local top-out sign."
+
+[[items]]
+id = "tie_rod_closure"
+canonical_id = "EQ-STEER-0002"
+role = "hard_equality"
+source = "Frozen rigid mechanism equation packet"
+restriction = "Must hold on the intended branch at every evaluated rack state."
+
+[[items]]
+id = "mechanism_branch"
+canonical_id = "mechanism:branch_identity"
+role = "hard_equality"
+source = "Reference-state branch and continuation rule"
+restriction = "Silent alternate-root substitution is prohibited."
+
+[[items]]
+id = "left_tie_rod_length"
+canonical_id = "QTY-STEER-0012:left"
+role = "derived_output"
+source = "Centered joint-center geometry"
+restriction = "Physical tube, rod-end, thread engagement, and adjustment records remain separate."
+
+[[items]]
+id = "right_tie_rod_length"
+canonical_id = "QTY-STEER-0012:right"
+role = "derived_output"
+source = "Centered joint-center geometry"
+restriction = "Mirrored nominal value is not an as-built measurement."
+
+[[items]]
+id = "left_road_wheel_heading"
+canonical_id = "QTY-STEER-0006"
+role = "derived_output"
+source = "Canonical wheel-plane/road-plane projection"
+restriction = "Report total and centered-incremental headings separately."
+
+[[items]]
+id = "right_road_wheel_heading"
+canonical_id = "QTY-STEER-0007"
+role = "derived_output"
+source = "Canonical wheel-plane/road-plane projection"
+restriction = "Report total and centered-incremental headings separately."
+
+[[items]]
+id = "level_e_test3_curve"
+canonical_id = "BENCH-STEER-0001"
+role = "evidence_only"
+source = "WUFR26-STEER-LEVEL-E-TEST3-V0"
+restriction = "Descriptive nominal design-source comparison; never a target or independent physical tolerance."
+
+[[items]]
+id = "fdr_projected_endpoints"
+canonical_id = "evidence:FDR_projected_wheel_endpoints"
+role = "evidence_only"
+source = "WUFR-26 FDR, 22.22 deg less-steered and 32.81 deg more-steered"
+restriction = "Design-intent endpoint cross-check only."
+
+[[items]]
+id = "level_e_residual_metrics"
+canonical_id = "report:WUFR26_LEVEL_E_RESIDUALS"
+role = "report_only"
+source = "Frozen 205-point comparison"
+restriction = "No objective weight or pass/fail threshold is inferred from the observed residual."
+
+[[items]]
+id = "whole_system_free_play"
+canonical_id = "QTY-STEER-0016"
+role = "evidence_only"
+source = "PAR-STEER-0004"
+restriction = "Installed-system observation; do not add supplier component backlash or insert a correction into the rigid model."
+
+[[items]]
+id = "directional_compliance"
+canonical_id = "QTY-STEER-0017"
+role = "evidence_only"
+source = "PAR-STEER-0005 and PAR-STEER-0006"
+restriction = "Historical directional observations; no averaging or rigid-model correction."
+
+[[items]]
+id = "rejected_3_12_ratio"
+canonical_id = "evidence:rejected_steering_ratio"
+role = "evidence_only"
+source = "PAR-STEER-0002"
+restriction = "Rejected and numerically prohibited."
+
+[future_design_study]
+status = "template_only_not_active"
+rule = "A future optimizer receives a new requirement_set_id, reviewed bounds, targets, weights, packaging constraints, and authorization. It must not mutate this frozen benchmark requirement set."
+candidate_design_variables = ["rack longitudinal coordinate", "rack height/lateral coordinate", "rack inner-joint spacing or discrete rack", "left/right steering-arm pickup coordinates or discrete holes", "column/rack transmission option", "tie-rod hardware option"]
+candidate_hard_constraints = ["mechanism closure", "branch continuity", "rack and articulation limits", "thread engagement", "wheel/brake/upright clearance", "chassis/rack clearance", "singularity margin", "required turning capability"]
+candidate_targets = ["tire-informed left/right wheel-angle curve", "steering-ratio behavior", "Ackermann error curve where justified", "driver-effort behavior", "robustness to tolerance and compliance"]
+required_before_activation = ["reviewed numerical bounds", "packaging evidence", "target-curve authority", "objective normalization and weights", "uncertainty treatment", "focused optimizer authorization"]

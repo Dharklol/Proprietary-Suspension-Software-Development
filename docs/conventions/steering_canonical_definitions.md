@@ -1,220 +1,254 @@
-# Steering Canonical Definitions — Proposed Review Subset
+# Steering Canonical Definitions — Frozen Rigid-Evaluator Subset
 
-**Status:** Proposed for Phase 0 review  
-**Scope:** Rigid nominal-height steering geometry and transmission  
-**Authority:** Not frozen; no production model may treat these definitions as approved until the review checklist is closed
+**Status:** Reviewed and frozen for the rigid nominal-height steering evaluator  
+**Task:** `P0-STR-001`  
+**Machine-readable contract:** `schemas/steering_definition_contract.toml`  
+**Review record:** `docs/reviews/phase0_steering_definition_role_closeout.md`
 
-## Purpose
+## Purpose and authority
 
-This document defines the smallest canonical quantity and terminology subset needed to evaluate and later optimize the rack–tie-rod–steering-arm mechanism without depending on spreadsheet cell names, CAD motion-study labels, or ambiguous steering terminology.
+This document freezes the smallest project-wide steering vocabulary required to evaluate a rack–tie-rod–steering-arm mechanism without depending on spreadsheet labels, CAD monitor names, or a generic `steering angle` field.
 
-The first steering release is a rigid kinematic model. Tire-informed targets, steering effort, compliance, suspension travel, loads, tolerances, and transient behavior must extend these definitions rather than replace them.
+Freezing a quantity definition does not freeze a vehicle parameter value. Numerical geometry, setup, sensor, calibration, and test values remain configuration- and evidence-specific. The current WUFR-26 numerical authority is `WUFR26_DESIGN_NOMINAL_V0`; installed and as-built authority remains open.
 
-## 1. Reference frames and geometric objects
+The first model layer is rigid nominal-height kinematics. Tire-informed targets, steering effort, compliance, backlash, tolerance, suspension travel, loads, and transient response extend these definitions in separate model layers rather than changing them.
 
-### 1.1 Vehicle body frame
+## 1. Units, frame, and rotation
 
-The project-wide body frame remains governed by `conventions_and_definitions.md`. Until that convention is frozen, every steering artifact must declare:
+Internal length is metres and internal angle is radians.
 
-- frame origin;
-- positive longitudinal, lateral, and vertical axes;
-- handedness;
-- angle rotation rule;
-- whether coordinates are design, measured, unloaded, or installed values.
+The rigid steering evaluator uses the right-handed `CANONICAL_ISO8855_BODY` frame:
 
-No steering point may be stored as three unlabeled numbers.
+- `+x`: vehicle forward;
+- `+y`: vehicle left;
+- `+z`: upward;
+- positive rotation: right-hand rule about a declared directed axis;
+- positive global road-wheel heading: counterclockwise yaw viewed from `+z`, so the wheel points toward vehicle left.
 
-### 1.2 Ground or road reference plane
+A nominal flat road plane may be `z = 0` only inside a named reference configuration. CAD, OptimumK, logger, fixture, and sensor frames require explicit adapters. No source tuple is accepted as three unlabeled numbers.
 
-The road reference plane used for Ackermann and turning geometry must be identified. A nominal flat plane is acceptable for the first model, but it must not be silently substituted for a measured setup plane or a road plane estimated from sensors.
+## 2. Frozen geometry objects
 
-### 1.3 Point
+### Point
 
-A point record contains a coordinate vector, frame ID, configuration ID, source/evidence ID, uncertainty, and revision. Steering-arm and tie-rod endpoints are joint-center points, not visual CAD edges.
+A mechanism point is a joint-center coordinate with:
 
-### 1.4 Axis line
+- coordinates and unit;
+- frame ID and configuration ID;
+- source/evidence ID and source role;
+- uncertainty or an explicit unknown-uncertainty state.
 
-The steering axis and rack axis are directed three-dimensional lines. Each requires a point, direction vector, frame, source, uncertainty, and revision. Caster and KPI are derived displays; the axis line remains canonical.
+Visual CAD edges do not replace joint centers.
 
-### 1.5 Reference configuration
+### Directed axis line
 
-Tie-rod length, static toe, rack center, steering-arm position, and zero angles are all defined in one named reference configuration. At minimum, that configuration states ride height, wheel travel, roll, pitch, heave, static toe, camber, rack position, driver/load state, and whether compliance loads are absent.
+The steering axis and rack axis are directed three-dimensional lines. Each stores a point, normalized direction, frame, configuration, source, source role, and uncertainty. Caster, KPI, and scalar rack placement are derived views; they do not replace the axis line.
 
-## 2. Canonical geometric quantities
+Axis direction sign is retained because angular polarity follows the right-hand rule about that directed axis.
 
-### `QTY-GEO-0001` — wheelbase
+### Wheel-plane reference
 
-Distance in the defined road plane between front and rear axle reference centers. The axle-center construction must be stated. Wheelbase is not inferred from a turning-radius equation.
+A centered wheel-plane reference stores:
 
-### `QTY-GEO-0004` — front steering-axis ground-intersection track
+- side identity;
+- plane normal at center;
+- forward direction at center;
+- frame and configuration;
+- source and source role.
 
-Distance between the left and right steering-axis intersections with the selected road plane in the reference configuration. This is distinct from wheel-center track and may be the appropriate track for ideal low-speed Ackermann construction.
+The forward vector resolves the 180-degree ambiguity of the wheel-plane/road-plane intersection.
 
-### Rack origin, direction, width, and inner-joint points
+### Reference configuration
 
-The rack is defined by its directed axis and by left/right inner-joint locations at rack center. Rack width is the distance between those joint centers projected or measured according to the declared spatial model. Rack longitudinal distance from the front axle is a derived coordinate statement, not a sufficient rack definition.
+A steering reference configuration names, at minimum:
 
-### Steering-arm outer-joint points
+- vehicle revision and configuration ID;
+- road plane;
+- rack-center definition;
+- left/right static toe and camber;
+- load state and compliance state;
+- source authority.
 
-The left and right outer tie-rod joints are points fixed in their respective upright frames. Steering-arm length may be displayed, but the pickup point and steering-axis line are authoritative.
+Ride height, heave, roll, pitch, wheel travel, driver/load state, tire state, tie-rod adjustment, and camber shim stack are recorded when available. A missing field remains an explicit applicability limit and is never silently set to zero.
 
-## 3. Canonical transmission quantities
+## 3. Transmission quantities and zeros
 
-### `QTY-STEER-0001` — steering-wheel angle
+The transmission stages remain distinct:
 
-Angular displacement of the steering wheel from its declared zero, in radians internally. The record must define polarity, continuous unwrap behavior, and whether free play is excluded, measured, or modeled.
+- `QTY-STEER-0001`: steering-wheel angle;
+- `QTY-STEER-0002`: primary steering-shaft angle at a declared section;
+- `QTY-STEER-0003`: pinion angle;
+- `QTY-STEER-0004`: rack displacement;
+- `QTY-STEER-0005`: rack displacement per pinion angle.
 
-### `QTY-STEER-0002` — primary steering-shaft angle
+Steering-wheel, primary-shaft, and pinion angles are signed about their declared directed axes. A configuration or measurement session assigns their physical zeros and polarity adapters. They are not assumed equal merely because a nominal CAD study uses a rigid 1:1 input relation.
 
-Angular displacement of the primary shaft at its declared measurement/model section. This quantity is distinct from steering-wheel and pinion angles so column irregularity, backlash, and torsional compliance can later be identified.
+Rack displacement is signed translation along the declared directed rack axis from a named rack center. Total travel, one-sided travel, installed stop positions, and displacement from center are separate fields.
 
-### `QTY-STEER-0003` — pinion angle
+For WUFR-26 design-source evaluation, positive historical `Steer Input` maps to canonical `+y` rack motion. That adapter is not installed steering-wheel transmission authority.
 
-Angular displacement of the pinion from rack-center zero. Pinion angle remains distinct even when a rigid fixed-ratio column makes it numerically proportional to steering-wheel angle.
+The recovered WUFR-26 `C-factor` alias is permitted only where the source explicitly means rack travel per pinion/input revolution. A different or undocumented source must use the canonical quantity name until its definition is recovered.
 
-### `QTY-STEER-0004` — rack displacement
+## 4. Road-wheel heading, static toe, and camber
 
-Signed translation of the rack along its directed axis from rack center. The measurement point and sign must be explicit. Total travel, one-sided travel, and displacement from center are separate fields.
+### Total road-wheel heading
 
-### `QTY-STEER-0005` — rack displacement per pinion angle
+`QTY-STEER-0006` and `QTY-STEER-0007` are the left and right total road-wheel headings.
 
-Local or constant transmission relation expressed canonically in metres per radian. The legacy term `C-factor` is an alias only after its exact definition is recovered. Values expressed in millimetres per revolution are display conversions of the same reviewed quantity when the rack relation is constant.
+Heading is the forward-oriented intersection of the wheel center plane and the declared road plane, resolved by:
 
-A variable-ratio rack requires a function and derivative, not one scalar C-factor.
+```text
+heading = atan2(direction_y, direction_x)
+```
 
-## 4. Road-wheel angles and toe
+Both sides use the same global heading sign: positive points toward vehicle left.
 
-### `QTY-STEER-0006` and `QTY-STEER-0007` — left and right road-wheel steer angles
+### Incremental road-wheel steer
 
-Yaw orientation of the left or right wheel plane relative to its declared zero/reference orientation, expressed in the declared vehicle or road frame. These are stored as left/right quantities. `Inside` and `outside` are analysis-time aliases determined by turn direction.
+Incremental steer is derived independently on each side:
 
-### `QTY-ALIGN-0001` and `QTY-ALIGN-0002` — left and right static toe angles
+```text
+incremental_heading_side = wrap(total_heading_side - centered_total_heading_side)
+```
 
-Road-wheel steer angles at the reference configuration and rack-center condition. The project toe sign convention must be frozen before these quantities become active parameters.
+Static toe is therefore retained in the total heading and removed only by this explicit centered subtraction. Hardpoints are not altered to remove static toe.
 
-### Mean road-wheel angle
+`inside` and `outside` are analysis-time aliases selected from turn direction. They are never fixed synonyms for left and right.
 
-`QTY-STEER-0008` is not frozen until the averaging rule is selected. Arithmetic mean, curvature-equivalent mean, and bicycle-model equivalent angle are not interchangeable.
+### Static toe
 
-### Equivalent single-track steer angle
+`QTY-ALIGN-0001` and `QTY-ALIGN-0002` store side-local static toe-out angles at the named rack-center reference state:
 
-`QTY-STEER-0009` is a separately derived curvature-matching quantity. It must never be labeled simply `wheel angle` or substituted for either road wheel without declaration.
+- positive toe means the front of that wheel points away from vehicle centerline;
+- negative toe means toe-in;
+- left global centered heading equals the left side-local toe value;
+- right global centered heading equals the negative of the right side-local toe value.
 
-## 5. Tie-rod definition
+This conversion permits equal left/right side-local alignment settings while preserving mirrored global headings.
 
-### `QTY-STEER-0012` — nominal tie-rod joint-center distance
+### Static camber
 
-Center-to-center distance between the specified rack inner joint and upright outer joint in the named reference configuration.
+The steering wheel-plane constructor uses a side-local camber input. Positive camber means the wheel top leans outward. Camber is part of the wheel-plane basis and is not a substitute for projected heading.
 
-The physical tie-rod assembly record separately states:
+## 5. Tie-rod quantity
 
-- body or tube length;
-- rod-end shank lengths;
-- thread handedness;
-- adjustment range;
-- nominal adjustment position;
-- minimum thread engagement;
-- left/right equality rule;
-- tolerance and uncertainty.
+`QTY-STEER-0012` is the joint-center distance between the named rack inner joint and upright outer joint in the reference configuration.
 
-Tie-rod length is normally a derived output of geometry. It may also carry hard availability or adjustment bounds.
+The physical tie-rod assembly remains a separate component/setup record containing body length, rod-end shanks, thread handedness, adjustment range, nominal adjustment, thread engagement, tolerance, and left/right equality rules.
+
+Tie-rod joint-center distance is normally derived from geometry. Hardware availability and adjustment may impose hard bounds in a future requirement set, but the same value must not also be entered as an independent unconstrained solver input.
 
 ## 6. Steering ratios
 
-### Local ratio
+`QTY-STEER-0010` is the local derivative ratio:
 
-`QTY-STEER-0010` is a derivative-based ratio at a declared operating point. Its numerator and denominator must be named, for example steering-wheel angle per mean road-wheel angle or steering-wheel angle per left road-wheel angle.
+```text
+local ratio = d(steering-wheel angle) / d(selected road-wheel incremental angle)
+```
 
-### Secant ratio
+`QTY-STEER-0011` is the finite secant ratio over a declared interval.
 
-`QTY-STEER-0011` is the finite input/output ratio over a declared interval. Zero handling and the selected road-wheel representation must be stated.
+Every ratio reports:
 
-No canonical field may be named only `steering ratio`.
+- numerator and denominator quantity IDs;
+- selected side or reviewed wheel representation;
+- reference state and input domain;
+- approach direction where hysteresis exists;
+- zero handling.
+
+No canonical output is named only `steering ratio`. A road-wheel gain, reciprocal ratio, left-wheel ratio, right-wheel ratio, mean-wheel ratio, and center secant ratio are not interchangeable.
+
+Mean road-wheel angle and equivalent single-track angle remain deferred, so they cannot be used as an undeclared denominator.
 
 ## 7. Ackermann reference and error
 
-### `QTY-STEER-0013` — Ackermann reference outside-wheel angle
+`QTY-STEER-0013` is the exact planar, low-speed, no-slip outside-wheel incremental-steer magnitude corresponding to a selected positive inside-wheel incremental-steer magnitude, wheelbase, steering-axis ground-intersection track, and road plane.
 
-For a selected inside-wheel angle, wheelbase, and steering-axis ground-intersection track, this is the ideal no-slip low-speed outside-wheel angle under the declared Ackermann construction.
+The reference uses incremental magnitudes with static toe handled separately. The turn direction and side identities remain metadata.
 
-The reference is a benchmark and low-speed target candidate. It is not the universal performance optimum.
+`QTY-STEER-0014` is:
 
-### `QTY-STEER-0014` — Ackermann steering error
+```text
+actual outside-wheel incremental-steer magnitude
+minus Ackermann reference outside-wheel incremental-steer magnitude
+```
 
-Default proposed definition:
+The independent variable, turn direction, track definition, road plane, and domain are mandatory. A normalized coefficient or full-lock percentage is a different quantity and is not approved by this freeze.
 
-`actual outside road-wheel angle minus Ackermann reference outside-wheel angle`
+Ideal Ackermann remains a low-speed benchmark or target candidate, not a universal tire-force optimum.
 
-The sign, independent variable, track definition, and turn direction must be declared. Normalized coefficients or percentages require separate named definitions and cannot replace the dimensional error.
+## 8. Turning-path quantity
 
-### Ackermann coefficient
+`QTY-STEER-0015` is a path-qualified turning radius under declared low-speed kinematic assumptions.
 
-A coefficient such as Guiggiani's dynamic-toe/Ackermann coefficient may be reported only when its fitting model, range, static-toe treatment, and independent variable are declared. A single percentage extracted at full lock is not a canonical curve description.
-
-## 8. Turning quantities
-
-### `QTY-STEER-0015` — vehicle turning radius under kinematic assumptions
-
-This candidate ID is not frozen until the reference path is selected. Required separate variants include radius to:
+Every value includes a `path_reference_id`, such as:
 
 - rear axle center;
 - vehicle CG;
-- inside or outside front tire path;
+- left or right front wheel center;
+- outside front tire envelope;
 - outside body envelope;
 - competition-defined turning-circle point.
 
-A minimum-turning requirement is usually a boundary condition, not the steering-performance objective.
+Turn direction, road plane, reference configuration, and assumptions are mandatory. Radii with different path references are different outputs and must not be compared as one generic turning radius.
 
-## 9. Function-valued outputs
+A minimum-turning requirement is normally a boundary condition, not the steering-performance objective.
 
-The canonical steering result is a set of versioned functions or sampled maps with valid domains:
+## 9. Function-valued results and failure behavior
 
-- steering-wheel angle to pinion angle;
-- pinion angle to rack displacement;
-- rack displacement to left/right road-wheel angle;
-- steering-wheel angle to left/right road-wheel angle;
-- inside angle to outside angle for each turn direction;
-- local derivatives and secant ratios;
-- Ackermann reference and error versus input;
-- turning-path metrics versus input.
+The canonical steering result is a versioned map or function over an explicit domain. Required metadata includes:
 
-Polynomial fits are optional derived representations. They must include fit domain, residuals, order, source map hash, and an extrapolation prohibition.
+- configuration, model, and version;
+- input and output quantity IDs and units;
+- ordered sample domain;
+- source IDs and adapter revision;
+- failure status.
 
-## 10. Model-layer separation
+Polynomial or other fitted representations are optional derivatives. They include fit type/order, fit domain, residual metrics, source-map SHA-256, and an extrapolation rule. Extrapolation defaults to prohibited.
 
-The following layers use the same core quantities but must remain separate models:
+Invalid geometry, branch loss, singularity, unavailable prerequisites, and out-of-domain requests return explicit status. They do not produce guessed values, alternate-root substitutions, or silent constraint relaxation.
+
+## 10. Requirement-role separation
+
+One requirement set assigns each item one active solver role. Multiple source observations may support one selected fixed value without becoming duplicate solver inputs.
+
+The frozen WUFR-26 role set is `WUFR26_STEERING_REQUIREMENT_ROLES_V0`. It is evaluation-only: current geometry is fixed, closure and branch are hard requirements, wheel headings and joint-center lengths are derived, and Level E plus physical observations remain evidence/report items.
+
+A future inverse-design study receives a new requirement-set ID with reviewed variables, bounds, targets, weights, packaging evidence, uncertainty treatment, and separate optimizer authorization. It must not mutate the frozen WUFR-26 benchmark role set.
+
+## 11. Model-layer separation
+
+The same core quantities may appear in separate models:
 
 1. rigid nominal-height mechanism;
 2. rigid mechanism over bump, rebound, roll, pitch, and heave;
-3. tolerance and manufacturing-variation model;
-4. compliant and backlash model;
-5. steering-force and driver-effort model;
-6. tire-informed target generator;
-7. transient steering and vehicle-response model.
+3. manufacturing tolerance and variation;
+4. compliance, backlash, friction, and hysteresis;
+5. steering force and driver effort;
+6. tire-informed target generation;
+7. transient steering and vehicle response.
 
-The first layer cannot claim conclusions belonging to later layers.
+The rigid evaluator cannot claim conclusions belonging to later layers or apply constant free-play/compliance corrections to its geometry solution.
 
-## 11. Literature alignment
+## 12. Deliberately deferred quantities
 
-The audit should use, without treating any one source as universal authority:
+The freeze does not activate:
 
-- Guiggiani, Section 3.4, for left/right steering functions, static toe, dynamic toe, Ackermann coefficient, and the distinction between ideal Ackermann and best steering geometry;
-- Gillespie, Chapter 8, for rack/tie-rod linkage behavior, trapezoidal approximation, steering ratio variation, steering effort, and suspension-induced geometry errors;
-- Pacejka and reviewed tire data for later tire slip, aligning moment, and combined-load objectives;
-- reviewed mechanism and multibody references for spatial closure, branch identity, and comparison procedures.
+- `QTY-STEER-0008`, mean road-wheel angle;
+- `QTY-STEER-0009`, equivalent single-track angle;
+- a normalized Ackermann coefficient or percentage.
 
-## 12. Freeze checklist
+These require separate definitions and benchmarks. They are not aliases for left/right projected headings.
 
-This subset may be frozen only when:
+## 13. Reopening rules
 
-- the project body/road frames and angle signs are accepted;
-- the WUFR rack, steering-axis, and upright point definitions are reviewed;
-- the exact legacy C-factor definition is recovered or explicitly rejected;
-- steering-wheel, primary-shaft, pinion, rack, and road-wheel zero definitions are assigned;
-- static toe sign and reference configuration are accepted;
-- Ackermann error and any normalized coefficient are named separately;
-- turning-radius path variants are separated;
-- tie-rod physical and joint-center lengths are separated;
-- left/right mirror expectations and allowable asymmetry are stated;
-- the result-map and failure-reporting schemas are reviewed;
-- analytical and external benchmark cases are frozen.
+Reopen this definition freeze when a change alters:
+
+- frame axes, angular polarity, toe/camber sign, or projection construction;
+- quantity meaning, numerator/denominator identity, or zero definition;
+- geometry-object required metadata;
+- Ackermann error sign or reference construction;
+- turning-path identity requirements;
+- result-map or failure semantics.
+
+A new vehicle parameter, calibration, source observation, or requirement set normally does not reopen the project-wide definitions unless it exposes an actual semantic conflict.

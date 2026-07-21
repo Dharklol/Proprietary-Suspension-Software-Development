@@ -70,6 +70,12 @@ All notable project changes should be recorded here. Model releases must identif
 - `SNS-STEER-0001` and `SNS-STEER-0002` for the installed rack linear potentiometer and planned primary-shaft rotary potentiometer.
 - Phase 0 steering review closeout packet documenting the completion decisions and re-correlation rules for the six review-ready steering tasks.
 - Automated closeout tests that keep installed-state and Level F tasks active while freezing the benchmark, equation, parameter-governance, drawing-authority, baseline-reconciliation, and authorization tasks.
+- Catalog and nonredundant crosswalk for Google Drive `WUFR 27 Sensor List` revision 140.
+- Physical-measurement data contract with session, channel, calibration, long-form raw-sample, and settled steering-point schemas.
+- Standard-library physical-data package validator, blank collection templates, approach-specific steering reductions, and automated tests.
+- `CAL-STEER-0001` and `CAL-STEER-0002` lifecycle records without invented coefficients, channels, or sample rates.
+- Frozen steering-definition contract covering geometry objects, signs, zeros, transmission stages, projected headings, ratios, Ackermann, turning paths, result maps, and failure semantics.
+- Frozen evaluation-only `WUFR26_STEERING_REQUIREMENT_ROLES_V0` and a closeout review for `P0-STR-001` and `P0-STR-003`.
 
 ### Changed
 
@@ -100,3 +106,6 @@ All notable project changes should be recorded here. Model releases must identif
 - `P0-STR-004`, `P0-STR-005`, `P0-PAR-001`, `P0-STR-007`, `P0-STR-008`, and `P0-STR-009` advance from `review_ready` to `complete` under the closeout review.
 - `AUTH-STEER-0001` advances to an active reviewed/frozen authorization record and explicitly permits nominal wheel-plane/Level E outputs while retaining optimizer, physical-model, and as-built prohibitions.
 - The steering parameter-observation seed and drawing/BOM authority manifest are updated to remove obsolete `1.00 in total travel` language and distinguish nominal-design authority from installed-state evidence.
+- Sensor inventory/procurement remains authoritative in Drive; stable IDs remain in `SNS-*`; calibration lifecycle remains in `CAL-*`; acquisition binding remains session-specific; raw rows no longer repeat metadata.
+- The first reviewed steering quantity subset advances from proposed/M0 to active/M1 with explicit side-local toe versus global heading conversion.
+- `P0-STR-001` and `P0-STR-003` advance to complete; optimizer scope, installed-state evidence, and Level F gates remain open.

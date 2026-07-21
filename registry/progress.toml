@@ -77,8 +77,9 @@ exit_criterion = "No physics implementation begins without an explicit bounded a
 [[phase_0.tasks]]
 id = "P0-STR-001"
 title = "Steering canonical definition subset"
-status = "active"
+status = "complete"
 exit_criterion = "Frames, geometry objects, transmission quantities, road-wheel angles, tie-rod length, steering ratios, Ackermann metrics, and turning-path definitions are reviewed and frozen for the rigid steering evaluator."
+review_record = "docs/reviews/phase0_steering_definition_role_closeout.md"
 
 [[phase_0.tasks]]
 id = "P0-STR-002"
@@ -89,8 +90,9 @@ exit_criterion = "The legacy optimizer and best available WUFR CAD motion-study 
 [[phase_0.tasks]]
 id = "P0-STR-003"
 title = "Steering requirement-role matrix"
-status = "active"
+status = "complete"
 exit_criterion = "Current WUFR steering values are classified as evidence, fixed parameters, design variables, discrete options, hard constraints, acceptable bands, targets, or derived outputs."
+review_record = "docs/reviews/phase0_steering_definition_role_closeout.md"
 
 [[phase_0.tasks]]
 id = "P0-STR-004"

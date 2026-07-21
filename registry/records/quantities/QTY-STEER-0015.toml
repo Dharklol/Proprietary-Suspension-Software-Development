@@ -1,9 +1,12 @@
 [record]
 id = "QTY-STEER-0015"
 type = "quantity"
-title = "Vehicle turning radius under kinematic assumptions"
-status = "proposed"
-maturity = "M0"
-description = "Radius of a specifically named vehicle, wheel, or body reference path under declared low-speed kinematic assumptions; the path identity is mandatory."
+title = "Path-qualified vehicle turning radius under kinematic assumptions"
+status = "active"
+maturity = "M1"
+description = "Radius of one explicitly named vehicle, wheel, tire, or body-envelope reference path under declared low-speed kinematic assumptions."
 dimension = "length"
 canonical_unit = "m"
+required_metadata = ["path_reference_id", "turn direction", "road plane", "reference configuration", "kinematic assumptions"]
+definition_scope = "Radii for rear axle center, CG, wheel center, tire envelope, body envelope, and competition-defined points are different outputs."
+review_record = "docs/reviews/phase0_steering_definition_role_closeout.md"
