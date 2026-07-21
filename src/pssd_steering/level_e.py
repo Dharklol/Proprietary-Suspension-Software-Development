@@ -1,9 +1,9 @@
 """WUFR-26 canonical wheel-heading comparison against recovered Desmos fits.
 
-This module keeps the historical convention adapter explicit.  The rigid model
+This module keeps the historical convention adapter explicit. The rigid model
 is evaluated in the canonical body frame, projected through the wheel plane,
 and then adapted into the historical fit convention before residuals are
-computed.  Static values are retained from each evidence source instead of
+computed. Static values are retained from each evidence source instead of
 being silently forced to agree.
 """
 
@@ -11,7 +11,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import math
-from pathlib import Path
 
 from .comparison import SeriesComparison, SignalSeries, compare_series
 from .core import GeometryError, SteeringGeometry, solve_sweep
@@ -29,9 +28,8 @@ class HistoricalConventionAdapter:
 
     ``input_sign`` maps historical input to canonical input. ``output_sign``
     maps canonical incremental heading to the historical angular orientation.
-    Total-angle comparison preserves each source's own static datum; therefore
-    the candidate total curve is the historical static fit value plus the
-    adapted canonical incremental response.
+    Total-angle comparison preserves the canonical source's own static datum;
+    the historical fit retains its independently recovered static datum.
     """
 
     input_sign: float = 1.0
@@ -112,12 +110,15 @@ def compare_wufr26_projected_heading(
         upper > lower for lower, upper in zip(historical_inputs_deg, historical_inputs_deg[1:])
     ):
         raise ValueError("historical_inputs_deg must be strictly increasing")
+    if 0.0 not in historical_inputs_deg:
+        raise ValueError("historical_inputs_deg must include the centred 0 deg state")
     if not math.isfinite(rack_metres_per_input_degree) or rack_metres_per_input_degree <= 0.0:
         raise ValueError("rack_metres_per_input_degree must be finite and positive")
 
     canonical_inputs = tuple(adapter.input_sign * value for value in historical_inputs_deg)
     displacements = tuple(value * rack_metres_per_input_degree for value in canonical_inputs)
     solved = solve_sweep(geometry, displacements)
+    center_index = historical_inputs_deg.index(0.0)
 
     side_results: dict[str, SideComparison] = {}
     for side in ("left", "right"):
@@ -142,13 +143,14 @@ def compare_wufr26_projected_heading(
             canonical_total_deg.append(math.degrees(total))
             canonical_incremental_deg.append(math.degrees(incremental))
 
+        canonical_static = canonical_total_deg[center_index]
         historical_static = (
             fit.left_static_deg if side == "left" else fit.right_static_deg
         )
         adapted_incremental = tuple(
             adapter.output_sign * value for value in canonical_incremental_deg
         )
-        adapted_total = tuple(historical_static + value for value in adapted_incremental)
+        adapted_total = tuple(canonical_static + value for value in adapted_incremental)
 
         candidate_total = SignalSeries(
             source_id=f"{geometry.geometry_id}-projected-{side}-adapted-total",
@@ -158,7 +160,7 @@ def compare_wufr26_projected_heading(
             output_unit="deg",
             inputs=historical_inputs_deg,
             outputs=adapted_total,
-            processing_notes=(adapter.description, "historical static datum retained"),
+            processing_notes=(adapter.description, "canonical static datum retained"),
         )
         candidate_incremental = SignalSeries(
             source_id=f"{geometry.geometry_id}-projected-{side}-adapted-incremental",
@@ -178,7 +180,7 @@ def compare_wufr26_projected_heading(
             side=side,
             total=compare_series(reference_total, candidate_total),
             incremental=compare_series(reference_incremental, candidate_incremental),
-            canonical_static_deg=canonical_total_deg[historical_inputs_deg.index(0.0)],
+            canonical_static_deg=canonical_static,
             historical_static_deg=historical_static,
         )
 
