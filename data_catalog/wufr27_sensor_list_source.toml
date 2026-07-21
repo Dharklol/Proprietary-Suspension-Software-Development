@@ -1,0 +1,50 @@
+[source]
+id = "CAT-DATA-SENSOR-0001"
+title = "WUFR 27 Sensor List"
+provider = "Google Drive"
+file_id = "1APgi55-rLtcLoeSK4UWYo2qJabf8i14NYZl0O5fAguU"
+mime_type = "application/vnd.google-apps.spreadsheet"
+created_at = "2026-07-02T04:37:16.873Z"
+modified_at = "2026-07-18T06:24:38.370Z"
+revision_id = "140"
+previous_revision_id = "97"
+evidence_role = "human-maintained sensor inventory, procurement, installation status, and test-planning source"
+immutable_export_sha256 = "pending"
+
+[[tabs]]
+name = "Sensors"
+range_reviewed = "A1:J26"
+headers = ["Sensor Name", "Official Name", "System", "Count (24)", "Count (inventory)", "Desired Count", "Status", "Notes", "More notes", "Type"]
+authority = "Inventory identity, counts, subsystem ownership, planning status, and source-native product notes."
+
+[[tabs]]
+name = "Sensor Testing"
+range_reviewed = "A1:J25"
+headers = ["Sensor Name", "Sensor Model", "# on car/old/new (inventory)", "Do I know how to test it?", "Wait tilll car?", "Testing Status", "Testing Results", "Link to 2024 testing documentation", "Notes", "1/25 count"]
+authority = "Human test-planning status and links; not an immutable calibration record."
+
+[[tabs]]
+name = "Sensor Requests"
+range_reviewed = "B5:J5"
+headers = ["Sensor Name", "Sub-System", "Measurement / Purpose", "Priority", "Estimated Cost", "Link", "Approval Status", "Count", "POC"]
+authority = "Procurement/request workflow for sensors not yet selected or present in inventory."
+
+[crosswalk.steering_rack_pot]
+sensor_id = "SNS-STEER-0001"
+quantity_id = "QTY-STEER-0004"
+source_range = "Sensors!A21:J21"
+testing_range = "Sensor Testing!A16:J16"
+source_native_name = "Steering Pot"
+source_native_model = "MLS130/100/R/N Penny n Giles"
+
+[crosswalk.primary_shaft_rotary_pot]
+sensor_id = "SNS-STEER-0002"
+quantity_id = "QTY-STEER-0002"
+source_range = "not present in revision 140"
+required_action = "Select the part and use the Sensor Requests/inventory workflow before assigning inventory or product metadata."
+
+[redundancy_policy]
+drive_only = ["inventory counts", "desired counts", "procurement status", "general planning notes", "test-planning links"]
+registry_only = ["stable sensor ID", "canonical quantity mapping", "model applicability", "calibration-state linkage"]
+session_package_only = ["logger device/channel", "sample rate", "clock", "session polarity/zero", "calibration coefficients", "raw samples", "quality flags"]
+allowed_crosswalk_fields = ["Registry Sensor ID", "Canonical Quantity ID", "Measurement Metadata State"]
