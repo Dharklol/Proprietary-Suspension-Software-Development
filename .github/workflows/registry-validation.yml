@@ -18,7 +18,17 @@ jobs:
       - name: Validate registry
         run: python scripts/validate_registry.py
       - name: Run tests
-        run: python -m unittest discover -s tests
+        shell: bash
+        run: |
+          set -o pipefail
+          python -m unittest discover -s tests -v 2>&1 | tee unittest-results.txt
+      - name: Upload unittest log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unittest-results
+          path: unittest-results.txt
+          if-no-files-found: error
       - name: Generate WUFR-26 Level E reports
         run: |
           python scripts/run_wufr26_level_e_prep.py \
