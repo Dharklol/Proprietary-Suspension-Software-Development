@@ -1,8 +1,10 @@
-version = "0.5.0"
+version = "0.6.0"
 contract_id = "WUFR26-STEER-LEVEL-E-V0"
-status = "numerical_fit_comparison_review_ready"
+status = "frozen_descriptive_nominal_design_level_e"
 model_id = "MOD-STEER-0001"
 authorization_id = "AUTH-STEER-0001"
+frozen_on = "2026-07-21"
+freeze_authority = "team review in the Vehicle Dynamics Software project conversation"
 
 [source]
 file_name = "2026Ackermann.csv"
@@ -35,25 +37,31 @@ center_output_role = "observed internal ray-angle datum only; not an approved to
 [solidworks_state]
 full_assembly = "FSA STEERING"
 geometry_component = "GEOMETRY FINAL.SLDPRT"
-geometry_component_contents = "steering rack, steering columns, steering-wheel outline, and tie rods"
+geometry_component_contents = "steering rack, steering columns, steering-wheel outline, tie rods, and named 3D steering sketches"
 active_assembly_configuration = "team reports active/default state; exact configuration label not separately named"
-active_geometry_component_configuration = "team reports active/default state; exact configuration label not separately named"
+active_geometry_component_configuration = "feature-tree screenshot shows GEOMETRY FINAL and Column with ->? indicators plus Full Steering, Front Axel, Rack ACTUAL, and Tie Rod ACTUAL 3D items; exact configuration-manager label remains uncaptured"
 study_type = "SolidWorks Design Study"
 study_name = "Design Study 1"
 driver_definition = "Steer Input global variable swept from -102 deg to +102 deg in 1-deg exported scenarios"
 monitor_definition = "Dimension2, Monitor Only; included angle between two magenta hub-centered rays; exact selected entities unresolved"
-suppression_and_warning_state = "reference chassis model suppressed; no reported errors or warnings"
+suppression_and_warning_state = "reference chassis model suppressed; no reported errors or warnings in the study evidence; ->? external-reference indicators visible in the later feature-tree screenshot require interpretation before installed-state authority"
 rack_center_construction = "Steer Input = 0 deg at the centered design-study state"
+rack_center_solidworks_native_mm = [0.0, 162.865, -79.298]
+rack_center_solidworks_native_axis_order = "lateral-positive-left, vertical-positive-up, longitudinal-positive-forward"
+rack_center_canonical_m = [-0.079298, 0.0, 0.162865]
+rack_center_reconciliation = "The team-supplied CAD center exactly confirms the existing canonical axis permutation and rack-axis origin."
 nominal_rack_domain = "+/-1.00 in from center, 2.00 in total design span"
+nominal_inner_joint_motion = "The rack outer points used by the mechanism are the inboard tie-rod pickup points at center and translate rigidly by +/-1.00 in along the rack axis."
 exported_rack_domain = "+/-0.9916666667 in or +/-0.025188333333333333 m from the +/-102-deg source range"
-stop_state = "design-study limit resolved; installed physical stop state remains unverified"
+stop_state = "design-study motion bound resolved; installed physical stop state remains unverified"
+setup_state = "Team confirms the CAD setup follows WUFR-26 FINAL 8.21.2025.xlsx for static toe and camber."
 
 [optimizer_context]
 file_or_study = "STEERING GEOMETRY 2, Design Study 1"
 variables_and_sweeps = "steering-arm length and historical tie-rod-length configurations"
-goals = "right- and left-wheel turn-angle goals near 25 deg and 33 deg"
+goals = "right- and left-wheel projected turn-angle goals"
 visible_nominal_values = "steering arm 2.75 in, tie rod 13.5 in in one optimizer state; separate selected Test 3 geometry uses approximately 13.0-in tie-rod joint-center length"
-turn_angle_goal_construction = "team Slack evidence states that the wheel-center-plane/ground-plane intersection axis is measured against the SolidWorks x-axis"
+turn_angle_goal_construction = "team evidence states that the wheel-center-plane/ground-plane intersection axis is measured against the SolidWorks x-axis"
 role = "design-selection context; the goal quantity is a projected road-wheel heading and is separate from Dimension2"
 
 [desmos_wheel_angle_reference]
@@ -66,12 +74,23 @@ right_polynomial = "-left(-x)"
 center_left_deg = -1.1394
 center_right_deg = 1.1394
 input_domain_used_for_selection_deg = [-102.0, 102.0]
-use_rule = "Primary available wheel-angle response reference for the selected Test 3 geometry. Compare total and incremental curves only after freezing the historical-to-canonical sign and side adapter and generating the identical projected wheel-plane quantity."
+use_rule = "Primary full-curve response reference for the selected Test 3 geometry after freezing the historical-to-canonical sign and side adapter and generating the identical projected wheel-plane quantity."
 limitations = [
   "Polynomial coefficients are fitted evidence rather than raw SolidWorks goal samples.",
   "The mirrored right branch enforces symmetry and cannot reveal physical asymmetry.",
   "Agreement is cross-tool design evidence, not independent or physical validation."
 ]
+
+[fdr_projected_endpoint_reference]
+source = "WUFR-26 steering FDR values supplied by the team on 2026-07-21"
+signal_interpretation = "full-input projected incremental wheel-turn magnitudes"
+right_or_less_steered_deg = 22.22
+left_or_more_steered_deg = 32.81
+candidate_less_steered_deg = 22.331423447425923
+candidate_more_steered_deg = 32.9627794651282
+candidate_minus_fdr_less_steered_deg = 0.11142344742592414
+candidate_minus_fdr_more_steered_deg = 0.15277946512819796
+role = "independent design-review endpoint cross-check relative to the historical polynomial fit, but not a physical measurement"
 
 [video_reference]
 location = "WUFR-27 / Suspension / PDR-FDR / Steering / Design Study Tutorials"
@@ -80,11 +99,11 @@ time_window = "approximately 1:15 to 2:00"
 authority_state = "team-directed source location; video frames and immutable file identity not yet frozen"
 
 [required_geometry]
-front_static_camber = "-2.25 deg per side from WUFR-26 FINAL 8.21.2025.xlsx"
-front_static_toe = "-1.00 deg per side in OptimumK local-side convention; team states positive toe means toe-out"
+front_static_camber = "-2.25 deg per side from WUFR-26 FINAL 8.21.2025.xlsx; team confirms the CAD setup uses this setup sheet"
+front_static_toe = "-1.00 deg per side in OptimumK local-side convention; team states positive toe means toe-out and confirms CAD setup follows the setup sheet"
 center_wheel_ground_intersection_direction = "derived from side, static toe, and +x forward convention"
 moving_wheel_plane_projection = "implemented as wheel-plane-normal rotation about the steering axis followed by road-plane intersection and forward-branch selection"
-front_right_hardpoints = "nominal mirror remains acceptable for the symmetric fit comparison; independent export remains required for as-built claims"
+front_right_hardpoints = "team confirms the design CAD left side is an exact reflection of the right in hardpoint geometry; the mirror is authoritative for nominal design-source comparison but not proof of as-built symmetry"
 pinion_or_input_to_rack_map = "resolved for design-study mapping; installed measurement remains open"
 
 [historical_adapter]
@@ -108,7 +127,7 @@ validation_role = "supplementary non-validation diagnostic"
 
 [comparison]
 primary_reference = "selected Test 3 Desmos projected wheel-angle fits"
-supplementary_reference = "2026Ackermann.csv Dimension2 internal ray-angle monitor"
+supplementary_references = ["WUFR-26 FDR projected endpoint values", "2026Ackermann.csv Dimension2 internal ray-angle monitor"]
 result_record = "benchmarks/steering/wufr26_level_e_test3_result.toml"
 interpolation = "linear_inside_overlap_only for raw series; direct evaluation for frozen polynomial fits"
 extrapolation_allowed = false
@@ -116,8 +135,8 @@ polynomial_fit_used_as_reference = true
 polynomial_fit_independent_validation = false
 residual_definition = "candidate convention-adapted canonical projected road-wheel heading minus the Desmos projected road-wheel angle"
 metrics = ["mean_error", "rmse", "maximum_absolute_error", "point_residuals"]
-acceptance_disposition = "descriptive_only_no_pass_fail_tolerance"
-acceptance_reason = "The Test 3 polynomial is fit-derived, symmetry-enforced, and not independent validation evidence. The observed residual envelope is frozen for regression and review rather than treated as a validation threshold."
+acceptance_disposition = "frozen_descriptive_only_no_pass_fail_tolerance"
+acceptance_reason = "The team accepted the result for nominal design-source development use. The Test 3 polynomial is fit-derived and symmetry-enforced, while the FDR endpoint values are design-review observations rather than independent physical evidence."
 
 [numerical_result]
 result_id = "WUFR26-STEER-LEVEL-E-TEST3-V0"
@@ -127,8 +146,15 @@ incremental_maximum_absolute_error_deg = 1.3619362325740774
 total_rmse_deg_per_side = 0.48519120205645005
 total_maximum_absolute_error_deg = 1.222536232574079
 canonical_to_historical_static_difference_magnitude_deg = 0.1394
-residual_shape = "mirror-antisymmetric and increasingly gain-shaped toward full input; material endpoint mismatch remains"
-review_conclusion = "nominal design-source consistency supported; independent or as-built validation not established"
+fdr_endpoint_maximum_absolute_difference_deg = 0.15277946512819796
+residual_shape = "mirror-antisymmetric and increasingly gain-shaped toward full input; FDR endpoints agree with the candidate within 0.16 deg"
+review_conclusion = "nominal design-source consistency frozen; independent, compliance-inclusive, or as-built validation not established"
+
+[reported_uncertainty]
+cad_angular_export_tolerance_deg = 0.1
+cad_length_export_tolerance_raw = "+/-0.005 reported by the team as 'thou'; exact intended unit wording must be confirmed before SI conversion"
+as_built_hardpoint_alignment = "2026 welded hardpoint alignment was not independently measured; team expects deviation no larger than the reported CAD tolerance, but this remains an unverified estimate"
+uncertainty_use_rule = "Do not use the reported tolerances as a Level F acceptance band until unit interpretation, measurement method, repeatability, and confidence treatment are defined."
 
 [restrictions]
 items = [
@@ -138,7 +164,8 @@ items = [
   "Do not treat 20.57 deg as a wheel-heading, toe, or upright-rotation datum.",
   "Do not treat the diagnostic Dimension2 reconstruction or its residual metrics as Level E validation.",
   "Do not treat the +/-1.00-in design-study range as proof of installed physical stop travel.",
-  "Do not treat a polynomial fit as independent validation evidence.",
-  "Do not use the frozen observed residual envelope as a future validation tolerance without independent justification.",
+  "Do not treat a polynomial fit or FDR design-review endpoint as independent physical validation evidence.",
+  "Do not use the frozen observed residual envelope or reported CAD tolerance as a future validation tolerance without independent justification.",
+  "Do not infer as-built left/right symmetry solely from the exact CAD reflection.",
   "Do not claim installed or physical validation from Level E agreement."
 ]
