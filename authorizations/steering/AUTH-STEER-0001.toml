@@ -1,10 +1,12 @@
-version = "0.1.0"
+version = "0.2.0"
 authorization_id = "AUTH-STEER-0001"
-status = "active"
+status = "active_reviewed_and_frozen"
 title = "Bounded rigid steering evaluator prototype authorization"
 effective_condition = "Effective after merge of PR #9."
 effective_merge_commit = "e7cf3f856a9169d06c78413c9467884fa7bc41ad"
-review_record = "Git history and pull-request approval"
+implementation_merge = "PR #10"
+review_record = "docs/reviews/phase0_steering_review_closeout.md"
+review_conclusion = "Authorization requirements were satisfied before implementation and the bounded prototype remains inside scope."
 
 [scope]
 model_ids = ["MOD-STEER-0001"]
@@ -37,7 +39,8 @@ items = [
   "Bracket-preserving scalar position solve on the intended branch.",
   "Closure, branch, feasibility, singularity, provenance, and failure diagnostics.",
   "All frozen analytical and GEO-STEER-BASIC-001 outputs.",
-  "WUFR26_DESIGN_NOMINAL_V0 rack-displacement-to-upright-rotation evaluation and mechanism diagnostics."
+  "WUFR26_DESIGN_NOMINAL_V0 rack-displacement-to-upright-rotation evaluation and mechanism diagnostics.",
+  "WUFR26_DESIGN_NOMINAL_V0 canonical wheel-plane projection and descriptive nominal Level E comparison where the reviewed static alignment and wheel-plane prerequisites are present."
 ]
 
 [conditional_outputs]
@@ -49,7 +52,8 @@ synthetic_fixture = [
   "Named turning-radius constructions."
 ]
 wufr26_nominal = [
-  "Only outputs whose prerequisite metadata are explicitly present.",
+  "Projected total and incremental road-wheel headings are permitted for the frozen nominal design-source configuration.",
+  "Steering-wheel ratio, Ackermann error, and turning-radius outputs remain conditional on explicit transmission and path prerequisites.",
   "Unavailable outputs must return a reason code rather than a guessed value."
 ]
 
@@ -59,9 +63,10 @@ items = [
   "Production design ranking or release authority.",
   "As-built or installed-geometry claims.",
   "Automatic constraint relaxation or alternate-root substitution.",
-  "Tire, steering-effort, compliance, tolerance, suspension-travel, load, or transient models.",
+  "Tire, steering-effort, compliance, tolerance, suspension-travel, load, or transient models inside the rigid evaluator.",
+  "Applying constant free-play or compliance corrections to the rigid solution.",
   "CAD polynomial fits as replacements for mechanism equations.",
-  "Absolute WUFR-26 wheel heading, steering-wheel ratio, Ackermann, or turning-radius claims without reviewed prerequisites.",
+  "Steering-wheel ratio, Ackermann, or turning-radius claims without reviewed prerequisites.",
   "UI development beyond minimal developer-facing execution and diagnostics."
 ]
 
@@ -74,6 +79,7 @@ extrapolation_allowed = false
 library_rule = "Any external routine must have package, version range, function contract, tolerances, and failure behavior documented in the implementation pull request."
 
 [required_before_code_merge]
+status = "satisfied_by_PR_10"
 items = [
   "Implement BENCH-STEER-0002 through BENCH-STEER-0008 as automated tests.",
   "Show benchmark results and tolerances in the implementation pull request.",
@@ -86,10 +92,11 @@ items = [
 items = [
   "All frozen analytical and synthetic tests pass.",
   "Numerical implementation review is complete.",
-  "WUFR wheel-plane, toe, transmission, and stop definitions are recovered for requested outputs.",
-  "Level E raw SolidWorks response comparison passes an approved tolerance.",
+  "Nominal wheel-plane and static-alignment prerequisites are reviewed for projected WUFR outputs.",
+  "Installed stops and staged transmission data are measured before installed-domain or steering-wheel-input claims.",
+  "Level E nominal comparison remains descriptive rather than independent validation.",
   "Level F physical evidence is reviewed before as-built validation claims.",
-  "A separate focused authorization approves optimizer or production use."
+  "A separate focused authorization approves optimizer, higher-fidelity physical modeling, or production use."
 ]
 
 [references]
@@ -99,3 +106,5 @@ freeze_packet = "benchmarks/steering/preimplementation_freeze_packet.md"
 nominal_configuration = "configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml"
 implementation_document = "docs/models/steering/rigid_steering_implementation_v0.1.0.md"
 implementation_results = "benchmarks/steering/implementation_results_v0.1.0.json"
+level_e_result = "benchmarks/steering/wufr26_level_e_test3_result.toml"
+physical_evidence_boundary = "docs/models/steering/wufr26_force_compliance_evidence.md"
