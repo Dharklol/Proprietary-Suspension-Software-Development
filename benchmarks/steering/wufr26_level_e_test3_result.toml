@@ -1,6 +1,6 @@
-version = "0.2.0"
+version = "0.3.0"
 result_id = "WUFR26-STEER-LEVEL-E-TEST3-V0"
-status = "review_ready_descriptive_cross_tool_consistency"
+status = "frozen_descriptive_cross_tool_consistency"
 contract_id = "WUFR26-STEER-LEVEL-E-V0"
 model_id = "MOD-STEER-0001"
 authorization_id = "AUTH-STEER-0001"
@@ -16,6 +16,9 @@ ci_workflow_run = 130
 full_report_sha256 = "db3808abaf056c75fae4fc452eef9ce3715362c7016294fad6d6c2f1efdd2b6c"
 summary_report_sha256 = "51cc8159728f3e702b94f1f6d75490c1e16cfdaf8d9c7684ef5be1374a681666"
 generator = "scripts/run_wufr26_level_e_prep.py"
+frozen_on = "2026-07-21"
+freeze_authority = "team review in the Vehicle Dynamics Software project conversation"
+freeze_scope = "Nominal design-source Level E comparison, convention adapter, residual envelope, and descriptive acceptance disposition only."
 
 [adapter]
 input_sign = 1.0
@@ -30,6 +33,7 @@ historical_left_deg = -1.1394
 historical_right_deg = 1.1394
 left_difference_deg = 0.1394
 right_difference_deg = -0.1394
+setup_authority = "WUFR-26 FINAL 8.21.2025.xlsx; team confirms the SolidWorks setup follows this setup sheet."
 
 [left.incremental]
 mean_error_deg = -0.3231165957765028
@@ -80,10 +84,23 @@ more_steered_candidate_incremental_deg = 32.9627794651282
 more_steered_magnitude_error_deg = 0.7780911451282009
 more_steered_magnitude_error_percent = 2.4175817313871097
 
+[fdr_endpoint_cross_check]
+source = "WUFR-26 steering FDR projected wheel turn-angle values supplied by the team on 2026-07-21"
+signal_interpretation = "Full-input projected incremental wheel-turn magnitudes; less-steered/right value 22.22 deg and more-steered/left value 32.81 deg."
+less_steered_fdr_deg = 22.22
+less_steered_candidate_deg = 22.331423447425923
+less_steered_candidate_minus_fdr_deg = 0.11142344742592414
+less_steered_candidate_minus_fdr_percent = 0.501455658982557
+more_steered_fdr_deg = 32.81
+more_steered_candidate_deg = 32.9627794651282
+more_steered_candidate_minus_fdr_deg = 0.15277946512819796
+more_steered_candidate_minus_fdr_percent = 0.4656490860353488
+interpretation = "The recovered rigid model is within 0.16 deg and 0.51 percent of both FDR endpoint values. This is a strong design-intent cross-check but not independent physical validation."
+
 [review]
-residual_shape = "Mirror-antisymmetric, small near center, and increasingly gain-shaped toward full rack travel. The less-steered/outside branch underpredicts magnitude by about 1.36 deg at full input; the more-steered/inside branch differs by about 0.78 deg at the opposite full-input endpoint."
-conclusion = "The recovered rigid geometry, input scaling, wheel-plane projection, and convention adapter are mutually consistent with the selected historical fit at nominal-design level, but the systematic endpoint residual remains material and requires better source geometry or direct raw goal exports before tighter correlation claims."
-acceptance_disposition = "descriptive_only_no_pass_fail_tolerance"
-acceptance_reason = "The selected Test 3 polynomial is fit-derived, symmetry-enforced, and not independent validation evidence. Observed residual metrics are frozen for regression and review, not used as a validation pass criterion."
-promotion_gate = "Obtain direct left/right projected wheel-angle samples or physical measurements with source identity, setup state, uncertainty, and an independently justified tolerance."
-authority_boundary = "Nominal design-source cross-tool consistency only; not installed, as-built, or physical validation."
+residual_shape = "Mirror-antisymmetric, small near center, and increasingly gain-shaped toward full rack travel. The less-steered/outside branch underpredicts the historical polynomial magnitude by about 1.36 deg at full input; the more-steered/inside branch differs by about 0.78 deg at the opposite full-input endpoint."
+conclusion = "The recovered rigid geometry, input scaling, wheel-plane projection, convention adapter, exact CAD left/right reflection, and FDR endpoint values are mutually consistent at nominal-design level. The historical polynomial endpoint mismatch remains documented and must not be converted into a physical validation claim."
+acceptance_disposition = "frozen_descriptive_only_no_pass_fail_tolerance"
+acceptance_reason = "The team accepted the Level E result for nominal design-source use. The selected Test 3 polynomial is fit-derived and symmetry-enforced, while the FDR endpoint values are design-review observations rather than independent measurements."
+promotion_gate = "Obtain physical or independently exported left/right projected wheel-angle samples with setup state, direction history, uncertainty, and an independently justified tolerance."
+authority_boundary = "Nominal design-source cross-tool consistency for future steering-system development only; not installed, as-built, compliance-inclusive, or physical validation."
