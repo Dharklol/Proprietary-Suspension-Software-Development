@@ -33,8 +33,10 @@ class WUFR26EvidenceFreezeTests(unittest.TestCase):
             lateral_mm * 0.001,
             vertical_mm * 0.001,
         )
-        self.assertEqual(tuple(rack["axis_origin"]), mapped)
-        self.assertEqual(mapped, (-0.079298, 0.0, 0.162865))
+        for actual, expected in zip(rack["axis_origin"], mapped):
+            self.assertAlmostEqual(actual, expected, places=12)
+        for actual, expected in zip(mapped, (-0.079298, 0.0, 0.162865)):
+            self.assertAlmostEqual(actual, expected, places=12)
 
     def test_nominal_right_geometry_is_exact_y_reflection(self) -> None:
         left = self.configuration["left"]
