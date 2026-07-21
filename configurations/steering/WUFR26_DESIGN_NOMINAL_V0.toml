@@ -81,7 +81,7 @@ static_alignment_role = "design-source per-side alignment from the setup sheet; 
 wheel_plane_reference = "derive with reference_from_static_alignment and rotate the plane normal about the steering axis"
 
 [right]
-side_role = "team-confirmed exact CAD reflection of the nominal front-left hardpoints; not an as-built symmetry claim"
+side_role = "team-confirmed exact mirrored CAD reflection of the nominal front-left hardpoints; not an as-built symmetry claim"
 mirror_rule = "change the sign of canonical y for all front-left geometry and apply the same side-local toe/camber values"
 steering_axis_lower_point = [0.0, -0.587096, 0.157117]
 steering_axis_upper_point = [-0.006487, -0.564662, 0.305056]
