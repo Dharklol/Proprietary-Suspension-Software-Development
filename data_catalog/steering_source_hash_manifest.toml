@@ -1,0 +1,99 @@
+version = "0.1.0"
+status = "review_ready_provider_identity; project SHA-256 capture pending raw-byte acquisition"
+related_task = "P0-STR-002"
+contract = "schemas/source_artifact_hash_contract.toml"
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0001"
+name = "GEOMETRY FINAL.SLDPRT"
+provider = "Box"
+provider_file_id = "1971276311204"
+provider_version_id = "2551939123052"
+size_bytes = 104508
+provider_sha1 = "7323d2abfc391e3c814a94573e027f101318458c"
+project_sha256 = ""
+evidence_role = "WUFR-26 final nominal steering geometry and SolidWorks benchmark parent"
+freeze_state = "provider_identified"
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0002"
+name = "2026Ackermann.csv"
+provider = "Box"
+provider_file_id = "2357045252883"
+provider_version_id = "2611346929683"
+size_bytes = 8270
+provider_sha1 = "69d71c0977287a13385683204344e78816b48512"
+project_sha256 = ""
+evidence_role = "WUFR-26 final second-motion-study response export"
+freeze_state = "provider_identified"
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0003"
+name = "Test_3.csv"
+provider = "Box"
+provider_file_id = "1938821987892"
+provider_version_id = ""
+size_bytes = 7859
+provider_sha1 = "2753dd225b2c95c2cc0c6635f9e3f7b1493692cc"
+project_sha256 = ""
+evidence_role = "WUFR-26 selected Test 3 selection-era response cross-check"
+freeze_state = "provider_identified"
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0004"
+name = "Steering Length Optimization Tests.xlsx"
+provider = "Box"
+provider_file_id = "1939770957296"
+provider_version_id = ""
+size_bytes = 9692
+provider_sha1 = "2069922fc3dac8889d84a92275e35486caef3284"
+project_sha256 = ""
+evidence_role = "Candidate-study comparison workbook and Test 3 design-intent reference"
+freeze_state = "provider_identified"
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0005"
+name = "WUFR-26 FINAL 8.21.2025.xlsx"
+provider = "Box"
+provider_file_id = "2014803790843"
+provider_version_id = "2224178574043"
+size_bytes = 0
+provider_sha1 = "15eadfb93369192038888da92ebaa6674db56cfa"
+project_sha256 = ""
+evidence_role = "Final OptimumK suspension geometry and steering-axis source"
+freeze_state = "provider_identified"
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0006"
+name = "Steering_range_optimization.m"
+provider = "Box"
+provider_file_id = "2025945253796"
+provider_version_id = ""
+size_bytes = 2819
+provider_sha1 = "4a4dfbf78a96e00840aef9f86e30dfee06331d65"
+project_sha256 = ""
+evidence_role = "Historical WUFR-25 steering range and effort trade-study source"
+freeze_state = "provider_identified"
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0007"
+name = "WUFR 27 Sensor List"
+provider = "Google Drive"
+provider_file_id = "1APgi55-rLtcLoeSK4UWYo2qJabf8i14NYZl0O5fAguU"
+provider_version_id = "140"
+size_bytes = 8281
+provider_sha1 = ""
+project_sha256 = ""
+evidence_role = "Human-maintained sensor inventory and planning source; not steering geometry authority"
+freeze_state = "provider_identified"
+
+[open_items]
+raw_byte_sha256 = [
+  "Obtain immutable provider downloads for SRC-STEER-0001 through SRC-STEER-0007 and compute SHA-256 without conversion.",
+  "Record exact provider version IDs where the existing Box manifest does not include one.",
+]
+source_identity = [
+  "Recover the exact FDR document/table containing the final Test 3 selection and assign a new SRC-STEER ID.",
+  "Record SolidWorks version, active configuration, design-study driver/monitor definitions, dependency state, and warnings for GEOMETRY FINAL.SLDPRT.",
+]
+formal_boundary = "P0-STR-002 cannot be complete until project SHA-256 values are recorded or reviewer-approved formal-unavailability records replace them."
