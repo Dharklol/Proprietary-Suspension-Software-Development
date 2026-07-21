@@ -1,0 +1,26 @@
+[record]
+id = "PAR-STEER-0004"
+type = "parameter"
+title = "WUFR-26 total installed steering-wheel free play under parked tire scrub"
+status = "active"
+description = "Latest team-confirmed whole-system steering free play observed at the steering wheel while the front tires are scrub-constrained. This is an approximate installed-system deadband and includes all contributing interfaces; it is not assigned to the bevel gears, rack, rod ends, column joints, or quick release individually."
+quantity_id = "QTY-STEER-0016"
+value = 0.06981317007977318
+unit = "rad"
+source_type = "team_measured_installed_system_clarification"
+uncertainty = "Approximate value; exact repeatability, torque threshold, surface, tire pressure, vehicle load, steering position, and approach direction were not frozen with this observation."
+source_native_value = 4.0
+source_native_unit = "deg_total_at_steering_wheel"
+source_location = "Vehicle Dynamics Software project clarification dated 2026-07-21"
+vehicle_revision = "WUFR-26"
+evidence_role = "installed_system_observation"
+authority_state = "active_as_current_whole_system_free_play_observation_only"
+load_state = "vehicle stationary with front tires scrub-constrained"
+measurement_point = "steering wheel"
+component_attribution = "none; do not add supplier gear backlash or historical free-play values to this measured system total"
+historical_cross_checks = [
+  "Static Steering Compliance Measurement post-test note: 2.35 deg total free play under its documented setup",
+  "WUFR-27 Steering PDR recap: approximately 5 deg measured after set-screw coupling slip under a later/changed state"
+]
+applicability = "Current WUFR-26 installed-system free-play context and WUFR-27 reliability design input. Not a rigid-model correction and not a component-level backlash value."
+related_risk_ids = ["RISK-STEER-0002"]
