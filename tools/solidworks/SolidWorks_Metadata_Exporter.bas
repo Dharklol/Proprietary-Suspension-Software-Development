@@ -1,11 +1,11 @@
 Attribute VB_Name = "SW_Metadata_Exporter"
 Option Explicit
 
-' SOLIDWORKS Metadata Exporter v1.0.0
+' SOLIDWORKS Metadata Exporter v1.0.1
 ' Read-only: does not save, rebuild, switch configurations, activate studies,
 ' resolve components, or alter suppression state.
 
-Private Const MACRO_VERSION As String = "1.0.0"
+Private Const MACRO_VERSION As String = "1.0.1"
 Private Const SW_DOC_PART As Long = 1
 Private Const SW_DOC_ASSEMBLY As Long = 2
 Private Const SW_DOC_DRAWING As Long = 3
@@ -64,6 +64,10 @@ FatalError:
            vbCritical, "SOLIDWORKS Metadata Exporter"
 End Sub
 
+Private Function PathSep() As String
+    PathSep = Chr$(92)
+End Function
+
 Private Function PromptForOutputDirectory(ByVal swModel As Object) As String
     Dim sourcePath As String
     Dim baseDir As String
@@ -73,14 +77,14 @@ Private Function PromptForOutputDirectory(ByVal swModel As Object) As String
 
     sourcePath = SafeModelPath(swModel)
     If Len(sourcePath) > 0 Then
-        baseDir = Left$(sourcePath, InStrRev(sourcePath, "\\") - 1)
+        baseDir = Left$(sourcePath, InStrRev(sourcePath, PathSep()) - 1)
         modelStem = FileStem(sourcePath)
     Else
         On Error Resume Next
         Set shellObj = CreateObject("WScript.Shell")
         baseDir = shellObj.SpecialFolders("Desktop")
         On Error GoTo 0
-        If Len(baseDir) = 0 Then baseDir = Environ$("USERPROFILE") & "\\Desktop"
+        If Len(baseDir) = 0 Then baseDir = Environ$("USERPROFILE") & PathSep() & "Desktop"
         modelStem = "UNSAVED_MODEL"
     End If
 
@@ -108,10 +112,10 @@ Private Sub EnsureFolderTree(ByVal folderPath As String)
 End Sub
 
 Private Function JoinPath(ByVal leftPath As String, ByVal rightPath As String) As String
-    If Right$(leftPath, 1) = "\\" Then
+    If Right$(leftPath, 1) = PathSep() Then
         JoinPath = leftPath & rightPath
     Else
-        JoinPath = leftPath & "\\" & rightPath
+        JoinPath = leftPath & PathSep() & rightPath
     End If
 End Function
 
@@ -119,7 +123,7 @@ Private Function FileStem(ByVal filePath As String) As String
     Dim fileName As String
     Dim dotPos As Long
 
-    fileName = Mid$(filePath, InStrRev(filePath, "\\") + 1)
+    fileName = Mid$(filePath, InStrRev(filePath, PathSep()) + 1)
     dotPos = InStrRev(fileName, ".")
     If dotPos > 1 Then
         FileStem = Left$(fileName, dotPos - 1)
@@ -132,7 +136,7 @@ Private Function SafeFileName(ByVal value As String) As String
     Dim badChars As Variant
     Dim item As Variant
 
-    badChars = Array("\\", "/", ":", "*", "?", """", "<", ">", "|")
+    badChars = Array(PathSep(), "/", ":", "*", "?", Chr$(34), "<", ">", "|")
     SafeFileName = value
     For Each item In badChars
         SafeFileName = Replace$(SafeFileName, CStr(item), "_")
@@ -258,9 +262,13 @@ Private Function ExportPropertyScope(ByVal swModel As Object, ByVal managerScope
                                      ByVal exportedScope As String, ByRef csv As String, _
                                      ByVal warnings As Collection) As Long
     Dim mgr As Object
-    Dim names As Variant, types As Variant, values As Variant
-    Dim resolved As Variant, links As Variant
-    Dim count As Long, i As Long
+    Dim names As Variant
+    Dim types As Variant
+    Dim values As Variant
+    Dim resolved As Variant
+    Dim links As Variant
+    Dim count As Long
+    Dim i As Long
 
     On Error GoTo ScopeError
     Set mgr = swModel.Extension.CustomPropertyManager(managerScope)
@@ -285,9 +293,14 @@ Private Function ExportEquations(ByVal swModel As Object, ByVal outputPath As St
                                  ByVal warnings As Collection) As Long
     Dim csv As String
     Dim mgr As Object
-    Dim count As Long, i As Long
-    Dim eqText As String, disabledText As String, globalText As String, valueText As String
-    Dim linkedText As String, linkedFile As String
+    Dim count As Long
+    Dim i As Long
+    Dim eqText As String
+    Dim disabledText As String
+    Dim globalText As String
+    Dim valueText As String
+    Dim linkedText As String
+    Dim linkedFile As String
 
     AppendLine csv, "index,equation,is_disabled,is_global_variable,current_value,manager_linked_to_file,manager_file_path,keyword_hits"
 
@@ -305,7 +318,10 @@ Private Function ExportEquations(ByVal swModel As Object, ByVal outputPath As St
 
     count = mgr.GetCount
     For i = 0 To count - 1
-        eqText = "": disabledText = "": globalText = "": valueText = ""
+        eqText = ""
+        disabledText = ""
+        globalText = ""
+        valueText = ""
         On Error Resume Next
         eqText = CStr(mgr.Equation(i))
         disabledText = BoolText(CBool(mgr.Disabled(i)))
@@ -331,10 +347,18 @@ End Function
 Private Function ExportExternalReferences(ByVal swModel As Object, ByVal outputPath As String, _
                                           ByVal warnings As Collection) As Long
     Dim csv As String
-    Dim modelPaths As Variant, componentPaths As Variant, features As Variant
-    Dim dataTypes As Variant, statuses As Variant, refEntities As Variant
-    Dim featureComponents As Variant, configOptions As Variant, configNames As Variant
-    Dim rowCount As Long, i As Long, statusValue As Variant
+    Dim modelPaths As Variant
+    Dim componentPaths As Variant
+    Dim features As Variant
+    Dim dataTypes As Variant
+    Dim statuses As Variant
+    Dim refEntities As Variant
+    Dim featureComponents As Variant
+    Dim configOptions As Variant
+    Dim configNames As Variant
+    Dim rowCount As Long
+    Dim i As Long
+    Dim statusValue As Variant
 
     AppendLine csv, "model_path,component_path,feature,data_type,status_code,status_name,reference_entity,feature_component,configuration_option,configuration_names"
 
@@ -374,9 +398,12 @@ Private Function ExportComponents(ByVal swModel As Object, ByVal outputPath As S
     Dim csv As String
     Dim swAssembly As Object
     Dim components As Variant
-    Dim comp As Object, parentComp As Object
-    Dim i As Long, suppressionCode As Long
-    Dim parentName As String, refDisplayState As String
+    Dim comp As Object
+    Dim parentComp As Object
+    Dim i As Long
+    Dim suppressionCode As Long
+    Dim parentName As String
+    Dim refDisplayState As String
 
     AppendLine csv, "component_name,parent_component,path,referenced_configuration,referenced_display_state,suppression_code,suppression_name,is_loaded,is_suppressed,visibility_code,is_fixed,is_virtual,is_envelope,is_mirrored,is_pattern_instance,solving_option,keyword_hits"
 
@@ -396,7 +423,9 @@ Private Function ExportComponents(ByVal swModel As Object, ByVal outputPath As S
     For i = LBound(components) To UBound(components)
         Set comp = components(i)
         Set parentComp = Nothing
-        parentName = "": refDisplayState = "": suppressionCode = -999
+        parentName = ""
+        refDisplayState = ""
+        suppressionCode = -999
 
         On Error Resume Next
         Set parentComp = comp.GetParent
@@ -436,18 +465,21 @@ Private Function ExportFeatures(ByVal swModel As Object, ByVal outputPath As Str
                                 ByVal warnings As Collection) As Long
     Dim csv As String
     Dim feat As Object
+    Dim featName As String
+    Dim typeName As String
 
     AppendLine csv, "feature_name,type_name,is_suppressed_current,visibility_code,update_stamp,keyword_hits"
 
     On Error GoTo ExportError
     Set feat = swModel.FirstFeature
     Do While Not feat Is Nothing
-        AppendLine csv, CsvEscape(SafeProperty(feat, "Name")) & "," & _
-                        CsvEscape(SafeMethod(feat, "GetTypeName2")) & "," & _
+        featName = SafeProperty(feat, "Name")
+        typeName = SafeMethod(feat, "GetTypeName2")
+        AppendLine csv, CsvEscape(featName) & "," & CsvEscape(typeName) & "," & _
                         CsvEscape(SafeBoolMethod(feat, "IsSuppressed")) & "," & _
                         CsvEscape(SafeProperty(feat, "Visible")) & "," & _
                         CsvEscape(SafeMethod(feat, "GetUpdateStamp")) & "," & _
-                        CsvEscape(MetadataHits(SafeProperty(feat, "Name") & " " & SafeMethod(feat, "GetTypeName2")))
+                        CsvEscape(MetadataHits(featName & " " & typeName))
         ExportFeatures = ExportFeatures + 1
         Set feat = feat.GetNextFeature
     Loop
@@ -463,9 +495,13 @@ End Function
 Private Function ExportDimensions(ByVal swModel As Object, ByVal outputPath As String, _
                                   ByVal warnings As Collection) As Long
     Dim csv As String
-    Dim feat As Object, dispDim As Object, dimObj As Object
+    Dim feat As Object
+    Dim dispDim As Object
+    Dim dimObj As Object
     Dim seen As Object
-    Dim fullName As String, uniqueKey As String
+    Dim fullName As String
+    Dim uniqueKey As String
+    Dim featName As String
 
     AppendLine csv, "feature_name,dimension_name,full_name,selection_name,system_value_current,display_type,linked_text,keyword_hits"
     Set seen = CreateObject("Scripting.Dictionary")
@@ -473,6 +509,7 @@ Private Function ExportDimensions(ByVal swModel As Object, ByVal outputPath As S
     On Error GoTo ExportError
     Set feat = swModel.FirstFeature
     Do While Not feat Is Nothing
+        featName = SafeProperty(feat, "Name")
         Set dispDim = Nothing
         On Error Resume Next
         Set dispDim = feat.GetFirstDisplayDimension
@@ -487,18 +524,19 @@ Private Function ExportDimensions(ByVal swModel As Object, ByVal outputPath As S
             On Error GoTo ExportError
 
             uniqueKey = fullName
-            If Len(uniqueKey) = 0 Then uniqueKey = SafeProperty(feat, "Name") & "|" & SafeProperty(dimObj, "Name")
+            If Len(uniqueKey) = 0 Then uniqueKey = featName & "|" & SafeProperty(dimObj, "Name")
 
             If Not seen.Exists(uniqueKey) Then
                 seen.Add uniqueKey, True
-                AppendLine csv, CsvEscape(SafeProperty(feat, "Name")) & "," & _
+                AppendLine csv, CsvEscape(featName) & "," & _
                                 CsvEscape(SafeProperty(dimObj, "Name")) & "," & _
                                 CsvEscape(fullName) & "," & _
                                 CsvEscape(SafeMethod(dimObj, "GetNameForSelection")) & "," & _
                                 CsvEscape(SafeProperty(dimObj, "SystemValue")) & "," & _
                                 CsvEscape(SafeProperty(dispDim, "Type2")) & "," & _
                                 CsvEscape(SafeMethod(dispDim, "GetLinkedText")) & "," & _
-                                CsvEscape(MetadataHits(SafeProperty(feat, "Name") & " " & fullName & " " & SafeMethod(dispDim, "GetLinkedText")))
+                                CsvEscape(MetadataHits(featName & " " & fullName & " " & _
+                                                       SafeMethod(dispDim, "GetLinkedText")))
                 ExportDimensions = ExportDimensions + 1
             End If
 
@@ -507,7 +545,9 @@ Private Function ExportDimensions(ByVal swModel As Object, ByVal outputPath As S
         Set feat = feat.GetNextFeature
     Loop
 
-    If ExportDimensions = 0 Then warnings.Add "No feature display dimensions were returned. Dimension enumeration is best-effort and can depend on document state."
+    If ExportDimensions = 0 Then
+        warnings.Add "No feature display dimensions were returned. Dimension enumeration is best-effort and can depend on document state."
+    End If
     WriteTextFile outputPath, csv
     Exit Function
 
@@ -519,9 +559,11 @@ End Function
 Private Function ExportMotionStudies(ByVal swModel As Object, ByVal outputPath As String, _
                                      ByVal warnings As Collection) As Long
     Dim csv As String
-    Dim mgr As Object, study As Object
+    Dim mgr As Object
+    Dim study As Object
     Dim names As Variant
-    Dim i As Long, studyType As Long
+    Dim i As Long
+    Dim studyType As Long
     Dim studyName As String
 
     AppendLine csv, "study_name,study_type_code,study_type_name,is_active,duration_seconds,external_motor_count,external_force_count,keyword_hits"
@@ -572,8 +614,12 @@ Private Sub ExportManifestJson(ByVal swApp As Object, ByVal swModel As Object, _
                                ByVal warnings As Collection)
     Dim json As String
     Dim sourcePath As String
-    Dim baseVersion As String, currentVersion As String, hotFixes As String
-    Dim revisionNumber As String, sourceSize As String, sourceModified As String
+    Dim baseVersion As String
+    Dim currentVersion As String
+    Dim hotFixes As String
+    Dim revisionNumber As String
+    Dim sourceSize As String
+    Dim sourceModified As String
     Dim versionHistory As Variant
 
     sourcePath = SafeModelPath(swModel)
@@ -590,7 +636,8 @@ Private Sub ExportManifestJson(ByVal swApp As Object, ByVal swModel As Object, _
     AppendLine json, "{"
     AppendLine json, "  ""schema_version"": ""1.0.0"","
     AppendLine json, "  ""generated_at_local"": " & JsonString(Format$(Now, "yyyy-mm-dd\THH:nn:ss")) & ","
-    AppendLine json, "  ""extractor"": {""name"": ""SW_Metadata_Exporter"", ""version"": " & JsonString(MACRO_VERSION) & ", ""read_only"": true},"
+    AppendLine json, "  ""extractor"": {""name"": ""SW_Metadata_Exporter"", ""version"": " & _
+                     JsonString(MACRO_VERSION) & ", ""read_only"": true},"
     AppendLine json, "  ""solidworks"": {"
     AppendLine json, "    ""revision_number"": " & JsonString(revisionNumber) & ","
     AppendLine json, "    ""base_version"": " & JsonString(baseVersion) & ","
@@ -763,7 +810,8 @@ NoArray:
 End Function
 
 Private Function MaximumVariantArrayCount(ByVal values As Variant) As Long
-    Dim i As Long, thisCount As Long
+    Dim i As Long
+    Dim thisCount As Long
     If Not IsArray(values) Then Exit Function
     For i = LBound(values) To UBound(values)
         thisCount = VariantArrayCount(values(i))
@@ -772,7 +820,8 @@ Private Function MaximumVariantArrayCount(ByVal values As Variant) As Long
 End Function
 
 Private Function JoinVariant(ByVal value As Variant, ByVal delimiter As String) As String
-    Dim i As Long, result As String
+    Dim i As Long
+    Dim result As String
     On Error GoTo JoinFailed
     If IsArray(value) Then
         For i = LBound(value) To UBound(value)
@@ -789,27 +838,35 @@ JoinFailed:
 End Function
 
 Private Function CsvEscape(ByVal value As String) As String
-    CsvEscape = """" & Replace$(value, """", """"") & """"
+    Dim q As String
+    q = Chr$(34)
+    CsvEscape = q & Replace$(value, q, q & q) & q
 End Function
 
 Private Function JsonString(ByVal value As String) As String
-    JsonString = """" & JsonEscape(value) & """"
+    JsonString = Chr$(34) & JsonEscape(value) & Chr$(34)
 End Function
 
 Private Function JsonEscape(ByVal value As String) As String
     Dim result As String
+    Dim bs As String
+    Dim q As String
+
+    bs = Chr$(92)
+    q = Chr$(34)
     result = value
-    result = Replace$(result, "\\", "\\\\")
-    result = Replace$(result, """", "\\""")
-    result = Replace$(result, vbCrLf, "\\n")
-    result = Replace$(result, vbCr, "\\n")
-    result = Replace$(result, vbLf, "\\n")
-    result = Replace$(result, vbTab, "\\t")
+    result = Replace$(result, bs, bs & bs)
+    result = Replace$(result, q, bs & q)
+    result = Replace$(result, vbCrLf, bs & "n")
+    result = Replace$(result, vbCr, bs & "n")
+    result = Replace$(result, vbLf, bs & "n")
+    result = Replace$(result, vbTab, bs & "t")
     JsonEscape = result
 End Function
 
 Private Function VariantToJsonArray(ByVal value As Variant) As String
-    Dim result As String, i As Long
+    Dim result As String
+    Dim i As Long
     result = "["
     On Error GoTo EmptyArray
     If IsArray(value) Then
@@ -827,7 +884,8 @@ EmptyArray:
 End Function
 
 Private Function CollectionToJsonArray(ByVal values As Collection) As String
-    Dim result As String, i As Long
+    Dim result As String
+    Dim i As Long
     result = "["
     For i = 1 To values.Count
         If i > 1 Then result = result & ", "
@@ -855,8 +913,10 @@ Private Function AddPipe(ByVal existing As String, ByVal newValue As String) As 
 End Function
 
 Private Function MetadataHits(ByVal text As String) As String
-    Dim keywords As Variant, keyword As Variant
-    Dim lowerText As String, result As String
+    Dim keywords As Variant
+    Dim keyword As Variant
+    Dim lowerText As String
+    Dim result As String
 
     keywords = Array("steer input", "dimension2", "ackermann", "rack", "tie rod", _
                      "wheel", "motion", "study", "sensor", "angle", "geometry", _
