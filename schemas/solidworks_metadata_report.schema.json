@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pssd:solidworks-metadata-report:1.0.0",
+  "title": "PSSD SOLIDWORKS metadata report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "extractor",
+    "application",
+    "document",
+    "warnings"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "extractor": {
+      "type": "object",
+      "required": [
+        "name",
+        "version",
+        "generated_local",
+        "read_only_intent"
+      ],
+      "properties": {
+        "name": {"type": "string"},
+        "version": {"type": "string"},
+        "generated_local": {"type": "string"},
+        "read_only_intent": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "application": {
+      "type": "object"
+    },
+    "document": {
+      "type": "object",
+      "required": [
+        "title",
+        "path",
+        "document_type_code",
+        "document_type",
+        "active_configuration",
+        "dirty_before",
+        "dirty_after"
+      ],
+      "properties": {
+        "title": {"type": "string"},
+        "path": {"type": "string"},
+        "document_type_code": {"type": "integer"},
+        "document_type": {
+          "enum": ["part", "assembly", "drawing", "unknown"]
+        },
+        "active_configuration": {"type": "string"},
+        "dirty_before": {"type": "boolean"},
+        "dirty_after": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "units": {"type": "object"},
+    "document_custom_properties": {"type": "array"},
+    "configurations": {"type": "array"},
+    "equations": {"type": "array"},
+    "design_table": {"type": "object"},
+    "features": {"type": "array"},
+    "whats_wrong": {"type": "array"},
+    "dependencies": {"type": "object"},
+    "external_references": {"type": "object"},
+    "assembly_components": {"type": "array"},
+    "motion_studies": {"type": "object"},
+    "target_name_matches": {"type": "array"},
+    "warnings": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": true
+}
