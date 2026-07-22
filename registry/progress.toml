@@ -84,10 +84,9 @@ review_record = "docs/reviews/phase0_steering_definition_role_closeout.md"
 [[phase_0.tasks]]
 id = "P0-STR-002"
 title = "Steering source recovery"
-status = "review_ready"
+status = "complete"
 exit_criterion = "The legacy optimizer and best available WUFR CAD motion-study package are recovered and hashed or their absence is formally accepted for prototype scope."
 review_record = "docs/reviews/phase0_steering_source_hash_review.md"
-remaining_gate = "Raw immutable provider downloads and project SHA-256 values, or reviewer-approved formal-unavailability dispositions, are still required before completion."
 
 [[phase_0.tasks]]
 id = "P0-STR-003"
@@ -114,7 +113,7 @@ review_record = "docs/reviews/phase0_steering_review_closeout.md"
 id = "P0-STR-006"
 title = "WUFR-26 steering benchmark and installed-state freeze"
 status = "active"
-exit_criterion = "The nominal design geometry and descriptive Level E result are frozen; installed stops, staged transmission correlation, setup uncertainty, component-level backlash/compliance attribution, source hashes, and independently justified Level F tolerances remain to be frozen."
+exit_criterion = "The nominal design geometry, source package, and descriptive Level E result are frozen; installed stops, staged transmission correlation, setup uncertainty, component-level backlash/compliance attribution, and independently justified Level F tolerances remain to be frozen."
 
 [[phase_0.tasks]]
 id = "P0-PAR-001"

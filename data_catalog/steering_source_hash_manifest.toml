@@ -1,7 +1,11 @@
-version = "0.1.0"
-status = "review_ready_provider_identity; project SHA-256 capture pending raw-byte acquisition"
+version = "0.2.0"
+status = "complete; blocking steering source identities, project hashes, derivative lineage, and formal dispositions frozen"
 related_task = "P0-STR-002"
 contract = "schemas/source_artifact_hash_contract.toml"
+review_record = "docs/reviews/phase0_steering_source_hash_review.md"
+freeze_date = "2026-07-22"
+authoritative_assembly_configuration = "Default"
+non_authoritative_configuration_note = "FSA is optimized for full-car assembly use and is not the steering-geometry source authority."
 
 [[artifacts]]
 artifact_id = "SRC-STEER-0001"
@@ -11,9 +15,11 @@ provider_file_id = "1971276311204"
 provider_version_id = "2551939123052"
 size_bytes = 104508
 provider_sha1 = "7323d2abfc391e3c814a94573e027f101318458c"
-project_sha256 = ""
+project_sha256 = "025872abaf731bdb37cae3bc94f4f8785c9c7f504c467b2db811bdf03e7ef78a"
 evidence_role = "WUFR-26 final nominal steering geometry and SolidWorks benchmark parent"
-freeze_state = "provider_identified"
+freeze_state = "sha256_verified"
+capture_kind = "provider_raw_bytes"
+blocking_for_task = true
 
 [[artifacts]]
 artifact_id = "SRC-STEER-0002"
@@ -23,33 +29,41 @@ provider_file_id = "2357045252883"
 provider_version_id = "2611346929683"
 size_bytes = 8270
 provider_sha1 = "69d71c0977287a13385683204344e78816b48512"
-project_sha256 = ""
-evidence_role = "WUFR-26 final second-motion-study response export"
-freeze_state = "provider_identified"
+project_sha256 = "76ec8d0a318786fe4a5fe352e5821ea600992c9bf554478d4450ac500688469b"
+evidence_role = "WUFR-26 final Design Study 1 response export from STEERING ACKERMAN CALC.SLDPRT"
+freeze_state = "sha256_verified"
+capture_kind = "provider_raw_bytes"
+blocking_for_task = true
+parent_artifact_ids = ["SRC-STEER-0010"]
 
 [[artifacts]]
 artifact_id = "SRC-STEER-0003"
 name = "Test_3.csv"
 provider = "Box"
 provider_file_id = "1938821987892"
-provider_version_id = ""
+provider_version_id = "2139121467727"
 size_bytes = 7859
 provider_sha1 = "2753dd225b2c95c2cc0c6635f9e3f7b1493692cc"
-project_sha256 = ""
-evidence_role = "WUFR-26 selected Test 3 selection-era response cross-check"
-freeze_state = "provider_identified"
+project_sha256 = "d2259359b2f83fb28a8e316e6179751995ffca67f4d057c94f7a7147738d06d2"
+evidence_role = "WUFR-26 selected Test 3 Design Study 1 response cross-check"
+freeze_state = "sha256_verified"
+capture_kind = "provider_raw_bytes"
+blocking_for_task = true
+parent_artifact_ids = ["SRC-STEER-0011"]
 
 [[artifacts]]
 artifact_id = "SRC-STEER-0004"
 name = "Steering Length Optimization Tests.xlsx"
 provider = "Box"
 provider_file_id = "1939770957296"
-provider_version_id = ""
+provider_version_id = "2140326128861"
 size_bytes = 9692
 provider_sha1 = "2069922fc3dac8889d84a92275e35486caef3284"
-project_sha256 = ""
+project_sha256 = "43d8f1e2aa2859b2d784539f6ee728b8f254b0e4f55594f807718213a29f16ab"
 evidence_role = "Candidate-study comparison workbook and Test 3 design-intent reference"
-freeze_state = "provider_identified"
+freeze_state = "sha256_verified"
+capture_kind = "provider_raw_bytes"
+blocking_for_task = true
 
 [[artifacts]]
 artifact_id = "SRC-STEER-0005"
@@ -57,43 +71,273 @@ name = "WUFR-26 FINAL 8.21.2025.xlsx"
 provider = "Box"
 provider_file_id = "2014803790843"
 provider_version_id = "2224178574043"
-size_bytes = 0
+size_bytes = 18692
 provider_sha1 = "15eadfb93369192038888da92ebaa6674db56cfa"
-project_sha256 = ""
+project_sha256 = "2ae4546dc1f60f775ccd914b64a198da9993818132511016c058d1d90d2797e7"
 evidence_role = "Final OptimumK suspension geometry and steering-axis source"
-freeze_state = "provider_identified"
+freeze_state = "sha256_verified"
+capture_kind = "provider_raw_bytes"
+blocking_for_task = true
 
 [[artifacts]]
 artifact_id = "SRC-STEER-0006"
 name = "Steering_range_optimization.m"
 provider = "Box"
 provider_file_id = "2025945253796"
-provider_version_id = ""
+provider_version_id = "2236834892996"
 size_bytes = 2819
 provider_sha1 = "4a4dfbf78a96e00840aef9f86e30dfee06331d65"
-project_sha256 = ""
-evidence_role = "Historical WUFR-25 steering range and effort trade-study source"
-freeze_state = "provider_identified"
+project_sha256 = "87a7c1ba37d130fc8a9aa5fd6b1cbe90bdb0c4cd3394e23ccacd6059801666b5"
+evidence_role = "Historical WUFR-25 steering range and effort trade-study source; not optimizer authorization"
+freeze_state = "sha256_verified"
+capture_kind = "provider_raw_bytes"
+blocking_for_task = true
 
 [[artifacts]]
 artifact_id = "SRC-STEER-0007"
-name = "WUFR 27 Sensor List"
+name = "WUFR 27 Sensor List revision 140.xlsx export"
 provider = "Google Drive"
 provider_file_id = "1APgi55-rLtcLoeSK4UWYo2qJabf8i14NYZl0O5fAguU"
 provider_version_id = "140"
-size_bytes = 8281
+size_bytes = 68675
 provider_sha1 = ""
-project_sha256 = ""
-evidence_role = "Human-maintained sensor inventory and planning source; not steering geometry authority"
-freeze_state = "provider_identified"
+project_sha256 = "6d7204eead9fecf7ebf26568c7ae7979c512471f78b529083d55c6d545560105"
+evidence_role = "Revision-pinned XLSX export of the sensor inventory and planning authority"
+freeze_state = "sha256_verified"
+capture_kind = "provider_export_snapshot"
+export_format = "xlsx"
+native_bytes_available = false
+blocking_for_task = true
 
-[open_items]
-raw_byte_sha256 = [
-  "Obtain immutable provider downloads for SRC-STEER-0001 through SRC-STEER-0007 and compute SHA-256 without conversion.",
-  "Record exact provider version IDs where the existing Box manifest does not include one.",
-]
-source_identity = [
-  "Recover the exact FDR document/table containing the final Test 3 selection and assign a new SRC-STEER ID.",
-  "Record SolidWorks version, active configuration, design-study driver/monitor definitions, dependency state, and warnings for GEOMETRY FINAL.SLDPRT.",
-]
-formal_boundary = "P0-STR-002 cannot be complete until project SHA-256 values are recorded or reviewer-approved formal-unavailability records replace them."
+[[artifacts]]
+artifact_id = "SRC-STEER-0008"
+name = "WUFR 26 Steering FDR revision 21560.pdf export"
+provider = "Google Drive"
+provider_file_id = "1xXtNzr-e5fdNP9re1NAyqhuTxSMrOl5OF7t30Jr2dLE"
+provider_version_id = "21560"
+size_bytes = 7570405
+provider_sha1 = ""
+project_sha256 = "e33ddb1e3e2dd700de38245c54798463a93f10197246d94858ee6593c082cb41"
+evidence_role = "Revision-pinned PDF snapshot of the final geometry table, GEOMETRY FINAL authority statement, and Test 3 selection record"
+freeze_state = "sha256_verified"
+capture_kind = "provider_export_snapshot"
+export_format = "pdf"
+native_bytes_available = false
+blocking_for_task = true
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0009"
+name = "ST-A0603-AA STEERING GEOMETRY.SLDASM"
+provider = "Box"
+provider_file_id = "1966623080929"
+provider_version_id = "2243161091325"
+size_bytes = 25849757
+provider_sha1 = "95cef66887f27c78f032718fd234409c13b33426"
+project_sha256 = "2d2ed2d3e434c4cba5ab34f0965c00be95b725ed8ccfafaf978ce29b10b19987"
+evidence_role = "WUFR-26 parent steering-geometry assembly; Default configuration is authoritative for steering geometry"
+freeze_state = "sha256_verified"
+capture_kind = "provider_raw_bytes"
+blocking_for_task = true
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0010"
+name = "STEERING ACKERMAN CALC.SLDPRT"
+provider = "Box"
+provider_file_id = "1938696794169"
+provider_version_id = "2141508820279"
+size_bytes = 107962
+provider_sha1 = "5f167423d028189c6f844a524474eb1ecc210516"
+project_sha256 = "ec91ea3b37dfe4718a35ae49f66b5e3ca73ff1d2f289b09bbe74af4de9d4d8b4"
+evidence_role = "Native WUFR-26 part containing the Design Study 1 source associated directly with 2026Ackermann.csv"
+freeze_state = "sha256_verified"
+capture_kind = "provider_raw_bytes"
+blocking_for_task = true
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0011"
+name = "STEERING GEOMETRY.SLDPRT"
+provider = "Box"
+provider_file_id = "1938693851076"
+provider_version_id = "2271765213580"
+size_bytes = 12656726
+provider_sha1 = "2136e377e144fe513d5750d807b082ce5a33a6e1"
+project_sha256 = ""
+evidence_role = "Historical native Design Study source associated with Test_3.csv"
+freeze_state = "formally_unavailable"
+capture_kind = "provider_identified_no_project_capture"
+blocking_for_task = false
+formal_disposition = "Raw bytes were not included in the supplied freeze package. Exact Box identity, provider SHA-1, Test_3.csv, the SolidWorks metadata report, and the FDR Test 3 selection are retained. The missing project SHA-256 is accepted for the bounded prototype because this historical part is not the final geometry authority."
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0012"
+name = "Pack And Go.zip"
+provider = "Team freeze-package upload"
+provider_file_id = "freeze-upload:Pack And Go.zip"
+provider_version_id = "2026-07-22"
+size_bytes = 111414331
+provider_sha1 = "0cca9dd530460b2fe2dcb7ccd1857c781fbbac6d"
+project_sha256 = "7c55331579308f6c00f7c51ad89c78a22dcd4b9b33972c6113430e1d75867c4a"
+evidence_role = "SOLIDWORKS dependency and reproducibility package; not native source authority"
+freeze_state = "sha256_verified"
+capture_kind = "derived_reproducibility_package"
+blocking_for_task = false
+parent_artifact_ids = ["SRC-STEER-0001", "SRC-STEER-0009"]
+lineage_note = "The packaged assembly and GEOMETRY FINAL copies differ bytewise from the provider-authoritative raw files and must not replace them."
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0013"
+name = "GEOMETRY FINAL.STEP"
+provider = "Team freeze-package upload"
+provider_file_id = "freeze-upload:GEOMETRY FINAL.STEP"
+provider_version_id = "2026-07-22"
+size_bytes = 36013
+provider_sha1 = "0e1ecc68477d446ac07fd2c06d5a597afbf8eb96"
+project_sha256 = "8ccad105ce87198621f59f350395e81ab2499815908e672203ac30e1a368c20d"
+evidence_role = "Wireframe neutral-geometry derivative containing points, lines, and trimmed curves"
+freeze_state = "sha256_verified"
+capture_kind = "derived_geometry_export"
+blocking_for_task = false
+parent_artifact_ids = ["SRC-STEER-0001"]
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0014"
+name = "find_reference.pdf"
+provider = "Team freeze-package upload"
+provider_file_id = "freeze-upload:find_reference.pdf"
+provider_version_id = "2026-07-22"
+size_bytes = 129005
+provider_sha1 = "94061cd901326cd434e4484b6e60a6d57d8bdb5a"
+project_sha256 = "24b8413ad6b0c03ef176efb3aaca1fe00a91e6c8ec7427c45669411945d59699"
+evidence_role = "Rendered Find References and external-reference evidence supplement"
+freeze_state = "sha256_verified"
+capture_kind = "derived_reference_report"
+blocking_for_task = false
+parent_artifact_ids = ["SRC-STEER-0009"]
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0015"
+name = "GEOMETRY FINAL_20260722_021021_solidworks_metadata.json"
+provider = "Box"
+provider_file_id = "2361315827936"
+provider_version_id = "2616323567936"
+size_bytes = 12117
+provider_sha1 = "0b5896409d8913185cb761d02086c607420d87c7"
+project_sha256 = "daf4a40709fad025bb01832b5e8b88c4072edf41589c793024c8fa220231c982"
+evidence_role = "Read-only SOLIDWORKS metadata report for GEOMETRY FINAL.SLDPRT"
+freeze_state = "sha256_verified"
+capture_kind = "derived_metadata_report"
+blocking_for_task = false
+parent_artifact_ids = ["SRC-STEER-0001"]
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0016"
+name = "ST-A0603-AA STEERING GEOMETRY_20260722_021257_solidworks_metadata.json"
+provider = "Box"
+provider_file_id = "2361317540794"
+provider_version_id = "2616325091194"
+size_bytes = 140040
+provider_sha1 = "03a226af76e0b51dfa1aae4bb399c09c7bdab2b9"
+project_sha256 = "794e1cea71089084d7b60eb5398d77eceb5e8ca804fbfd02bee965bbaf92fb6e"
+evidence_role = "Read-only SOLIDWORKS metadata report for the parent steering-geometry assembly"
+freeze_state = "sha256_verified"
+capture_kind = "derived_metadata_report"
+blocking_for_task = false
+parent_artifact_ids = ["SRC-STEER-0009"]
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0017"
+name = "STEERING ACKERMAN CALC_20260722_031049_solidworks_metadata.json"
+provider = "Box"
+provider_file_id = "2361399359285"
+provider_version_id = "2616424309685"
+size_bytes = 9490
+provider_sha1 = "9b320455c77de59d3cb37484792ec5359c122543"
+project_sha256 = "ede0bad9cc03d5341100bc874a7acd9d0f3ac1aba8c933f9b0a3bb8a3e791d24"
+evidence_role = "Read-only SOLIDWORKS metadata report corroborating the Ackermann Design Study source"
+freeze_state = "sha256_verified"
+capture_kind = "derived_metadata_report"
+blocking_for_task = false
+parent_artifact_ids = ["SRC-STEER-0010"]
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0018"
+name = "STEERING GEOMETRY_20260722_031207_solidworks_metadata.json"
+provider = "Box"
+provider_file_id = "2361405659564"
+provider_version_id = "2616431365964"
+size_bytes = 21537
+provider_sha1 = "323bdb8119bd695a920e3d4c00dafcec37704869"
+project_sha256 = "a85646ad384cdeb29f35447f410188e24c6e0be10d6a2ddee4d0964c1110405e"
+evidence_role = "Read-only SOLIDWORKS metadata report supporting the historical Test 3 Design Study association"
+freeze_state = "sha256_verified"
+capture_kind = "derived_metadata_report"
+blocking_for_task = false
+parent_artifact_ids = ["SRC-STEER-0011"]
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0019"
+name = "Compliance_calculator.m"
+provider = "Box"
+provider_file_id = "1669972288485"
+provider_version_id = "1998259904748"
+size_bytes = 2429
+provider_sha1 = "1e06aae574e8921f70d59924b180b6d41eb9d786"
+project_sha256 = "5d5749d1cb9c2435c04a3a2a324751177c8b0212b19ead17522585a1ebf62545"
+evidence_role = "Historical exploratory WUFR-25 compliance calculation with assumed backlash inputs"
+freeze_state = "sha256_verified"
+capture_kind = "provider_raw_bytes"
+blocking_for_task = false
+formal_disposition = "Historical calculated evidence only. The assumed 2.0 deg bevel-box and 0.2 deg rack backlash must not be added to measured whole-system free play or treated as current component attribution."
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0020"
+name = "Compliance_calculator.asv"
+provider = "Box"
+provider_file_id = "1810881277407"
+provider_version_id = "1996086971615"
+size_bytes = 2467
+provider_sha1 = "155e18d1fe05ff587a934af1d3ff65ff60f21e7d"
+project_sha256 = "9d407632d23a4d719a8a4c96be55ad19d9aa23aa2de7ee4623ad8d6447274449"
+evidence_role = "Autosave predecessor of the historical WUFR-25 compliance calculation"
+freeze_state = "sha256_verified"
+capture_kind = "provider_raw_bytes"
+blocking_for_task = false
+formal_disposition = "Provenance only; not active engineering authority."
+
+[[artifacts]]
+artifact_id = "SRC-STEER-0021"
+name = "Sources.zip"
+provider = "Team freeze-package upload"
+provider_file_id = "freeze-upload:Sources.zip"
+provider_version_id = "2026-07-22"
+size_bytes = 25472433
+provider_sha1 = "3541c1cf6bd2e5fb661d1bae242e9bd37c985ce0"
+project_sha256 = "efa6a30360223fbc494a8bd7bfae771b70df7f0d85f14062e4b458da9b5c489d"
+evidence_role = "Team-supplied transport container for the three immutable native CAD files"
+freeze_state = "sha256_verified"
+capture_kind = "package_container"
+blocking_for_task = false
+parent_artifact_ids = ["SRC-STEER-0001", "SRC-STEER-0009", "SRC-STEER-0010"]
+
+[design_study_lineage]
+ackermann_native_source = "SRC-STEER-0010"
+ackermann_response_export = "SRC-STEER-0002"
+ackermann_mapping = "Directly corroborated by Design Study 1, steering_input initial value -41, and Dimension2 monitor identity."
+test3_native_source = "SRC-STEER-0011"
+test3_response_export = "SRC-STEER-0003"
+test3_mapping = "Source-associated through Design Study 1, Steer_Angle driver, Measurement1 monitor, metadata, workbook, and FDR selection evidence."
+test3_export_boundary = "The export declares 231 scenarios but contains populated results only for Scenario 14 through Scenario 231, corresponding to -102 deg through +115 deg."
+
+[solidworks_freeze]
+application_revision = "34.3.2"
+authoritative_assembly_configuration = "Default"
+non_authoritative_configuration = "FSA"
+non_authoritative_reason = "Optimized for the full-car assembly rather than steering-geometry authority."
+motion_manager_boundary = "The general Motion API exposed an empty Motion Study 1 tab. The engineering sweeps are SOLIDWORKS Design Studies and are recovered through native part metadata plus their CSV exports, not reclassified as Motion studies."
+
+[completion_disposition]
+blocking_artifacts_resolved = true
+historical_native_test3_part_project_hash_required = false
+historical_native_test3_part_disposition = "Accepted as non-blocking for bounded prototype scope because the final geometry authority, Test 3 export, comparison workbook, FDR selection, and metadata report are frozen."
+sensor_list_authority = "Drive remains the inventory/procurement authority; repository SNS/CAL/channel records reference it without duplicating inventory metadata."
+reopen_rule = "Reopen P0-STR-002 if a provider file/version ID changes, a SHA-256 mismatch occurs, the FDR selection is contradicted, or native CAD evidence changes the frozen Default-configuration lineage."
