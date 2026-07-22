@@ -1,3 +1,4 @@
+# One-shot workflow; removes itself after applying the formatter patch.
 name: Patch PR 18 number formatting
 
 on:
