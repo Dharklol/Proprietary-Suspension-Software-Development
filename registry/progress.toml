@@ -178,18 +178,23 @@ merge_record = "PR #20, merge commit eb3d240d235cd6ba0cf52601df31a67768e751ff"
 [[phase_1.tasks]]
 id = "P1-STR-002"
 title = "Parametric steering geometry generator"
-status = "review_ready"
+status = "complete"
 depends_on = ["P1-STR-001"]
 exit_criterion = "Role-resolved candidates generate complete symmetric analyzer geometry; zero offsets reproduce the WUFR-27 baseline; tie-rod length is derived; invalid candidates fail before sweep; and no optimizer search is included."
 review_record = "docs/reviews/phase1_steering_geometry_generator_review.md"
 implementation_record = "docs/models/steering/steering_geometry_generator_implementation_v0.1.0.md"
+merge_record = "PR #21, merge commit cdb8a89605cb8532d4758f384597de39b456d0ef"
 
 [[phase_1.tasks]]
 id = "P1-STR-003"
 title = "Nominal constrained inverse-design optimizer"
-status = "active"
+status = "review_ready"
 depends_on = ["P1-STR-002"]
 exit_criterion = "Deterministic multi-start constrained search recovers frozen synthetic and historical target behavior, preserves hard infeasibility, is repeatable, and reports multiple candidates with transparent objective contributions and diagnostics."
+review_record = "docs/reviews/phase1_steering_nominal_optimizer_review.md"
+implementation_record = "docs/models/steering/steering_nominal_optimizer_implementation_v0.1.0.md"
+benchmark_ids = ["BENCH-STEER-0010", "BENCH-STEER-0011"]
+report_script = "scripts/run_steering_nominal_optimizer_benchmarks.py"
 
 [[phase_1.tasks]]
 id = "P1-STR-004"
