@@ -48,10 +48,10 @@ class SteeringNominalOptimizerTests(unittest.TestCase):
             active_variable_ids=self.synthetic.active_variable_ids,
             start_count=3,
             seed=self.synthetic.seed,
-            maximum_iterations_per_start=20,
+            maximum_iterations_per_start=28,
             initial_step_fraction=0.25,
             contraction_factor=0.5,
-            minimum_step_fraction=0.001,
+            minimum_step_fraction=0.0001,
             start_radius_fraction=0.20,
             retained_candidate_count=8,
         )
