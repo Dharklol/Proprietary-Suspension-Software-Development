@@ -8,6 +8,7 @@ from pssd_steering.optimization import (
     PoseDefinitionError,
     RigidTransform,
     SteeringPoseState,
+    SuspensionPoseSet,
     apply_pose_state,
     evaluate_candidate_over_pose_set,
     generate_candidate_geometry,
@@ -72,6 +73,10 @@ class SteeringSuspensionPoseProviderTests(unittest.TestCase):
         )
         self.assertAlmostEqual(0.0, posed.left_center_result.upright_rotation or 0.0, places=10)
         self.assertAlmostEqual(0.0, posed.right_center_result.upright_rotation or 0.0, places=10)
+        self.assertEqual(
+            self.generated.geometry.steering_axis_track,
+            posed.geometry.steering_axis_track,
+        )
 
     def test_bump_pose_moves_upright_bound_geometry_but_not_rack(self) -> None:
         posed = apply_pose_state(self.generated, self.pose_set.state("symmetric_bump_5mm"))
@@ -91,6 +96,7 @@ class SteeringSuspensionPoseProviderTests(unittest.TestCase):
         self.assertAlmostEqual(nominal.left.tie_rod_length, posed.geometry.left.tie_rod_length, places=14)
         self.assertGreater(abs(posed.left_center_result.upright_rotation or 0.0), 1.0e-8)
         self.assertGreater(abs(posed.right_center_result.upright_rotation or 0.0), 1.0e-8)
+        self.assertIsNone(posed.geometry.steering_axis_track)
 
     def test_operating_pose_can_be_asymmetric_with_symmetric_design_geometry(self) -> None:
         posed = apply_pose_state(self.generated, self.pose_set.state("opposed_travel_5mm"))
@@ -105,6 +111,44 @@ class SteeringSuspensionPoseProviderTests(unittest.TestCase):
             posed.geometry.right.outer_tie_rod_joint_at_center[2],
             places=12,
         )
+
+    def test_valid_pose_can_produce_infeasible_steering_state_without_becoming_invalid_pose(self) -> None:
+        far_transform = RigidTransform(
+            rotation=((1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, 0.0, 1.0)),
+            translation_m=(0.0, 0.0, 1.0),
+            source_role="deliberate_infeasible_state",
+        )
+        far_state = SteeringPoseState(
+            state_id="far_vertical_translation",
+            left_transform=far_transform,
+            right_transform=far_transform,
+            authority="Deliberate mechanism-infeasibility benchmark only",
+        )
+        posed = apply_pose_state(self.generated, far_state)
+        self.assertFalse(posed.left_center_result.ok)
+        self.assertFalse(posed.right_center_result.ok)
+
+        pose_set = SuspensionPoseSet(
+            pose_set_id="POSE-INFEASIBILITY-TEST",
+            version="0.1.0",
+            nominal_state_id="nominal",
+            states=(self.pose_set.state("nominal"), far_state),
+            source_path="synthetic test",
+            authority="software verification only",
+        )
+        result = evaluate_candidate_over_pose_set(
+            self.baseline,
+            self.requirement,
+            self.candidate,
+            self.target,
+            pose_set,
+        )
+        self.assertFalse(result.feasible)
+        failed = result.state_map["far_vertical_translation"]
+        self.assertFalse(failed.feasible)
+        self.assertIsNotNone(failed.failure_code)
+        self.assertEqual((), failed.left_total_heading_deg)
+        self.assertEqual((), failed.right_total_heading_deg)
 
     def test_identity_pose_sweep_matches_direct_analyzer_upright_rotations(self) -> None:
         posed = apply_pose_state(self.generated, self.pose_set.state("nominal"))
