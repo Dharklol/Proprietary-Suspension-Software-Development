@@ -4,9 +4,10 @@ The package composes the role resolver, parametric geometry generator, target
 providers, analyzer-composed candidate evaluator, deterministic nominal
 constrained-search baseline, constraint-provider screening, local sensitivity,
 provider-neutral suspension poses, external pose-table ingestion, multi-state
-steering evaluation, explicit operating-state target aggregation, and
-machine-readable reports. Tire, effort, manufacturing, robustness,
-physical-correlation, and production-release models remain outside this implementation.
+steering evaluation, explicit operating-state target aggregation, explicit
+dynamic-toe and state-dependent steering-gain objectives, and machine-readable
+reports. Tire, effort, manufacturing, robustness, physical-correlation, and
+production-release models remain outside this implementation.
 """
 
 from .candidate_comparison import (
@@ -120,6 +121,19 @@ from .sensitivity import (
     VariableSensitivity,
     analyze_local_sensitivity,
 )
+from .state_metrics import (
+    StateMetricCandidateEvaluation,
+    StateMetricId,
+    StateMetricRankedCandidate,
+    StateMetricSearchResult,
+    StateMetricTarget,
+    StateMetricTargetSet,
+    build_analyzer_state_metric_target_set,
+    evaluate_state_metric_candidate,
+    load_explicit_state_metric_target_set,
+    run_state_metric_inverse_design,
+    state_metric_pair,
+)
 from .study_reporting import (
     candidate_comparison_report,
     local_sensitivity_report,
@@ -181,6 +195,12 @@ __all__ = [
     "SensitivityConfigurationError",
     "SensitivitySettings",
     "StartResult",
+    "StateMetricCandidateEvaluation",
+    "StateMetricId",
+    "StateMetricRankedCandidate",
+    "StateMetricSearchResult",
+    "StateMetricTarget",
+    "StateMetricTargetSet",
     "SteeringConstraintSet",
     "SteeringPoseState",
     "SteeringSearchResult",
@@ -196,6 +216,7 @@ __all__ = [
     "apply_pose_state",
     "build_analyzer_incremental_target",
     "build_analyzer_operating_state_target_set",
+    "build_analyzer_state_metric_target_set",
     "build_candidate_comparison",
     "candidate_comparison_report",
     "candidate_evaluation_report",
@@ -203,9 +224,11 @@ __all__ = [
     "evaluate_candidate_over_pose_set",
     "evaluate_constraint_set",
     "evaluate_operating_state_candidate",
+    "evaluate_state_metric_candidate",
     "generate_candidate_geometry",
     "load_constraint_set",
     "load_explicit_operating_state_target_set",
+    "load_explicit_state_metric_target_set",
     "load_external_pose_table",
     "load_historical_fit_target",
     "load_pose_set",
@@ -220,8 +243,10 @@ __all__ = [
     "resolve_candidate",
     "run_nominal_inverse_design",
     "run_operating_state_inverse_design",
+    "run_state_metric_inverse_design",
     "screen_candidate_evaluation",
     "screened_candidate_report",
+    "state_metric_pair",
     "steering_search_report",
     "transform_wheel_plane",
     "write_json_report",
