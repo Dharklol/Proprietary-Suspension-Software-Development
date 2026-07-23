@@ -1,14 +1,14 @@
 """Canonical suspension-pose provider contract for steering studies.
 
-The pose layer contains no suspension kinematics solver.  A provider supplies the
+The pose layer contains no suspension kinematics solver. A provider supplies the
 rigid pose of each upright reference frame for a named suspension state while
-leaving the steering degree of freedom unresolved.  The existing MOD-STEER-0001
+leaving the steering degree of freedom unresolved. The existing MOD-STEER-0001
 tie-rod closure solver remains responsible for the steering rotation required at
 that suspension state.
 
 This separation is deliberate: importing a pose that already includes tie-rod
 steering rotation and then solving tie-rod closure again would double count bump
-steer.  Sources must therefore declare the steering-DOF rule explicitly.
+steer. Sources must therefore declare the steering-DOF rule explicitly.
 """
 
 from __future__ import annotations
@@ -18,7 +18,15 @@ import math
 from pathlib import Path
 import tomllib
 
-from ..core import AxisLine, GeometryError, SteeringCorner, SteeringGeometry, Vec3, normalize, solve_corner_position
+from ..core import (
+    AxisLine,
+    PositionResult,
+    SteeringCorner,
+    SteeringGeometry,
+    Vec3,
+    normalize,
+    solve_corner_position,
+)
 from ..projection import WheelPlaneReference
 from .geometry import GeneratedSteeringGeometry
 
@@ -104,6 +112,14 @@ class RigidTransform:
             source_role=source_role,
         )
 
+    def is_identity(self, *, tolerance: float = 1.0e-12) -> bool:
+        identity = ((1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, 0.0, 1.0))
+        return all(
+            abs(actual - expected) <= tolerance
+            for row, expected_row in zip(self.rotation, identity)
+            for actual, expected in zip(row, expected_row)
+        ) and all(abs(value) <= tolerance for value in self.translation_m)
+
     def apply_point(self, point: Vec3) -> Vec3:
         rotated = _mat_vec(self.rotation, _vec3(point, name="point"))
         return tuple(a + b for a, b in zip(rotated, self.translation_m))  # type: ignore[return-value]
@@ -158,6 +174,10 @@ class SteeringPoseState:
     def coordinate_map(self) -> dict[str, PoseCoordinate]:
         return {item.id: item for item in self.coordinates}
 
+    @property
+    def is_identity_pose(self) -> bool:
+        return self.left_transform.is_identity() and self.right_transform.is_identity()
+
 
 @dataclass(frozen=True)
 class SuspensionPoseSet:
@@ -196,8 +216,8 @@ class PosedSteeringGeometry:
 
     state: SteeringPoseState
     geometry: SteeringGeometry
-    left_center_result: object
-    right_center_result: object
+    left_center_result: PositionResult
+    right_center_result: PositionResult
 
 
 def transform_wheel_plane(reference: WheelPlaneReference, transform: RigidTransform) -> WheelPlaneReference:
@@ -232,13 +252,14 @@ def apply_pose_state(
 ) -> PosedSteeringGeometry:
     """Apply one zero-steer suspension pose to an already generated candidate.
 
-    Rack geometry and rack inner joints remain chassis-fixed.  Upright-bound steering
+    Rack geometry and rack inner joints remain chassis-fixed. Upright-bound steering
     axes, outer tie-rod joints, and wheel-forward directions move rigidly with the
-    provider transform.  Tie-rod length remains the nominal generated length.
+    provider transform. Tie-rod length remains the nominal generated length.
 
     The transformed geometry is intentionally *not* required to close at zero upright
-    rotation.  Solving rack center through MOD-STEER-0001 is what produces the
-    steering rotation induced by suspension motion.
+    rotation. Center results are returned even when closure is infeasible so the
+    operating-state evaluator can distinguish a valid pose definition from an
+    infeasible steering mechanism state.
     """
 
     nominal = generated.geometry
@@ -255,7 +276,11 @@ def apply_pose_state(
             "suspension_pose_coordinates": ";".join(
                 f"{item.id}={item.value:.17g} {item.unit}" for item in state.coordinates
             ),
-            "steering_axis_track_role": "unavailable_at_non_nominal_pose_until_rederived",
+            "steering_axis_track_role": (
+                "nominal_identity_preserved"
+                if state.is_identity_pose
+                else "unavailable_at_non_nominal_pose_until_rederived"
+            ),
         }
     )
     geometry = SteeringGeometry(
@@ -265,20 +290,12 @@ def apply_pose_state(
         left=left,
         right=right,
         wheelbase=nominal.wheelbase,
-        steering_axis_track=(nominal.steering_axis_track if state.state_id == "nominal" else None),
+        steering_axis_track=(nominal.steering_axis_track if state.is_identity_pose else None),
         metadata=metadata,
     )
 
     left_center = solve_corner_position(geometry, "left", 0.0)
     right_center = solve_corner_position(geometry, "right", 0.0)
-    for result in (left_center, right_center):
-        if not result.ok:
-            code = result.failure_code.value if result.failure_code is not None else "unknown"
-            raise PoseDefinitionError(
-                f"MOD-STEER-0001 rejected pose state {state.state_id!r} on {result.side}: "
-                f"{code}: {result.message}"
-            )
-
     return PosedSteeringGeometry(
         state=state,
         geometry=geometry,
