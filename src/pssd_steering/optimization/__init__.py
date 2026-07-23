@@ -51,6 +51,10 @@ from .operating_evaluation import (
     OperatingStateCandidateEvaluation,
     evaluate_operating_state_candidate,
 )
+from .operating_reporting import (
+    operating_state_candidate_report,
+    operating_state_search_report,
+)
 from .operating_search import (
     OperatingStateRankedCandidate,
     OperatingStateSearchResult,
@@ -198,6 +202,8 @@ __all__ = [
     "load_synthetic_recovery_fixture",
     "local_sensitivity_report",
     "multi_state_steering_report",
+    "operating_state_candidate_report",
+    "operating_state_search_report",
     "reflect_lateral",
     "resolve_candidate",
     "run_nominal_inverse_design",
