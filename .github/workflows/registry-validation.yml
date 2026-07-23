@@ -89,3 +89,18 @@ jobs:
             steering_pose_provider_report.json
             steering_pose_provider_summary.json
           if-no-files-found: error
+      - name: Generate steering operating-state target reports
+        run: |
+          python scripts/run_steering_operating_state_benchmarks.py \
+            --output steering_operating_state_report.json > /dev/null
+          python scripts/run_steering_operating_state_benchmarks.py \
+            --summary \
+            --output steering_operating_state_summary.json
+      - name: Upload steering operating-state target reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: steering-operating-state-target-reports
+          path: |
+            steering_operating_state_report.json
+            steering_operating_state_summary.json
+          if-no-files-found: error
