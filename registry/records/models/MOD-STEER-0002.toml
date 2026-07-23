@@ -1,0 +1,56 @@
+[record]
+id = "MOD-STEER-0002"
+type = "model"
+title = "Steering inverse-design orchestration layer"
+status = "proposed"
+disposition = "rewrite"
+maturity = "M0"
+description = "Role-driven nominal-height steering inverse-design orchestration layer. It generates candidate rack and tie-rod geometry, converts each candidate into the public MOD-STEER-0001 geometry contract, calls the existing analyzer for all rigid kinematics and derived metrics, applies explicit hard constraints and target comparisons, and returns multiple feasible candidates with transparent ranking and provenance. It contains no independent steering-kinematics equations."
+inputs = [
+  "Named baseline steering configuration",
+  "Named requirement set with fixed, variable, discrete, derived, constraint, target, report-only, and evidence roles",
+  "Development or design-authority variable bounds",
+  "Target-provider response with signal identities, units, domain, weights, and source authority",
+  "Deterministic search method configuration and seed",
+  "Future reviewed suspension-pose, rack-load, uncertainty, and physical-parameter providers"
+]
+outputs = [
+  "Complete generated steering geometry per candidate",
+  "Complete MOD-STEER-0001 analyzer result and diagnostics per evaluated candidate",
+  "Feasibility status and named constraint margins",
+  "Raw and normalized objective contributions",
+  "Alternative feasible or nondominated candidate set",
+  "Transparent convenience ranking and explanation",
+  "Sensitivity and robustness outputs only where separately authorized",
+  "Machine-readable provenance and engineering-review exports"
+]
+assumptions = [
+  "The first implementation uses one nominal suspension pose with rigid links and joints.",
+  "MOD-STEER-0001 is the only steering-kinematics and derived-metric authority.",
+  "The first implementation enforces exact left/right reflection symmetry.",
+  "Steering-axis geometry, upright pose, suspension hardpoints, wheel centers, and static alignment are fixed in the first development requirement set.",
+  "Outer tie-rod pickup depth is tightly bounded and may be fixed by a requirement set.",
+  "Tie-rod joint-center length is derived from the reference joint coordinates.",
+  "The WUFR-26/27 response is a regression target, not a universal optimum.",
+  "Hard constraints cannot be offset by objective score.",
+  "Development bounds are not packaging or manufacturing authority."
+]
+verification_level = "A"
+equation_ids = ["EQ-STEER-0001", "EQ-STEER-0002", "EQ-STEER-0003", "EQ-STEER-0004", "EQ-STEER-0005", "EQ-STEER-0006", "EQ-STEER-0007"]
+dependency_model_ids = ["MOD-STEER-0001"]
+authorization_state = "proposed_prototype_authorization"
+authorization_id = "AUTH-STEER-0002"
+authorization_document = "docs/models/steering/steering_inverse_design_prototype_authorization.md"
+architecture_document = "docs/models/steering/steering_optimizer_architecture.md"
+authorized_configurations = ["WUFR27_STEERING_BASELINE_V0", "STEERING_INVERSE_DESIGN_DEV_V0"]
+implementation_state = "not_started"
+implementation_package = "future src/pssd_steering/optimization"
+first_code_scope = "Role resolver and parametric geometry generator only; optimizer search remains absent until the geometry-generator benchmarks pass."
+prototype_scope = "Deterministic nominal-height constrained inverse design using the existing analyzer, historical or user-supplied target curves, explicit hard constraints, and multi-candidate reporting."
+prohibited_scope = "Duplicate steering physics, production geometry authority, physical packaging claims, suspension-state physics, tire/effort/compliance/tolerance/transient modeling, learned optimization, and as-built validation."
+literature_basis = [
+  "Guiggiani, The Science of Vehicle Dynamics (2022), Chapter 3 Sections 3.4.1-3.4.3",
+  "Gillespie, Fundamentals of Vehicle Dynamics, Chapter 8",
+  "Romano, Multi-Body Modelling and Mechanical Analysis of a Steering System (2022), Chapters 2 and 4",
+  "Huang et al., Find Optimal Suspension Kinematics Targets for Vehicle Dynamics Using Reinforcement Learning, SAE 2026"
+]

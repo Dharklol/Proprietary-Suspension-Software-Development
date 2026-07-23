@@ -1,11 +1,11 @@
 [record]
 id = "MOD-STEER-0001"
 type = "model"
-title = "Rigid steering-linkage inverse-design model"
+title = "Rigid steering-linkage evaluator"
 status = "active"
 disposition = "rewrite"
 maturity = "M1"
-description = "Bounded rigid nominal-height steering-kinematics evaluator with a separately unauthorized future constrained inverse-design workflow. The implemented evaluator returns rigid closure, upright rotation, branch and singularity diagnostics, projected wheel heading, and derived Ackermann/radius/ratio quantities only where their prerequisites are explicitly supplied. The WUFR-26 nominal configuration has a frozen descriptive Level E design-source comparison. Existing installed free-play, historical compliance, calculated load, and sensor evidence are linked as a separate physical layer and are not applied as rigid-model correction constants."
+description = "Bounded rigid nominal-height steering-kinematics evaluator. It returns rigid closure, upright rotation, branch and singularity diagnostics, projected wheel heading, and derived Ackermann/radius/ratio quantities only where their prerequisites are explicitly supplied. It is the sole steering-kinematics authority used by the separately authorized MOD-STEER-0002 inverse-design orchestrator. The WUFR-26 nominal configuration has a frozen descriptive Level E design-source comparison. Existing installed free-play, historical compliance, calculated load, and sensor evidence are linked as a separate physical layer and are not applied as rigid-model correction constants."
 inputs = [
   "QTY-GEO-0001 wheelbase",
   "QTY-GEO-0004 front steering-axis ground-intersection track",
@@ -18,8 +18,7 @@ inputs = [
   "QTY-STEER-0005 rack displacement per pinion angle or reviewed variable-ratio function",
   "QTY-ALIGN-0001 and QTY-ALIGN-0002 static toe definitions",
   "Reviewed static camber and wheel-plane basis for projected heading",
-  "Parameter roles: evidence, fixed, design variable, discrete option, hard constraint, acceptable band, target, derived output, or report-only",
-  "Input sweep, target steering curves, packaging envelopes, articulation limits, manufacturing limits, adjustment limits, rack travel, and turning constraints"
+  "Input sweep and explicit prerequisites for requested derived outputs"
 ]
 outputs = [
   "QTY-STEER-0012 nominal left and right tie-rod joint-center distances",
@@ -29,10 +28,10 @@ outputs = [
   "QTY-STEER-0013 Ackermann reference and QTY-STEER-0014 Ackermann error where prerequisites exist",
   "QTY-STEER-0010 local and QTY-STEER-0011 secant steering ratios where signal identities exist",
   "QTY-STEER-0015 turning-path capabilities with named reference paths where prerequisites exist",
-  "Feasibility, active constraints, constraint margins, branch identity, singularity margin, provenance, and solver diagnostics"
+  "Feasibility, branch identity, singularity margin, closure residuals, provenance, and solver diagnostics"
 ]
 assumptions = [
-  "First implementation uses rigid links and joints at a named nominal ride-height reference configuration.",
+  "The first implementation uses rigid links and joints at a named nominal ride-height reference configuration.",
   "The mechanism branch is explicitly identified by the reference closure-Jacobian sign and maintained.",
   "Left/right quantities are canonical; inside/outside labels are assigned from turn direction rather than angle magnitude.",
   "Total toe-inclusive wheel heading and incremental steer are separate outputs.",
@@ -50,21 +49,22 @@ preimplementation_freeze_packet = "benchmarks/steering/preimplementation_freeze_
 authorization_state = "prototype_authorized"
 authorization_id = "AUTH-STEER-0001"
 authorization_document = "docs/models/steering/rigid_steering_prototype_authorization.md"
-authorized_configurations = ["GEO-STEER-BASIC-001", "WUFR26_DESIGN_NOMINAL_V0"]
+authorized_configurations = ["GEO-STEER-BASIC-001", "WUFR26_DESIGN_NOMINAL_V0", "WUFR27_STEERING_BASELINE_V0"]
 implementation_state = "bounded_prototype_implemented_for_review"
 implementation_package = "src/pssd_steering"
 implementation_document = "docs/models/steering/rigid_steering_implementation_v0.1.0.md"
 implementation_tests = "tests/test_rigid_steering_benchmarks.py"
 implementation_results = "benchmarks/steering/implementation_results_v0.1.0.json"
-prototype_scope = "Bounded rigid evaluator with reviewed WUFR-26 wheel-plane projection and frozen descriptive nominal Level E comparison. Future development may use it for steering geometry and transmission studies only within declared configuration authority."
-prohibited_scope = "Production design authority, as-built claims, tire/effort/compliance/tolerance/transient prediction, and unsupported derived outputs. The inverse-design optimizer remains unauthorized."
-first_code_scope = "Frozen equations and BENCH-STEER-0002 through 0008 are implemented behind a standard-library experimental interface; optimizer remains unauthorized until a separate authorization is approved."
+prototype_scope = "Bounded rigid evaluator with reviewed WUFR-26/27 wheel-plane projection and frozen descriptive nominal Level E comparison. MOD-STEER-0002 may generate geometry and rank analyzer results only through this public evaluator contract."
+prohibited_scope = "Independent optimization, production design authority, as-built claims, tire/effort/compliance/tolerance/transient prediction, and unsupported derived outputs. No optimizer module may duplicate or replace these equations."
+first_code_scope = "Frozen equations and BENCH-STEER-0002 through 0008 are implemented behind a standard-library experimental interface."
 level_e_state = "WUFR26-STEER-LEVEL-E-TEST3-V0 frozen as descriptive nominal design-source consistency; model-level verification remains C until the benchmark governance and independent acceptance criteria justify promotion."
 level_f_protocol = "docs/verification/steering/wufr26_level_f_measurement_protocol.md"
 physical_evidence_document = "docs/models/steering/wufr26_force_compliance_evidence.md"
 uncertainty_risk_ids = ["RISK-STEER-0002"]
 physical_observation_parameter_ids = ["PAR-STEER-0004", "PAR-STEER-0005", "PAR-STEER-0006"]
 available_or_planned_sensor_ids = ["SNS-STEER-0001", "SNS-STEER-0002"]
+downstream_model_ids = ["MOD-STEER-0002"]
 physical_effects_to_measure = [
   "rack housing and rack-bushing compliance",
   "gear-mesh backlash and shaft-to-rack deadband",

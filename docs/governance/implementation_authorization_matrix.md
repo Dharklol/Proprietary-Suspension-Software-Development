@@ -1,6 +1,6 @@
 # Physics Implementation Authorization Matrix
 
-**Status:** Active Phase 0 control document  
+**Status:** Active project control document  
 **Default rule:** No legacy or proposed physics block is authorized for production implementation unless this matrix explicitly says so.
 
 ## 1. Authorization states
@@ -37,10 +37,11 @@ Before an item can move to `prototype_authorized`, it requires:
 
 | Item | Scope | Current state | Earliest allowable work | Blocking documentation/evidence | Intended first use |
 |---|---|---|---|---|---|
-| `MOD-STEER-0001` | Bounded rigid nominal-height steering evaluator | `prototype_authorized` under `AUTH-STEER-0001` after its approval PR merges | Implement geometry schema, rigid closure, branch-controlled position solve, diagnostics, and frozen tests | Higher-use outputs remain gated by wheel-plane/toe, transmission, stops, Level E CAD reproduction, and Level F physical evidence | Experimental evaluator and verification backbone |
-| `MIG-STR-0001` | Steering geometry and tie-rod inverse-design workflow | `documentation_candidate` | Requirement, constraint, objective, sensitivity, and result-schema design only | Evaluator implementation and benchmarks must pass; optimizer-specific constraints and robustness evidence remain open | Future constrained inverse-design layer |
-| `EQ-STEER-0001` through `EQ-STEER-0007` | Ackermann reference, rigid closure/position, transmission staging, ratios, radius, and error | `prototype_authorized` only within `AUTH-STEER-0001` | Implement the exact documented functions and frozen synthetic/analytical tests | WUFR-specific derived outputs must return unavailable when required wheel-plane, toe, transmission, or path metadata is absent | Fundamental evaluator functions; no production authority |
-| `EQ-STEER-0010` through `0015` | Tire effort/compliance/tire-informed optimization | `not_authorized` | Literature/model planning only | Canonical tire, load, compliance, and steering-force models | Later steering fidelity layers |
+| `MOD-STEER-0001` | Bounded rigid nominal-height steering evaluator | `prototype_authorized` under `AUTH-STEER-0001` | Maintain geometry schema, rigid closure, branch-controlled position solve, wheel-plane projection, diagnostics, and frozen tests | Installed transmission/stops and Level F evidence still block installed/as-built claims; higher-fidelity physics remains separate | Authoritative steering analyzer and verification backbone |
+| `MOD-STEER-0002` | Role-driven nominal-height steering inverse-design orchestrator | `prototype_authorized` only after `AUTH-STEER-0002` review and merge | Role resolver and parametric geometry generator first; deterministic constrained search only after generator benchmarks pass | Must compose `MOD-STEER-0001`; target-recovery, infeasibility, repeatability, method, and candidate-report benchmarks remain open | Experimental geometry generation and constrained inverse design |
+| `MIG-STR-0001` | Steering geometry and tie-rod inverse-design workflow | `prototype_authorized` within `AUTH-STEER-0002` after merge | Requirement roles, candidate generator, target provider, constrained search, candidate set, and diagnostics within the authorized sequence | Hardware-feasible and production ranking still require packaging, articulation, manufacturing, robustness, and later physical evidence | First complete steering calculator replacement vertical slice |
+| `EQ-STEER-0001` through `0007` | Ackermann reference, rigid closure/position, transmission staging, ratios, radius, and error | `prototype_authorized` only within `AUTH-STEER-0001`; the optimizer calls these through `MOD-STEER-0001` | Implement and maintain the exact documented functions and frozen tests | WUFR-specific derived outputs return unavailable when prerequisites are absent | Fundamental analyzer functions; no duplicate optimizer equations |
+| `EQ-STEER-0010` through `0015` | Tire effort/compliance/tire-informed optimization | `not_authorized` | Literature/model planning and provider-interface design only | Canonical tire, load, compliance, and steering-force models | Later steering fidelity layers |
 | `MIG-SC26-LT-001` / `EQ-MASS-0001` | Static mass distribution | `documentation_candidate` | Equation card and hand benchmark | Resolve mass/weight naming, CG source, vehicle configuration | Fundamental benchmark and future core calculation |
 | `MIG-SC26-LT-002` / `EQ-LOAD-0090` | Legacy fixed-coefficient transfer method | `benchmark_implementation_only` after benchmark card approval | Exact reproduction test only | Freeze source cells, inputs, outputs, and intentional limitations | Regression and migration comparison |
 | `EQ-LOAD-0001` through `0006` | Canonical longitudinal/lateral transfer and wheel loads | `not_authorized` | Derivations, quantity mapping, benchmark planning | Separate total/geometric/elastic/unsprung/aero terms; resolve parameters | Future fundamental core model |
@@ -59,44 +60,59 @@ Before an item can move to `prototype_authorized`, it requires:
 | `MIG-SC26-US-001/003/004/005/006/007/008` | Handling and understeer variants | `not_authorized` | Separate definition and equation cards | Split metrics; recover tire fits and model assumptions | Future handling/understeer budget |
 | `MIG-SC26-SF-*` | Steering-force contributions | `not_authorized` | Free-body and sign documentation | Trusted tire/load states and steering geometry | Future effort and component-load model |
 | `MIG-SC26-SCF-*` | Column, gear, bearing loads | `not_authorized` | Structural benchmark planning | Trusted upstream rack force; re-derived FBDs and supports | Future component structural loads |
-| `MIG-LLTD-RAW-*` / `MOD-DATA-0001` | Raw-data lineage and selection masks | `documentation_candidate` | Data schema and immutable-lineage planning | Recover raw file, channel metadata, reason codes | Phase 5 data backbone |
+| `MIG-LLTD-RAW-*` / `MOD-DATA-0001` | Raw-data lineage and selection masks | `documentation_candidate` | Data schema and immutable-lineage planning | Recover raw file, channel metadata, reason codes | Physical-data backbone |
 | `MIG-LLTD-DER-*` / `EQ-MEAS-*` | Wheel travel, body plane, twist, LLTD proxies | `not_authorized` | Measurement-model and calibration documentation | Sensor poses/calibration, kinematic maps, identifiability, uncertainty | Future parameter identification and validation |
 | `MIG-LLTD-SUM-*` / `EQ-ID-*` | Regression and correlation reports | `not_authorized` | Statistical/report schema planning | Dataset roles, holdout, weighting, confidence, residuals | Future validation report |
 | `MIG-SC26-ARB-001`, `MIG-SC26-NF-001`, `MIG-SC26-UNK-001` | Missing/unknown source pointers | `not_authorized` | Source search only | Recover artifact or formally deprecate | None until identified |
 | `MIG-SC26-BEAM-001` | Empty sheet | `retired` | None | None | No replacement dependency |
 
-## 4. Steering first-transition gates
+## 4. Steering transition gates
 
-### 4.1 Fundamental evaluator gate
+### 4.1 Authoritative analyzer gate
 
-The following are accepted for bounded prototype implementation:
+The following remain accepted under `AUTH-STEER-0001`:
 
 - rigid nominal-height scope;
 - body, rack, steering-axis, joint, angle, side, and reference-state definitions;
 - exact equation/function packet `EQ-STEER-0001` through `0007`;
 - `GEO-STEER-BASIC-001` analytical/synthetic expectations;
 - branch, singularity, infeasibility, provenance, and failure semantics;
-- nominal WUFR-26 hardpoint source merge and explicit mirror/provisional-value labeling;
-- direct rack displacement as the permitted WUFR-26 mechanism input while its transmission remains unresolved.
+- frozen WUFR-26/27 nominal geometry and descriptive Level E comparison.
 
-The controlling authorization is `docs/models/steering/rigid_steering_prototype_authorization.md`.
+`MOD-STEER-0001` remains the only steering-kinematics evaluator. Optimizer code may not duplicate or replace its mechanism or derived-metric functions.
 
-### 4.2 Gates that remain open
+### 4.2 First inverse-design gate
 
-The following continue to block optimizer, production, or higher-fidelity claims:
+`AUTH-STEER-0002` permits a phased prototype after review and merge:
 
-- complete immutable source hashes and exact FDR source metadata;
-- independently checked current left/right installed geometry;
-- wheel-plane basis and exact per-wheel toe convention;
-- pinion/steering-wheel to rack transmission and correct center ratio;
-- installed stop travel, rod-end articulation, thread engagement, and packaging limits;
-- Level E comparison against transformed raw SolidWorks response with approved tolerances;
-- Level F physical steering sweep with uncertainty;
-- tire-informed, effort, compliance, tolerance, and transient objectives.
+1. role resolver and parametric geometry generator;
+2. zero-offset reconstruction of `WUFR27_STEERING_BASELINE_V0` through the public analyzer contract;
+3. frozen synthetic and historical target-recovery fixtures;
+4. deterministic constrained search with explicit scaling, initialization, tolerances, failure behavior, and repeatability;
+5. hard infeasibility separated from objective values;
+6. multiple feasible or nondominated candidates with transparent ranking and complete analyzer diagnostics.
 
-Ideal Ackermann remains a reference/boundary, not a universal performance objective. No open gate may be silently replaced by a spreadsheet value, polynomial fit, symmetry assumption, or CAD-only agreement.
+The first optimizer fixes steering axes, upright poses, suspension hardpoints, wheel centers, static alignment, and rack-axis direction. Exact left/right reflection is enforced. Rack location, inner-joint half-spacing, and upright-local outer-pickup coordinates are role-selectable variables; outer-pickup depth is tightly bounded.
 
-## 5. Change-control rule
+### 4.3 Higher-fidelity gates that remain open
+
+The following do not block generic nominal optimizer development, but they do block the named higher-use claims:
+
+- installed stops, transmission, and Level F sweeps for installed/as-built WUFR claims;
+- reviewed articulation, thread engagement, clearance, stop, and manufacturing evidence for hardware-feasible ranking;
+- a reviewed suspension-pose provider for bump-steer or travel-state optimization;
+- reviewed tire and vehicle operating-point models for tire-informed targets;
+- reviewed load and steering-effort models for effort optimization;
+- reviewed tolerance and uncertainty models for robustness claims;
+- later focused authorization for WUFR-28 production geometry selection.
+
+Ideal Ackermann remains a reference or selectable target, not a universal performance objective. No open gate may be silently replaced by a spreadsheet value, polynomial fit, symmetry assumption outside its named configuration, or CAD-only agreement.
+
+## 5. Literature and method control
+
+Physics equations remain tied to the existing equation records and their vehicle-dynamics sources. Optimizer-specific numerical methods must record the algorithm source, package and version where applicable, variable and constraint scaling, initialization, stopping criteria, deterministic seed behavior, and benchmark comparison. Learned or reinforcement-learning methods remain research candidates until a deterministic baseline and fair comparison burden exist.
+
+## 6. Change-control rule
 
 Any authorization-state change requires a focused pull request that lists:
 
