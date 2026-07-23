@@ -41,6 +41,7 @@ assumptions = [
 ]
 verification_level = "A"
 equation_ids = ["EQ-STEER-0001", "EQ-STEER-0002", "EQ-STEER-0003", "EQ-STEER-0004", "EQ-STEER-0005", "EQ-STEER-0006", "EQ-STEER-0007"]
+benchmark_ids = ["BENCH-STEER-0009"]
 dependency_model_ids = ["MOD-STEER-0001"]
 authorization_state = "prototype_authorized"
 authorization_id = "AUTH-STEER-0002"
