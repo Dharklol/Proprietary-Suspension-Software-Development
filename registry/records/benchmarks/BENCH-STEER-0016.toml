@@ -1,0 +1,26 @@
+[record]
+id = "BENCH-STEER-0016"
+type = "benchmark"
+title = "Explicit operating-state steering target aggregation"
+status = "proposed"
+description = "Verify that named suspension states receive explicit target or report-only roles, unit-explicit left/right target curves, sample weights, normalization, objective weights, convention adapters, and source authority without silently inheriting the nominal target or replacing MOD-STEER-0001 response calculations."
+verification_level = "A"
+target_ids = ["MOD-STEER-0002", "MOD-STEER-0001"]
+acceptance_criteria = [
+  "The target set identifies the suspension pose set and uses one explicit rack-sampling/alignment contract.",
+  "Every objective-role state records left/right requested headings, positive sample weights, normalization scale, objective weight, convention sign, source type, authority, and provenance.",
+  "The first contract requires unlisted_state_role=report_only; an omitted state never silently inherits the nominal target or contributes target error.",
+  "Report-only states still complete the full MOD-STEER-0001 rack sweep and remain hard operating-envelope feasibility checks.",
+  "The synthetic source candidate returns three independently visible zero-error objective contributions for nominal, symmetric-bump, and opposed-travel states.",
+  "The aggregate objective is the documented sum of weighted normalized state RMS errors; individual state contributions remain in machine-readable reports.",
+  "No target-source metadata is promoted to tire-optimal, WUFR physical, packaging, manufacturing, robustness, or production authority by the loader."
+]
+fixture = "benchmarks/steering/STEERING_SYNTHETIC_OPERATING_TARGETS_V0.toml"
+implementation_test = "tests/test_steering_operating_state_targets.py"
+report_script = "scripts/run_steering_operating_state_benchmarks.py"
+result_record = "benchmarks/steering/steering_operating_state_target_result_v0.1.0.toml"
+literature_basis = [
+  "Guiggiani, The Science of Vehicle Dynamics (2022), Sections 3.4.2-3.4.3 on best steering geometry, relative tire slips, and operating-condition dependence",
+  "Guiggiani, Section 3.14.6 and Eq. 3.210 on steering angle dependence on steering input and suspension roll angle",
+  "Gillespie, Fundamentals of Vehicle Dynamics, Chapter 8 Steering Geometry Error, Toe Change, and Roll Steer"
+]

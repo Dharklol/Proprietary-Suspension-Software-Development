@@ -1,0 +1,37 @@
+version = "0.1.0"
+target_set_id = "STEERING_SYNTHETIC_OPERATING_TARGETS_V0"
+source_type = "analyzer_generated_multistate_synthetic"
+authority = "Software verification only. Target curves are generated from MOD-STEER-0001 through the synthetic pose provider and are not WUFR design targets."
+baseline_configuration_id = "WUFR27_STEERING_BASELINE_V0"
+requirement_set_id = "STEERING_INVERSE_DESIGN_DEV_V0"
+pose_set_id = "STEERING_SYNTHETIC_POSE_SET_V0"
+sampling_target_id = "WUFR26_27_HISTORICAL_RESPONSE_REGRESSION_V0"
+canonical_to_target_output_sign = 1.0
+aggregation_method = "sum_weighted_normalized_state_rms"
+unlisted_state_role = "report_only"
+
+[source_candidate]
+rack_longitudinal_offset = 0.01875
+
+[[objective_states]]
+state_id = "nominal"
+objective_weight = 1.0
+normalization_scale_deg = 1.0
+
+[[objective_states]]
+state_id = "symmetric_bump_5mm"
+objective_weight = 0.8
+normalization_scale_deg = 1.0
+
+[[objective_states]]
+state_id = "opposed_travel_5mm"
+objective_weight = 0.6
+normalization_scale_deg = 1.0
+
+[search_problem]
+active_variable_ids = ["rack_longitudinal_offset"]
+recovery_tolerance = 0.0001
+objective_tolerance = 0.001
+
+[method]
+seed = 2706

@@ -1,0 +1,84 @@
+version = "0.1.0"
+result_id = "STEERING-OPERATING-STATE-BENCHMARKS-V0"
+authorization_id = "AUTH-STEER-0002"
+evaluator_model_id = "MOD-STEER-0001"
+optimizer_model_id = "MOD-STEER-0002"
+baseline_geometry_id = "WUFR27_STEERING_BASELINE_V0"
+requirement_set_id = "STEERING_INVERSE_DESIGN_DEV_V0"
+pose_set_id = "STEERING_SYNTHETIC_POSE_SET_V0"
+target_set_id = "STEERING_SYNTHETIC_OPERATING_TARGETS_V0"
+method_id = "bounded_coordinate_pattern_search_v0.1.0"
+authority = "Synthetic software verification only; not WUFR suspension, tire-target, physical, or production evidence."
+
+[objective_contract]
+aggregation_method = "sum_weighted_normalized_state_rms"
+unlisted_state_role = "report_only"
+objective_state_count = 3
+
+[[objective_contract.states]]
+state_id = "nominal"
+objective_weight = 1.0
+normalization_scale_deg = 1.0
+
+[[objective_contract.states]]
+state_id = "symmetric_bump_5mm"
+objective_weight = 0.8
+normalization_scale_deg = 1.0
+
+[[objective_contract.states]]
+state_id = "opposed_travel_5mm"
+objective_weight = 0.6
+normalization_scale_deg = 1.0
+
+[source_candidate]
+rack_longitudinal_offset_m = 0.01875
+total_objective = 0.0
+
+[reference_candidate]
+rack_longitudinal_offset_m = 0.0
+total_objective = 2.5099707372314235
+
+[recovery]
+recovered_rack_longitudinal_offset_m = 0.01874999999999999
+absolute_error_m = 1.0408340855860843e-17
+best_total_objective = 0.0
+acceptance_recovery_tolerance_m = 0.0001
+acceptance_objective_tolerance = 0.001
+
+[[recovery.objective_contributions]]
+objective_id = "wheel_heading_target_error:nominal"
+raw_value_deg_rms = 0.0
+normalized_value = 0.0
+weight = 1.0
+weighted_contribution = 0.0
+
+[[recovery.objective_contributions]]
+objective_id = "wheel_heading_target_error:symmetric_bump_5mm"
+raw_value_deg_rms = 0.0
+normalized_value = 0.0
+weight = 0.8
+weighted_contribution = 0.0
+
+[[recovery.objective_contributions]]
+objective_id = "wheel_heading_target_error:opposed_travel_5mm"
+raw_value_deg_rms = 0.0
+normalized_value = 0.0
+weight = 0.6
+weighted_contribution = 0.0
+
+[search]
+evaluated_candidate_count = 34
+feasible_candidate_count = 31
+infeasible_candidate_count = 3
+retained_candidate_count = 8
+seed = 2706
+start_count = 2
+maximum_iterations_per_start = 16
+initial_step_fraction = 0.25
+contraction_factor = 0.5
+minimum_step_fraction = 0.001
+start_radius_fraction = 0.20
+active_variable_ids = ["rack_longitudinal_offset"]
+
+[claim_boundary]
+statement = "The frozen result verifies state-target aggregation, analyzer composition, hard multi-state infeasibility, deterministic search reuse, and synthetic recovery only. It does not validate the synthetic poses or state weights as vehicle-dynamics design truth."

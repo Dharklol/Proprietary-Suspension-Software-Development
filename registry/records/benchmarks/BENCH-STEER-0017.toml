@@ -1,0 +1,26 @@
+[record]
+id = "BENCH-STEER-0017"
+type = "benchmark"
+title = "Deterministic multi-state steering target recovery"
+status = "proposed"
+description = "Verify that the existing bounded coordinate-pattern search can optimize the explicit sum of suspension-state steering target contributions without changing numerical method, geometry generation, pose application, or MOD-STEER-0001 mechanism evaluation."
+verification_level = "A"
+target_ids = ["MOD-STEER-0002", "MOD-STEER-0001"]
+acceptance_criteria = [
+  "The known synthetic source rack-longitudinal offset is 0.01875 m and generates zero error in all three objective states through the existing analyzer/pose composition.",
+  "The deterministic operating-state search reuses bounded_coordinate_pattern_search_v0.1.0 and the same role-selected normalized design-variable treatment as the nominal optimizer.",
+  "The recovered rack-longitudinal offset differs from 0.01875 m by no more than 0.0001 m and the aggregate objective is no greater than 0.001.",
+  "The frozen report recovers 0.01874999999999999 m with absolute error 1.0408340855860843e-17 m and zero aggregate objective.",
+  "The frozen search evaluates 34 unique candidates, of which 31 are feasible and 3 infeasible, and retains 8 candidates for comparison.",
+  "Repeated searches with identical settings and seed return identical start records, evaluated counts, retained candidate values, and objective values.",
+  "Infeasible suspension-state candidates receive no aggregate objective and cannot be offset by strong performance at other states.",
+  "The recovery benchmark is software verification only and does not validate the synthetic pose states or objective weights as vehicle-dynamics design truth."
+]
+fixture = "benchmarks/steering/STEERING_SYNTHETIC_OPERATING_TARGETS_V0.toml"
+implementation_test = "tests/test_steering_operating_state_targets.py"
+report_script = "scripts/run_steering_operating_state_benchmarks.py"
+result_record = "benchmarks/steering/steering_operating_state_target_result_v0.1.0.toml"
+method_references = [
+  "Hooke and Jeeves (1961), Direct Search Solution of Numerical and Statistical Problems",
+  "Lewis, Torczon, and Trosset (2000), Direct Search Methods: Then and Now"
+]

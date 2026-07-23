@@ -3,9 +3,10 @@
 The package composes the role resolver, parametric geometry generator, target
 providers, analyzer-composed candidate evaluator, deterministic nominal
 constrained-search baseline, constraint-provider screening, local sensitivity,
-provider-neutral suspension poses, multi-state steering evaluation, and
-machine-readable reports. Tire, effort, manufacturing, robustness,
-physical-correlation, and production-release models remain outside this implementation.
+provider-neutral suspension poses, multi-state steering evaluation, explicit
+operating-state target aggregation, and machine-readable reports. Tire, effort,
+manufacturing, robustness, physical-correlation, and production-release models
+remain outside this implementation.
 """
 
 from .candidate_comparison import (
@@ -45,6 +46,28 @@ from .multistate import (
     MultiStateSteeringEvaluation,
     PoseStateEvaluation,
     evaluate_candidate_over_pose_set,
+)
+from .operating_evaluation import (
+    OperatingStateCandidateEvaluation,
+    evaluate_operating_state_candidate,
+)
+from .operating_reporting import (
+    operating_state_candidate_report,
+    operating_state_search_report,
+)
+from .operating_search import (
+    OperatingStateRankedCandidate,
+    OperatingStateSearchResult,
+    run_operating_state_inverse_design,
+)
+from .operating_targets import (
+    OperatingStateTarget,
+    OperatingStateTargetSet,
+    OperatingTargetRole,
+    SyntheticOperatingTargetFixture,
+    build_analyzer_operating_state_target_set,
+    load_explicit_operating_state_target_set,
+    load_synthetic_operating_target_fixture,
 )
 from .pose_reporting import multi_state_steering_report
 from .poses import (
@@ -124,6 +147,12 @@ __all__ = [
     "LocalSensitivityResult",
     "MultiStateSteeringEvaluation",
     "ObjectiveContribution",
+    "OperatingStateCandidateEvaluation",
+    "OperatingStateRankedCandidate",
+    "OperatingStateSearchResult",
+    "OperatingStateTarget",
+    "OperatingStateTargetSet",
+    "OperatingTargetRole",
     "ParameterRole",
     "PoseCoordinate",
     "PoseDefinitionError",
@@ -147,6 +176,7 @@ __all__ = [
     "SteeringTarget",
     "SupplementalConstraintResult",
     "SuspensionPoseSet",
+    "SyntheticOperatingTargetFixture",
     "SyntheticRecoveryFixture",
     "TargetDefinitionError",
     "VariableDefinition",
@@ -154,23 +184,30 @@ __all__ = [
     "analyze_local_sensitivity",
     "apply_pose_state",
     "build_analyzer_incremental_target",
+    "build_analyzer_operating_state_target_set",
     "build_candidate_comparison",
     "candidate_comparison_report",
     "candidate_evaluation_report",
     "evaluate_candidate",
     "evaluate_candidate_over_pose_set",
     "evaluate_constraint_set",
+    "evaluate_operating_state_candidate",
     "generate_candidate_geometry",
     "load_constraint_set",
+    "load_explicit_operating_state_target_set",
     "load_historical_fit_target",
     "load_pose_set",
     "load_requirement_set",
+    "load_synthetic_operating_target_fixture",
     "load_synthetic_recovery_fixture",
     "local_sensitivity_report",
     "multi_state_steering_report",
+    "operating_state_candidate_report",
+    "operating_state_search_report",
     "reflect_lateral",
     "resolve_candidate",
     "run_nominal_inverse_design",
+    "run_operating_state_inverse_design",
     "screen_candidate_evaluation",
     "screened_candidate_report",
     "steering_search_report",

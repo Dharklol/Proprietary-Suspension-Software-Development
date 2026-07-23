@@ -4,9 +4,9 @@
 
 ## Purpose
 
-The final steering workflow is intended to replace the historical sequence of separate geometry calculations, CAD motion studies, copied response curves, spreadsheets, and manual ranking with one traceable inverse-design environment. The final environment begins with fixed vehicle geometry, selected design freedoms, packaging and hardware boundaries, performance targets, and uncertainty definitions. It returns multiple feasible steering geometries with complete kinematic maps, constraint margins, sensitivities, ranking explanations, and exportable evidence.
+The final steering workflow is intended to replace the historical sequence of separate geometry calculations, CAD motion studies, copied response curves, spreadsheets, and manual ranking with one traceable inverse-design environment. The final environment begins with fixed vehicle geometry, selected design freedoms, packaging and hardware boundaries, performance targets, operating states, and uncertainty definitions. It returns multiple feasible steering geometries with complete kinematic maps, state-dependent response, constraint margins, sensitivities, ranking explanations, and exportable evidence.
 
-The first optimizer release was deliberately narrower than that end state. It operated at one nominal suspension pose with rigid links and joints. The next provider layer retains the same geometry and evaluator contracts while permitting a candidate to be evaluated at externally supplied suspension poses. Tire targets, effort, robustness, and physical-identification layers remain separate later providers.
+Development proceeds by adding fidelity around one verified steering kernel. The nominal optimizer, suspension-pose provider, and operating-state target layer all retain the same geometry generator and `MOD-STEER-0001` closure/projection implementation. Tire target generation, effort, robustness, and physical identification remain separate providers.
 
 ## Cohesive model composition
 
@@ -33,7 +33,7 @@ constraint evaluation and target comparison
 candidate archive, alternatives, and transparent ranking
 ```
 
-Suspension-state evaluation extends that same path rather than replacing it:
+Suspension-state evaluation extends that same path:
 
 ```text
 generated nominal candidate
@@ -54,6 +54,24 @@ MOD-STEER-0001 tie-rod closure and sweep
         v
 pose-dependent wheel heading, dynamic toe,
 gain, branch, and singularity diagnostics
+```
+
+`P1-STR-006C` adds targets after that evaluation rather than changing it:
+
+```text
+complete multi-state analyzer response
+        +
+OperatingStateTargetSet
+(explicit state roles, curves, weights, authority)
+        |
+        v
+per-state raw RMS objective J_k
+        |
+        v
+per-state normalized contribution W_k * J_k / S_k
+        |
+        v
+visible aggregate used by the existing deterministic search
 ```
 
 The geometry generator and pose adapter may create or transform points, axes, wheel references, roles, and metadata. They may not calculate steering response themselves. Closure, branch continuation, singularity diagnostics, wheel-plane projection, local gain, ratio, Ackermann reference/error, and turning-path quantities remain functions of `MOD-STEER-0001`. Candidate and pose-state reports retain the evaluator outputs rather than only reduced scores.
@@ -77,7 +95,9 @@ Every parameter has one role inside a named requirement set:
 | `report_only` | Calculated for review but not used for ranking. |
 | `evidence_only` | Historical or physical evidence that does not become a solver input by presence alone. |
 
-The code resolves these roles from data. No coordinate is permanently hard-coded as fixed or variable. A future study can therefore freeze the steering arm while varying only rack placement, fix the rack and vary one upright hole, enumerate racks or rod ends, or enable independent sides through a separately reviewed requirement set.
+The code resolves these roles from data. No coordinate is permanently hard-coded as fixed or variable. A future study can freeze the steering arm while varying only rack placement, fix the rack and vary one upright hole, enumerate racks or rod ends, or enable independent sides through a separately reviewed requirement set.
+
+Operating-state targets use the same principle at the state level. A suspension state is explicitly `objective` or `report_only`; the existence of a nominal target does not assign a target to another pose.
 
 ## First geometry boundary
 
@@ -110,45 +130,91 @@ The mandatory first-provider rule is:
 upright_reference_pose_excludes_tie_rod_steering_rotation
 ```
 
-The provider therefore supplies the location and orientation of the upright reference frame before the tie rod resolves the steering degree of freedom. Steering axes, outer tie-rod pickups, and wheel-plane references move with the upright transform. Rack geometry and rack inner joints remain chassis-fixed. `MOD-STEER-0001` then solves the tie-rod closure at rack center and across the requested rack sweep.
+The provider therefore supplies the location and orientation of the upright reference frame before the tie rod resolves the steering degree of freedom. Steering axes, outer tie-rod pickups, and wheel-plane references move with the upright transform. Rack geometry and rack inner joints remain chassis-fixed. `MOD-STEER-0001` then solves tie-rod closure at rack center and across the requested rack sweep.
 
 A source that already contains tie-rod-induced toe or bump-steer response is not a valid unresolved pose input because feeding it into the closure solver would double count steering. Such a source can instead be retained as comparison or validation evidence.
 
 The provider is intentionally source-agnostic. Reviewed OptimumK exports, CAD motion results, explicit lookup tables, or a future native suspension solver may all feed the same contract after their coordinate frame, steering-DOF treatment, state definitions, and authority are documented.
 
-## Target-provider interface
+## Target-provider interfaces
 
-The optimizer receives targets through a provider rather than embedding one design philosophy. A target response contains:
+The optimizer receives targets through providers rather than embedding one design philosophy.
 
-- left/right or inside/outside signal identities;
+### Nominal/sampling target
+
+A `SteeringTarget` contains:
+
 - input coordinate and unit;
-- target values or bands;
-- point or operating-state weights;
-- validity domain and no-extrapolation rule;
-- source and revision;
-- whether the target is historical regression, exact geometric reference, manually authored intent, or later tire-informed output.
+- rack sampling domain;
+- left/right requested response for a nominal target study;
+- sample weights;
+- normalization and objective weight;
+- alignment/convention adapter;
+- source and authority.
 
-The first development target is the corrected WUFR-26/27 nominal response used in the audit. It is a regression and recovery fixture, not a permanent optimum. Alternative providers may supply geometric Ackermann, manually specified wheel maps, ratio or gain bands, turning-capability requirements, and later tire-informed targets.
+The corrected WUFR-26/27 response remains a regression and audit fixture, not a permanent optimum. Alternative providers may supply geometric Ackermann, manually specified wheel maps, ratio or gain bands, turning-capability requirements, and later tire-informed targets.
 
-The suspension-pose benchmark may reuse an existing target's rack sample domain and nominal alignment basis without applying that target's requested wheel-angle values as objectives at non-nominal poses. A later multi-state target contract will explicitly identify which operating states carry objective weights.
+For suspension-state studies the existing `SteeringTarget` may provide only the shared rack sampling and nominal alignment basis. Its requested wheel-angle values are not automatically applied to non-nominal poses.
+
+### Operating-state target set
+
+An `OperatingStateTargetSet` identifies the pose set and assigns each targeted state:
+
+- role: `objective` or `report_only`;
+- left/right requested incremental heading curves;
+- sample weights;
+- normalization scale `S_k`;
+- objective/state weight `W_k`;
+- convention sign adapter;
+- optional monotonicity rule;
+- source type, source path, authority, and provenance.
+
+The first contract requires:
+
+```text
+unlisted_state_role = report_only
+```
+
+so omission never copies the nominal target into another state.
+
+For objective state `k`, the raw two-wheel weighted RMS is
+
+```text
+J_k = sqrt(
+    sum_i w_ki * 0.5 * [
+        (delta_L_ki - delta_L_ki*)^2
+      + (delta_R_ki - delta_R_ki*)^2
+    ]
+    / sum_i w_ki
+)
+```
+
+and the current convenience aggregate is
+
+```text
+J_total = sum_k W_k * (J_k / S_k)
+```
+
+Every `J_k`, `W_k`, `S_k`, domain, residual summary, and authority remains visible. This aggregate is a documented team optimization method, not a claim that the chosen weights are a physical law or a complete Pareto representation.
 
 ## Provider interfaces and current status
 
 | Provider | Responsibility | Current behavior |
 |---|---|---|
 | Suspension pose | Zero-steer upright pose, steering-axis transform, wheel-plane transform, and upright-bound pickup transform for named suspension states | Provider-neutral contract implemented; synthetic identity/bump/opposed-travel states only |
-| Steering target | Wheel-heading targets, weights, and operating domains | Historical and analyzer-generated targets implemented |
+| Steering target | Nominal or state-indexed wheel-heading targets, weights, operating domains, and source authority | Historical/analyzer nominal targets plus explicit/analyzer-generated operating-state target sets implemented |
+| Tire/vehicle target generation | Generate reviewed operating-state steering targets and weights from tire/vehicle objectives | Not implemented; future provider |
 | Rack load / effort | Rack force or column torque envelope by operating state | Unavailable and excluded from score |
 | Uncertainty | Parameter distributions or bounded perturbations | Unavailable; no robustness claim |
-| Physical parameter | Calibrated transmission, deadband, compliance, and as-built offsets | Unavailable; rigid outputs remain uncorrected |
+| Physical parameter | Calibrated transmission, deadband, compliance, and as-built offsets | Explicitly deferred; rigid outputs remain uncorrected |
 
 Native suspension, tire, load, or measurement models may later implement these contracts. The steering optimizer does not depend on their internal formulation.
 
 ## Constraint treatment
 
-Mechanism closure, branch continuity, no singularity crossing, monotonicity where required, rack travel, and numerical domain are hard constraints. Packaging, articulation, thread engagement, physical stops, and manufacturing bounds become hard constraints only after their geometry and authority are supplied. Missing evidence returns an unavailable constraint rather than a fictional margin.
+Mechanism closure, branch continuity, no singularity crossing, monotonicity where explicitly required, rack travel, and numerical domain are hard constraints. Packaging, articulation, thread engagement, physical stops, and manufacturing bounds become hard constraints only after their geometry and authority are supplied. Missing evidence returns an unavailable constraint rather than a fictional margin.
 
-A hard-constraint violation makes a candidate infeasible. It cannot be offset by target accuracy or hidden inside a weighted penalty. Candidate diagnostics must identify the constraint, evaluated state, value, limit, margin, and source.
+All states in a supplied `SuspensionPoseSet` remain mechanism-feasibility checks, even when their target role is report-only. A failed state makes the candidate infeasible; target performance at other states cannot offset it.
 
 The current supplemental hardware constraints screen nominal retained candidates. They do not yet act on every multi-state search evaluation. Hardware-feasible multi-state optimization remains gated on reviewed hardware geometry and limits.
 
@@ -156,36 +222,42 @@ The current supplemental hardware constraints screen nominal retained candidates
 
 The first optimizer uses deterministic constrained methods and multi-start exploration. The implementation documents algorithm version, tolerances, scaling, initialization, failure behavior, and benchmark evidence.
 
-The workflow returns a candidate set. It may provide a convenience ranking, but each candidate keeps its individual objective values, units, normalization, constraint margins, sensitivity information, and pose-state results where evaluated. Nondominated or separated alternatives remain visible so engineering tradeoffs are not hidden in one scalar score.
+`run_operating_state_inverse_design` reuses the nominal bounded coordinate-pattern search helpers. The variable normalization, starts, polling, step contraction, infeasible handling, and termination rules are unchanged. Only the candidate-evaluation adapter changes from one nominal target to the explicit state-objective aggregate.
 
-The first pose-provider PR evaluates candidate behavior over states but does not yet add multi-state objective terms to the coordinate-pattern search. That separation prevents an arbitrary synthetic pose fixture from becoming a design target merely because it exists.
+The workflow returns a candidate set. It may provide a convenience ranking, but each candidate keeps its individual state objectives, units, normalization, state weights, constraint margins, pose-state results, and source provenance. A future true multiobjective/Pareto layer remains separate from the current scalar convenience ranking.
 
 ## Verification ladder
 
 1. **Geometry generation:** zero offsets reproduce the baseline evaluator geometry exactly.
 2. **Evaluator preservation:** a generated baseline candidate produces tolerance-identical `MOD-STEER-0001` results.
-3. **Synthetic recovery:** known target curves generated from a synthetic geometry are recovered within reviewed tolerances.
+3. **Synthetic nominal recovery:** known target curves generated from a synthetic geometry are recovered within reviewed tolerances.
 4. **Historical recovery:** the optimizer reproduces the WUFR-26/27 response with one or more feasible candidates and reports nonuniqueness rather than assuming hardpoint identity.
 5. **Constraint benchmarks:** deliberate invalid candidates fail with named margins and no objective score promotion.
 6. **Repeatability:** fixed configuration and seed return the same candidate archive and ranking.
 7. **Pose identity:** the identity suspension pose reproduces the nominal analyzer sweep.
 8. **Pose transformation:** synthetic suspension translations move upright-bound geometry while leaving the rack and tie-rod design length unchanged.
 9. **Multi-state closure:** each synthetic pose is solved through `MOD-STEER-0001`, producing explicit dynamic-toe and singularity results without a second steering model.
-10. **Later source comparison:** a reviewed OptimumK/CAD/native-solver pose adapter is compared against the same canonical contract.
-11. **Later physical correlation:** 2027 measurements assess installed transmission and wheel response without redefining the rigid equations.
+10. **Target-role isolation:** omitted states remain report-only and do not inherit a nominal objective.
+11. **State objective decomposition:** each objective state preserves its raw RMS, normalization, state weight, residual summary, and authority.
+12. **Synthetic multi-state recovery:** the shared deterministic search recovers a known source geometry from several state targets with a frozen candidate archive.
+13. **Later source comparison:** a reviewed OptimumK/CAD/native-solver pose adapter is compared against the same canonical contract.
+14. **Later vehicle/tire target comparison:** reviewed tire/vehicle target generation replaces synthetic targets without changing the steering kernel.
+15. **Later physical correlation:** 2027 measurements assess installed transmission and wheel response without redefining the rigid equations.
 
 ## Literature basis
 
-The rigid geometry and derived steering quantities continue to use the equation-level sources already frozen for `MOD-STEER-0001`. Guiggiani, *The Science of Vehicle Dynamics*, supports exact low-speed Ackermann as a reference and distinguishes it from the best steering geometry for tire operating conditions. Gillespie, *Fundamentals of Vehicle Dynamics*, supports explicit rack-and-pinion linkage geometry, trapezoidal steering behavior, steering ratio, steering geometry errors, and state-specific wheel-alignment terminology.
+The rigid geometry and derived steering quantities continue to use the equation-level sources already frozen for `MOD-STEER-0001`. Guiggiani, *The Science of Vehicle Dynamics*, Sections 3.4.1-3.4.3 support exact low-speed Ackermann as a reference while distinguishing it from the best steering geometry for actual tire operating conditions.
 
-Gillespie's definition of toe at a specified wheel load or relative wheel-center position supports treating toe as suspension-state dependent when wheel position changes. Guiggiani's handling treatment identifies roll steer and toe as setup/suspension parameters that influence axle behavior. These sources support explicit suspension-state steering maps rather than folding all behavior into one nominal curve.
+Guiggiani Section 3.14.6 explicitly makes wheel steer a function of steering input and suspension roll angle when roll steer exists, while Gillespie Chapter 8 describes steering geometry errors, toe change, and roll steer from suspension motion. These sources support state-indexed steering evaluation.
 
-Romano, *Multi-Body Modelling and Mechanical Analysis of a Steering System*, compares steering configurations using steering-angle and steering-ratio functions and then applies the steering model in suspension/full-vehicle validation. This supports the staged sequence of verified steering assembly -> candidate comparison -> suspension-state integration -> later full-vehicle and physical correlation.
+Guiggiani Sections 3.4.2-3.4.3 also explain that static/dynamic toe alter tire slips and lateral-force directions and that the relative front-tire slips depend on the vehicle velocity-center position. This supports a replaceable operating-state target provider rather than a universal Ackermann target.
 
-Huang et al., “Find Optimal Suspension Kinematics Targets for Vehicle Dynamics Using Reinforcement Learning,” notes that kinematic target achievement does not itself establish physical feasibility. This continues to support separate mechanism, packaging, articulation, manufacturing, and later robustness gates.
+Romano, *Multi-Body Modelling and Mechanical Analysis of a Steering System*, supports the staged sequence of verified steering assembly -> configuration comparison -> suspension integration -> full-vehicle validation.
 
-Milliken and Milliken and Pacejka remain the planned basis for later race-car tire operating targets, load sensitivity, combined slip, and handling tradeoffs. Those sources belong to the future target-provider layer, not the rigid pose adapter.
+Huang et al., “Find Optimal Suspension Kinematics Targets for Vehicle Dynamics Using Reinforcement Learning,” notes that kinematic target achievement does not itself establish physical feasibility. Mechanism, packaging, articulation, manufacturing, and robustness therefore remain separate gates.
+
+Milliken and Milliken and Pacejka remain the planned basis for later race-car tire operating targets, load sensitivity, combined slip, and handling tradeoffs. Those future models generate target-provider outputs; they do not replace the rigid steering mechanism equations.
 
 ## Promotion boundary
 
-The current steering optimizer and pose-provider work are exploratory engineering tools after their code and benchmark gates pass. Synthetic suspension poses establish software composition only. WUFR-28 selection still requires reviewed suspension-state inputs, packaging, hardware, manufacturing, tire/effort, robustness, and later physical-correlation evidence plus focused release authority.
+The current steering optimizer, pose-provider, and operating-target work are exploratory engineering tools after their code and benchmark gates pass. Synthetic suspension poses and state weights establish software composition only. WUFR-28 selection still requires reviewed suspension-state inputs, vehicle/tire target authority, packaging, hardware, manufacturing, effort/load, robustness, and later physical-correlation evidence plus focused release authority.
