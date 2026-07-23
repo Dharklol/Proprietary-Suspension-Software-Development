@@ -17,3 +17,4 @@ acceptance_criteria = [
 fixture = "benchmarks/steering/WUFR26_27_HISTORICAL_RESPONSE_REGRESSION_V0.toml"
 implementation_test = "tests/test_steering_nominal_optimizer.py"
 report_script = "scripts/run_steering_nominal_optimizer_benchmarks.py"
+frozen_result = "benchmarks/steering/steering_nominal_optimizer_result_v0.1.0.toml"
