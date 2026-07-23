@@ -13,6 +13,8 @@
 | Segers, *Analysis Techniques for Racecar Data Acquisition* | Telemetry quality, channel processing, correlation, and analysis workflows | Supporting reference |
 | Deakin et al., chassis-stiffness paper | Coupled front/chassis/rear torsional model and handling-balance sensitivity | Specialized reference |
 | Romano, *Multi-Body Modelling and Mechanical Analysis of a Steering System* | Steering mechanism definitions, steering-ratio functions, configuration comparison, and external multibody validation workflow | Specialized reference |
+| Hooke & Jeeves, “Direct Search Solution of Numerical and Statistical Problems” | Transparent derivative-free coordinate-pattern search lineage for the first deterministic optimizer baseline | Numerical-method reference |
+| Lewis, Torczon & Trosset, “Direct Search Methods: Then and Now” | Direct-search method context, scaling, convergence limitations, and benchmark expectations | Numerical-method reference |
 | Third-Order QSS paper | Candidate event/state-quantized transient integration backend | Research reference |
 | Huang et al., *Find Optimal Suspension Kinematics Targets for Vehicle Dynamics Using Reinforcement Learning* | Inverse target generation, high-dimensional search, learned-policy reuse, and the distinction between target achievement and physical packaging feasibility | Research reference |
 | Quantum-enhanced RL for Newton-Raphson convergence | Learned/quantum-inspired nonlinear-solver initialization; classical solver remains authoritative | Research reference |
@@ -40,6 +42,12 @@ For `MIG-STR-0001`, `MOD-STEER-0001`, and `MOD-STEER-0002`, the literature revie
 ### Configuration comparison and staged validation
 
 - Romano, Chapters 2 and 4, treats Ackermann and steering ratio as functions, compares steering configurations through steer-angle/ratio behavior, and validates the steering assembly before applying it in suspension and full-vehicle tests. This supports the sequence analyzer -> candidate comparison -> suspension-state integration -> full-vehicle/physical correlation.
+
+### Deterministic numerical baseline
+
+- Hooke and Jeeves (1961) provides the direct-search lineage for exploratory coordinate moves without analytical objective derivatives. The implemented method is a bounded normalized coordinate-pattern baseline rather than a claim of exact reproduction of every historical Hooke-Jeeves step.
+- Lewis, Torczon, and Trosset (2000) provides broader direct-search context and reinforces the need to state scaling, polling directions, step contraction, termination, and convergence limitations. `bounded_coordinate_pattern_search_v0.1.0` records each of these controls and treats fixed-seed repeatability as a benchmark requirement.
+- The first search method is deliberately transparent and dependency-free. It is a comparison baseline for future local constrained, global, mixed-discrete, surrogate-assisted, or learned methods. No future method may receive a lower verification burden merely because it finds a smaller objective.
 
 ### Optimization and feasibility
 
