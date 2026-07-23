@@ -155,11 +155,11 @@ id = "P0-STR-011"
 title = "WUFR-26 Level F uncertainty and physical correlation"
 status = "active"
 exit_criterion = "Existing whole-system free-play, historical compliance, calculated steering-load, and available-sensor evidence are source-linked; installed stops, primary-shaft-to-rack correlation, left/right rack-to-wheel response, repeatability, staged backlash/compliance attribution, sensor calibration, uncertainty, and an independently justified acceptance rule remain to be completed."
-critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, or synthetic/external suspension-pose provider development."
+critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, synthetic/external suspension-pose provider development, or explicit nonphysical operating-state target aggregation."
 
 [phase_1]
 status = "active"
-objective = "Build the steering vertical slice from the verified analyzer through nominal inverse design, explicit constraints, candidate comparison, suspension-state integration, and later provider-ready objectives before unavailable physical data become necessary."
+objective = "Build the steering vertical slice from the verified analyzer through nominal inverse design, explicit constraints, candidate comparison, suspension-state integration, and provider-ready operating-state objectives before unavailable physical data become necessary."
 
 [[phase_1.workstreams]]
 id = "P1-W01"
@@ -217,7 +217,7 @@ title = "Steering robustness and discrete-option layer"
 status = "active"
 depends_on = ["P1-STR-004"]
 exit_criterion = "Reviewed tolerance and hardware-option inputs produce nominal, perturbed, and worst-case results without promoting development bounds to design authority."
-activation_rule = "Defer major implementation until state-dependent steering exists and reviewed tolerance or real discrete-hardware choices are available."
+activation_rule = "Defer major implementation until reviewed tolerance inputs or real discrete-hardware choices are available; state-dependent steering and operating-state objectives no longer block the software architecture."
 
 [[phase_1.tasks]]
 id = "P1-STR-006"
@@ -229,32 +229,39 @@ exit_criterion = "Reviewed suspension-pose, tire-target, rack-load/effort, uncer
 [[phase_1.tasks]]
 id = "P1-STR-006A"
 title = "Provider-neutral suspension-pose contract"
-status = "review_ready"
+status = "complete"
 depends_on = ["P1-STR-004"]
 exit_criterion = "Named left/right rigid upright poses carry state coordinates, source authority, and an explicit unresolved-steering rule; identity composition preserves the nominal analyzer and valid but unreachable poses remain steering-state infeasibilities rather than invalid pose definitions."
 review_record = "docs/reviews/phase1_steering_suspension_pose_provider_review.md"
 implementation_record = "docs/models/steering/steering_suspension_pose_provider_implementation_v0.1.0.md"
 benchmark_ids = ["BENCH-STEER-0014"]
 report_script = "scripts/run_steering_pose_provider_benchmarks.py"
+merge_record = "PR #24, merge commit d5f4c983c1291458dff2665b650b28c322ee0395"
 
 [[phase_1.tasks]]
 id = "P1-STR-006B"
 title = "Multi-state steering response evaluation"
-status = "review_ready"
+status = "complete"
 depends_on = ["P1-STR-006A"]
 exit_criterion = "One generated steering candidate evaluates over symmetric and asymmetric suspension poses through complete MOD-STEER-0001 sweeps with state-dependent heading, dynamic toe, branch, and singularity diagnostics while synthetic pose results remain nonphysical software evidence."
 review_record = "docs/reviews/phase1_steering_suspension_pose_provider_review.md"
 implementation_record = "docs/models/steering/steering_suspension_pose_provider_implementation_v0.1.0.md"
 benchmark_ids = ["BENCH-STEER-0015"]
 report_script = "scripts/run_steering_pose_provider_benchmarks.py"
+merge_record = "PR #24, merge commit d5f4c983c1291458dff2665b650b28c322ee0395"
 
 [[phase_1.tasks]]
 id = "P1-STR-006C"
 title = "Operating-state steering target aggregation"
-status = "active"
+status = "review_ready"
 depends_on = ["P1-STR-006B"]
-exit_criterion = "Named operating states can carry reviewed steering targets, weights, and domains so multi-state objectives are explicit rather than inferred from historical or synthetic pose data."
-activation_rule = "Next nonphysical optimization extension after a reviewed pose-provider merge or external pose data set is available."
+exit_criterion = "Named operating states can carry reviewed steering targets, weights, domains, normalization, source authority, and explicit objective/report-only roles; multi-state objectives are decomposed and aggregated without being inferred from historical or synthetic pose data."
+review_record = "docs/reviews/phase1_steering_operating_state_target_review.md"
+implementation_record = "docs/models/steering/steering_operating_state_target_implementation_v0.1.0.md"
+benchmark_ids = ["BENCH-STEER-0016", "BENCH-STEER-0017"]
+report_script = "scripts/run_steering_operating_state_benchmarks.py"
+result_record = "benchmarks/steering/steering_operating_state_target_result_v0.1.0.toml"
+scope_note = "Synthetic state targets and weights verify software composition only. Reviewed vehicle/tire target-generation authority remains a later provider gate."
 
 [[phase_1.tasks]]
 id = "P1-STR-006D"
