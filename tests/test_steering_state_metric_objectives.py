@@ -4,7 +4,14 @@ from pathlib import Path
 import unittest
 
 from pssd_steering import load_geometry
-from pssd_steering.optimization import load_historical_fit_target, load_pose_set, load_requirement_set, resolve_candidate
+from pssd_steering.optimization import (
+    SearchSettings,
+    load_historical_fit_target,
+    load_pose_set,
+    load_requirement_set,
+    resolve_candidate,
+    run_state_metric_inverse_design,
+)
 from pssd_steering.optimization.state_metrics import (
     StateMetricId,
     build_analyzer_state_metric_target_set,
@@ -109,6 +116,54 @@ class SteeringStateMetricObjectiveTests(unittest.TestCase):
         )
         self.assertAlmostEqual(state.center_left_side_local_toe_out_change_deg or 0.0, pair[0])
         self.assertAlmostEqual(state.center_right_side_local_toe_out_change_deg or 0.0, pair[1])
+
+    def _search(self):
+        return run_state_metric_inverse_design(
+            self.baseline,
+            self.requirement,
+            self.target_set,
+            self.pose_set,
+            settings=SearchSettings(
+                active_variable_ids=("rack_longitudinal_offset",),
+                start_count=2,
+                seed=2701,
+                maximum_iterations_per_start=16,
+                initial_step_fraction=0.25,
+                contraction_factor=0.5,
+                minimum_step_fraction=0.001,
+                start_radius_fraction=0.20,
+                retained_candidate_count=8,
+            ),
+            search_id="STEERING-SYNTHETIC-STATE-METRIC-RECOVERY-V0",
+        )
+
+    def test_deterministic_search_recovers_source_geometry(self) -> None:
+        result = self._search()
+        self.assertIsNotNone(result.best)
+        best = result.best
+        assert best is not None
+        recovered = dict(best.candidate_values)["rack_longitudinal_offset"]
+        self.assertLessEqual(abs(recovered - self.source_values["rack_longitudinal_offset"]), 1.0e-12)
+        self.assertLessEqual(best.total_objective or 0.0, 1.0e-12)
+        self.assertEqual("bounded_coordinate_pattern_search_v0.1.0", result.method_id)
+        self.assertIn(("search_core", "shared_with_nominal_search_v0.1.0"), result.provenance)
+
+    def test_state_metric_search_is_repeatable(self) -> None:
+        first = self._search()
+        second = self._search()
+        self.assertEqual(first.evaluated_candidate_count, second.evaluated_candidate_count)
+        self.assertEqual(first.feasible_candidate_count, second.feasible_candidate_count)
+        self.assertEqual(first.infeasible_candidate_count, second.infeasible_candidate_count)
+        self.assertEqual(first.starts, second.starts)
+        first_archive = [
+            (item.evaluation.candidate_values, item.evaluation.total_objective)
+            for item in first.ranked_candidates
+        ]
+        second_archive = [
+            (item.evaluation.candidate_values, item.evaluation.total_objective)
+            for item in second.ranked_candidates
+        ]
+        self.assertEqual(first_archive, second_archive)
 
 
 if __name__ == "__main__":
