@@ -1,7 +1,8 @@
-"""TOML loaders for frozen steering geometry configurations."""
+"""TOML loaders for frozen and inherited steering geometry configurations."""
 
 from __future__ import annotations
 
+from dataclasses import replace
 from pathlib import Path
 import math
 import tomllib
@@ -29,13 +30,24 @@ def _optional_direction(value) -> tuple[float, float, float] | None:
     return None
 
 
-def load_geometry(path: str | Path) -> SteeringGeometry:
-    """Load a frozen/candidate geometry without inferring undeclared frames."""
+def _resolve_inherited_path(reference_path: Path, declared_path: str) -> Path:
+    candidate = Path(declared_path)
+    if candidate.is_absolute():
+        if not candidate.is_file():
+            raise FileNotFoundError(candidate)
+        return candidate
 
-    source_path = Path(path)
-    with source_path.open("rb") as stream:
-        document = tomllib.load(stream)
+    for ancestor in (reference_path.parent, *reference_path.parents):
+        resolved = ancestor / candidate
+        if resolved.is_file():
+            return resolved
+    raise FileNotFoundError(
+        f"Cannot resolve inherited steering configuration {declared_path!r} "
+        f"from {reference_path}"
+    )
 
+
+def _load_direct_geometry(document: dict, source_path: Path) -> SteeringGeometry:
     geometry_id = str(document.get("geometry_id") or document.get("configuration_id"))
     version = str(document.get("version", "0"))
     rack_table = document["rack"]
@@ -94,4 +106,55 @@ def load_geometry(path: str | Path) -> SteeringGeometry:
             "source_path": str(source_path),
             "status": str(document.get("status", "unknown")),
         },
+    )
+
+
+def load_geometry(
+    path: str | Path, *, _visited: frozenset[Path] | None = None
+) -> SteeringGeometry:
+    """Load a frozen, candidate, or explicitly inherited geometry.
+
+    Inheritance is source-preserving: the referenced geometry is loaded without
+    numerical overrides, then receives the inheriting configuration identity and
+    provenance. Any numerical change requires a separate explicit configuration.
+    """
+
+    source_path = Path(path).resolve()
+    visited = _visited or frozenset()
+    if source_path in visited:
+        raise ValueError(f"Steering configuration inheritance cycle at {source_path}")
+    visited = visited | {source_path}
+
+    with source_path.open("rb") as stream:
+        document = tomllib.load(stream)
+
+    if "rack" in document:
+        return _load_direct_geometry(document, source_path)
+
+    inheritance = document.get("inheritance")
+    if not isinstance(inheritance, dict) or "source_path" not in inheritance:
+        raise ValueError(
+            f"Steering configuration {source_path} has neither direct geometry nor inheritance"
+        )
+    inherited_path = _resolve_inherited_path(source_path, str(inheritance["source_path"]))
+    inherited = load_geometry(inherited_path, _visited=visited)
+    geometry_id = str(document.get("geometry_id") or document.get("configuration_id"))
+    if not geometry_id:
+        raise ValueError(f"Inherited steering configuration {source_path} requires an id")
+    metadata = dict(inherited.metadata)
+    metadata.update(
+        {
+            "source_path": str(source_path),
+            "status": str(document.get("status", "unknown")),
+            "inherited_geometry_id": inherited.geometry_id,
+            "inherited_geometry_version": inherited.version,
+            "inherited_source_path": str(inherited_path),
+            "inheritance_rule": str(inheritance.get("rule", "exact numerical inheritance")),
+        }
+    )
+    return replace(
+        inherited,
+        geometry_id=geometry_id,
+        version=str(document.get("version", "0")),
+        metadata=metadata,
     )
