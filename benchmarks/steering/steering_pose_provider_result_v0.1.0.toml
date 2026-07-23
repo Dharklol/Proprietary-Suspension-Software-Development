@@ -1,0 +1,50 @@
+version = "0.1.0"
+result_id = "STEERING-POSE-PROVIDER-BENCHMARKS-V0"
+status = "frozen_PR24_review_result"
+authorization_id = "AUTH-STEER-0002"
+evaluator_model_id = "MOD-STEER-0001"
+optimizer_model_id = "MOD-STEER-0002"
+baseline_geometry_id = "WUFR27_STEERING_BASELINE_V0"
+requirement_set_id = "STEERING_INVERSE_DESIGN_DEV_V0"
+pose_set_id = "STEERING_SYNTHETIC_POSE_SET_V0"
+source_head_commit = "e40b28a5864d4f2395af29fbf177b14ed56737bd"
+ci_run_id = 30046467556
+ci_run_number = 243
+artifact_name = "steering-suspension-pose-reports"
+artifact_digest = "sha256:1b03fb94d759388e07a9f79251f1754d952b7debc9fc815fbfadb6708224a17e"
+report_script = "scripts/run_steering_pose_provider_benchmarks.py"
+steering_dof_rule = "upright_reference_pose_excludes_tie_rod_steering_rotation"
+
+[nominal_identity]
+state_id = "nominal"
+left_dynamic_toe_deg = 0.0
+right_dynamic_toe_deg = -0.0
+rack_sample_count_per_side = 15
+interpretation = "Identity pose reproduces the nominal steering state and establishes the no-transform reference for state-dependent heading changes."
+
+[symmetric_bump_synthetic]
+state_id = "symmetric_bump_5mm"
+left_wheel_vertical_displacement_m = 0.005
+right_wheel_vertical_displacement_m = 0.005
+left_side_local_toe_out_change_deg = 0.47212931465367214
+right_side_local_toe_out_change_deg = 0.47212931465366564
+minimum_singularity_ratio = 0.389438391680018
+rack_sample_count_per_side = 15
+all_samples_feasible = true
+interpretation = "Synthetic rigid +5 mm upright translation on both sides verifies that suspension-pose transforms feed the unchanged tie-rod closure solver and produce symmetric state-dependent steering response. It is not a WUFR bump-steer prediction."
+
+[opposed_travel_synthetic]
+state_id = "opposed_travel_5mm"
+left_wheel_vertical_displacement_m = 0.005
+right_wheel_vertical_displacement_m = -0.005
+left_side_local_toe_out_change_deg = 0.47212931465367214
+right_side_local_toe_out_change_deg = -0.3970622842020668
+minimum_singularity_ratio = 0.389438391680018
+rack_sample_count_per_side = 15
+all_samples_feasible = true
+interpretation = "Synthetic opposed wheel travel verifies independent left/right operating poses while retaining symmetric design geometry. It is not a roll-state or WUFR suspension prediction."
+
+[disposition]
+result = "benchmark_passed_for_PR24_review"
+authority_boundary = "The synthetic pose set verifies interface composition, pose transformation, analyzer reuse, dynamic-toe reporting, and asymmetric operating-state support. It does not validate WUFR suspension motion, OptimumK/CAD correlation, physical bump steer, packaging, robustness, or production geometry."
+next_gate = "Team review and merge of PR #24, followed by a reviewed external suspension-pose adapter or operating-state target aggregation before multi-state optimization claims. Physical-parameter integration remains deferred."
