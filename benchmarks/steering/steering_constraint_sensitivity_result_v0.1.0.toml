@@ -1,0 +1,60 @@
+version = "0.1.0"
+result_id = "STEERING-CONSTRAINT-SENSITIVITY-BENCHMARKS-V0"
+status = "frozen_PR23_review_result"
+authorization_id = "AUTH-STEER-0002"
+evaluator_model_id = "MOD-STEER-0001"
+optimizer_model_id = "MOD-STEER-0002"
+baseline_geometry_id = "WUFR27_STEERING_BASELINE_V0"
+requirement_set_id = "STEERING_INVERSE_DESIGN_DEV_V0"
+constraint_set_id = "STEERING_CONSTRAINT_PROVIDER_DEV_V0"
+source_head_commit = "20f168fea3d8b595281e6e63248c0872a9fb9658"
+ci_run_id = 30000023252
+ci_run_number = 222
+artifact_name = "steering-constraint-sensitivity-reports"
+artifact_digest = "sha256:4dee68146af14a772bc2b9ddc5d58b45a08cc0b24bbfe383f961532828f3bde9"
+report_script = "scripts/run_steering_constraint_sensitivity_benchmarks.py"
+
+[reference_screening]
+feasible = true
+base_objective = 0.6259259771798616
+active_constraint_count = 3
+active_constraint_pass_count = 3
+unavailable_constraint_count = 6
+unavailable_constraint_ids = [
+  "rod_end_articulation",
+  "thread_engagement",
+  "steering_arm_material_envelope",
+  "rack_housing_and_joint_clearance",
+  "wheel_brake_chassis_clearance",
+  "installed_physical_stop_margin"
+]
+interpretation = "The baseline passes the three development-only active checks. Six future hardware and installed-state checks remain explicitly unavailable and are not described as passes."
+
+[local_sensitivity]
+method_id = "bounded_finite_difference_v0.1.0"
+variable_id = "rack_longitudinal_offset"
+variable_unit = "m"
+scheme = "central"
+step_m = 0.0003
+objective_derivative_per_m = -7.244456509246101
+normalized_objective_derivative_over_full_variable_span = -2.17333695277383
+repeatability = "Repeated calls with identical candidate, target, constraint set, and settings return identical variable and constraint-margin sensitivity records."
+interpretation = "A descriptive local derivative around the WUFR-27 reference candidate. It is not a manufacturing tolerance or robustness result."
+
+[candidate_comparison]
+source_search_id = "STEERING-CONSTRAINT-COMPARISON-V0"
+screened_candidate_count = 20
+screened_feasible_count = 20
+selected_candidate_count = 4
+excluded_near_duplicate_count = 4
+selection_method = "objective_order_with_normalized_design_distance_filter_v0.1.0"
+minimum_normalized_design_distance = 0.005
+best_candidate_id = "SEARCH-EVAL-00022"
+best_objective = 0.022139825225849383
+best_tie_rod_length_m = 0.32944717300474
+interpretation = "Four objective-ranked, constraint-screened, design-space-separated candidates remain visible. The set is not a Pareto or global-optimality claim."
+
+[disposition]
+result = "benchmark_passed_for_PR23_review"
+authority_boundary = "Development constraint screening and local sensitivity only. No packaging, manufacturing, robustness, physical, Pareto, global-optimality, or production geometry authority is granted."
+next_gate = "Team review and merge of PR #23, followed by P1-STR-005 reviewed tolerance inputs and discrete hardware-option support or P1-STR-006 provider integration when a dependency becomes active."

@@ -1,0 +1,97 @@
+version = "0.1.0"
+constraint_set_id = "STEERING_CONSTRAINT_PROVIDER_DEV_V0"
+status = "development_only_non_design_authority"
+authority = "Workflow-development constraint set. Active limits are broad mathematical or study bounds; unavailable entries identify evidence required before hardware-feasible ranking."
+
+[[constraints]]
+id = "tie_rod_joint_center_length"
+evaluator = "tie_rod_joint_center_length"
+availability = "active"
+unit = "m"
+state = "nominal_reference"
+blocking = true
+lower_limit = 0.20
+upper_limit = 0.45
+authority = "Broad development-only joint-center length band; not selected tie-rod hardware, adjustment, buckling, or procurement authority."
+
+[[constraints]]
+id = "minimum_singularity_ratio_design_margin"
+evaluator = "minimum_singularity_ratio"
+availability = "active"
+unit = "ratio"
+state = "complete_target_sweep"
+blocking = true
+lower_limit = 0.01
+authority = "Development-only numerical/mechanism margin above the analyzer failure threshold; not a released design criterion."
+
+[[constraints]]
+id = "outer_pickup_depth_development_band"
+evaluator = "candidate_scalar"
+variable_id = "outer_pickup_local_depth_offset"
+availability = "active"
+unit = "m"
+state = "nominal_reference"
+blocking = true
+lower_limit = -0.005
+upper_limit = 0.005
+authority = "STEERING_INVERSE_DESIGN_DEV_V0 tightly bounded development coordinate; not a measured steering-arm surface."
+
+[[constraints]]
+id = "rod_end_articulation"
+evaluator = "unavailable"
+availability = "unavailable"
+unit = "deg"
+state = "complete_steering_and_suspension_domain"
+blocking = false
+authority = "Future reviewed rod-end and installation geometry"
+unavailable_reason = "Rod-end axis, misalignment-spacer geometry, selected part limit, and suspension-state pose provider are not frozen."
+
+[[constraints]]
+id = "thread_engagement"
+evaluator = "unavailable"
+availability = "unavailable"
+unit = "m"
+state = "setup_and_adjustment_range"
+blocking = false
+authority = "Future selected tie-rod hardware and adjustment specification"
+unavailable_reason = "Thread form, insert depth, jam-nut stack, setup range, and minimum engagement requirement are not frozen."
+
+[[constraints]]
+id = "steering_arm_material_envelope"
+evaluator = "unavailable"
+availability = "unavailable"
+unit = "m"
+state = "nominal_and_suspension_states"
+blocking = false
+authority = "Future upright CAD and manufacturing envelope"
+unavailable_reason = "The current local frame is development-only and no reviewed steering-arm material boundary is available."
+
+[[constraints]]
+id = "rack_housing_and_joint_clearance"
+evaluator = "unavailable"
+availability = "unavailable"
+unit = "m"
+state = "complete_steering_and_suspension_domain"
+blocking = false
+authority = "Future chassis/rack CAD clearance provider"
+unavailable_reason = "Rack housing, chassis, inner-joint, boot, and service envelopes are not frozen as queryable geometry."
+
+[[constraints]]
+id = "wheel_brake_chassis_clearance"
+evaluator = "unavailable"
+availability = "unavailable"
+unit = "m"
+state = "complete_steering_and_suspension_domain"
+blocking = false
+authority = "Future wheel, brake, upright, chassis, and tire CAD clearance provider"
+unavailable_reason = "No reviewed collision geometry or minimum clearance rule is connected to the optimizer."
+
+[[constraints]]
+id = "installed_physical_stop_margin"
+evaluator = "unavailable"
+availability = "unavailable"
+unit = "m"
+state = "left_and_right_installed_stops"
+blocking = false
+authority = "Future installed WUFR-27 measurement or WUFR-28 released stop design"
+unavailable_reason = "The inherited rack domain is a nominal design-study range and is not installed physical-stop authority."

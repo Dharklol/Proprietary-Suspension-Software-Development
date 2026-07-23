@@ -1,0 +1,20 @@
+[record]
+id = "BENCH-STEER-0012"
+type = "benchmark"
+title = "Steering constraint-provider availability and blocking behavior"
+status = "proposed"
+description = "Verify that named development constraints return explicit values, limits, margins, states, and authority; unavailable hardware evidence remains unavailable and nonblocking; and a failed active blocking constraint removes the candidate from objective-ranked use without modifying the underlying MOD-STEER-0001 result."
+verification_level = "A"
+target_ids = ["MOD-STEER-0002", "MOD-STEER-0001"]
+acceptance_criteria = [
+  "STEERING_CONSTRAINT_PROVIDER_DEV_V0 loads with three active development constraints and six unavailable future constraints.",
+  "The WUFR-27 reference candidate passes every active development constraint while unavailable items remain unavailable rather than passed.",
+  "Every result includes value, lower/upper limit where applicable, margin, unit, evaluated state, authority, blocking status, and message.",
+  "A deliberately short tie-rod-length result fails the blocking length constraint and has no screened objective available for ranking.",
+  "The complete base CandidateEvaluation and MOD-STEER-0001 analyzer diagnostics remain unchanged and attached to the screened result.",
+  "The report states that the active values are development-only and do not establish hardware, packaging, or manufacturing authority."
+]
+fixture = "configurations/steering/STEERING_CONSTRAINT_PROVIDER_DEV_V0.toml"
+implementation_test = "tests/test_steering_constraints_sensitivity.py"
+report_script = "scripts/run_steering_constraint_sensitivity_benchmarks.py"
+result_record = "benchmarks/steering/steering_constraint_sensitivity_result_v0.1.0.toml"
