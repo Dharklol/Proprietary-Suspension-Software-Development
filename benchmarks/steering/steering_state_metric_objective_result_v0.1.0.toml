@@ -1,0 +1,78 @@
+version = "0.1.0"
+result_id = "STEERING-STATE-METRIC-BENCHMARKS-V0"
+authorization_id = "AUTH-STEER-0002"
+evaluator_model_id = "MOD-STEER-0001"
+optimizer_model_id = "MOD-STEER-0002"
+baseline_geometry_id = "WUFR27_STEERING_BASELINE_V0"
+requirement_set_id = "STEERING_INVERSE_DESIGN_DEV_V0"
+pose_set_id = "STEERING_SYNTHETIC_POSE_SET_V0"
+target_set_id = "STEERING-SYNTHETIC-STATE-METRICS-V0"
+method_id = "bounded_coordinate_pattern_search_v0.1.0"
+authority = "software_verification_only"
+scope_note = "Synthetic dynamic-toe and rack-to-wheel-gain target recovery only. No WUFR suspension, tire-optimal, hardware, robustness, transmission, OptimumK-gain equivalence, global-optimality, or production authority is implied."
+
+[source_candidate]
+rack_longitudinal_offset_m = 0.01875
+total_objective = 0.0
+
+[reference_candidate]
+total_objective = 2.0743640931890073
+
+[recovery]
+recovered_rack_longitudinal_offset_m = 0.01874999999999999
+absolute_error_m = 1.0408340855860843e-17
+best_total_objective = 0.0
+
+[search]
+evaluated_candidate_count = 34
+feasible_candidate_count = 32
+infeasible_candidate_count = 2
+retained_candidate_count = 8
+
+[[objective_contract.targets]]
+state_id = "symmetric_bump_5mm"
+metric_id = "center_dynamic_toe_out_change"
+output_unit = "deg"
+normalization_scale = 0.1
+objective_weight = 1.0
+left_target = 0.4575584618658124
+right_target = 0.45755846186580607
+
+[[objective_contract.targets]]
+state_id = "opposed_travel_5mm"
+metric_id = "center_dynamic_toe_out_change"
+output_unit = "deg"
+normalization_scale = 0.1
+objective_weight = 0.8
+left_target = 0.4575584618658124
+right_target = -0.38507219565203976
+
+[[objective_contract.targets]]
+state_id = "nominal"
+metric_id = "center_rack_to_wheel_gain"
+output_unit = "deg_per_mm"
+normalization_scale = 0.02
+objective_weight = 0.6
+left_target = -0.9428033664908934
+right_target = -0.942803366490894
+
+[[objective_contract.targets]]
+state_id = "symmetric_bump_5mm"
+metric_id = "center_rack_to_wheel_gain"
+output_unit = "deg_per_mm"
+normalization_scale = 0.02
+objective_weight = 0.6
+left_target = -0.945434423994838
+right_target = -0.9454344239948376
+
+[source_metric_pairs.nominal]
+center_dynamic_toe_out_change = [0.0, -0.0]
+center_rack_to_wheel_gain = [-0.9428033664908934, -0.942803366490894]
+
+[source_metric_pairs.symmetric_bump_5mm]
+center_dynamic_toe_out_change = [0.4575584618658124, 0.45755846186580607]
+center_rack_to_wheel_gain = [-0.945434423994838, -0.9454344239948376]
+
+[source_metric_pairs.opposed_travel_5mm]
+center_dynamic_toe_out_change = [0.4575584618658124, -0.38507219565203976]
+center_rack_to_wheel_gain = [-0.945434423994838, -0.94096823456607]
