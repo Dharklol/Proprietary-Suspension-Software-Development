@@ -34,14 +34,22 @@ For `MIG-STR-0001`, `MOD-STEER-0001`, and `MOD-STEER-0002`, the literature revie
 - geometric target selection from later tire-force-informed optimization;
 - a verified mechanism evaluator from the optimization method that proposes candidates;
 - kinematic target achievement from physical packaging and manufacturing feasibility;
-- local derivative sensitivity from tolerance, uncertainty, and global sensitivity; and
-- an unavailable physical constraint from a passed physical constraint.
+- local derivative sensitivity from tolerance, uncertainty, and global sensitivity;
+- an unavailable physical constraint from a passed physical constraint; and
+- a suspension-pose provider from the steering mechanism solution that consumes the pose.
 
 ### Exact rigid steering basis
 
 - Guiggiani, Chapter 3, especially Sections 3.4.1 through 3.4.3, supports the exact Ackermann construction, nonideal/best steering geometry, and the importance of relative tire slips. This supports using Ackermann as a reference or selectable target rather than a universal optimum.
 - Gillespie, Chapter 8, supports rack-and-pinion and trapezoidal steering-linkage geometry, steering ratio, and steering geometry errors. This supports direct mechanism evaluation across the full input domain instead of a single scalar ratio or polynomial replacement.
 - `EQ-STEER-0001` through `EQ-STEER-0007` retain the equation-level citations, definitions, and validity limits. `MOD-STEER-0002` must call `MOD-STEER-0001` and may not introduce alternate steering equations.
+
+### Suspension-state steering and toe
+
+- Gillespie's vehicle-dynamics terminology defines static toe at a specified wheel load or relative wheel-center position with respect to the sprung mass. Toe therefore belongs to a named suspension state rather than to one geometry-independent scalar when suspension motion is being evaluated.
+- Guiggiani, Chapter 7, treats roll steer and toe-in/toe-out as suspension/setup parameters that alter axle characteristics. This supports reporting steering response over explicit suspension states and keeping suspension-induced toe change separate from the nominal rack-to-wheel steering map.
+- The first pose-provider contract represents the upright reference pose with the steering degree of freedom unresolved. Steering-axis position/orientation, wheel-plane reference, and upright-bound pickup points may move with suspension state, while tie-rod closure remains the responsibility of `MOD-STEER-0001`. A source that already includes tie-rod-induced toe or bump steer is validation/comparison evidence and cannot be fed back into the steering closure solver as though it were an unsteered pose.
+- The pose-provider layer is source-agnostic. An OptimumK export, CAD motion export, lookup table, or future native suspension solver may supply the same canonical zero-steer pose contract after its frame, state coordinates, assumptions, and authority are reviewed.
 
 ### Configuration comparison and staged validation
 
@@ -77,3 +85,4 @@ For `MIG-STR-0001`, `MOD-STEER-0001`, and `MOD-STEER-0002`, the literature revie
 7. A successful optimizer objective does not override failed physical or geometric constraints.
 8. Missing physical inputs remain unavailable; they are never converted into zero margin, infinite margin, or an automatic pass.
 9. Local sensitivity, tolerance propagation, robustness, and global sensitivity are separate claims with separate input and verification burdens.
+10. Suspension-state inputs must state whether steering/tie-rod closure is already included; a pose that already contains steering response cannot be reused as an unresolved steering input.
