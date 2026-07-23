@@ -1,10 +1,10 @@
 """Authorized steering inverse-design development interfaces.
 
 The package composes the role resolver, parametric geometry generator, target
-providers, analyzer-composed candidate evaluator, and deterministic nominal
-constrained-search baseline. Tire, effort, suspension-state, packaging,
-manufacturing, robustness, and production-release models remain outside this
-implementation.
+providers, analyzer-composed candidate evaluator, deterministic nominal
+constrained-search baseline, and machine-readable comparison reports. Tire,
+effort, suspension-state, packaging, manufacturing, robustness, and
+production-release models remain outside this implementation.
 """
 
 from .evaluation import (
@@ -19,6 +19,11 @@ from .geometry import (
     GeneratedSteeringGeometry,
     generate_candidate_geometry,
     reflect_lateral,
+)
+from .reporting import (
+    candidate_evaluation_report,
+    steering_search_report,
+    write_json_report,
 )
 from .roles import (
     LocalFrameDefinition,
@@ -69,6 +74,7 @@ __all__ = [
     "TargetDefinitionError",
     "VariableDefinition",
     "build_analyzer_incremental_target",
+    "candidate_evaluation_report",
     "evaluate_candidate",
     "generate_candidate_geometry",
     "load_historical_fit_target",
@@ -77,4 +83,6 @@ __all__ = [
     "reflect_lateral",
     "resolve_candidate",
     "run_nominal_inverse_design",
+    "steering_search_report",
+    "write_json_report",
 ]
