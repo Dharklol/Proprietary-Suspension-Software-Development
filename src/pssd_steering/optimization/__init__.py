@@ -4,7 +4,7 @@ The package composes the role resolver, parametric geometry generator, target
 providers, analyzer-composed candidate evaluator, deterministic nominal
 constrained-search baseline, constraint-provider screening, local sensitivity,
 provider-neutral suspension poses, multi-state steering evaluation, and
-machine-readable comparison reports. Tire, effort, manufacturing, robustness,
+machine-readable reports. Tire, effort, manufacturing, robustness,
 physical-correlation, and production-release models remain outside this implementation.
 """
 
@@ -46,6 +46,7 @@ from .multistate import (
     PoseStateEvaluation,
     evaluate_candidate_over_pose_set,
 )
+from .pose_reporting import multi_state_steering_report
 from .poses import (
     STEERING_DOF_RULE,
     PoseCoordinate,
@@ -166,6 +167,7 @@ __all__ = [
     "load_requirement_set",
     "load_synthetic_recovery_fixture",
     "local_sensitivity_report",
+    "multi_state_steering_report",
     "reflect_lateral",
     "resolve_candidate",
     "run_nominal_inverse_design",
