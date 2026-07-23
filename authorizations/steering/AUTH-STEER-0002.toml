@@ -1,4 +1,4 @@
-version = "0.2.0"
+version = "0.3.0"
 authorization_id = "AUTH-STEER-0002"
 status = "active_reviewed_and_frozen"
 title = "Nominal-height steering inverse-design prototype authorization"
@@ -28,10 +28,13 @@ required_equation_ids = [
 [implementation_tracking]
 authorization_merge = "PR #20"
 geometry_generator_implementation = "PR #21"
-current_stage = "role_resolver_and_parametric_geometry_generator_implemented_for_review"
-next_stage = "deterministic_nominal_constrained_search_after_PR21_review"
-implementation_document = "docs/models/steering/steering_geometry_generator_implementation_v0.1.0.md"
-implementation_review = "docs/reviews/phase1_steering_geometry_generator_review.md"
+geometry_generator_merge_commit = "cdb8a89605cb8532d4758f384597de39b456d0ef"
+nominal_optimizer_implementation = "PR #22"
+current_stage = "deterministic_nominal_constrained_search_implemented_for_review"
+next_stage = "reviewed_hardware_constraints_candidate_sensitivity_and_comparison_layer"
+geometry_generator_document = "docs/models/steering/steering_geometry_generator_implementation_v0.1.0.md"
+optimizer_implementation_document = "docs/models/steering/steering_nominal_optimizer_implementation_v0.1.0.md"
+optimizer_review = "docs/reviews/phase1_steering_nominal_optimizer_review.md"
 
 [architecture]
 authoritative_evaluator_model_id = "MOD-STEER-0001"
@@ -62,7 +65,8 @@ items = [
   "Suspension bump, rebound, roll, pitch, or heave calculations beyond consuming a future reviewed pose-provider result.",
   "Tire-force target generation, steering effort, rack loads, compliance, backlash, friction, tolerance propagation, or transient steering physics.",
   "Reinforcement-learning, genetic, or other learned/global optimization claims before deterministic baseline methods and benchmark burdens are established.",
-  "Treating the historical regression target as the permanent or universally optimal steering target."
+  "Treating the historical regression target as the permanent or universally optimal steering target.",
+  "Global-optimality, packaging-feasibility, manufacturing-feasibility, or production-release claims from the current single-objective development search."
 ]
 
 [first_implementation_boundary]
@@ -91,7 +95,7 @@ tie_rod_length_role = "derived_output"
 
 [provider_contracts]
 pose_provider = "Future provider returns reviewed left/right upright pose, steering-axis line, wheel basis, and outer-pickup transform for a named suspension state. The first release uses the nominal baseline pose."
-target_provider = "Returns left/right target headings or inside/outside target relations, input coordinates, weights, units, validity domain, and source authority."
+target_provider = "Returns left/right target headings or inside/outside target relations, input coordinates, weights, units, validity domain, source authority, and convention adapter. Historical and analyzer-generated target providers are implemented."
 rack_load_provider = "Future provider returns rack-force or column-torque envelopes with operating-state and uncertainty metadata. No load physics is implemented here."
 uncertainty_provider = "Future provider returns named parameter distributions or bounded perturbations. No robustness claim is authorized in the first code release."
 physical_parameter_provider = "Future provider returns calibrated transmission, deadband, compliance, and as-built observations without changing the rigid evaluator equations."
@@ -120,6 +124,7 @@ items = [
   "Development bounds and the narrow depth policy are explicit in the requirement set and result provenance.",
   "No optimizer search or objective ranking is merged with the geometry-generator pull request."
 ]
+status = "complete_in_PR21"
 
 [required_before_optimizer_merge]
 items = [
@@ -131,6 +136,10 @@ items = [
   "Candidate reports expose objective units, normalization, weights, domains, margins, and termination diagnostics.",
   "Literature and numerical-method references are recorded at model or method level."
 ]
+status = "implemented_for_PR22_review"
+benchmark_ids = ["BENCH-STEER-0010", "BENCH-STEER-0011"]
+implementation_tests = "tests/test_steering_nominal_optimizer.py"
+benchmark_report_script = "scripts/run_steering_nominal_optimizer_benchmarks.py"
 
 [promotion_gates]
 items = [
@@ -151,3 +160,4 @@ transition_specification = "migration/legacy_calculators/steering_tie_rod_optimi
 evaluator_specification = "docs/models/steering/rigid_steering_function_specification.md"
 evaluator_authorization = "authorizations/steering/AUTH-STEER-0001.toml"
 literature_concordance = "docs/literature/literature_concordance.md"
+optimizer_implementation = "docs/models/steering/steering_nominal_optimizer_implementation_v0.1.0.md"

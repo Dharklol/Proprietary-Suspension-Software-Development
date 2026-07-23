@@ -1,0 +1,51 @@
+version = "0.1.0"
+target_id = "WUFR26_27_HISTORICAL_RESPONSE_REGRESSION_V0"
+status = "frozen_development_regression_target"
+source_type = "historical_polynomial_fit"
+authority = "Fit-derived nominal design evidence for optimizer regression only; not an independent validation target or universal steering optimum."
+
+[source]
+fit_path = "benchmarks/steering/wufr26_desmos_wheel_angle_fits.toml"
+fit_id = "test3"
+fit_source_id = "WUFR26-DESMOS-WHEEL-FITS-V0"
+level_e_contract = "benchmarks/steering/wufr26_level_e_contract.toml"
+
+[signals]
+input_quantity_id = "steering_or_pinion_input_angle_design_study"
+input_unit = "deg"
+output_quantity_id = "centered_projected_road_wheel_heading"
+output_unit = "deg"
+comparison_role = "historical_incremental_left_right_heading"
+
+[adapter]
+input_sign = 1.0
+canonical_to_target_output_sign = -1.0
+side_mapping = "same_side"
+rack_metres_per_input_degree = 0.00024694444444444446
+static_toe_out_deg = -1.0
+static_camber_deg = -2.25
+
+[sampling]
+inputs_deg = [-102.0, -90.0, -75.0, -60.0, -45.0, -30.0, -15.0, 0.0, 15.0, 30.0, 45.0, 60.0, 75.0, 90.0, 102.0]
+weights = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+no_extrapolation = true
+
+[objective]
+id = "wheel_heading_target_error"
+raw_unit = "deg_rms"
+normalization_scale_deg = 1.0
+weight = 1.0
+left_right_combination = "weighted_rms_over_both_sides_and_all_samples"
+
+[constraints]
+require_complete_analyzer_sweep = true
+require_monotonic_response = true
+monotonic_tolerance_deg = 1.0e-9
+
+[restrictions]
+items = [
+  "Do not treat the polynomial target as independent validation evidence.",
+  "Do not extrapolate beyond the declared input samples or rack domain.",
+  "Do not treat minimum target error as proof of packaging, articulation, manufacturability, effort, robustness, or physical performance.",
+  "Do not replace MOD-STEER-0001 mechanism evaluation with the fit."
+]

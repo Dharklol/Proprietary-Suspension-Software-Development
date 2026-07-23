@@ -109,7 +109,8 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
 
         phase_one = {task["id"]: task for task in progress["phase_1"]["tasks"]}
         self.assertEqual("complete", phase_one["P1-STR-001"]["status"])
-        self.assertEqual("review_ready", phase_one["P1-STR-002"]["status"])
+        self.assertEqual("complete", phase_one["P1-STR-002"]["status"])
+        self.assertEqual("review_ready", phase_one["P1-STR-003"]["status"])
         self.assertEqual(["P1-STR-001"], phase_one["P1-STR-002"]["depends_on"])
         self.assertEqual(["P1-STR-002"], phase_one["P1-STR-003"]["depends_on"])
 

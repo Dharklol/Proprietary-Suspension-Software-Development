@@ -44,3 +44,18 @@ jobs:
             wufr26_level_e_report.json
             wufr26_level_e_summary.json
           if-no-files-found: error
+      - name: Generate steering nominal optimizer reports
+        run: |
+          python scripts/run_steering_nominal_optimizer_benchmarks.py \
+            --output steering_nominal_optimizer_report.json > /dev/null
+          python scripts/run_steering_nominal_optimizer_benchmarks.py \
+            --summary \
+            --output steering_nominal_optimizer_summary.json
+      - name: Upload steering nominal optimizer reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: steering-nominal-optimizer-reports
+          path: |
+            steering_nominal_optimizer_report.json
+            steering_nominal_optimizer_summary.json
+          if-no-files-found: error

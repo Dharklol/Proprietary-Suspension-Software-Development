@@ -1,0 +1,20 @@
+[record]
+id = "BENCH-STEER-0010"
+type = "benchmark"
+title = "WUFR-26/27 historical steering target-provider regression"
+status = "proposed"
+description = "Verify that the frozen Test 3 historical fit target loads with the reviewed convention adapter, evaluates the WUFR-27 baseline through the complete MOD-STEER-0001 sweep, preserves the evidence boundary, and returns a finite nonzero wheel-heading regression objective without treating fit agreement as validation."
+verification_level = "C"
+target_ids = ["MOD-STEER-0001", "MOD-STEER-0002", "MIG-STR-0001"]
+acceptance_criteria = [
+  "The target contains the frozen fifteen-point input grid from -102 deg through +102 deg, includes center, and prohibits extrapolation.",
+  "The target uses the Test 3 polynomial and the reviewed same-side input/output adapter from the Level E contract.",
+  "The WUFR27 baseline completes both analyzer sweeps and every active hard constraint passes.",
+  "The baseline wheel-heading objective is finite, nonzero, unit-explicit, normalized, and recorded in the CI benchmark report.",
+  "The target authority states that the fit is nominal regression evidence rather than independent validation or a universal optimum.",
+  "Every retained analyzer state preserves closure, branch, singularity, warning, and source-role diagnostics."
+]
+fixture = "benchmarks/steering/WUFR26_27_HISTORICAL_RESPONSE_REGRESSION_V0.toml"
+implementation_test = "tests/test_steering_nominal_optimizer.py"
+report_script = "scripts/run_steering_nominal_optimizer_benchmarks.py"
+frozen_result = "benchmarks/steering/steering_nominal_optimizer_result_v0.1.0.toml"

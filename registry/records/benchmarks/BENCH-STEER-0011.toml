@@ -1,0 +1,23 @@
+[record]
+id = "BENCH-STEER-0011"
+type = "benchmark"
+title = "Deterministic steering inverse-design synthetic recovery"
+status = "proposed"
+description = "Verify analyzer-generated target recovery, role-selected active variables, deterministic seeded multistart, hard-infeasibility separation, multiple retained feasible candidates, and transparent method metadata for bounded_coordinate_pattern_search_v0.1.0."
+verification_level = "A"
+target_ids = ["MOD-STEER-0002", "MOD-STEER-0001"]
+acceptance_criteria = [
+  "The synthetic target is generated through MOD-STEER-0001 from the frozen source candidate and is explicitly not independent vehicle evidence.",
+  "Only rack_longitudinal_offset is active; every inactive variable remains exactly at its requirement-set reference.",
+  "The source rack longitudinal offset of 0.020 m is recovered within 0.001 m.",
+  "The best candidate wheel-heading target residual is no greater than 0.001 deg RMS.",
+  "Repeated runs with identical requirement set, settings, and seed return identical candidate values, objectives, start results, and evaluation counts.",
+  "At least two feasible candidates remain available for comparison.",
+  "An out-of-domain candidate is marked infeasible and has no objective score.",
+  "The report records normalized variables, method references, settings, objective terms, constraints, analyzer states, and authority boundary."
+]
+fixture = "benchmarks/steering/STEERING_SYNTHETIC_RECOVERY_V0.toml"
+implementation_test = "tests/test_steering_nominal_optimizer.py"
+report_script = "scripts/run_steering_nominal_optimizer_benchmarks.py"
+method_document = "docs/models/steering/steering_nominal_optimizer_implementation_v0.1.0.md"
+frozen_result = "benchmarks/steering/steering_nominal_optimizer_result_v0.1.0.toml"

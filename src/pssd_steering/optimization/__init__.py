@@ -1,15 +1,29 @@
 """Authorized steering inverse-design development interfaces.
 
-The current package boundary includes role resolution and parametric geometry
-generation only. Search, ranking, tire, load, compliance, and robustness models
-remain outside this implementation.
+The package composes the role resolver, parametric geometry generator, target
+providers, analyzer-composed candidate evaluator, deterministic nominal
+constrained-search baseline, and machine-readable comparison reports. Tire,
+effort, suspension-state, packaging, manufacturing, robustness, and
+production-release models remain outside this implementation.
 """
 
+from .evaluation import (
+    CandidateEvaluation,
+    CandidateEvaluationStatus,
+    ConstraintResult,
+    ObjectiveContribution,
+    evaluate_candidate,
+)
 from .geometry import (
     CandidateGeometryError,
     GeneratedSteeringGeometry,
     generate_candidate_geometry,
     reflect_lateral,
+)
+from .reporting import (
+    candidate_evaluation_report,
+    steering_search_report,
+    write_json_report,
 )
 from .roles import (
     LocalFrameDefinition,
@@ -21,18 +35,54 @@ from .roles import (
     load_requirement_set,
     resolve_candidate,
 )
+from .search import (
+    RankedCandidate,
+    SearchConfigurationError,
+    SearchSettings,
+    StartResult,
+    SteeringSearchResult,
+    run_nominal_inverse_design,
+)
+from .targets import (
+    SteeringTarget,
+    SyntheticRecoveryFixture,
+    TargetDefinitionError,
+    build_analyzer_incremental_target,
+    load_historical_fit_target,
+    load_synthetic_recovery_fixture,
+)
 
 __all__ = [
+    "CandidateEvaluation",
+    "CandidateEvaluationStatus",
     "CandidateGeometryError",
+    "ConstraintResult",
     "GeneratedSteeringGeometry",
     "LocalFrameDefinition",
+    "ObjectiveContribution",
     "ParameterRole",
+    "RankedCandidate",
     "RequirementSet",
     "ResolvedCandidate",
     "RoleResolutionError",
+    "SearchConfigurationError",
+    "SearchSettings",
+    "StartResult",
+    "SteeringSearchResult",
+    "SteeringTarget",
+    "SyntheticRecoveryFixture",
+    "TargetDefinitionError",
     "VariableDefinition",
+    "build_analyzer_incremental_target",
+    "candidate_evaluation_report",
+    "evaluate_candidate",
     "generate_candidate_geometry",
+    "load_historical_fit_target",
     "load_requirement_set",
+    "load_synthetic_recovery_fixture",
     "reflect_lateral",
     "resolve_candidate",
+    "run_nominal_inverse_design",
+    "steering_search_report",
+    "write_json_report",
 ]
