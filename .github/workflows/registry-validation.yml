@@ -74,3 +74,18 @@ jobs:
             steering_constraint_sensitivity_report.json
             steering_constraint_sensitivity_summary.json
           if-no-files-found: error
+      - name: Generate steering suspension-pose reports
+        run: |
+          python scripts/run_steering_pose_provider_benchmarks.py \
+            --output steering_pose_provider_report.json > /dev/null
+          python scripts/run_steering_pose_provider_benchmarks.py \
+            --summary \
+            --output steering_pose_provider_summary.json
+      - name: Upload steering suspension-pose reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: steering-suspension-pose-reports
+          path: |
+            steering_pose_provider_report.json
+            steering_pose_provider_summary.json
+          if-no-files-found: error
