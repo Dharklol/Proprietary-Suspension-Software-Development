@@ -82,11 +82,13 @@ The user-supplied `WUFR-26 8.21 Heaves 1inch.xlsx` was reviewed as an external k
 - front steering ratio; and
 - left/right `Steering Toe Angle Gain`.
 
-The exported sweep spans `-25.4 mm` to `+25.4 mm` heave. Relative to the exported nominal row, the recorded toe changes from approximately `-0.15417 deg` at `-25.4 mm` to `+0.15745 deg` at `+25.4 mm`. The exported steering-toe-gain channel also varies with state.
+The exported sweep spans `-25.4 mm` to `+25.4 mm` heave. Relative to the exported nominal row, the recorded toe changes from approximately `-0.15417 deg` at `-25.4 mm` to `+0.15745 deg` at `+25.4 mm`.
 
-These channels are sufficient to preserve and later promote explicit dynamic-toe/gain targets after convention review. They are **not** yet admitted directly as a canonical `SuspensionPoseSet`: the OptimumK result geometry and toe/steer outputs already include tie-rod-constrained steering response. The current pose contract requires the supplied upright reference pose to exclude tie-rod-induced steering rotation so that `MOD-STEER-0001` does not solve that degree of freedom twice.
+The workbook explicitly labels `Steering Toe Angle Gain` with unit `-`. It is therefore preserved as a **dimensionless steering-input-related gain channel**. It is not the same quantity as this PR's `center_rack_to_wheel_gain`, whose input is rack displacement and whose unit is `deg_per_mm`. The OptimumK channel is useful evidence that the exported steering gain varies with heave, but it is not used to validate or target the rack-to-wheel metric without a separately reviewed transmission/convention conversion.
 
-A future OptimumK adapter can use the exported upper/lower upright points and related geometry to reconstruct an instantaneous steering axis, then remove the exported steering rotation before emitting the canonical unresolved-steering pose. Until that adapter is reviewed, the spreadsheet-derived table remains historical external kinematics evidence and target-provider input only.
+The spreadsheet is also **not** admitted directly as a canonical `SuspensionPoseSet`: the OptimumK result geometry and toe/steer outputs already include tie-rod-constrained steering response. The current pose contract requires the supplied upright reference pose to exclude tie-rod-induced steering rotation so that `MOD-STEER-0001` does not solve that degree of freedom twice.
+
+PR #26 now supplies the source-neutral canonical external-pose exchange adapter. A future OptimumK-specific converter can use the exported upper/lower upright points and related geometry to reconstruct an instantaneous steering axis, remove the exported steering rotation, and then emit the canonical unresolved-steering rigid transforms accepted by that adapter. Until that source conversion is reviewed, the spreadsheet-derived table remains historical external kinematics evidence and target-provider input only.
 
 ## Verification
 
@@ -94,9 +96,11 @@ A future OptimumK adapter can use the exported upper/lower upright points and re
 
 - an analyzer-generated source candidate has zero combined state-metric objective;
 - another geometry produces a nonzero objective;
-- centered gain is explicitly state-dependent; and
+- centered rack-to-wheel gain is explicitly state-dependent; and
 - dynamic toe consumes the frozen side-local centered toe-change fields rather than introducing another convention.
+
+The next verification step is a frozen deterministic recovery benchmark that exercises `run_state_metric_inverse_design` through the same search core used by PR #22 and PR #25.
 
 ## Authority boundary
 
-This implementation does not establish tire-optimal toe, desired steering gain, real pose importance weights, packaging feasibility, hardware feasibility, robustness, steering effort, as-built behavior, or WUFR-28 production geometry authority. Those require separately reviewed providers and evidence.
+This implementation does not establish tire-optimal toe, desired steering gain, real pose importance weights, packaging feasibility, hardware feasibility, robustness, steering effort, as-built behavior, or WUFR-28 production geometry authority. The OptimumK dimensionless gain channel is not silently converted into the rack-to-wheel gain objective. Those promotions require separately reviewed providers, conventions, and evidence.
