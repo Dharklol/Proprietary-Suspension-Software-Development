@@ -1,0 +1,25 @@
+version = "0.1.0"
+adapter_id = "external_rigid_upright_pose_csv_v0.1.0"
+pose_set_id = "STEERING_EXTERNAL_POSE_TABLE_FIXTURE_V0"
+nominal_state_id = "nominal"
+source_type = "software_exchange_fixture"
+source_path = "benchmarks/steering/STEERING_SYNTHETIC_POSE_SET_V0.toml"
+source_revision = "PR24 synthetic pose fixture copied into canonical external exchange form"
+authority = "Software adapter verification only; not WUFR suspension-motion, OptimumK, CAD, or physical evidence."
+frame_id = "canonical_vehicle_body_frame_fixture"
+frame_definition = "Fixture is already expressed in the steering canonical body frame; +x forward, +y left, +z up under the repository convention."
+rotation_convention = "active_nominal_upright_to_state_body_frame"
+translation_unit = "m"
+steering_dof_rule = "upright_reference_pose_excludes_tie_rod_steering_rotation"
+tie_rod_steering_response_included = false
+data_file = "STEERING_EXTERNAL_POSE_TABLE_FIXTURE_V0.csv"
+
+[[coordinates]]
+id = "left_wheel_vertical_displacement"
+column = "left_wheel_vertical_displacement_m"
+unit = "m"
+
+[[coordinates]]
+id = "right_wheel_vertical_displacement"
+column = "right_wheel_vertical_displacement_m"
+unit = "m"
