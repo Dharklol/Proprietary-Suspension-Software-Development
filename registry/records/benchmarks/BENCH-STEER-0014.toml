@@ -1,0 +1,21 @@
+[record]
+id = "BENCH-STEER-0014"
+type = "benchmark"
+title = "Steering suspension-pose provider contract and identity composition"
+status = "proposed"
+description = "Verify that provider-neutral zero-steer upright poses are rigid, frame-explicit, source-traceable, exclude tie-rod steering rotation, preserve the nominal mechanism under identity transforms, and distinguish invalid pose definitions from valid poses that produce infeasible steering closure."
+verification_level = "A"
+target_ids = ["MOD-STEER-0002", "MOD-STEER-0001"]
+acceptance_criteria = [
+  "Every pose state declares the steering-DOF rule upright_reference_pose_excludes_tie_rod_steering_rotation.",
+  "Pose rotations are finite, right-handed, and orthonormal; pose coordinates retain names and units.",
+  "The identity pose preserves rack geometry, rack joints, steering axes, outer joints, tie-rod length, and nominal MOD-STEER-0001 sweep results within frozen numerical tolerances.",
+  "Rack geometry and rack inner joints remain chassis-fixed while steering axes, outer tie-rod pickups, and wheel-plane references move with the upright transform.",
+  "A source that declares steering response already included is rejected as an unresolved pose input.",
+  "A structurally valid pose that cannot satisfy steering closure remains a valid pose record and returns an infeasible MOD-STEER-0001 operating state rather than a pose-definition error.",
+  "The provider API is source-agnostic and does not depend directly on OptimumK, CAD, or a native suspension solver."
+]
+fixture = "benchmarks/steering/STEERING_SYNTHETIC_POSE_SET_V0.toml"
+implementation_test = "tests/test_steering_suspension_pose_provider.py"
+report_script = "scripts/run_steering_pose_provider_benchmarks.py"
+result_record = "benchmarks/steering/steering_pose_provider_result_v0.1.0.toml"

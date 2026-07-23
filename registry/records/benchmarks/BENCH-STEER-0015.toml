@@ -1,0 +1,26 @@
+[record]
+id = "BENCH-STEER-0015"
+type = "benchmark"
+title = "Synthetic multi-state steering closure and dynamic-toe response"
+status = "proposed"
+description = "Verify that a generated steering candidate can be evaluated over symmetric and asymmetric provider-supplied suspension poses using only MOD-STEER-0001 for tie-rod closure, with complete rack sweeps, state-dependent wheel-heading changes, side-local dynamic toe, and singularity diagnostics preserved."
+verification_level = "A"
+target_ids = ["MOD-STEER-0002", "MOD-STEER-0001"]
+acceptance_criteria = [
+  "The nominal, symmetric +5 mm, and opposed +5/-5 mm synthetic pose states each evaluate fifteen rack samples per side without replacing MOD-STEER-0001 closure or projection physics.",
+  "The nominal state reports zero centered dynamic-toe change relative to itself.",
+  "The symmetric +5 mm synthetic translation reports equal left/right side-local toe-out change within 1e-8 deg and preserves full-sweep feasibility.",
+  "The opposed-travel state supports independent left/right operating poses and reports different left/right dynamic-toe changes while the underlying design geometry remains symmetric.",
+  "Every successful state retains complete analyzer diagnostics and a finite positive minimum singularity ratio.",
+  "Historical target values are not promoted to non-nominal pose objectives; the existing target supplies only the rack domain and nominal alignment basis for this benchmark.",
+  "Synthetic pose results are explicitly prohibited from being described as WUFR bump-steer, roll-steer, or suspension-correlation evidence."
+]
+fixture = "benchmarks/steering/STEERING_SYNTHETIC_POSE_SET_V0.toml"
+implementation_test = "tests/test_steering_suspension_pose_provider.py"
+report_script = "scripts/run_steering_pose_provider_benchmarks.py"
+result_record = "benchmarks/steering/steering_pose_provider_result_v0.1.0.toml"
+literature_basis = [
+  "Gillespie, Fundamentals of Vehicle Dynamics, Chapter 8 and wheel-alignment terminology defining toe at a specified wheel load or relative wheel-center position",
+  "Guiggiani, The Science of Vehicle Dynamics, Chapter 7 treatment of roll steer and toe as suspension/setup parameters affecting axle characteristics",
+  "Romano, Multi-Body Modelling and Mechanical Analysis of a Steering System, staged steering-to-suspension validation workflow"
+]

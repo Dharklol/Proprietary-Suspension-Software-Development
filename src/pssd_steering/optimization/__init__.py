@@ -3,9 +3,9 @@
 The package composes the role resolver, parametric geometry generator, target
 providers, analyzer-composed candidate evaluator, deterministic nominal
 constrained-search baseline, constraint-provider screening, local sensitivity,
-and machine-readable comparison reports. Tire, effort, suspension-state,
-manufacturing, robustness, and production-release models remain outside this
-implementation.
+provider-neutral suspension poses, multi-state steering evaluation, and
+machine-readable reports. Tire, effort, manufacturing, robustness,
+physical-correlation, and production-release models remain outside this implementation.
 """
 
 from .candidate_comparison import (
@@ -40,6 +40,24 @@ from .geometry import (
     GeneratedSteeringGeometry,
     generate_candidate_geometry,
     reflect_lateral,
+)
+from .multistate import (
+    MultiStateSteeringEvaluation,
+    PoseStateEvaluation,
+    evaluate_candidate_over_pose_set,
+)
+from .pose_reporting import multi_state_steering_report
+from .poses import (
+    STEERING_DOF_RULE,
+    PoseCoordinate,
+    PoseDefinitionError,
+    PosedSteeringGeometry,
+    RigidTransform,
+    SteeringPoseState,
+    SuspensionPoseSet,
+    apply_pose_state,
+    load_pose_set,
+    transform_wheel_plane,
 )
 from .reporting import (
     candidate_evaluation_report,
@@ -104,12 +122,19 @@ __all__ = [
     "GeneratedSteeringGeometry",
     "LocalFrameDefinition",
     "LocalSensitivityResult",
+    "MultiStateSteeringEvaluation",
     "ObjectiveContribution",
     "ParameterRole",
+    "PoseCoordinate",
+    "PoseDefinitionError",
+    "PoseStateEvaluation",
+    "PosedSteeringGeometry",
     "RankedCandidate",
     "RequirementSet",
     "ResolvedCandidate",
+    "RigidTransform",
     "RoleResolutionError",
+    "STEERING_DOF_RULE",
     "ScreenedCandidateEvaluation",
     "SearchConfigurationError",
     "SearchSettings",
@@ -117,31 +142,38 @@ __all__ = [
     "SensitivitySettings",
     "StartResult",
     "SteeringConstraintSet",
+    "SteeringPoseState",
     "SteeringSearchResult",
     "SteeringTarget",
     "SupplementalConstraintResult",
+    "SuspensionPoseSet",
     "SyntheticRecoveryFixture",
     "TargetDefinitionError",
     "VariableDefinition",
     "VariableSensitivity",
     "analyze_local_sensitivity",
+    "apply_pose_state",
     "build_analyzer_incremental_target",
     "build_candidate_comparison",
     "candidate_comparison_report",
     "candidate_evaluation_report",
     "evaluate_candidate",
+    "evaluate_candidate_over_pose_set",
     "evaluate_constraint_set",
     "generate_candidate_geometry",
     "load_constraint_set",
     "load_historical_fit_target",
+    "load_pose_set",
     "load_requirement_set",
     "load_synthetic_recovery_fixture",
     "local_sensitivity_report",
+    "multi_state_steering_report",
     "reflect_lateral",
     "resolve_candidate",
     "run_nominal_inverse_design",
     "screen_candidate_evaluation",
     "screened_candidate_report",
     "steering_search_report",
+    "transform_wheel_plane",
     "write_json_report",
 ]

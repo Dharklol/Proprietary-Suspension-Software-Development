@@ -1,0 +1,69 @@
+version = "0.1.0"
+pose_set_id = "STEERING_SYNTHETIC_POSE_SET_V0"
+nominal_state_id = "nominal"
+source_type = "synthetic_rigid_upright_pose"
+authority = "Software verification only. These states do not represent measured, CAD-authoritative, or OptimumK-authoritative WUFR suspension motion."
+steering_dof_rule = "upright_reference_pose_excludes_tie_rod_steering_rotation"
+
+[[states]]
+id = "nominal"
+source_type = "synthetic_rigid_upright_pose"
+authority = "Identity pose used to prove exact composition with the nominal steering analyzer."
+[[states.coordinates]]
+id = "left_wheel_vertical_displacement"
+value = 0.0
+unit = "m"
+[[states.coordinates]]
+id = "right_wheel_vertical_displacement"
+value = 0.0
+unit = "m"
+[states.left_transform]
+rotation = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+translation_m = [0.0, 0.0, 0.0]
+source_role = "synthetic_identity_left"
+[states.right_transform]
+rotation = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+translation_m = [0.0, 0.0, 0.0]
+source_role = "synthetic_identity_right"
+
+[[states]]
+id = "symmetric_bump_5mm"
+source_type = "synthetic_rigid_upright_pose"
+authority = "Synthetic vertical translation used only to verify pose-dependent tie-rod closure and heading response."
+[[states.coordinates]]
+id = "left_wheel_vertical_displacement"
+value = 0.005
+unit = "m"
+[[states.coordinates]]
+id = "right_wheel_vertical_displacement"
+value = 0.005
+unit = "m"
+[states.left_transform]
+rotation = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+translation_m = [0.0, 0.0, 0.005]
+source_role = "synthetic_bump_left"
+[states.right_transform]
+rotation = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+translation_m = [0.0, 0.0, 0.005]
+source_role = "synthetic_bump_right"
+
+[[states]]
+id = "opposed_travel_5mm"
+source_type = "synthetic_rigid_upright_pose"
+authority = "Synthetic asymmetric wheel-travel state used only to verify independent left/right operating poses with symmetric design geometry."
+[[states.coordinates]]
+id = "left_wheel_vertical_displacement"
+value = 0.005
+unit = "m"
+[[states.coordinates]]
+id = "right_wheel_vertical_displacement"
+value = -0.005
+unit = "m"
+[states.left_transform]
+rotation = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+translation_m = [0.0, 0.0, 0.005]
+source_role = "synthetic_bump_left"
+[states.right_transform]
+rotation = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+translation_m = [0.0, 0.0, -0.005]
+source_role = "synthetic_rebound_right"

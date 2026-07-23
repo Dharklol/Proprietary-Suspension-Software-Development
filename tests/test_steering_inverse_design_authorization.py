@@ -18,13 +18,12 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
         self.assertEqual("active_reviewed_and_frozen", authorization["status"])
         self.assertEqual("MOD-STEER-0001", authorization["architecture"]["authoritative_evaluator_model_id"])
         self.assertEqual("MOD-STEER-0002", authorization["architecture"]["optimizer_orchestrator_model_id"])
-        self.assertIn(
-            "may not duplicate",
-            authorization["architecture"]["composition_rule"].lower(),
-        )
+        self.assertIn("may not duplicate", authorization["architecture"]["composition_rule"].lower())
         prohibited = " ".join(authorization["prohibited"]["items"]).lower()
         self.assertIn("second steering-kinematics evaluator", prohibited)
         self.assertIn("surrogate", prohibited)
+        self.assertIn("native suspension", prohibited)
+        self.assertIn("already contains tie-rod-induced steering", prohibited)
 
     def test_optimizer_model_depends_on_analyzer(self) -> None:
         record = self._load("registry/records/models/MOD-STEER-0002.toml")["record"]
@@ -32,7 +31,7 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
         self.assertEqual(["MOD-STEER-0001"], record["dependency_model_ids"])
         self.assertEqual("AUTH-STEER-0002", record["authorization_id"])
         self.assertEqual("prototype_authorized", record["authorization_state"])
-        self.assertIn("contains no independent steering-kinematics equations", record["description"])
+        self.assertIn("no independent steering-kinematics or suspension-kinematics equations", record["description"])
 
     def test_wufr27_baseline_inherits_frozen_geometry(self) -> None:
         baseline = self._load("configurations/steering/WUFR27_STEERING_BASELINE_V0.toml")
@@ -111,10 +110,17 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
         self.assertEqual("complete", phase_one["P1-STR-001"]["status"])
         self.assertEqual("complete", phase_one["P1-STR-002"]["status"])
         self.assertEqual("complete", phase_one["P1-STR-003"]["status"])
-        self.assertEqual("review_ready", phase_one["P1-STR-004"]["status"])
+        self.assertEqual("complete", phase_one["P1-STR-004"]["status"])
+        self.assertEqual("review_ready", phase_one["P1-STR-006A"]["status"])
+        self.assertEqual("review_ready", phase_one["P1-STR-006B"]["status"])
+        self.assertEqual("active", phase_one["P1-STR-006C"]["status"])
+        self.assertEqual("active", phase_one["P1-STR-006E"]["status"])
+        self.assertIn("explicitly deferred", phase_one["P1-STR-006E"]["execution_rule"].lower())
         self.assertEqual(["P1-STR-001"], phase_one["P1-STR-002"]["depends_on"])
         self.assertEqual(["P1-STR-002"], phase_one["P1-STR-003"]["depends_on"])
         self.assertEqual(["P1-STR-003"], phase_one["P1-STR-004"]["depends_on"])
+        self.assertEqual(["P1-STR-006A"], phase_one["P1-STR-006B"]["depends_on"])
+        self.assertIn("P0-STR-011", phase_one["P1-STR-006E"]["depends_on"])
 
 
 if __name__ == "__main__":
