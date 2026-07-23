@@ -1,6 +1,6 @@
-version = "0.4.0"
+version = "0.5.0"
 requirement_set_id = "STEERING_INVERSE_DESIGN_DEV_V0"
-status = "active_for_AUTH_STEER_0002_operating_state_optimizer"
+status = "active_for_AUTH_STEER_0002_external_pose_and_operating_state_optimizer"
 baseline_configuration_id = "WUFR27_STEERING_BASELINE_V0"
 evaluator_model_id = "MOD-STEER-0001"
 optimizer_model_id = "MOD-STEER-0002"
@@ -184,7 +184,7 @@ alternative_modes = [
 initial_active = ["wheel_heading_target_error"]
 implemented = ["wheel_heading_target_error", "operating_state_wheel_heading_target_error"]
 operating_state_aggregation = "sum_weighted_normalized_state_rms_v0.1.0"
-future_available = ["steering_gain_variation", "rack_travel_usage", "turning_capability_margin", "packaging_margin", "joint_articulation_margin", "robustness", "effort", "vehicle_or_tire_informed_state_target_generation"]
+future_available = ["dynamic_toe_target", "steering_gain_variation", "rack_travel_usage", "turning_capability_margin", "packaging_margin", "joint_articulation_margin", "robustness", "effort", "vehicle_or_tire_informed_state_target_generation"]
 rule = "Every active objective reports raw units, normalization scale, weight, sweep/state domain, and contribution. State weights remain visible inputs. Future objectives remain unavailable until their inputs and authorization exist."
 
 [search_method]
@@ -206,8 +206,9 @@ current_ranking = "nominal single-objective or explicit weighted state-objective
 ranking_rule = "Ranking must expose every objective contribution, state weight, and hard-constraint margin. The full feasible candidate set or a declared retained subset remains available for comparison; current scalar aggregation is not a Pareto-completeness claim."
 
 [future_providers]
-pose_provider = "provider_neutral_contract_implemented_synthetic_only; reviewed WUFR/OptimumK/CAD/native-solver source still required for WUFR state claims"
-operating_state_target_provider = "explicit_state_target_aggregation_implemented_for_review; synthetic and explicit-table construction routes available"
+pose_provider = "provider_neutral_contract_and_canonical_external_exchange_adapter_implemented; synthetic fixture verified; reviewed source-specific WUFR/OptimumK/CAD/native-solver export still required for WUFR state claims"
+external_pose_adapter = "external_rigid_upright_pose_csv_v0.1.0 implemented; source-specific vendor conversion remains upstream and reviewed WUFR pose authority is unavailable"
+operating_state_target_provider = "explicit_state_target_aggregation_implemented; synthetic and explicit-table construction routes available"
 tire_vehicle_target_generator = "unavailable; reviewed vehicle/tire operating model required before tire-informed claims"
 rack_load_provider = "unavailable"
 uncertainty_provider = "unavailable"
@@ -217,6 +218,7 @@ physical_parameter_provider = "explicitly_deferred_until_Level_F_physical_data"
 items = [
   "WUFR-27 geometry redesign recommendation",
   "WUFR-28 production geometry selection",
+  "WUFR suspension-state design ranking from an unreviewed external pose source",
   "physical packaging feasibility",
   "manufacturing feasibility",
   "tire-optimal steering geometry from synthetic or manually weighted operating targets",
