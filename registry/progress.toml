@@ -114,6 +114,7 @@ id = "P0-STR-006"
 title = "WUFR-26 steering benchmark and installed-state freeze"
 status = "active"
 exit_criterion = "The nominal design geometry, source package, and descriptive Level E result are frozen; installed stops, staged transmission correlation, setup uncertainty, component-level backlash/compliance attribution, and independently justified Level F tolerances remain to be frozen."
+critical_path_rule = "Blocks installed or as-built WUFR-26 claims, but does not block generic nominal inverse-design development under AUTH-STEER-0002."
 
 [[phase_0.tasks]]
 id = "P0-PAR-001"
@@ -154,3 +155,56 @@ id = "P0-STR-011"
 title = "WUFR-26 Level F uncertainty and physical correlation"
 status = "active"
 exit_criterion = "Existing whole-system free-play, historical compliance, calculated steering-load, and available-sensor evidence are source-linked; installed stops, primary-shaft-to-rack correlation, left/right rack-to-wheel response, repeatability, staged backlash/compliance attribution, sensor calibration, uncertainty, and an independently justified acceptance rule remain to be completed."
+critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, or historical target recovery."
+
+[phase_1]
+status = "active"
+objective = "Build the steering vertical slice from the verified analyzer through nominal inverse design, explicit constraints, candidate comparison, and later provider-ready integration before unavailable 2027 physical data become necessary."
+
+[[phase_1.workstreams]]
+id = "P1-W01"
+title = "Steering inverse-design vertical slice"
+status = "active"
+exit_criterion = "A literature-grounded, analyzer-composed, deterministic nominal-height optimizer returns traceable feasible candidate sets and is ready for later pose, tire, effort, robustness, and physical-correlation providers."
+
+[[phase_1.tasks]]
+id = "P1-STR-001"
+title = "Steering inverse-design requirements and authorization"
+status = "review_ready"
+exit_criterion = "AUTH-STEER-0002, MOD-STEER-0002, WUFR27_STEERING_BASELINE_V0, STEERING_INVERSE_DESIGN_DEV_V0, architecture, literature basis, analyzer-composition rule, provider boundaries, and benchmark gates are reviewed and merged."
+review_record = "docs/reviews/phase1_steering_inverse_design_authorization_review.md"
+
+[[phase_1.tasks]]
+id = "P1-STR-002"
+title = "Parametric steering geometry generator"
+status = "active"
+depends_on = ["P1-STR-001"]
+exit_criterion = "Role-resolved candidates generate complete symmetric analyzer geometry; zero offsets reproduce the WUFR-27 baseline; tie-rod length is derived; invalid candidates fail before sweep; and no optimizer search is included."
+
+[[phase_1.tasks]]
+id = "P1-STR-003"
+title = "Nominal constrained inverse-design optimizer"
+status = "active"
+depends_on = ["P1-STR-002"]
+exit_criterion = "Deterministic multi-start constrained search recovers frozen synthetic and historical target behavior, preserves hard infeasibility, is repeatable, and reports multiple candidates with transparent objective contributions and diagnostics."
+
+[[phase_1.tasks]]
+id = "P1-STR-004"
+title = "Steering constraint and candidate-report layer"
+status = "active"
+depends_on = ["P1-STR-003"]
+exit_criterion = "Every active hard constraint has a named value, limit, margin, state, and authority; candidate reports include complete analyzer outputs, objective decomposition, sensitivity, alternative candidates, and provenance."
+
+[[phase_1.tasks]]
+id = "P1-STR-005"
+title = "Steering robustness and discrete-option layer"
+status = "active"
+depends_on = ["P1-STR-004"]
+exit_criterion = "Reviewed tolerance and hardware-option inputs produce nominal, perturbed, and worst-case results without promoting development bounds to design authority."
+
+[[phase_1.tasks]]
+id = "P1-STR-006"
+title = "Steering higher-fidelity provider integration"
+status = "active"
+depends_on = ["P1-STR-004"]
+exit_criterion = "Reviewed suspension-pose, tire-target, rack-load/effort, uncertainty, and physical-parameter providers can be connected without replacing the analyzer or optimizer geometry contracts."
