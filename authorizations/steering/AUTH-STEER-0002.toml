@@ -1,9 +1,11 @@
-version = "0.1.0"
+version = "0.2.0"
 authorization_id = "AUTH-STEER-0002"
-status = "proposed_for_review"
+status = "active_reviewed_and_frozen"
 title = "Nominal-height steering inverse-design prototype authorization"
-effective_condition = "Effective only after this focused authorization pull request is reviewed and merged."
+effective_condition = "Effective after reviewed merge of PR #20."
+effective_merge_commit = "eb3d240d235cd6ba0cf52601df31a67768e751ff"
 review_record = "docs/reviews/phase1_steering_inverse_design_authorization_review.md"
+review_conclusion = "The team reviewed and approved the analyzer-composed inverse-design architecture, role-selectable variable boundary, provider interfaces, candidate visibility requirements, and literature grounding before implementation began."
 
 [scope]
 model_ids = ["MOD-STEER-0001", "MOD-STEER-0002"]
@@ -22,6 +24,14 @@ required_equation_ids = [
   "EQ-STEER-0006",
   "EQ-STEER-0007"
 ]
+
+[implementation_tracking]
+authorization_merge = "PR #20"
+geometry_generator_implementation = "PR #21"
+current_stage = "role_resolver_and_parametric_geometry_generator_implemented_for_review"
+next_stage = "deterministic_nominal_constrained_search_after_PR21_review"
+implementation_document = "docs/models/steering/steering_geometry_generator_implementation_v0.1.0.md"
+implementation_review = "docs/reviews/phase1_steering_geometry_generator_review.md"
 
 [architecture]
 authoritative_evaluator_model_id = "MOD-STEER-0001"
@@ -108,7 +118,7 @@ items = [
   "Tie-rod length is derived from joint centers and inconsistency is reported if a second independent length is supplied.",
   "Reflection tests cover axes, inner joints, outer joints, wheel bases, toe signs, and source roles.",
   "Development bounds and the narrow depth policy are explicit in the requirement set and result provenance.",
-  "No optimizer package or objective ranking is merged with the geometry-generator pull request."
+  "No optimizer search or objective ranking is merged with the geometry-generator pull request."
 ]
 
 [required_before_optimizer_merge]

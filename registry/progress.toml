@@ -170,16 +170,19 @@ exit_criterion = "A literature-grounded, analyzer-composed, deterministic nomina
 [[phase_1.tasks]]
 id = "P1-STR-001"
 title = "Steering inverse-design requirements and authorization"
-status = "review_ready"
+status = "complete"
 exit_criterion = "AUTH-STEER-0002, MOD-STEER-0002, WUFR27_STEERING_BASELINE_V0, STEERING_INVERSE_DESIGN_DEV_V0, architecture, literature basis, analyzer-composition rule, provider boundaries, and benchmark gates are reviewed and merged."
 review_record = "docs/reviews/phase1_steering_inverse_design_authorization_review.md"
+merge_record = "PR #20, merge commit eb3d240d235cd6ba0cf52601df31a67768e751ff"
 
 [[phase_1.tasks]]
 id = "P1-STR-002"
 title = "Parametric steering geometry generator"
-status = "active"
+status = "review_ready"
 depends_on = ["P1-STR-001"]
 exit_criterion = "Role-resolved candidates generate complete symmetric analyzer geometry; zero offsets reproduce the WUFR-27 baseline; tie-rod length is derived; invalid candidates fail before sweep; and no optimizer search is included."
+review_record = "docs/reviews/phase1_steering_geometry_generator_review.md"
+implementation_record = "docs/models/steering/steering_geometry_generator_implementation_v0.1.0.md"
 
 [[phase_1.tasks]]
 id = "P1-STR-003"

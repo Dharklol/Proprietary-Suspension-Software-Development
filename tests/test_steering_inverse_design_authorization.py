@@ -15,6 +15,7 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
 
     def test_optimizer_composes_existing_analyzer(self) -> None:
         authorization = self._load("authorizations/steering/AUTH-STEER-0002.toml")
+        self.assertEqual("active_reviewed_and_frozen", authorization["status"])
         self.assertEqual("MOD-STEER-0001", authorization["architecture"]["authoritative_evaluator_model_id"])
         self.assertEqual("MOD-STEER-0002", authorization["architecture"]["optimizer_orchestrator_model_id"])
         self.assertIn(
@@ -30,6 +31,7 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
         self.assertEqual("MOD-STEER-0002", record["id"])
         self.assertEqual(["MOD-STEER-0001"], record["dependency_model_ids"])
         self.assertEqual("AUTH-STEER-0002", record["authorization_id"])
+        self.assertEqual("prototype_authorized", record["authorization_state"])
         self.assertIn("contains no independent steering-kinematics equations", record["description"])
 
     def test_wufr27_baseline_inherits_frozen_geometry(self) -> None:
@@ -106,7 +108,8 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
         self.assertIn("does not block generic", phase_zero["P0-STR-011"]["critical_path_rule"])
 
         phase_one = {task["id"]: task for task in progress["phase_1"]["tasks"]}
-        self.assertEqual("review_ready", phase_one["P1-STR-001"]["status"])
+        self.assertEqual("complete", phase_one["P1-STR-001"]["status"])
+        self.assertEqual("review_ready", phase_one["P1-STR-002"]["status"])
         self.assertEqual(["P1-STR-001"], phase_one["P1-STR-002"]["depends_on"])
         self.assertEqual(["P1-STR-002"], phase_one["P1-STR-003"]["depends_on"])
 
