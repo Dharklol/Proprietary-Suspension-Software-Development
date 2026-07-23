@@ -76,6 +76,7 @@ from .optimization import (
     TargetDefinitionError,
     VariableDefinition,
     build_analyzer_incremental_target,
+    candidate_evaluation_report,
     evaluate_candidate,
     generate_candidate_geometry,
     load_historical_fit_target,
@@ -84,6 +85,8 @@ from .optimization import (
     reflect_lateral,
     resolve_candidate,
     run_nominal_inverse_design,
+    steering_search_report,
+    write_json_report,
 )
 from .projection import (
     ROAD_NORMAL,
@@ -147,6 +150,7 @@ __all__ = [
     "ackermann_error",
     "assign_inside_outside",
     "build_analyzer_incremental_target",
+    "candidate_evaluation_report",
     "closure_length_residual",
     "closure_rotation_derivative",
     "closure_squared_residual",
@@ -180,9 +184,11 @@ __all__ = [
     "solve_corner_position",
     "solve_sweep",
     "staged_transmission",
+    "steering_search_report",
     "transform_linear_input",
     "translate_rack_joint",
     "turning_radii",
     "unwrap_periodic",
     "wheel_heading",
+    "write_json_report",
 ]
