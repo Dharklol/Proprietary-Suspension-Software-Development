@@ -100,7 +100,7 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
         self.assertIn("OperatingStateTargetSet", target_provider)
         self.assertIn("tire/vehicle target generation remains open", target_provider)
         gate = authorization["required_before_operating_target_merge"]
-        self.assertEqual("implemented_for_PR25_review", gate["status"])
+        self.assertEqual("complete_in_PR25", gate["status"])
         self.assertEqual(["BENCH-STEER-0016", "BENCH-STEER-0017"], gate["benchmark_ids"])
 
     def test_candidate_set_and_ranking_remain_visible(self) -> None:
@@ -126,7 +126,8 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
         self.assertEqual("complete", phase_one["P1-STR-004"]["status"])
         self.assertEqual("complete", phase_one["P1-STR-006A"]["status"])
         self.assertEqual("complete", phase_one["P1-STR-006B"]["status"])
-        self.assertEqual("review_ready", phase_one["P1-STR-006C"]["status"])
+        self.assertEqual("complete", phase_one["P1-STR-006C"]["status"])
+        self.assertEqual("review_ready", phase_one["P1-STR-006F"]["status"])
         self.assertEqual("active", phase_one["P1-STR-006E"]["status"])
         self.assertIn("explicitly deferred", phase_one["P1-STR-006E"]["execution_rule"].lower())
         self.assertEqual(["P1-STR-001"], phase_one["P1-STR-002"]["depends_on"])
@@ -134,6 +135,7 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
         self.assertEqual(["P1-STR-003"], phase_one["P1-STR-004"]["depends_on"])
         self.assertEqual(["P1-STR-006A"], phase_one["P1-STR-006B"]["depends_on"])
         self.assertEqual(["P1-STR-006B"], phase_one["P1-STR-006C"]["depends_on"])
+        self.assertEqual(["P1-STR-006A", "P1-STR-006B"], phase_one["P1-STR-006F"]["depends_on"])
         self.assertIn("P0-STR-011", phase_one["P1-STR-006E"]["depends_on"])
 
 

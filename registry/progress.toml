@@ -253,7 +253,7 @@ merge_record = "PR #24, merge commit d5f4c983c1291458dff2665b650b28c322ee0395"
 [[phase_1.tasks]]
 id = "P1-STR-006C"
 title = "Operating-state steering target aggregation"
-status = "review_ready"
+status = "complete"
 depends_on = ["P1-STR-006B"]
 exit_criterion = "Named operating states can carry reviewed steering targets, weights, domains, normalization, source authority, and explicit objective/report-only roles; multi-state objectives are decomposed and aggregated without being inferred from historical or synthetic pose data."
 review_record = "docs/reviews/phase1_steering_operating_state_target_review.md"
@@ -262,6 +262,21 @@ benchmark_ids = ["BENCH-STEER-0016", "BENCH-STEER-0017"]
 report_script = "scripts/run_steering_operating_state_benchmarks.py"
 result_record = "benchmarks/steering/steering_operating_state_target_result_v0.1.0.toml"
 scope_note = "Synthetic state targets and weights verify software composition only. Reviewed vehicle/tire target-generation authority remains a later provider gate."
+merge_record = "PR #25, merge commit 6a1de640b864e7ee87565fd3c376c70bdc3dc70e"
+
+[[phase_1.tasks]]
+id = "P1-STR-006F"
+title = "External suspension-pose exchange adapter"
+status = "review_ready"
+depends_on = ["P1-STR-006A", "P1-STR-006B"]
+exit_criterion = "A reviewed external rigid-transform table can be ingested with explicit source/revision/frame/steering-DOF metadata and reproduce canonical pose/analyzer behavior exactly; descriptive or physical evidence is not silently promoted to unresolved-pose authority."
+review_record = "docs/reviews/phase1_steering_external_pose_adapter_review.md"
+implementation_record = "docs/models/steering/steering_external_pose_adapter_implementation_v0.1.0.md"
+source_audit = "docs/models/steering/steering_external_pose_source_audit.md"
+benchmark_ids = ["BENCH-STEER-0018"]
+report_script = "scripts/run_steering_external_pose_adapter_benchmarks.py"
+result_record = "benchmarks/steering/steering_external_pose_adapter_result_v0.1.0.toml"
+scope_note = "The implemented exchange fixture is synthetic. No reviewed machine-readable WUFR zero-steer upright transform series has yet been identified, so WUFR suspension-state design ranking remains gated."
 
 [[phase_1.tasks]]
 id = "P1-STR-006D"
