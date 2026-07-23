@@ -1,6 +1,6 @@
-version = "0.1.0"
+version = "0.2.0"
 requirement_set_id = "STEERING_INVERSE_DESIGN_DEV_V0"
-status = "proposed_for_prototype_after_AUTH_STEER_0002"
+status = "active_for_AUTH_STEER_0002_geometry_generator"
 baseline_configuration_id = "WUFR27_STEERING_BASELINE_V0"
 evaluator_model_id = "MOD-STEER-0001"
 optimizer_model_id = "MOD-STEER-0002"
@@ -22,6 +22,15 @@ authority = "mathematical_sanity_and_workflow_development_only"
 packaging_authority = false
 manufacturing_authority = false
 rule = "These broad bounds support workflow testing and may generate physically unusable concepts. Hardware-feasible ranking remains prohibited until reviewed packaging and manufacturing constraints are supplied."
+
+[outer_pickup_local_frame]
+authority = "Development-only nominal upright-local coordinate frame for workflow testing; not a measured steering-arm surface or packaging envelope."
+origin_rule = "Use the baseline left outer tie-rod joint as the local-frame origin; generate the right point by exact body-y reflection."
+u_direction = [1.0, 0.0, 0.0]
+v_direction = [0.0, 0.0, 1.0]
+depth_direction = [0.0, -1.0, 0.0]
+orthonormal_tolerance = 1.0e-12
+basis_definition = "At the nominal pose, +u is body +x, +v is body +z, and +depth is inward on the left side. u cross v equals depth. A later reviewed upright/CAD adapter may supply a different frame without changing generator roles."
 
 [[variables]]
 id = "rack_longitudinal_offset"
@@ -57,7 +66,7 @@ unit = "m"
 reference = 0.0
 minimum = -0.08
 maximum = 0.08
-coordinate_definition = "Offset in the reviewed upright-local steering-arm surface coordinate u."
+coordinate_definition = "Offset in the explicit nominal upright-local steering-arm coordinate u."
 
 [[variables]]
 id = "outer_pickup_local_v_offset"
@@ -66,7 +75,7 @@ unit = "m"
 reference = 0.0
 minimum = -0.08
 maximum = 0.08
-coordinate_definition = "Offset in the reviewed upright-local steering-arm surface coordinate v."
+coordinate_definition = "Offset in the explicit nominal upright-local steering-arm coordinate v."
 
 [[variables]]
 id = "outer_pickup_local_depth_offset"
@@ -75,7 +84,7 @@ unit = "m"
 reference = 0.0
 minimum = -0.005
 maximum = 0.005
-coordinate_definition = "Tightly bounded offset normal to the intended steering-arm region. A study may change this role to fixed_parameter without changing the generator."
+coordinate_definition = "Tightly bounded offset along the explicit local depth direction. A study may change this role to fixed_parameter without changing the generator."
 
 [[items]]
 id = "wheel_centers"
