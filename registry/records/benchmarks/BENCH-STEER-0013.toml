@@ -1,0 +1,25 @@
+[record]
+id = "BENCH-STEER-0013"
+type = "benchmark"
+title = "Steering local sensitivity and diversity-aware candidate comparison"
+status = "proposed"
+description = "Verify deterministic analyzer-composed local finite-difference sensitivity and objective-ranked candidate comparison with normalized design-space separation, geometry deltas, constraint margins, unavailable evidence, and explicit non-Pareto authority boundaries."
+verification_level = "A"
+target_ids = ["MOD-STEER-0002", "MOD-STEER-0001"]
+acceptance_criteria = [
+  "Every perturbation is role-resolved, regenerated, and evaluated through the existing candidate evaluator and MOD-STEER-0001 analyzer.",
+  "The frozen reference rack-longitudinal sensitivity uses a central 0.0003 m step and returns finite objective and constraint-margin derivatives.",
+  "Repeated sensitivity calls with identical inputs return identical records.",
+  "Candidate comparison screens the retained search candidates through STEERING_CONSTRAINT_PROVIDER_DEV_V0 before comparison.",
+  "The frozen report screens twenty candidates, retains four design-space-separated alternatives, and records objective and tie-rod-length differences.",
+  "Near-duplicate filtering uses an explicit normalized design-distance threshold and does not claim Pareto completeness or global optimality.",
+  "Machine-readable reports preserve candidate values, geometry, constraints, analyzer diagnostics, method settings, ranking explanations, and provenance."
+]
+fixture = "configurations/steering/STEERING_CONSTRAINT_PROVIDER_DEV_V0.toml"
+implementation_test = "tests/test_steering_constraints_sensitivity.py"
+report_script = "scripts/run_steering_constraint_sensitivity_benchmarks.py"
+result_record = "benchmarks/steering/steering_constraint_sensitivity_result_v0.1.0.toml"
+method_references = [
+  "Fornberg (1988), Generation of Finite Difference Formulas on Arbitrarily Spaced Grids",
+  "Saltelli et al. (2008), Global Sensitivity Analysis: The Primer, for the distinction between local derivative information and broader uncertainty-based sensitivity"
+]
