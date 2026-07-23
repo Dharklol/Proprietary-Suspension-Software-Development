@@ -1,4 +1,4 @@
-"""Bounded rigid-steering evaluator authorized by AUTH-STEER-0001."""
+"""Steering analyzer and authorized inverse-design development interfaces."""
 
 from .comparison import (
     ComparisonMetrics,
@@ -54,6 +54,20 @@ from .derived import (
     turning_radii,
 )
 from .legacy_fits import WheelAnglePolynomialFit, load_wheel_angle_fits
+from .optimization import (
+    CandidateGeometryError,
+    GeneratedSteeringGeometry,
+    LocalFrameDefinition,
+    ParameterRole,
+    RequirementSet,
+    ResolvedCandidate,
+    RoleResolutionError,
+    VariableDefinition,
+    generate_candidate_geometry,
+    load_requirement_set,
+    reflect_lateral,
+    resolve_candidate,
+)
 from .projection import (
     ROAD_NORMAL,
     WheelPlaneReference,
@@ -69,17 +83,24 @@ from .solidworks import (
 
 __all__ = [
     "AxisLine",
+    "CandidateGeometryError",
     "ComparisonMetrics",
     "ComparisonStatus",
     "FailureCode",
+    "GeneratedSteeringGeometry",
     "GeometryError",
     "HeadingResult",
     "InsideOutside",
     "LinearInputMap",
+    "LocalFrameDefinition",
     "MonitorNormalization",
+    "ParameterRole",
     "PositionResult",
     "ROAD_NORMAL",
     "RackGeometry",
+    "RequirementSet",
+    "ResolvedCandidate",
+    "RoleResolutionError",
     "RootBracket",
     "SeriesComparison",
     "SeriesError",
@@ -90,6 +111,7 @@ __all__ = [
     "SteeringGeometry",
     "TransmissionResult",
     "TurningRadii",
+    "VariableDefinition",
     "WarningCode",
     "WheelAnglePolynomialFit",
     "WheelPlaneReference",
@@ -102,10 +124,12 @@ __all__ = [
     "conventional_steering_ratio",
     "evaluate_wheel_heading",
     "exact_ackermann_outside_reference",
+    "generate_candidate_geometry",
     "implicit_upright_gain",
     "interpolate_linear",
     "level_e_missing_metadata",
     "load_geometry",
+    "load_requirement_set",
     "load_wheel_angle_fits",
     "local_road_wheel_gain",
     "metres_per_radian_to_millimetres_per_revolution",
@@ -114,6 +138,8 @@ __all__ = [
     "parse_transposed_csv_text",
     "projected_wheel_heading",
     "reference_from_static_alignment",
+    "reflect_lateral",
+    "resolve_candidate",
     "road_intersection_direction",
     "rotate_point_about_axis",
     "secant_ratio",
