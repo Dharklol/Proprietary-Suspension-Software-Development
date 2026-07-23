@@ -5,7 +5,7 @@ title = "Steering inverse-design orchestration layer"
 status = "active"
 disposition = "rewrite"
 maturity = "M1"
-description = "Role-driven nominal-height steering inverse-design orchestration layer. The implemented prototype resolves named parameter roles, generates symmetric rack and tie-rod geometry, converts every candidate into the public MOD-STEER-0001 geometry contract, evaluates the complete target sweep through that analyzer, separates hard infeasibility from target error, and performs deterministic seeded multi-start coordinate-pattern search. It returns several feasible candidates with objective, constraint, analyzer, geometry, method, and provenance records. It contains no independent steering-kinematics equations."
+description = "Role-driven nominal-height steering inverse-design orchestration layer. The implemented prototype resolves named parameter roles, generates symmetric rack and tie-rod geometry, converts every candidate into the public MOD-STEER-0001 geometry contract, evaluates the complete target sweep through that analyzer, separates hard infeasibility from target error, and performs deterministic seeded multi-start coordinate-pattern search. It now supports named supplemental constraint screening with unavailable-evidence dispositions, analyzer-composed local finite-difference sensitivity, and diversity-aware multi-candidate comparison. It contains no independent steering-kinematics equations."
 inputs = [
   "Named baseline steering configuration",
   "Named requirement set with fixed, variable, discrete, derived, constraint, target, report-only, and evidence roles",
@@ -14,19 +14,24 @@ inputs = [
   "Historical, synthetic, or future reviewed target-provider response with signals, units, domain, weights, normalization, and source authority",
   "Deterministic bounded coordinate-pattern search settings and integer seed",
   "Role-selected active-variable subset",
+  "Named constraint-provider set with active or unavailable dispositions, units, limits, states, and authority",
+  "Local sensitivity variable selection and bounded finite-difference settings",
   "Future reviewed suspension-pose, rack-load, uncertainty, and physical-parameter providers"
 ]
 outputs = [
   "Complete generated steering geometry per candidate",
   "Complete MOD-STEER-0001 analyzer sweep and diagnostics per retained or rejected evaluated candidate",
   "Reference-state derived left and right tie-rod joint-center lengths",
-  "Role, unit, bound, symmetry, baseline, candidate, target, and method provenance",
-  "Feasibility status and named hard-constraint records",
+  "Role, unit, bound, symmetry, baseline, candidate, target, constraint, and method provenance",
+  "Feasibility status and named base hard-constraint records",
+  "Supplemental active, failed, or unavailable constraint records with value, limits, margin, unit, state, authority, and blocking status",
   "Raw and normalized wheel-heading objective contribution with units, scale, weight, and domain",
   "Several retained feasible candidates and transparent convenience ranking",
   "Deterministic multi-start and termination records",
-  "Machine-readable candidate and search comparison reports",
-  "Future sensitivity and robustness outputs only where separately implemented and authorized"
+  "Local objective and numeric constraint-margin sensitivities for selected bounded variables",
+  "Diversity-aware candidate comparison with objective, geometry, constraint, and evidence differences",
+  "Machine-readable candidate, search, screening, sensitivity, and comparison reports",
+  "Future robustness outputs only where separately implemented and authorized"
 ]
 assumptions = [
   "The first implementation uses one nominal suspension pose with rigid links and joints.",
@@ -39,26 +44,30 @@ assumptions = [
   "The WUFR-26/27 response is a fit-derived regression target, not a universal optimum or independent validation source.",
   "The analyzer-generated synthetic target is software verification rather than vehicle evidence.",
   "Hard constraints cannot be offset by objective score.",
+  "Unavailable hardware or installed-state evidence is not treated as a passed constraint.",
+  "The first supplemental constraint set uses development-only values and screens the retained search archive; it does not yet steer search polling around a reviewed hardware-feasible region.",
+  "Local finite-difference sensitivity is not manufacturing tolerance, uncertainty propagation, or robustness analysis.",
   "Development bounds are not packaging or manufacturing authority.",
-  "The current single-objective ranking is not a Pareto or global-optimality claim."
+  "The current single-objective ranking and design-distance filtering are not Pareto or global-optimality claims."
 ]
 verification_level = "A"
 equation_ids = ["EQ-STEER-0001", "EQ-STEER-0002", "EQ-STEER-0003", "EQ-STEER-0004", "EQ-STEER-0005", "EQ-STEER-0006", "EQ-STEER-0007"]
-benchmark_ids = ["BENCH-STEER-0009", "BENCH-STEER-0010", "BENCH-STEER-0011"]
+benchmark_ids = ["BENCH-STEER-0009", "BENCH-STEER-0010", "BENCH-STEER-0011", "BENCH-STEER-0012", "BENCH-STEER-0013"]
 dependency_model_ids = ["MOD-STEER-0001"]
 authorization_state = "prototype_authorized"
 authorization_id = "AUTH-STEER-0002"
 authorization_document = "docs/models/steering/steering_inverse_design_prototype_authorization.md"
 architecture_document = "docs/models/steering/steering_optimizer_architecture.md"
-authorized_configurations = ["WUFR27_STEERING_BASELINE_V0", "STEERING_INVERSE_DESIGN_DEV_V0"]
-implementation_state = "nominal_constrained_inverse_design_implemented_for_review"
+authorized_configurations = ["WUFR27_STEERING_BASELINE_V0", "STEERING_INVERSE_DESIGN_DEV_V0", "STEERING_CONSTRAINT_PROVIDER_DEV_V0"]
+implementation_state = "constraint_screening_sensitivity_and_candidate_comparison_implemented_for_review"
 implementation_package = "src/pssd_steering/optimization"
 geometry_generator_document = "docs/models/steering/steering_geometry_generator_implementation_v0.1.0.md"
 optimizer_implementation_document = "docs/models/steering/steering_nominal_optimizer_implementation_v0.1.0.md"
-implementation_tests = ["tests/test_steering_geometry_generator.py", "tests/test_steering_nominal_optimizer.py"]
-implementation_review = "docs/reviews/phase1_steering_nominal_optimizer_review.md"
-benchmark_report_script = "scripts/run_steering_nominal_optimizer_benchmarks.py"
-method_id = "bounded_coordinate_pattern_search_v0.1.0"
+constraint_sensitivity_document = "docs/models/steering/steering_constraints_sensitivity_implementation_v0.1.0.md"
+implementation_tests = ["tests/test_steering_geometry_generator.py", "tests/test_steering_nominal_optimizer.py", "tests/test_steering_constraints_sensitivity.py"]
+implementation_reviews = ["docs/reviews/phase1_steering_nominal_optimizer_review.md", "docs/reviews/phase1_steering_constraints_sensitivity_review.md"]
+benchmark_report_scripts = ["scripts/run_steering_nominal_optimizer_benchmarks.py", "scripts/run_steering_constraint_sensitivity_benchmarks.py"]
+method_ids = ["bounded_coordinate_pattern_search_v0.1.0", "bounded_finite_difference_v0.1.0", "objective_order_with_normalized_design_distance_filter_v0.1.0"]
 implemented_components = [
   "requirement-set role parser",
   "bounded and fixed scalar resolver",
@@ -75,11 +84,16 @@ implemented_components = [
   "active-variable subset selection",
   "multiple retained feasible candidates",
   "machine-readable candidate and search reports",
-  "structured infeasibility with no objective score"
+  "structured infeasibility with no objective score",
+  "named active and unavailable supplemental constraint-provider records",
+  "screened-candidate blocking disposition without modifying the base analyzer result",
+  "bounded local objective and constraint-margin finite-difference sensitivity",
+  "normalized design-distance filtering and candidate-difference reports",
+  "machine-readable screening, sensitivity, and comparison reports"
 ]
 unimplemented_components = [
   "reviewed steering-arm, rack, articulation, thread-engagement, stop, clearance, and manufacturing constraints",
-  "objective sensitivity analysis",
+  "integration of future reviewed hardware constraints into every search-candidate evaluation rather than retained-archive screening",
   "multiobjective nondominated-set computation",
   "discrete hardware options",
   "tolerance and robustness evaluation",
@@ -89,14 +103,16 @@ unimplemented_components = [
   "physical-parameter identification and as-built correction layers",
   "production geometry release workflow"
 ]
-first_code_scope = "Nominal-height deterministic target-recovery and exploratory candidate comparison through the existing analyzer. Search results remain development-only until the later constraint, sensitivity, robustness, provider, and production gates pass."
-prototype_scope = "Deterministic nominal-height constrained inverse design using the existing analyzer, historical or analyzer-generated target curves, explicit first-layer hard constraints, and multi-candidate reporting."
-prohibited_scope = "Duplicate steering physics, production geometry authority, physical packaging or manufacturing claims, suspension-state physics, tire/effort/compliance/tolerance/transient modeling, learned optimization, global-optimality claims, and as-built validation."
+first_code_scope = "Nominal-height deterministic target recovery, development constraint screening, local sensitivity, and exploratory candidate comparison through the existing analyzer. Results remain development-only until the later hardware, robustness, provider, and production gates pass."
+prototype_scope = "Deterministic nominal-height inverse design using the existing analyzer, historical or analyzer-generated target curves, explicit first-layer constraints, local sensitivity, and multi-candidate reporting."
+prohibited_scope = "Duplicate steering physics, production geometry authority, physical packaging or manufacturing claims, suspension-state physics, tire/effort/compliance/tolerance/transient modeling, learned optimization, Pareto or global-optimality claims, and as-built validation."
 literature_basis = [
   "Guiggiani, The Science of Vehicle Dynamics (2022), Chapter 3 Sections 3.4.1-3.4.3",
   "Gillespie, Fundamentals of Vehicle Dynamics, Chapter 8",
   "Romano, Multi-Body Modelling and Mechanical Analysis of a Steering System (2022), Chapters 2 and 4",
   "Hooke and Jeeves, Direct Search Solution of Numerical and Statistical Problems (1961)",
   "Lewis, Torczon, and Trosset, Direct Search Methods: Then and Now (2000)",
+  "Fornberg, Generation of Finite Difference Formulas on Arbitrarily Spaced Grids (1988)",
+  "Saltelli et al., Global Sensitivity Analysis: The Primer (2008)",
   "Huang et al., Find Optimal Suspension Kinematics Targets for Vehicle Dynamics Using Reinforcement Learning, SAE 2026"
 ]
