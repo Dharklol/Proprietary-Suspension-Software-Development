@@ -1,0 +1,4 @@
+state_id,left_wheel_vertical_displacement_m,right_wheel_vertical_displacement_m,left_tx_m,left_ty_m,left_tz_m,left_r11,left_r12,left_r13,left_r21,left_r22,left_r23,left_r31,left_r32,left_r33,right_tx_m,right_ty_m,right_tz_m,right_r11,right_r12,right_r13,right_r21,right_r22,right_r23,right_r31,right_r32,right_r33
+nominal,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0
+symmetric_bump_5mm,0.005,0.005,0.0,0.0,0.005,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.005,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0
+opposed_travel_5mm,0.005,-0.005,0.0,0.0,0.005,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,-0.005,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0
