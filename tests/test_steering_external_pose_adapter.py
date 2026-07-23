@@ -23,6 +23,7 @@ REFERENCE_POSE_PATH = ROOT / "benchmarks" / "steering" / "STEERING_SYNTHETIC_POS
 BASELINE_PATH = ROOT / "configurations" / "steering" / "WUFR27_STEERING_BASELINE_V0.toml"
 REQUIREMENT_PATH = ROOT / "configurations" / "steering" / "STEERING_INVERSE_DESIGN_DEV_V0.toml"
 TARGET_PATH = ROOT / "benchmarks" / "steering" / "WUFR26_27_HISTORICAL_RESPONSE_REGRESSION_V0.toml"
+SOURCE_CSV_PATH = ROOT / "benchmarks" / "steering" / "STEERING_EXTERNAL_POSE_TABLE_FIXTURE_V0.csv"
 
 
 class SteeringExternalPoseAdapterTests(unittest.TestCase):
@@ -35,6 +36,17 @@ class SteeringExternalPoseAdapterTests(unittest.TestCase):
         cls.target = load_historical_fit_target(TARGET_PATH)
         cls.candidate = resolve_candidate(cls.requirement, candidate_id="EXTERNAL-POSE-REFERENCE")
         cls.generated = generate_candidate_geometry(cls.baseline, cls.requirement, cls.candidate)
+
+    def _assert_manifest_rejected(self, manifest_text: str) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            manifest = root / "bad.toml"
+            manifest.write_text(manifest_text, encoding="utf-8")
+            (root / SOURCE_CSV_PATH.name).write_text(
+                SOURCE_CSV_PATH.read_text(encoding="utf-8"), encoding="utf-8"
+            )
+            with self.assertRaises(ExternalPoseAdapterError):
+                load_external_pose_table(manifest)
 
     def test_exchange_fixture_reconstructs_canonical_pose_values(self) -> None:
         actual = self.imported.pose_set
@@ -90,18 +102,27 @@ class SteeringExternalPoseAdapterTests(unittest.TestCase):
 
     def test_source_that_includes_tie_rod_steering_is_rejected(self) -> None:
         original = MANIFEST_PATH.read_text(encoding="utf-8")
-        bad = original.replace(
-            "tie_rod_steering_response_included = false",
-            "tie_rod_steering_response_included = true",
+        self._assert_manifest_rejected(
+            original.replace(
+                "tie_rod_steering_response_included = false",
+                "tie_rod_steering_response_included = true",
+            )
         )
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            manifest = root / "bad.toml"
-            manifest.write_text(bad, encoding="utf-8")
-            source_csv = ROOT / "benchmarks" / "steering" / "STEERING_EXTERNAL_POSE_TABLE_FIXTURE_V0.csv"
-            (root / source_csv.name).write_text(source_csv.read_text(encoding="utf-8"), encoding="utf-8")
-            with self.assertRaises(ExternalPoseAdapterError):
-                load_external_pose_table(manifest)
+
+    def test_missing_source_revision_is_rejected(self) -> None:
+        original = MANIFEST_PATH.read_text(encoding="utf-8")
+        self._assert_manifest_rejected(
+            original.replace(
+                'source_revision = "PR24 synthetic pose fixture copied into canonical external exchange form"\n',
+                "",
+            )
+        )
+
+    def test_noncanonical_translation_unit_is_rejected(self) -> None:
+        original = MANIFEST_PATH.read_text(encoding="utf-8")
+        self._assert_manifest_rejected(
+            original.replace('translation_unit = "m"', 'translation_unit = "mm"')
+        )
 
 
 if __name__ == "__main__":
