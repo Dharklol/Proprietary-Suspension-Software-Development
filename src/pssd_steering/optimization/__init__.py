@@ -3,10 +3,10 @@
 The package composes the role resolver, parametric geometry generator, target
 providers, analyzer-composed candidate evaluator, deterministic nominal
 constrained-search baseline, constraint-provider screening, local sensitivity,
-provider-neutral suspension poses, multi-state steering evaluation, explicit
-operating-state target aggregation, and machine-readable reports. Tire, effort,
-manufacturing, robustness, physical-correlation, and production-release models
-remain outside this implementation.
+provider-neutral suspension poses, external pose-table ingestion, multi-state
+steering evaluation, explicit operating-state target aggregation, and
+machine-readable reports. Tire, effort, manufacturing, robustness,
+physical-correlation, and production-release models remain outside this implementation.
 """
 
 from .candidate_comparison import (
@@ -35,6 +35,13 @@ from .evaluation import (
     ConstraintResult,
     ObjectiveContribution,
     evaluate_candidate,
+)
+from .external_poses import (
+    ROTATION_CONVENTION,
+    ExternalCoordinateColumn,
+    ExternalPoseAdapterError,
+    ExternalPoseImport,
+    load_external_pose_table,
 )
 from .geometry import (
     CandidateGeometryError,
@@ -142,6 +149,9 @@ __all__ = [
     "ConstraintMarginSensitivity",
     "ConstraintMarginSummary",
     "ConstraintResult",
+    "ExternalCoordinateColumn",
+    "ExternalPoseAdapterError",
+    "ExternalPoseImport",
     "GeneratedSteeringGeometry",
     "LocalFrameDefinition",
     "LocalSensitivityResult",
@@ -158,6 +168,7 @@ __all__ = [
     "PoseDefinitionError",
     "PoseStateEvaluation",
     "PosedSteeringGeometry",
+    "ROTATION_CONVENTION",
     "RankedCandidate",
     "RequirementSet",
     "ResolvedCandidate",
@@ -195,6 +206,7 @@ __all__ = [
     "generate_candidate_geometry",
     "load_constraint_set",
     "load_explicit_operating_state_target_set",
+    "load_external_pose_table",
     "load_historical_fit_target",
     "load_pose_set",
     "load_requirement_set",
