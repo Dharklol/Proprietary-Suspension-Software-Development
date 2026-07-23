@@ -104,3 +104,18 @@ jobs:
             steering_operating_state_report.json
             steering_operating_state_summary.json
           if-no-files-found: error
+      - name: Generate steering external-pose adapter reports
+        run: |
+          python scripts/run_steering_external_pose_adapter_benchmarks.py \
+            --output steering_external_pose_adapter_report.json > /dev/null
+          python scripts/run_steering_external_pose_adapter_benchmarks.py \
+            --summary \
+            --output steering_external_pose_adapter_summary.json
+      - name: Upload steering external-pose adapter reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: steering-external-pose-adapter-reports
+          path: |
+            steering_external_pose_adapter_report.json
+            steering_external_pose_adapter_summary.json
+          if-no-files-found: error
