@@ -1,0 +1,47 @@
+version = "0.1.0"
+result_id = "STEERING-NOMINAL-OPTIMIZER-BENCHMARKS-V0"
+status = "frozen_PR22_review_result"
+authorization_id = "AUTH-STEER-0002"
+evaluator_model_id = "MOD-STEER-0001"
+optimizer_model_id = "MOD-STEER-0002"
+baseline_geometry_id = "WUFR27_STEERING_BASELINE_V0"
+requirement_set_id = "STEERING_INVERSE_DESIGN_DEV_V0"
+method_id = "bounded_coordinate_pattern_search_v0.1.0"
+source_head_commit = "09d242c3460c1a9fda8abf4b6996499edb135fef"
+ci_run_id = 29998245541
+ci_run_number = 212
+artifact_name = "steering-nominal-optimizer-reports"
+artifact_digest = "sha256:21bb5c1744c6eaf956838a49b72f4b3fbc7d52ee6190e3a3c678643c61c97b65"
+report_script = "scripts/run_steering_nominal_optimizer_benchmarks.py"
+
+[historical_reference]
+target_id = "WUFR26_27_HISTORICAL_RESPONSE_REGRESSION_V0"
+sample_count = 15
+feasible = true
+raw_objective_deg_rms = 0.6259259771798616
+normalized_objective = 0.6259259771798616
+left_rms_deg = 0.625925977
+right_rms_deg = 0.625925977
+maximum_absolute_residual_deg = 1.36193623
+interpretation = "The WUFR-27 baseline is a feasible complete analyzer sweep with the expected finite, nonzero residual against the fit-derived historical target. This is regression evidence, not validation."
+
+[synthetic_recovery]
+target_id = "STEERING_SYNTHETIC_RECOVERY_V0"
+active_variable_id = "rack_longitudinal_offset"
+source_value_m = 0.020
+recovered_value_m = 0.019995117187499994
+absolute_recovery_error_m = 0.0000048828125000059674
+recovery_tolerance_m = 0.001
+raw_objective_deg_rms = 0.00024243233696234577
+objective_tolerance_deg_rms = 0.001
+evaluated_candidate_count = 75
+feasible_candidate_count = 73
+infeasible_candidate_count = 2
+retained_ranked_candidate_count = 8
+seed = 2701
+repeatability = "Identical candidate values, objectives, start records, and evaluation counts for repeated runs with the same configuration and seed."
+
+[disposition]
+result = "benchmark_passed_for_PR22_review"
+authority_boundary = "Historical results are nominal fit-based regression evidence and synthetic results are software verification. Neither authorizes physical packaging, manufacturing, global optimality, as-built performance, or production geometry selection."
+next_gate = "Team review and merge of PR #22, followed by P1-STR-004 hardware constraints, sensitivity, and expanded candidate-comparison work."
