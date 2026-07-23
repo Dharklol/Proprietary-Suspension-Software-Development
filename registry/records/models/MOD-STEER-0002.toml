@@ -3,7 +3,7 @@ id = "MOD-STEER-0002"
 type = "model"
 title = "Steering inverse-design orchestration layer"
 status = "proposed"
-disposition = "new"
+disposition = "rewrite"
 maturity = "M0"
 description = "Role-driven nominal-height steering inverse-design orchestration layer. It generates candidate rack and tie-rod geometry, converts each candidate into the public MOD-STEER-0001 geometry contract, calls the existing analyzer for all rigid kinematics and derived metrics, applies explicit hard constraints and target comparisons, and returns multiple feasible candidates with transparent ranking and provenance. It contains no independent steering-kinematics equations."
 inputs = [
@@ -35,7 +35,7 @@ assumptions = [
   "Hard constraints cannot be offset by objective score.",
   "Development bounds are not packaging or manufacturing authority."
 ]
-verification_level = "A_planned"
+verification_level = "A"
 equation_ids = ["EQ-STEER-0001", "EQ-STEER-0002", "EQ-STEER-0003", "EQ-STEER-0004", "EQ-STEER-0005", "EQ-STEER-0006", "EQ-STEER-0007"]
 dependency_model_ids = ["MOD-STEER-0001"]
 authorization_state = "proposed_prototype_authorization"
