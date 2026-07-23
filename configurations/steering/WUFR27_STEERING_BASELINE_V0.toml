@@ -1,0 +1,60 @@
+version = "0.1.0"
+configuration_id = "WUFR27_STEERING_BASELINE_V0"
+status = "active_design_intent_baseline_not_as_built"
+vehicle_revision = "WUFR-27"
+purpose = "WUFR-27 steering baseline using the unchanged WUFR-26 nominal steering and suspension geometry. This configuration grounds current calculations, regression, documentation, and later physical correlation; it does not claim installed/as-built authority."
+
+[authority]
+geometry_source_configuration = "WUFR26_DESIGN_NOMINAL_V0"
+geometry_source_version = "0.4.1"
+evaluator_authorization_id = "AUTH-STEER-0001"
+optimizer_authorization_id = "AUTH-STEER-0002"
+model_id = "MOD-STEER-0001"
+geometry_change_intent = "none_for_WUFR27"
+future_design_intent = "Use as a grounding baseline and regression fixture for WUFR-28 workflow development; optimizer-generated candidates are not WUFR-27 redesign proposals."
+
+[inheritance]
+rule = "Load the complete numerical geometry and conventions from WUFR26_DESIGN_NOMINAL_V0 without copying or changing hardpoints. Any later override requires a new configuration ID and provenance."
+source_path = "configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml"
+zero_offset_reconstruction_required = true
+
+[baseline_roles]
+wheel_center = "fixed_parameter"
+steering_axis_lines = "fixed_parameter"
+upright_pose = "fixed_parameter"
+suspension_hardpoints = "fixed_parameter"
+wheelbase = "fixed_parameter"
+steering_axis_track = "derived_then_fixed_for_named_reference"
+rack_axis_direction = "fixed_parameter"
+rack_center_location = "fixed_parameter_in_baseline"
+rack_inner_joint_spacing = "fixed_parameter_in_baseline"
+outer_tie_rod_pickups = "fixed_parameter_in_baseline"
+tie_rod_length = "derived_output"
+static_toe = "fixed_parameter"
+static_camber = "fixed_parameter"
+left_right_symmetry = "reviewed_exact_design_reflection"
+
+[uses]
+permitted = [
+  "current WUFR-27 nominal design calculations",
+  "regression of MOD-STEER-0001",
+  "zero-offset reconstruction test for MOD-STEER-0002",
+  "historical target recovery and candidate comparison",
+  "PDR and FDR documentation",
+  "later comparison to WUFR-27 physical measurements"
+]
+prohibited = [
+  "installed or as-built geometry claim",
+  "automatic promotion of an optimized candidate to WUFR-27",
+  "compliance-free prediction of physical steering response",
+  "use of development bounds as packaging or manufacturing authority"
+]
+
+[physical_gates]
+items = [
+  "installed rack center and stops",
+  "primary-shaft-to-rack calibration",
+  "rack-to-left/right-wheel correlation",
+  "free play, hysteresis, compliance, repeatability, and uncertainty",
+  "as-built left/right geometry or equivalent response evidence"
+]
