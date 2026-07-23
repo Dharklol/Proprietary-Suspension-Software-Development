@@ -1,0 +1,42 @@
+version = "0.1.0"
+result_id = "STEERING-EXTERNAL-POSE-ADAPTER-BENCHMARKS-V0"
+benchmark_ids = ["BENCH-STEER-0018"]
+authorization_id = "AUTH-STEER-0002"
+evaluator_model_id = "MOD-STEER-0001"
+optimizer_model_id = "MOD-STEER-0002"
+adapter_id = "external_rigid_upright_pose_csv_v0.1.0"
+adapter_version = "0.1.0"
+pose_set_id = "STEERING_EXTERNAL_POSE_TABLE_FIXTURE_V0"
+reference_pose_set_id = "STEERING_SYNTHETIC_POSE_SET_V0"
+state_count = 3
+all_imported_states_feasible = true
+max_abs_transform_component_difference = 0.0
+max_abs_coordinate_difference = 0.0
+max_abs_heading_difference_deg = 0.0
+max_abs_dynamic_toe_difference_deg = 0.0
+rotation_convention = "active_nominal_upright_to_state_body_frame"
+source_type = "software_exchange_fixture"
+source_path = "benchmarks/steering/STEERING_SYNTHETIC_POSE_SET_V0.toml"
+source_revision = "PR24 synthetic pose fixture copied into canonical external exchange form"
+source_discovery_status = "no_reviewed_machine_readable_wufr_zero_steer_upright_transform_series_identified"
+reference_ci_run = "GitHub Actions registry-validation run 287"
+reference_head_commit = "d5855f56299efcda0b8d2b89f9b4323524bda88e"
+
+[acceptance]
+transform_parity_passed = true
+coordinate_parity_passed = true
+analyzer_heading_parity_passed = true
+dynamic_toe_parity_passed = true
+full_state_feasibility_passed = true
+steering_response_double_count_rejection_tested = true
+source_revision_requirement_tested = true
+canonical_translation_unit_requirement_tested = true
+
+[authority]
+classification = "software_integration_verification_only"
+wufr_suspension_motion_authority = false
+optimumk_authority = false
+cad_motion_authority = false
+physical_authority = false
+design_ranking_authority = false
+statement = "The external CSV/TOML fixture exactly reproduces the existing synthetic canonical pose fixture. This proves adapter composition only and does not establish a reviewed WUFR suspension-pose source."
