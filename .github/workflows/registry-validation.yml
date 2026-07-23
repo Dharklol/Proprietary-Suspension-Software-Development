@@ -59,3 +59,18 @@ jobs:
             steering_nominal_optimizer_report.json
             steering_nominal_optimizer_summary.json
           if-no-files-found: error
+      - name: Generate steering constraint and sensitivity reports
+        run: |
+          python scripts/run_steering_constraint_sensitivity_benchmarks.py \
+            --output steering_constraint_sensitivity_report.json > /dev/null
+          python scripts/run_steering_constraint_sensitivity_benchmarks.py \
+            --summary \
+            --output steering_constraint_sensitivity_summary.json
+      - name: Upload steering constraint and sensitivity reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: steering-constraint-sensitivity-reports
+          path: |
+            steering_constraint_sensitivity_report.json
+            steering_constraint_sensitivity_summary.json
+          if-no-files-found: error
