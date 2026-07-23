@@ -1,0 +1,25 @@
+[record]
+id = "BENCH-STEER-0018"
+type = "benchmark"
+title = "External suspension-pose exchange adapter parity"
+status = "proposed"
+description = "Verify that an explicit external rigid-upright transform table can be converted into the canonical SuspensionPoseSet without changing state coordinates, transforms, steering feasibility, wheel-heading response, or dynamic-toe results produced through MOD-STEER-0001."
+verification_level = "A"
+target_ids = ["MOD-STEER-0002", "MOD-STEER-0001"]
+acceptance_criteria = [
+  "The canonical external CSV/TOML fixture reconstructs the three existing synthetic pose states with zero transform-component and coordinate difference.",
+  "The imported nominal, symmetric-bump, and opposed-travel states produce identical MOD-STEER-0001 feasibility and rack-sweep wheel-heading outputs to the reference canonical pose fixture.",
+  "Centered left/right side-local dynamic-toe results are identical to the reference pose fixture.",
+  "The adapter requires source path, source revision, authority, frame identity/definition, translation unit, rotation convention, and the unresolved-steering rule before import.",
+  "A source declaring tie_rod_steering_response_included=true is rejected before steering evaluation.",
+  "The benchmark fixture remains software integration evidence and may not be described as WUFR, OptimumK, CAD, or physical suspension-motion evidence."
+]
+fixture = "benchmarks/steering/STEERING_EXTERNAL_POSE_TABLE_FIXTURE_V0.toml"
+implementation_test = "tests/test_steering_external_pose_adapter.py"
+report_script = "scripts/run_steering_external_pose_adapter_benchmarks.py"
+result_record = "benchmarks/steering/steering_external_pose_adapter_result_v0.1.0.toml"
+literature_basis = [
+  "Gillespie, Fundamentals of Vehicle Dynamics, Chapter 8 steering geometry error, toe change, and roll steer",
+  "Guiggiani, The Science of Vehicle Dynamics, suspension/roll-steer and toe treatment",
+  "Romano, Multi-Body Modelling and Mechanical Analysis of a Steering System, staged steering-to-suspension validation workflow"
+]
