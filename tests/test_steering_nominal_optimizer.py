@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import replace
 from pathlib import Path
+import tomllib
 import unittest
 from unittest.mock import patch
 
@@ -28,6 +29,9 @@ HISTORICAL_TARGET_PATH = (
 )
 SYNTHETIC_TARGET_PATH = (
     ROOT / "benchmarks" / "steering" / "STEERING_SYNTHETIC_RECOVERY_V0.toml"
+)
+RESULT_PATH = (
+    ROOT / "benchmarks" / "steering" / "steering_nominal_optimizer_result_v0.1.0.toml"
 )
 
 
@@ -185,6 +189,56 @@ class SteeringNominalOptimizerTests(unittest.TestCase):
             [item.evaluation.total_objective for item in second.ranked_candidates],
         )
         self.assertEqual(first.starts, second.starts)
+
+    def test_frozen_benchmark_result_matches_current_implementation(self) -> None:
+        with RESULT_PATH.open("rb") as stream:
+            frozen = tomllib.load(stream)
+        candidate = resolve_candidate(self.requirement, candidate_id="FROZEN-HISTORICAL")
+        historical = evaluate_candidate(
+            self.baseline,
+            self.requirement,
+            candidate,
+            self.historical_target,
+        )
+        search = run_nominal_inverse_design(
+            self.baseline,
+            self.requirement,
+            self.synthetic.target,
+            settings=self.synthetic_settings(),
+            search_id="FROZEN-SYNTHETIC",
+        )
+        best = search.best
+        assert best is not None
+        historical_record = frozen["historical_reference"]
+        recovery_record = frozen["synthetic_recovery"]
+        self.assertAlmostEqual(
+            historical_record["raw_objective_deg_rms"],
+            historical.objectives[0].raw_value,
+            places=14,
+        )
+        recovered = dict(best.candidate_values)["rack_longitudinal_offset"]
+        self.assertAlmostEqual(recovery_record["recovered_value_m"], recovered, places=14)
+        self.assertAlmostEqual(
+            recovery_record["raw_objective_deg_rms"],
+            best.objectives[0].raw_value,
+            places=14,
+        )
+        self.assertEqual(
+            recovery_record["evaluated_candidate_count"],
+            search.evaluated_candidate_count,
+        )
+        self.assertEqual(
+            recovery_record["feasible_candidate_count"],
+            search.feasible_candidate_count,
+        )
+        self.assertEqual(
+            recovery_record["infeasible_candidate_count"],
+            search.infeasible_candidate_count,
+        )
+        self.assertEqual(
+            recovery_record["retained_ranked_candidate_count"],
+            len(search.ranked_candidates),
+        )
 
 
 if __name__ == "__main__":
