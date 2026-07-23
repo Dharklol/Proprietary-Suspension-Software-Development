@@ -5,7 +5,7 @@ title = "Steering inverse-design orchestration layer"
 status = "active"
 disposition = "rewrite"
 maturity = "M1"
-description = "Role-driven steering inverse-design orchestration layer. The implemented prototype resolves named parameter roles, generates symmetric rack and tie-rod design geometry, converts every candidate and provider-supplied operating pose into the public MOD-STEER-0001 geometry contract, evaluates complete rack sweeps through that analyzer, separates hard infeasibility from target error, and performs deterministic seeded multi-start coordinate-pattern search. It supports supplemental constraint screening, analyzer-composed local sensitivity, diversity-aware candidate comparison, provider-neutral zero-steer upright poses, explicit external rigid-transform pose-table ingestion, multi-state steering response, and explicit per-state target aggregation with no independent steering, suspension, tire, or load equations."
+description = "Role-driven steering inverse-design orchestration layer. The implemented prototype resolves named parameter roles, generates symmetric rack and tie-rod design geometry, converts every candidate and provider-supplied operating pose into the public MOD-STEER-0001 geometry contract, evaluates complete rack sweeps through that analyzer, separates hard infeasibility from target error, and performs deterministic seeded multi-start coordinate-pattern search. It supports supplemental constraint screening, analyzer-composed local sensitivity, diversity-aware candidate comparison, provider-neutral zero-steer upright poses, explicit external rigid-transform pose-table ingestion, multi-state steering response, explicit per-state target aggregation, and scalar centered dynamic-toe/state-dependent rack-gain objectives with no independent steering, suspension, tire, or load equations."
 inputs = [
   "Named baseline steering configuration",
   "Named requirement set with fixed, variable, discrete, derived, constraint, target, report-only, and evidence roles",
@@ -19,6 +19,7 @@ inputs = [
   "Provider-neutral suspension-pose set with left/right rigid upright transforms, named state coordinates, source authority, and unresolved-steering declaration",
   "External rigid-upright pose exchange table with source path/revision, canonical frame declaration, metre translations, active rotation matrices, authority, state coordinates, and explicit exclusion of tie-rod steering response",
   "Operating-state target set with explicit objective/report-only roles, left/right target curves, sample weights, normalization, state weights, convention adapters, and source authority",
+  "State-metric target set with explicit state/metric IDs, left/right scalar targets, output units, normalization, weights, sign adapters, and source authority",
   "Future reviewed rack-load, uncertainty, tire-target-generation, and physical-parameter providers"
 ]
 outputs = [
@@ -29,13 +30,14 @@ outputs = [
   "Feasibility status and named base hard-constraint records",
   "Supplemental active, failed, or unavailable constraint records with value, limits, margin, unit, state, authority, and blocking status",
   "Raw and normalized nominal or per-operating-state wheel-heading objective contributions with units, scale, weight, and domain",
-  "Explicit weighted aggregate of visible operating-state objective contributions",
+  "Raw and normalized centered dynamic-toe or centered rack-to-wheel-gain state-metric objective contributions with explicit left/right residuals, units, scale, weight, and state",
+  "Explicit weighted aggregate of visible operating-state or state-metric objective contributions",
   "Several retained feasible candidates and transparent convenience ranking",
   "Deterministic multi-start and termination records",
   "Local objective and numeric constraint-margin sensitivities for selected bounded variables",
   "Diversity-aware candidate comparison with objective, geometry, constraint, and evidence differences",
   "Pose-state wheel headings, centered global heading change, side-local dynamic-toe change, branch diagnostics, and minimum singularity ratio",
-  "Machine-readable candidate, search, screening, sensitivity, comparison, suspension-pose, external-pose-adapter, and operating-target reports",
+  "Machine-readable candidate, search, screening, sensitivity, comparison, suspension-pose, external-pose-adapter, operating-target, and state-metric reports",
   "Future robustness, effort, tire-informed-generation, and physical-correlation outputs only where separately implemented and authorized"
 ]
 assumptions = [
@@ -52,10 +54,11 @@ assumptions = [
   "The implemented suspension-pose and external-exchange fixtures are synthetic software verification and are not WUFR suspension-motion, OptimumK, CAD, or physical evidence.",
   "No reviewed machine-readable WUFR zero-steer upright transform series has yet been identified in the recorded source audit.",
   "The WUFR-26/27 response is a fit-derived regression target, not a universal optimum or independent validation source.",
-  "Analyzer-generated synthetic nominal and operating-state targets are software verification rather than vehicle evidence.",
-  "Operating-state target weights and normalization scales are explicit model/provider inputs and are not vehicle-dynamics truth by presence alone.",
-  "Unlisted suspension states are report-only by explicit first-contract policy and never silently inherit the nominal target.",
-  "All states in the supplied operating pose set remain hard mechanism-feasibility checks even when their target role is report-only.",
+  "Analyzer-generated synthetic nominal, operating-state curve, and scalar state-metric targets are software verification rather than vehicle evidence.",
+  "Operating-state and state-metric target weights and normalization scales are explicit model/provider inputs and are not vehicle-dynamics truth by presence alone.",
+  "The OptimumK Steering Toe Angle Gain channel in the supplied export is dimensionless and is not equivalent by definition to the implemented centered rack-to-wheel gain in deg/mm.",
+  "Unlisted suspension states are report-only by explicit first-contract policy for curve targets and never silently inherit the nominal target.",
+  "All states in the supplied operating pose set remain hard mechanism-feasibility checks before curve or scalar state objectives are scored.",
   "Hard constraints cannot be offset by objective score.",
   "Unavailable hardware or installed-state evidence is not treated as a passed constraint.",
   "The first supplemental constraint set uses development-only values and screens the retained search archive; it does not yet steer search polling around a reviewed hardware-feasible region.",
@@ -65,14 +68,14 @@ assumptions = [
 ]
 verification_level = "A"
 equation_ids = ["EQ-STEER-0001", "EQ-STEER-0002", "EQ-STEER-0003", "EQ-STEER-0004", "EQ-STEER-0005", "EQ-STEER-0006", "EQ-STEER-0007"]
-benchmark_ids = ["BENCH-STEER-0009", "BENCH-STEER-0010", "BENCH-STEER-0011", "BENCH-STEER-0012", "BENCH-STEER-0013", "BENCH-STEER-0014", "BENCH-STEER-0015", "BENCH-STEER-0016", "BENCH-STEER-0017", "BENCH-STEER-0018"]
+benchmark_ids = ["BENCH-STEER-0009", "BENCH-STEER-0010", "BENCH-STEER-0011", "BENCH-STEER-0012", "BENCH-STEER-0013", "BENCH-STEER-0014", "BENCH-STEER-0015", "BENCH-STEER-0016", "BENCH-STEER-0017", "BENCH-STEER-0018", "BENCH-STEER-0019"]
 dependency_model_ids = ["MOD-STEER-0001"]
 authorization_state = "prototype_authorized"
 authorization_id = "AUTH-STEER-0002"
 authorization_document = "docs/models/steering/steering_inverse_design_prototype_authorization.md"
 architecture_document = "docs/models/steering/steering_optimizer_architecture.md"
 authorized_configurations = ["WUFR27_STEERING_BASELINE_V0", "STEERING_INVERSE_DESIGN_DEV_V0", "STEERING_CONSTRAINT_PROVIDER_DEV_V0"]
-implementation_state = "external_suspension_pose_exchange_adapter_implemented_for_review"
+implementation_state = "dynamic_toe_and_state_dependent_rack_gain_objectives_implemented_for_review"
 implementation_package = "src/pssd_steering/optimization"
 geometry_generator_document = "docs/models/steering/steering_geometry_generator_implementation_v0.1.0.md"
 optimizer_implementation_document = "docs/models/steering/steering_nominal_optimizer_implementation_v0.1.0.md"
@@ -81,10 +84,11 @@ suspension_pose_document = "docs/models/steering/steering_suspension_pose_provid
 operating_target_document = "docs/models/steering/steering_operating_state_target_implementation_v0.1.0.md"
 external_pose_adapter_document = "docs/models/steering/steering_external_pose_adapter_implementation_v0.1.0.md"
 external_pose_source_audit = "docs/models/steering/steering_external_pose_source_audit.md"
-implementation_tests = ["tests/test_steering_geometry_generator.py", "tests/test_steering_nominal_optimizer.py", "tests/test_steering_constraints_sensitivity.py", "tests/test_steering_suspension_pose_provider.py", "tests/test_steering_operating_state_targets.py", "tests/test_steering_operating_state_freeze.py", "tests/test_steering_external_pose_adapter.py"]
-implementation_reviews = ["docs/reviews/phase1_steering_nominal_optimizer_review.md", "docs/reviews/phase1_steering_constraints_sensitivity_review.md", "docs/reviews/phase1_steering_suspension_pose_provider_review.md", "docs/reviews/phase1_steering_operating_state_target_review.md", "docs/reviews/phase1_steering_external_pose_adapter_review.md"]
-benchmark_report_scripts = ["scripts/run_steering_nominal_optimizer_benchmarks.py", "scripts/run_steering_constraint_sensitivity_benchmarks.py", "scripts/run_steering_pose_provider_benchmarks.py", "scripts/run_steering_operating_state_benchmarks.py", "scripts/run_steering_external_pose_adapter_benchmarks.py"]
-method_ids = ["bounded_coordinate_pattern_search_v0.1.0", "bounded_finite_difference_v0.1.0", "objective_order_with_normalized_design_distance_filter_v0.1.0", "provider_supplied_rigid_upright_pose_v0.1.0", "sum_weighted_normalized_state_rms_v0.1.0", "external_rigid_upright_pose_csv_v0.1.0"]
+state_metric_objective_document = "docs/models/steering/steering_state_metric_objectives_implementation_v0.1.0.md"
+implementation_tests = ["tests/test_steering_geometry_generator.py", "tests/test_steering_nominal_optimizer.py", "tests/test_steering_constraints_sensitivity.py", "tests/test_steering_suspension_pose_provider.py", "tests/test_steering_operating_state_targets.py", "tests/test_steering_operating_state_freeze.py", "tests/test_steering_external_pose_adapter.py", "tests/test_steering_state_metric_objectives.py", "tests/test_steering_state_metric_freeze.py"]
+implementation_reviews = ["docs/reviews/phase1_steering_nominal_optimizer_review.md", "docs/reviews/phase1_steering_constraints_sensitivity_review.md", "docs/reviews/phase1_steering_suspension_pose_provider_review.md", "docs/reviews/phase1_steering_operating_state_target_review.md", "docs/reviews/phase1_steering_external_pose_adapter_review.md", "docs/reviews/phase1_steering_state_metric_objectives_review.md"]
+benchmark_report_scripts = ["scripts/run_steering_nominal_optimizer_benchmarks.py", "scripts/run_steering_constraint_sensitivity_benchmarks.py", "scripts/run_steering_pose_provider_benchmarks.py", "scripts/run_steering_operating_state_benchmarks.py", "scripts/run_steering_external_pose_adapter_benchmarks.py", "scripts/run_steering_state_metric_benchmarks.py"]
+method_ids = ["bounded_coordinate_pattern_search_v0.1.0", "bounded_finite_difference_v0.1.0", "objective_order_with_normalized_design_distance_filter_v0.1.0", "provider_supplied_rigid_upright_pose_v0.1.0", "sum_weighted_normalized_state_rms_v0.1.0", "external_rigid_upright_pose_csv_v0.1.0", "sum_weighted_normalized_state_pair_rms_v0.1.0"]
 implemented_components = [
   "requirement-set role parser",
   "bounded and fixed scalar resolver",
@@ -125,14 +129,18 @@ implemented_components = [
   "machine-readable operating-state target and search reports",
   "canonical external rigid-upright CSV/TOML exchange adapter with explicit source/revision/frame metadata",
   "external-pose rejection when tie-rod steering response is already included",
-  "external exchange parity benchmark against the canonical synthetic pose contract"
+  "external exchange parity benchmark against the canonical synthetic pose contract",
+  "provider-neutral explicit scalar state-metric target contract for centered dynamic toe and centered rack-to-wheel gain",
+  "centered rack-to-wheel gain extracted as a finite-difference metric from existing multi-state incremental wheel-heading outputs",
+  "left/right state-metric pair RMS objective with explicit units, normalization, weight, sign adapters, and authority",
+  "deterministic state-metric inverse-design adapter reusing the nominal pattern-search core",
+  "machine-readable state-metric benchmark reports and frozen recovery result"
 ]
 unimplemented_components = [
   "reviewed steering-arm, rack, articulation, thread-engagement, stop, clearance, and manufacturing constraints",
   "integration of future reviewed hardware constraints into every search-candidate evaluation rather than retained-archive screening",
   "reviewed machine-readable WUFR suspension-pose data set and source-specific SolidWorks, OptimumK, or native-solver exporter/converter",
   "reviewed vehicle/tire-generated operating-state target set and state-weight authority",
-  "explicit dynamic-toe and state-dependent steering-gain objective families",
   "multiobjective nondominated-set computation",
   "discrete hardware options",
   "tolerance and robustness evaluation",
@@ -141,9 +149,9 @@ unimplemented_components = [
   "physical-parameter identification and as-built correction layers",
   "production geometry release workflow"
 ]
-first_code_scope = "Deterministic inverse design, development constraint screening, local sensitivity, candidate comparison, provider-neutral multi-state steering response, external pose-table ingestion, and explicit operating-state target aggregation through the existing analyzer. Results remain development-only until reviewed hardware, real suspension-state/vehicle target inputs, robustness, and later production gates pass."
-prototype_scope = "Deterministic steering inverse design using the existing analyzer, explicit first-layer constraints, local sensitivity, multi-candidate reporting, externally supplied zero-steer suspension poses, source-neutral external pose-table ingestion, and explicit state-indexed target curves/weights."
-prohibited_scope = "Duplicate steering physics, native suspension kinematics inside steering, hidden vendor-frame conversion, production geometry authority, physical packaging or manufacturing claims, synthetic-pose/adapter/target values as WUFR truth, native tire/effort/compliance/tolerance/transient modeling, learned optimization, Pareto or global-optimality claims, and as-built validation."
+first_code_scope = "Deterministic inverse design, development constraint screening, local sensitivity, candidate comparison, provider-neutral multi-state steering response, external pose-table ingestion, explicit operating-state target aggregation, and scalar dynamic-toe/rack-gain objectives through the existing analyzer. Results remain development-only until reviewed hardware, real suspension-state/vehicle target inputs, robustness, and later production gates pass."
+prototype_scope = "Deterministic steering inverse design using the existing analyzer, explicit first-layer constraints, local sensitivity, multi-candidate reporting, externally supplied zero-steer suspension poses, source-neutral external pose-table ingestion, explicit state-indexed target curves/weights, and scalar centered dynamic-toe/rack-gain targets."
+prohibited_scope = "Duplicate steering physics, native suspension kinematics inside steering, hidden vendor-frame or gain/transmission conversion, production geometry authority, physical packaging or manufacturing claims, synthetic-pose/adapter/target values as WUFR truth, native tire/effort/compliance/tolerance/transient modeling, learned optimization, Pareto or global-optimality claims, and as-built validation."
 literature_basis = [
   "Guiggiani, The Science of Vehicle Dynamics (2022), Chapter 3 Sections 3.4.1-3.4.3 on Ackermann, best steering geometry, and relative tire slips",
   "Guiggiani, The Science of Vehicle Dynamics (2022), Section 3.14.6 and Eq. 3.210 on steering dependence on suspension roll",
