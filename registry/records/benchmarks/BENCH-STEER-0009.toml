@@ -1,0 +1,23 @@
+[record]
+id = "BENCH-STEER-0009"
+type = "benchmark"
+title = "Role-resolved steering geometry generation and zero-offset reconstruction"
+status = "proposed"
+description = "Verify that the AUTH-STEER-0002 geometry generator resolves fixed and bounded roles from the named requirement set, preserves exact WUFR-27 baseline inheritance, generates exact left/right reflection, derives tie-rod lengths from reference joint centers, and preflights the centered state through MOD-STEER-0001 without optimizer search or duplicate physics."
+verification_level = "A"
+target_ids = ["MOD-STEER-0002", "MOD-STEER-0001", "WUFR27_STEERING_BASELINE_V0", "STEERING_INVERSE_DESIGN_DEV_V0"]
+acceptance_criteria = [
+  "WUFR27_STEERING_BASELINE_V0 is numerically identical to its declared WUFR26_DESIGN_NOMINAL_V0 source geometry.",
+  "The reference candidate reproduces all baseline analyzer geometry inputs to numerical precision.",
+  "Generated right steering axes, inner joints, outer joints, wheel bases where available, and side-local alignment roles satisfy the exact reflection contract.",
+  "Left and right tie-rod lengths equal their generated joint-center distances and match under exact reflection.",
+  "A supported scalar can change between bounded_design_variable and fixed_parameter through the requirement set without changing generator code.",
+  "Outer-pickup depth outside the declared development bound is rejected before geometry generation.",
+  "A separately supplied derived tie-rod length is rejected.",
+  "An asymmetric or analyzer-invalid centered candidate fails before a full sweep.",
+  "Centered preflight uses MOD-STEER-0001 solve_corner_position for both sides.",
+  "No optimization search, objective, ranking, or higher-fidelity physics is present in the benchmark implementation."
+]
+fixture = "configurations/steering/STEERING_INVERSE_DESIGN_DEV_V0.toml"
+test_module = "tests/test_steering_geometry_generator.py"
+implementation_document = "docs/models/steering/steering_geometry_generator_implementation_v0.1.0.md"
