@@ -188,20 +188,27 @@ merge_record = "PR #21, merge commit cdb8a89605cb8532d4758f384597de39b456d0ef"
 [[phase_1.tasks]]
 id = "P1-STR-003"
 title = "Nominal constrained inverse-design optimizer"
-status = "review_ready"
+status = "complete"
 depends_on = ["P1-STR-002"]
 exit_criterion = "Deterministic multi-start constrained search recovers frozen synthetic and historical target behavior, preserves hard infeasibility, is repeatable, and reports multiple candidates with transparent objective contributions and diagnostics."
 review_record = "docs/reviews/phase1_steering_nominal_optimizer_review.md"
 implementation_record = "docs/models/steering/steering_nominal_optimizer_implementation_v0.1.0.md"
 benchmark_ids = ["BENCH-STEER-0010", "BENCH-STEER-0011"]
 report_script = "scripts/run_steering_nominal_optimizer_benchmarks.py"
+merge_record = "PR #22, merge commit 5ab40328346e14a491e1b1a1775a71af67980744"
 
 [[phase_1.tasks]]
 id = "P1-STR-004"
 title = "Steering constraint and candidate-report layer"
-status = "active"
+status = "review_ready"
 depends_on = ["P1-STR-003"]
 exit_criterion = "Every active hard constraint has a named value, limit, margin, state, and authority; candidate reports include complete analyzer outputs, objective decomposition, sensitivity, alternative candidates, and provenance."
+review_record = "docs/reviews/phase1_steering_constraints_sensitivity_review.md"
+implementation_record = "docs/models/steering/steering_constraints_sensitivity_implementation_v0.1.0.md"
+benchmark_ids = ["BENCH-STEER-0012", "BENCH-STEER-0013"]
+report_script = "scripts/run_steering_constraint_sensitivity_benchmarks.py"
+constraint_set = "STEERING_CONSTRAINT_PROVIDER_DEV_V0"
+scope_note = "The current active checks are development-only and supplemental screening is applied to the retained search archive. Reviewed hardware constraints must later enter every search-candidate disposition before hardware-feasible optimization claims."
 
 [[phase_1.tasks]]
 id = "P1-STR-005"
