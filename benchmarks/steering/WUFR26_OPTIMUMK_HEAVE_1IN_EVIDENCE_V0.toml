@@ -1,5 +1,5 @@
 evidence_id = "WUFR26_OPTIMUMK_HEAVE_1IN_EVIDENCE_V0"
-version = "0.1.0"
+version = "0.1.1"
 source_type = "optimumk_result_export"
 source_filename = "WUFR-26 8.21 Heaves 1inch.xlsx"
 source_sha256 = "db071b7e696149ec82213e9ed05aa557349d18d19debe7925e7e01058534e4b8"
@@ -8,7 +8,7 @@ authority = "historical_external_kinematics_evidence_only"
 front_axle_only = true
 motion = "heave"
 steering_input_deg = 0.0
-scope_note = "This table preserves selected front-axle channels from the supplied OptimumK heave result. Toe and steering-gain channels may seed explicit target-provider work. The exported upright/tie-rod geometry already reflects tie-rod-constrained steering, so this evidence is not admitted directly as an unresolved-steering SuspensionPoseSet. A later adapter must remove steering rotation about the instantaneous kingpin axis before pose authority is promoted."
+scope_note = "This table preserves selected front-axle channels from the supplied OptimumK heave result. Toe change may seed later explicit dynamic-toe targets after convention review. OptimumK labels Steering Toe Angle Gain with unit '-', so it is preserved as a dimensionless steering-input-related gain channel and is NOT treated as the same quantity as the PR27 rack-to-wheel centered gain in deg/mm. The exported upright/tie-rod geometry already reflects tie-rod-constrained steering, so this evidence is not admitted directly as an unresolved-steering SuspensionPoseSet. A source-specific converter must remove steering rotation about the instantaneous kingpin axis before pose authority is promoted."
 
 [channel_contract]
 heave_mm = "Motion [Heave]"
@@ -19,6 +19,16 @@ right_steer_deg = "Steer Angle [Right] [Front]"
 left_steering_toe_gain = "Steering Toe Angle Gain [Left] [Front]"
 right_steering_toe_gain = "Steering Toe Angle Gain [Right] [Front]"
 steering_ratio = "Steering Ratio [Front]"
+
+[channel_units]
+heave_mm = "mm"
+left_toe_deg = "deg"
+right_toe_deg = "deg"
+left_steer_deg = "deg"
+right_steer_deg = "deg"
+left_steering_toe_gain = "-"
+right_steering_toe_gain = "-"
+steering_ratio = "-"
 
 [[states]]
 heave_mm = -25.4
