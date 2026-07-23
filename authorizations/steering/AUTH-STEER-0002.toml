@@ -1,7 +1,7 @@
-version = "0.4.0"
+version = "0.5.0"
 authorization_id = "AUTH-STEER-0002"
 status = "active_reviewed_and_frozen"
-title = "Nominal-height steering inverse-design prototype authorization"
+title = "Steering inverse-design prototype authorization"
 effective_condition = "Effective after reviewed merge of PR #20."
 effective_merge_commit = "eb3d240d235cd6ba0cf52601df31a67768e751ff"
 review_record = "docs/reviews/phase1_steering_inverse_design_authorization_review.md"
@@ -33,24 +33,28 @@ geometry_generator_merge_commit = "cdb8a89605cb8532d4758f384597de39b456d0ef"
 nominal_optimizer_implementation = "PR #22"
 nominal_optimizer_merge_commit = "5ab40328346e14a491e1b1a1775a71af67980744"
 constraint_sensitivity_implementation = "PR #23"
-current_stage = "constraint_screening_local_sensitivity_and_candidate_comparison_implemented_for_review"
-next_stage = "reviewed_tolerance_or_discrete_hardware_inputs_or_higher_fidelity_provider_integration_when_dependencies_activate"
+constraint_sensitivity_merge_commit = "71fee442e905bb11033b0b6c3ec854552b19237e"
+suspension_pose_provider_implementation = "PR #24"
+current_stage = "provider_neutral_suspension_pose_and_multistate_steering_implemented_for_review"
+next_stage = "reviewed_external_pose_adapter_or_operating_state_target_aggregation"
 geometry_generator_document = "docs/models/steering/steering_geometry_generator_implementation_v0.1.0.md"
 optimizer_implementation_document = "docs/models/steering/steering_nominal_optimizer_implementation_v0.1.0.md"
 constraint_sensitivity_document = "docs/models/steering/steering_constraints_sensitivity_implementation_v0.1.0.md"
+suspension_pose_document = "docs/models/steering/steering_suspension_pose_provider_implementation_v0.1.0.md"
 optimizer_review = "docs/reviews/phase1_steering_nominal_optimizer_review.md"
 constraint_sensitivity_review = "docs/reviews/phase1_steering_constraints_sensitivity_review.md"
+suspension_pose_review = "docs/reviews/phase1_steering_suspension_pose_provider_review.md"
 
 [architecture]
 authoritative_evaluator_model_id = "MOD-STEER-0001"
 optimizer_orchestrator_model_id = "MOD-STEER-0002"
-composition_rule = "Every candidate must be converted into the public MOD-STEER-0001 geometry contract and evaluated by that implementation. MOD-STEER-0002 may not duplicate, approximate, fit, or replace the rigid closure, wheel-plane projection, branch, singularity, Ackermann, ratio, or turning-path calculations."
-result_rule = "Optimizer results must retain the complete evaluator result and diagnostics for every accepted or rejected candidate. Supplemental screening and sensitivity records must preserve the underlying CandidateEvaluation unchanged."
+composition_rule = "Every candidate and every posed operating state must be converted into the public MOD-STEER-0001 geometry contract and evaluated by that implementation. MOD-STEER-0002 may transform provider-supplied upright poses but may not duplicate, approximate, fit, or replace rigid closure, wheel-plane projection, branch, singularity, Ackermann, ratio, or turning-path calculations."
+result_rule = "Optimizer and multi-state results must retain the complete evaluator diagnostics for accepted or rejected states. Supplemental screening, sensitivity, and pose records preserve the underlying analyzer result rather than replacing it."
 
 [permitted]
 items = [
   "Role-based steering design studies in which each parameter is fixed, bounded continuous, discrete, derived, constrained, targeted, or report-only within a named requirement set.",
-  "A symmetric nominal-height candidate generator for rack longitudinal position, rack vertical position, rack inner-joint half-spacing, and upright-local outer tie-rod pickup coordinates.",
+  "A symmetric nominal candidate generator for rack longitudinal position, rack vertical position, rack inner-joint half-spacing, and upright-local outer tie-rod pickup coordinates.",
   "A heavily bounded upright-local outer-pickup depth variable whose default may be changed to fixed without changing the generator architecture.",
   "Reference-state derivation of tie-rod joint-center length from generated inner and outer joint coordinates.",
   "Deterministic multi-start constrained search over candidates evaluated exclusively by MOD-STEER-0001.",
@@ -60,34 +64,39 @@ items = [
   "Named supplemental constraint sets that distinguish active, failed, and unavailable requirements and retain missing evidence as unavailable rather than passed.",
   "Bounded local finite-difference sensitivity in which every perturbation is role-resolved, regenerated, and evaluated through MOD-STEER-0001.",
   "Objective-ranked candidate comparison with explicit normalized design-space separation, geometry deltas, constraint records, and unavailable evidence.",
-  "Provider interfaces for later suspension poses, tire-informed targets, rack-load or effort envelopes, tolerance distributions, and physical-correlation parameters without implementing those later physics layers in this authorization."
+  "Consumption of source-agnostic suspension-pose records containing left/right zero-steer upright rigid transforms, named state coordinates, source authority, and the explicit unresolved-steering rule.",
+  "Transformation of steering axes, upright-bound outer tie-rod pickups, and wheel-plane references by a supplied pose while keeping rack geometry, rack inner joints, and nominal tie-rod length fixed.",
+  "Complete MOD-STEER-0001 rack sweeps at symmetric or asymmetric suspension operating poses with state-dependent heading, side-local dynamic-toe, branch, and singularity reporting.",
+  "Provider interfaces for later tire-informed targets, rack-load or effort envelopes, tolerance distributions, and physical-correlation parameters without implementing those later physics layers in this authorization."
 ]
 
 [prohibited]
 items = [
-  "Any second steering-kinematics evaluator inside the optimizer.",
-  "Polynomial, surrogate, learned, or CAD response curves replacing rigid mechanism evaluation.",
+  "Any second steering-kinematics evaluator inside the optimizer or pose layer.",
+  "Polynomial, surrogate, learned, CAD, or external response curves replacing rigid mechanism evaluation.",
+  "Feeding a suspension pose that already contains tie-rod-induced steering or bump-steer response into MOD-STEER-0001 as an unresolved zero-steer pose.",
   "Hidden relaxation of hard constraints, alternate-root substitution, clipping, extrapolation, or penalty-only treatment of infeasible mechanisms.",
   "Treating unavailable hardware or installed-state evidence as a passed constraint.",
   "Production geometry ranking, WUFR-27 redesign authority, WUFR-28 release authority, or automatic CAD modification.",
-  "Independent left/right design variables in the first implementation unless a later requirement set explicitly enables and justifies asymmetry.",
-  "Suspension bump, rebound, roll, pitch, or heave calculations beyond consuming a future reviewed pose-provider result.",
+  "Independent left/right design variables in the first implementation unless a later requirement set explicitly enables and justifies asymmetry; asymmetric operating suspension states remain permitted.",
+  "Native suspension bump, rebound, roll, pitch, heave, or wheel-travel kinematics calculations inside the steering package. The package may consume reviewed pose-provider outputs only.",
+  "Treating synthetic suspension-pose results as WUFR bump-steer, roll-steer, OptimumK correlation, CAD correlation, or physical evidence.",
   "Tire-force target generation, steering effort, rack loads, compliance, backlash, friction, tolerance propagation, or transient steering physics.",
   "Describing local finite-difference sensitivity as manufacturing tolerance, uncertainty propagation, or robustness analysis.",
   "Reinforcement-learning, genetic, or other learned/global optimization claims before deterministic baseline methods and benchmark burdens are established.",
   "Treating the historical regression target as the permanent or universally optimal steering target.",
-  "Pareto-completeness, global-optimality, packaging-feasibility, manufacturing-feasibility, or production-release claims from the current single-objective development search and diversity filter."
+  "Pareto-completeness, global-optimality, packaging-feasibility, manufacturing-feasibility, or production-release claims from the current development search, diversity filter, or synthetic pose studies."
 ]
 
 [first_implementation_boundary]
 fixed_geometry = [
-  "wheel centers and wheel-plane reference states",
-  "left steering-axis line",
-  "right steering-axis line generated by reviewed reflection",
-  "upright reference poses",
+  "wheel centers and nominal wheel-plane reference states",
+  "nominal left steering-axis line",
+  "nominal right steering-axis line generated by reviewed reflection",
+  "nominal upright reference poses",
   "suspension hardpoints",
   "wheelbase",
-  "steering-axis ground-intersection track definition",
+  "nominal steering-axis ground-intersection track definition",
   "rack-axis direction",
   "static toe and camber reference values",
   "rack travel and input transmission for the selected development configuration"
@@ -100,21 +109,21 @@ active_variables = [
   "outer_pickup_local_v_offset",
   "outer_pickup_local_depth_offset"
 ]
-symmetry = "Exact left/right reflection is mandatory in the first implementation. The schema must permit a later explicit asymmetric requirement set without changing the evaluator."
-tie_rod_length_role = "derived_output"
+symmetry = "Exact left/right reflection is mandatory for design variables in the first implementation. Operating suspension poses may differ left-to-right because independent wheel travel is a state, not intentional design asymmetry."
+tie_rod_length_role = "derived_output_at_nominal_reference_then_fixed_across_pose_states"
 
 [provider_contracts]
-pose_provider = "Future provider returns reviewed left/right upright pose, steering-axis line, wheel basis, and outer-pickup transform for a named suspension state. The first release uses the nominal baseline pose."
-target_provider = "Returns left/right target headings or inside/outside target relations, input coordinates, weights, units, validity domain, source authority, and convention adapter. Historical and analyzer-generated target providers are implemented."
+pose_provider = "Implemented provider-neutral contract returns left/right rigid upright transforms, named state coordinates, source authority, and steering_dof_rule=upright_reference_pose_excludes_tie_rod_steering_rotation. The steering package transforms upright-bound geometry and MOD-STEER-0001 solves tie-rod steering response. Synthetic poses are implemented; reviewed WUFR/OptimumK/CAD/native-solver pose authority remains open."
+target_provider = "Returns left/right target headings or inside/outside target relations, input coordinates, weights, units, validity domain, source authority, and convention adapter. Historical and analyzer-generated target providers are implemented. Multi-state target aggregation remains open."
 constraint_provider = "Returns active, failed, or unavailable named constraints with value, limits, margin, units, state, authority, blocking status, and missing-evidence reason. The implemented development set is screening authority only, not hardware authority."
 rack_load_provider = "Future provider returns rack-force or column-torque envelopes with operating-state and uncertainty metadata. No load physics is implemented here."
-uncertainty_provider = "Future provider returns named parameter distributions or bounded perturbations. No robustness claim is authorized in the first code release."
-physical_parameter_provider = "Future provider returns calibrated transmission, deadband, compliance, and as-built observations without changing the rigid evaluator equations."
+uncertainty_provider = "Future provider returns named parameter distributions or bounded perturbations. No robustness claim is authorized."
+physical_parameter_provider = "Future provider returns calibrated transmission, deadband, compliance, stops, and as-built observations without changing the rigid evaluator equations. Implementation is explicitly deferred until required physical data exist."
 
 [candidate_results]
 required = [
   "candidate and requirement-set IDs",
-  "complete generated geometry",
+  "complete generated nominal geometry",
   "complete MOD-STEER-0001 sweep result",
   "feasibility status and named failure reason",
   "margin to every active hard constraint",
@@ -124,9 +133,12 @@ required = [
   "alternative feasible or nondominated candidates",
   "local sensitivity records where requested",
   "ranking and candidate-separation explanation",
+  "pose-set and state IDs when suspension states are evaluated",
+  "pose source, coordinate, transform, and steering-DOF provenance",
+  "state-dependent headings, dynamic toe, branch, and singularity diagnostics",
   "source and configuration provenance"
 ]
-ranking_rule = "A convenience ranking may be provided, but the candidate set and individual tradeoffs must remain visible. Hard-constraint violations cannot be compensated by objective score. Unavailable constraints remain visible and prevent hardware-feasible claims."
+ranking_rule = "A convenience ranking may be provided, but the candidate set and individual tradeoffs remain visible. Hard-constraint violations cannot be compensated by objective score. Unavailable constraints remain visible and prevent hardware-feasible claims. Synthetic pose-state response is report-only until reviewed operating-state objectives are supplied."
 
 [required_before_geometry_generator_merge]
 items = [
@@ -165,17 +177,34 @@ items = [
   "Candidate comparison exposes objective, geometry, constraint, unavailable-evidence, and normalized design-distance differences.",
   "The report states that supplemental constraints screen the retained archive and do not yet guide search through a reviewed hardware-feasible region."
 ]
-status = "implemented_for_PR23_review"
+status = "complete_in_PR23"
 benchmark_ids = ["BENCH-STEER-0012", "BENCH-STEER-0013"]
 implementation_tests = "tests/test_steering_constraints_sensitivity.py"
 benchmark_report_script = "scripts/run_steering_constraint_sensitivity_benchmarks.py"
+
+[required_before_pose_provider_merge]
+items = [
+  "A provider-neutral pose contract carries finite right-handed rigid transforms, named coordinates and units, source authority, and an explicit steering-DOF rule.",
+  "Pose inputs that already contain tie-rod steering response are rejected from the unresolved-pose path.",
+  "Identity pose composition preserves the nominal generated geometry and MOD-STEER-0001 response.",
+  "Rack geometry and inner joints remain chassis-fixed; steering axes, outer joints, and wheel-plane references move with the upright; tie-rod length remains fixed.",
+  "Valid poses that make steering closure impossible return analyzer infeasibility rather than pose-definition errors.",
+  "Synthetic symmetric and asymmetric suspension states complete full analyzer sweeps and report dynamic toe and singularity diagnostics.",
+  "Synthetic pose values remain software verification and are not promoted to WUFR suspension or physical evidence.",
+  "No native suspension kinematics, physical parameter identification, or multi-state target optimization is introduced."
+]
+status = "implemented_for_PR24_review"
+benchmark_ids = ["BENCH-STEER-0014", "BENCH-STEER-0015"]
+implementation_tests = "tests/test_steering_suspension_pose_provider.py"
+benchmark_report_script = "scripts/run_steering_pose_provider_benchmarks.py"
 
 [promotion_gates]
 items = [
   "Nominal inverse-design benchmarks and code review complete before use for exploratory geometry studies.",
   "Reviewed packaging, articulation, thread-engagement, rack, steering-arm, and manufacturing constraints before hardware-feasible ranking claims.",
   "Future reviewed hardware constraints must enter every search-candidate disposition before the search is described as hardware-feasible rather than archive-screened.",
-  "A reviewed pose provider before bump-steer or suspension-state optimization.",
+  "A reviewed external or native pose data source before any suspension-state response is described as WUFR bump steer or used for design ranking.",
+  "Reviewed operating-state target definitions before pose-state response enters optimizer objectives.",
   "Reviewed tire and vehicle operating-point models before tire-informed target generation.",
   "Reviewed rack-load or effort model before steering-effort optimization.",
   "Reviewed tolerance and uncertainty model before robustness claims.",
@@ -192,3 +221,4 @@ evaluator_authorization = "authorizations/steering/AUTH-STEER-0001.toml"
 literature_concordance = "docs/literature/literature_concordance.md"
 optimizer_implementation = "docs/models/steering/steering_nominal_optimizer_implementation_v0.1.0.md"
 constraint_sensitivity_implementation = "docs/models/steering/steering_constraints_sensitivity_implementation_v0.1.0.md"
+suspension_pose_implementation = "docs/models/steering/steering_suspension_pose_provider_implementation_v0.1.0.md"
