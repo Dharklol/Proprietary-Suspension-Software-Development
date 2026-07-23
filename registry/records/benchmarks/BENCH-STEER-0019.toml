@@ -1,0 +1,29 @@
+[record]
+id = "BENCH-STEER-0019"
+type = "benchmark"
+title = "Dynamic-toe and state-dependent rack-gain objective recovery"
+status = "proposed"
+description = "Verify that explicit centered dynamic-toe and state-dependent centered rack-to-wheel gain objectives consume only MOD-STEER-0001 multi-state outputs, preserve pose-state hard feasibility, and recover an analyzer-generated source geometry through the existing deterministic search core."
+verification_level = "A"
+target_ids = ["MOD-STEER-0002", "MOD-STEER-0001"]
+acceptance_criteria = [
+  "Analyzer-generated source targets for center_dynamic_toe_out_change and center_rack_to_wheel_gain evaluate to zero objective at the source candidate.",
+  "The WUFR-27 reference candidate produces a nonzero objective against the synthetic source targets.",
+  "Centered rack-to-wheel gain is evaluated in deg/mm from the existing incremental wheel-heading response around exact rack center and changes across the synthetic suspension states.",
+  "Dynamic toe is read from the existing side-local centered toe-change outputs rather than recomputed in the objective layer.",
+  "Every supplied suspension pose must complete its MOD-STEER-0001 rack sweep before any state-metric objective is admitted.",
+  "The shared bounded_coordinate_pattern_search_v0.1.0 recovers rack_longitudinal_offset = 0.01875 m within the frozen recovery tolerance and returns the same result for the fixed benchmark configuration.",
+  "The supplied OptimumK Steering Toe Angle Gain channel remains evidence-only and is not represented as the deg/mm rack-to-wheel gain target."
+]
+fixture = "benchmarks/steering/STEERING_SYNTHETIC_POSE_SET_V0.toml"
+external_evidence = "benchmarks/steering/WUFR26_OPTIMUMK_HEAVE_1IN_EVIDENCE_V0.toml"
+implementation_test = "tests/test_steering_state_metric_objectives.py"
+report_script = "scripts/run_steering_state_metric_benchmarks.py"
+result_record = "benchmarks/steering/steering_state_metric_objective_result_v0.1.0.toml"
+literature_basis = [
+  "Guiggiani, The Science of Vehicle Dynamics (2022), Sections 3.4.2-3.4.3 on toe, tire slip, and operating-condition-dependent steering geometry",
+  "Guiggiani, The Science of Vehicle Dynamics (2022), Section 3.14.6 and Eq. 3.210 on steering dependence on suspension roll",
+  "Gillespie, Fundamentals of Vehicle Dynamics, Chapter 8 Steering Geometry Error, Toe Change, and Roll Steer",
+  "Hooke and Jeeves, Direct Search Solution of Numerical and Statistical Problems (1961)",
+  "Lewis, Torczon, and Trosset, Direct Search Methods: Then and Now (2000)"
+]
