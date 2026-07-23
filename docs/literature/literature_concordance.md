@@ -15,6 +15,8 @@
 | Romano, *Multi-Body Modelling and Mechanical Analysis of a Steering System* | Steering mechanism definitions, steering-ratio functions, configuration comparison, and external multibody validation workflow | Specialized reference |
 | Hooke & Jeeves, “Direct Search Solution of Numerical and Statistical Problems” | Transparent derivative-free coordinate-pattern search lineage for the first deterministic optimizer baseline | Numerical-method reference |
 | Lewis, Torczon & Trosset, “Direct Search Methods: Then and Now” | Direct-search method context, scaling, convergence limitations, and benchmark expectations | Numerical-method reference |
+| Fornberg, “Generation of Finite Difference Formulas on Arbitrarily Spaced Grids” | Finite-difference derivative formulation and numerical-method lineage for local sensitivity | Numerical-method reference |
+| Saltelli et al., *Global Sensitivity Analysis: The Primer* | Distinction between local derivative sensitivity and broader uncertainty-based/global sensitivity | Numerical-method reference |
 | Third-Order QSS paper | Candidate event/state-quantized transient integration backend | Research reference |
 | Huang et al., *Find Optimal Suspension Kinematics Targets for Vehicle Dynamics Using Reinforcement Learning* | Inverse target generation, high-dimensional search, learned-policy reuse, and the distinction between target achievement and physical packaging feasibility | Research reference |
 | Quantum-enhanced RL for Newton-Raphson convergence | Learned/quantum-inspired nonlinear-solver initialization; classical solver remains authoritative | Research reference |
@@ -31,7 +33,9 @@ For `MIG-STR-0001`, `MOD-STEER-0001`, and `MOD-STEER-0002`, the literature revie
 - rigid kinematics from loaded/compliant steering response;
 - geometric target selection from later tire-force-informed optimization;
 - a verified mechanism evaluator from the optimization method that proposes candidates;
-- kinematic target achievement from physical packaging and manufacturing feasibility.
+- kinematic target achievement from physical packaging and manufacturing feasibility;
+- local derivative sensitivity from tolerance, uncertainty, and global sensitivity; and
+- an unavailable physical constraint from a passed physical constraint.
 
 ### Exact rigid steering basis
 
@@ -49,9 +53,16 @@ For `MIG-STR-0001`, `MOD-STEER-0001`, and `MOD-STEER-0002`, the literature revie
 - Lewis, Torczon, and Trosset (2000) provides broader direct-search context and reinforces the need to state scaling, polling directions, step contraction, termination, and convergence limitations. `bounded_coordinate_pattern_search_v0.1.0` records each of these controls and treats fixed-seed repeatability as a benchmark requirement.
 - The first search method is deliberately transparent and dependency-free. It is a comparison baseline for future local constrained, global, mixed-discrete, surrogate-assisted, or learned methods. No future method may receive a lower verification burden merely because it finds a smaller objective.
 
+### Local sensitivity and uncertainty boundary
+
+- Fornberg (1988) provides the finite-difference numerical-method lineage used by `bounded_finite_difference_v0.1.0`. The implementation uses bounded central differences when possible and one-sided differences at requirement-set bounds. Every perturbation is reevaluated through the authoritative analyzer rather than through a local response surrogate.
+- Saltelli et al. (2008) distinguishes local derivative information from broader sensitivity analysis over uncertain input distributions. The current steering result is therefore described only as local sensitivity. It cannot be promoted to manufacturing tolerance, probabilistic uncertainty, worst-case robustness, or global sensitivity without a reviewed uncertainty model and additional methods.
+- Candidate design-distance filtering is a team comparison method rather than a physical or optimization theorem. Its normalization, distance equation, threshold, and non-Pareto authority boundary are documented and benchmarked directly.
+
 ### Optimization and feasibility
 
 - Huang et al. (2026), Section 2.1.1, states that generated suspension-kinematics target files do not guarantee a physically feasible suspension and that packaging must be considered with target setup. The steering workflow therefore treats mechanism, packaging, articulation, and manufacturing feasibility as explicit constraints rather than assuming that a low target error is a valid design.
+- A physical constraint becomes active only when its geometry, limit, evaluated state, and authority are available. Rod-end articulation, thread engagement, clearances, and installed stops remain unavailable in the development provider because the repository does not yet contain the required reviewed inputs. Their absence is not evidence of passing.
 - Huang et al. motivates reusable learned policies for later high-dimensional target generation, but it does not remove the need for a deterministic, verified reference optimizer and a physically authoritative mechanism evaluator. Learned or reinforcement-learning methods remain a later research layer that must be compared against the deterministic baseline.
 - Milliken and Pacejka remain the primary sources for later tire-informed operating targets, load sensitivity, combined slip, and handling tradeoffs. Those models enter through the target-provider interface and do not alter the rigid mechanism equations.
 
@@ -64,3 +75,5 @@ For `MIG-STR-0001`, `MOD-STEER-0001`, and `MOD-STEER-0002`, the literature revie
 5. Literature citations belong in equation and model records, not only in this overview.
 6. Optimization algorithms require method-level references, scaling, initialization, convergence, failure, repeatability, and benchmark documentation.
 7. A successful optimizer objective does not override failed physical or geometric constraints.
+8. Missing physical inputs remain unavailable; they are never converted into zero margin, infinite margin, or an automatic pass.
+9. Local sensitivity, tolerance propagation, robustness, and global sensitivity are separate claims with separate input and verification burdens.
