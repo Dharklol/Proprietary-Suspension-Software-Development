@@ -1,0 +1,104 @@
+version = "0.1.0"
+state_set_id = "WUFR27_SUSPENSION_CALCULATIONS_OPERATING_STATES_V0"
+source_type = "explicit_vehicle_operating_states"
+authority = "Current team development-calculation evidence only; not production WUFR wheel-load, camber, pressure, or tire-force-demand authority."
+source_path = "https://docs.google.com/spreadsheets/d/1mW6JVHnSgvJJmXwYGV9AZV3ybRiolN9vPI8NAJjdvLA"
+source_revision = "sha256:505f567a132296fe90876b1202d9bd626d8b0f302ff4c6316d013d0306ab24fc"
+canonical_body_axes = "+x forward, +y vehicle left, +z upward"
+lateral_acceleration_convention = "canonical ay_g is positive toward vehicle left; source workbook states right turns are positive, so source right-turn +1.2g is recorded here as canonical -1.2g and source left-turn -1.2g as canonical +1.2g"
+
+[source]
+artifact_title = "Suspension Calculations 2026"
+sheet = "Load Transfer"
+source_updated = "2026-07-22"
+source_lateral_acceleration_convention = "right turns are (+)"
+selected_section = "Load transfer cases with simple aero at 40 mph and without ARB contribution"
+source_total_mass_kg = "320"
+source_front_rear_static_balance = "0.5 / 0.5"
+source_left_right_static_balance = "0.506 / 0.494 from scales during testing setup"
+speed_source = "40 mph = 17.8816 m/s"
+aero_source = "cornering aero downforce 681.0270885 N with 49.6 percent front distribution and symmetric left/right distribution"
+exclusions = "No ARB contribution; no wheel camber/inclination; no tire pressure; no Fy or Fx demand; no suspension-pose authority."
+selection_reason = "The later workbook section labeled USE THIS ONE contains additional ARB assumptions but its current 1.7g left-turn matrix includes a negative rear-left normal load; PR29 freezes the valid 1.2g source states and records that invalid state separately rather than clipping it."
+
+[[states]]
+id = "SC26_EDGE3_1P2G_RIGHT_AERO_NO_ARB"
+role = "evidence_only"
+turn_direction = "right"
+ax_g = 0.0
+ay_g = -1.2
+speed_mps = 17.8816
+state_weight = 0.0
+authority = "Development wheel-load evidence from Suspension Calculations 2026; source right-turn +1.2g converted explicitly to canonical ay_g=-1.2."
+provenance = { source_state_label = "Mass/Load Matrix Edge case3, 1.2g right hand turn", source_ay_g = "+1.2", canonical_ay_conversion = "canonical_ay_g = -source_ay_g", includes_aero = "true", includes_arb_contribution = "false" }
+
+[[states.wheels]]
+position = "front_left"
+normal_load_n = 1719.575445
+missing_reasons = { inclination_deg = "not supplied by selected Load Transfer source state", pressure_kpa = "not supplied by selected Load Transfer source state", lateral_force_demand_n = "not solved by selected Load Transfer source state", longitudinal_force_demand_n = "not solved by selected Load Transfer source state" }
+provenance = { source_matrix_role = "outside front for right turn" }
+
+[[states.wheels]]
+position = "front_right"
+normal_load_n = 186.2139907
+missing_reasons = { inclination_deg = "not supplied by selected Load Transfer source state", pressure_kpa = "not supplied by selected Load Transfer source state", lateral_force_demand_n = "not solved by selected Load Transfer source state", longitudinal_force_demand_n = "not solved by selected Load Transfer source state" }
+provenance = { source_matrix_role = "inside front for right turn" }
+
+[[states.wheels]]
+position = "rear_left"
+normal_load_n = 1737.984573
+missing_reasons = { inclination_deg = "not supplied by selected Load Transfer source state", pressure_kpa = "not supplied by selected Load Transfer source state", lateral_force_demand_n = "not solved by selected Load Transfer source state", longitudinal_force_demand_n = "not solved by selected Load Transfer source state" }
+provenance = { source_matrix_role = "outside rear for right turn" }
+
+[[states.wheels]]
+position = "rear_right"
+normal_load_n = 173.2530798
+missing_reasons = { inclination_deg = "not supplied by selected Load Transfer source state", pressure_kpa = "not supplied by selected Load Transfer source state", lateral_force_demand_n = "not solved by selected Load Transfer source state", longitudinal_force_demand_n = "not solved by selected Load Transfer source state" }
+provenance = { source_matrix_role = "inside rear for right turn" }
+
+[[states]]
+id = "SC26_EDGE4_1P2G_LEFT_AERO_NO_ARB"
+role = "evidence_only"
+turn_direction = "left"
+ax_g = 0.0
+ay_g = 1.2
+speed_mps = 17.8816
+state_weight = 0.0
+authority = "Development wheel-load evidence from Suspension Calculations 2026; source left-turn -1.2g converted explicitly to canonical ay_g=+1.2."
+provenance = { source_state_label = "Mass/Load Matrix Edge case4, 1.2g left hand turn", source_ay_g = "-1.2", canonical_ay_conversion = "canonical_ay_g = -source_ay_g", includes_aero = "true", includes_arb_contribution = "false" }
+
+[[states.wheels]]
+position = "front_left"
+normal_load_n = 516.8481725
+missing_reasons = { inclination_deg = "not supplied by selected Load Transfer source state", pressure_kpa = "not supplied by selected Load Transfer source state", lateral_force_demand_n = "not solved by selected Load Transfer source state", longitudinal_force_demand_n = "not solved by selected Load Transfer source state" }
+provenance = { source_matrix_role = "inside front for left turn" }
+
+[[states.wheels]]
+position = "front_right"
+normal_load_n = 1388.941263
+missing_reasons = { inclination_deg = "not supplied by selected Load Transfer source state", pressure_kpa = "not supplied by selected Load Transfer source state", lateral_force_demand_n = "not solved by selected Load Transfer source state", longitudinal_force_demand_n = "not solved by selected Load Transfer source state" }
+provenance = { source_matrix_role = "outside front for left turn" }
+
+[[states.wheels]]
+position = "rear_left"
+normal_load_n = 510.345799
+missing_reasons = { inclination_deg = "not supplied by selected Load Transfer source state", pressure_kpa = "not supplied by selected Load Transfer source state", lateral_force_demand_n = "not solved by selected Load Transfer source state", longitudinal_force_demand_n = "not solved by selected Load Transfer source state" }
+provenance = { source_matrix_role = "inside rear for left turn" }
+
+[[states.wheels]]
+position = "rear_right"
+normal_load_n = 1400.891854
+missing_reasons = { inclination_deg = "not supplied by selected Load Transfer source state", pressure_kpa = "not supplied by selected Load Transfer source state", lateral_force_demand_n = "not solved by selected Load Transfer source state", longitudinal_force_demand_n = "not solved by selected Load Transfer source state" }
+provenance = { source_matrix_role = "outside rear for left turn" }
+
+[source_audit]
+rule = "Reject negative source normal loads; never clip them to zero or silently reinterpret the state."
+
+[[source_audit.rejected_states]]
+id = "SC26_1P7G_LEFT_AERO_ARB_CURRENT_DRAFT"
+source_section = "Load Transfer with Aero + ARB Contribution [USE THIS ONE]"
+source_turn_direction = "left"
+source_lateral_acceleration_g = -1.7
+rejected_wheel = "rear_left"
+rejected_normal_load_n = -285.3358453
+reason = "The current workbook calculation is physically invalid as an explicit tire contact-load state because rear-left Fz is negative. Preserve for source audit only until the upstream model is reviewed/corrected."
