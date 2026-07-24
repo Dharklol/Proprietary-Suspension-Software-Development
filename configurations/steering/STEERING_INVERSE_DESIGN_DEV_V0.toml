@@ -1,6 +1,6 @@
-version = "0.5.0"
+version = "0.6.0"
 requirement_set_id = "STEERING_INVERSE_DESIGN_DEV_V0"
-status = "active_for_AUTH_STEER_0002_external_pose_and_operating_state_optimizer"
+status = "active_for_AUTH_STEER_0002_external_pose_operating_state_and_state_metric_optimizer"
 baseline_configuration_id = "WUFR27_STEERING_BASELINE_V0"
 evaluator_model_id = "MOD-STEER-0001"
 optimizer_model_id = "MOD-STEER-0002"
@@ -165,11 +165,13 @@ default_target_role = "target_curve"
 default_fixture = "benchmarks/steering/WUFR26_27_HISTORICAL_RESPONSE_REGRESSION_V0.toml"
 synthetic_recovery_fixture = "benchmarks/steering/STEERING_SYNTHETIC_RECOVERY_V0.toml"
 synthetic_operating_state_fixture = "benchmarks/steering/STEERING_SYNTHETIC_OPERATING_TARGETS_V0.toml"
-source = "WUFR26-DESMOS-WHEEL-FITS-V0 and WUFR26-STEER-LEVEL-E-TEST3-V0 with the reviewed canonical convention adapter; state-indexed target studies use separate explicit OperatingStateTargetSet authority."
+state_metric_benchmark = "benchmarks/steering/steering_state_metric_objective_result_v0.1.0.toml"
+external_state_metric_evidence = "benchmarks/steering/WUFR26_OPTIMUMK_HEAVE_1IN_EVIDENCE_V0.toml"
+source = "WUFR26-DESMOS-WHEEL-FITS-V0 and WUFR26-STEER-LEVEL-E-TEST3-V0 with the reviewed canonical convention adapter; state-indexed target studies use separate explicit OperatingStateTargetSet or StateMetricTargetSet authority."
 authority = "development regression and audit grounding only"
 no_extrapolation = true
 unlisted_operating_state_role = "report_only"
-operating_state_rule = "Non-nominal states receive objective terms only through an explicit state target definition. No nominal or historical target is silently inherited by a suspension pose."
+operating_state_rule = "Non-nominal states receive curve objective terms only through an explicit state target definition. Scalar state-metric terms require an explicit state/metric target. No nominal or historical target is silently inherited by a suspension pose."
 alternative_modes = [
   "exact_geometric_ackermann_reference",
   "user_supplied_left_right_heading_curves",
@@ -177,38 +179,44 @@ alternative_modes = [
   "local_or_secant_ratio_band",
   "turning_capability_requirement",
   "explicit_operating_state_heading_targets",
+  "explicit_center_dynamic_toe_targets",
+  "explicit_center_rack_to_wheel_gain_targets",
   "future_external_tire_informed_target"
 ]
 
 [objectives]
 initial_active = ["wheel_heading_target_error"]
-implemented = ["wheel_heading_target_error", "operating_state_wheel_heading_target_error"]
+implemented = ["wheel_heading_target_error", "operating_state_wheel_heading_target_error", "center_dynamic_toe_out_change", "center_rack_to_wheel_gain"]
 operating_state_aggregation = "sum_weighted_normalized_state_rms_v0.1.0"
-future_available = ["dynamic_toe_target", "steering_gain_variation", "rack_travel_usage", "turning_capability_margin", "packaging_margin", "joint_articulation_margin", "robustness", "effort", "vehicle_or_tire_informed_state_target_generation"]
-rule = "Every active objective reports raw units, normalization scale, weight, sweep/state domain, and contribution. State weights remain visible inputs. Future objectives remain unavailable until their inputs and authorization exist."
+state_metric_aggregation = "sum_weighted_normalized_state_pair_rms_v0.1.0"
+future_available = ["rack_travel_usage", "turning_capability_margin", "packaging_margin", "joint_articulation_margin", "robustness", "effort", "vehicle_or_tire_informed_state_target_generation"]
+rule = "Every active objective reports raw units, normalization scale, weight, sweep/state domain, and contribution. State weights remain visible inputs. Center rack-to-wheel gain is a deg/mm analyzer-derived metric and is not silently identified with the dimensionless OptimumK Steering Toe Angle Gain evidence channel. Future objectives remain unavailable until their inputs and authorization exist."
 
 [search_method]
 method_id = "bounded_coordinate_pattern_search_v0.1.0"
 implementation = "src/pssd_steering/optimization/search.py"
 operating_state_adapter = "src/pssd_steering/optimization/operating_search.py"
+state_metric_adapter = "src/pssd_steering/optimization/state_metrics.py"
 method_document = "docs/models/steering/steering_nominal_optimizer_implementation_v0.1.0.md"
 operating_state_document = "docs/models/steering/steering_operating_state_target_implementation_v0.1.0.md"
-benchmark_ids = ["BENCH-STEER-0010", "BENCH-STEER-0011", "BENCH-STEER-0016", "BENCH-STEER-0017"]
+state_metric_document = "docs/models/steering/steering_state_metric_objectives_implementation_v0.1.0.md"
+benchmark_ids = ["BENCH-STEER-0010", "BENCH-STEER-0011", "BENCH-STEER-0016", "BENCH-STEER-0017", "BENCH-STEER-0019"]
 result_record = "benchmarks/steering/steering_nominal_optimizer_result_v0.1.0.toml"
 operating_state_result_record = "benchmarks/steering/steering_operating_state_target_result_v0.1.0.toml"
-claim_boundary = "Deterministic development baseline only; no global-optimality or production-selection claim. Operating-state search reuses the same method and changes only the candidate-evaluation objective adapter."
+state_metric_result_record = "benchmarks/steering/steering_state_metric_objective_result_v0.1.0.toml"
+claim_boundary = "Deterministic development baseline only; no global-optimality or production-selection claim. Operating-state and state-metric search reuse the same method and change only the candidate-evaluation objective adapter."
 
 [candidate_set]
 return_multiple_candidates = true
 nondominated_candidates_required_when_tradeoffs_exist = true
 convenience_ranking_allowed = true
-current_ranking = "nominal single-objective or explicit weighted state-objective aggregate among feasible candidates, depending on loaded study contract"
-ranking_rule = "Ranking must expose every objective contribution, state weight, and hard-constraint margin. The full feasible candidate set or a declared retained subset remains available for comparison; current scalar aggregation is not a Pareto-completeness claim."
+current_ranking = "nominal single-objective, explicit weighted state-curve aggregate, or explicit weighted scalar state-metric aggregate among feasible candidates, depending on loaded study contract"
+ranking_rule = "Ranking must expose every objective contribution, state/metric weight, unit, normalization, and hard-constraint margin. The full feasible candidate set or a declared retained subset remains available for comparison; current scalar aggregation is not a Pareto-completeness claim."
 
 [future_providers]
 pose_provider = "provider_neutral_contract_and_canonical_external_exchange_adapter_implemented; synthetic fixture verified; reviewed source-specific WUFR/OptimumK/CAD/native-solver export still required for WUFR state claims"
 external_pose_adapter = "external_rigid_upright_pose_csv_v0.1.0 implemented; source-specific vendor conversion remains upstream and reviewed WUFR pose authority is unavailable"
-operating_state_target_provider = "explicit_state_target_aggregation_implemented; synthetic and explicit-table construction routes available"
+operating_state_target_provider = "explicit_state_target_aggregation_and_scalar_state_metric_targets_implemented; synthetic and explicit-table construction routes available"
 tire_vehicle_target_generator = "unavailable; reviewed vehicle/tire operating model required before tire-informed claims"
 rack_load_provider = "unavailable"
 uncertainty_provider = "unavailable"
@@ -222,6 +230,7 @@ items = [
   "physical packaging feasibility",
   "manufacturing feasibility",
   "tire-optimal steering geometry from synthetic or manually weighted operating targets",
+  "equating the dimensionless OptimumK Steering Toe Angle Gain evidence channel with center_rack_to_wheel_gain in deg/mm without reviewed transmission/convention conversion",
   "steering-effort optimization",
   "robustness or as-built validation",
   "global optimality or Pareto optimality from the current scalar development search"

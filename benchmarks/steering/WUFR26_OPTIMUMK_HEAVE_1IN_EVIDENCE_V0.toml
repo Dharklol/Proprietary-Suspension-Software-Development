@@ -1,0 +1,163 @@
+evidence_id = "WUFR26_OPTIMUMK_HEAVE_1IN_EVIDENCE_V0"
+version = "0.1.1"
+source_type = "optimumk_result_export"
+source_filename = "WUFR-26 8.21 Heaves 1inch.xlsx"
+source_sha256 = "db071b7e696149ec82213e9ed05aa557349d18d19debe7925e7e01058534e4b8"
+source_export_version = "2.3.0"
+authority = "historical_external_kinematics_evidence_only"
+front_axle_only = true
+motion = "heave"
+steering_input_deg = 0.0
+scope_note = "This table preserves selected front-axle channels from the supplied OptimumK heave result. Toe change may seed later explicit dynamic-toe targets after convention review. OptimumK labels Steering Toe Angle Gain with unit '-', so it is preserved as a dimensionless steering-input-related gain channel and is NOT treated as the same quantity as the PR27 rack-to-wheel centered gain in deg/mm. The exported upright/tie-rod geometry already reflects tie-rod-constrained steering, so this evidence is not admitted directly as an unresolved-steering SuspensionPoseSet. A source-specific converter must remove steering rotation about the instantaneous kingpin axis before pose authority is promoted."
+
+[channel_contract]
+heave_mm = "Motion [Heave]"
+left_toe_deg = "Toe Angle [Left] [Front]"
+right_toe_deg = "Toe Angle [Right] [Front]"
+left_steer_deg = "Steer Angle [Left] [Front]"
+right_steer_deg = "Steer Angle [Right] [Front]"
+left_steering_toe_gain = "Steering Toe Angle Gain [Left] [Front]"
+right_steering_toe_gain = "Steering Toe Angle Gain [Right] [Front]"
+steering_ratio = "Steering Ratio [Front]"
+
+[channel_units]
+heave_mm = "mm"
+left_toe_deg = "deg"
+right_toe_deg = "deg"
+left_steer_deg = "deg"
+right_steer_deg = "deg"
+left_steering_toe_gain = "-"
+right_steering_toe_gain = "-"
+steering_ratio = "-"
+
+[[states]]
+heave_mm = -25.4
+left_toe_deg = -1.1534021505108536
+right_toe_deg = -1.1534021505108665
+left_dynamic_toe_change_deg = -0.1541729578946239
+right_dynamic_toe_change_deg = -0.1541729578946368
+left_steer_deg = -0.1534021505108535
+right_steer_deg = 0.1534021505108662
+left_steering_toe_gain = 0.2817386973805920
+right_steering_toe_gain = -0.2817386973805284
+steering_ratio = -3.549388171725818
+
+[[states]]
+heave_mm = -20.32
+left_toe_deg = -1.1221209400778627
+right_toe_deg = -1.1221209400778118
+left_dynamic_toe_change_deg = -0.1228917474616330
+right_dynamic_toe_change_deg = -0.1228917474615821
+left_steer_deg = -0.1221209400778626
+right_steer_deg = 0.1221209400778117
+left_steering_toe_gain = 0.2823412803652362
+right_steering_toe_gain = -0.2823412803651726
+steering_ratio = -3.541812938959951
+
+[[states]]
+heave_mm = -15.24
+left_toe_deg = -1.0911846160152587
+right_toe_deg = -1.0911846160152587
+left_dynamic_toe_change_deg = -0.0919554233990290
+right_dynamic_toe_change_deg = -0.0919554233990290
+left_steer_deg = -0.0911846160152584
+right_steer_deg = 0.0911846160152584
+left_steering_toe_gain = 0.2829003867072821
+right_steering_toe_gain = -0.2829003867074094
+steering_ratio = -3.534813124997521
+
+[[states]]
+heave_mm = -10.16
+left_toe_deg = -1.0604706115903721
+right_toe_deg = -1.0604706115903721
+left_dynamic_toe_change_deg = -0.0612414189741425
+right_dynamic_toe_change_deg = -0.0612414189741425
+left_steer_deg = -0.0604706115903720
+right_steer_deg = 0.0604706115903720
+left_steering_toe_gain = 0.2834171679011078
+right_steering_toe_gain = -0.2834171679010442
+steering_ratio = -3.528367767576593
+
+[[states]]
+heave_mm = -5.08
+left_toe_deg = -1.0298583773453562
+right_toe_deg = -1.0298583773453562
+left_dynamic_toe_change_deg = -0.0306291847291266
+right_dynamic_toe_change_deg = -0.0306291847291266
+left_steer_deg = -0.0298583773453560
+right_steer_deg = 0.0298583773453560
+left_steering_toe_gain = 0.2838927541608904
+right_steering_toe_gain = -0.2838927541608904
+steering_ratio = -3.522456932568524
+
+[[states]]
+heave_mm = 0.0
+left_toe_deg = -0.9992291926162297
+right_toe_deg = -0.9992291926162297
+left_dynamic_toe_change_deg = 0.0
+right_dynamic_toe_change_deg = 0.0
+left_steer_deg = 0.0007708073837705
+right_steer_deg = -0.0007708073837705
+left_steering_toe_gain = 0.2843282532894102
+right_steering_toe_gain = -0.2843282532894102
+steering_ratio = -3.5170616652792734
+
+[[states]]
+heave_mm = 5.08
+left_toe_deg = -0.9684659666751594
+right_toe_deg = -0.9684659666751594
+left_dynamic_toe_change_deg = 0.0307632259410703
+right_dynamic_toe_change_deg = 0.0307632259410703
+left_steer_deg = 0.0315340333248408
+right_steer_deg = -0.0315340333248408
+left_steering_toe_gain = 0.2847247497821518
+right_steering_toe_gain = -0.2847247497821518
+steering_ratio = -3.512163943475650
+
+[[states]]
+heave_mm = 10.16
+left_toe_deg = -0.9374530295781510
+right_toe_deg = -0.9374530295781384
+left_dynamic_toe_change_deg = 0.0617761630380786
+right_dynamic_toe_change_deg = 0.0617761630380913
+left_steer_deg = 0.0625469704218492
+right_steer_deg = -0.0625469704218619
+left_steering_toe_gain = 0.2850833040768209
+right_steering_toe_gain = -0.2850833040768845
+steering_ratio = -3.5077466329996656
+
+[[states]]
+heave_mm = 15.24
+left_toe_deg = -0.9060759125541856
+right_toe_deg = -0.9060759125541984
+left_dynamic_toe_change_deg = 0.0931532800620440
+right_dynamic_toe_change_deg = 0.0931532800620313
+left_steer_deg = 0.0939240874458145
+right_steer_deg = -0.0939240874458018
+left_steering_toe_gain = 0.2854049519800805
+right_steering_toe_gain = -0.2854049519800169
+steering_ratio = -3.5037934452864894
+
+[[states]]
+heave_mm = 20.32
+left_toe_deg = -0.8742211176845639
+right_toe_deg = -0.8742211176845639
+left_dynamic_toe_change_deg = 0.1250080749316658
+right_dynamic_toe_change_deg = 0.1250080749316658
+left_steer_deg = 0.1257788823154363
+right_steer_deg = -0.1257788823154363
+left_steering_toe_gain = 0.2856907042438379
+right_steering_toe_gain = -0.2856907042438379
+steering_ratio = -3.5002888968571297
+
+[[states]]
+heave_mm = 25.4
+left_toe_deg = -0.8417758764440872
+right_toe_deg = -0.8417758764440872
+left_dynamic_toe_change_deg = 0.1574533161721424
+right_dynamic_toe_change_deg = 0.1574533161721424
+left_steer_deg = 0.1582241235559129
+right_steer_deg = -0.1582241235559129
+left_steering_toe_gain = 0.2859415462847831
+right_steering_toe_gain = -0.2859415462848467
+steering_ratio = -3.497218270631929

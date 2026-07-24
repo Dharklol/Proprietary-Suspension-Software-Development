@@ -155,7 +155,7 @@ id = "P0-STR-011"
 title = "WUFR-26 Level F uncertainty and physical correlation"
 status = "active"
 exit_criterion = "Existing whole-system free-play, historical compliance, calculated steering-load, and available-sensor evidence are source-linked; installed stops, primary-shaft-to-rack correlation, left/right rack-to-wheel response, repeatability, staged backlash/compliance attribution, sensor calibration, uncertainty, and an independently justified acceptance rule remain to be completed."
-critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, synthetic/external suspension-pose provider development, or explicit nonphysical operating-state target aggregation."
+critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, synthetic/external suspension-pose provider development, explicit nonphysical operating-state target aggregation, or nonphysical scalar state-metric objective development."
 
 [phase_1]
 status = "active"
@@ -267,7 +267,7 @@ merge_record = "PR #25, merge commit 6a1de640b864e7ee87565fd3c376c70bdc3dc70e"
 [[phase_1.tasks]]
 id = "P1-STR-006F"
 title = "External suspension-pose exchange adapter"
-status = "review_ready"
+status = "complete"
 depends_on = ["P1-STR-006A", "P1-STR-006B"]
 exit_criterion = "A reviewed external rigid-transform table can be ingested with explicit source/revision/frame/steering-DOF metadata and reproduce canonical pose/analyzer behavior exactly; descriptive or physical evidence is not silently promoted to unresolved-pose authority."
 review_record = "docs/reviews/phase1_steering_external_pose_adapter_review.md"
@@ -277,6 +277,21 @@ benchmark_ids = ["BENCH-STEER-0018"]
 report_script = "scripts/run_steering_external_pose_adapter_benchmarks.py"
 result_record = "benchmarks/steering/steering_external_pose_adapter_result_v0.1.0.toml"
 scope_note = "The implemented exchange fixture is synthetic. No reviewed machine-readable WUFR zero-steer upright transform series has yet been identified, so WUFR suspension-state design ranking remains gated."
+merge_record = "PR #26, merge commit be241172998684e1f40a6f2af2d9801a2c1911c8"
+
+[[phase_1.tasks]]
+id = "P1-STR-006G"
+title = "Dynamic-toe and state-dependent steering-gain objectives"
+status = "review_ready"
+depends_on = ["P1-STR-006B", "P1-STR-006C"]
+exit_criterion = "Named suspension states can carry explicit centered side-local dynamic-toe and centered rack-to-wheel gain targets with left/right values, metric-specific units, normalization, weights, convention adapters, source authority, and deterministic recovery evidence without introducing another steering or suspension model."
+review_record = "docs/reviews/phase1_steering_state_metric_objectives_review.md"
+implementation_record = "docs/models/steering/steering_state_metric_objectives_implementation_v0.1.0.md"
+benchmark_ids = ["BENCH-STEER-0019"]
+report_script = "scripts/run_steering_state_metric_benchmarks.py"
+result_record = "benchmarks/steering/steering_state_metric_objective_result_v0.1.0.toml"
+external_evidence = "benchmarks/steering/WUFR26_OPTIMUMK_HEAVE_1IN_EVIDENCE_V0.toml"
+scope_note = "Analyzer-generated scalar targets verify software composition only. The supplied OptimumK Steering Toe Angle Gain channel is dimensionless evidence and is not the same quantity as the implemented deg/mm rack-to-wheel gain; reviewed WUFR/OptimumK pose conversion and vehicle/tire target authority remain later gates."
 
 [[phase_1.tasks]]
 id = "P1-STR-006D"

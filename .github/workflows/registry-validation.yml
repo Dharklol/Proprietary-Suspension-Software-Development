@@ -119,3 +119,18 @@ jobs:
             steering_external_pose_adapter_report.json
             steering_external_pose_adapter_summary.json
           if-no-files-found: error
+      - name: Generate steering state-metric objective reports
+        run: |
+          python scripts/run_steering_state_metric_benchmarks.py \
+            --output steering_state_metric_report.json > /dev/null
+          python scripts/run_steering_state_metric_benchmarks.py \
+            --summary \
+            --output steering_state_metric_summary.json
+      - name: Upload steering state-metric objective reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: steering-state-metric-objective-reports
+          path: |
+            steering_state_metric_report.json
+            steering_state_metric_summary.json
+          if-no-files-found: error
