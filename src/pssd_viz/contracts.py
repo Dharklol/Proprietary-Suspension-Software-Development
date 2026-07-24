@@ -76,11 +76,14 @@ class FigureMetadata:
         return _quantity_label(self.y_quantity, self.y_unit)
 
     def footer_text(self) -> str:
+        """Return a compact two-line identity block for static artifacts."""
+
         state_text = ", ".join(self.state_ids) if self.state_ids else "none"
         source_text = ", ".join(self.source_ids) if self.source_ids else "none"
         return (
             f"{self.figure_id} | model={self.model_id} | config={self.configuration_id} | "
-            f"authority={self.authority} | states={state_text} | sources={source_text}"
+            f"authority={self.authority}\n"
+            f"states={state_text} | sources={source_text}"
         )
 
 
