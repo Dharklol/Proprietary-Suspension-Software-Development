@@ -1,9 +1,10 @@
-version = "0.1.0"
+version = "0.2.0"
 authorization_id = "AUTH-STEER-0003"
-status = "review_ready"
+status = "complete"
 title = "Force-demand tire-slip steering target prototype authorization"
-effective_condition = "Effective after reviewed merge of PR #30. This authorization supplements AUTH-STEER-0002 and AUTH-VEH-0001; it does not replace MOD-STEER-0001 or authorize vehicle equilibrium, a new tire-force model, or production steering ranking."
+effective_condition = "Effective after merge of PR #30 at 1d894d3cc2e252b2cb4b6f1e594da5ae1b6c6ff7. This authorization supplements AUTH-STEER-0002 and AUTH-VEH-0001; it does not replace MOD-STEER-0001 or authorize vehicle equilibrium, a new tire-force model, or production steering ranking."
 review_record = "docs/reviews/phase1_steering_force_demand_targets_review.md"
+merge_record = "PR #30, merge commit 1d894d3cc2e252b2cb4b6f1e594da5ae1b6c6ff7"
 
 [scope]
 steering_model_ids = ["MOD-STEER-0001", "MOD-STEER-0002"]
@@ -14,7 +15,7 @@ source_audit = "docs/models/steering/steering_force_demand_tire_source_audit.md"
 
 [architecture]
 steering_evaluator_rule = "MOD-STEER-0001 remains the only steering-kinematics evaluator. Force-demand target code may compute a target wheel-angle relation but may not duplicate mechanism closure, projection, branch, singularity, ratio, or turning-path equations."
-tire_rule = "The first force-demand layer inverts already-supplied monotonic pre-peak |Fy|-versus-|alpha| samples. Piecewise-linear interpolation between supplied response samples is an exchange-table operation, not an independent tire-force model."
+tire_rule = "The force-demand layer inverts already-supplied monotonic pre-peak |Fy|-versus-|alpha| samples. Piecewise-linear interpolation between supplied response samples is an exchange-table operation, not an independent tire-force model."
 vehicle_rule = "Wheel Fz, inclination/camber, pressure, and lateral-force demand remain explicit upstream inputs. This authorization does not generate them."
 regime_rule = "Pro-Ackermann, parallel, and anti-Ackermann are classified from the corrected wheel-angle pair and are never prescribed globally as a tire property."
 
@@ -54,7 +55,7 @@ raw_cornering_run_ids = ["1890899727782", "1890911183790"]
 cornering_trojan_file_id = "1890914118742"
 fitted_tir_file_id = "1952385546497"
 tire_selection_notes_file_id = "1890901561957"
-current_real_branch_status = "not_yet_frozen_in_repository"
+current_real_branch_status = "not_yet_frozen_in_repository; source-specific export is tracked separately by PR32"
 current_summary_limitation = "The merged PR28 summary freezes stiffness/peak/censor information but does not contain enough pre-peak response samples for arbitrary force-demand inversion."
 
 [required_before_design_ranking]
@@ -73,4 +74,4 @@ synthetic_branch_fixture = "benchmarks/tires/SYNTHETIC_FORCE_DEMAND_BRANCHES_V0.
 result_record = "benchmarks/steering/steering_force_demand_target_result_v0.1.0.toml"
 report_script = "scripts/run_steering_force_demand_benchmarks.py"
 implementation_tests = "tests/test_tire_force_demand.py; tests/test_steering_force_demand_targets.py; tests/test_steering_force_demand_freeze.py"
-source_ci_run = "GitHub Actions run 361 / 30063973228; 186 tests; steering-force-demand-tire-reports artifact 8585610543"
+final_ci = "GitHub Actions run 370 / 30064308024; 192 tests; steering-force-demand-tire-reports artifact 8586574678"
