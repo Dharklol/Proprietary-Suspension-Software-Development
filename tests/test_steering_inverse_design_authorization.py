@@ -182,7 +182,8 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
         self.assertEqual("complete", phase_one["P1-STR-006H"]["status"])
         self.assertEqual("complete", phase_one["P1-STR-006I"]["status"])
         self.assertEqual("complete", phase_one["P1-STR-006J"]["status"])
-        self.assertEqual("review_ready", phase_one["P1-STR-006K"]["status"])
+        self.assertEqual("complete", phase_one["P1-STR-006K"]["status"])
+        self.assertEqual("complete", phase_one["P1-STR-006L"]["status"])
         self.assertEqual("active", phase_one["P1-STR-006D"]["status"])
         self.assertEqual("active", phase_one["P1-STR-006E"]["status"])
         self.assertIn("explicitly deferred", phase_one["P1-STR-006E"]["execution_rule"].lower())
@@ -197,7 +198,13 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
         self.assertEqual(["P1-STR-006H"], phase_one["P1-STR-006I"]["depends_on"])
         self.assertEqual(["P1-STR-006H", "P1-STR-006I"], phase_one["P1-STR-006J"]["depends_on"])
         self.assertEqual(["P1-STR-006J"], phase_one["P1-STR-006K"]["depends_on"])
+        self.assertEqual(["P1-STR-006J"], phase_one["P1-STR-006L"]["depends_on"])
         self.assertIn("P0-STR-011", phase_one["P1-STR-006E"]["depends_on"])
+
+        workstreams = {item["id"]: item for item in progress["phase_1"]["workstreams"]}
+        steering = workstreams["P1-W01"]
+        self.assertIn("feature_complete", steering["architecture_state"])
+        self.assertIn("post_steering_rnd_program", steering["next_program"])
 
 
 if __name__ == "__main__":

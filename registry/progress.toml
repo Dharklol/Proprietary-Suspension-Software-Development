@@ -155,17 +155,20 @@ id = "P0-STR-011"
 title = "WUFR-26 Level F uncertainty and physical correlation"
 status = "active"
 exit_criterion = "Existing whole-system free-play, historical compliance, calculated steering-load, and available-sensor evidence are source-linked; installed stops, primary-shaft-to-rack correlation, left/right rack-to-wheel response, repeatability, staged backlash/compliance attribution, sensor calibration, uncertainty, and an independently justified acceptance rule remain to be completed."
-critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, synthetic/external suspension-pose provider development, explicit nonphysical operating-state target aggregation, nonphysical scalar state-metric objective development, bounded tire-target provider development from reviewed external tire data, source-preserving vehicle operating-state exchange development, bounded force-demand tire-slip target software verification, or source-specific processed-TTC branch export."
+critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, synthetic/external suspension-pose provider development, explicit nonphysical operating-state target aggregation, nonphysical scalar state-metric objective development, bounded tire-target provider development from reviewed external tire data, source-preserving vehicle operating-state exchange development, bounded force-demand tire-slip target software verification, source-specific processed-TTC branch export, or explicit planar motion-aware tire-slip target software verification."
 
 [phase_1]
 status = "active"
-objective = "Build the steering vertical slice from the verified analyzer through nominal inverse design, explicit constraints, candidate comparison, suspension-state integration, tire targets, shared vehicle operating-state integration, bounded force-demand slip targets, and source-specific tire branch export before unavailable physical data become necessary."
+objective = "Build the steering vertical slice from the verified analyzer through nominal inverse design, explicit constraints, candidate comparison, suspension-state integration, tire targets, shared vehicle operating-state integration, bounded force-demand slip targets, source-specific tire branch export, and explicit planar motion-aware target composition before unavailable upstream physics become necessary."
 
 [[phase_1.workstreams]]
 id = "P1-W01"
 title = "Steering inverse-design vertical slice"
 status = "active"
 exit_criterion = "A literature-grounded, analyzer-composed steering platform returns traceable feasible candidate sets across reviewed operating states and remains ready for vehicle-state, tire, effort, robustness, and later physical-correlation providers."
+architecture_state = "feature_complete_for_current_R&D_scope_pending_upstream_suspension_vehicle_tire_and_physical_evidence"
+closeout_record = "docs/reviews/phase1_steering_rnd_architecture_closeout.md"
+next_program = "docs/roadmaps/post_steering_rnd_program_v0.1.0.md"
 
 [[phase_1.tasks]]
 id = "P1-STR-001"
@@ -344,7 +347,7 @@ merge_record = "PR #30, merge commit 1d894d3cc2e252b2cb4b6f1e594da5ae1b6c6ff7"
 [[phase_1.tasks]]
 id = "P1-STR-006K"
 title = "R25B processed TTC force-branch exporter"
-status = "review_ready"
+status = "complete"
 depends_on = ["P1-STR-006J"]
 exit_criterion = "A named, source-preserving WUFR-26 processed-Cornering-Trojan profile can export exact operating-point negative-SA/positive-FY pre-peak branches into the PR30 TireLateralForceBranchSet exchange contract while validating source identity, rejecting nonmonotonic or unavailable states, and never refitting, extrapolating, applying hidden convention changes, or using the historical 2/3 track scale."
 review_record = "docs/reviews/phase1_r25b_force_branch_exporter_review.md"
@@ -354,6 +357,22 @@ benchmark_ids = ["BENCH-STEER-0022"]
 source_profile = "benchmarks/tires/WUFR26_H43105_R25B_CORNERING_TROJAN_EXPORT_PROFILE_V0.toml"
 source_export_script = "scripts/export_r25b_cornering_force_branches.py"
 scope_note = "Synthetic Trojan-shaped arrays verify exporter behavior in CI. Actual R25B intermediate branch values remain pending a reviewed source-side run of the hashed binary MAT file; therefore WUFR force-demand steering ranking remains gated."
+merge_record = "PR #32, merge commit 1872c14cf8a8472f6fbaf27319888bc092892219"
+
+[[phase_1.tasks]]
+id = "P1-STR-006L"
+title = "Motion-aware force-demand tire-slip steering target provider"
+status = "complete"
+depends_on = ["P1-STR-006J"]
+exit_criterion = "Explicit planar body motion and wheel-center geometry can replace the low-speed Ackermann velocity-heading anchor when composing bounded force-demand tire slips into steering targets, while MOD-STEER-0001 remains the only mechanism evaluator and no vehicle-response, load-transfer, or tire-force solver is introduced."
+review_record = "docs/reviews/phase1_planar_slip_kinematics_review.md"
+vehicle_authorization_record = "authorizations/vehicle/AUTH-VEH-0002.toml"
+steering_authorization_record = "authorizations/steering/AUTH-STEER-0004.toml"
+model_id = "MOD-VEH-0002"
+benchmark_ids = ["BENCH-VEH-0002", "BENCH-STEER-0023"]
+result_records = ["benchmarks/vehicle/planar_slip_kinematics_result_v0.1.0.toml", "benchmarks/steering/motion_aware_force_demand_result_v0.1.0.toml"]
+scope_note = "Synthetic motion schedules verify exact planar kinematics and steering-target composition only. No reviewed WUFR u/v/r schedule is yet available, so motion-aware WUFR steering ranking remains gated."
+merge_record = "PR #33, merge commit b0991ad957bec8b01cdb31a8a4935b961e84fc05"
 
 [[phase_1.tasks]]
 id = "P1-STR-006D"
