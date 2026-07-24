@@ -1,0 +1,39 @@
+[record]
+id = "MOD-VEH-0002"
+type = "model"
+title = "Explicit planar wheel-velocity and tire-slip kinematics provider"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Provider-neutral planar kinematics layer that transforms externally supplied body motion (u,v,r) and explicit wheel-center geometry into wheel-center velocity headings, velocity-center diagnostics, and signed tire-slip/required-wheel-heading geometry. It contains no vehicle-equilibrium, tire-force, load-transfer, or motion-response model. A motion-aware steering target adapter may combine these headings with PR30 required tire slips without replacing MOD-STEER-0001."
+inputs = [
+  "Explicit planar body-motion sample or ordered schedule: longitudinal velocity u, lateral velocity v, yaw rate r",
+  "Explicit wheel-center body-frame x/y coordinates referenced to the same CG/body origin",
+  "Projected wheel heading delta when evaluating slip, or externally supplied required signed tire slip alpha when inverting the relation",
+  "Source authority/path/provenance for motion and geometry"
+]
+outputs = [
+  "Wheel-center Vx/Vy components, speed, and velocity heading beta_hat",
+  "Diagnostic velocity-center coordinates R=u/r and S=-v/r when defined",
+  "Signed tire slip alpha=delta-beta_hat",
+  "Required wheel heading delta=beta_hat+alpha_required",
+  "Ordered PlanarMotionSchedule usable by separately authorized downstream target providers"
+]
+assumptions = [
+  "Planar rigid-body vehicle motion in canonical +x-forward, +y-left, +z-up axes.",
+  "u, v, and r are already determined by an upstream source; this model does not predict them.",
+  "Wheel-center coordinates share the same body origin/frame as u, v, and r.",
+  "Wheel-center velocity direction must be defined before tire slip is evaluated.",
+  "The project tire-slip sign convention is alpha=delta-beta_hat; external tire sign conventions require explicit adaptation."
+]
+verification_level = "B"
+benchmark_ids = ["BENCH-VEH-0002", "BENCH-STEER-0023"]
+authorization_state = "review_ready_under_AUTH-VEH-0002"
+authorization_id = "AUTH-VEH-0002"
+authorization_document = "authorizations/vehicle/AUTH-VEH-0002.toml"
+equation_ids = ["EQ-VEH-0001", "EQ-VEH-0002", "EQ-VEH-0003"]
+implementation_package = "src/pssd_vehicle/planar_kinematics.py"
+implementation_tests = ["tests/test_planar_slip_kinematics.py", "tests/test_motion_aware_force_demand_targets.py"]
+consumer_model_ids = ["MOD-STEER-0002"]
+future_producers = ["reviewed QSS vehicle-motion provider", "telemetry body-motion reconstruction", "reviewed multibody/external vehicle simulation"]
+prohibited_scope = "Prediction of u/v/r or sideslip/yaw response, vehicle equilibrium, load transfer, LLTD, aero, suspension motion, tire force, transient integration, hidden low-speed Ackermann substitution, or production WUFR motion claims from synthetic schedules."
