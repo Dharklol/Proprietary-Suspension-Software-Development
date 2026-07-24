@@ -1,0 +1,19 @@
+[record]
+id = "BENCH-VEH-0002"
+type = "benchmark"
+title = "Planar wheel-center velocity and tire-slip kinematics"
+status = "proposed"
+description = "Verify exact planar rigid-body wheel-center velocity, velocity-center diagnostics, and signed tire-slip geometry independently of vehicle equilibrium or tire-force physics. Synthetic geometry/motion values provide software and limiting-case evidence only."
+verification_level = "B"
+target_ids = ["MOD-VEH-0002", "EQ-VEH-0001", "EQ-VEH-0002", "EQ-VEH-0003"]
+acceptance_criteria = [
+  "Wheel-center velocity components reproduce Vx=u-r*y and Vy=v+r*x exactly for explicit left/right wheel locations.",
+  "R=u/r and S=-v/r are recovered for nonzero yaw rate and remain unavailable rather than assigned sentinels at zero yaw rate.",
+  "With the velocity center on the rear axle (S=-a2) and zero required tire slip, the exact front wheel-center velocity headings reproduce the classical no-slip Ackermann front headings for the supplied wheel-center track.",
+  "For parallel front steering, S=a1 produces equal front tire slips, S>a1 produces larger inner-front slip, and -a2<S<a1 produces larger outer-front slip under the canonical convention.",
+  "The inverse delta=beta_hat+alpha reproduces an explicitly supplied signed tire slip when evaluated through alpha=delta-beta_hat.",
+  "Zero wheel-center speed is rejected when a velocity heading/tire slip is requested.",
+  "No benchmark step solves vehicle force equilibrium, load transfer, tire force, or body-motion response."
+]
+implementation_tests = ["tests/test_planar_slip_kinematics.py"]
+report_script = "scripts/run_planar_slip_kinematics_benchmarks.py"
