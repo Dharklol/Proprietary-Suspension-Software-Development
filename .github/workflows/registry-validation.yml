@@ -149,3 +149,18 @@ jobs:
             steering_tire_target_report.json
             steering_tire_target_summary.json
           if-no-files-found: error
+      - name: Generate vehicle operating-state reports
+        run: |
+          python scripts/run_vehicle_operating_state_benchmarks.py \
+            --output vehicle_operating_state_report.json > /dev/null
+          python scripts/run_vehicle_operating_state_benchmarks.py \
+            --summary \
+            --output vehicle_operating_state_summary.json
+      - name: Upload vehicle operating-state reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: vehicle-operating-state-reports
+          path: |
+            vehicle_operating_state_report.json
+            vehicle_operating_state_summary.json
+          if-no-files-found: error
