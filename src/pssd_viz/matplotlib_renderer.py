@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from contextlib import nullcontext
 from pathlib import Path
+import textwrap
 from typing import Iterable
 
 from .contracts import EngineeringFigureSpec, FigureAvailability
@@ -50,7 +51,7 @@ def render_engineering_figure(
     }
     context = matplotlib.rc_context(rc) if hasattr(matplotlib, "rc_context") else nullcontext()
     with context:
-        fig, ax = plt.subplots(figsize=(8.0, 5.0), constrained_layout=False)
+        fig, ax = plt.subplots(figsize=(8.0, 5.5), constrained_layout=False)
         try:
             if spec.availability is FigureAvailability.AVAILABLE:
                 _render_available(ax, spec)
@@ -58,25 +59,23 @@ def render_engineering_figure(
                 _render_unavailable(ax, spec)
 
             fig.suptitle(spec.metadata.title)
-            fig.subplots_adjust(left=0.11, right=0.97, top=0.88, bottom=0.22)
+            fig.subplots_adjust(left=0.11, right=0.97, top=0.88, bottom=0.28)
             fig.text(
                 0.01,
-                0.02,
-                spec.metadata.footer_text(),
+                0.018,
+                _wrap_block(spec.metadata.footer_text()),
                 ha="left",
                 va="bottom",
                 fontsize=6.5,
-                wrap=True,
             )
             if spec.metadata.notes:
                 fig.text(
                     0.01,
-                    0.075,
-                    "Notes: " + " | ".join(spec.metadata.notes),
+                    0.115,
+                    _wrap_block("Notes: " + " | ".join(spec.metadata.notes)),
                     ha="left",
                     va="bottom",
                     fontsize=6.5,
-                    wrap=True,
                 )
 
             outputs: list[Path] = []
@@ -122,12 +121,21 @@ def _render_unavailable(ax, spec: EngineeringFigureSpec) -> None:
     ax.text(
         0.5,
         0.42,
-        spec.unavailable_reason,
+        _wrap_block(spec.unavailable_reason or "", width=92),
         transform=ax.transAxes,
         ha="center",
         va="center",
         fontsize=10,
         wrap=True,
+    )
+
+
+def _wrap_block(value: str, *, width: int = 118) -> str:
+    """Wrap each logical line without changing the underlying metadata payload."""
+
+    return "\n".join(
+        textwrap.fill(line, width=width, break_long_words=False, break_on_hyphens=False)
+        for line in value.splitlines()
     )
 
 
