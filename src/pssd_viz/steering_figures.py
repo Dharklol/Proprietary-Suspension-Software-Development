@@ -21,6 +21,17 @@ def _series(label: str, x: Sequence[float], y: Sequence[float]) -> SeriesSpec:
     return SeriesSpec.from_iterables(label=label, x=x, y=y)
 
 
+def _difference(
+    minuend: Sequence[float],
+    subtrahend: Sequence[float],
+    inputs: Sequence[float],
+) -> tuple[float, ...]:
+    values = tuple(float(a) - float(b) for a, b in zip(minuend, subtrahend))
+    if len(values) != len(inputs):
+        raise ValueError("difference inputs and data arrays must have equal lengths")
+    return values
+
+
 def steering_response_comparison_spec(
     *,
     figure_id: str,
@@ -80,10 +91,8 @@ def steering_residual_spec(
     have been produced by the upstream evaluator/target providers.
     """
 
-    left = tuple(float(a) - float(b) for a, b in zip(left_response_deg, left_target_deg))
-    right = tuple(float(a) - float(b) for a, b in zip(right_response_deg, right_target_deg))
-    if len(left) != len(inputs_deg) or len(right) != len(inputs_deg):
-        raise ValueError("residual inputs and response/target arrays must have equal lengths")
+    left = _difference(left_response_deg, left_target_deg, inputs_deg)
+    right = _difference(right_response_deg, right_target_deg, inputs_deg)
     return EngineeringFigureSpec(
         metadata=FigureMetadata(
             figure_id=figure_id,
@@ -140,6 +149,45 @@ def target_comparison_spec(
             _series("baseline right", inputs_deg, baseline_right_deg),
             _series("alternate left", inputs_deg, alternate_left_deg),
             _series("alternate right", inputs_deg, alternate_right_deg),
+        ),
+    )
+
+
+def target_correction_spec(
+    *,
+    figure_id: str,
+    title: str,
+    inputs_deg: Sequence[float],
+    baseline_left_deg: Sequence[float],
+    baseline_right_deg: Sequence[float],
+    alternate_left_deg: Sequence[float],
+    alternate_right_deg: Sequence[float],
+    configuration_id: str,
+    authority: str,
+    source_ids: Sequence[str],
+    notes: Sequence[str] = (),
+) -> EngineeringFigureSpec:
+    """Show alternate-minus-baseline target correction directly."""
+
+    left = _difference(alternate_left_deg, baseline_left_deg, inputs_deg)
+    right = _difference(alternate_right_deg, baseline_right_deg, inputs_deg)
+    return EngineeringFigureSpec(
+        metadata=FigureMetadata(
+            figure_id=figure_id,
+            title=title,
+            x_quantity="Steering input",
+            x_unit="deg",
+            y_quantity="Alternate minus baseline target heading",
+            y_unit="deg",
+            model_id="MOD-STEER-0002",
+            configuration_id=configuration_id,
+            authority=authority,
+            source_ids=tuple(source_ids),
+            notes=tuple(notes),
+        ),
+        series=(
+            _series("left target correction", inputs_deg, left),
+            _series("right target correction", inputs_deg, right),
         ),
     )
 
