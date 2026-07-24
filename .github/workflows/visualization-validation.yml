@@ -19,6 +19,7 @@ jobs:
         run: |
           python -m unittest tests.test_visualization_foundation -v
           python -m unittest tests.test_steering_figure_suite -v
+          python -m unittest tests.test_scene3d_viewer -v
       - name: Generate visualization smoke report
         run: |
           python scripts/run_visualization_foundation_smoke.py \
@@ -27,6 +28,10 @@ jobs:
         run: |
           python scripts/run_steering_figure_suite.py \
             --output-dir steering_rnd_figure_suite
+      - name: Generate steering 3D viewer
+        run: |
+          python scripts/run_steering_3d_viewer.py \
+            --output-dir steering_3d_viewer
       - name: Upload visualization smoke report
         uses: actions/upload-artifact@v4
         with:
@@ -38,4 +43,10 @@ jobs:
         with:
           name: steering-rnd-figure-suite
           path: steering_rnd_figure_suite
+          if-no-files-found: error
+      - name: Upload steering 3D viewer
+        uses: actions/upload-artifact@v4
+        with:
+          name: steering-3d-viewer
+          path: steering_3d_viewer
           if-no-files-found: error
