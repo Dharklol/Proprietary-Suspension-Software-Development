@@ -1,0 +1,60 @@
+version = "0.1.0"
+result_id = "STEERING-TIRE-INFORMED-TARGET-BENCHMARKS-V0"
+benchmark_id = "BENCH-STEER-0020"
+authorization_id = "AUTH-STEER-0002"
+evaluator_model_id = "MOD-STEER-0001"
+optimizer_model_id = "MOD-STEER-0002"
+tire_grid_id = "WUFR26_H43105_R25B_LATERAL_SUMMARY_V0"
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+engineering_proxy_authority = "Team-authorized R25B TTC engineering-equivalent proxy for WUFR steering target development; not literal compound/part-number identity or installed-tire correlation."
+authority_boundary = "The Python tire layer is a bounded TTC-derived lateral summary and target adapter, not a Magic Formula rewrite or a vehicle equilibrium solver. The 43105 R25B data are an explicit engineering proxy for the intended 43104 R20 tire. Peak-slip values censored at the 12 deg source sweep boundary are rejected. The explicit utilization schedule and reference wheel loads/cambers are development inputs, so this benchmark does not establish production tire-optimal Ackermann, track scaling, or installed-state authority."
+
+[reference_state]
+state_id = "nominal"
+inside_normal_load_n = 222.0
+inside_inclination_deg = 0.0
+inside_pressure_kpa = 83.0
+outside_normal_load_n = 1112.0
+outside_inclination_deg = 2.0
+outside_pressure_kpa = 83.0
+inside_peak_slip_deg = 9.6
+outside_peak_slip_deg = 10.9
+outside_minus_inside_peak_slip_deg = 1.3000000000000007
+utilization_schedule = [1.0, 0.8823529411764706, 0.7352941176470589, 0.5882352941176471, 0.4411764705882353, 0.29411764705882354, 0.14705882352941177, 0.0, 0.14705882352941177, 0.29411764705882354, 0.4411764705882353, 0.5882352941176471, 0.7352941176470589, 0.8823529411764706, 1.0]
+
+[target]
+target_set_id = "WUFR27_TIRE_INFORMED_STEERING_DEV_V0"
+source_type = "tire_informed_peak_slip_differential"
+left_endpoint_targets_deg = [-32.18468832, 24.168696046212865]
+right_endpoint_targets_deg = [-24.168696046212865, 32.18468832]
+left_outputs_deg = [-32.18468832, -26.962200000000003, -21.2259375, -16.1892, -11.681887499999998, -7.558199999999999, -3.6966374999999996, 0.0, 3.7104805345791045, 7.237115298439778, 10.66546844276132, 14.07630482437644, 17.545166759177874, 21.144592007064936, 24.168696046212865]
+right_outputs_deg = [-24.168696046212865, -21.144592007064936, -17.545166759177874, -14.07630482437644, -10.66546844276132, -7.237115298439778, -3.7104805345791045, 0.0, 3.6966374999999996, 7.558199999999999, 11.681887499999998, 16.1892, 21.2259375, 26.962200000000003, 32.18468832]
+
+[reference_candidate]
+candidate_id = "TIRE-TARGET-REFERENCE-CANDIDATE"
+feasible = true
+total_objective = 0.6849216410264974
+objective_id = "tire_informed_differential_heading:nominal"
+raw_value_deg_rms = 0.6849216410264974
+normalization_scale_deg = 1.0
+objective_weight = 1.0
+weighted_contribution = 0.6849216410264974
+max_abs_residual_deg = 1.8372726
+
+[matlab_reference]
+reference_id = "WUFR26_H43105_R25B_MATLAB_REFERENCE_V0"
+historical_force_and_moment_scale = 0.6666666666666666
+historical_scale_promoted_to_tire_provider = false
+pressures_psi = [10.0, 12.0, 14.0]
+left_balanced_lateral_acceleration_g = [2.52, 2.49, 2.46]
+right_balanced_lateral_acceleration_g = [-2.42, -2.39, -2.35]
+
+[ci_freeze]
+source_run_number = 327
+source_run_id = 30060099516
+source_head_sha = "100351edb0718d4179e5023231149f36a3b73ace"
+source_artifact_id = 8584275133
+source_artifact_digest = "sha256:44551cf3c84a3f8bff887ed330edfddf3635a484704ecc60ccf29708e1b8e4d2"
+source_test_count = 157
+source_test_status = "success"
