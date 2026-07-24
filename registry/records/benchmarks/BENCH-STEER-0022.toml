@@ -20,3 +20,4 @@ acceptance_criteria = [
 source_profile = "benchmarks/tires/WUFR26_H43105_R25B_CORNERING_TROJAN_EXPORT_PROFILE_V0.toml"
 implementation_tests = ["tests/test_ttc_cornering_export.py", "tests/test_tire_toml_exchange.py"]
 source_export_script = "scripts/export_r25b_cornering_force_branches.py"
+report_script = "scripts/run_r25b_force_branch_export_benchmarks.py"
