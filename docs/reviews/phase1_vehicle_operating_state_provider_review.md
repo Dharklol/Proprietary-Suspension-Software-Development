@@ -4,7 +4,7 @@
 **Task:** P1-STR-006I  
 **Model:** MOD-VEH-0001  
 **Benchmark:** BENCH-VEH-0001  
-**Review state:** implementation in progress; final CI freeze pending
+**Review state:** ready for team review
 
 ## Review question
 
@@ -60,6 +60,14 @@ The selected source states do not provide:
 
 PR #29 retains those values as unavailable and records reasons. The PR28 `TireOperatingPoint` bridge fails until `Fz`, inclination, and pressure are all explicit. Future `Fy -> alpha` work can additionally require `lateral_force_demand_n` without changing this state schema.
 
+## Tire-model domain finding
+
+The PR #28 tabulated TTC lateral-summary grid currently ends at `Fz = 1112 N`. The frozen PR #29 edge-case outside-front loads are `1719.575445 N` for the right-turn state and `1388.941263 N` for the left-turn state.
+
+Those edge-case loads therefore cannot be sent through the PR #28 tabulated grid by extrapolation, and PR #28's no-extrapolation rule remains intact. This is another reason the current load matrices stay evidence-only rather than being promoted directly to steering design targets.
+
+The next tire/vehicle step should identify representative weighted operating states and/or use a reviewed richer fitted-TIR/raw-TTC response provider where the required load envelope exceeds the compact PR #28 grid. This matches the current Vehicle Dynamics goal of identifying the common load band and weighting its significance rather than optimizing only an arbitrary edge case.
+
 ## Important source discrepancy
 
 The current later workbook section labeled `Load Transfer with Aero + ARB Contribution [USE THIS ONE]` contains a 1.7 g left-turn calculation with rear-left normal load:
@@ -83,11 +91,17 @@ The benchmark verifies:
 - rejection of negative normal load;
 - no new vehicle/load-transfer equations.
 
+Frozen result:
+
+`benchmarks/vehicle/vehicle_operating_state_result_v0.1.0.toml`
+
 ## Governance boundary
 
 PR #29 does not promote `EQ-LOAD-0001` through `0006`, LLTD, simple aero, or other current workbook equations to active physics. The existing authorization matrix still governs those models independently.
 
-`MOD-VEH-0001` is therefore classified as a non-physics provider/exchange contract. A later reviewed QSS or canonical load-state generator should output this contract rather than replace it.
+`MOD-VEH-0001` is therefore classified as a non-physics provider/exchange contract under `AUTH-VEH-0001`. A later reviewed QSS or canonical load-state generator should output this contract rather than replace it.
+
+PR #28 / `P1-STR-006H` is closed at merge commit `5ec28ed1932994c75ff616e4d208912259895f7e`. PR #29 is tracked as `P1-STR-006I`.
 
 ## Review outcome required
 
@@ -103,8 +117,28 @@ Approval does **not** mean:
 - the workbook load-transfer method is canonically authorized;
 - missing camber/pressure/Fy may be inferred;
 - the rejected 1.7 g state may be repaired by clipping;
+- the PR #28 compact tire grid may be extrapolated to the PR #29 edge-case outside loads;
 - a tire-optimal steering target has yet been established.
 
-## Final CI freeze
+## CI freeze
 
-Pending final PR-head CI, final test count, and `vehicle-operating-state-reports` artifact.
+The implementation/governance head `f6f528d4d65648c35a1e0d367a2ad1f2c623d3e5` passed GitHub Actions run **345** (`30062513258`).
+
+- registry validation: success;
+- **175 unit tests**: success;
+- WUFR-26 Level E reports: success;
+- steering nominal optimizer reports: success;
+- steering constraint/sensitivity reports: success;
+- steering suspension-pose reports: success;
+- steering operating-state target reports: success;
+- steering external-pose adapter reports: success;
+- steering state-metric objective reports: success;
+- steering tire-informed target reports: success;
+- new vehicle operating-state reports: success.
+
+Vehicle report artifact:
+
+- artifact ID: `8585084467`;
+- digest: `sha256:91b2d27d1371d6b4f3666b9311f427f035626919adc8c1a590a84a8e5cdf12ab`.
+
+Any later review-document-only head must also remain green before merge; this recorded run is the frozen implementation/governance validation reference.
