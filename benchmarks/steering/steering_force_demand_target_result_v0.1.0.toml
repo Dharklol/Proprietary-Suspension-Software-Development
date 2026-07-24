@@ -1,0 +1,75 @@
+version = "0.1.0"
+result_id = "STEERING-FORCE-DEMAND-TARGET-BENCHMARKS-V0"
+benchmark_id = "BENCH-STEER-0021"
+authorization_ids = ["AUTH-STEER-0002", "AUTH-STEER-0003", "AUTH-VEH-0001"]
+evaluator_model_id = "MOD-STEER-0001"
+optimizer_model_id = "MOD-STEER-0002"
+vehicle_state_model_id = "MOD-VEH-0001"
+authority_boundary = "BENCH-STEER-0021 proves software composition and explains why pro/anti regime can change with steer angle. Only the PR28 peak-slip diagnostic uses R25B source-derived values. The force-demand branch values are synthetic and must not be used for WUFR design ranking."
+
+[pr28_r25b_diagnostic]
+tire_grid_id = "WUFR26_H43105_R25B_LATERAL_SUMMARY_V0"
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+inside_peak_slip_deg = 9.6
+outside_peak_slip_deg = 10.9
+outside_minus_inside_peak_slip_deg = 1.3000000000000007
+interpretation = "The positive R25B peak-slip differential moves the outside wheel toward parallel/anti-Ackermann. At the endpoint it is much smaller than the geometric Ackermann split, so the endpoint remains pro-Ackermann; near center the geometric split is small enough that the utilization-scaled correction crosses slightly anti."
+
+[pr28_r25b_diagnostic.endpoint]
+inside_heading_magnitude_deg = 32.18468832
+ackermann_outside_heading_magnitude_deg = 22.868696046212865
+slip_differential_deg = 1.3000000000000007
+corrected_outside_heading_magnitude_deg = 24.168696046212865
+ackermann_inside_minus_outside_gap_deg = 9.315992273787135
+corrected_inside_minus_outside_gap_deg = 8.015992273787134
+regime = "pro_ackermann"
+
+[pr28_r25b_diagnostic.near_center_15deg_input]
+inside_heading_magnitude_deg = 3.6966375
+ackermann_outside_heading_magnitude_deg = 3.5193040639908686
+slip_differential_deg = 0.1911764705882354
+corrected_outside_heading_magnitude_deg = 3.710480534579104
+ackermann_inside_minus_outside_gap_deg = 0.17733343600913143
+corrected_inside_minus_outside_gap_deg = -0.013843034579104074
+regime = "anti_ackermann"
+
+[synthetic_force_branch_verification]
+branch_set_id = "SYNTHETIC_FORCE_DEMAND_BRANCHES_V0"
+physical_tire_claim = false
+inside_operating_point = "Fz=222 N; IA=0 deg; P=83 kPa"
+outside_operating_point = "Fz=1112 N; IA=2 deg; P=83 kPa"
+maximum_inside_force_demand_n = 300.0
+maximum_outside_force_demand_n = 2500.0
+left_endpoint_targets_deg = [-32.18468832, 30.082981760498576]
+right_endpoint_targets_deg = [-30.082981760498576, 32.18468832]
+anti_ackermann_sample_count = 8
+parallel_sample_count = 1
+pro_ackermann_sample_count = 6
+regime_transition_summary = "Synthetic schedule is pro at |input|=75,90,102 deg; anti at |input|=15,30,45,60 deg; parallel at center. This is software evidence only."
+
+[reference_candidate]
+candidate_id = "FORCE-DEMAND-REFERENCE-CANDIDATE"
+feasible = true
+total_objective = 3.0401140155775543
+objective_id = "tire_force_demand_heading:nominal"
+raw_value_deg_rms = 3.0401140155775543
+normalization_scale_deg = 1.0
+objective_weight = 1.0
+weighted_contribution = 3.0401140155775543
+
+[source_gap]
+status = "real_force_branch_export_not_yet_frozen"
+reason = "The team R25B package contains raw Round 6 cornering data, a Cornering Trojan spline dataset, and fitted TIR models, but the repository does not yet contain a reviewed source-derived pre-peak Fy(alpha) branch export. Tire Selection Notes provide stiffness/peak/camber-thrust summaries but not enough points to reconstruct an arbitrary pre-peak branch without introducing a surrogate."
+next_source_step = "Export bounded monotonic pre-peak branches from the reviewed TTC/TIR/MATLAB source at representative operating points, preserving source signs and without applying the historical 2/3 track-scale factor unless separately authorized."
+
+[ci_source_freeze]
+source_run_number = 361
+source_run_id = 30063973228
+source_head_sha = "e45b9d5695c11e95eec1a01efe1b578d61c33dfd"
+source_test_count = 186
+source_test_status = "success"
+source_report_artifact_id = 8585610543
+source_report_artifact_digest = "sha256:71aee2932929a84cf87fa739944b6fd1e350191d7903bf77f9965a900697ff57"
+source_unittest_artifact_id = 8585588866
+source_unittest_artifact_digest = "sha256:d17f6cb16524f4d1114b65595e3a07bb12b95637c69c1f7210fe0a8e3cd61553"
