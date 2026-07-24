@@ -20,6 +20,7 @@ acceptance_criteria = [
   "Current WUFR force-demand steering design ranking remains gated until reviewed per-wheel Fz/camber/pressure/Fy states and source-derived pre-peak force branches are frozen."
 ]
 report_script = "scripts/run_steering_force_demand_benchmarks.py"
+result_record = "benchmarks/steering/steering_force_demand_target_result_v0.1.0.toml"
 synthetic_branch_fixture = "benchmarks/tires/SYNTHETIC_FORCE_DEMAND_BRANCHES_V0.toml"
 source_audit = "docs/models/steering/steering_force_demand_tire_source_audit.md"
 implementation_tests = ["tests/test_tire_force_demand.py", "tests/test_steering_force_demand_targets.py"]
