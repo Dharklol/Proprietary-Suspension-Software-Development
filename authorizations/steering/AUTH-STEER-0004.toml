@@ -1,0 +1,43 @@
+version = "0.1.0"
+authorization_id = "AUTH-STEER-0004"
+status = "review_ready"
+title = "Motion-aware force-demand tire-slip steering target authorization"
+effective_condition = "Effective only after review and merge of PR #33. Supplements AUTH-STEER-0003 and AUTH-VEH-0002; MOD-STEER-0001 remains the only steering mechanism evaluator."
+review_record = "docs/reviews/phase1_planar_slip_kinematics_review.md"
+
+[scope]
+steering_model_ids = ["MOD-STEER-0001", "MOD-STEER-0002"]
+vehicle_model_ids = ["MOD-VEH-0002"]
+benchmark_ids = ["BENCH-VEH-0002", "BENCH-STEER-0023"]
+implementation_path = "src/pssd_steering/optimization/motion_force_targets.py"
+
+[permitted]
+items = [
+  "Consume an explicit MOD-VEH-0002 u-v-r schedule and exact wheel-center geometry without solving vehicle response.",
+  "Reuse AUTH-STEER-0003 bounded force-demand tire branches to obtain required inside/outside tire-slip magnitudes.",
+  "Assign signed left/right required tire slip from explicit yaw-rate turn direction and inside/outside wheel identity.",
+  "Form each required total front wheel heading independently as delta=beta_hat+alpha_required.",
+  "Subtract the same transformed centered wheel-plane reference used by the operating-state evaluator so targets remain incremental from pose and static toe is not silently removed.",
+  "Report pro/parallel/anti-Ackermann as a state-dependent output when the incremental wheel pair is classifiable.",
+  "Retain the PR30 Ackermann-anchored adapter as a bounded limiting/development route when no reviewed vehicle-motion state exists; do not silently substitute one route for the other."
+]
+
+[prohibited]
+items = [
+  "Solving vehicle sideslip, yaw rate, curvature, velocity-center position, load transfer, or force/moment equilibrium inside the steering target adapter.",
+  "Inferring u/v/r from steering input, rack position, lateral acceleration, or the current development load-transfer spreadsheets.",
+  "Replacing a reviewed u-v-r state with exact Ackermann wheel-velocity headings merely to preserve a desired pro/anti steering outcome.",
+  "Changing the PR30 tire-force branch values, extrapolating tire demand, or adding a second tire-force evaluator.",
+  "Treating synthetic u-v-r schedules or synthetic tire branches as WUFR vehicle/tire truth.",
+  "Prescribing a global anti-Ackermann, pro-Ackermann, or parallel-steer target independent of vehicle motion and tire state.",
+  "Production WUFR steering ranking without reviewed synchronized motion, suspension pose, wheel loads/camber/pressure/Fy demand, tire response, and state weighting."
+]
+
+[promotion_gates]
+items = [
+  "A reviewed WUFR motion provider supplies u, v, and r at representative target states.",
+  "The same states are synchronized with reviewed suspension pose and complete per-wheel tire operating/demand inputs.",
+  "Real tire force branches are frozen over the required demand envelope or an equivalent reviewed tire source is available.",
+  "Target-state weighting is reviewed before candidate ranking.",
+  "Physical or higher-fidelity simulation correlation is appropriate to the decision risk."
+]

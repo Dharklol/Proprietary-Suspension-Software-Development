@@ -1,0 +1,41 @@
+name: Motion-aware vehicle/steering validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  motion-aware-reports:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Generate planar slip-kinematics reports
+        run: |
+          python scripts/run_planar_slip_kinematics_benchmarks.py \
+            --output planar_slip_kinematics_report.json > /dev/null
+          python scripts/run_planar_slip_kinematics_benchmarks.py \
+            --summary \
+            --output planar_slip_kinematics_summary.json
+      - name: Generate motion-aware steering target reports
+        run: |
+          python scripts/run_motion_aware_force_demand_benchmarks.py \
+            --output motion_aware_force_demand_report.json > /dev/null
+          python scripts/run_motion_aware_force_demand_benchmarks.py \
+            --summary \
+            --output motion_aware_force_demand_summary.json
+      - name: Upload motion-aware benchmark reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: motion-aware-vehicle-steering-reports
+          path: |
+            planar_slip_kinematics_report.json
+            planar_slip_kinematics_summary.json
+            motion_aware_force_demand_report.json
+            motion_aware_force_demand_summary.json
+          if-no-files-found: error

@@ -1,0 +1,24 @@
+[record]
+id = "EQ-VEH-0003"
+type = "equation"
+title = "Planar vehicle velocity-center coordinates"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Express the instantaneous planar vehicle velocity-center coordinates R and S from an already-supplied body-frame motion state. These coordinates are diagnostic representations of the same u, v, r state and are useful for interpreting relative front tire slips and Ackermann regime."
+outputs = ["Velocity-center lateral coordinate R", "Velocity-center longitudinal coordinate S"]
+inputs = ["Body-frame longitudinal velocity u", "Body-frame lateral velocity v", "Yaw rate r"]
+assumptions = [
+  "Planar rigid-body motion with nonzero yaw rate.",
+  "Canonical body axes are +x forward, +y vehicle left, +z upward.",
+  "R and S are undefined for exactly zero yaw rate and must not be assigned arbitrary large sentinel values.",
+  "This equation describes kinematics only and does not predict where the velocity center will be for a given steering input."
+]
+verification_level = "B"
+canonical_equation = "R = u/r; S = -v/r"
+source_basis = [
+  "Guiggiani (2022), The Science of Vehicle Dynamics, Section 3.2.3, equations 3.13-3.14."
+]
+validity = "Finite u, v, r with nonzero r."
+failure_behavior = ["Return unavailable/None for R and S when yaw rate is zero", "Do not infer or regularize a velocity-center location from steering geometry"]
+benchmark_ids = ["BENCH-VEH-0002", "BENCH-STEER-0023"]

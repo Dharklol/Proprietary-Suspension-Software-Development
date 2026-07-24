@@ -5,13 +5,13 @@ title = "Steering inverse-design orchestration layer"
 status = "active"
 disposition = "rewrite"
 maturity = "M1"
-description = "Role-driven steering inverse-design orchestration layer. The implemented prototype resolves named parameter roles, generates symmetric rack and tie-rod design geometry, converts every candidate and provider-supplied operating pose into the public MOD-STEER-0001 geometry contract, evaluates complete rack sweeps through that analyzer, separates hard infeasibility from target error, and performs deterministic seeded multi-start coordinate-pattern search. It supports supplemental constraint screening, analyzer-composed local sensitivity, diversity-aware candidate comparison, provider-neutral zero-steer upright poses, explicit external rigid-transform pose-table ingestion, multi-state steering response, explicit per-state target aggregation, scalar centered dynamic-toe/state-dependent rack-gain objectives, and bounded TTC-derived tire-informed differential target generation with no independent steering, suspension, tire, or load equations."
+description = "Role-driven steering inverse-design orchestration layer. The implemented prototype resolves named parameter roles, generates symmetric rack and tie-rod design geometry, converts every candidate and provider-supplied operating pose into the public MOD-STEER-0001 geometry contract, evaluates complete rack sweeps through that analyzer, separates hard infeasibility from target error, and performs deterministic seeded multi-start coordinate-pattern search. It supports supplemental constraint screening, analyzer-composed local sensitivity, diversity-aware candidate comparison, provider-neutral zero-steer upright poses, explicit external rigid-transform pose-table ingestion, multi-state steering response, explicit per-state target aggregation, scalar centered dynamic-toe/state-dependent rack-gain objectives, bounded TTC-derived tire-informed differential targets, bounded force-demand tire-slip targets, and explicit motion-aware force-demand target composition with no independent steering, suspension, tire, or load equations."
 inputs = [
   "Named baseline steering configuration",
   "Named requirement set with fixed, variable, discrete, derived, constraint, target, report-only, and evidence roles",
   "Development or design-authority variable bounds",
   "Explicit upright-local outer-pickup frame",
-  "Historical, synthetic, geometric, explicit-state, scalar-state-metric, or bounded tire-informed target-provider response with signals, units, domain, weights, normalization, and source authority",
+  "Historical, synthetic, geometric, explicit-state, scalar-state-metric, bounded tire-informed, bounded force-demand, or motion-aware target-provider response with signals, units, domain, weights, normalization, and source authority",
   "Deterministic bounded coordinate-pattern search settings and integer seed",
   "Role-selected active-variable subset",
   "Named constraint-provider set with active or unavailable dispositions, units, limits, states, and authority",
@@ -21,26 +21,30 @@ inputs = [
   "Operating-state target set with explicit objective/report-only roles, left/right target curves, sample weights, normalization, state weights, convention adapters, and source authority",
   "State-metric target set with explicit state/metric IDs, left/right scalar targets, output units, normalization, weights, sign adapters, and source authority",
   "Reviewed source-preserving lateral tire summary plus explicit inside/outside normal-load, inclination, pressure, and slip-utilization inputs for bounded tire-informed steering target studies",
-  "Future reviewed rack-load, uncertainty, full vehicle force-demand tire-target, and physical-parameter providers"
+  "Reviewed explicit monotonic pre-peak tire force branches plus explicit inside/outside Fy demands for bounded force-demand-to-slip target studies",
+  "Optional reviewed MOD-VEH-0002 planar body-motion schedule u/v/r and wheel-center geometry for motion-aware force-demand target composition",
+  "Future reviewed rack-load, uncertainty, full WUFR vehicle-motion/force-demand, and physical-parameter providers"
 ]
 outputs = [
   "Complete generated nominal steering geometry per candidate",
   "Complete MOD-STEER-0001 analyzer sweep and diagnostics per retained, rejected, or pose-state candidate evaluation",
   "Reference-state derived left and right tie-rod joint-center lengths",
-  "Role, unit, bound, symmetry, baseline, candidate, target, constraint, pose, adapter, tire-source, and method provenance",
+  "Role, unit, bound, symmetry, baseline, candidate, target, constraint, pose, adapter, tire-source, vehicle-motion-source, and method provenance",
   "Feasibility status and named base hard-constraint records",
   "Supplemental active, failed, or unavailable constraint records with value, limits, margin, unit, state, authority, and blocking status",
   "Raw and normalized nominal or per-operating-state wheel-heading objective contributions with units, scale, weight, and domain",
   "Raw and normalized centered dynamic-toe or centered rack-to-wheel-gain state-metric objective contributions with explicit left/right residuals, units, scale, weight, and state",
   "Tire-informed operating-state target curves with source/intended tire identities, inside/outside operating points, source-censor disposition, slip-utilization schedule, and differential correction provenance",
+  "Force-demand tire-slip target curves with bounded per-wheel force inversion and per-sample Ackermann-regime diagnostics",
+  "Motion-aware force-demand target curves using explicit wheel-center velocity headings plus required tire slips, with the Ackermann anchor explicitly disabled when reviewed u/v/r is supplied",
   "Explicit weighted aggregate of visible operating-state or state-metric objective contributions",
   "Several retained feasible candidates and transparent convenience ranking",
   "Deterministic multi-start and termination records",
   "Local objective and numeric constraint-margin sensitivities for selected bounded variables",
   "Diversity-aware candidate comparison with objective, geometry, constraint, and evidence differences",
   "Pose-state wheel headings, centered global heading change, side-local dynamic-toe change, branch diagnostics, and minimum singularity ratio",
-  "Machine-readable candidate, search, screening, sensitivity, comparison, suspension-pose, external-pose-adapter, operating-target, state-metric, and tire-target reports",
-  "Future robustness, effort, full vehicle tire-demand, and physical-correlation outputs only where separately implemented and authorized"
+  "Machine-readable candidate, search, screening, sensitivity, comparison, suspension-pose, external-pose-adapter, operating-target, state-metric, tire-target, force-demand-target, and motion-aware-target reports",
+  "Future robustness, effort, production vehicle-motion/tire-demand, and physical-correlation outputs only where separately implemented and authorized"
 ]
 assumptions = [
   "MOD-STEER-0001 is the only steering-kinematics and derived-metric authority.",
@@ -56,7 +60,7 @@ assumptions = [
   "The implemented suspension-pose and external-exchange fixtures are synthetic software verification and are not WUFR suspension-motion, OptimumK, CAD, or physical evidence.",
   "No reviewed machine-readable WUFR zero-steer upright transform series has yet been identified in the recorded source audit.",
   "The WUFR-26/27 response is a fit-derived regression target, not a universal optimum or independent validation source.",
-  "Analyzer-generated synthetic nominal, operating-state curve, and scalar state-metric targets are software verification rather than vehicle evidence.",
+  "Analyzer-generated synthetic nominal, operating-state curve, scalar state-metric, force-demand, and motion-aware targets are software verification rather than vehicle evidence.",
   "Operating-state and state-metric target weights and normalization scales are explicit model/provider inputs and are not vehicle-dynamics truth by presence alone.",
   "The OptimumK Steering Toe Angle Gain channel in the supplied export is dimensionless and is not equivalent by definition to the implemented centered rack-to-wheel gain in deg/mm.",
   "The Hoosier 43105 18x7.5-10 R25B TTC data are an explicit project engineering proxy for the intended Hoosier 43104 18x7.5-10 R20 for steering target development; source and intended identities remain distinct.",
@@ -64,6 +68,9 @@ assumptions = [
   "The first tire summary permits bounded trilinear interpolation only and never extrapolates pressure, inclination, or normal load.",
   "The historical MATLAB model's 2/3 sandpaper-to-track force/moment scale is external model-chain evidence and is not intrinsic TTC data or automatically applied by the Python tire provider.",
   "Tire-informed target wheel loads, cambers, pressures, and slip-utilization schedules are explicit provider inputs; the PR28 benchmark values are development references, not production WUFR operating-state authority.",
+  "Force-demand tire branches are externally supplied monotonic pre-peak response tables; the steering layer does not fit or extrapolate tire force.",
+  "A motion-aware target receives u, v, and r from MOD-VEH-0002 or an equivalent reviewed provider; the steering layer does not infer body sideslip, yaw rate, curvature, or velocity-center position.",
+  "The exact low-speed Ackermann target remains a valid limiting/development route but is not silently substituted for an explicitly supplied non-Ackermann vehicle velocity field.",
   "Unlisted suspension states are report-only by explicit first-contract policy for curve targets and never silently inherit the nominal target.",
   "All states in the supplied operating pose set remain hard mechanism-feasibility checks before curve or scalar state objectives are scored.",
   "Hard constraints cannot be offset by objective score.",
@@ -75,14 +82,15 @@ assumptions = [
 ]
 verification_level = "A"
 equation_ids = ["EQ-STEER-0001", "EQ-STEER-0002", "EQ-STEER-0003", "EQ-STEER-0004", "EQ-STEER-0005", "EQ-STEER-0006", "EQ-STEER-0007"]
-benchmark_ids = ["BENCH-STEER-0009", "BENCH-STEER-0010", "BENCH-STEER-0011", "BENCH-STEER-0012", "BENCH-STEER-0013", "BENCH-STEER-0014", "BENCH-STEER-0015", "BENCH-STEER-0016", "BENCH-STEER-0017", "BENCH-STEER-0018", "BENCH-STEER-0019", "BENCH-STEER-0020"]
+benchmark_ids = ["BENCH-STEER-0009", "BENCH-STEER-0010", "BENCH-STEER-0011", "BENCH-STEER-0012", "BENCH-STEER-0013", "BENCH-STEER-0014", "BENCH-STEER-0015", "BENCH-STEER-0016", "BENCH-STEER-0017", "BENCH-STEER-0018", "BENCH-STEER-0019", "BENCH-STEER-0020", "BENCH-STEER-0021", "BENCH-STEER-0023"]
 dependency_model_ids = ["MOD-STEER-0001"]
+provider_model_ids = ["MOD-VEH-0001", "MOD-VEH-0002"]
 authorization_state = "prototype_authorized"
 authorization_id = "AUTH-STEER-0002"
 authorization_document = "docs/models/steering/steering_inverse_design_prototype_authorization.md"
 architecture_document = "docs/models/steering/steering_optimizer_architecture.md"
 authorized_configurations = ["WUFR27_STEERING_BASELINE_V0", "STEERING_INVERSE_DESIGN_DEV_V0", "STEERING_CONSTRAINT_PROVIDER_DEV_V0"]
-implementation_state = "tire_informed_differential_target_provider_implemented_for_review"
+implementation_state = "motion_aware_force_demand_target_provider_implemented_for_review"
 implementation_package = "src/pssd_steering/optimization"
 geometry_generator_document = "docs/models/steering/steering_geometry_generator_implementation_v0.1.0.md"
 optimizer_implementation_document = "docs/models/steering/steering_nominal_optimizer_implementation_v0.1.0.md"
@@ -93,10 +101,12 @@ external_pose_adapter_document = "docs/models/steering/steering_external_pose_ad
 external_pose_source_audit = "docs/models/steering/steering_external_pose_source_audit.md"
 state_metric_objective_document = "docs/models/steering/steering_state_metric_objectives_implementation_v0.1.0.md"
 tire_informed_target_document = "docs/models/steering/steering_tire_informed_targets_implementation_v0.1.0.md"
-implementation_tests = ["tests/test_steering_geometry_generator.py", "tests/test_steering_nominal_optimizer.py", "tests/test_steering_constraints_sensitivity.py", "tests/test_steering_suspension_pose_provider.py", "tests/test_steering_operating_state_targets.py", "tests/test_steering_operating_state_freeze.py", "tests/test_steering_external_pose_adapter.py", "tests/test_steering_state_metric_objectives.py", "tests/test_steering_state_metric_freeze.py", "tests/test_tire_lateral_summary.py", "tests/test_steering_tire_targets.py"]
-implementation_reviews = ["docs/reviews/phase1_steering_nominal_optimizer_review.md", "docs/reviews/phase1_steering_constraints_sensitivity_review.md", "docs/reviews/phase1_steering_suspension_pose_provider_review.md", "docs/reviews/phase1_steering_operating_state_target_review.md", "docs/reviews/phase1_steering_external_pose_adapter_review.md", "docs/reviews/phase1_steering_state_metric_objectives_review.md", "docs/reviews/phase1_steering_tire_informed_target_review.md"]
-benchmark_report_scripts = ["scripts/run_steering_nominal_optimizer_benchmarks.py", "scripts/run_steering_constraint_sensitivity_benchmarks.py", "scripts/run_steering_pose_provider_benchmarks.py", "scripts/run_steering_operating_state_benchmarks.py", "scripts/run_steering_external_pose_adapter_benchmarks.py", "scripts/run_steering_state_metric_benchmarks.py", "scripts/run_steering_tire_target_benchmarks.py"]
-method_ids = ["bounded_coordinate_pattern_search_v0.1.0", "bounded_finite_difference_v0.1.0", "objective_order_with_normalized_design_distance_filter_v0.1.0", "provider_supplied_rigid_upright_pose_v0.1.0", "sum_weighted_normalized_state_rms_v0.1.0", "external_rigid_upright_pose_csv_v0.1.0", "sum_weighted_normalized_state_pair_rms_v0.1.0", "geometric_ackermann_plus_tire_peak_slip_differential_v0.1.0"]
+force_demand_target_document = "docs/models/steering/steering_force_demand_targets_implementation_v0.1.0.md"
+motion_aware_target_document = "docs/models/vehicle/planar_slip_kinematics_implementation_v0.1.0.md"
+implementation_tests = ["tests/test_steering_geometry_generator.py", "tests/test_steering_nominal_optimizer.py", "tests/test_steering_constraints_sensitivity.py", "tests/test_steering_suspension_pose_provider.py", "tests/test_steering_operating_state_targets.py", "tests/test_steering_operating_state_freeze.py", "tests/test_steering_external_pose_adapter.py", "tests/test_steering_state_metric_objectives.py", "tests/test_steering_state_metric_freeze.py", "tests/test_tire_lateral_summary.py", "tests/test_steering_tire_targets.py", "tests/test_tire_force_demand.py", "tests/test_steering_force_demand_targets.py", "tests/test_steering_force_demand_freeze.py", "tests/test_planar_slip_kinematics.py", "tests/test_motion_aware_force_demand_targets.py", "tests/test_motion_aware_force_demand_freeze.py"]
+implementation_reviews = ["docs/reviews/phase1_steering_nominal_optimizer_review.md", "docs/reviews/phase1_steering_constraints_sensitivity_review.md", "docs/reviews/phase1_steering_suspension_pose_provider_review.md", "docs/reviews/phase1_steering_operating_state_target_review.md", "docs/reviews/phase1_steering_external_pose_adapter_review.md", "docs/reviews/phase1_steering_state_metric_objectives_review.md", "docs/reviews/phase1_steering_tire_informed_target_review.md", "docs/reviews/phase1_steering_force_demand_targets_review.md", "docs/reviews/phase1_planar_slip_kinematics_review.md"]
+benchmark_report_scripts = ["scripts/run_steering_nominal_optimizer_benchmarks.py", "scripts/run_steering_constraint_sensitivity_benchmarks.py", "scripts/run_steering_pose_provider_benchmarks.py", "scripts/run_steering_operating_state_benchmarks.py", "scripts/run_steering_external_pose_adapter_benchmarks.py", "scripts/run_steering_state_metric_benchmarks.py", "scripts/run_steering_tire_target_benchmarks.py", "scripts/run_steering_force_demand_benchmarks.py", "scripts/run_motion_aware_force_demand_benchmarks.py"]
+method_ids = ["bounded_coordinate_pattern_search_v0.1.0", "bounded_finite_difference_v0.1.0", "objective_order_with_normalized_design_distance_filter_v0.1.0", "provider_supplied_rigid_upright_pose_v0.1.0", "sum_weighted_normalized_state_rms_v0.1.0", "external_rigid_upright_pose_csv_v0.1.0", "sum_weighted_normalized_state_pair_rms_v0.1.0", "geometric_ackermann_plus_tire_peak_slip_differential_v0.1.0", "ackermann_plus_force_demand_slip_differential_v0.1.0", "wheel_velocity_heading_plus_force_demand_slip_v0.1.0"]
 implemented_components = [
   "requirement-set role parser",
   "bounded and fixed scalar resolver",
@@ -147,13 +157,16 @@ implemented_components = [
   "dependency-free TIR metadata reader and optional SciPy-backed MATLAB TTC channel reader",
   "explicit engineering-proxy identity mapping from 43105 R25B TTC evidence to intended 43104 R20 without collapsing identities",
   "tire-informed differential steering target adapter reusing exact Ackermann and OperatingStateTargetSet",
-  "frozen historical MATLAB Magic Formula integration reference with track-scale caveat kept outside the tire provider"
+  "frozen historical MATLAB Magic Formula integration reference with track-scale caveat kept outside the tire provider",
+  "bounded monotonic pre-peak tire force-demand inversion and Ackermann-relative force-demand steering target adapter from PR30",
+  "motion-aware force-demand steering target adapter using explicit MOD-VEH-0002 wheel-center velocity headings and PR30 required tire slips without a second steering evaluator"
 ]
 unimplemented_components = [
   "reviewed steering-arm, rack, articulation, thread-engagement, stop, clearance, and manufacturing constraints",
   "integration of future reviewed hardware constraints into every search-candidate evaluation rather than retained-archive screening",
   "reviewed machine-readable WUFR suspension-pose data set and source-specific SolidWorks, OptimumK, or native-solver exporter/converter",
-  "reviewed WUFR wheel-load, camber, pressure, and force-demand provider for production-relevant tire target generation",
+  "reviewed WUFR synchronized body-motion u/v/r, wheel-load, camber, pressure, and force-demand provider for production-relevant motion-aware tire target generation",
+  "reviewed source-derived R25B pre-peak force branches over the actual required WUFR force-demand envelope",
   "full combined-slip or transient tire-force model where later vehicle studies require it",
   "multiobjective nondominated-set computation",
   "discrete hardware options",
@@ -162,11 +175,11 @@ unimplemented_components = [
   "physical-parameter identification and as-built correction layers",
   "production geometry release workflow"
 ]
-first_code_scope = "Deterministic inverse design, development constraint screening, local sensitivity, candidate comparison, provider-neutral multi-state steering response, external pose-table ingestion, explicit operating-state target aggregation, scalar dynamic-toe/rack-gain objectives, and bounded TTC-derived tire-informed target generation through the existing analyzer. Results remain development-only until reviewed hardware, real suspension-state/vehicle target inputs, robustness, and later production gates pass."
-prototype_scope = "Deterministic steering inverse design using the existing analyzer, explicit first-layer constraints, local sensitivity, multi-candidate reporting, externally supplied zero-steer suspension poses, source-neutral external pose-table ingestion, explicit state-indexed target curves/weights, scalar centered dynamic-toe/rack-gain targets, and source-preserving tire-informed differential targets from explicit wheel states."
-prohibited_scope = "Duplicate steering physics, a Python Magic Formula rewrite inside this steering stage, native suspension or vehicle equilibrium kinematics inside steering, hidden vendor-frame or gain/transmission conversion, production geometry authority, physical packaging or manufacturing claims, synthetic/development pose or target values as WUFR truth, hidden TTC extrapolation or peak-censor promotion, automatic historical track scaling, effort/compliance/tolerance/transient modeling without later gates, learned optimization, Pareto/global-optimality claims, and as-built validation."
+first_code_scope = "Deterministic inverse design, development constraint screening, local sensitivity, candidate comparison, provider-neutral multi-state steering response, external pose-table ingestion, explicit operating-state target aggregation, scalar dynamic-toe/rack-gain objectives, bounded tire-informed and force-demand targets, and explicit motion-aware target composition through the existing analyzer. Results remain development-only until reviewed hardware, real suspension-state/vehicle-motion/tire inputs, robustness, and later production gates pass."
+prototype_scope = "Deterministic steering inverse design using the existing analyzer, explicit first-layer constraints, local sensitivity, multi-candidate reporting, externally supplied zero-steer suspension poses, source-neutral external pose-table ingestion, explicit state-indexed target curves/weights, scalar centered dynamic-toe/rack-gain targets, source-preserving tire-informed and force-demand targets, and optional explicit u/v/r-aware wheel-heading targets."
+prohibited_scope = "Duplicate steering physics, a Python Magic Formula rewrite inside this steering stage, native suspension or vehicle equilibrium kinematics inside steering, inference of u/v/r from steering input or lateral acceleration, hidden vendor-frame or gain/transmission conversion, production geometry authority, physical packaging or manufacturing claims, synthetic/development pose/motion/target values as WUFR truth, hidden TTC extrapolation or peak-censor promotion, automatic historical track scaling, effort/compliance/tolerance/transient modeling without later gates, learned optimization, Pareto/global-optimality claims, and as-built validation."
 literature_basis = [
-  "Guiggiani, The Science of Vehicle Dynamics (2022), Chapter 3 Sections 3.4.1-3.4.3 on Ackermann, best steering geometry, and relative tire slips",
+  "Guiggiani, The Science of Vehicle Dynamics (2022), Chapter 3 Sections 3.2.3, 3.3, and 3.4.1-3.4.3 on velocity-center coordinates, wheel-center velocity headings, tire slip, Ackermann, best steering geometry, and relative tire slips",
   "Guiggiani, The Science of Vehicle Dynamics (2022), Section 3.14.6 and Eq. 3.210 on steering dependence on suspension roll",
   "Gillespie, Fundamentals of Vehicle Dynamics, Chapter 8 Steering Geometry Error, Toe Change, and Roll Steer",
   "Gillespie wheel-alignment terminology defining toe at a specified wheel load or relative wheel-center position",

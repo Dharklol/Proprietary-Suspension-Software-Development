@@ -1,0 +1,24 @@
+[record]
+id = "EQ-VEH-0002"
+type = "equation"
+title = "Wheel-center velocity heading and signed tire slip"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Calculate a wheel-center velocity heading from the planar velocity components and define project-canonical signed tire slip as wheel heading minus wheel-center velocity heading; invert the same relation to construct a required wheel heading from an externally supplied required tire slip."
+outputs = ["Wheel-center velocity heading beta_hat", "Signed tire slip angle alpha", "Required wheel heading delta"]
+inputs = ["Wheel-center longitudinal/lateral velocity components", "Projected road-wheel heading delta", "Externally supplied required signed tire slip alpha when inverted"]
+assumptions = [
+  "Planar tire-slip kinematics only; no lateral-force law is contained in this equation.",
+  "Angles are measured positive by the right-hand rule about canonical +z.",
+  "The project convention is alpha = delta - beta_hat. A source tire model with another sign convention must adapt explicitly before entering this equation.",
+  "The projected road-wheel heading is the wheel-plane/road-plane heading used by the steering evaluator, not upright rotation itself."
+]
+verification_level = "B"
+canonical_equation = "beta_hat_j = atan2(Vy_j,Vx_j); alpha_j = wrap(delta_j-beta_hat_j); delta_required_j = wrap(beta_hat_j+alpha_required_j)"
+source_basis = [
+  "Guiggiani (2022), The Science of Vehicle Dynamics, Section 3.3, equations 3.55-3.58."
+]
+validity = "Finite wheel-center velocity with nonzero magnitude and finite projected wheel heading/slip; angle wrapping must be explicit."
+failure_behavior = ["Reject undefined velocity heading at zero wheel-center speed", "Reject nonfinite angles", "Do not convert tire-force signs implicitly"]
+benchmark_ids = ["BENCH-VEH-0002", "BENCH-STEER-0023"]
