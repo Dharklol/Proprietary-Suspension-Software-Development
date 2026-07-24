@@ -9,6 +9,7 @@ from pssd_viz.steering_figures import (
     motion_state_comparison_spec,
     steering_residual_spec,
     steering_response_comparison_spec,
+    target_correction_spec,
     tire_force_branch_spec,
     unavailable_figure_spec,
 )
@@ -53,6 +54,24 @@ class SteeringFigureSuiteTests(unittest.TestCase):
         self.assertAlmostEqual(residual.series[0].y[-1], 0.2)
         self.assertAlmostEqual(residual.series[1].y[0], -0.2)
         self.assertAlmostEqual(residual.series[1].y[-1], -0.1)
+
+    def test_target_correction_exposes_small_difference_directly(self) -> None:
+        correction = target_correction_spec(
+            figure_id="FIG-TEST-STEER-003",
+            title="correction",
+            inputs_deg=(-10.0, 0.0, 10.0),
+            baseline_left_deg=(-3.0, 0.0, 3.0),
+            baseline_right_deg=(-2.5, 0.0, 2.5),
+            alternate_left_deg=(-3.2, 0.0, 3.1),
+            alternate_right_deg=(-2.4, 0.0, 2.7),
+            configuration_id="TEST",
+            authority="test only",
+            source_ids=("test",),
+        )
+        self.assertAlmostEqual(correction.series[0].y[0], -0.2)
+        self.assertAlmostEqual(correction.series[0].y[-1], 0.1)
+        self.assertAlmostEqual(correction.series[1].y[0], 0.1)
+        self.assertAlmostEqual(correction.series[1].y[-1], 0.2)
 
     def test_tire_branch_and_motion_specs_are_downstream_data_contracts(self) -> None:
         tire = tire_force_branch_spec(
