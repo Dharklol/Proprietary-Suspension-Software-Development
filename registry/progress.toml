@@ -155,11 +155,11 @@ id = "P0-STR-011"
 title = "WUFR-26 Level F uncertainty and physical correlation"
 status = "active"
 exit_criterion = "Existing whole-system free-play, historical compliance, calculated steering-load, and available-sensor evidence are source-linked; installed stops, primary-shaft-to-rack correlation, left/right rack-to-wheel response, repeatability, staged backlash/compliance attribution, sensor calibration, uncertainty, and an independently justified acceptance rule remain to be completed."
-critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, synthetic/external suspension-pose provider development, explicit nonphysical operating-state target aggregation, nonphysical scalar state-metric objective development, bounded tire-target provider development from reviewed external tire data, source-preserving vehicle operating-state exchange development, or bounded force-demand tire-slip target software verification."
+critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, synthetic/external suspension-pose provider development, explicit nonphysical operating-state target aggregation, nonphysical scalar state-metric objective development, bounded tire-target provider development from reviewed external tire data, source-preserving vehicle operating-state exchange development, bounded force-demand tire-slip target software verification, or explicit planar motion-aware tire-slip target software verification."
 
 [phase_1]
 status = "active"
-objective = "Build the steering vertical slice from the verified analyzer through nominal inverse design, explicit constraints, candidate comparison, suspension-state integration, tire targets, shared vehicle operating-state integration, and bounded force-demand slip targets before unavailable physical data become necessary."
+objective = "Build the steering vertical slice from the verified analyzer through nominal inverse design, explicit constraints, candidate comparison, suspension-state integration, tire targets, shared vehicle operating-state integration, bounded force-demand slip targets, and explicit planar motion-aware target composition before unavailable physical data become necessary."
 
 [[phase_1.workstreams]]
 id = "P1-W01"
@@ -328,7 +328,7 @@ merge_record = "PR #29, merge commit e0ff9b58781b6f79c0be379666723b8c8664883e"
 [[phase_1.tasks]]
 id = "P1-STR-006J"
 title = "Force-demand tire-slip steering target provider"
-status = "review_ready"
+status = "complete"
 depends_on = ["P1-STR-006H", "P1-STR-006I"]
 exit_criterion = "Explicit monotonic pre-peak lateral-force response branches can be inverted from bounded per-wheel Fy demands to required slip-angle magnitudes and composed with exact Ackermann into state-dependent pro/parallel/anti steering targets without adding tire-force, load-transfer, or vehicle-equilibrium equations."
 review_record = "docs/reviews/phase1_steering_force_demand_targets_review.md"
@@ -339,6 +339,25 @@ report_script = "scripts/run_steering_force_demand_benchmarks.py"
 source_audit = "docs/models/steering/steering_force_demand_tire_source_audit.md"
 synthetic_branch_fixture = "benchmarks/tires/SYNTHETIC_FORCE_DEMAND_BRANCHES_V0.toml"
 scope_note = "Only the PR28 peak-slip diagnostic in BENCH-STEER-0021 uses R25B source-derived values. The force-response branch fixture is synthetic software evidence; real WUFR force-demand ranking remains gated on reviewed source-derived Fy(alpha) branches and complete per-wheel Fz/camber/pressure/Fy states."
+merge_record = "PR #30, merge commit 1d894d3cc2e252b2cb4b6f1e594da5ae1b6c6ff7"
+
+[[phase_1.tasks]]
+id = "P1-STR-006L"
+title = "Motion-aware force-demand tire-slip steering target provider"
+status = "review_ready"
+depends_on = ["P1-STR-006J"]
+exit_criterion = "Explicit planar body motion u/v/r and wheel-center geometry can replace the low-speed Ackermann velocity-heading anchor when composing bounded force-demand required tire slips into left/right steering targets, while vehicle response, tire force, suspension pose, and mechanism closure remain separate providers."
+review_record = "docs/reviews/phase1_planar_slip_kinematics_review.md"
+implementation_record = "docs/models/vehicle/planar_slip_kinematics_implementation_v0.1.0.md"
+vehicle_authorization_record = "authorizations/vehicle/AUTH-VEH-0002.toml"
+steering_authorization_record = "authorizations/steering/AUTH-STEER-0004.toml"
+vehicle_model_id = "MOD-VEH-0002"
+benchmark_ids = ["BENCH-VEH-0002", "BENCH-STEER-0023"]
+vehicle_result_record = "benchmarks/vehicle/planar_slip_kinematics_result_v0.1.0.toml"
+steering_result_record = "benchmarks/steering/motion_aware_force_demand_result_v0.1.0.toml"
+vehicle_report_script = "scripts/run_planar_slip_kinematics_benchmarks.py"
+steering_report_script = "scripts/run_motion_aware_force_demand_benchmarks.py"
+scope_note = "Synthetic u-v-r schedules, wheel-center geometry, suspension-pose pairings, and tire branches verify software composition and Guiggiani limiting cases only. No reviewed WUFR body-motion schedule is promoted by this task; production steering ranking remains gated on synchronized real motion, suspension, tire operating/demand states, source-derived tire branches, and reviewed weighting."
 
 [[phase_1.tasks]]
 id = "P1-STR-006D"
