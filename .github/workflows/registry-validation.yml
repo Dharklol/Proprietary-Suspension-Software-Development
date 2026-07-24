@@ -134,3 +134,18 @@ jobs:
             steering_state_metric_report.json
             steering_state_metric_summary.json
           if-no-files-found: error
+      - name: Generate steering tire-informed target reports
+        run: |
+          python scripts/run_steering_tire_target_benchmarks.py \
+            --output steering_tire_target_report.json > /dev/null
+          python scripts/run_steering_tire_target_benchmarks.py \
+            --summary \
+            --output steering_tire_target_summary.json
+      - name: Upload steering tire-informed target reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: steering-tire-informed-target-reports
+          path: |
+            steering_tire_target_report.json
+            steering_tire_target_summary.json
+          if-no-files-found: error
