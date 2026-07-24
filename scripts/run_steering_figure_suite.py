@@ -21,6 +21,7 @@ from pssd_viz.steering_figures import (
     steering_residual_spec,
     steering_response_comparison_spec,
     target_comparison_spec,
+    target_correction_spec,
     tire_force_branch_spec,
     unavailable_figure_spec,
 )
@@ -107,6 +108,14 @@ def build_specs():
 
     tire_report = build_tire_target_report()
     tire_target = tire_report["target"]
+    tire_sources = (
+        "benchmarks/tires/WUFR26_H43105_R25B_LATERAL_SUMMARY_V0.toml",
+        str(HISTORICAL_TARGET_PATH.relative_to(ROOT)),
+    )
+    tire_notes = (
+        f"Source tire: {tire_report['source_tire_id']}; intended tire: {tire_report['intended_tire_id']}.",
+        "Reference Fz/camber/pressure and slip-utilization schedule are development inputs, not a WUFR production operating state.",
+    )
     tire_compare = target_comparison_spec(
         figure_id="FIG-STEER-RND-003",
         title="Historical Steering Target vs R25B Peak-Slip-Informed Development Target",
@@ -117,13 +126,23 @@ def build_specs():
         alternate_right_deg=tire_target["right_outputs_deg"],
         configuration_id=tire_report["target"]["target_set_id"],
         authority=tire_report["engineering_proxy_authority"],
-        source_ids=(
-            "benchmarks/tires/WUFR26_H43105_R25B_LATERAL_SUMMARY_V0.toml",
-            str(HISTORICAL_TARGET_PATH.relative_to(ROOT)),
-        ),
-        notes=(
-            f"Source tire: {tire_report['source_tire_id']}; intended tire: {tire_report['intended_tire_id']}.",
-            "Reference Fz/camber/pressure and slip-utilization schedule are development inputs, not a WUFR production operating state.",
+        source_ids=tire_sources,
+        notes=tire_notes,
+    )
+    tire_correction = target_correction_spec(
+        figure_id="FIG-STEER-RND-005",
+        title="R25B Peak-Slip-Informed Target Correction Relative to Historical Target",
+        inputs_deg=tire_target["inputs_deg"],
+        baseline_left_deg=historical.left_outputs,
+        baseline_right_deg=historical.right_outputs,
+        alternate_left_deg=tire_target["left_outputs_deg"],
+        alternate_right_deg=tire_target["right_outputs_deg"],
+        configuration_id=tire_report["target"]["target_set_id"],
+        authority=tire_report["engineering_proxy_authority"],
+        source_ids=tire_sources,
+        notes=tire_notes
+        + (
+            "This difference plot makes the tire-target correction visible where the absolute target curves overlap closely.",
         ),
     )
 
@@ -199,6 +218,7 @@ def build_specs():
         response,
         residual,
         tire_compare,
+        tire_correction,
         synthetic_force,
         real_force_unavailable,
         motion_compare,
