@@ -24,6 +24,16 @@ from .lateral import (
     TireOperatingPoint,
     load_lateral_summary_grid,
 )
+from .ttc_cornering import (
+    REQUIRED_CORNERING_CHANNELS,
+    TtcCorneringBranchAudit,
+    TtcCorneringBranchExport,
+    TtcCorneringTrojanProfile,
+    WUFR26_APRIL_CORNERING_TROJAN_V0,
+    build_branch_set,
+    export_cornering_trojan_branch,
+    export_cornering_trojan_mat_branch,
+)
 
 __all__ = [
     "DEFAULT_TTC_CHANNELS",
@@ -32,12 +42,20 @@ __all__ = [
     "LateralForceDemandResult",
     "LateralSummaryEstimate",
     "LateralSummarySample",
+    "REQUIRED_CORNERING_CHANNELS",
     "TirDocument",
     "TireDataError",
     "TireLateralForceBranchSet",
     "TireLateralSummaryGrid",
     "TireOperatingPoint",
     "TireOptionalDependencyError",
+    "TtcCorneringBranchAudit",
+    "TtcCorneringBranchExport",
+    "TtcCorneringTrojanProfile",
+    "WUFR26_APRIL_CORNERING_TROJAN_V0",
+    "build_branch_set",
+    "export_cornering_trojan_branch",
+    "export_cornering_trojan_mat_branch",
     "invert_lateral_force_magnitude",
     "load_lateral_force_branch_set",
     "load_lateral_summary_grid",
