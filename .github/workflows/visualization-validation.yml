@@ -1,0 +1,29 @@
+name: Visualization validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  visualization:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install visualization extras
+        run: python -m pip install -e '.[viz]'
+      - name: Run visualization tests
+        run: python -m unittest tests.test_visualization_foundation -v
+      - name: Generate visualization smoke report
+        run: |
+          python scripts/run_visualization_foundation_smoke.py \
+            --output-dir visualization_foundation_smoke
+      - name: Upload visualization smoke report
+        uses: actions/upload-artifact@v4
+        with:
+          name: visualization-foundation-smoke
+          path: visualization_foundation_smoke
+          if-no-files-found: error
