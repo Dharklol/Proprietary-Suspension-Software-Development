@@ -5,7 +5,7 @@
 **Vehicle benchmark:** `BENCH-VEH-0002`  
 **Steering benchmark:** `BENCH-STEER-0023`  
 **Authorizations:** `AUTH-VEH-0002`, `AUTH-STEER-0004`  
-**Review state:** implementation in progress; final benchmark freeze and CI confirmation pending
+**Review state:** review-ready implementation; final post-freeze CI confirmation pending
 
 ## Review question
 
@@ -40,18 +40,53 @@ not simply:
 
 whenever a reviewed motion state exists.
 
-## Synthetic benchmark interpretation
+## Frozen planar kinematics benchmark
 
-BENCH-STEER-0023 deliberately holds the same synthetic tire branches and full-steer force demands fixed while changing only the supplied velocity-center position.
+`BENCH-VEH-0002` freezes exact software/limiting-case evidence in:
 
-The full-steer force inversion gives approximately:
+`benchmarks/vehicle/planar_slip_kinematics_result_v0.1.0.toml`
+
+The rear-axle velocity-center / zero-slip case reproduces the classical front-wheel headings to a maximum absolute error of `9.54166404439055e-15 deg`.
+
+For a synthetic 5-degree parallel-steer case, the frozen left-minus-right tire-slip differences are:
+
+- `S=0`: `-0.5484869178949107 deg` — outside/right slip is larger;
+- `S=a1=0.8 m`: `0.0 deg` — front slips are equal;
+- `S=1.3 m > a1`: `+0.3441491067986984 deg` — inside/left slip is larger.
+
+No vehicle equilibrium, tire force, load transfer, or body-motion response is solved by this benchmark.
+
+## Frozen motion-aware steering benchmark
+
+`BENCH-STEER-0023` deliberately holds the same synthetic tire branches and full-steer force demands fixed while changing only the supplied velocity-center position. The frozen result is:
+
+`benchmarks/steering/motion_aware_force_demand_result_v0.1.0.toml`
+
+The full-steer force inversion gives:
 
 - inside required slip: `2.5 deg`;
-- outside required slip: `9.714285714 deg`.
+- outside required slip: `9.714285714285714 deg`.
 
-At the benchmark's synthetic curvature, placing the velocity center on the rear axle creates enough geometric inner/outer velocity-heading split that the final full-steer pair is pro-Ackermann. Moving the same motion state's velocity center longitudinally to `S=a1` makes the front wheel-center velocity headings equal; the same unequal tire-required slips then produce anti-Ackermann.
+With the synthetic velocity center on the rear axle (`S=-0.7624 m`):
+
+- left target heading: `41.93100064746157 deg`;
+- right target heading: `36.46238987720719 deg`;
+- regime: `pro_ackermann`.
+
+With the same tire demands but `S=a1=0.8 m`:
+
+- left target heading: `2.4999999999999973 deg`;
+- right target heading: `9.714285714285717 deg`;
+- regime: `anti_ackermann`.
 
 This is the specific software-level demonstration of the concern that motivated the user discussion: tire load sensitivity can point toward anti-Ackermann while the final steering regime still depends on the vehicle velocity field.
+
+The two synthetic state schedules also freeze visibly different regime distributions:
+
+- rear-axle velocity-center schedule: `14 pro / 1 parallel / 0 anti`;
+- `S=a1` schedule: `4 pro / 1 parallel / 10 anti`.
+
+A reference steering candidate remains mechanism-feasible through the existing MOD-STEER-0001 multi-state evaluator. Its synthetic aggregate objective is `62.46118922280387`; that number has no vehicle-performance authority.
 
 ## Static toe and pose reference
 
@@ -80,11 +115,12 @@ After this PR it remains prohibited to claim:
 
 ## Acceptance disposition
 
-The PR is review-ready when:
+The frozen software result satisfies the implementation-level acceptance questions:
 
-- equation/model/authorization/benchmark records validate;
-- exact kinematic limiting cases pass;
-- the same-slip/different-velocity-center regime result is frozen;
+- equation/model/authorization/benchmark records are present;
+- exact kinematic limiting cases are frozen;
+- the same-slip/different-velocity-center pro/anti regime result is frozen;
 - the reference candidate completes MOD-STEER-0001 evaluation;
-- all prior steering/vehicle tests and report stages remain green;
-- new benchmark reports are uploaded by CI.
+- motion-aware benchmark report generation is implemented.
+
+The remaining review action is final post-freeze CI confirmation on the PR head. The first successful report-source run was motion-aware workflow run `30069692374` at head `533454289d685272b7f920717b4dc103d38a955b`, artifact `8587530683`, digest `sha256:7bc072364914172db33015ceaa689007f0e181787060ea263015deeb3ae9bdef`. A final PR-head run must supersede that source run before merge.
