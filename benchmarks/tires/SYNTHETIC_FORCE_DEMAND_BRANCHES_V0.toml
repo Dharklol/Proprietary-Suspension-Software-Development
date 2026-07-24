@@ -1,0 +1,75 @@
+version = "0.1.0"
+branch_set_id = "SYNTHETIC_FORCE_DEMAND_BRANCHES_V0"
+source_type = "explicit_lateral_force_branches"
+source_tire_id = "SYNTHETIC_TIRE_FORCE_BRANCH_SOURCE"
+intended_tire_id = "SYNTHETIC_TIRE_FORCE_BRANCH_INTENDED"
+authority = "Synthetic software-composition fixture only; not Hoosier/TTC behavior, vehicle truth, or a steering design target."
+source_path = "benchmarks/tires/SYNTHETIC_FORCE_DEMAND_BRANCHES_V0.toml"
+
+[source]
+fixture_role = "software verification only"
+construction = "Monotonic hand-authored pre-peak |Fy|-vs-|alpha| samples chosen to exercise bounded inversion and both pro/anti Ackermann classification."
+restriction = "Numerical values must not be interpreted as R25B/R20 tire response."
+
+[[branches]]
+id = "synthetic_inside_low_load"
+authority = "synthetic software verification only"
+source_branch_description = "Monotonic pre-peak leaning-into-turn magnitude branch; artificial values."
+[branches.operating_point]
+normal_load_n = 222.0
+inclination_deg = 0.0
+pressure_kpa = 83.0
+[branches.provenance]
+physical_authority = "none"
+purpose = "exercise inside-wheel force-demand inversion"
+[[branches.samples]]
+slip_angle_magnitude_deg = 0.0
+lateral_force_magnitude_n = 0.0
+[[branches.samples]]
+slip_angle_magnitude_deg = 2.0
+lateral_force_magnitude_n = 250.0
+[[branches.samples]]
+slip_angle_magnitude_deg = 4.0
+lateral_force_magnitude_n = 450.0
+[[branches.samples]]
+slip_angle_magnitude_deg = 6.0
+lateral_force_magnitude_n = 580.0
+[[branches.samples]]
+slip_angle_magnitude_deg = 8.0
+lateral_force_magnitude_n = 650.0
+[[branches.samples]]
+slip_angle_magnitude_deg = 9.6
+lateral_force_magnitude_n = 694.0
+
+[[branches]]
+id = "synthetic_outside_high_load"
+authority = "synthetic software verification only"
+source_branch_description = "Monotonic pre-peak leaning-into-turn magnitude branch; artificial values."
+[branches.operating_point]
+normal_load_n = 1112.0
+inclination_deg = 2.0
+pressure_kpa = 83.0
+[branches.provenance]
+physical_authority = "none"
+purpose = "exercise outside-wheel force-demand inversion"
+[[branches.samples]]
+slip_angle_magnitude_deg = 0.0
+lateral_force_magnitude_n = 0.0
+[[branches.samples]]
+slip_angle_magnitude_deg = 2.0
+lateral_force_magnitude_n = 600.0
+[[branches.samples]]
+slip_angle_magnitude_deg = 4.0
+lateral_force_magnitude_n = 1200.0
+[[branches.samples]]
+slip_angle_magnitude_deg = 6.0
+lateral_force_magnitude_n = 1750.0
+[[branches.samples]]
+slip_angle_magnitude_deg = 8.0
+lateral_force_magnitude_n = 2200.0
+[[branches.samples]]
+slip_angle_magnitude_deg = 10.0
+lateral_force_magnitude_n = 2550.0
+[[branches.samples]]
+slip_angle_magnitude_deg = 10.9
+lateral_force_magnitude_n = 2738.0

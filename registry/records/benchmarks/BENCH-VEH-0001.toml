@@ -2,8 +2,8 @@
 id = "BENCH-VEH-0001"
 type = "benchmark"
 title = "Explicit vehicle operating-state source and tire-bridge preservation"
-status = "proposed"
-description = "Verify that current WUFR development wheel-load states can be represented without embedding a new vehicle solver, changing source values, inventing missing tire inputs, or clipping an invalid negative normal load, while preserving a clean bridge to the PR28 tire operating-point contract."
+status = "active"
+description = "Verify that current WUFR development wheel-load states can be represented without embedding a new vehicle solver, changing source values, inventing missing tire inputs, or clipping an invalid negative normal load, while preserving a clean bridge to the PR28 tire operating-point contract. Frozen by reviewed merge of PR #29 at e0ff9b58781b6f79c0be379666723b8c8664883e."
 verification_level = "B"
 target_ids = ["MOD-VEH-0001", "MOD-STEER-0002"]
 acceptance_criteria = [
@@ -23,3 +23,4 @@ implementation_tests = ["tests/test_vehicle_operating_states.py", "tests/test_ve
 report_script = "scripts/run_vehicle_operating_state_benchmarks.py"
 source_artifact = "Suspension Calculations 2026 / Load Transfer"
 source_revision = "sha256:505f567a132296fe90876b1202d9bd626d8b0f302ff4c6316d013d0306ab24fc"
+merge_record = "PR #29, merge commit e0ff9b58781b6f79c0be379666723b8c8664883e"

@@ -5,7 +5,7 @@ title = "Explicit vehicle operating-state exchange provider"
 status = "active"
 disposition = "accepted_with_restrictions"
 maturity = "M1"
-description = "Source-preserving provider contract for already-determined vehicle and per-wheel operating states. It carries canonical acceleration/speed state, four explicit wheel quantities, missing-data reasons, role/weight, source authority, and provenance for downstream suspension, tire, steering, and future QSS consumers. It performs no load-transfer, aero, suspension-motion, tire-force, or vehicle-equilibrium calculation."
+description = "Source-preserving provider contract for already-determined vehicle and per-wheel operating states. It carries canonical acceleration/speed state, four explicit wheel quantities, missing-data reasons, role/weight, source authority, and provenance for downstream suspension, tire, steering, and future QSS consumers. It performs no load-transfer, aero, suspension-motion, tire-force, or vehicle-equilibrium calculation. Reviewed and merged in PR #29."
 inputs = [
   "Explicit upstream vehicle state identifier, turn direction, longitudinal/lateral acceleration, and speed",
   "Exactly four named wheel records with any supplied normal load, inclination/camber, pressure, lateral-force demand, and longitudinal-force demand",
@@ -17,7 +17,7 @@ outputs = [
   "Validated VehicleOperatingStateSet with no hidden fill/default behavior",
   "Per-state exact wheel identities and supplied quantities",
   "Explicit front inside/outside wheel assignment for left/right turns",
-  "Readiness report for PR28 TireOperatingPoint inputs and future lateral tire-force-demand inversion",
+  "Readiness report for PR28 TireOperatingPoint inputs and later lateral tire-force-demand inversion",
   "Conversion to TireOperatingPoint only when Fz, inclination, and pressure were explicitly supplied upstream",
   "Structured rejection of negative normal loads rather than clipping"
 ]
@@ -31,7 +31,7 @@ assumptions = [
 ]
 verification_level = "B"
 benchmark_ids = ["BENCH-VEH-0001"]
-authorization_state = "review_ready_under_AUTH-VEH-0001"
+authorization_state = "active_reviewed_under_AUTH-VEH-0001"
 authorization_id = "AUTH-VEH-0001"
 authorization_document = "authorizations/vehicle/AUTH-VEH-0001.toml"
 implementation_package = "src/pssd_vehicle"
@@ -41,4 +41,5 @@ first_fixture = "benchmarks/vehicle/WUFR27_SUSPENSION_CALCULATIONS_OPERATING_STA
 result_record = "benchmarks/vehicle/vehicle_operating_state_result_v0.1.0.toml"
 consumer_model_ids = ["MOD-STEER-0002"]
 future_consumers = ["tire force-demand inversion", "LLTD/handling studies", "QSS/lap simulation", "rack-load/steering-effort provider"]
+merge_record = "PR #29, merge commit e0ff9b58781b6f79c0be379666723b8c8664883e"
 prohibited_scope = "Native load-transfer or vehicle-equilibrium equations, hidden sign conversion, negative-load clipping, inferred camber/pressure/Fy/Fx, source-authority promotion, or production WUFR design claims from development spreadsheet states."

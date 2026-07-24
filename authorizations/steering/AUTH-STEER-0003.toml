@@ -1,0 +1,76 @@
+version = "0.1.0"
+authorization_id = "AUTH-STEER-0003"
+status = "review_ready"
+title = "Force-demand tire-slip steering target prototype authorization"
+effective_condition = "Effective after reviewed merge of PR #30. This authorization supplements AUTH-STEER-0002 and AUTH-VEH-0001; it does not replace MOD-STEER-0001 or authorize vehicle equilibrium, a new tire-force model, or production steering ranking."
+review_record = "docs/reviews/phase1_steering_force_demand_targets_review.md"
+
+[scope]
+steering_model_ids = ["MOD-STEER-0001", "MOD-STEER-0002"]
+vehicle_provider_model_ids = ["MOD-VEH-0001"]
+benchmark_ids = ["BENCH-STEER-0021"]
+implementation_packages = ["src/pssd_tire", "src/pssd_steering/optimization"]
+source_audit = "docs/models/steering/steering_force_demand_tire_source_audit.md"
+
+[architecture]
+steering_evaluator_rule = "MOD-STEER-0001 remains the only steering-kinematics evaluator. Force-demand target code may compute a target wheel-angle relation but may not duplicate mechanism closure, projection, branch, singularity, ratio, or turning-path equations."
+tire_rule = "The first force-demand layer inverts already-supplied monotonic pre-peak |Fy|-versus-|alpha| samples. Piecewise-linear interpolation between supplied response samples is an exchange-table operation, not an independent tire-force model."
+vehicle_rule = "Wheel Fz, inclination/camber, pressure, and lateral-force demand remain explicit upstream inputs. This authorization does not generate them."
+regime_rule = "Pro-Ackermann, parallel, and anti-Ackermann are classified from the corrected wheel-angle pair and are never prescribed globally as a tire property."
+
+[permitted]
+items = [
+  "Store source-preserving monotonic pre-peak lateral-force response branches at exact TireOperatingPoint states.",
+  "Invert |Fy| demand to |alpha| by bounded interpolation only between adjacent supplied response samples.",
+  "Reject force demands outside the supplied branch and reject operating points with no exact branch in the first contract.",
+  "Compute explicit inside/outside required-slip differential alpha_out-alpha_in from separately supplied force demands.",
+  "Apply the required-slip differential to the existing exact Ackermann outside-wheel reference while preserving the explicit base inside-wheel trajectory.",
+  "Classify every corrected wheel pair as pro_ackermann, parallel, or anti_ackermann with an explicit tolerance.",
+  "Use synthetic monotonic response branches solely for software composition, limiting-case, failure-path, and mixed-regime benchmark verification.",
+  "Use the merged PR28 R25B peak-slip summary only for the documented diagnostic explaining why a correction can point anti while a large-steer endpoint remains pro.",
+  "Consume later complete MOD-VEH-0001 states after their Fz, inclination, pressure, Fy demand, role, and authority have been reviewed."
+]
+
+[prohibited]
+items = [
+  "Treating synthetic force-response branch values as Hoosier 43105 R25B, Hoosier 43104 R20, TTC, fitted-TIR, track, or WUFR vehicle data.",
+  "Assuming R25B or any other tire globally requires anti-Ackermann, pro-Ackermann, or parallel steering independent of operating state and steering angle.",
+  "Inferring a nonlinear Fy(alpha) branch from cornering stiffness, camber thrust, one peak point, and/or one 12-degree dropoff point when the intervening source response is not available.",
+  "Operating-point interpolation or extrapolation in Fz, inclination, pressure, speed, temperature, or other tire state unless separately reviewed and authorized.",
+  "Force-demand extrapolation beyond a supplied pre-peak branch, hidden post-peak branch substitution, clipping, or penalty-only treatment of unavailable tire response.",
+  "A Python Magic Formula rewrite, spline/polynomial surrogate generated from insufficient summary points, combined-slip solver, transient tire model, or thermal/wear model in this authorization.",
+  "Native load transfer, LLTD, aero balance, suspension kinematics, yaw equilibrium, QSS, lap simulation, or other vehicle-state generation inside the steering target adapter.",
+  "Inferring missing per-wheel Fy, camber, pressure, Fz, or suspension pose from current PR29 evidence-only states.",
+  "Automatically applying the historical yaw_moment.m 2/3 sandpaper-to-road force/moment scale inside the source branch or runtime inversion.",
+  "Production WUFR steering geometry ranking, tire-optimal steering claims, global optimality claims, or automatic CAD modification from BENCH-STEER-0021."
+]
+
+[source_boundary]
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+engineering_equivalence = "Use the R25B TTC/model behavior as the project-authorized engineering-equivalent data source for steering development while preserving source and intended identities separately."
+box_tire_folder_id = "325714540497"
+raw_cornering_run_ids = ["1890899727782", "1890911183790"]
+cornering_trojan_file_id = "1890914118742"
+fitted_tir_file_id = "1952385546497"
+tire_selection_notes_file_id = "1890901561957"
+current_real_branch_status = "not_yet_frozen_in_repository"
+current_summary_limitation = "The merged PR28 summary freezes stiffness/peak/censor information but does not contain enough pre-peak response samples for arbitrary force-demand inversion."
+
+[required_before_design_ranking]
+items = [
+  "A reviewed source-specific exporter freezes real pre-peak Fy(alpha) branch samples from the TTC/TIR source at the required operating points with source signs and model/data provenance.",
+  "Representative WUFR vehicle states provide reviewed per-wheel Fz, inclination/camber, pressure, and Fy demand through MOD-VEH-0001 or an equivalent reviewed provider.",
+  "Requested vehicle states lie inside the reviewed tire response envelope; no hidden Fz or force extrapolation is permitted.",
+  "The source-specific response is cross-checked against TTC/raw or processed data at representative states.",
+  "Any track-surface correction is separately justified and source-labeled rather than inherited from the historical 2/3 factor.",
+  "Target-state weighting and use in steering candidate ranking receive explicit engineering review."
+]
+
+[review_benchmark]
+benchmark_id = "BENCH-STEER-0021"
+synthetic_branch_fixture = "benchmarks/tires/SYNTHETIC_FORCE_DEMAND_BRANCHES_V0.toml"
+result_record = "benchmarks/steering/steering_force_demand_target_result_v0.1.0.toml"
+report_script = "scripts/run_steering_force_demand_benchmarks.py"
+implementation_tests = "tests/test_tire_force_demand.py; tests/test_steering_force_demand_targets.py; tests/test_steering_force_demand_freeze.py"
+source_ci_run = "GitHub Actions run 361 / 30063973228; 186 tests; steering-force-demand-tire-reports artifact 8585610543"

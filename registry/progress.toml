@@ -155,11 +155,11 @@ id = "P0-STR-011"
 title = "WUFR-26 Level F uncertainty and physical correlation"
 status = "active"
 exit_criterion = "Existing whole-system free-play, historical compliance, calculated steering-load, and available-sensor evidence are source-linked; installed stops, primary-shaft-to-rack correlation, left/right rack-to-wheel response, repeatability, staged backlash/compliance attribution, sensor calibration, uncertainty, and an independently justified acceptance rule remain to be completed."
-critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, synthetic/external suspension-pose provider development, explicit nonphysical operating-state target aggregation, nonphysical scalar state-metric objective development, bounded tire-target provider development from reviewed external tire data, or source-preserving vehicle operating-state exchange development."
+critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, synthetic/external suspension-pose provider development, explicit nonphysical operating-state target aggregation, nonphysical scalar state-metric objective development, bounded tire-target provider development from reviewed external tire data, source-preserving vehicle operating-state exchange development, or bounded force-demand tire-slip target software verification."
 
 [phase_1]
 status = "active"
-objective = "Build the steering vertical slice from the verified analyzer through nominal inverse design, explicit constraints, candidate comparison, suspension-state integration, tire targets, and shared vehicle operating-state integration before unavailable physical data become necessary."
+objective = "Build the steering vertical slice from the verified analyzer through nominal inverse design, explicit constraints, candidate comparison, suspension-state integration, tire targets, shared vehicle operating-state integration, and bounded force-demand slip targets before unavailable physical data become necessary."
 
 [[phase_1.workstreams]]
 id = "P1-W01"
@@ -312,7 +312,7 @@ merge_record = "PR #28, merge commit 5ec28ed1932994c75ff616e4d208912259895f7e"
 [[phase_1.tasks]]
 id = "P1-STR-006I"
 title = "Vehicle operating-state provider bridge"
-status = "review_ready"
+status = "complete"
 depends_on = ["P1-STR-006H"]
 exit_criterion = "A shared source-preserving vehicle operating-state contract carries explicit four-wheel loads/camber/pressure/Fy/Fx availability, roles, weights, canonical sign conversion, source authority, and provenance; current development load states remain evidence-only and incomplete tire inputs remain unavailable without introducing load-transfer or vehicle-equilibrium equations."
 review_record = "docs/reviews/phase1_vehicle_operating_state_provider_review.md"
@@ -323,6 +323,22 @@ benchmark_ids = ["BENCH-VEH-0001"]
 report_script = "scripts/run_vehicle_operating_state_benchmarks.py"
 fixture = "benchmarks/vehicle/WUFR27_SUSPENSION_CALCULATIONS_OPERATING_STATES_V0.toml"
 scope_note = "The first WUFR fixture preserves current Suspension Calculations 2026 1.2g development wheel-load evidence only. Missing camber, pressure, Fy/Fx and suspension-pose authority remain unavailable; a current negative-Fz 1.7g draft is rejected rather than clipped."
+merge_record = "PR #29, merge commit e0ff9b58781b6f79c0be379666723b8c8664883e"
+
+[[phase_1.tasks]]
+id = "P1-STR-006J"
+title = "Force-demand tire-slip steering target provider"
+status = "review_ready"
+depends_on = ["P1-STR-006H", "P1-STR-006I"]
+exit_criterion = "Explicit monotonic pre-peak lateral-force response branches can be inverted from bounded per-wheel Fy demands to required slip-angle magnitudes and composed with exact Ackermann into state-dependent pro/parallel/anti steering targets without adding tire-force, load-transfer, or vehicle-equilibrium equations."
+review_record = "docs/reviews/phase1_steering_force_demand_targets_review.md"
+implementation_record = "docs/models/steering/steering_force_demand_targets_implementation_v0.1.0.md"
+authorization_record = "authorizations/steering/AUTH-STEER-0003.toml"
+benchmark_ids = ["BENCH-STEER-0021"]
+report_script = "scripts/run_steering_force_demand_benchmarks.py"
+source_audit = "docs/models/steering/steering_force_demand_tire_source_audit.md"
+synthetic_branch_fixture = "benchmarks/tires/SYNTHETIC_FORCE_DEMAND_BRANCHES_V0.toml"
+scope_note = "Only the PR28 peak-slip diagnostic in BENCH-STEER-0021 uses R25B source-derived values. The force-response branch fixture is synthetic software evidence; real WUFR force-demand ranking remains gated on reviewed source-derived Fy(alpha) branches and complete per-wheel Fz/camber/pressure/Fy states."
 
 [[phase_1.tasks]]
 id = "P1-STR-006D"

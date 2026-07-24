@@ -1,9 +1,11 @@
-version = "0.1.0"
+version = "0.2.0"
 authorization_id = "AUTH-VEH-0001"
-status = "review_ready_nonphysics_provider"
+status = "active_reviewed_and_frozen"
 title = "Explicit vehicle operating-state exchange/provider authorization"
-effective_condition = "Effective after reviewed merge of PR #29. This authorization covers a source-preserving data/provider contract only and does not authorize vehicle load-transfer or equilibrium physics."
+effective_condition = "Effective after reviewed merge of PR #29 at e0ff9b58781b6f79c0be379666723b8c8664883e. This authorization covers a source-preserving data/provider contract only and does not authorize vehicle load-transfer or equilibrium physics."
+effective_merge_commit = "e0ff9b58781b6f79c0be379666723b8c8664883e"
 review_record = "docs/reviews/phase1_vehicle_operating_state_provider_review.md"
+review_conclusion = "PR #29 was reviewed and merged after successful CI; MOD-VEH-0001 is approved as the shared explicit vehicle/wheel state boundary while current workbook states remain evidence-only and upstream load/equilibrium physics remains separately gated."
 
 [scope]
 model_ids = ["MOD-VEH-0001"]
@@ -16,10 +18,11 @@ items = [
   "Carry supplied wheel normal load, inclination/camber, tire pressure, lateral-force demand, and longitudinal-force demand without calculating missing values.",
   "Convert an explicitly declared source lateral-acceleration convention to the canonical project body convention when the conversion is recorded in source provenance.",
   "Assign front inside/outside wheel identities from an explicit left/right turn declaration.",
-  "Report whether front wheel states contain the fields required by the PR #28 TireOperatingPoint contract and by future lateral tire-force-demand inversion.",
+  "Report whether front wheel states contain the fields required by the PR #28 TireOperatingPoint contract and by later lateral tire-force-demand inversion.",
   "Construct TireOperatingPoint only when positive normal load, inclination, and pressure are all explicit upstream inputs.",
   "Reject negative source normal loads and preserve invalid source states as audit evidence rather than clipping or repairing them.",
-  "Allow future reviewed QSS, telemetry, spreadsheet, LLTD, external-solver, or manual providers to emit the same state contract."
+  "Allow future reviewed QSS, telemetry, spreadsheet, LLTD, external-solver, or manual providers to emit the same state contract.",
+  "Supply explicit complete wheel states to a separately reviewed bounded force-demand tire-slip inversion layer without changing this provider contract."
 ]
 
 [prohibited]

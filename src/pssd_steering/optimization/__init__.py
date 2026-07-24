@@ -6,10 +6,11 @@ constrained-search baseline, constraint-provider screening, local sensitivity,
 provider-neutral suspension poses, external pose-table ingestion, multi-state
 steering evaluation, explicit operating-state target aggregation, explicit
 dynamic-toe and state-dependent steering-gain objectives, bounded tire-informed
-differential target generation, and machine-readable reports. Tire source parsing
-and lateral response surfaces live in the reusable ``pssd_tire`` package; effort,
-manufacturing, robustness, physical-correlation, and production-release models
-remain outside this implementation.
+differential target generation, bounded force-demand tire-slip target generation,
+and machine-readable reports. Tire source parsing and lateral response surfaces
+live in the reusable ``pssd_tire`` package; effort, manufacturing, robustness,
+physical-correlation, and production-release models remain outside this
+implementation.
 """
 
 from .candidate_comparison import (
@@ -45,6 +46,16 @@ from .external_poses import (
     ExternalPoseAdapterError,
     ExternalPoseImport,
     load_external_pose_table,
+)
+from .force_demand_targets import (
+    DifferentialHeadingReference,
+    ForceDemandSlipDifferential,
+    ForceDemandStateDefinition,
+    SteeringDifferentialRegime,
+    build_force_demand_operating_target_set,
+    classify_heading_pair,
+    differential_heading_reference,
+    force_demand_slip_differential,
 )
 from .geometry import (
     CandidateGeometryError,
@@ -171,9 +182,12 @@ __all__ = [
     "ConstraintMarginSensitivity",
     "ConstraintMarginSummary",
     "ConstraintResult",
+    "DifferentialHeadingReference",
     "ExternalCoordinateColumn",
     "ExternalPoseAdapterError",
     "ExternalPoseImport",
+    "ForceDemandSlipDifferential",
+    "ForceDemandStateDefinition",
     "GeneratedSteeringGeometry",
     "LocalFrameDefinition",
     "LocalSensitivityResult",
@@ -210,6 +224,7 @@ __all__ = [
     "StateMetricTarget",
     "StateMetricTargetSet",
     "SteeringConstraintSet",
+    "SteeringDifferentialRegime",
     "SteeringPoseState",
     "SteeringSearchResult",
     "SteeringTarget",
@@ -228,14 +243,18 @@ __all__ = [
     "build_analyzer_operating_state_target_set",
     "build_analyzer_state_metric_target_set",
     "build_candidate_comparison",
+    "build_force_demand_operating_target_set",
     "build_tire_informed_operating_target_set",
     "candidate_comparison_report",
     "candidate_evaluation_report",
+    "classify_heading_pair",
+    "differential_heading_reference",
     "evaluate_candidate",
     "evaluate_candidate_over_pose_set",
     "evaluate_constraint_set",
     "evaluate_operating_state_candidate",
     "evaluate_state_metric_candidate",
+    "force_demand_slip_differential",
     "generate_candidate_geometry",
     "load_constraint_set",
     "load_explicit_operating_state_target_set",

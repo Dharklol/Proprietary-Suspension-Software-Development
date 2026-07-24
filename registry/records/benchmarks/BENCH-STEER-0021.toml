@@ -1,0 +1,26 @@
+[record]
+id = "BENCH-STEER-0021"
+type = "benchmark"
+title = "Force-demand tire-slip steering target and Ackermann-regime composition"
+status = "proposed"
+description = "Verify bounded inversion of explicit monotonic pre-peak lateral-force response branches, force-demand inside/outside slip differentials, exact-Ackermann steering correction, and pro/parallel/anti regime classification without introducing a tire-force or vehicle-equilibrium solver. The benchmark also explains the already-merged PR28 R25B endpoint: a +1.3 deg outside-minus-inside peak-slip correction moves toward anti-Ackermann but is smaller than the approximately 9.316 deg endpoint geometric Ackermann gap, while the utilization-scaled near-center correction can cross slightly anti."
+verification_level = "B"
+target_ids = ["MOD-STEER-0001", "MOD-STEER-0002", "MOD-VEH-0001"]
+acceptance_criteria = [
+  "Explicit lateral-force branches require strictly increasing pre-peak |alpha| and |Fy| samples and preserve source authority/provenance.",
+  "Fy-demand inversion performs bounded interpolation only between supplied branch samples and rejects force extrapolation or missing operating-point branches.",
+  "The first force-branch contract does not interpolate or extrapolate Fz, inclination, or pressure across operating points.",
+  "The PR28 R25B 222 N / 0 deg / 83 kPa versus 1112 N / 2 deg / 83 kPa peak-slip differential remains 1.3 deg and is classified as an anti-Ackermann-direction correction rather than proof of an anti-Ackermann final wheel pair.",
+  "At the frozen WUFR endpoint inside heading 32.18468832 deg, exact Ackermann outside heading is approximately 22.8686960462 deg, the geometric split is approximately 9.315992274 deg, and the +1.3 deg PR28 correction leaves the final target pro-Ackermann.",
+  "At the frozen +15 deg input sample, the PR28 utilization-scaled correction produces outside target approximately 3.7104805346 deg versus inside 3.6966375 deg and is classified slightly anti-Ackermann.",
+  "A clearly synthetic force-response fixture demonstrates that the same force-derived slip tendency can yield anti-Ackermann at modest steer and pro-Ackermann at large steer because the geometric Ackermann split changes with steering angle.",
+  "The force-demand target builder preserves the base inside-wheel heading, reuses exact Ackermann for the outside zero-slip reference, and adds only the explicit required-slip differential.",
+  "Out-of-branch force demands fail rather than clip, extrapolate, or receive penalty-only treatment.",
+  "The synthetic force-response branches are never labeled or treated as R25B/R20 tire data or WUFR design authority.",
+  "Current WUFR force-demand steering design ranking remains gated until reviewed per-wheel Fz/camber/pressure/Fy states and source-derived pre-peak force branches are frozen."
+]
+report_script = "scripts/run_steering_force_demand_benchmarks.py"
+result_record = "benchmarks/steering/steering_force_demand_target_result_v0.1.0.toml"
+synthetic_branch_fixture = "benchmarks/tires/SYNTHETIC_FORCE_DEMAND_BRANCHES_V0.toml"
+source_audit = "docs/models/steering/steering_force_demand_tire_source_audit.md"
+implementation_tests = ["tests/test_tire_force_demand.py", "tests/test_steering_force_demand_targets.py", "tests/test_steering_force_demand_freeze.py"]
