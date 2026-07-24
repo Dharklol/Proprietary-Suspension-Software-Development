@@ -1,20 +1,22 @@
-version = "0.1.0"
+version = "0.2.0"
 authorization_id = "AUTH-STEER-0003"
-status = "review_ready"
+status = "complete"
 title = "Force-demand tire-slip steering target prototype authorization"
-effective_condition = "Effective after reviewed merge of PR #30. This authorization supplements AUTH-STEER-0002 and AUTH-VEH-0001; it does not replace MOD-STEER-0001 or authorize vehicle equilibrium, a new tire-force model, or production steering ranking."
+effective_condition = "Effective after merge of PR #30 at 1d894d3cc2e252b2cb4b6f1e594da5ae1b6c6ff7. This authorization supplements AUTH-STEER-0002 and AUTH-VEH-0001; it does not replace MOD-STEER-0001 or authorize vehicle equilibrium, a new tire-force model, or production steering ranking."
 review_record = "docs/reviews/phase1_steering_force_demand_targets_review.md"
+merge_record = "PR #30, merge commit 1d894d3cc2e252b2cb4b6f1e594da5ae1b6c6ff7"
 
 [scope]
 steering_model_ids = ["MOD-STEER-0001", "MOD-STEER-0002"]
 vehicle_provider_model_ids = ["MOD-VEH-0001"]
-benchmark_ids = ["BENCH-STEER-0021"]
+benchmark_ids = ["BENCH-STEER-0021", "BENCH-STEER-0022"]
 implementation_packages = ["src/pssd_tire", "src/pssd_steering/optimization"]
 source_audit = "docs/models/steering/steering_force_demand_tire_source_audit.md"
+source_export_profile = "benchmarks/tires/WUFR26_H43105_R25B_CORNERING_TROJAN_EXPORT_PROFILE_V0.toml"
 
 [architecture]
 steering_evaluator_rule = "MOD-STEER-0001 remains the only steering-kinematics evaluator. Force-demand target code may compute a target wheel-angle relation but may not duplicate mechanism closure, projection, branch, singularity, ratio, or turning-path equations."
-tire_rule = "The first force-demand layer inverts already-supplied monotonic pre-peak |Fy|-versus-|alpha| samples. Piecewise-linear interpolation between supplied response samples is an exchange-table operation, not an independent tire-force model."
+tire_rule = "The force-demand layer inverts already-supplied monotonic pre-peak |Fy|-versus-|alpha| samples. Piecewise-linear interpolation between supplied response samples is an exchange-table operation, not an independent tire-force model. A source-specific exporter may select and validate already-processed source samples but may not refit or invent tire response."
 vehicle_rule = "Wheel Fz, inclination/camber, pressure, and lateral-force demand remain explicit upstream inputs. This authorization does not generate them."
 regime_rule = "Pro-Ackermann, parallel, and anti-Ackermann are classified from the corrected wheel-angle pair and are never prescribed globally as a tire property."
 
@@ -28,7 +30,9 @@ items = [
   "Classify every corrected wheel pair as pro_ackermann, parallel, or anti_ackermann with an explicit tolerance.",
   "Use synthetic monotonic response branches solely for software composition, limiting-case, failure-path, and mixed-regime benchmark verification.",
   "Use the merged PR28 R25B peak-slip summary only for the documented diagnostic explaining why a correction can point anti while a large-steer endpoint remains pro.",
-  "Consume later complete MOD-VEH-0001 states after their Fz, inclination, pressure, Fy demand, role, and authority have been reviewed."
+  "Consume later complete MOD-VEH-0001 states after their Fz, inclination, pressure, Fy demand, role, and authority have been reviewed.",
+  "Use a named source-specific exporter to select exact states from the already-processed WUFR-26 R25B Cornering Trojan, preserve source signs in provenance, retain only a strictly monotonic pre-peak branch, and write the existing explicit branch exchange schema.",
+  "Validate a source-side Cornering Trojan export against the frozen file hash and compare exported reference peaks with the existing tire-summary evidence before promotion."
 ]
 
 [prohibited]
@@ -41,8 +45,10 @@ items = [
   "A Python Magic Formula rewrite, spline/polynomial surrogate generated from insufficient summary points, combined-slip solver, transient tire model, or thermal/wear model in this authorization.",
   "Native load transfer, LLTD, aero balance, suspension kinematics, yaw equilibrium, QSS, lap simulation, or other vehicle-state generation inside the steering target adapter.",
   "Inferring missing per-wheel Fy, camber, pressure, Fz, or suspension pose from current PR29 evidence-only states.",
-  "Automatically applying the historical yaw_moment.m 2/3 sandpaper-to-road force/moment scale inside the source branch or runtime inversion.",
-  "Production WUFR steering geometry ranking, tire-optimal steering claims, global optimality claims, or automatic CAD modification from BENCH-STEER-0021."
+  "Automatically applying the historical yaw_moment.m 2/3 sandpaper-to-road force/moment scale inside the source branch, source exporter, or runtime inversion.",
+  "Silently mixing April_Interpolator.m processed-Trojan conventions with PARSER_April.m TyDex binning/sign conversion while claiming one source profile.",
+  "Automatically smoothing, enveloping, averaging, deleting, or otherwise repairing a nonmonotonic source branch in the PR32 exporter.",
+  "Production WUFR steering geometry ranking, tire-optimal steering claims, global optimality claims, or automatic CAD modification until all promotion gates below are satisfied."
 ]
 
 [source_boundary]
@@ -52,25 +58,28 @@ engineering_equivalence = "Use the R25B TTC/model behavior as the project-author
 box_tire_folder_id = "325714540497"
 raw_cornering_run_ids = ["1890899727782", "1890911183790"]
 cornering_trojan_file_id = "1890914118742"
+cornering_trojan_sha1 = "475338b18b6cba21b967c7e75bdd12d9a0e3437a"
 fitted_tir_file_id = "1952385546497"
 tire_selection_notes_file_id = "1890901561957"
-current_real_branch_status = "not_yet_frozen_in_repository"
+current_real_branch_status = "source-specific processed-Trojan exporter implemented in PR32; actual R25B branch table remains pending source-side binary MAT execution and review"
 current_summary_limitation = "The merged PR28 summary freezes stiffness/peak/censor information but does not contain enough pre-peak response samples for arbitrary force-demand inversion."
 
 [required_before_design_ranking]
 items = [
-  "A reviewed source-specific exporter freezes real pre-peak Fy(alpha) branch samples from the TTC/TIR source at the required operating points with source signs and model/data provenance.",
+  "A reviewed source-side exporter run freezes real pre-peak Fy(alpha) branch samples from the hashed TTC/Trojan source at the required operating points with source signs and preprocessing provenance.",
+  "The source-derived export is cross-checked against Tire Selection Notes and/or raw/processed TTC behavior at representative states.",
   "Representative WUFR vehicle states provide reviewed per-wheel Fz, inclination/camber, pressure, and Fy demand through MOD-VEH-0001 or an equivalent reviewed provider.",
   "Requested vehicle states lie inside the reviewed tire response envelope; no hidden Fz or force extrapolation is permitted.",
-  "The source-specific response is cross-checked against TTC/raw or processed data at representative states.",
   "Any track-surface correction is separately justified and source-labeled rather than inherited from the historical 2/3 factor.",
   "Target-state weighting and use in steering candidate ranking receive explicit engineering review."
 ]
 
 [review_benchmark]
 benchmark_id = "BENCH-STEER-0021"
+source_export_benchmark_id = "BENCH-STEER-0022"
 synthetic_branch_fixture = "benchmarks/tires/SYNTHETIC_FORCE_DEMAND_BRANCHES_V0.toml"
 result_record = "benchmarks/steering/steering_force_demand_target_result_v0.1.0.toml"
 report_script = "scripts/run_steering_force_demand_benchmarks.py"
-implementation_tests = "tests/test_tire_force_demand.py; tests/test_steering_force_demand_targets.py; tests/test_steering_force_demand_freeze.py"
-source_ci_run = "GitHub Actions run 361 / 30063973228; 186 tests; steering-force-demand-tire-reports artifact 8585610543"
+source_export_script = "scripts/export_r25b_cornering_force_branches.py"
+implementation_tests = "tests/test_tire_force_demand.py; tests/test_steering_force_demand_targets.py; tests/test_steering_force_demand_freeze.py; tests/test_ttc_cornering_export.py; tests/test_tire_toml_exchange.py"
+pr30_ci = "GitHub Actions run 370 / 30066782638; 192 tests; steering-force-demand-tire-reports artifact 8586574678"
