@@ -31,7 +31,9 @@ assumptions = [
 ]
 verification_level = "B"
 benchmark_ids = ["BENCH-VEH-0001"]
-authorization_state = "nonphysics_provider_contract_proposed_for_PR29_review"
+authorization_state = "review_ready_under_AUTH-VEH-0001"
+authorization_id = "AUTH-VEH-0001"
+authorization_document = "authorizations/vehicle/AUTH-VEH-0001.toml"
 implementation_package = "src/pssd_vehicle"
 implementation_tests = ["tests/test_vehicle_operating_states.py", "tests/test_vehicle_tire_bridge.py", "tests/test_vehicle_operating_state_freeze.py"]
 benchmark_report_script = "scripts/run_vehicle_operating_state_benchmarks.py"
