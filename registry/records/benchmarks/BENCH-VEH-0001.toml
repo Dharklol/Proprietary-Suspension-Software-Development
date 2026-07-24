@@ -18,6 +18,7 @@ acceptance_criteria = [
   "No load-transfer, aero, suspension-motion, tire-force, or vehicle-equilibrium equation is introduced by MOD-VEH-0001."
 ]
 fixture = "benchmarks/vehicle/WUFR27_SUSPENSION_CALCULATIONS_OPERATING_STATES_V0.toml"
+result_record = "benchmarks/vehicle/vehicle_operating_state_result_v0.1.0.toml"
 implementation_tests = ["tests/test_vehicle_operating_states.py", "tests/test_vehicle_tire_bridge.py", "tests/test_vehicle_operating_state_freeze.py"]
 report_script = "scripts/run_vehicle_operating_state_benchmarks.py"
 source_artifact = "Suspension Calculations 2026 / Load Transfer"
