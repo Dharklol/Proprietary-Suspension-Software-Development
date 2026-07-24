@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import replace
 import json
 from pathlib import Path
 
@@ -15,6 +16,7 @@ from pssd_viz.viewer3d import DEFAULT_THREE_VERSION, render_scene_viewer_html
 
 ROOT = Path(__file__).resolve().parents[1]
 BASELINE_PATH = ROOT / "configurations/steering/WUFR27_STEERING_BASELINE_V0.toml"
+INHERITED_PATH = ROOT / "configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml"
 
 
 def main() -> int:
@@ -25,6 +27,16 @@ def main() -> int:
 
     geometry = load_geometry(BASELINE_PATH)
     scene = build_steering_engineering_scene(geometry)
+    scene = replace(
+        scene,
+        metadata=replace(
+            scene.metadata,
+            source_ids=(
+                BASELINE_PATH.relative_to(ROOT).as_posix(),
+                INHERITED_PATH.relative_to(ROOT).as_posix(),
+            ),
+        ),
+    )
     scene_path = write_scene_json(scene, arguments.output_dir / "scene.json")
     viewer_path = render_scene_viewer_html(scene, arguments.output_dir / "viewer.html")
 
