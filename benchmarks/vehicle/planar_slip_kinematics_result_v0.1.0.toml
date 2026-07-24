@@ -1,0 +1,48 @@
+version = "0.1.0"
+result_id = "PLANAR-SLIP-KINEMATICS-BENCHMARKS-V0"
+benchmark_id = "BENCH-VEH-0002"
+authorization_id = "AUTH-VEH-0002"
+model_id = "MOD-VEH-0002"
+authority_boundary = "Synthetic planar kinematics software/limiting-case evidence only. The result verifies equations and provider composition; it is not a WUFR vehicle-motion prediction."
+
+[rigid_body_field]
+front_left_vx_mps = 9.1
+front_left_vy_mps = 1.5000000000000002
+front_right_vx_mps = 10.9
+front_right_vy_mps = 1.5000000000000002
+
+[rear_axle_velocity_center_zero_slip]
+S_m = -0.7
+left_heading_deg = 11.458752345877206
+right_heading_deg = 9.893920669735405
+left_expected_deg = 11.458752345877201
+right_expected_deg = 9.893920669735413
+max_abs_error_deg = 9.54166404439055e-15
+interpretation = "With S=-a2 and zero tire slip, exact wheel-center velocity headings reproduce the classical no-slip Ackermann front headings for the supplied wheel-center track."
+
+[parallel_steer_relative_slip.rear_to_front_interval]
+S_m = 0.0
+left_slip_deg = 0.135485562239476
+right_slip_deg = 0.6839724801343866
+left_minus_right_slip_deg = -0.5484869178949107
+interpretation = "For -a2<S<a1 in this left-turn example, the outside/right front tire has the larger slip."
+
+[parallel_steer_relative_slip.front_axle]
+S_m = 0.8
+left_slip_deg = 4.999999999999995
+right_slip_deg = 4.999999999999995
+left_minus_right_slip_deg = 0.0
+interpretation = "At S=a1 the front wheel-center velocity headings are equal, so parallel steering gives equal front tire slips."
+
+[parallel_steer_relative_slip.forward_of_front]
+S_m = 1.3
+left_slip_deg = 8.044778444193998
+right_slip_deg = 7.700629337395299
+left_minus_right_slip_deg = 0.3441491067986984
+interpretation = "For S>a1 in this left-turn example, the inside/left front tire has the larger slip."
+
+[physics_exclusions]
+vehicle_equilibrium = false
+tire_force_model = false
+load_transfer = false
+motion_response_prediction = false
