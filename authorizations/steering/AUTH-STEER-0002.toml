@@ -1,4 +1,4 @@
-version = "0.9.0"
+version = "0.10.0"
 authorization_id = "AUTH-STEER-0002"
 status = "active_reviewed_and_frozen"
 title = "Steering inverse-design prototype authorization"
@@ -9,6 +9,7 @@ review_conclusion = "The team reviewed and approved the analyzer-composed invers
 
 [scope]
 model_ids = ["MOD-STEER-0001", "MOD-STEER-0002"]
+external_provider_model_ids = ["MOD-VEH-0001"]
 migration_ids = ["MIG-STR-0001"]
 configuration_ids = ["WUFR26_DESIGN_NOMINAL_V0", "WUFR27_STEERING_BASELINE_V0", "STEERING_INVERSE_DESIGN_DEV_V0", "STEERING_CONSTRAINT_PROVIDER_DEV_V0"]
 required_equation_ids = ["EQ-STEER-0001", "EQ-STEER-0002", "EQ-STEER-0003", "EQ-STEER-0004", "EQ-STEER-0005", "EQ-STEER-0006", "EQ-STEER-0007"]
@@ -30,8 +31,10 @@ external_pose_adapter_merge_commit = "be241172998684e1f40a6f2af2d9801a2c1911c8"
 state_metric_objective_implementation = "PR #27"
 state_metric_objective_merge_commit = "34e6c98f1f47e1b986777bf05249db8e54b89ff2"
 tire_informed_target_provider_implementation = "PR #28"
-current_stage = "bounded_ttc_derived_tire_informed_differential_steering_target_provider_implemented_for_review"
-next_stage = "reviewed WUFR wheel-load/camber/force-demand provider for production-relevant tire targets or source-specific unresolved-pose conversion; rack-load/effort and physical correlation remain separate gates"
+tire_informed_target_provider_merge_commit = "5ec28ed1932994c75ff616e4d208912259895f7e"
+vehicle_operating_state_provider_implementation = "PR #29 under AUTH-VEH-0001"
+current_stage = "shared_explicit_vehicle_operating_state_provider_implemented_for_PR29_review"
+next_stage = "reviewed vehicle force-demand state generation and Fy-to-slip-angle tire target inversion, then source-specific unresolved-pose synchronization; rack-load/effort and physical correlation remain separate gates"
 geometry_generator_document = "docs/models/steering/steering_geometry_generator_implementation_v0.1.0.md"
 optimizer_implementation_document = "docs/models/steering/steering_nominal_optimizer_implementation_v0.1.0.md"
 constraint_sensitivity_document = "docs/models/steering/steering_constraints_sensitivity_implementation_v0.1.0.md"
@@ -41,6 +44,7 @@ external_pose_adapter_document = "docs/models/steering/steering_external_pose_ad
 external_pose_source_audit = "docs/models/steering/steering_external_pose_source_audit.md"
 state_metric_objective_document = "docs/models/steering/steering_state_metric_objectives_implementation_v0.1.0.md"
 tire_informed_target_document = "docs/models/steering/steering_tire_informed_targets_implementation_v0.1.0.md"
+vehicle_operating_state_document = "docs/models/vehicle/vehicle_operating_state_provider_implementation_v0.1.0.md"
 optimizer_review = "docs/reviews/phase1_steering_nominal_optimizer_review.md"
 constraint_sensitivity_review = "docs/reviews/phase1_steering_constraints_sensitivity_review.md"
 suspension_pose_review = "docs/reviews/phase1_steering_suspension_pose_provider_review.md"
@@ -48,12 +52,13 @@ operating_state_target_review = "docs/reviews/phase1_steering_operating_state_ta
 external_pose_adapter_review = "docs/reviews/phase1_steering_external_pose_adapter_review.md"
 state_metric_objective_review = "docs/reviews/phase1_steering_state_metric_objectives_review.md"
 tire_informed_target_review = "docs/reviews/phase1_steering_tire_informed_target_review.md"
+vehicle_operating_state_review = "docs/reviews/phase1_vehicle_operating_state_provider_review.md"
 
 [architecture]
 authoritative_evaluator_model_id = "MOD-STEER-0001"
 optimizer_orchestrator_model_id = "MOD-STEER-0002"
-composition_rule = "Every candidate and every posed operating state must be converted into the public MOD-STEER-0001 geometry contract and evaluated by that implementation. MOD-STEER-0002 may transform provider-supplied upright poses, ingest explicitly converted external pose tables, compare evaluator outputs with explicit curve or scalar state targets, and request tire-informed target curves from reviewed provider data, but may not duplicate, approximate, fit, or replace rigid closure, wheel-plane projection, branch, singularity, Ackermann, ratio, or turning-path calculations."
-result_rule = "Optimizer and multi-state results must retain complete evaluator diagnostics, provider provenance, and individual objective contributions for accepted or rejected states. Supplemental screening, sensitivity, pose, external-adapter, curve-target, scalar state-metric, and tire-informed target records preserve underlying analyzer results rather than replacing them."
+composition_rule = "Every candidate and every posed operating state must be converted into the public MOD-STEER-0001 geometry contract and evaluated by that implementation. MOD-STEER-0002 may transform provider-supplied upright poses, ingest explicitly converted external pose tables, compare evaluator outputs with explicit curve or scalar state targets, request tire-informed target curves from reviewed provider data, and consume explicit vehicle operating-state records from MOD-VEH-0001, but may not duplicate, approximate, fit, or replace rigid closure, wheel-plane projection, branch, singularity, Ackermann, ratio, turning-path, load-transfer, or vehicle-equilibrium calculations."
+result_rule = "Optimizer and multi-state results must retain complete evaluator diagnostics, provider provenance, and individual objective contributions for accepted or rejected states. Supplemental screening, sensitivity, pose, external-adapter, curve-target, scalar state-metric, tire-informed target, and vehicle-state records preserve underlying analyzer/source results rather than replacing them."
 
 [permitted]
 items = [
@@ -70,6 +75,7 @@ items = [
   "Standard-library TIR metadata parsing and optional SciPy-backed MATLAB TTC channel ingestion as source adapters; neither path is a second tire-force evaluator and SciPy is not a required runtime dependency.",
   "A tire-informed differential steering target adapter that reuses the reviewed exact Ackermann helper, preserves an explicit base inside-wheel heading trajectory, and adds only a caller-visible utilization-scaled outside-minus-inside peak-slip correction to the outside-wheel Ackermann reference.",
   "Historical MATLAB/Magic Formula model-chain values as external integration evidence while keeping its historical 2/3 force/moment scaling assumption separate from the TTC-derived tire provider.",
+  "Consumption of AUTH-VEH-0001 / MOD-VEH-0001 explicit vehicle operating-state records carrying four-wheel values, missing-data reasons, source authority, canonical sign conversion, and evidence/report/design role without steering-native load-transfer equations.",
   "Return of multiple feasible candidates together with transparent objective contributions, hard-constraint margins, provider provenance, tire operating points, and convenience ranking."
 ]
 
@@ -80,18 +86,19 @@ items = [
   "Feeding a suspension pose that already contains tie-rod-induced steering or bump-steer response into MOD-STEER-0001 as an unresolved zero-steer pose.",
   "Hidden vendor-specific axis, handedness, Euler-order, sign, length-unit, or frame conversions inside the steering external-pose adapter.",
   "Silently applying a nominal or historical target to an unlisted non-nominal suspension state.",
-  "Treating synthetic operating-state target curves, scalar state targets, state weights, pose transforms, the PR28 TTC reference pair, or its utilization schedule as WUFR vehicle-dynamics design truth.",
+  "Treating synthetic operating-state target curves, scalar state targets, state weights, pose transforms, the PR28 TTC reference pair, its utilization schedule, or PR29 development wheel-load states as WUFR vehicle-dynamics design truth.",
   "Treating the OptimumK Steering Toe Angle Gain channel labeled with unit '-' as equivalent to the centered rack-to-wheel gain in deg/mm without a separately reviewed input/transmission and convention conversion.",
   "Treating the Hoosier 43105 R25B source and Hoosier 43104 R20 intended tire as literal compound or part-number identity; the current relationship is an explicit engineering-equivalence proxy decision.",
   "Using a source peak-slip value at the +/-12 deg TTC sweep boundary as a verified true peak for target generation without separate evidence.",
   "Extrapolating tire pressure, inclination, or normal load outside the reviewed summary grid or hiding interpolation/source censoring from target provenance.",
   "Applying the historical 2/3 sandpaper-to-track force or moment scale automatically inside the tire-data layer.",
   "A Python Magic Formula rewrite, full combined-slip tire-force solver, transient tire model, or vehicle equilibrium/load-transfer solver in this steering-target authorization.",
-  "Treating manually supplied wheel loads, cambers, pressures, or slip-utilization schedules as production WUFR operating-state truth or claiming production tire-optimal steering from them.",
+  "Treating manually or development-source supplied wheel loads, cambers, pressures, force demands, or slip-utilization schedules as production WUFR operating-state truth or claiming production tire-optimal steering from them.",
+  "Clipping negative vehicle-state normal loads, inventing missing camber/pressure/Fy/Fx, or treating successful MOD-VEH-0001 ingestion as validation of upstream vehicle physics.",
   "Hidden relaxation of hard constraints, alternate-root substitution, clipping, extrapolation, or penalty-only treatment of infeasible mechanisms.",
   "Treating unavailable hardware or installed-state evidence as a passed constraint.",
   "Production geometry ranking, WUFR-27 redesign authority, WUFR-28 release authority, or automatic CAD modification.",
-  "Native suspension bump, rebound, roll, pitch, heave, or wheel-travel kinematics calculations inside the steering package.",
+  "Native suspension bump, rebound, roll, pitch, heave, wheel-travel, load-transfer, or vehicle-equilibrium calculations inside the steering package.",
   "Steering effort, rack loads, compliance, backlash, friction, tolerance propagation, or transient steering physics without their later reviewed provider/model gates.",
   "Describing local finite-difference sensitivity as manufacturing tolerance, uncertainty propagation, or robustness analysis.",
   "Reinforcement-learning, genetic, or other learned/global optimization claims before deterministic baseline methods and benchmark burdens are established.",
@@ -106,16 +113,17 @@ tie_rod_length_role = "derived_output_at_nominal_reference_then_fixed_across_pos
 
 [provider_contracts]
 pose_provider = "Implemented provider-neutral contract returns left/right rigid upright transforms, named state coordinates, source authority, and steering_dof_rule=upright_reference_pose_excludes_tie_rod_steering_rotation. Reviewed WUFR/OptimumK/CAD/native-solver pose authority remains open."
-target_provider = "Historical/analyzer targets, OperatingStateTargetSet, StateMetricTargetSet, and a bounded tire-informed differential target route are implemented. The tire route consumes TireLateralSummaryGrid plus explicit inside/outside TireOperatingPoint values and an explicit slip-utilization schedule. Full WUFR vehicle force-demand/load-state generation remains open."
+target_provider = "Historical/analyzer targets, OperatingStateTargetSet, StateMetricTargetSet, and a bounded tire-informed differential target route are implemented. The tire route consumes TireLateralSummaryGrid plus explicit inside/outside TireOperatingPoint values and an explicit slip-utilization schedule. Force-demand-to-slip-angle target generation remains open."
 tire_data_provider = "TireLateralSummaryGrid is a reusable source-preserving lateral summary, not a Magic Formula evaluator. Current reviewed steering source is Hoosier 43105 R25B TTC data as the explicitly authorized engineering proxy for the intended Hoosier 43104 R20; TIR metadata and optional MAT channel readers support later source ingestion without becoming core dependencies."
+vehicle_operating_state_provider = "AUTH-VEH-0001 / MOD-VEH-0001 supplies explicit vehicle and four-wheel operating-state records with source authority, role, canonical sign conversion, missing-data reasons, and optional Fz/inclination/pressure/Fy/Fx. It performs no load-transfer or equilibrium equations. The first Suspension Calculations 2026 states are evidence-only and incomplete for production tire targeting."
 constraint_provider = "Returns active, failed, or unavailable named constraints with value, limits, margin, units, state, authority, blocking status, and missing-evidence reason. The implemented development set is screening authority only, not hardware authority."
 rack_load_provider = "Future provider returns rack-force or column-torque envelopes with operating-state and uncertainty metadata. No load physics is implemented here."
 uncertainty_provider = "Future provider returns named parameter distributions or bounded perturbations. No robustness claim is authorized."
 physical_parameter_provider = "Future provider returns calibrated transmission, deadband, compliance, stops, and as-built observations without changing the rigid evaluator equations. Implementation is explicitly deferred until required physical data exist."
 
 [candidate_results]
-required = ["candidate and requirement-set IDs", "complete generated nominal geometry", "complete MOD-STEER-0001 sweep result", "feasibility status and named failure reason", "margin to every active hard constraint", "unavailable constraint records and missing-evidence reasons", "individual normalized and unnormalized objective contributions", "solver initialization and termination status", "alternative feasible or nondominated candidates", "local sensitivity records where requested", "ranking and candidate-separation explanation", "pose-set and state IDs when suspension states are evaluated", "pose source and adapter provenance", "state-dependent headings, dynamic toe, branch, and singularity diagnostics", "operating-state target role and residual summary", "state-metric target and residual summary", "tire grid/source/intended tire identity, inside/outside operating points, source censoring disposition, slip-utilization schedule, and differential correction provenance when tire-informed targets are used", "aggregate-objective method and every constituent state or state-metric contribution", "source and configuration provenance"]
-ranking_rule = "A convenience ranking may be provided, but the candidate set and individual tradeoffs remain visible. Hard-constraint violations cannot be compensated by objective score. Unavailable constraints remain visible and prevent hardware-feasible claims. Tire-informed targets gain no production vehicle authority merely because a TTC proxy and software benchmark exist."
+required = ["candidate and requirement-set IDs", "complete generated nominal geometry", "complete MOD-STEER-0001 sweep result", "feasibility status and named failure reason", "margin to every active hard constraint", "unavailable constraint records and missing-evidence reasons", "individual normalized and unnormalized objective contributions", "solver initialization and termination status", "alternative feasible or nondominated candidates", "local sensitivity records where requested", "ranking and candidate-separation explanation", "pose-set and state IDs when suspension states are evaluated", "pose source and adapter provenance", "state-dependent headings, dynamic toe, branch, and singularity diagnostics", "operating-state target role and residual summary", "state-metric target and residual summary", "tire grid/source/intended tire identity, inside/outside operating points, source censoring disposition, slip-utilization schedule, and differential correction provenance when tire-informed targets are used", "vehicle operating-state ID, role, source revision, canonical sign convention, wheel identities, supplied/missing quantities, and source authority when MOD-VEH-0001 states are used", "aggregate-objective method and every constituent state or state-metric contribution", "source and configuration provenance"]
+ranking_rule = "A convenience ranking may be provided, but the candidate set and individual tradeoffs remain visible. Hard-constraint violations cannot be compensated by objective score. Unavailable constraints remain visible and prevent hardware-feasible claims. Tire-informed targets gain no production vehicle authority merely because a TTC proxy, vehicle-state evidence fixture, and software benchmark exist."
 
 [required_before_geometry_generator_merge]
 items = ["Role resolver maps requirement-set items without WUFR-specific variable behavior in code.", "Zero-offset candidate reconstructs WUFR27_STEERING_BASELINE_V0.", "Tie-rod length is derived from joint centers.", "Reflection tests cover geometry and source roles.", "Development bounds are explicit.", "No optimizer ranking is merged with the geometry-generator pull request."]
@@ -183,12 +191,30 @@ items = [
   "Historical MATLAB/Magic Formula outputs remain reference evidence and their 2/3 force/moment scale is not silently promoted into the TTC tire provider.",
   "BENCH-STEER-0020 and unit tests freeze the uncensored 9.6/10.9 deg reference pair, 1.3 deg differential, censoring behavior, target symmetry, and existing-evaluator composition."
 ]
-status = "implemented_for_PR28_review"
+status = "complete_in_PR28"
+merge_commit = "5ec28ed1932994c75ff616e4d208912259895f7e"
 benchmark_ids = ["BENCH-STEER-0020"]
 implementation_tests = "tests/test_tire_lateral_summary.py; tests/test_steering_tire_targets.py"
 benchmark_report_script = "scripts/run_steering_tire_target_benchmarks.py"
 tire_summary = "benchmarks/tires/WUFR26_H43105_R25B_LATERAL_SUMMARY_V0.toml"
 matlab_reference = "benchmarks/tires/WUFR26_H43105_R25B_MATLAB_REFERENCE_V0.toml"
+
+[required_before_vehicle_operating_state_provider_merge]
+items = [
+  "MOD-VEH-0001 is separately bounded by AUTH-VEH-0001 and contains no load-transfer, aero, suspension-motion, tire-force, or vehicle-equilibrium equations.",
+  "The first source fixture preserves source path/revision, canonical body axes, source-to-canonical lateral-acceleration sign conversion, wheel identities, role, and missing-data reasons.",
+  "Current Suspension Calculations 2026 1.2g states remain evidence_only with zero design weight and do not silently become tire/steering design authority.",
+  "Missing inclination, pressure, Fy/Fx demand, and suspension-pose authority remain unavailable rather than inferred.",
+  "Front inside/outside assignment preserves FR/FL for right turns and FL/FR for left turns.",
+  "Negative source normal loads are rejected rather than clipped; the current -285.3358453 N rear-left 1.7g draft remains source-audit evidence only.",
+  "BENCH-VEH-0001 and unit tests freeze exact state values, missing-field behavior, explicit TireOperatingPoint composition, and source-audit rejection."
+]
+status = "implemented_for_PR29_review"
+benchmark_ids = ["BENCH-VEH-0001"]
+authorization = "authorizations/vehicle/AUTH-VEH-0001.toml"
+implementation_tests = "tests/test_vehicle_operating_states.py; tests/test_vehicle_tire_bridge.py; tests/test_vehicle_operating_state_freeze.py"
+benchmark_report_script = "scripts/run_vehicle_operating_state_benchmarks.py"
+fixture = "benchmarks/vehicle/WUFR27_SUSPENSION_CALCULATIONS_OPERATING_STATES_V0.toml"
 
 [promotion_gates]
 items = [
@@ -196,7 +222,7 @@ items = [
   "Reviewed packaging, articulation, thread-engagement, rack, steering-arm, and manufacturing constraints before hardware-feasible ranking claims.",
   "Reviewed external/native pose data before WUFR suspension-state response claims.",
   "Explicit operating-state curve or scalar state-metric target definitions and source authority before state-dependent response enters ranking.",
-  "For production-relevant tire-informed targets, reviewed WUFR wheel-load/camber/pressure/force-demand states must replace the PR28 development reference pair and utilization schedule.",
+  "For production-relevant tire-informed targets, reviewed WUFR wheel-load/camber/pressure/force-demand design-input states must replace the PR28 development reference pair and the PR29 evidence-only load states.",
   "Reviewed rack-load or effort model before steering-effort optimization.",
   "Reviewed tolerance and uncertainty model before robustness claims.",
   "Physical Level F evidence before as-built or installed-performance claims.",
@@ -220,3 +246,6 @@ state_metric_objective_implementation = "docs/models/steering/steering_state_met
 state_metric_objective_review = "docs/reviews/phase1_steering_state_metric_objectives_review.md"
 tire_informed_target_implementation = "docs/models/steering/steering_tire_informed_targets_implementation_v0.1.0.md"
 tire_informed_target_review = "docs/reviews/phase1_steering_tire_informed_target_review.md"
+vehicle_operating_state_authorization = "authorizations/vehicle/AUTH-VEH-0001.toml"
+vehicle_operating_state_implementation = "docs/models/vehicle/vehicle_operating_state_provider_implementation_v0.1.0.md"
+vehicle_operating_state_review = "docs/reviews/phase1_vehicle_operating_state_provider_review.md"
