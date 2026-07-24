@@ -22,7 +22,13 @@ Evaluated-minus-target residual for FIG-STEER-RND-001. This exposes small differ
 
 Historical steering target compared with the bounded R25B peak-slip-informed development target from BENCH-STEER-0020. Source tire identity remains Hoosier 43105 R25B and intended tire identity remains Hoosier 43104 R20.
 
-The reference inside/outside loads, camber, pressure, and slip-utilization schedule are development inputs. The plot is useful for showing the direction and magnitude of the tire correction, but it is not a production tire-optimal steering target.
+The reference inside/outside loads, camber, pressure, and slip-utilization schedule are development inputs. The plot is useful for showing the absolute target curves, but it is not a production tire-optimal steering target.
+
+### FIG-STEER-RND-005
+
+Direct R25B peak-slip-informed target correction relative to the historical target. This plots alternate-minus-baseline heading for the left and right wheels so the relatively small tire-informed correction remains readable even where the absolute target curves nearly overlap.
+
+It carries the same development-input and engineering-proxy boundaries as FIG-STEER-RND-003.
 
 ### FIG-TIRE-RND-001
 
@@ -40,7 +46,7 @@ This is software/kinematic evidence only and not a WUFR handling prediction.
 
 ## Architecture boundary
 
-The model-specific orchestration script may call reviewed upstream evaluators and benchmark reporters to obtain solved values. `pssd_viz.steering_figures` only packages already-computed values and simple report residuals into `EngineeringFigureSpec` objects.
+The model-specific orchestration script may call reviewed upstream evaluators and benchmark reporters to obtain solved values. `pssd_viz.steering_figures` only packages already-computed values and simple report residuals/differences into `EngineeringFigureSpec` objects.
 
 No model-specific figure builder is allowed to:
 
