@@ -1,0 +1,24 @@
+[record]
+id = "EQ-VEH-0001"
+type = "equation"
+title = "Planar rigid-body wheel-center velocity field"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Calculate the longitudinal and lateral body-frame velocity components of an explicitly located wheel center from an already-supplied planar vehicle motion state (u, v, r)."
+outputs = ["Wheel-center longitudinal velocity Vx", "Wheel-center lateral velocity Vy", "Wheel-center speed and velocity heading"]
+inputs = ["Body-frame longitudinal velocity u", "Body-frame lateral velocity v", "Yaw rate r", "Wheel-center body-frame coordinates x and y"]
+assumptions = [
+  "Planar rigid-body vehicle kinematics; wheel-center vertical velocity is outside this equation.",
+  "Canonical body axes are +x forward, +y vehicle left, +z upward, with positive yaw rate by the right-hand rule about +z.",
+  "The motion state u, v, r is supplied externally; this equation does not solve vehicle equilibrium, sideslip response, or yaw response.",
+  "Wheel-center coordinates are explicitly referenced to the vehicle CG/body origin used by the motion state."
+]
+verification_level = "B"
+canonical_equation = "Vx_j = u - r*y_j; Vy_j = v + r*x_j"
+source_basis = [
+  "Guiggiani (2022), The Science of Vehicle Dynamics, Section 3.3, equations 3.53-3.54 for the front wheel centers, with the standard planar rigid-body velocity field generalized to any wheel-center (x_j,y_j)."
+]
+validity = "Finite planar motion and wheel-center coordinates; wheel-center velocity magnitude must be nonzero when a velocity direction is requested."
+failure_behavior = ["Reject nonfinite motion/geometry inputs", "Reject a wheel-center velocity direction when speed is numerically zero", "Do not infer u, v, or r from steering input or lateral acceleration"]
+benchmark_ids = ["BENCH-VEH-0002"]
