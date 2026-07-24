@@ -1,0 +1,56 @@
+version = "0.1.0"
+authorization_id = "AUTH-VEH-0002"
+status = "review_ready"
+title = "Planar wheel-velocity and tire-slip kinematics authorization"
+effective_condition = "Effective only after review and merge of PR #33. This authorization permits exact planar kinematic transformation of explicitly supplied body motion into wheel-center velocity headings and tire-slip geometry; it does not authorize prediction of the body motion itself."
+review_record = "docs/reviews/phase1_planar_slip_kinematics_review.md"
+
+[scope]
+model_ids = ["MOD-VEH-0002"]
+equation_ids = ["EQ-VEH-0001", "EQ-VEH-0002", "EQ-VEH-0003"]
+benchmark_ids = ["BENCH-VEH-0002", "BENCH-STEER-0023"]
+implementation_package = "src/pssd_vehicle"
+steering_adapter = "src/pssd_steering/optimization/motion_force_targets.py"
+
+[permitted]
+items = [
+  "Represent an externally supplied planar body-motion sample with canonical body-frame longitudinal velocity u, lateral velocity v, and yaw rate r.",
+  "Represent an ordered planar motion schedule keyed to an existing operating-state/steering sample order while preserving source authority and provenance.",
+  "Represent explicit wheel-center body-frame x/y coordinates relative to the same CG/body origin used by the supplied motion state.",
+  "Evaluate exact rigid-body wheel-center velocity components Vx=u-r*y and Vy=v+r*x.",
+  "Compute wheel-center velocity heading beta_hat=atan2(Vy,Vx) when the wheel-center speed is nonzero.",
+  "Compute diagnostic velocity-center coordinates R=u/r and S=-v/r when yaw rate is nonzero, with no sentinel value when r=0.",
+  "Use the project-canonical signed tire-slip convention alpha=delta-beta_hat and invert it as delta_required=beta_hat+alpha_required.",
+  "Combine separately reviewed PR30 force-demand tire-slip magnitudes with an explicitly supplied planar motion state to form left and right wheel-heading targets independently.",
+  "Convert the resulting total wheel headings to incremental-from-pose steering targets using the same centered wheel-plane reference convention as MOD-STEER-0001.",
+  "Classify pro/parallel/anti-Ackermann only when both incremental wheel headings form a meaningful same-direction turn pair; otherwise report the regime as not classified.",
+  "Use synthetic u-v-r schedules and tire branches only for limiting-case and software-composition verification."
+]
+
+[prohibited]
+items = [
+  "Solving or inferring u, v, r, body sideslip, yaw rate, path curvature, velocity-center location, or lateral acceleration response from steering input inside this provider.",
+  "Using MOD-VEH-0001 scalar speed_mps as body longitudinal velocity u without an explicit source declaration that the quantities are equivalent for that state.",
+  "Assuming the velocity center lies on the rear axle for high lateral-acceleration operation unless that condition is explicitly supplied or derived by a separately reviewed upstream model.",
+  "Vehicle force or moment equilibrium, bicycle-model response, load transfer, LLTD, roll/pitch equilibrium, aero balance, suspension kinematics, or transient integration.",
+  "Tire-force, Magic Formula, combined-slip, transient tire, thermal, wear, or road-surface scaling calculation.",
+  "Inferring missing tire force demand, Fz, inclination, pressure, or required slip from the planar motion state.",
+  "Treating a synthetic motion schedule or current development spreadsheet as WUFR vehicle-motion truth.",
+  "Silently replacing a supplied u-v-r state with low-speed Ackermann kinematics when a motion-aware target is requested.",
+  "Production steering ranking or global pro/anti-Ackermann claims without reviewed vehicle motion, wheel operating states, tire response, and state weighting."
+]
+
+[source_boundary]
+primary_literature = "Guiggiani (2022), The Science of Vehicle Dynamics, Sections 3.2.3, 3.3, and 3.4.2-3.4.3."
+project_frame = "+x forward, +y vehicle left, +z upward"
+slip_sign = "alpha = wheel heading delta - wheel-center velocity heading beta_hat"
+current_wufr_motion_source_status = "No reviewed WUFR u-v-r schedule has yet been promoted for steering target generation. Current PR29 vehicle states and load-transfer sheets do not supply reviewed body lateral velocity/yaw-rate schedules."
+
+[promotion_gates]
+items = [
+  "A reviewed QSS, telemetry, multibody, or other vehicle-motion source supplies u, v, and r on the same body frame/origin and sample states used by downstream steering targets.",
+  "Wheel-center x/y geometry is tied to a reviewed vehicle geometry source rather than a synthetic benchmark fixture.",
+  "The planar motion state is synchronized with reviewed per-wheel Fz, inclination, pressure, and Fy demand before tire-required slip is used for WUFR steering ranking.",
+  "Any transient use establishes time alignment, filtering, and measurement/model uncertainty separately.",
+  "State weighting and production/design authority are reviewed before optimization claims."
+]
