@@ -84,7 +84,7 @@ def main() -> None:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("visualization_foundation_smoke"),
+        default=Path("reports/generated/visualization_foundation_smoke"),
     )
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
