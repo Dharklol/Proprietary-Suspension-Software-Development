@@ -15,12 +15,14 @@ acceptance_criteria = [
   "Slip utilization is a visible caller-supplied schedule with zero at rack center; no hidden force-demand or vehicle equilibrium model is introduced.",
   "The resulting OperatingStateTargetSet is consumable by the existing operating-state evaluator, so MOD-STEER-0001 remains the only steering-kinematics authority.",
   "The historical MATLAB/Magic Formula model chain is frozen as integration evidence only, including its 2/3 force/moment scale caveat, and that scale is not promoted into the Python tire provider.",
-  "TIR metadata parsing uses the standard library and MATLAB MAT ingestion remains optional through SciPy rather than a required package dependency."
+  "TIR metadata parsing uses the standard library and MATLAB MAT ingestion remains optional through SciPy rather than a required package dependency.",
+  "The frozen reference candidate remains mechanism-feasible and evaluates to total tire-informed target objective 0.6849216410264974 for the development target."
 ]
 fixture = "benchmarks/tires/WUFR26_H43105_R25B_LATERAL_SUMMARY_V0.toml"
 external_reference = "benchmarks/tires/WUFR26_H43105_R25B_MATLAB_REFERENCE_V0.toml"
-implementation_tests = ["tests/test_tire_lateral_summary.py", "tests/test_steering_tire_targets.py"]
+implementation_tests = ["tests/test_tire_lateral_summary.py", "tests/test_steering_tire_targets.py", "tests/test_steering_tire_target_freeze.py"]
 report_script = "scripts/run_steering_tire_target_benchmarks.py"
+result_record = "benchmarks/steering/steering_tire_informed_target_result_v0.1.0.toml"
 literature_basis = [
   "Guiggiani, The Science of Vehicle Dynamics (2022), Sections 3.4.1-3.4.3 on Ackermann, best steering geometry, and relative tire slips",
   "Pacejka, Tyre and Vehicle Dynamics, steady-state lateral force/slip-angle dependence on load, inclination, and pressure",
