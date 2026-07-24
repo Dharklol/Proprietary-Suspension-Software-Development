@@ -38,6 +38,7 @@ implementation_package = "src/pssd_vehicle"
 implementation_tests = ["tests/test_vehicle_operating_states.py", "tests/test_vehicle_tire_bridge.py", "tests/test_vehicle_operating_state_freeze.py"]
 benchmark_report_script = "scripts/run_vehicle_operating_state_benchmarks.py"
 first_fixture = "benchmarks/vehicle/WUFR27_SUSPENSION_CALCULATIONS_OPERATING_STATES_V0.toml"
+result_record = "benchmarks/vehicle/vehicle_operating_state_result_v0.1.0.toml"
 consumer_model_ids = ["MOD-STEER-0002"]
 future_consumers = ["tire force-demand inversion", "LLTD/handling studies", "QSS/lap simulation", "rack-load/steering-effort provider"]
 prohibited_scope = "Native load-transfer or vehicle-equilibrium equations, hidden sign conversion, negative-load clipping, inferred camber/pressure/Fy/Fx, source-authority promotion, or production WUFR design claims from development spreadsheet states."
