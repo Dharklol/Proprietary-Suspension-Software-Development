@@ -15,5 +15,6 @@ acceptance_criteria = [
   "Zero wheel-center speed is rejected when a velocity heading/tire slip is requested.",
   "No benchmark step solves vehicle force equilibrium, load transfer, tire force, or body-motion response."
 ]
-implementation_tests = ["tests/test_planar_slip_kinematics.py"]
+implementation_tests = ["tests/test_planar_slip_kinematics.py", "tests/test_motion_aware_force_demand_freeze.py"]
 report_script = "scripts/run_planar_slip_kinematics_benchmarks.py"
+result_record = "benchmarks/vehicle/planar_slip_kinematics_result_v0.1.0.toml"
