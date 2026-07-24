@@ -1,0 +1,29 @@
+[record]
+id = "BENCH-STEER-0020"
+type = "benchmark"
+title = "TTC-derived tire-informed differential steering target composition"
+status = "proposed"
+description = "Verify that a bounded, dependency-light tire summary can supply explicit inside/outside peak-slip information to the existing steering operating-target contract without duplicating MOD-STEER-0001, silently extrapolating TTC data, promoting censored sweep endpoints, or requiring MATLAB/Magic Formula at steering runtime."
+verification_level = "B"
+target_ids = ["MOD-STEER-0002", "MOD-STEER-0001"]
+acceptance_criteria = [
+  "The frozen Hoosier 43105 R25B TTC summary preserves source and intended 43104 R20 identities separately under the explicit project engineering-equivalence decision.",
+  "At P=83 kPa, the uncensored development reference pair returns inside peak slip magnitude 9.6 deg at Fz=222 N, IA=0 deg and outside peak slip magnitude 10.9 deg at Fz=1112 N, IA=2 deg, for outside-minus-inside differential 1.3 deg.",
+  "Peak-slip target generation rejects any interpolation stencil touching a source value censored at the +/-12 deg TTC sweep boundary.",
+  "Tire summary interpolation is bounded trilinear interpolation with no extrapolation.",
+  "The steering adapter reuses EQ-STEER-0001 exact Ackermann through the existing derived helper and preserves the base inside-wheel heading while applying only an explicit slip-differential correction to the outside reference.",
+  "Slip utilization is a visible caller-supplied schedule with zero at rack center; no hidden force-demand or vehicle equilibrium model is introduced.",
+  "The resulting OperatingStateTargetSet is consumable by the existing operating-state evaluator, so MOD-STEER-0001 remains the only steering-kinematics authority.",
+  "The historical MATLAB/Magic Formula model chain is frozen as integration evidence only, including its 2/3 force/moment scale caveat, and that scale is not promoted into the Python tire provider.",
+  "TIR metadata parsing uses the standard library and MATLAB MAT ingestion remains optional through SciPy rather than a required package dependency."
+]
+fixture = "benchmarks/tires/WUFR26_H43105_R25B_LATERAL_SUMMARY_V0.toml"
+external_reference = "benchmarks/tires/WUFR26_H43105_R25B_MATLAB_REFERENCE_V0.toml"
+implementation_tests = ["tests/test_tire_lateral_summary.py", "tests/test_steering_tire_targets.py"]
+report_script = "scripts/run_steering_tire_target_benchmarks.py"
+literature_basis = [
+  "Guiggiani, The Science of Vehicle Dynamics (2022), Sections 3.4.1-3.4.3 on Ackermann, best steering geometry, and relative tire slips",
+  "Pacejka, Tyre and Vehicle Dynamics, steady-state lateral force/slip-angle dependence on load, inclination, and pressure",
+  "FSAE Tire Test Consortium Round 6 Hoosier 43105 cornering runs 21 and 22",
+  "WUFR Tire Modeling and Data Analysis in the FSAE Context and historical MATLAB Magic Formula model chain"
+]
