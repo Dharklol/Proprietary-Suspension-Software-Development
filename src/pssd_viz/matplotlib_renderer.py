@@ -20,6 +20,38 @@ class VisualizationDependencyError(RuntimeError):
 
 _LINE_STYLES = ("-", "--", "-.", ":")
 
+# Presentation aliases only. The underlying figure contract keeps the repository's
+# canonical quantity wording; exported engineering graphics add conventional symbols
+# where the quantity mapping is unambiguous.
+_STANDARD_QUANTITY_LABELS = {
+    "Steering input": ("Steering input angle", "δ_in"),
+    "Centered projected road-wheel heading": ("Road-wheel steer angle", "δ"),
+    "Evaluated minus target wheel heading": ("Steer-angle residual", "Δδ"),
+    "Target road-wheel heading": ("Road-wheel steer-angle target", "δ_target"),
+    "Alternate minus baseline target heading": ("Target steer-angle correction", "Δδ_target"),
+    "Slip-angle magnitude": ("Slip-angle magnitude", "|α|"),
+    "Lateral-force magnitude": ("Lateral tire-force magnitude", "|F_y|"),
+    "Velocity-center longitudinal position S": ("Velocity-center longitudinal position", "S"),
+    "Required incremental wheel heading": ("Required road-wheel steer angle", "δ_req"),
+}
+
+_STANDARD_SERIES_LABELS = {
+    "left target": "Left target, δ_L,target",
+    "right target": "Right target, δ_R,target",
+    "left evaluated": "Left evaluated, δ_L",
+    "right evaluated": "Right evaluated, δ_R",
+    "left residual": "Left residual, Δδ_L",
+    "right residual": "Right residual, Δδ_R",
+    "baseline left": "Baseline left, δ_L,base",
+    "baseline right": "Baseline right, δ_R,base",
+    "alternate left": "Alternate left, δ_L,alt",
+    "alternate right": "Alternate right, δ_R,alt",
+    "left target correction": "Left target correction, Δδ_L,target",
+    "right target correction": "Right target correction, Δδ_R,target",
+    "left required heading": "Left required, δ_L,req",
+    "right required heading": "Right required, δ_R,req",
+}
+
 
 def render_engineering_figure(
     spec: EngineeringFigureSpec,
@@ -43,6 +75,7 @@ def render_engineering_figure(
 
     rc = {
         "svg.hashsalt": "pssd-viz-v0.1.0",
+        "svg.fonttype": "none",
         "axes.grid": True,
         "grid.alpha": 0.25,
         "grid.linewidth": 0.5,
@@ -92,16 +125,31 @@ def render_engineering_figure(
             plt.close(fig)
 
 
+def _display_quantity_label(quantity: str, unit: str) -> str:
+    term_symbol = _STANDARD_QUANTITY_LABELS.get(quantity)
+    if term_symbol is None:
+        base = quantity
+    else:
+        term, symbol = term_symbol
+        base = f"{term}, {symbol}"
+    normalized_unit = unit.strip()
+    return base if not normalized_unit or normalized_unit == "-" else f"{base} [{normalized_unit}]"
+
+
+def _display_series_label(label: str) -> str:
+    return _STANDARD_SERIES_LABELS.get(label, label)
+
+
 def _render_available(ax, spec: EngineeringFigureSpec) -> None:
     for index, series in enumerate(spec.series):
         ax.plot(
             series.x,
             series.y,
-            label=series.label,
+            label=_display_series_label(series.label),
             linestyle=_LINE_STYLES[index % len(_LINE_STYLES)],
         )
-    ax.set_xlabel(spec.metadata.x_axis_label)
-    ax.set_ylabel(spec.metadata.y_axis_label)
+    ax.set_xlabel(_display_quantity_label(spec.metadata.x_quantity, spec.metadata.x_unit))
+    ax.set_ylabel(_display_quantity_label(spec.metadata.y_quantity, spec.metadata.y_unit))
     if len(spec.series) > 1 or spec.series[0].label:
         ax.legend()
 
