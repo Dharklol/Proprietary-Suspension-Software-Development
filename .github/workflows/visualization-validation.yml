@@ -16,14 +16,26 @@ jobs:
       - name: Install visualization extras
         run: python -m pip install -e '.[viz]'
       - name: Run visualization tests
-        run: python -m unittest tests.test_visualization_foundation -v
+        run: |
+          python -m unittest tests.test_visualization_foundation -v
+          python -m unittest tests.test_steering_figure_suite -v
       - name: Generate visualization smoke report
         run: |
           python scripts/run_visualization_foundation_smoke.py \
             --output-dir visualization_foundation_smoke
+      - name: Generate steering R&D figure suite
+        run: |
+          python scripts/run_steering_figure_suite.py \
+            --output-dir steering_rnd_figure_suite
       - name: Upload visualization smoke report
         uses: actions/upload-artifact@v4
         with:
           name: visualization-foundation-smoke
           path: visualization_foundation_smoke
+          if-no-files-found: error
+      - name: Upload steering R&D figure suite
+        uses: actions/upload-artifact@v4
+        with:
+          name: steering-rnd-figure-suite
+          path: steering_rnd_figure_suite
           if-no-files-found: error
