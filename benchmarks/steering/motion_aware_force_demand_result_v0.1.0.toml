@@ -1,0 +1,48 @@
+version = "0.1.0"
+result_id = "MOTION-AWARE-FORCE-DEMAND-STEERING-BENCHMARKS-V0"
+benchmark_id = "BENCH-STEER-0023"
+authorization_ids = ["AUTH-STEER-0004", "AUTH-VEH-0002", "AUTH-STEER-0003"]
+evaluator_model_id = "MOD-STEER-0001"
+vehicle_kinematics_model_id = "MOD-VEH-0002"
+authority_boundary = "Synthetic u-v-r schedules and synthetic tire force branches prove software composition and velocity-center dependence only. They are not WUFR vehicle/tire design truth."
+production_claim = false
+
+[same_tire_demands_velocity_center_comparison]
+inside_required_slip_deg = 2.5
+outside_required_slip_deg = 9.714285714285714
+interpretation = "The tire operating points and force demands are identical between the two cases; only the supplied planar vehicle motion/velocity-center location changes."
+
+[same_tire_demands_velocity_center_comparison.rear_axle_velocity_center]
+S_m = -0.7624
+left_heading_deg = 41.93100064746157
+right_heading_deg = 36.46238987720719
+regime = "pro_ackermann"
+
+[same_tire_demands_velocity_center_comparison.front_axle_velocity_center]
+S_m = 0.8
+left_heading_deg = 2.4999999999999973
+right_heading_deg = 9.714285714285717
+regime = "anti_ackermann"
+
+[target_states.nominal]
+motion_description = "Synthetic velocity center on rear axle, S=-a2, with yaw-rate magnitude proportional to steering-input utilization."
+regime_counts = "anti_ackermann:0,not_classified:0,parallel:1,pro_ackermann:14"
+ackermann_anchor_used = false
+target_mapping = "wheel_velocity_heading_plus_required_tire_slip"
+left_endpoint_targets_deg = [35.4623898772072, -42.93100064746156]
+right_endpoint_targets_deg = [42.93100064746156, -35.4623898772072]
+
+[target_states.symmetric_bump_5mm]
+motion_description = "Synthetic S=a1 velocity-center state; the suspension pose ID is reused only to exercise multi-state composition and is not a physical synchronization claim."
+regime_counts = "anti_ackermann:10,not_classified:0,parallel:1,pro_ackermann:4"
+ackermann_anchor_used = false
+target_mapping = "wheel_velocity_heading_plus_required_tire_slip"
+left_endpoint_targets_deg = [8.714285714285728, -3.499999999999986]
+right_endpoint_targets_deg = [3.499999999999986, -8.714285714285728]
+
+[reference_candidate]
+candidate_id = "MOTION-AWARE-REFERENCE-CANDIDATE"
+feasible = true
+objective_count = 2
+total_objective = 62.46118922280387
+interpretation = "The large synthetic objective has no vehicle-performance authority; the acceptance criterion is successful composition through the existing mechanism evaluator."
