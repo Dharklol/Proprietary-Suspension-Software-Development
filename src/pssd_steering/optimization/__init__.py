@@ -7,10 +7,10 @@ provider-neutral suspension poses, external pose-table ingestion, multi-state
 steering evaluation, explicit operating-state target aggregation, explicit
 dynamic-toe and state-dependent steering-gain objectives, bounded tire-informed
 differential target generation, bounded force-demand tire-slip target generation,
-and machine-readable reports. Tire source parsing and lateral response surfaces
-live in the reusable ``pssd_tire`` package; effort, manufacturing, robustness,
-physical-correlation, and production-release models remain outside this
-implementation.
+motion-aware force-demand tire-slip target generation, and machine-readable reports.
+Tire source parsing and lateral response surfaces live in the reusable ``pssd_tire``
+package; effort, manufacturing, robustness, physical-correlation, and production-release
+models remain outside this implementation.
 """
 
 from .candidate_comparison import (
@@ -62,6 +62,12 @@ from .geometry import (
     GeneratedSteeringGeometry,
     generate_candidate_geometry,
     reflect_lateral,
+)
+from .motion_force_targets import (
+    MotionAwareForceDemandStateDefinition,
+    MotionAwareHeadingResult,
+    build_motion_aware_force_demand_operating_target_set,
+    motion_aware_force_demand_heading_pair,
 )
 from .multistate import (
     MultiStateSteeringEvaluation,
@@ -191,6 +197,8 @@ __all__ = [
     "GeneratedSteeringGeometry",
     "LocalFrameDefinition",
     "LocalSensitivityResult",
+    "MotionAwareForceDemandStateDefinition",
+    "MotionAwareHeadingResult",
     "MultiStateSteeringEvaluation",
     "ObjectiveContribution",
     "OperatingStateCandidateEvaluation",
@@ -244,6 +252,7 @@ __all__ = [
     "build_analyzer_state_metric_target_set",
     "build_candidate_comparison",
     "build_force_demand_operating_target_set",
+    "build_motion_aware_force_demand_operating_target_set",
     "build_tire_informed_operating_target_set",
     "candidate_comparison_report",
     "candidate_evaluation_report",
@@ -266,6 +275,7 @@ __all__ = [
     "load_synthetic_operating_target_fixture",
     "load_synthetic_recovery_fixture",
     "local_sensitivity_report",
+    "motion_aware_force_demand_heading_pair",
     "multi_state_steering_report",
     "operating_state_candidate_report",
     "operating_state_search_report",
