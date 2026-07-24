@@ -105,7 +105,11 @@ def load_mat_ttc_channels(
     conversion, curve fitting, or tire-force evaluation.
     """
 
-    if importlib.util.find_spec("scipy.io") is None:
+    try:
+        scipy_io_spec = importlib.util.find_spec("scipy.io")
+    except ModuleNotFoundError:
+        scipy_io_spec = None
+    if scipy_io_spec is None:
         raise TireOptionalDependencyError(
             "Reading MATLAB .mat files requires optional scipy; the core tire/steering package "
             "does not depend on scipy"
