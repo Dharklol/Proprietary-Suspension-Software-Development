@@ -155,17 +155,17 @@ id = "P0-STR-011"
 title = "WUFR-26 Level F uncertainty and physical correlation"
 status = "active"
 exit_criterion = "Existing whole-system free-play, historical compliance, calculated steering-load, and available-sensor evidence are source-linked; installed stops, primary-shaft-to-rack correlation, left/right rack-to-wheel response, repeatability, staged backlash/compliance attribution, sensor calibration, uncertainty, and an independently justified acceptance rule remain to be completed."
-critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, synthetic/external suspension-pose provider development, explicit nonphysical operating-state target aggregation, nonphysical scalar state-metric objective development, or bounded tire-target provider development from reviewed external tire data."
+critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, synthetic/external suspension-pose provider development, explicit nonphysical operating-state target aggregation, nonphysical scalar state-metric objective development, bounded tire-target provider development from reviewed external tire data, or source-preserving vehicle operating-state exchange development."
 
 [phase_1]
 status = "active"
-objective = "Build the steering vertical slice from the verified analyzer through nominal inverse design, explicit constraints, candidate comparison, suspension-state integration, and provider-ready operating-state objectives before unavailable physical data become necessary."
+objective = "Build the steering vertical slice from the verified analyzer through nominal inverse design, explicit constraints, candidate comparison, suspension-state integration, tire targets, and shared vehicle operating-state integration before unavailable physical data become necessary."
 
 [[phase_1.workstreams]]
 id = "P1-W01"
 title = "Steering inverse-design vertical slice"
 status = "active"
-exit_criterion = "A literature-grounded, analyzer-composed steering platform returns traceable feasible candidate sets across reviewed operating states and remains ready for tire, effort, robustness, and later physical-correlation providers."
+exit_criterion = "A literature-grounded, analyzer-composed steering platform returns traceable feasible candidate sets across reviewed operating states and remains ready for vehicle-state, tire, effort, robustness, and later physical-correlation providers."
 
 [[phase_1.tasks]]
 id = "P1-STR-001"
@@ -224,7 +224,7 @@ id = "P1-STR-006"
 title = "Steering higher-fidelity provider integration"
 status = "active"
 depends_on = ["P1-STR-004"]
-exit_criterion = "Reviewed suspension-pose, tire-target, rack-load/effort, uncertainty, and physical-parameter providers can be connected without replacing the analyzer or optimizer geometry contracts."
+exit_criterion = "Reviewed suspension-pose, vehicle-state, tire-target, rack-load/effort, uncertainty, and physical-parameter providers can be connected without replacing the analyzer or optimizer geometry contracts."
 
 [[phase_1.tasks]]
 id = "P1-STR-006A"
@@ -297,7 +297,7 @@ merge_record = "PR #27, merge commit 34e6c98f1f47e1b986777bf05249db8e54b89ff2"
 [[phase_1.tasks]]
 id = "P1-STR-006H"
 title = "Tire-informed differential steering target provider"
-status = "review_ready"
+status = "complete"
 depends_on = ["P1-STR-006C", "P1-STR-006G"]
 exit_criterion = "A source-preserving TTC-derived lateral tire summary can generate explicit differential steering target curves through the existing OperatingStateTargetSet using reviewed exact Ackermann, explicit inside/outside load-camber-pressure states, explicit slip-utilization scheduling, bounded interpolation, source-censor handling, and no second steering or tire-force evaluator."
 review_record = "docs/reviews/phase1_steering_tire_informed_target_review.md"
@@ -307,6 +307,22 @@ report_script = "scripts/run_steering_tire_target_benchmarks.py"
 tire_summary = "benchmarks/tires/WUFR26_H43105_R25B_LATERAL_SUMMARY_V0.toml"
 matlab_reference = "benchmarks/tires/WUFR26_H43105_R25B_MATLAB_REFERENCE_V0.toml"
 scope_note = "The Hoosier 43105 R25B TTC data are the explicitly authorized engineering proxy for the intended 43104 R20 while both identities remain visible. The benchmark wheel loads/cambers/pressure and utilization schedule are development inputs, not production WUFR operating-state authority."
+merge_record = "PR #28, merge commit 5ec28ed1932994c75ff616e4d208912259895f7e"
+
+[[phase_1.tasks]]
+id = "P1-STR-006I"
+title = "Vehicle operating-state provider bridge"
+status = "review_ready"
+depends_on = ["P1-STR-006H"]
+exit_criterion = "A shared source-preserving vehicle operating-state contract carries explicit four-wheel loads/camber/pressure/Fy/Fx availability, roles, weights, canonical sign conversion, source authority, and provenance; current development load states remain evidence-only and incomplete tire inputs remain unavailable without introducing load-transfer or vehicle-equilibrium equations."
+review_record = "docs/reviews/phase1_vehicle_operating_state_provider_review.md"
+implementation_record = "docs/models/vehicle/vehicle_operating_state_provider_implementation_v0.1.0.md"
+authorization_record = "authorizations/vehicle/AUTH-VEH-0001.toml"
+model_id = "MOD-VEH-0001"
+benchmark_ids = ["BENCH-VEH-0001"]
+report_script = "scripts/run_vehicle_operating_state_benchmarks.py"
+fixture = "benchmarks/vehicle/WUFR27_SUSPENSION_CALCULATIONS_OPERATING_STATES_V0.toml"
+scope_note = "The first WUFR fixture preserves current Suspension Calculations 2026 1.2g development wheel-load evidence only. Missing camber, pressure, Fy/Fx and suspension-pose authority remain unavailable; a current negative-Fz 1.7g draft is rejected rather than clipped."
 
 [[phase_1.tasks]]
 id = "P1-STR-006D"

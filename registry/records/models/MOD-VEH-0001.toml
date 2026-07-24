@@ -1,0 +1,44 @@
+[record]
+id = "MOD-VEH-0001"
+type = "model"
+title = "Explicit vehicle operating-state exchange provider"
+status = "active"
+disposition = "accepted_with_restrictions"
+maturity = "M1"
+description = "Source-preserving provider contract for already-determined vehicle and per-wheel operating states. It carries canonical acceleration/speed state, four explicit wheel quantities, missing-data reasons, role/weight, source authority, and provenance for downstream suspension, tire, steering, and future QSS consumers. It performs no load-transfer, aero, suspension-motion, tire-force, or vehicle-equilibrium calculation."
+inputs = [
+  "Explicit upstream vehicle state identifier, turn direction, longitudinal/lateral acceleration, and speed",
+  "Exactly four named wheel records with any supplied normal load, inclination/camber, pressure, lateral-force demand, and longitudinal-force demand",
+  "Explicit missing-data reasons for source quantities not supplied",
+  "State role and weight",
+  "Source path, revision/hash, authority, canonical frame/sign convention, and provenance"
+]
+outputs = [
+  "Validated VehicleOperatingStateSet with no hidden fill/default behavior",
+  "Per-state exact wheel identities and supplied quantities",
+  "Explicit front inside/outside wheel assignment for left/right turns",
+  "Readiness report for PR28 TireOperatingPoint inputs and future lateral tire-force-demand inversion",
+  "Conversion to TireOperatingPoint only when Fz, inclination, and pressure were explicitly supplied upstream",
+  "Structured rejection of negative normal loads rather than clipping"
+]
+assumptions = [
+  "The provider does not determine whether an upstream load-transfer, aero, suspension, tire, telemetry, or QSS model is physically correct; it preserves that source authority and its limitations.",
+  "Canonical body axes are +x forward, +y vehicle left, +z upward for the first reviewed exchange fixture.",
+  "Missing wheel quantities remain unavailable rather than being inferred from nominal setup, another wheel, a historical spreadsheet, or the tire model.",
+  "A zero normal load may represent wheel lift in the generic vehicle-state contract, but TireOperatingPoint conversion requires a positive contact load.",
+  "Evidence-only and report-only states have zero design weight so source evidence cannot silently enter optimization.",
+  "The current Suspension Calculations 2026 1.2g states are development evidence; they are not production WUFR operating-state authority."
+]
+verification_level = "B"
+benchmark_ids = ["BENCH-VEH-0001"]
+authorization_state = "review_ready_under_AUTH-VEH-0001"
+authorization_id = "AUTH-VEH-0001"
+authorization_document = "authorizations/vehicle/AUTH-VEH-0001.toml"
+implementation_package = "src/pssd_vehicle"
+implementation_tests = ["tests/test_vehicle_operating_states.py", "tests/test_vehicle_tire_bridge.py", "tests/test_vehicle_operating_state_freeze.py"]
+benchmark_report_script = "scripts/run_vehicle_operating_state_benchmarks.py"
+first_fixture = "benchmarks/vehicle/WUFR27_SUSPENSION_CALCULATIONS_OPERATING_STATES_V0.toml"
+result_record = "benchmarks/vehicle/vehicle_operating_state_result_v0.1.0.toml"
+consumer_model_ids = ["MOD-STEER-0002"]
+future_consumers = ["tire force-demand inversion", "LLTD/handling studies", "QSS/lap simulation", "rack-load/steering-effort provider"]
+prohibited_scope = "Native load-transfer or vehicle-equilibrium equations, hidden sign conversion, negative-load clipping, inferred camber/pressure/Fy/Fx, source-authority promotion, or production WUFR design claims from development spreadsheet states."

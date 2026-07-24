@@ -1,0 +1,59 @@
+version = "0.1.0"
+result_id = "VEHICLE-OPERATING-STATE-PROVIDER-BENCHMARKS-V0"
+benchmark_id = "BENCH-VEH-0001"
+model_id = "MOD-VEH-0001"
+state_set_id = "WUFR27_SUSPENSION_CALCULATIONS_OPERATING_STATES_V0"
+source_revision = "sha256:505f567a132296fe90876b1202d9bd626d8b0f302ff4c6316d013d0306ab24fc"
+state_count = 2
+canonical_body_axes = "+x forward, +y vehicle left, +z upward"
+source_lateral_acceleration_convention = "right turns positive"
+canonical_lateral_acceleration_convention = "positive ay_g toward vehicle left"
+authority = "Development source-preservation/software-composition freeze only; not production WUFR wheel-load authority."
+
+[[states]]
+id = "SC26_EDGE3_1P2G_RIGHT_AERO_NO_ARB"
+role = "evidence_only"
+turn_direction = "right"
+canonical_ay_g = -1.2
+speed_mps = 17.8816
+front_left_normal_load_n = 1719.575445
+front_right_normal_load_n = 186.2139907
+rear_left_normal_load_n = 1737.984573
+rear_right_normal_load_n = 173.2530798
+total_normal_load_n = 3817.0270885
+front_inside_position = "front_right"
+front_outside_position = "front_left"
+front_inside_normal_load_n = 186.2139907
+front_outside_normal_load_n = 1719.575445
+state_weight = 0.0
+complete_tire_operating_point = false
+complete_lateral_tire_demand = false
+
+[[states]]
+id = "SC26_EDGE4_1P2G_LEFT_AERO_NO_ARB"
+role = "evidence_only"
+turn_direction = "left"
+canonical_ay_g = 1.2
+speed_mps = 17.8816
+front_left_normal_load_n = 516.8481725
+front_right_normal_load_n = 1388.941263
+rear_left_normal_load_n = 510.345799
+rear_right_normal_load_n = 1400.891854
+total_normal_load_n = 3817.0270885
+front_inside_position = "front_left"
+front_outside_position = "front_right"
+front_inside_normal_load_n = 516.8481725
+front_outside_normal_load_n = 1388.941263
+state_weight = 0.0
+complete_tire_operating_point = false
+complete_lateral_tire_demand = false
+
+[rejected_source_state]
+id = "SC26_1P7G_LEFT_AERO_ARB_CURRENT_DRAFT"
+rejected_wheel = "rear_left"
+rejected_normal_load_n = -285.3358453
+disposition = "source_audit_only_negative_normal_load_rejected_no_clipping"
+
+[missing_field_policy]
+current_source_missing = ["inclination_deg", "pressure_kpa", "lateral_force_demand_n", "longitudinal_force_demand_n", "suspension_pose_state_id"]
+rule = "Missing values remain unavailable and are never inferred from nominal setup, another wheel, tire data, or steering geometry."
