@@ -17,5 +17,6 @@ acceptance_criteria = [
   "The center rack sample retains the centered pose definition and requires zero force demand and zero yaw rate; static toe is not silently steered out.",
   "No synthetic motion or tire values are represented as WUFR vehicle/tire design truth."
 ]
-implementation_tests = ["tests/test_motion_aware_force_demand_targets.py"]
+implementation_tests = ["tests/test_motion_aware_force_demand_targets.py", "tests/test_motion_aware_force_demand_freeze.py"]
 report_script = "scripts/run_motion_aware_force_demand_benchmarks.py"
+result_record = "benchmarks/steering/motion_aware_force_demand_result_v0.1.0.toml"
