@@ -1,0 +1,67 @@
+version = "0.1.0"
+profile_id = "WUFR26_H43105_R25B_CORNERING_TROJAN_EXPORT_PROFILE_V0"
+source_type = "processed_cornering_trojan_export_profile"
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+authority = "team-authorized engineering-equivalent source profile for steering development; this record freezes preprocessing provenance and exporter interpretation, not production tire truth"
+
+[source]
+provider = "WashU Racing WUFR-26 tire-selection package"
+box_folder_id = "325714540497"
+cornering_trojan_file_id = "1890914118742"
+cornering_trojan_name = "Hoosier 43105 R25B Cornering Trojan.mat"
+cornering_trojan_sha1 = "475338b18b6cba21b967c7e75bdd12d9a0e3437a"
+cornering_trojan_file_version_id = "2085674725942"
+april_interpolator_file_id = "1890897878209"
+april_interpolator_sha1 = "e73eb559b1e0be42cc9c135d86be69e168d9e606"
+raw_cornering_run_21_file_id = "1890899727782"
+raw_cornering_run_21_sha1 = "fca6c5b5116ae7fb16e2036b757ff294e0f790f6"
+raw_cornering_run_22_file_id = "1890911183790"
+raw_cornering_run_22_sha1 = "a995a2a89290dc32c5372b22e7bb5f469b6cf949"
+fitted_tir_file_id = "1952385546497"
+fitted_tir_sha1 = "27b100c306ec4f207c9c42506edeeb23c95d4247"
+
+[upstream_april_interpolator]
+role = "documents how the processed Trojan was generated from Round 6 cornering data"
+raw_speed_filter = "abs(V - 40 km/h) < 10 km/h"
+raw_fz_selection = "abs(FZ + target_Fz) < 100 N for the source run files, whose FZ sign is negative"
+raw_pressure_selection = "abs(P - target_P) < 5 kPa"
+raw_inclination_selection = "abs(IA - target_IA) < 1 deg"
+raw_longitudinal_slip_selection = "SL == 0"
+fit_type = "MATLAB smoothingspline"
+smoothing_parameter = 0.01
+output_slip_angle_grid_deg = "linspace(-12, 12, 100)"
+output_fz_targets_n = [222.0, 445.0, 667.0, 1112.0]
+output_pressure_targets_kpa = [96.5, 82.7, 68.9]
+output_inclination_targets_deg = [0.0, 2.0, 4.0]
+output_speed_kph = 40.2
+output_fz_sign = "positive magnitude"
+
+[python_exporter]
+profile_constant = "WUFR26_APRIL_CORNERING_TROJAN_V0"
+input_state_rule = "select exact stored Trojan FZ / IA / P values, SL=0 and V=40.2 km/h within floating-point tolerance"
+selected_physical_branch = "negative source SA and positive source FY, matching the team Comparisons.m description of the into-turn branch for positive inclination"
+output_representation = "positive |alpha| and |Fy| magnitudes"
+prepeak_rule = "sort selected branch by |alpha|, truncate through the first maximum |Fy|, then require strictly increasing |Fy|"
+no_refit_rule = "Python exporter must not smooth, spline, average, envelope, delete nonmonotonic points, or evaluate Magic Formula"
+no_extrapolation_rule = true
+track_scale_applied = false
+
+[alternate_parser_not_used]
+parser_file_id = "1890915592715"
+parser_name = "PARSER_April.m"
+parser_sha1 = "32608eef763acacb7b233b82b8690bd3250752cc"
+reason = "PARSER_April.m is a separate TyDex ingestion/convention route with different bin tolerances and explicit SAE-to-ISO sign/unit conversion. It is retained as audit evidence but is not mixed into this processed-Trojan exporter profile."
+parser_fz_tolerance_n = 150.0
+parser_pressure_tolerance_kpa = 5.0
+parser_inclination_tolerance_deg = 0.2
+
+[restrictions]
+items = [
+  "Do not relabel the R25B source as literal R20 data.",
+  "Do not apply the historical yaw_moment.m 2/3 track-surface force or moment scale.",
+  "Do not mix April_Interpolator.m source selection with PARSER_April.m binning/sign conversion without a new reviewed profile.",
+  "Do not infer a missing operating point by Fz, inclination, pressure, speed, or temperature interpolation in this exporter version.",
+  "Do not use a source branch for force demand beyond its exported pre-peak force maximum.",
+  "Do not treat this profile by itself as vehicle-state or steering-design authority."
+]

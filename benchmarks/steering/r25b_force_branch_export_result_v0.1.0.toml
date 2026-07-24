@@ -1,0 +1,57 @@
+version = "0.1.0"
+result_id = "R25B-FORCE-BRANCH-EXPORT-BENCHMARKS-V0"
+benchmark_id = "BENCH-STEER-0022"
+authorization_id = "AUTH-STEER-0003"
+authority_boundary = "Software exporter behavior and real-source identity/profile are frozen. Synthetic force values are not R25B data. Actual R25B intermediate Fy(alpha) branches remain pending a source-side run of the hashed binary Cornering Trojan MAT file."
+
+[source_profile]
+profile_id = "WUFR26_H43105_R25B_CORNERING_TROJAN_EXPORT_PROFILE_V0"
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+cornering_trojan_file_id = "1890914118742"
+cornering_trojan_sha1 = "475338b18b6cba21b967c7e75bdd12d9a0e3437a"
+raw_cornering_run_21_sha1 = "fca6c5b5116ae7fb16e2036b757ff294e0f790f6"
+raw_cornering_run_22_sha1 = "a995a2a89290dc32c5372b22e7bb5f469b6cf949"
+april_interpolator_sha1 = "e73eb559b1e0be42cc9c135d86be69e168d9e606"
+parser_april_sha1 = "32608eef763acacb7b233b82b8690bd3250752cc"
+fitted_tir_sha1 = "27b100c306ec4f207c9c42506edeeb23c95d4247"
+selected_source_quadrant = "negative SA / positive FY"
+track_scale_applied = false
+
+[synthetic_export]
+physical_tire_claim = false
+total_source_rows = 16
+inside_operating_point_rows = 8
+outside_operating_point_rows = 8
+inside_selected_quadrant_rows = 4
+outside_selected_quadrant_rows = 4
+inside_prepeak_rows = 4
+outside_prepeak_rows = 4
+inside_min_slip_deg = 0.5
+inside_max_slip_deg = 6.0
+inside_min_force_n = 150.0
+inside_max_force_n = 900.0
+outside_min_slip_deg = 0.5
+outside_max_slip_deg = 6.0
+outside_min_force_n = 350.0
+outside_max_force_n = 2100.0
+roundtrip_branch_count = 2
+
+[failure_paths]
+missing_exact_operating_point_rejected = true
+nonmonotonic_prepeak_source_rejected = true
+hidden_operating_point_interpolation = false
+hidden_source_refit = false
+historical_two_thirds_track_scale_applied = false
+
+[real_source_status]
+binary_source_committed_to_repository = false
+real_branch_table_frozen = false
+reason = "The repository and connector metadata expose the source identity/hash, but the binary MAT response values are not committed to the GitHub repository. The offline exporter must be run where the hashed source file is locally accessible."
+first_cross_check_states = ["Fz=222 N; IA=0 deg; P=82.7 kPa", "Fz=1112 N; IA=2 deg; P=82.7 kPa"]
+summary_cross_check_reference = "PR28 Tire Selection Notes summary family labels pressure as 83 kPa and reports approximately 694 N at -9.6 deg for 222 N/0 deg and 2738 N at -10.9 deg for 1112 N/2 deg. Do not force equality by pressure rounding or hidden interpolation."
+next_action = "Run scripts/export_r25b_cornering_force_branches.py on the hashed Cornering Trojan MAT source, review branch monotonicity and peak cross-checks, then freeze accepted real branch tables before vehicle steering ranking."
+
+[pr30_closeout]
+status = "merged"
+merge_commit = "1d894d3cc2e252b2cb4b6f1e594da5ae1b6c6ff7"

@@ -1,0 +1,24 @@
+[record]
+id = "BENCH-STEER-0022"
+type = "benchmark"
+title = "R25B processed TTC cornering branch export boundary"
+status = "proposed"
+description = "Verify that the source-specific processed-Cornering-Trojan exporter can convert an exact reviewed TTC operating point into the generic PR30 monotonic pre-peak force-demand branch contract while preserving source identity and rejecting hidden preprocessing, refitting, nonmonotonic source data, operating-point interpolation, and track scaling. Synthetic Trojan-shaped arrays verify software behavior; no synthetic force values are represented as Hoosier data."
+verification_level = "B"
+target_ids = ["MOD-STEER-0002"]
+acceptance_criteria = [
+  "The named WUFR26_APRIL_CORNERING_TROJAN_V0 profile selects exact stored positive-magnitude Fz, inclination, pressure, SL=0, and V=40.2 km/h values from an already-processed Cornering Trojan source.",
+  "The exporter selects the documented negative-source-SA / positive-source-FY into-turn quadrant and converts it only to positive |alpha| and |Fy| exchange magnitudes.",
+  "The exporter sorts by |alpha|, truncates at the source |Fy| maximum, and requires the retained pre-peak |Fy| branch to increase strictly; nonmonotonic data fail rather than being smoothed, enveloped, averaged, or selectively deleted.",
+  "Missing exact Fz/inclination/pressure states fail; no operating-point interpolation or extrapolation is introduced.",
+  "The generic TireLateralForceBranchSet preserves source tire HOOSIER_43105_18X7.5-10_R25B and intended tire HOOSIER_43104_18X7.5-10_R20 as separate identities.",
+  "The deterministic TOML writer round-trips through the existing PR30 branch-set loader without changing operating points, samples, source identity, or branch provenance.",
+  "The frozen source profile records the actual Cornering Trojan, Round6_Run21/22, April_Interpolator.m, PARSER_April.m, and fitted TIR Box IDs/hashes and explicitly prevents mixing the April and TyDex preprocessing routes.",
+  "The historical yaw_moment.m 2/3 track-surface scale is not applied by the exporter.",
+  "The benchmark does not claim actual R25B force-branch values until the binary MAT source is executed through the exporter and the resulting table is reviewed."
+]
+source_profile = "benchmarks/tires/WUFR26_H43105_R25B_CORNERING_TROJAN_EXPORT_PROFILE_V0.toml"
+implementation_tests = ["tests/test_ttc_cornering_export.py", "tests/test_tire_toml_exchange.py"]
+source_export_script = "scripts/export_r25b_cornering_force_branches.py"
+report_script = "scripts/run_r25b_force_branch_export_benchmarks.py"
+result_record = "benchmarks/steering/r25b_force_branch_export_result_v0.1.0.toml"

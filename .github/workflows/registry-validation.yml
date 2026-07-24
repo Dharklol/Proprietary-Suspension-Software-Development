@@ -179,3 +179,18 @@ jobs:
             steering_force_demand_report.json
             steering_force_demand_summary.json
           if-no-files-found: error
+      - name: Generate R25B processed TTC branch exporter reports
+        run: |
+          python scripts/run_r25b_force_branch_export_benchmarks.py \
+            --output r25b_force_branch_export_report.json > /dev/null
+          python scripts/run_r25b_force_branch_export_benchmarks.py \
+            --summary \
+            --output r25b_force_branch_export_summary.json
+      - name: Upload R25B processed TTC branch exporter reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: r25b-force-branch-export-reports
+          path: |
+            r25b_force_branch_export_report.json
+            r25b_force_branch_export_summary.json
+          if-no-files-found: error

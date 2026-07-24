@@ -133,8 +133,15 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
 
     def test_force_demand_target_authorization_is_bounded(self) -> None:
         authorization = self._load("authorizations/steering/AUTH-STEER-0003.toml")
-        self.assertEqual("review_ready", authorization["status"])
-        self.assertEqual(["BENCH-STEER-0021"], authorization["scope"]["benchmark_ids"])
+        self.assertEqual("complete", authorization["status"])
+        self.assertEqual(
+            ["BENCH-STEER-0021", "BENCH-STEER-0022"],
+            authorization["scope"]["benchmark_ids"],
+        )
+        self.assertEqual(
+            "PR #30, merge commit 1d894d3cc2e252b2cb4b6f1e594da5ae1b6c6ff7",
+            authorization["merge_record"],
+        )
         self.assertIn("MOD-STEER-0001 remains the only", authorization["architecture"]["steering_evaluator_rule"])
         self.assertIn("never prescribed globally", authorization["architecture"]["regime_rule"])
         prohibited = " ".join(authorization["prohibited"]["items"]).lower()
@@ -143,6 +150,8 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
         self.assertIn("python magic formula rewrite", prohibited)
         self.assertIn("2/3", prohibited)
         self.assertIn("production wufr steering geometry ranking", prohibited)
+        self.assertIn("silently mixing april_interpolator.m", prohibited)
+        self.assertIn("automatically smoothing", prohibited)
 
     def test_candidate_set_and_ranking_remain_visible(self) -> None:
         requirement_set = self._load("configurations/steering/STEERING_INVERSE_DESIGN_DEV_V0.toml")
@@ -172,7 +181,8 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
         self.assertEqual("complete", phase_one["P1-STR-006G"]["status"])
         self.assertEqual("complete", phase_one["P1-STR-006H"]["status"])
         self.assertEqual("complete", phase_one["P1-STR-006I"]["status"])
-        self.assertEqual("review_ready", phase_one["P1-STR-006J"]["status"])
+        self.assertEqual("complete", phase_one["P1-STR-006J"]["status"])
+        self.assertEqual("review_ready", phase_one["P1-STR-006K"]["status"])
         self.assertEqual("active", phase_one["P1-STR-006D"]["status"])
         self.assertEqual("active", phase_one["P1-STR-006E"]["status"])
         self.assertIn("explicitly deferred", phase_one["P1-STR-006E"]["execution_rule"].lower())
@@ -186,6 +196,7 @@ class SteeringInverseDesignAuthorizationTests(unittest.TestCase):
         self.assertEqual(["P1-STR-006C", "P1-STR-006G"], phase_one["P1-STR-006H"]["depends_on"])
         self.assertEqual(["P1-STR-006H"], phase_one["P1-STR-006I"]["depends_on"])
         self.assertEqual(["P1-STR-006H", "P1-STR-006I"], phase_one["P1-STR-006J"]["depends_on"])
+        self.assertEqual(["P1-STR-006J"], phase_one["P1-STR-006K"]["depends_on"])
         self.assertIn("P0-STR-011", phase_one["P1-STR-006E"]["depends_on"])
 
 
