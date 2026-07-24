@@ -5,9 +5,11 @@ providers, analyzer-composed candidate evaluator, deterministic nominal
 constrained-search baseline, constraint-provider screening, local sensitivity,
 provider-neutral suspension poses, external pose-table ingestion, multi-state
 steering evaluation, explicit operating-state target aggregation, explicit
-dynamic-toe and state-dependent steering-gain objectives, and machine-readable
-reports. Tire, effort, manufacturing, robustness, physical-correlation, and
-production-release models remain outside this implementation.
+dynamic-toe and state-dependent steering-gain objectives, bounded tire-informed
+differential target generation, and machine-readable reports. Tire source parsing
+and lateral response surfaces live in the reusable ``pssd_tire`` package; effort,
+manufacturing, robustness, physical-correlation, and production-release models
+remain outside this implementation.
 """
 
 from .candidate_comparison import (
@@ -147,6 +149,12 @@ from .targets import (
     load_historical_fit_target,
     load_synthetic_recovery_fixture,
 )
+from .tire_targets import (
+    TireDifferentialStateDefinition,
+    TireSlipDifferential,
+    build_tire_informed_operating_target_set,
+    peak_grip_slip_angle_differential,
+)
 
 __all__ = [
     "CandidateComparisonError",
@@ -210,6 +218,8 @@ __all__ = [
     "SyntheticOperatingTargetFixture",
     "SyntheticRecoveryFixture",
     "TargetDefinitionError",
+    "TireDifferentialStateDefinition",
+    "TireSlipDifferential",
     "VariableDefinition",
     "VariableSensitivity",
     "analyze_local_sensitivity",
@@ -218,6 +228,7 @@ __all__ = [
     "build_analyzer_operating_state_target_set",
     "build_analyzer_state_metric_target_set",
     "build_candidate_comparison",
+    "build_tire_informed_operating_target_set",
     "candidate_comparison_report",
     "candidate_evaluation_report",
     "evaluate_candidate",
@@ -239,6 +250,7 @@ __all__ = [
     "multi_state_steering_report",
     "operating_state_candidate_report",
     "operating_state_search_report",
+    "peak_grip_slip_angle_differential",
     "reflect_lateral",
     "resolve_candidate",
     "run_nominal_inverse_design",

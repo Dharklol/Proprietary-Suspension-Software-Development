@@ -155,7 +155,7 @@ id = "P0-STR-011"
 title = "WUFR-26 Level F uncertainty and physical correlation"
 status = "active"
 exit_criterion = "Existing whole-system free-play, historical compliance, calculated steering-load, and available-sensor evidence are source-linked; installed stops, primary-shaft-to-rack correlation, left/right rack-to-wheel response, repeatability, staged backlash/compliance attribution, sensor calibration, uncertainty, and an independently justified acceptance rule remain to be completed."
-critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, synthetic/external suspension-pose provider development, explicit nonphysical operating-state target aggregation, or nonphysical scalar state-metric objective development."
+critical_path_rule = "Blocks as-built and compliance-inclusive claims, but does not block generic geometry generation, constrained search, historical target recovery, synthetic/external suspension-pose provider development, explicit nonphysical operating-state target aggregation, nonphysical scalar state-metric objective development, or bounded tire-target provider development from reviewed external tire data."
 
 [phase_1]
 status = "active"
@@ -261,7 +261,7 @@ implementation_record = "docs/models/steering/steering_operating_state_target_im
 benchmark_ids = ["BENCH-STEER-0016", "BENCH-STEER-0017"]
 report_script = "scripts/run_steering_operating_state_benchmarks.py"
 result_record = "benchmarks/steering/steering_operating_state_target_result_v0.1.0.toml"
-scope_note = "Synthetic state targets and weights verify software composition only. Reviewed vehicle/tire target-generation authority remains a later provider gate."
+scope_note = "Synthetic state targets and weights verify software composition only. The tire-informed provider introduced later in P1-STR-006H still requires explicit tire operating points and does not derive WUFR vehicle load states from this contract."
 merge_record = "PR #25, merge commit 6a1de640b864e7ee87565fd3c376c70bdc3dc70e"
 
 [[phase_1.tasks]]
@@ -282,7 +282,7 @@ merge_record = "PR #26, merge commit be241172998684e1f40a6f2af2d9801a2c1911c8"
 [[phase_1.tasks]]
 id = "P1-STR-006G"
 title = "Dynamic-toe and state-dependent steering-gain objectives"
-status = "review_ready"
+status = "complete"
 depends_on = ["P1-STR-006B", "P1-STR-006C"]
 exit_criterion = "Named suspension states can carry explicit centered side-local dynamic-toe and centered rack-to-wheel gain targets with left/right values, metric-specific units, normalization, weights, convention adapters, source authority, and deterministic recovery evidence without introducing another steering or suspension model."
 review_record = "docs/reviews/phase1_steering_state_metric_objectives_review.md"
@@ -291,7 +291,22 @@ benchmark_ids = ["BENCH-STEER-0019"]
 report_script = "scripts/run_steering_state_metric_benchmarks.py"
 result_record = "benchmarks/steering/steering_state_metric_objective_result_v0.1.0.toml"
 external_evidence = "benchmarks/steering/WUFR26_OPTIMUMK_HEAVE_1IN_EVIDENCE_V0.toml"
-scope_note = "Analyzer-generated scalar targets verify software composition only. The supplied OptimumK Steering Toe Angle Gain channel is dimensionless evidence and is not the same quantity as the implemented deg/mm rack-to-wheel gain; reviewed WUFR/OptimumK pose conversion and vehicle/tire target authority remain later gates."
+scope_note = "Analyzer-generated scalar targets verify software composition only. The supplied OptimumK Steering Toe Angle Gain channel remains dimensionless evidence and is not the implemented deg/mm rack-to-wheel gain."
+merge_record = "PR #27, merge commit 34e6c98f1f47e1b986777bf05249db8e54b89ff2"
+
+[[phase_1.tasks]]
+id = "P1-STR-006H"
+title = "Tire-informed differential steering target provider"
+status = "review_ready"
+depends_on = ["P1-STR-006C", "P1-STR-006G"]
+exit_criterion = "A source-preserving TTC-derived lateral tire summary can generate explicit differential steering target curves through the existing OperatingStateTargetSet using reviewed exact Ackermann, explicit inside/outside load-camber-pressure states, explicit slip-utilization scheduling, bounded interpolation, source-censor handling, and no second steering or tire-force evaluator."
+review_record = "docs/reviews/phase1_steering_tire_informed_target_review.md"
+implementation_record = "docs/models/steering/steering_tire_informed_targets_implementation_v0.1.0.md"
+benchmark_ids = ["BENCH-STEER-0020"]
+report_script = "scripts/run_steering_tire_target_benchmarks.py"
+tire_summary = "benchmarks/tires/WUFR26_H43105_R25B_LATERAL_SUMMARY_V0.toml"
+matlab_reference = "benchmarks/tires/WUFR26_H43105_R25B_MATLAB_REFERENCE_V0.toml"
+scope_note = "The Hoosier 43105 R25B TTC data are the explicitly authorized engineering proxy for the intended 43104 R20 while both identities remain visible. The benchmark wheel loads/cambers/pressure and utilization schedule are development inputs, not production WUFR operating-state authority."
 
 [[phase_1.tasks]]
 id = "P1-STR-006D"

@@ -1,0 +1,59 @@
+version = "0.1.0"
+reference_id = "WUFR26_H43105_R25B_MATLAB_REFERENCE_V0"
+source_type = "matlab_magic_formula_integration_reference"
+status = "historical_external_model_chain_evidence"
+authority = "Historical team MATLAB/Magic Formula integration evidence only; not raw TTC truth, not a Python tire evaluator, and not installed-track correlation authority."
+
+[source]
+provider = "Box"
+tire_selection_folder_id = "324621167966"
+yaw_moment_script_file_id = "1890898098754"
+tire_model_tracker_file_id = "1890898261243"
+tire_selection_notes_file_id = "1890901561957"
+tir_file_id = "1890915195744"
+tir_file_name = "Hoosier 18 7.5 R25B no db.tir"
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+cornering_runs = "TTC Round 6 runs 21 and 22"
+drive_brake_runs = "TTC Round 6 runs 35 and 36"
+
+[model_chain]
+matlab_dependency = "Magic Formula Tyre library used by historical yaw_moment.m"
+vehicle_mass_kg = 302.5
+wheelbase_m = 1.535
+cg_to_front_axle_m = 0.737
+speed_m_per_s = 9.85
+front_static_load_fraction = 0.52
+rear_static_load_fraction = 0.48
+front_static_camber_deg = 2.25
+rear_static_camber_deg = 1.0
+front_load_transfer_rate_n_per_g = 440.0
+rear_load_transfer_rate_n_per_g = 401.0
+historical_force_and_moment_scale = 0.6666666666666666
+historical_scale_note = "yaw_moment.m applies a 2/3 sandpaper-to-real-road scale to lateral force and aligning moment. PR28 does not promote this scale into the tire data provider."
+steering_reference = "Ackermann steering case recorded in Tire Selection Notes"
+coordinate_reference = "ISO vehicle coordinates in Tire Selection Notes; tire inputs originate from the SAE Tire Coordinate System"
+
+[[balanced_lateral_acceleration_reference]]
+pressure_psi = 10.0
+left_g = 2.52
+right_g = -2.42
+
+[[balanced_lateral_acceleration_reference]]
+pressure_psi = 12.0
+left_g = 2.49
+right_g = -2.39
+
+[[balanced_lateral_acceleration_reference]]
+pressure_psi = 14.0
+left_g = 2.46
+right_g = -2.35
+
+[restrictions]
+items = [
+  "Do not use these vehicle-level reference accelerations as direct raw tire-force parity values.",
+  "Do not reproduce the historical 2/3 scale factor in the tabulated TTC provider unless separately reviewed as a track-correlation model.",
+  "Do not require MATLAB or the Magic Formula Tyre library at runtime for steering optimization.",
+  "Do not treat the R25B source identity as literal R20 identity; the intended-tire relationship is an explicit project engineering proxy.",
+  "Use this record to preserve source inventory and regression expectations while the Python tire layer remains independently inspectable."
+]

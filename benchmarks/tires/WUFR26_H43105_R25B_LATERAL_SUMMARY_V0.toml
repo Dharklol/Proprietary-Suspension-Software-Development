@@ -1,0 +1,367 @@
+version = "0.1.0"
+grid_id = "WUFR26_H43105_R25B_LATERAL_SUMMARY_V0"
+source_type = "tabulated_lateral_summary"
+status = "review_ready_engineering_proxy"
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+authority = "Team-authorized R25B TTC engineering-equivalent proxy for WUFR steering target development; not literal compound/part-number identity or installed-tire correlation."
+
+[source]
+provider = "Box"
+folder_id = "325714540497"
+tire_model_tracker_file_id = "1890898261243"
+tire_selection_notes_file_id = "1890901561957"
+cornering_trojan_file_id = "1890914118742"
+tir_file_id = "1952385546497"
+cornering_runs = "TTC Round 6 runs 21 and 22"
+drive_brake_runs = "TTC Round 6 runs 35 and 36; inventoried for future expansion, not consumed by this lateral steering provider"
+coordinate_system = "SAE Tire Coordinate System as recorded in Tire Selection Notes"
+
+[engineering_equivalence]
+basis = "Project steering-authority decision on 2026-07-24: use the 43105 R25B TTC behavior as the engineering data equivalent for the selected 43104 R20 tire."
+identity_rule = "Preserve source tire and intended tire identities separately in all derived targets."
+
+[conventions]
+normal_load_unit = "N"
+inclination_unit = "deg"
+pressure_unit = "kPa"
+cornering_stiffness_unit = "N/deg"
+peak_lateral_force_unit = "N"
+peak_slip_angle_unit = "deg"
+peak_lateral_force = "positive magnitude from Tire Selection Notes, leaning into corner"
+source_peak_slip_angle = "signed source value from Tire Selection Notes, leaning into corner; steering adapter uses magnitude explicitly"
+peak_slip_censor_rule = "Values with abs(source_peak_slip_angle_deg) == 12.0 are flagged censored because the source sweep terminates at 12 deg."
+interpolation = "bounded trilinear interpolation only; no extrapolation"
+
+[restrictions]
+items = [
+  "Do not treat R25B and R20 as literal material or part-number identity; this file records an explicit project engineering-equivalence decision.",
+  "Do not treat a 12 deg source peak as a verified true peak without separate evidence; it is censored at the source sweep boundary.",
+  "Do not extrapolate beyond the reviewed pressure, inclination, or normal-load grid.",
+  "Do not apply the historical 2/3 sandpaper-to-track scale factor inside this tire-data layer.",
+  "Do not treat peak-slip differential targets as a complete steady-state vehicle equilibrium or production tire-optimal steering claim."
+]
+
+[[samples]]
+pressure_kpa = 69.0
+inclination_deg = 0.0
+normal_load_n = 222.0
+cornering_stiffness_n_per_deg = 334.0
+peak_lateral_force_n = 731.0
+source_peak_slip_angle_deg = -7.3
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 69.0
+inclination_deg = 0.0
+normal_load_n = 445.0
+cornering_stiffness_n_per_deg = 463.0
+peak_lateral_force_n = 1319.0
+source_peak_slip_angle_deg = -8.1
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 69.0
+inclination_deg = 0.0
+normal_load_n = 667.0
+cornering_stiffness_n_per_deg = 556.0
+peak_lateral_force_n = 1914.0
+source_peak_slip_angle_deg = -11.0
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 69.0
+inclination_deg = 0.0
+normal_load_n = 1112.0
+cornering_stiffness_n_per_deg = 654.0
+peak_lateral_force_n = 3006.0
+source_peak_slip_angle_deg = -11.1
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 69.0
+inclination_deg = 2.0
+normal_load_n = 222.0
+cornering_stiffness_n_per_deg = 267.0
+peak_lateral_force_n = 661.0
+source_peak_slip_angle_deg = -9.1
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 69.0
+inclination_deg = 2.0
+normal_load_n = 445.0
+cornering_stiffness_n_per_deg = 405.0
+peak_lateral_force_n = 1226.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 69.0
+inclination_deg = 2.0
+normal_load_n = 667.0
+cornering_stiffness_n_per_deg = 512.0
+peak_lateral_force_n = 1811.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 69.0
+inclination_deg = 2.0
+normal_load_n = 1112.0
+cornering_stiffness_n_per_deg = 618.0
+peak_lateral_force_n = 2951.0
+source_peak_slip_angle_deg = -11.1
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 69.0
+inclination_deg = 4.0
+normal_load_n = 222.0
+cornering_stiffness_n_per_deg = 200.0
+peak_lateral_force_n = 572.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 69.0
+inclination_deg = 4.0
+normal_load_n = 445.0
+cornering_stiffness_n_per_deg = 329.0
+peak_lateral_force_n = 1148.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 69.0
+inclination_deg = 4.0
+normal_load_n = 667.0
+cornering_stiffness_n_per_deg = 431.0
+peak_lateral_force_n = 1708.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 69.0
+inclination_deg = 4.0
+normal_load_n = 1112.0
+cornering_stiffness_n_per_deg = 587.0
+peak_lateral_force_n = 2916.0
+source_peak_slip_angle_deg = -11.4
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 83.0
+inclination_deg = 0.0
+normal_load_n = 222.0
+cornering_stiffness_n_per_deg = 299.0
+peak_lateral_force_n = 694.0
+source_peak_slip_angle_deg = -9.6
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 83.0
+inclination_deg = 0.0
+normal_load_n = 445.0
+cornering_stiffness_n_per_deg = 414.0
+peak_lateral_force_n = 1256.0
+source_peak_slip_angle_deg = -9.9
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 83.0
+inclination_deg = 0.0
+normal_load_n = 667.0
+cornering_stiffness_n_per_deg = 523.0
+peak_lateral_force_n = 1803.0
+source_peak_slip_angle_deg = -11.1
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 83.0
+inclination_deg = 0.0
+normal_load_n = 1112.0
+cornering_stiffness_n_per_deg = 657.0
+peak_lateral_force_n = 2827.0
+source_peak_slip_angle_deg = -11.2
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 83.0
+inclination_deg = 2.0
+normal_load_n = 222.0
+cornering_stiffness_n_per_deg = 256.0
+peak_lateral_force_n = 619.0
+source_peak_slip_angle_deg = -10.5
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 83.0
+inclination_deg = 2.0
+normal_load_n = 445.0
+cornering_stiffness_n_per_deg = 383.0
+peak_lateral_force_n = 1164.0
+source_peak_slip_angle_deg = -11.4
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 83.0
+inclination_deg = 2.0
+normal_load_n = 667.0
+cornering_stiffness_n_per_deg = 494.0
+peak_lateral_force_n = 1704.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 83.0
+inclination_deg = 2.0
+normal_load_n = 1112.0
+cornering_stiffness_n_per_deg = 632.0
+peak_lateral_force_n = 2738.0
+source_peak_slip_angle_deg = -10.9
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 83.0
+inclination_deg = 4.0
+normal_load_n = 222.0
+cornering_stiffness_n_per_deg = 191.0
+peak_lateral_force_n = 544.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 83.0
+inclination_deg = 4.0
+normal_load_n = 445.0
+cornering_stiffness_n_per_deg = 314.0
+peak_lateral_force_n = 1077.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 83.0
+inclination_deg = 4.0
+normal_load_n = 667.0
+cornering_stiffness_n_per_deg = 409.0
+peak_lateral_force_n = 1584.0
+source_peak_slip_angle_deg = -11.7
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 83.0
+inclination_deg = 4.0
+normal_load_n = 1112.0
+cornering_stiffness_n_per_deg = 578.0
+peak_lateral_force_n = 2656.0
+source_peak_slip_angle_deg = -10.9
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 97.0
+inclination_deg = 0.0
+normal_load_n = 222.0
+cornering_stiffness_n_per_deg = 294.0
+peak_lateral_force_n = 662.0
+source_peak_slip_angle_deg = -8.7
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 97.0
+inclination_deg = 0.0
+normal_load_n = 445.0
+cornering_stiffness_n_per_deg = 405.0
+peak_lateral_force_n = 1186.0
+source_peak_slip_angle_deg = -11.5
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 97.0
+inclination_deg = 0.0
+normal_load_n = 667.0
+cornering_stiffness_n_per_deg = 516.0
+peak_lateral_force_n = 1699.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 97.0
+inclination_deg = 0.0
+normal_load_n = 1112.0
+cornering_stiffness_n_per_deg = 672.0
+peak_lateral_force_n = 2704.0
+source_peak_slip_angle_deg = -11.2
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 97.0
+inclination_deg = 2.0
+normal_load_n = 222.0
+cornering_stiffness_n_per_deg = 240.0
+peak_lateral_force_n = 600.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 97.0
+inclination_deg = 2.0
+normal_load_n = 445.0
+cornering_stiffness_n_per_deg = 360.0
+peak_lateral_force_n = 1100.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 97.0
+inclination_deg = 2.0
+normal_load_n = 667.0
+cornering_stiffness_n_per_deg = 476.0
+peak_lateral_force_n = 1604.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 97.0
+inclination_deg = 2.0
+normal_load_n = 1112.0
+cornering_stiffness_n_per_deg = 636.0
+peak_lateral_force_n = 2584.0
+source_peak_slip_angle_deg = -11.5
+peak_slip_angle_censored = false
+
+[[samples]]
+pressure_kpa = 97.0
+inclination_deg = 4.0
+normal_load_n = 222.0
+cornering_stiffness_n_per_deg = 178.0
+peak_lateral_force_n = 516.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 97.0
+inclination_deg = 4.0
+normal_load_n = 445.0
+cornering_stiffness_n_per_deg = 294.0
+peak_lateral_force_n = 1015.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 97.0
+inclination_deg = 4.0
+normal_load_n = 667.0
+cornering_stiffness_n_per_deg = 391.0
+peak_lateral_force_n = 1504.0
+source_peak_slip_angle_deg = -12.0
+peak_slip_angle_censored = true
+
+[[samples]]
+pressure_kpa = 97.0
+inclination_deg = 4.0
+normal_load_n = 1112.0
+cornering_stiffness_n_per_deg = 565.0
+peak_lateral_force_n = 2490.0
+source_peak_slip_angle_deg = -11.5
+peak_slip_angle_censored = false
