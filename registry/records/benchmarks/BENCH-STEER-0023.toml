@@ -1,0 +1,21 @@
+[record]
+id = "BENCH-STEER-0023"
+type = "benchmark"
+title = "Motion-aware force-demand tire-slip steering target"
+status = "proposed"
+description = "Verify that explicit planar vehicle motion can replace the low-speed Ackermann velocity-heading anchor when composing PR30 force-demand tire slips into steering targets. Synthetic motion schedules and synthetic tire branches provide software evidence only and intentionally demonstrate that identical required tire slips can produce different pro/anti-Ackermann regimes when the velocity-center position changes."
+verification_level = "B"
+target_ids = ["MOD-STEER-0002", "MOD-VEH-0002"]
+acceptance_criteria = [
+  "The adapter obtains left/right front wheel-center velocity headings from explicit u/v/r and wheel-center geometry rather than from the exact Ackermann reference.",
+  "Inside/outside tire force demands are inverted through the existing bounded PR30 TireLateralForceBranchSet contract with no tire-force extrapolation or new tire model.",
+  "For left/right turns the signed required tire slip is assigned explicitly from yaw-rate sign and inside/outside wheel identity.",
+  "Each target wheel heading is formed independently as delta=beta_hat+alpha_required, then converted to the incremental-from-pose quantity used by MOD-STEER-0001.",
+  "The same tire operating points and force demands produce a pro-Ackermann full-steer pair when the synthetic velocity center lies on the rear axle and an anti-Ackermann pair when S=a1, demonstrating that tire slip preference alone does not determine the final steering regime.",
+  "A two-state synthetic target produces different pro/parallel/anti regime distributions solely from the supplied motion schedules while preserving the same synthetic tire branches and force-demand schedule.",
+  "A reference steering candidate evaluates through the existing MOD-STEER-0001 multi-state mechanism solver without adding another steering evaluator.",
+  "The center rack sample retains the centered pose definition and requires zero force demand and zero yaw rate; static toe is not silently steered out.",
+  "No synthetic motion or tire values are represented as WUFR vehicle/tire design truth."
+]
+implementation_tests = ["tests/test_motion_aware_force_demand_targets.py"]
+report_script = "scripts/run_motion_aware_force_demand_benchmarks.py"
