@@ -6,6 +6,16 @@ on:
     branches: [main]
 
 jobs:
+  actuation-source-recovery:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run rear source-state recovery regression
+        run: python -m unittest tests.test_suspension_actuation_source_recovery -v
+
   suspension-kinematics:
     runs-on: ubuntu-latest
     steps:
