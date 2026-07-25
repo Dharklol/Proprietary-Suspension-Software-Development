@@ -1,0 +1,27 @@
+[record]
+id = "EQ-SUSP-0010"
+type = "equation"
+title = "Branch-controlled rocker rotation from push/pull-rod closure"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Solve one rigid rocker rotation about the frozen chassis rocker axis so the distance from the transported suspension-arm actuation attachment to the rotated rocker rod point equals the frozen nominal push/pull-rod length. Select only the root continuously connected to the nominal theta_R=0 state."
+outputs = ["Rocker rotation theta_R", "Current rocker rod point", "Current rocker coilover point", "Push/pull-rod closure residual and branch diagnostics"]
+inputs = ["EQ-SUSP-0009 current arm attachment", "Frozen rocker pivot/axis", "Frozen nominal rocker rod and coilover points", "Frozen nominal push/pull-rod length", "Reviewed rocker-angle search interval/continuation state"]
+assumptions = [
+  "The rocker is rigid and has one rotational degree of freedom about the frozen chassis axis.",
+  "The push/pull rod is an ideal rigid two-force link of invariant center-to-center length.",
+  "Rocker rod and coilover pickup points are rigidly fixed to the same rocker body.",
+  "The nominal source state defines theta_R=0 and the implementation follows the continuous nominal assembly branch."
+]
+verification_level = "none"
+canonical_equation = "p_Rod(theta)=p_Piv+R(k_R,theta)(p_Rod,0-p_Piv); g(theta)=||p_Rod(theta)-p_PP||^2-L_PP^2=0; p_Coil(theta)=p_Piv+R(k_R,theta)(p_Coil,0-p_Piv)."
+source_basis = [
+  "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0 rocker axis/pivot/rod/coilover points.",
+  "WUFR26_OPTIMUMK_ACTUATION_V0 nominal link lengths and historical result states.",
+  "Rigid one-axis revolute-body geometry."
+]
+validity = "Frozen WUFR ideal actuation geometry on the rocker root continuous with theta_R=0 over the reviewed source/benchmark travel interval."
+numerical_method = "Bracket-preserving scalar root solve or an algebraically equivalent branch-controlled circle/plane solution. Search/continuation must retain the nominal root and expose residual/conditioning diagnostics."
+failure_behavior = ["Reject degenerate rocker axis", "Reject unreachable rod-length closure", "Reject multiple roots when the nominal-continuation branch cannot be identified", "Reject non-finite inputs", "Do not clip rod length or silently jump rocker branch"]
+benchmark_ids = ["BENCH-SUSP-0007", "BENCH-SUSP-0008"]
