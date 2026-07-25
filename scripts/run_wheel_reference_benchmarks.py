@@ -23,6 +23,10 @@ from pssd_suspension import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
+SOURCE_3D_FIXTURES = (
+    "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_FRONT_LEFT_WHEEL_REFERENCE_SOURCE_V0.toml",
+    "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_FRONT_RIGHT_WHEEL_REFERENCE_SOURCE_V0.toml",
+)
 
 
 def _load(relative: str) -> dict:
@@ -72,69 +76,83 @@ def build_report() -> dict:
                 }
             )
 
-    source_3d = _load(
-        "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_FRONT_LEFT_WHEEL_REFERENCE_SOURCE_V0.toml"
-    )
-    nominal = source_3d["nominal"]
     source_rows = []
     max_twist_error = 0.0
     max_unsteer_error = 0.0
     min_reference_lever = math.inf
     min_source_lever = math.inf
     max_scalar_vs_twist_difference_deg = 0.0
-    for state in source_3d["states"]:
-        transform = minimum_twist_upright_transform(
-            tuple(nominal["lower_m"]),
-            tuple(nominal["upper_m"]),
-            tuple(state["lower_m"]),
-            tuple(state["upper_m"]),
-        )
-        recovered = reconstruct_source_steering_twist(
-            transform,
-            tuple(nominal["tie_m"]),
-            tuple(state["lower_m"]),
-            tuple(state["upper_m"]),
-            tuple(state["tie_m"]),
-        )
-        if not recovered.ok or recovered.twist_rad is None:
-            raise RuntimeError(
-                f"BENCH-SUSP-0005 failed at heave={state['heave_mm']} mm: {recovered.message}"
+    source_identity: tuple[str, str] | None = None
+    twists_by_corner: dict[str, list[float]] = {}
+    heaves_by_corner: dict[str, list[float]] = {}
+    source_tolerances: dict | None = None
+    for fixture_path in SOURCE_3D_FIXTURES:
+        source_3d = _load(fixture_path)
+        identity = (source_3d["source_sha256"], source_3d["source_export_version"])
+        if source_identity is None:
+            source_identity = identity
+            source_tolerances = source_3d["tolerances"]
+        elif identity != source_identity:
+            raise RuntimeError("BENCH-SUSP-0005 left/right source identities do not match")
+        nominal = source_3d["nominal"]
+        corner = source_3d["corner"]
+        twists_by_corner[corner] = []
+        heaves_by_corner[corner] = []
+        for state in source_3d["states"]:
+            transform = minimum_twist_upright_transform(
+                tuple(nominal["lower_m"]), tuple(nominal["upper_m"]),
+                tuple(state["lower_m"]), tuple(state["upper_m"]),
             )
-        unsteered = remove_source_steering_from_point(
-            tuple(state["wheel_center_m"]),
-            tuple(state["lower_m"]),
-            tuple(state["upper_m"]),
-            recovered.twist_rad,
-        )
-        expected_unsteered = transform.apply_point(tuple(nominal["wheel_center_m"]))
-        point_error = _distance(unsteered, expected_unsteered)
-        twist_error = abs(
-            recovered.twist_rad - math.radians(float(state["expected_twist_deg"]))
-        )
-        scalar_difference = abs(
-            float(state["scalar_steer_angle_deg"])
-            - math.degrees(recovered.twist_rad)
-        )
-        max_unsteer_error = max(max_unsteer_error, point_error)
-        max_twist_error = max(max_twist_error, twist_error)
-        max_scalar_vs_twist_difference_deg = max(
-            max_scalar_vs_twist_difference_deg, scalar_difference
-        )
-        min_reference_lever = min(
-            min_reference_lever, float(recovered.reference_lever_arm_m or math.inf)
-        )
-        min_source_lever = min(
-            min_source_lever, float(recovered.source_lever_arm_m or math.inf)
-        )
-        source_rows.append(
-            {
-                "heave_mm": state["heave_mm"],
-                "recovered_twist_deg": math.degrees(recovered.twist_rad),
-                "scalar_steer_angle_deg": state["scalar_steer_angle_deg"],
-                "twist_error_rad": twist_error,
-                "unsteered_wheel_center_error_m": point_error,
-            }
-        )
+            recovered = reconstruct_source_steering_twist(
+                transform, tuple(nominal["tie_m"]), tuple(state["lower_m"]),
+                tuple(state["upper_m"]), tuple(state["tie_m"]),
+            )
+            if not recovered.ok or recovered.twist_rad is None:
+                raise RuntimeError(
+                    f"BENCH-SUSP-0005 failed for {corner} at heave={state['heave_mm']} mm: "
+                    f"{recovered.message}"
+                )
+            twists_by_corner[corner].append(recovered.twist_rad)
+            heaves_by_corner[corner].append(float(state["heave_mm"]))
+            unsteered = remove_source_steering_from_point(
+                tuple(state["wheel_center_m"]), tuple(state["lower_m"]),
+                tuple(state["upper_m"]), recovered.twist_rad,
+            )
+            expected_unsteered = transform.apply_point(tuple(nominal["wheel_center_m"]))
+            point_error = _distance(unsteered, expected_unsteered)
+            twist_error = abs(
+                recovered.twist_rad - math.radians(float(state["expected_twist_deg"]))
+            )
+            scalar_difference = abs(
+                float(state["scalar_steer_angle_deg"]) - math.degrees(recovered.twist_rad)
+            )
+            max_unsteer_error = max(max_unsteer_error, point_error)
+            max_twist_error = max(max_twist_error, twist_error)
+            max_scalar_vs_twist_difference_deg = max(
+                max_scalar_vs_twist_difference_deg, scalar_difference
+            )
+            min_reference_lever = min(
+                min_reference_lever, float(recovered.reference_lever_arm_m or math.inf)
+            )
+            min_source_lever = min(
+                min_source_lever, float(recovered.source_lever_arm_m or math.inf)
+            )
+            source_rows.append(
+                {
+                    "corner": corner,
+                    "heave_mm": state["heave_mm"],
+                    "recovered_twist_deg": math.degrees(recovered.twist_rad),
+                    "scalar_steer_angle_deg": state["scalar_steer_angle_deg"],
+                    "twist_error_rad": twist_error,
+                    "unsteered_wheel_center_error_m": point_error,
+                }
+            )
+
+    left_twists = twists_by_corner["front_left"]
+    right_twists = twists_by_corner["front_right"]
+    if heaves_by_corner["front_left"] != heaves_by_corner["front_right"]:
+        raise RuntimeError("BENCH-SUSP-0005 left/right source heave schedules do not match")
+    max_bilateral_twist_sum = max(abs(left + right) for left, right in zip(left_twists, right_twists))
 
     geometry = load_optimumk_geometry_snapshot(
         ROOT / "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
@@ -161,29 +179,26 @@ def build_report() -> dict:
         source_state = kinematics_fixture["states"][index]
         expected_q = math.radians(float(source_state["q_L_deg"]))
         forward = solve_wheel_reference_state(
-            front_right,
-            nominal_right,
-            expected_q,
+            front_right, nominal_right, expected_q,
             geometry_id=geometry.geometry_id,
             configuration_id="WUFR27_SUSPENSION_BASELINE_V0",
             source_authority=geometry.authority,
         )
         if not forward.ok or forward.delta_z_wc_body_m is None:
             raise RuntimeError(
-                f"BENCH-SUSP-0006 forward state failed at heave={source_state['heave_mm']}: {forward.message}"
+                f"BENCH-SUSP-0006 forward state failed at heave={source_state['heave_mm']}: "
+                f"{forward.message}"
             )
         inverse = solve_body_vertical_displacement(
-            front_right,
-            nominal_right,
-            forward.delta_z_wc_body_m,
-            state_solver,
+            front_right, nominal_right, forward.delta_z_wc_body_m, state_solver,
             geometry_id=geometry.geometry_id,
             configuration_id="WUFR27_SUSPENSION_BASELINE_V0",
             source_authority=geometry.authority,
         )
         if not inverse.ok or inverse.q_L_rad is None:
             raise RuntimeError(
-                f"BENCH-SUSP-0006 inverse state failed at heave={source_state['heave_mm']}: {inverse.message}"
+                f"BENCH-SUSP-0006 inverse state failed at heave={source_state['heave_mm']}: "
+                f"{inverse.message}"
             )
         q_error = abs(inverse.q_L_rad - expected_q)
         residual = abs(float(inverse.residual_m or 0.0))
@@ -204,15 +219,13 @@ def build_report() -> dict:
         )
 
     outside = solve_body_vertical_displacement(
-        front_right,
-        nominal_right,
-        0.2,
-        state_solver,
+        front_right, nominal_right, 0.2, state_solver,
         geometry_id=geometry.geometry_id,
         configuration_id="WUFR27_SUSPENSION_BASELINE_V0",
         source_authority=geometry.authority,
     )
 
+    assert source_identity is not None and source_tolerances is not None
     return {
         "model_id": "MOD-SUSP-0002",
         "authorization_id": "AUTH-SUSP-0002",
@@ -224,15 +237,21 @@ def build_report() -> dict:
             "states": nominal_rows,
         },
         "BENCH-SUSP-0005": {
-            "source_sha256": source_3d["source_sha256"],
-            "source_export_version": source_3d["source_export_version"],
+            "source_sha256": source_identity[0],
+            "source_export_version": source_identity[1],
+            "source_corner_count": 2,
+            "source_state_count": len(source_rows),
             "max_reconstructed_twist_error_rad": max_twist_error,
             "max_unsteered_wheel_center_error_m": max_unsteer_error,
+            "max_bilateral_twist_sum_rad": max_bilateral_twist_sum,
             "minimum_reference_tie_lever_arm_m": min_reference_lever,
             "minimum_source_tie_lever_arm_m": min_source_lever,
             "max_scalar_steer_vs_3d_twist_difference_deg": max_scalar_vs_twist_difference_deg,
             "scalar_steer_angle_used_as_rotation": False,
-            "tolerances": source_3d["tolerances"],
+            "tolerances": {
+                **source_tolerances,
+                "bilateral_twist_sum_rad": profile_fixture["tolerances"]["bilateral_twist_sum_rad"],
+            },
             "states": source_rows,
         },
         "BENCH-SUSP-0006": {
@@ -273,6 +292,7 @@ def main() -> int:
             f"nominal_center_error_nm={1e9*b4['max_nominal_wheel_center_component_error_m']:.6g}, "
             f"source_unsteer_error_nm={1e9*b5['max_unsteered_wheel_center_error_m']:.6g}, "
             f"twist_error_nrad={1e9*b5['max_reconstructed_twist_error_rad']:.6g}, "
+            f"bilateral_twist_sum_nrad={1e9*b5['max_bilateral_twist_sum_rad']:.6g}, "
             f"qL_recovery_urad={1e6*b6['max_q_L_recovery_error_rad']:.6g}"
         )
     return 0
