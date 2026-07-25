@@ -4,8 +4,8 @@ type = "model"
 title = "WUFR source-bounded wheel reference and physical suspension-state adapter"
 status = "proposed"
 disposition = "accepted_with_restrictions"
-maturity = "M0"
-description = "Composes MOD-SUSP-0001 with the frozen WUFR OptimumK wheel setup to construct a source-bounded nominal wheel center and reviewed wheel-plane reference, transport those references rigidly with solved upright pose, expose body-frame wheel-center vertical displacement as a physical suspension-state coordinate, invert that coordinate to q_L on the nominal branch, and remove tie-rod steering from historical front OptimumK result poses for validation. It does not add front steering closure, tire/contact physics, actuation kinematics, whole-vehicle source placement, or installed authority."
+maturity = "M1"
+description = "Source-bounded wheel-reference and physical-state adapter authorized by AUTH-SUSP-0002 / PR41 and implemented in PR42. It composes MOD-SUSP-0001 with the frozen WUFR OptimumK wheel setup to construct the nominal wheel center and reviewed wheel-plane basis, transports those references rigidly with solved upright pose, exposes body-frame wheel-center vertical displacement, inverts that coordinate to q_L on the nominal branch, and removes tie-rod steering from historical front OptimumK result poses for validation. It does not add front steering closure, tire/contact physics, actuation kinematics, whole-vehicle source placement, or installed authority."
 inputs = [
   "MOD-SUSP-0001 solved upright state and upright reference transform",
   "Frozen WUFR zero-offset wheel setup: half-track, tire diameter, static camber, static toe, side and axle identity",
@@ -31,17 +31,24 @@ assumptions = [
   "The historical OptimumK scalar Steer Angle channel is not the 3D rotation used to remove source steering.",
   "Wheelbase 1.5624 m is a reviewed vehicle scalar but does not establish the front/rear OptimumK source-origin translation by itself."
 ]
-verification_level = "none"
+verification_level = "B"
 equation_ids = ["EQ-SUSP-0005", "EQ-SUSP-0006", "EQ-SUSP-0007", "EQ-SUSP-0008"]
 benchmark_ids = ["BENCH-SUSP-0004", "BENCH-SUSP-0005", "BENCH-SUSP-0006"]
 authorization_id = "AUTH-SUSP-0002"
-authorization_state = "review_ready_pending_merge"
+authorization_state = "prototype_authorized_after_PR41_merge"
 authorization_document = "authorizations/suspension/AUTH-SUSP-0002.toml"
 upstream_model_ids = ["MOD-SUSP-0001"]
 downstream_model_ids = ["MOD-STEER-0001", "MOD-STEER-0002", "MOD-VEH-0002"]
 source_snapshot = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
 source_audit = "docs/models/suspension/wheel_reference_source_audit.md"
 preimplementation_specification = "docs/models/suspension/wheel_reference_function_specification.md"
-review_record = "docs/reviews/phase2_wheel_reference_authorization_review.md"
-implementation_package = "src/pssd_suspension"
+implementation_package = "src/pssd_suspension/wheel_reference.py"
+implementation_document = "docs/models/suspension/wheel_reference_implementation_v0.1.0.md"
+implementation_tests = ["tests/test_wheel_reference_state_adapter.py"]
+benchmark_report_script = "scripts/run_wheel_reference_benchmarks.py"
+benchmark_result_record = "benchmarks/suspension/wheel_reference_result_v0.1.0.toml"
+validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
+review_record = "docs/reviews/phase2_wheel_reference_implementation_review.md"
+baseline_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
+next_implementation_gate = "Keep actuation/motion-ratio kinematics, whole-vehicle source-origin placement, generic contact geometry, loads/compliance, and installed correlation separately authorized. The next suspension software slice may expose additional wheel-state metrics from the reviewed wheel reference or authorize actuation geometry, but must not collapse those model boundaries."
 prohibited_scope = "Generic nonzero OptimumK wheel-offset interpretation, front tie-rod steering solve, generic contact patch/tire envelope or tire deflection, actuation/motion ratio, loads/compliance, whole-vehicle source-origin inference, installed/as-built or production claims."

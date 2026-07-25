@@ -1,4 +1,4 @@
-version = "0.1.1"
+version = "0.1.2"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
 status = "active_design_intent_baseline_not_as_built"
 vehicle_revision = "WUFR-27"
@@ -6,6 +6,7 @@ purpose = "WUFR-27 suspension R&D baseline inheriting the WUFR-26 final OptimumK
 
 [authority]
 model_id = "MOD-SUSP-0001"
+wheel_reference_model_id = "MOD-SUSP-0002"
 source_snapshot = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
 source_snapshot_id = "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0"
 source_catalog_id = "CAT-SUSP-GEO-0001"
@@ -21,29 +22,33 @@ wheelbase_source = "Team/reviewer confirmation during PR39: OptimumK Reference D
 wheelbase_frame_rule = "Wheelbase identity alone does not authorize translating the PR38 rear source-local hardpoints relative to the front source-local origin. Whole-vehicle source-origin placement remains a separate adapter/review decision."
 
 [front_steering_boundary]
-rule = "Front suspension geometry retains the OptimumK CHAS_TiePnt/UPRI_TiePnt values as source evidence, but MOD-STEER-0001 continues to use the later steering-FDR tie-rod coordinates. The suspension model must output a zero-steer upright reference and leave tie-rod-induced steering rotation to the steering evaluator."
+rule = "Front suspension geometry retains the OptimumK CHAS_TiePnt/UPRI_TiePnt values as source evidence, but MOD-STEER-0001 continues to use the later steering-FDR tie-rod coordinates. MOD-SUSP-0001/MOD-SUSP-0002 output the unresolved-steering upright/wheel reference and leave tie-rod-induced steering rotation to the steering evaluator."
 steering_pose_contract = "upright_reference_pose_excludes_tie_rod_steering_rotation"
 
 [coordinate_boundary]
 rule = "Front and rear suspension coordinates remain in their source suspension-reference origins after orientation/unit conversion. Reference Distance is confirmed as wheelbase and retained as vehicle context; rear hardpoints are not translated into a whole-vehicle origin until the source-origin relationship is explicitly reviewed."
 
 [wheel_boundary]
-rule = "Static camber, static toe, half-track, offsets, rim/tire diameter, and tire width are retained as source setup values. No wheel-center point or wheel-plane origin is inferred from them until a separate review."
+rule = "Static camber, static toe, half-track, offsets, rim/tire diameter, and tire width remain source setup values. Under AUTH-SUSP-0002, MOD-SUSP-0002 may construct the nominal wheel center and wheel-plane reference only for the frozen zero-longitudinal/lateral/vertical-offset OptimumK setup and transport them rigidly with the reviewed upright state. Nonzero offset semantics, contact-patch/tire-envelope construction, tire deflection, and installed wheel/bearing metrology remain unavailable."
+source_profile = "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+physical_state_coordinate = "delta_z_wc_body_m = current body-frame wheel-center z minus nominal body-frame wheel-center z; positive upward"
 
 [uses]
 permitted = [
   "MOD-SUSP-0001 rigid kinematics development and verification",
+  "MOD-SUSP-0002 source-bounded wheel-reference and physical-state development and verification",
   "source-to-canonical transform regression",
   "suspension kinematics validation against OptimumK",
-  "future provider-neutral steering suspension-pose generation",
+  "provider-neutral steering suspension-pose generation from reviewed unresolved-steering states",
   "future 3D scene generation after solved states exist",
   "PDR/FDR R&D documentation"
 ]
 prohibited = [
-  "installed or as-built hardpoint claims",
+  "installed or as-built hardpoint, wheel-center, bearing-axis, or alignment claims",
   "physical tolerance or compliance claims",
   "automatic replacement of steering-FDR front tie-rod geometry",
-  "wheel-center inference from half-track or tire dimensions",
+  "generalization of the zero-offset wheel-center construction to nonzero OptimumK wheel offsets",
+  "generic contact-patch/tire-envelope or tire-deflection inference",
   "rear whole-vehicle origin inference from wheelbase alone without a reviewed origin relationship",
   "production optimization or geometry release"
 ]
