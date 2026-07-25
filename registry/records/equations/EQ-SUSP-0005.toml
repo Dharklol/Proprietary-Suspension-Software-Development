@@ -1,0 +1,28 @@
+[record]
+id = "EQ-SUSP-0005"
+type = "equation"
+title = "WUFR zero-offset nominal wheel-center and wheel-plane reference construction"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "For the frozen WUFR OptimumK setup whose longitudinal/lateral/vertical wheel offsets are all zero, reconstruct the nominal wheel center from source half-track, tire radius, side identity, and static camber, and construct the nominal wheel-plane orientation using the already reviewed project static-alignment convention. This is a source-specific adapter, not a generic tire/contact-patch model."
+outputs = ["Nominal wheel-center point in canonical suspension-local coordinates", "Nominal wheel-plane normal", "Nominal forward reference and road-plane heading"]
+inputs = ["Axle/side identity", "Source half-track", "Source tire diameter", "Source static camber", "Source static toe", "Verified zero longitudinal/lateral/vertical wheel offsets"]
+assumptions = [
+  "Canonical axes are +x forward, +y vehicle left, +z upward.",
+  "Side sign is +1 left and -1 right.",
+  "Static camber uses the reviewed positive-top-out convention and static toe uses the reviewed positive-toe-out convention.",
+  "The v0.1 construction is valid only for the frozen source setup with all three wheel offsets equal to zero.",
+  "The wheel-center reconstruction and wheel-plane orientation are source references; no tire deformation or loaded contact patch is included."
+]
+verification_level = "none"
+canonical_equation = "For side sign s and source zero-offset setup: R=D_tire/2; x_wc=0; y_wc=s*(half_track+R*sin(gamma)); z_wc=R*cos(gamma). Wheel-plane heading= s*toe_out and the plane basis reuses reference_from_static_alignment(side,toe_out,camber)."
+source_basis = [
+  "WUFR-26 FINAL 8.21.2025.xlsx, Box file 2014803790843, zero wheel offsets and source half-track/camber/toe/tire diameter.",
+  "WUFR-26 8.21 Heaves 1inch.xlsx, nominal wheel-center coordinates cross-checking the construction to result precision.",
+  "Existing reviewed MOD-STEER-0001 static wheel-plane convention in src/pssd_steering/projection.py and WUFR26_DESIGN_NOMINAL_V0."
+]
+validity = "Frozen WUFR-26/27 OptimumK design-source setup with zero wheel offsets; nonzero offset semantics are explicitly outside v0.1."
+numerical_method = "Direct finite trigonometric construction after unit/sign adaptation; reject unsupported nonzero offsets rather than extrapolating the source convention."
+failure_behavior = ["Reject non-finite source values", "Reject non-positive tire diameter", "Reject unsupported nonzero wheel offsets in the v0.1 source adapter", "Retain source precision/provenance rather than silently rounding the result half-track to the Box text display"]
+benchmark_ids = ["BENCH-SUSP-0004"]

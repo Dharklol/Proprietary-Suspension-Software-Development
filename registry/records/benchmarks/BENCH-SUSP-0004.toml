@@ -1,0 +1,19 @@
+[record]
+id = "BENCH-SUSP-0004"
+type = "benchmark"
+title = "WUFR nominal wheel-center and wheel-plane source reconstruction"
+status = "proposed"
+description = "Verify the source-bounded nominal wheel-reference construction against the frozen WUFR OptimumK setup/result. The benchmark reconstructs all four nominal wheel centers from source half-track, tire radius, static camber, and side identity and freezes the existing reviewed static toe/camber wheel-plane basis."
+verification_level = "C"
+target_ids = ["MOD-SUSP-0002", "EQ-SUSP-0005", "EQ-SUSP-0006"]
+acceptance_criteria = [
+  "Use only the frozen WUFR-26 OptimumK setup/result identities recorded in WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.",
+  "For the frozen zero-offset source setup, reconstruct front and rear left/right nominal wheel-center coordinates within 2e-9 m of the frozen OptimumK nominal result coordinates.",
+  "Reconstruct the nominal wheel-plane forward reference and normal from the reviewed project static toe/camber convention within 1e-12 per component.",
+  "Preserve the higher-precision half-track values exposed by the result evidence while documenting the 0.001 mm rounding of the Box setup text representation.",
+  "Reject or explicitly mark unsupported any attempt to generalize the v0.1 construction to nonzero source wheel offsets.",
+  "Do not create a generic contact-patch/tire-envelope model as part of this benchmark."
+]
+fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+source_audit = "docs/models/suspension/wheel_reference_source_audit.md"
+planned_implementation_tests = ["tests/test_wheel_reference_state_adapter.py"]

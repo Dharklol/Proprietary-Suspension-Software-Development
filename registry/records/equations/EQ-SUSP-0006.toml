@@ -1,0 +1,27 @@
+[record]
+id = "EQ-SUSP-0006"
+type = "equation"
+title = "Rigid upright-attached wheel reference transport"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Transport the source-bounded nominal wheel-center point and wheel-plane basis with the rigid upright transform supplied by MOD-SUSP-0001. Front corners use the minimum-twist unresolved-steering reference transform; rear corners use the rear chassis toe-link-closed final upright transform."
+outputs = ["Current wheel-center point", "Current wheel-plane normal and forward reference", "Body-frame wheel-center displacement from nominal"]
+inputs = ["Nominal wheel-center point", "Nominal wheel-plane basis", "MOD-SUSP-0001 upright rigid transform", "Front/rear corner role"]
+assumptions = [
+  "Wheel center and wheel-plane orientation are rigidly attached to the ideal upright in this kinematic layer.",
+  "The front transform excludes tie-rod steering rotation and therefore remains compatible with MOD-STEER-0001.",
+  "The rear chassis toe link is part of MOD-SUSP-0001 rear upright location and its final transform may transport the rear wheel reference.",
+  "No tire deformation, bearing play, compliance, or force application is represented."
+]
+verification_level = "none"
+canonical_equation = "For upright rigid transform T(p)=R*p+t: p_wc=T(p_wc,0); n_wc=R*n_wc,0; f_wc=R*f_wc,0. Front R,t are the EQ-SUSP-0003 unresolved-steering reference; rear R,t include EQ-SUSP-0004 toe-link twist closure."
+source_basis = [
+  "Rigid-body transport supplied by MOD-SUSP-0001 under AUTH-SUSP-0001.",
+  "WUFR front upright/hub drawings showing wheel bearings and hub carried by the upright as physical architecture evidence.",
+  "Existing steering SuspensionPoseSet rule upright_reference_pose_excludes_tie_rod_steering_rotation."
+]
+validity = "Rigid ideal-joint upright/wheel reference kinematics within the reviewed MOD-SUSP-0001 branch and the source-bounded nominal wheel-reference definition."
+numerical_method = "Apply the already validated right-handed rigid transform to points and directions; preserve orthonormality and source role."
+failure_behavior = ["Reject missing/invalid upstream upright transform", "Reject non-finite wheel reference", "Do not substitute a front tie-rod-steered transform for the unresolved-steering transform", "Do not infer tire/contact-patch geometry from the transported wheel center"]
+benchmark_ids = ["BENCH-SUSP-0004", "BENCH-SUSP-0005", "BENCH-SUSP-0006"]
