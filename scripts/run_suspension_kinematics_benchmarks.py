@@ -96,6 +96,11 @@ def _max_point_error(actual: tuple[float, float, float], expected: list[float]) 
 
 
 def build_report() -> dict:
+    benchmark_solver = KinematicsSolverConfig(
+        root_angle_tolerance_rad=1.0e-14,
+        length_residual_tolerance_m=1.0e-13,
+    )
+
     basic = _load("benchmarks/suspension/GEO-SUSP-BASIC-001.toml")
     parallel = _parallel_corner()
     basic_rows = []
@@ -103,7 +108,11 @@ def build_report() -> dict:
     basic_max_angle_error = 0.0
     basic_max_residual = 0.0
     for state in basic["states"]:
-        result = solve_corner_state(parallel, math.radians(state["q_L_deg"]))
+        result = solve_corner_state(
+            parallel,
+            math.radians(state["q_L_deg"]),
+            config=benchmark_solver,
+        )
         if not result.ok or result.q_U_rad is None or result.lower_upright_m is None or result.upper_upright_m is None:
             raise RuntimeError(f"BENCH-SUSP-0001 failed at q_L={state['q_L_deg']}: {result.message}")
         position_error = max(
@@ -135,6 +144,7 @@ def build_report() -> dict:
         result = solve_corner_state(
             front_right,
             math.radians(state["q_L_deg"]),
+            config=benchmark_solver,
             geometry_id=geometry.geometry_id,
             configuration_id="WUFR27_SUSPENSION_BASELINE_V0",
             source_authority=geometry.authority,
@@ -174,7 +184,9 @@ def build_report() -> dict:
         current_lower_m=(0.0, 0.0, 0.0),
         current_upper_m=(0.0, 0.0, 0.2),
         config=KinematicsSolverConfig(
-            initial_bracket_step_rad=math.radians(rear_fixture["expected"]["twist_deg"])
+            initial_bracket_step_rad=math.radians(rear_fixture["expected"]["twist_deg"]),
+            root_angle_tolerance_rad=1.0e-14,
+            length_residual_tolerance_m=1.0e-13,
         ),
     )
     if not rear_root.ok or rear_root.root_rad is None or rear_transform is None:
@@ -215,7 +227,7 @@ def build_report() -> dict:
             "toe_link_residual_m": abs(rear_residual or 0.0),
             "closure_derivative_m2_per_rad": rear_derivative,
             "tolerances": rear_fixture["tolerances"],
-            "note": "The frozen fixture is tangent at closure; the current benchmark samples the exact 10 deg solution while a broader tangent-root robustness enhancement remains a later numerical-hardening option.",
+            "note": "The frozen fixture is tangent at closure; the current benchmark samples the exact 10 deg solution and records the near-zero closure derivative as singular-limit evidence.",
         },
         "scope_exclusions": [
             "front tie-rod steering closure",
