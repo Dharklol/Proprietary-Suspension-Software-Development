@@ -20,6 +20,7 @@ result_box_file_id = "2014806871001"
 result_sha256 = "db071b7e696149ec82213e9ed05aa557349d18d19debe7925e7e01058534e4b8"
 result_export_version = "2.3.0"
 source_profile = "benchmarks/suspension/WUFR26_OPTIMUMK_ACTUATION_V0.toml"
+rear_q_source_fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_REAR_LEFT_Q_SOURCE_V0.toml"
 
 [BENCH-SUSP-0007]
 verification_level = "B"
