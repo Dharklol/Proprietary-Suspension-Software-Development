@@ -47,6 +47,15 @@ class SuspensionActuationAuthorizationTests(unittest.TestCase):
         self.assertIn("Anti-roll-bar", prohibited)
         self.assertIn("installed suspension travel", prohibited)
 
+    def test_authorization_matrix_explicitly_carries_actuation_scope(self) -> None:
+        matrix = (ROOT / "docs/governance/implementation_authorization_matrix.md").read_text(encoding="utf-8")
+        self.assertIn("`MOD-SUSP-0003`", matrix)
+        self.assertIn("`EQ-SUSP-0009` through `0012`", matrix)
+        self.assertIn("`AUTH-SUSP-0003`", matrix)
+        self.assertIn("historical OptimumK `Motion Ratio Heave` as comparison-only evidence", matrix)
+        self.assertIn("spring/damper forces", matrix)
+        self.assertIn("installed/as-built validation", matrix)
+
     def test_model_and_equation_links_are_frozen(self) -> None:
         model = _load("registry/records/models/MOD-SUSP-0003.toml")["record"]
         self.assertEqual(model["authorization_id"], "AUTH-SUSP-0003")

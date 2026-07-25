@@ -1,0 +1,74 @@
+version = "0.1.0"
+fixture_id = "WUFR26_OPTIMUMK_HEAVE_REAR_LEFT_Q_SOURCE_V0"
+role = "historical_external_benchmark_driver_derivation_only"
+source_filename = "WUFR-26 8.21 Heaves 1inch.xlsx"
+source_box_file_id = "2014806871001"
+source_provider_sha1 = "4f2d1202d3bbd4be1b42f6e1c552919572078f67"
+source_sha256 = "db071b7e696149ec82213e9ed05aa557349d18d19debe7925e7e01058534e4b8"
+source_export_version = "2.3.0"
+source_coordinate_precision_mm = 0.001
+source_frame_rule = "OptimumK result coordinates; rear source x includes -1562.4 mm wheelbase placement in this result export."
+body_re_reference_rule = "For each state form body-local canonical lower-upright point in mm as [x_source + 1562.4, -y_source, z_source - heave_mm]."
+q_L_rule = "Use the signed atan2 rotation of the nominal/current lower-upright radius vectors about the frozen rear-left lower A-arm fore-to-aft hinge axis, matching EQ-SUSP-0001 positive-angle convention."
+mirror_rule = "Rear-right benchmark q_L is the opposite sign of rear-left only for this frozen source-mirrored historical ideal geometry."
+authority_boundary = "These source-derived angles drive BENCH-SUSP-0008 only. They do not replace nominal hardpoint authority and are not installed/as-built travel measurements."
+
+[nominal_canonical_mm]
+lower_fore_inboard = [176.708, 214.846, 142.738]
+lower_aft_inboard = [-121.917, 188.337, 131.316]
+lower_upright = [0.000, 565.125, 132.639]
+
+[[states]]
+heave_mm = -25.40
+source_lower_upright_mm = [-1563.290, -564.516, 131.916]
+expected_rear_left_q_L_deg = -3.8827826858483308
+
+[[states]]
+heave_mm = -20.32
+source_lower_upright_mm = [-1563.124, -564.771, 132.076]
+expected_rear_left_q_L_deg = -3.1080520426105642
+
+[[states]]
+heave_mm = -15.24
+source_lower_upright_mm = [-1562.952, -564.959, 132.228]
+expected_rear_left_q_L_deg = -2.332506853253096
+
+[[states]]
+heave_mm = -10.16
+source_lower_upright_mm = [-1562.775, -565.081, 132.372]
+expected_rear_left_q_L_deg = -1.5560034305254207
+
+[[states]]
+heave_mm = -5.08
+source_lower_upright_mm = [-1562.590, -565.136, 132.509]
+expected_rear_left_q_L_deg = -0.7785430437126964
+
+[[states]]
+heave_mm = 0.0
+source_lower_upright_mm = [-1562.400, -565.125, 132.639]
+expected_rear_left_q_L_deg = 0.0
+
+[[states]]
+heave_mm = 5.08
+source_lower_upright_mm = [-1562.203, -565.046, 132.762]
+expected_rear_left_q_L_deg = 0.7797817052598268
+
+[[states]]
+heave_mm = 10.16
+source_lower_upright_mm = [-1562.001, -564.899, 132.878]
+expected_rear_left_q_L_deg = 1.560937825644748
+
+[[states]]
+heave_mm = 15.24
+source_lower_upright_mm = [-1561.791, -564.685, 132.987]
+expected_rear_left_q_L_deg = 2.3436267316008497
+
+[[states]]
+heave_mm = 20.32
+source_lower_upright_mm = [-1561.576, -564.402, 133.091]
+expected_rear_left_q_L_deg = 3.127674010007591
+
+[[states]]
+heave_mm = 25.40
+source_lower_upright_mm = [-1561.354, -564.051, 133.188]
+expected_rear_left_q_L_deg = 3.913544656318117
