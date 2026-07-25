@@ -1,0 +1,18 @@
+[record]
+id = "BENCH-SUSP-0001"
+type = "benchmark"
+title = "Analytical parallel-arm double-wishbone kinematics"
+status = "proposed"
+description = "Verify the first rigid double-wishbone equations on a synthetic geometry whose upper and lower A-arm hinge axes are parallel and whose outboard geometry makes q_U=q_L analytically. The benchmark isolates rigid arm rotation, upright-distance closure, nominal branch continuation, and zero-steer reference transport without WUFR source assumptions."
+verification_level = "B"
+target_ids = ["MOD-SUSP-0001", "EQ-SUSP-0001", "EQ-SUSP-0002", "EQ-SUSP-0003"]
+acceptance_criteria = [
+  "For q_L in {-20,-10,0,10,20} deg, the solved branch returns q_U=q_L within 1e-10 rad.",
+  "Lower and upper outboard joint centers reproduce the closed-form sine/cosine positions in GEO-SUSP-BASIC-001 within 1e-12 m.",
+  "All four A-arm inboard-to-outboard distances and the 0.2 m upright joint-center separation remain invariant within 1e-12 m.",
+  "The nominal state is recovered exactly at q_L=q_U=0.",
+  "Because the synthetic kingpin axis remains unchanged, EQ-SUSP-0003 returns the identity zero-steer reference rotation within 1e-12.",
+  "A deliberately unreachable/invalid branch request returns a structured failure rather than alternate-root substitution."
+]
+fixture = "benchmarks/suspension/GEO-SUSP-BASIC-001.toml"
+planned_implementation_tests = ["tests/test_rigid_suspension_kinematics.py"]
