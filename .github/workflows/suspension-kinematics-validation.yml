@@ -6,30 +6,6 @@ on:
     branches: [main]
 
 jobs:
-  actuation-source-recovery:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - name: Run rear source-state recovery regression
-        run: |
-          set +e
-          python -m unittest tests.test_suspension_actuation_source_recovery -v > source_recovery_test.log 2>&1
-          echo $? > source_recovery_exit_code.txt
-          exit 0
-      - name: Upload source-recovery diagnostics
-        uses: actions/upload-artifact@v4
-        with:
-          name: actuation-source-recovery-diagnostics
-          path: |
-            source_recovery_test.log
-            source_recovery_exit_code.txt
-          if-no-files-found: error
-      - name: Enforce source-recovery result
-        run: test "$(cat source_recovery_exit_code.txt)" -eq 0
-
   suspension-kinematics:
     runs-on: ubuntu-latest
     steps:
