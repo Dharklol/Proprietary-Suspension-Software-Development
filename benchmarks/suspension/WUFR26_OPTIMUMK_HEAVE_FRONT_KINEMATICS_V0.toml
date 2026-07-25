@@ -1,0 +1,121 @@
+version = "0.1.0"
+benchmark_fixture_id = "WUFR26_OPTIMUMK_HEAVE_FRONT_KINEMATICS_V0"
+authority = "historical_external_kinematics_evidence_only"
+source_type = "optimumk_result_export"
+source_filename = "WUFR-26 8.21 Heaves 1inch.xlsx"
+source_sha256 = "db071b7e696149ec82213e9ed05aa557349d18d19debe7925e7e01058534e4b8"
+source_export_version = "2.3.0"
+source_corner = "front_right"
+source_motion = "pure_heave"
+source_steering_input_deg = 0.0
+geometry_source = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
+source_static_precision_note = "PR38 static hardpoints are transcribed from the Box text representation to 0.001 mm while the result workbook exposes higher precision. The 2 micrometre cross-tool position tolerance intentionally covers this source precision difference."
+
+[adapter]
+source_result_frame_observation = "During pure heave, exported chassis hardpoint z coordinates translate by exactly the Motion [Heave] value while wheel/upright coordinates remain road-fixed. For this benchmark only, subtract the body heave translation before applying the reviewed OptimumK orientation conversion."
+body_rereference_rule = "p_body_optk_mm = p_export_optk_mm - [0,0,heave_mm]"
+canonical_rule = "p_body_can_m = 0.001 * [x_body_optk,-y_body_optk,z_body_optk]"
+applicability = "pure_heave_result_only; do_not_generalize_to_roll_pitch_or_other_OptimumK_exports_without_separate_review"
+
+[solver_input]
+independent_coordinate = "lower_arm_rotation_q_L_rad"
+rotation_sign_rule = "right-hand rotation about each fore-to-aft inboard hinge axis in the canonical axle-local frame"
+upper_rotation_role = "benchmark_reference_only; implementation must solve q_U through EQ-SUSP-0002 rather than ingest expected_q_U_deg as a solver input"
+
+[[states]]
+heave_mm = -25.4
+q_L_deg = 3.834612363973
+expected_q_U_deg = 4.662086901355
+expected_lower_upright_m = [0.001547405064, -0.584632057521, 0.181626633615]
+expected_upper_upright_m = [-0.004470814716, -0.557985612221, 0.328885180571]
+
+[[states]]
+heave_mm = -20.32
+q_L_deg = 3.068174244384
+expected_q_U_deg = 3.727179898329
+expected_lower_upright_m = [0.001246355051, -0.585255707507, 0.176741294124]
+expected_upper_upright_m = [-0.004867042187, -0.559479946095, 0.324150819480]
+
+[[states]]
+heave_mm = -15.24
+q_L_deg = 2.301577981537
+expected_q_U_deg = 2.793656002485
+expected_lower_upright_m = [0.000941072070, -0.585814040030, 0.171847295016]
+expected_upper_upright_m = [-0.005266853655, -0.560894553234, 0.319400039836]
+
+[[states]]
+heave_mm = -10.16
+q_L_deg = 1.534740616026
+expected_q_U_deg = 1.861377819588
+expected_lower_upright_m = [0.000631574502, -0.586306964381, 0.166944977225]
+expected_upper_upright_m = [-0.005670184434, -0.562229594240, 0.314633499965]
+
+[[states]]
+heave_mm = -5.08
+q_L_deg = 0.767577047249
+expected_q_U_deg = 0.930206163615
+expected_lower_upright_m = [0.000317878907, -0.586734374118, 0.162034667902]
+expected_upper_upright_m = [-0.006076972815, -0.563485209382, 0.309851831582]
+
+[[states]]
+heave_mm = 0.0
+q_L_deg = 0.0
+expected_q_U_deg = 0.0
+expected_lower_upright_m = [0.0, -0.587096146100, 0.157116680940]
+expected_upper_upright_m = [-0.006487160000, -0.564661517360, 0.305055640840]
+
+[[states]]
+heave_mm = 5.08
+q_L_deg = -0.768080016769
+expected_q_U_deg = -0.929383622955
+expected_lower_upright_m = [-0.000322049363, -0.587392139513, 0.152191317477]
+expected_upper_upright_m = [-0.006900690037, -0.565758614093, 0.300245509355]
+
+[[states]]
+heave_mm = 10.16
+q_L_deg = -1.536754759280
+expected_q_U_deg = -1.858089654721
+expected_lower_upright_m = [-0.000648258208, -0.587622194897, 0.147258866391]
+expected_upper_upright_m = [-0.007317509763, -0.566776571516, 0.295421995197]
+
+[[states]]
+heave_mm = 15.24
+q_L_deg = -2.306118306631
+expected_q_U_deg = -2.786265135445
+expected_lower_upright_m = [-0.000978617463, -0.587786133149, 0.142319604780]
+expected_upper_upright_m = [-0.007737568748, -0.567715436384, 0.290585633852]
+
+[[states]]
+heave_mm = 20.32
+q_L_deg = -3.076267127172
+expected_q_U_deg = -3.714059301431
+expected_lower_upright_m = [-0.001313119985, -0.587883754521, 0.137373798433]
+expected_upper_upright_m = [-0.008160819234, -0.568575229074, 0.285736939165]
+
+[[states]]
+heave_mm = 25.4
+q_L_deg = -3.847300153902
+expected_q_U_deg = -4.641623703540
+expected_lower_upright_m = [-0.001651760583, -0.587914837593, 0.132421702283]
+expected_upper_upright_m = [-0.008587216090, -0.569355942378, 0.280876404240]
+
+[tolerances]
+position_m = 2e-6
+upper_rotation_rad = 2e-5
+internal_length_residual_m = 1e-9
+
+[excluded_channels]
+items = [
+  "UPRI_TiePnt / CHAS_TiePnt result positions as unresolved front pose authority",
+  "Toe Angle",
+  "Steer Angle",
+  "Steering Toe Angle Gain",
+  "Steering Ratio",
+  "wheel plane / wheel heading",
+  "bump steer"
+]
+reason = "The OptimumK result already contains tie-rod-constrained steering; using those channels inside the suspension reference solver would double count front steering when composed with MOD-STEER-0001."
+
+[rear_origin_observation]
+status = "evidence_only_not_authorized_in_PR39"
+observation = "The same heave result export places nominal rear-right upright x approximately 1562.4 mm behind the front suspension-local origin, matching the setup Reference Distance magnitude. PR38 intentionally retained front/rear static source-local origins, so no rear whole-vehicle translation is promoted by this benchmark."
