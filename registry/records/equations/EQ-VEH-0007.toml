@@ -1,0 +1,31 @@
+[record]
+id = "EQ-VEH-0007"
+type = "equation"
+title = "Flat-road rigid-contact gap and reaction admissibility"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Define the first bounded wheel-road contact contract: a flat rigid road, vertically rigid tires, four declared contact-reference points, closed gaps for the active four-contact mode, and nonnegative road-normal reactions. This equation classifies contact admissibility; it does not calculate the reactions or solve vehicle equilibrium."
+outputs = ["Per-corner road-normal gap g_i", "Per-corner normal-reaction admissibility", "Contact-mode status", "Wheel-lift diagnostic"]
+inputs = ["Road-plane point r_road", "Unit road normal n_road", "Per-corner contact-reference point r_contact_i", "Externally supplied contact force F_contact_i when checking reaction sign"]
+assumptions = [
+  "The initial road is one flat rigid plane with a finite unit normal.",
+  "The initial tire is vertically rigid; tire radial deflection is not represented.",
+  "The first supported contact mode declares all four corners active and requires closed gaps.",
+  "A positive normal reaction acts from the road toward the vehicle along n_road."
+]
+verification_level = "none"
+canonical_equation = "g_i = n_road dot (r_contact_i-r_road); active four-contact mode requires g_i=0 and lambda_i=n_road dot F_contact_i >= 0"
+source_basis = [
+  "Guiggiani (2022), The Science of Vehicle Dynamics, Chapter 1 flat-road vehicle geometry and Chapter 9 handling with rigid tires/roll motion.",
+  "Guiggiani (2022), Chapter 10.1, road-contact and equilibrium/constitutive separation in full-car vertical models.",
+  "Pacejka (2006), Tyre and Vehicle Dynamics, tire-road contact force treatment; used only for the force/contact boundary, not tire constitutive behavior."
+]
+validity = "Flat rigid road, rigid vertical tires, declared contact-reference points, and the all-four-active contact mode."
+failure_behavior = [
+  "Reject nonunit/nonfinite road normals and incompatible point frames.",
+  "Report open/penetrating gaps explicitly; do not project or repair points silently.",
+  "Classify any negative normal reaction as wheel_lift/contact_mode_invalid and do not clip it to zero.",
+  "Return unsupported when tire vertical compliance, road profile, curb contact, or alternate contact modes are requested."
+]
+benchmark_ids = ["BENCH-VEH-0004"]
