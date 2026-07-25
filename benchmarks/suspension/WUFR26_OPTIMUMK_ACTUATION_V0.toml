@@ -1,0 +1,159 @@
+version = "0.1.0"
+fixture_id = "WUFR26_OPTIMUMK_ACTUATION_V0"
+authority = "historical_external_kinematics_evidence_only"
+project_frame = "+x forward, +y vehicle left, +z upward; right-handed"
+
+[source]
+setup_file = "WUFR-26 FINAL 8.21.2025.xlsx"
+setup_box_file_id = "2014803790843"
+setup_box_version_id = "2224178574043"
+setup_provider_sha1 = "15eadfb93369192038888da92ebaa6674db56cfa"
+result_file = "WUFR-26 8.21 Heaves 1inch.xlsx"
+result_box_file_id = "2014806871001"
+result_provider_sha1 = "4f2d1202d3bbd4be1b42f6e1c552919572078f67"
+result_frozen_sha256 = "db071b7e696149ec82213e9ed05aa557349d18d19debe7925e7e01058534e4b8"
+result_version = "2.3.0"
+source_motion_coordinate = "OptimumK Motion [Heave] in mm; historical source convention, not the MOD-SUSP-0002 body-frame wheel-center vertical coordinate"
+source_motion_ratio_channel = "Motion Ratio Heave; preserved as a historical source output and not adopted as the canonical project motion-ratio definition"
+source_re_reference_rule = "For source point-coordinate comparison, subtract [0,0,heave_mm] in OptimumK result coordinates before applying canonical = 0.001*[x,-y,z]. Scalar link lengths/displacements require no frame translation."
+
+[corroborating_hardware]
+front_rocker_drawing = "SU-70401-AA - FRONT ROCKER.pdf, Box file 2127681297030 version 2351794211430, SHA-1 6efe2f2e65f6231a3e1e24926f5225bd652caa9d"
+front_rocker_assembly = "SU-A0704-AA FRONT ROCKERS.pdf, Box file 2127683470999 version 2351796282199, SHA-1 0a4c77ebca6a92618e0546f77059120359922c01"
+rear_rocker_drawing = "SU-A070601-AA REAR ROCKER.pdf, Box file 2127710951300 version 2351825113700, SHA-1 542ad39a590bffce378d7826b2bd1e2aed842859"
+front_rocker_fix_source = "WUFR-26 Front FINAL 8.22.25 Rocker Fix.O2Sus, Box file 1962894525462 version 2166066613382, SHA-1 26f58276a19c61009b5a6412367e87ab9c43b67e"
+hardware_role = "corroborating architecture/fitment evidence only; OptimumK setup/result remains the nominal ideal-kinematic authority"
+
+[front]
+actuation_attachment = "upper_arm"
+nominal_push_pull_length_mm = 315.385
+nominal_coilover_length_mm = 164.600
+
+[front.left]
+arm_attachment_mm = [0.000, -519.405, 277.800]
+coilover_chassis_mm = [0.000, -46.426, 171.450]
+rocker_axis_point_mm = [25.400, -226.746, 132.080]
+rocker_pivot_mm = [0.000, -226.746, 132.080]
+rocker_rod_point_mm = [0.000, -247.676, 117.703]
+rocker_coilover_point_mm = [0.000, -209.221, 195.755]
+
+[rear]
+actuation_attachment = "lower_arm"
+nominal_push_pull_length_mm = 326.999
+nominal_coilover_length_mm = 164.611
+
+[rear.left]
+arm_attachment_mm = [-22.225, -511.671, 152.801]
+coilover_chassis_mm = [-22.225, -45.720, 425.818]
+rocker_axis_point_mm = [50.800, -224.536, 312.420]
+rocker_pivot_mm = [-22.225, -224.536, 312.420]
+rocker_rod_point_mm = [-22.225, -271.018, 374.193]
+rocker_coilover_point_mm = [-22.225, -209.829, 438.658]
+
+[tolerances]
+nominal_length_mm = 0.002
+source_scalar_mm = 0.001
+implementation_length_match_m = 0.00010
+implementation_displacement_match_m = 0.00010
+rod_length_residual_m = 1.0e-9
+rocker_axis_residual_m = 1.0e-12
+ratio_finite_difference_step_m = 0.00010
+
+[[states]]
+heave_mm = -25.40
+front_coilover_length_mm = 143.893
+front_coilover_displacement_mm = -20.707
+front_source_motion_ratio_heave = 1.247
+rear_coilover_length_mm = 139.296
+rear_coilover_displacement_mm = -25.315
+rear_source_motion_ratio_heave = 1.007
+
+[[states]]
+heave_mm = -20.32
+front_coilover_length_mm = 147.991
+front_coilover_displacement_mm = -16.609
+front_source_motion_ratio_heave = 1.234
+rear_coilover_length_mm = 144.349
+rear_coilover_displacement_mm = -20.261
+rear_source_motion_ratio_heave = 1.004
+
+[[states]]
+heave_mm = -15.24
+front_coilover_length_mm = 152.123
+front_coilover_displacement_mm = -12.477
+front_source_motion_ratio_heave = 1.226
+rear_coilover_length_mm = 149.417
+rear_coilover_displacement_mm = -15.194
+rear_source_motion_ratio_heave = 1.002
+
+[[states]]
+heave_mm = -10.16
+front_coilover_length_mm = 156.275
+front_coilover_displacement_mm = -8.325
+front_source_motion_ratio_heave = 1.221
+rear_coilover_length_mm = 154.488
+rear_coilover_displacement_mm = -10.123
+rear_source_motion_ratio_heave = 1.002
+
+[[states]]
+heave_mm = -5.08
+front_coilover_length_mm = 160.437
+front_coilover_displacement_mm = -4.163
+front_source_motion_ratio_heave = 1.220
+rear_coilover_length_mm = 159.555
+rear_coilover_displacement_mm = -5.056
+rear_source_motion_ratio_heave = 1.003
+
+[[states]]
+heave_mm = 0.0
+front_coilover_length_mm = 164.600
+front_coilover_displacement_mm = 0.0
+front_source_motion_ratio_heave = 1.221
+rear_coilover_length_mm = 164.611
+rear_coilover_displacement_mm = 0.0
+rear_source_motion_ratio_heave = 1.006
+
+[[states]]
+heave_mm = 5.08
+front_coilover_length_mm = 168.756
+front_coilover_displacement_mm = 4.156
+front_source_motion_ratio_heave = 1.224
+rear_coilover_length_mm = 169.650
+rear_coilover_displacement_mm = 5.039
+rear_source_motion_ratio_heave = 1.010
+
+[[states]]
+heave_mm = 10.16
+front_coilover_length_mm = 172.898
+front_coilover_displacement_mm = 8.298
+front_source_motion_ratio_heave = 1.229
+rear_coilover_length_mm = 174.668
+rear_coilover_displacement_mm = 10.058
+rear_source_motion_ratio_heave = 1.015
+
+[[states]]
+heave_mm = 15.24
+front_coilover_length_mm = 177.020
+front_coilover_displacement_mm = 12.420
+front_source_motion_ratio_heave = 1.236
+rear_coilover_length_mm = 179.662
+rear_coilover_displacement_mm = 15.052
+rear_source_motion_ratio_heave = 1.020
+
+[[states]]
+heave_mm = 20.32
+front_coilover_length_mm = 181.118
+front_coilover_displacement_mm = 16.518
+front_source_motion_ratio_heave = 1.244
+rear_coilover_length_mm = 184.629
+rear_coilover_displacement_mm = 20.019
+rear_source_motion_ratio_heave = 1.026
+
+[[states]]
+heave_mm = 25.40
+front_coilover_length_mm = 185.186
+front_coilover_displacement_mm = 20.586
+front_source_motion_ratio_heave = 1.254
+rear_coilover_length_mm = 189.566
+rear_coilover_displacement_mm = 24.956
+rear_source_motion_ratio_heave = 1.032
