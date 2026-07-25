@@ -117,26 +117,58 @@ class WheelReferenceAuthorizationTests(unittest.TestCase):
                     self.assertLessEqual(abs(got - want), tol)
                 self.assertLessEqual(abs(_dot(forward, normal)), 2e-16)
 
-    def test_source_steering_removal_freeze_does_not_equate_scalar_steer_angle(self) -> None:
+    def test_source_steering_removal_freeze_is_bilateral_and_not_scalar_steer(self) -> None:
         fixture = _load("benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml")
         section = fixture["source_front_steering_removal"]
+        self.assertEqual(section["role"], "front_pair")
         self.assertEqual(section["scalar_steer_angle_role"], "comparison_only_not_rotation_input")
         states = section["states"]
         self.assertEqual(len(states), 11)
         self.assertEqual(states[5]["heave_mm"], 0.0)
-        self.assertEqual(states[5]["reconstructed_twist_deg"], 0.0)
-        representative = [state for state in states if "source_scalar_steer_angle_deg" in state]
-        self.assertGreaterEqual(len(representative), 4)
-        endpoint = states[0]
-        self.assertGreater(
-            abs(endpoint["reconstructed_twist_deg"] - endpoint["source_scalar_steer_angle_deg"]),
-            0.08,
-        )
-        endpoint = states[-1]
-        self.assertGreater(
-            abs(endpoint["reconstructed_twist_deg"] - endpoint["source_scalar_steer_angle_deg"]),
-            0.08,
-        )
+        self.assertEqual(states[5]["left_reconstructed_twist_deg"], 0.0)
+        self.assertEqual(states[5]["right_reconstructed_twist_deg"], 0.0)
+
+        bilateral_tol = math.degrees(fixture["tolerances"]["bilateral_twist_sum_rad"])
+        for state in states:
+            self.assertLessEqual(
+                abs(
+                    state["left_reconstructed_twist_deg"]
+                    + state["right_reconstructed_twist_deg"]
+                ),
+                bilateral_tol,
+            )
+
+        representative = [
+            state for state in states if "left_source_scalar_steer_angle_deg" in state
+        ]
+        self.assertGreaterEqual(len(representative), 5)
+        for state in representative:
+            self.assertAlmostEqual(
+                state["left_source_scalar_steer_angle_deg"],
+                -state["right_source_scalar_steer_angle_deg"],
+                places=12,
+            )
+
+        for endpoint in (states[0], states[-1]):
+            self.assertGreater(
+                abs(
+                    endpoint["left_reconstructed_twist_deg"]
+                    - endpoint["left_source_scalar_steer_angle_deg"]
+                ),
+                0.08,
+            )
+            self.assertGreater(
+                abs(
+                    endpoint["right_reconstructed_twist_deg"]
+                    - endpoint["right_source_scalar_steer_angle_deg"]
+                ),
+                0.08,
+            )
+
+        # The nominal scalar channel retains a small offset even though the actual
+        # tie-point-derived upright twist is exactly zero in the nominal reference.
+        self.assertGreater(abs(states[5]["left_source_scalar_steer_angle_deg"]), 7.0e-4)
+        self.assertEqual(states[5]["left_reconstructed_twist_deg"], 0.0)
 
     def test_benchmark_records_preserve_scope(self) -> None:
         for benchmark_id in ("BENCH-SUSP-0004", "BENCH-SUSP-0005", "BENCH-SUSP-0006"):
@@ -144,7 +176,9 @@ class WheelReferenceAuthorizationTests(unittest.TestCase):
             self.assertEqual(record["id"], benchmark_id)
             self.assertIn("MOD-SUSP-0002", record["target_ids"])
         b5 = _load("registry/records/benchmarks/BENCH-SUSP-0005.toml")["record"]
-        self.assertIn("Steer Angle", "\n".join(b5["acceptance_criteria"]))
+        criteria_b5 = "\n".join(b5["acceptance_criteria"])
+        self.assertIn("both front corners", criteria_b5)
+        self.assertIn("Steer Angle", criteria_b5)
         b6 = _load("registry/records/benchmarks/BENCH-SUSP-0006.toml")["record"]
         criteria = "\n".join(b6["acceptance_criteria"])
         self.assertIn("body-frame", criteria)
