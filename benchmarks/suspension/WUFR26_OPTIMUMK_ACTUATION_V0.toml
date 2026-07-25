@@ -1,4 +1,4 @@
-version = "0.1.0"
+version = "0.1.1"
 fixture_id = "WUFR26_OPTIMUMK_ACTUATION_V0"
 authority = "historical_external_kinematics_evidence_only"
 project_frame = "+x forward, +y vehicle left, +z upward; right-handed"
@@ -16,6 +16,9 @@ result_version = "2.3.0"
 source_motion_coordinate = "OptimumK Motion [Heave] in mm; historical source convention, not the MOD-SUSP-0002 body-frame wheel-center vertical coordinate"
 source_motion_ratio_channel = "Motion Ratio Heave; preserved as a historical source output and not adopted as the canonical project motion-ratio definition"
 source_re_reference_rule = "For source point-coordinate comparison, subtract [0,0,heave_mm] in OptimumK result coordinates before applying canonical = 0.001*[x,-y,z]. Scalar link lengths/displacements require no frame translation."
+front_q_L_source = "Exact front-right q_L values are inherited from WUFR26_OPTIMUMK_HEAVE_FRONT_KINEMATICS_V0, where q_L was recovered from the frozen result geometry under the reviewed EQ-SUSP-0001 hinge convention; front-left values are the source-mirrored opposite signs."
+rear_q_L_source = "Rear-left q_L values were recovered in PR44 from the Box text representation of each result-state lower-upright point after the reviewed pure-heave body re-reference, using signed atan2 rotation about the frozen lower fore-to-aft hinge axis; source coordinates are available to 0.001 mm, so these q_L values are benchmark drivers rather than new geometry authority. Rear-right values are the source-mirrored opposite signs."
+q_L_role = "historical external benchmark driver only; implementation still solves native suspension states and must not infer installed travel from this sweep"
 
 [corroborating_hardware]
 front_rocker_drawing = "SU-70401-AA - FRONT ROCKER.pdf, Box file 2127681297030 version 2351794211430, SHA-1 6efe2f2e65f6231a3e1e24926f5225bd652caa9d"
@@ -61,6 +64,10 @@ ratio_finite_difference_step_m = 0.00010
 
 [[states]]
 heave_mm = -25.40
+front_left_q_L_deg = -3.834612363973
+front_right_q_L_deg = 3.834612363973
+rear_left_q_L_deg = -3.8827826858483308
+rear_right_q_L_deg = 3.8827826858483308
 front_coilover_length_mm = 143.893
 front_coilover_displacement_mm = -20.707
 front_source_motion_ratio_heave = 1.247
@@ -70,6 +77,10 @@ rear_source_motion_ratio_heave = 1.007
 
 [[states]]
 heave_mm = -20.32
+front_left_q_L_deg = -3.068174244384
+front_right_q_L_deg = 3.068174244384
+rear_left_q_L_deg = -3.1080520426105642
+rear_right_q_L_deg = 3.1080520426105642
 front_coilover_length_mm = 147.991
 front_coilover_displacement_mm = -16.609
 front_source_motion_ratio_heave = 1.234
@@ -79,6 +90,10 @@ rear_source_motion_ratio_heave = 1.004
 
 [[states]]
 heave_mm = -15.24
+front_left_q_L_deg = -2.301577981537
+front_right_q_L_deg = 2.301577981537
+rear_left_q_L_deg = -2.332506853253096
+rear_right_q_L_deg = 2.332506853253096
 front_coilover_length_mm = 152.123
 front_coilover_displacement_mm = -12.477
 front_source_motion_ratio_heave = 1.226
@@ -88,6 +103,10 @@ rear_source_motion_ratio_heave = 1.002
 
 [[states]]
 heave_mm = -10.16
+front_left_q_L_deg = -1.534740616026
+front_right_q_L_deg = 1.534740616026
+rear_left_q_L_deg = -1.5560034305254207
+rear_right_q_L_deg = 1.5560034305254207
 front_coilover_length_mm = 156.275
 front_coilover_displacement_mm = -8.325
 front_source_motion_ratio_heave = 1.221
@@ -97,6 +116,10 @@ rear_source_motion_ratio_heave = 1.002
 
 [[states]]
 heave_mm = -5.08
+front_left_q_L_deg = -0.767577047249
+front_right_q_L_deg = 0.767577047249
+rear_left_q_L_deg = -0.7785430437126964
+rear_right_q_L_deg = 0.7785430437126964
 front_coilover_length_mm = 160.437
 front_coilover_displacement_mm = -4.163
 front_source_motion_ratio_heave = 1.220
@@ -106,6 +129,10 @@ rear_source_motion_ratio_heave = 1.003
 
 [[states]]
 heave_mm = 0.0
+front_left_q_L_deg = 0.0
+front_right_q_L_deg = 0.0
+rear_left_q_L_deg = 0.0
+rear_right_q_L_deg = 0.0
 front_coilover_length_mm = 164.600
 front_coilover_displacement_mm = 0.0
 front_source_motion_ratio_heave = 1.221
@@ -115,6 +142,10 @@ rear_source_motion_ratio_heave = 1.006
 
 [[states]]
 heave_mm = 5.08
+front_left_q_L_deg = 0.768080016769
+front_right_q_L_deg = -0.768080016769
+rear_left_q_L_deg = 0.7797817052598268
+rear_right_q_L_deg = -0.7797817052598268
 front_coilover_length_mm = 168.756
 front_coilover_displacement_mm = 4.156
 front_source_motion_ratio_heave = 1.224
@@ -124,6 +155,10 @@ rear_source_motion_ratio_heave = 1.010
 
 [[states]]
 heave_mm = 10.16
+front_left_q_L_deg = 1.536754759280
+front_right_q_L_deg = -1.536754759280
+rear_left_q_L_deg = 1.560937825644748
+rear_right_q_L_deg = -1.560937825644748
 front_coilover_length_mm = 172.898
 front_coilover_displacement_mm = 8.298
 front_source_motion_ratio_heave = 1.229
@@ -133,6 +168,10 @@ rear_source_motion_ratio_heave = 1.015
 
 [[states]]
 heave_mm = 15.24
+front_left_q_L_deg = 2.306118306631
+front_right_q_L_deg = -2.306118306631
+rear_left_q_L_deg = 2.3436267316008497
+rear_right_q_L_deg = -2.3436267316008497
 front_coilover_length_mm = 177.020
 front_coilover_displacement_mm = 12.420
 front_source_motion_ratio_heave = 1.236
@@ -142,6 +181,10 @@ rear_source_motion_ratio_heave = 1.020
 
 [[states]]
 heave_mm = 20.32
+front_left_q_L_deg = 3.076267127172
+front_right_q_L_deg = -3.076267127172
+rear_left_q_L_deg = 3.127674010007591
+rear_right_q_L_deg = -3.127674010007591
 front_coilover_length_mm = 181.118
 front_coilover_displacement_mm = 16.518
 front_source_motion_ratio_heave = 1.244
@@ -151,6 +194,10 @@ rear_source_motion_ratio_heave = 1.026
 
 [[states]]
 heave_mm = 25.40
+front_left_q_L_deg = 3.847300153902
+front_right_q_L_deg = -3.847300153902
+rear_left_q_L_deg = 3.913544656318117
+rear_right_q_L_deg = -3.913544656318117
 front_coilover_length_mm = 185.186
 front_coilover_displacement_mm = 20.586
 front_source_motion_ratio_heave = 1.254
