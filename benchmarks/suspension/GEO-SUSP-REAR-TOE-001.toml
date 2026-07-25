@@ -1,0 +1,24 @@
+version = "0.1.0"
+geometry_id = "GEO-SUSP-REAR-TOE-001"
+authority = "synthetic_analytical_verification_only"
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+link_role = "chassis_locating_toe_link"
+branch_reference_twist_deg = 0.0
+
+[current_reference]
+lower_upright_m = [0.0, 0.0, 0.0]
+upper_upright_m = [0.0, 0.0, 0.2]
+kingpin_axis = [0.0, 0.0, 1.0]
+zero_twist_toe_outboard_m = [0.0984807753012208, -0.01736481776669303, 0.1]
+toe_inboard_m = [0.4, 0.0, 0.1]
+nominal_toe_link_length_m = 0.3
+
+[expected]
+twist_deg = 10.0
+toe_outboard_m = [0.1, 0.0, 0.1]
+physical_length_residual_m = 0.0
+
+[tolerances]
+angle_rad = 1e-10
+position_m = 1e-12
+length_residual_m = 1e-12
