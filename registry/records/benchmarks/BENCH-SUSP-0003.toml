@@ -1,0 +1,17 @@
+[record]
+id = "BENCH-SUSP-0003"
+type = "benchmark"
+title = "Synthetic rear chassis toe-link twist closure"
+status = "proposed"
+description = "Verify the rear-specific remaining-upright-twist closure independently of front steering and unresolved WUFR rear-origin semantics. A synthetic zero-twist reference is constructed so a known +10 deg twist exactly restores the nominal rigid toe-link length."
+verification_level = "B"
+target_ids = ["MOD-SUSP-0001", "EQ-SUSP-0004"]
+acceptance_criteria = [
+  "The branch-continuous scalar closure recovers psi=+10 deg within 1e-10 rad.",
+  "The recovered outboard toe-link point matches [0.1,0,0.1] m within 1e-12 m.",
+  "The physical toe-link length residual is below 1e-12 m.",
+  "The benchmark rejects use of the rear closure equation when the link role is steering_tie_rod.",
+  "No WUFR rear whole-vehicle origin or Reference Distance interpretation is required by this benchmark."
+]
+fixture = "benchmarks/suspension/GEO-SUSP-REAR-TOE-001.toml"
+planned_implementation_tests = ["tests/test_rigid_suspension_rear_toe_closure.py"]
