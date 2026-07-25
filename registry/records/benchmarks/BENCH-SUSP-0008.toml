@@ -16,8 +16,9 @@ acceptance_criteria = [
 ]
 fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_ACTUATION_V0.toml"
 upstream_fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_FRONT_KINEMATICS_V0.toml"
+rear_q_source_fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_REAR_LEFT_Q_SOURCE_V0.toml"
 implementation = "src/pssd_suspension/actuation.py"
 source_state_driver_note = "Front q_L uses the reviewed front kinematics fixture; rear q_L is source-derived from historical lower-upright states after the reviewed body re-reference and is bounded to external verification use."
-implementation_tests = ["tests/test_suspension_actuation.py"]
+implementation_tests = ["tests/test_suspension_actuation.py", "tests/test_suspension_actuation_source_recovery.py"]
 report_script = "scripts/run_suspension_actuation_benchmarks.py"
 result_record = "benchmarks/suspension/suspension_actuation_result_v0.1.0.toml"
