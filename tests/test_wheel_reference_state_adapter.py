@@ -10,7 +10,6 @@ from pssd_suspension import (
     Axle,
     AxleWheelReferenceSource,
     KinematicsStatus,
-    NominalWheelReference,
     PhysicalStateResult,
     PhysicalStateSolverConfig,
     Side,
@@ -32,11 +31,11 @@ from pssd_suspension import (
     transport_wheel_reference,
 )
 
-
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE_PATH = ROOT / "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
-SOURCE_3D_PATH = (
-    ROOT / "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_FRONT_LEFT_WHEEL_REFERENCE_SOURCE_V0.toml"
+SOURCE_3D_PATHS = (
+    ROOT / "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_FRONT_LEFT_WHEEL_REFERENCE_SOURCE_V0.toml",
+    ROOT / "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_FRONT_RIGHT_WHEEL_REFERENCE_SOURCE_V0.toml",
 )
 KINEMATICS_PATH = ROOT / "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_FRONT_KINEMATICS_V0.toml"
 GEOMETRY_PATH = ROOT / "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
@@ -49,6 +48,24 @@ def _load(path: Path) -> dict:
 
 def _distance(a: tuple[float, float, float], b: tuple[float, float, float]) -> float:
     return math.sqrt(sum((x - y) ** 2 for x, y in zip(a, b)))
+
+
+def _recover_twists(source: dict) -> list[float]:
+    nominal = source["nominal"]
+    recovered_values: list[float] = []
+    for state in source["states"]:
+        transform = minimum_twist_upright_transform(
+            tuple(nominal["lower_m"]), tuple(nominal["upper_m"]),
+            tuple(state["lower_m"]), tuple(state["upper_m"]),
+        )
+        recovered = reconstruct_source_steering_twist(
+            transform, tuple(nominal["tie_m"]), tuple(state["lower_m"]),
+            tuple(state["upper_m"]), tuple(state["tie_m"]),
+        )
+        if not recovered.ok or recovered.twist_rad is None:
+            raise AssertionError(recovered.message)
+        recovered_values.append(recovered.twist_rad)
+    return recovered_values
 
 
 class NominalWheelReferenceTests(unittest.TestCase):
@@ -82,12 +99,8 @@ class NominalWheelReferenceTests(unittest.TestCase):
             longitudinal_offset_m=0.001,
         )
         bad = WheelReferenceSourceProfile(
-            fixture_id="bad",
-            authority="test_only",
-            source_setup="synthetic",
-            source_result="synthetic",
-            front=bad_front,
-            rear=self.profile.rear,
+            fixture_id="bad", authority="test_only", source_setup="synthetic",
+            source_result="synthetic", front=bad_front, rear=self.profile.rear,
         )
         with self.assertRaises(WheelReferenceError):
             build_nominal_wheel_reference(bad, Axle.FRONT, Side.LEFT)
@@ -96,20 +109,15 @@ class NominalWheelReferenceTests(unittest.TestCase):
         nominal = build_nominal_wheel_reference(self.profile, Axle.FRONT, Side.LEFT)
         identity = UprightReferenceTransform(
             rotation=((1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, 0.0, 1.0)),
-            translation_m=(0.0, 0.0, 0.0),
-            source_role="minimum_twist_zero_steer_reference",
+            translation_m=(0.0, 0.0, 0.0), source_role="minimum_twist_zero_steer_reference",
         )
         intentionally_wrong_final = UprightReferenceTransform(
             rotation=((1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, 0.0, 1.0)),
-            translation_m=(0.1, 0.2, 0.3),
-            source_role="should_not_be_used_for_front",
+            translation_m=(0.1, 0.2, 0.3), source_role="should_not_be_used_for_front",
         )
         upstream = SuspensionCornerStateResult(
-            axle=Axle.FRONT,
-            side=Side.LEFT,
-            requested_q_L_rad=0.0,
-            status=KinematicsStatus.SUCCESS,
-            minimum_twist_transform=identity,
+            axle=Axle.FRONT, side=Side.LEFT, requested_q_L_rad=0.0,
+            status=KinematicsStatus.SUCCESS, minimum_twist_transform=identity,
             upright_transform=intentionally_wrong_final,
         )
         result = transport_wheel_reference(nominal, upstream)
@@ -119,54 +127,59 @@ class NominalWheelReferenceTests(unittest.TestCase):
 
 
 class SourceSteeringRemovalTests(unittest.TestCase):
-    def test_bench_susp_0005_recovers_3d_twist_and_unsteers_wheel_center(self) -> None:
-        source = _load(SOURCE_3D_PATH)
-        nominal = source["nominal"]
-        point_tol = source["tolerances"]["source_unsteer_point_m"]
-        twist_tol = source["tolerances"]["reconstructed_twist_rad"]
-        max_point_error = 0.0
-        max_twist_error = 0.0
-        for state in source["states"]:
-            transform = minimum_twist_upright_transform(
-                tuple(nominal["lower_m"]),
-                tuple(nominal["upper_m"]),
-                tuple(state["lower_m"]),
-                tuple(state["upper_m"]),
-            )
-            recovered = reconstruct_source_steering_twist(
-                transform,
-                tuple(nominal["tie_m"]),
-                tuple(state["lower_m"]),
-                tuple(state["upper_m"]),
-                tuple(state["tie_m"]),
-            )
-            self.assertTrue(recovered.ok, recovered.message)
-            self.assertFalse(recovered.scalar_steer_angle_used_as_rotation)
-            assert recovered.twist_rad is not None
-            twist_error = abs(recovered.twist_rad - math.radians(state["expected_twist_deg"]))
-            max_twist_error = max(max_twist_error, twist_error)
-            unsteered_wc = remove_source_steering_from_point(
-                tuple(state["wheel_center_m"]),
-                tuple(state["lower_m"]),
-                tuple(state["upper_m"]),
-                recovered.twist_rad,
-            )
-            reference_wc = transform.apply_point(tuple(nominal["wheel_center_m"]))
-            point_error = _distance(unsteered_wc, reference_wc)
-            max_point_error = max(max_point_error, point_error)
-        self.assertLessEqual(max_point_error, point_tol)
-        self.assertLessEqual(max_twist_error, twist_tol)
+    def test_bench_susp_0005_recovers_both_front_3d_twists_and_unsteers_wheel_centers(self) -> None:
+        recovered_by_side: dict[str, list[float]] = {}
+        for source_path in SOURCE_3D_PATHS:
+            source = _load(source_path)
+            nominal = source["nominal"]
+            point_tol = source["tolerances"]["source_unsteer_point_m"]
+            twist_tol = source["tolerances"]["reconstructed_twist_rad"]
+            recovered_values: list[float] = []
+            max_point_error = 0.0
+            max_twist_error = 0.0
+            for state in source["states"]:
+                transform = minimum_twist_upright_transform(
+                    tuple(nominal["lower_m"]), tuple(nominal["upper_m"]),
+                    tuple(state["lower_m"]), tuple(state["upper_m"]),
+                )
+                recovered = reconstruct_source_steering_twist(
+                    transform, tuple(nominal["tie_m"]), tuple(state["lower_m"]),
+                    tuple(state["upper_m"]), tuple(state["tie_m"]),
+                )
+                self.assertTrue(recovered.ok, recovered.message)
+                self.assertFalse(recovered.scalar_steer_angle_used_as_rotation)
+                assert recovered.twist_rad is not None
+                recovered_values.append(recovered.twist_rad)
+                max_twist_error = max(
+                    max_twist_error,
+                    abs(recovered.twist_rad - math.radians(state["expected_twist_deg"])),
+                )
+                unsteered_wc = remove_source_steering_from_point(
+                    tuple(state["wheel_center_m"]), tuple(state["lower_m"]),
+                    tuple(state["upper_m"]), recovered.twist_rad,
+                )
+                reference_wc = transform.apply_point(tuple(nominal["wheel_center_m"]))
+                max_point_error = max(max_point_error, _distance(unsteered_wc, reference_wc))
+            self.assertLessEqual(max_point_error, point_tol)
+            self.assertLessEqual(max_twist_error, twist_tol)
+            recovered_by_side[source["corner"]] = recovered_values
 
-    def test_scalar_steer_angle_is_demonstrably_not_3d_twist(self) -> None:
-        source = _load(SOURCE_3D_PATH)
-        endpoint = source["states"][0]
-        self.assertGreater(
-            abs(endpoint["scalar_steer_angle_deg"] - endpoint["expected_twist_deg"]),
-            0.08,
-        )
-        nominal_state = min(source["states"], key=lambda state: abs(state["heave_mm"]))
-        self.assertAlmostEqual(nominal_state["expected_twist_deg"], 0.0, places=9)
-        self.assertGreater(abs(nominal_state["scalar_steer_angle_deg"]), 7e-4)
+        bilateral_tol = _load(PROFILE_PATH)["tolerances"]["bilateral_twist_sum_rad"]
+        left = recovered_by_side["front_left"]
+        right = recovered_by_side["front_right"]
+        self.assertEqual(len(left), len(right))
+        self.assertLessEqual(max(abs(l + r) for l, r in zip(left, right)), bilateral_tol)
+
+    def test_scalar_steer_angle_is_not_3d_twist_on_either_front_corner(self) -> None:
+        for source_path in SOURCE_3D_PATHS:
+            source = _load(source_path)
+            endpoint = source["states"][0]
+            self.assertGreater(
+                abs(endpoint["scalar_steer_angle_deg"] - endpoint["expected_twist_deg"]), 0.08
+            )
+            nominal_state = min(source["states"], key=lambda state: abs(state["heave_mm"]))
+            self.assertAlmostEqual(nominal_state["expected_twist_deg"], 0.0, places=9)
+            self.assertGreater(abs(nominal_state["scalar_steer_angle_deg"]), 7e-4)
 
 
 class PhysicalStateInversionTests(unittest.TestCase):
@@ -180,18 +193,14 @@ class PhysicalStateInversionTests(unittest.TestCase):
         self.domain = PhysicalStateSolverConfig(
             q_L_min_rad=min(q_values) - math.radians(0.15),
             q_L_max_rad=max(q_values) + math.radians(0.15),
-            scan_intervals_per_side=30,
-            q_L_tolerance_rad=2e-9,
+            scan_intervals_per_side=30, q_L_tolerance_rad=2e-9,
             displacement_tolerance_m=2e-9,
         )
         self.source_states = source["states"]
 
     def test_bench_susp_0006_nominal_request_recovers_zero(self) -> None:
         result = solve_body_vertical_displacement(
-            self.corner,
-            self.nominal,
-            0.0,
-            self.domain,
+            self.corner, self.nominal, 0.0, self.domain,
             geometry_id=self.geometry.geometry_id,
             configuration_id="WUFR27_SUSPENSION_BASELINE_V0",
             source_authority=self.geometry.authority,
@@ -205,9 +214,7 @@ class PhysicalStateInversionTests(unittest.TestCase):
         for index in (0, 2, 8, 10):
             expected_q = math.radians(self.source_states[index]["q_L_deg"])
             forward = solve_wheel_reference_state(
-                self.corner,
-                self.nominal,
-                expected_q,
+                self.corner, self.nominal, expected_q,
                 geometry_id=self.geometry.geometry_id,
                 configuration_id="WUFR27_SUSPENSION_BASELINE_V0",
                 source_authority=self.geometry.authority,
@@ -215,10 +222,7 @@ class PhysicalStateInversionTests(unittest.TestCase):
             self.assertTrue(forward.ok, forward.message)
             assert forward.delta_z_wc_body_m is not None
             inverse = solve_body_vertical_displacement(
-                self.corner,
-                self.nominal,
-                forward.delta_z_wc_body_m,
-                self.domain,
+                self.corner, self.nominal, forward.delta_z_wc_body_m, self.domain,
                 geometry_id=self.geometry.geometry_id,
                 configuration_id="WUFR27_SUSPENSION_BASELINE_V0",
                 source_authority=self.geometry.authority,
@@ -229,63 +233,38 @@ class PhysicalStateInversionTests(unittest.TestCase):
 
     def test_outside_reachable_domain_fails_without_clipping(self) -> None:
         result = solve_body_vertical_displacement(
-            self.corner,
-            self.nominal,
-            0.2,
-            self.domain,
+            self.corner, self.nominal, 0.2, self.domain,
             geometry_id=self.geometry.geometry_id,
             configuration_id="WUFR27_SUSPENSION_BASELINE_V0",
             source_authority=self.geometry.authority,
         )
         self.assertFalse(result.ok)
-        self.assertEqual(
-            result.failure_code,
-            WheelReferenceFailureCode.REQUEST_OUTSIDE_REACHABLE_DOMAIN,
-        )
+        self.assertEqual(result.failure_code, WheelReferenceFailureCode.REQUEST_OUTSIDE_REACHABLE_DOMAIN)
         self.assertIsNone(result.q_L_rad)
 
     def test_nonmonotonic_sample_mapping_is_rejected_as_ambiguous(self) -> None:
         def sample(q: float, dz: float) -> WheelReferenceState:
             return WheelReferenceState(
-                axle=Axle.FRONT,
-                side=Side.RIGHT,
-                status=WheelReferenceStatus.SUCCESS,
-                nominal=self.nominal,
-                q_L_rad=q,
-                delta_z_wc_body_m=dz,
+                axle=Axle.FRONT, side=Side.RIGHT, status=WheelReferenceStatus.SUCCESS,
+                nominal=self.nominal, q_L_rad=q, delta_z_wc_body_m=dz,
             )
-
         synthetic = (
-            sample(-0.1, -0.01),
-            sample(-0.05, 0.005),
-            sample(0.0, 0.0),
-            sample(0.05, 0.005),
-            sample(0.1, -0.01),
+            sample(-0.1, -0.01), sample(-0.05, 0.005), sample(0.0, 0.0),
+            sample(0.05, 0.005), sample(0.1, -0.01),
         )
         with patch("pssd_suspension.wheel_reference._branch_samples", return_value=synthetic):
-            result = solve_body_vertical_displacement(
-                self.corner,
-                self.nominal,
-                0.002,
-                self.domain,
-            )
+            result = solve_body_vertical_displacement(self.corner, self.nominal, 0.002, self.domain)
         self.assertFalse(result.ok)
         self.assertEqual(result.failure_code, WheelReferenceFailureCode.AMBIGUOUS_MAPPING)
 
     def test_upstream_failure_is_propagated(self) -> None:
         failure = PhysicalStateResult(
-            status=WheelReferenceStatus.FAILURE,
-            requested_delta_z_wc_body_m=math.nan,
+            status=WheelReferenceStatus.FAILURE, requested_delta_z_wc_body_m=math.nan,
             failure_code=WheelReferenceFailureCode.UPSTREAM_KINEMATICS_FAILURE,
             message="synthetic upstream failure",
         )
         with patch("pssd_suspension.wheel_reference._branch_samples", return_value=failure):
-            result = solve_body_vertical_displacement(
-                self.corner,
-                self.nominal,
-                0.001,
-                self.domain,
-            )
+            result = solve_body_vertical_displacement(self.corner, self.nominal, 0.001, self.domain)
         self.assertFalse(result.ok)
         self.assertEqual(result.failure_code, WheelReferenceFailureCode.UPSTREAM_KINEMATICS_FAILURE)
         self.assertIn("synthetic upstream failure", result.message)
