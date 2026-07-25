@@ -1,0 +1,85 @@
+version = "0.1.0"
+authorization_id = "AUTH-VEH-0003"
+status = "review_ready"
+title = "Whole-vehicle force-coordinate, wrench-assembly, and rigid-contact authorization"
+effective_condition = "Effective only after review and merge of the PR carrying this authorization. This authorization permits a bounded whole-vehicle coordinate and force-assembly foundation for WUFR-27, which inherits the reviewed WUFR-26 suspension geometry without a geometry change. It does not authorize spring, damper, anti-roll-bar, tire-force, load-transfer, equilibrium-solver, linkage-load, stress, installed-limit, or production claims."
+review_record = "docs/reviews/phase2_whole_vehicle_force_coordinate_authorization_review.md"
+
+[scope]
+model_ids = ["MOD-VEH-0003"]
+equation_ids = ["EQ-VEH-0004", "EQ-VEH-0005", "EQ-VEH-0006", "EQ-VEH-0007"]
+benchmark_ids = ["BENCH-VEH-0003", "BENCH-VEH-0004"]
+assumption_ids = ["ASM-VEH-0001", "ASM-VEH-0002", "ASM-SUSP-0001"]
+upstream_model_ids = ["MOD-SUSP-0001", "MOD-SUSP-0002", "MOD-SUSP-0003"]
+geometry_configuration = "WUFR27_SUSPENSION_BASELINE_V0"
+planned_implementation_package = "src/pssd_vehicle/force_coordinates.py"
+
+[permitted]
+items = [
+  "Define one explicit whole-vehicle body frame with +x forward, +y vehicle left, +z upward and an explicit road/inertial frame. Every point, force, moment, and source adapter must declare its frame and origin.",
+  "Represent sprung-body pose by explicit generalized coordinates. The first quasi-static subset is body heave z_s, roll phi, and pitch theta; yaw/planar placement may be carried as context but is not solved in this slice.",
+  "Transport body-fixed application points using the reviewed yaw-pitch-roll rotation convention and an explicit body-origin translation.",
+  "Translate and sum point-force/couple wrenches about a named reference point using M_O = M_P + (r_P-r_O) cross F, retaining all signs and application points.",
+  "Map an applied point force and couple into generalized force through virtual work, Q = J_r^T F + J_omega^T M, with the generalized-coordinate order and units recorded.",
+  "Define a flat rigid road plane and a rigid vertical-tire contact gap for the first bounded contact model.",
+  "Require all four contact gaps to be closed in the first contact mode and require every road-normal reaction to be nonnegative. A negative reaction is an explicit wheel-lift/contact-mode failure and is never clipped to zero inside this model.",
+  "Carry the user's reviewed design decision that WUFR-27 uses the same suspension geometry as WUFR-26, while keeping whole-vehicle axle/CG placement and installed/as-built geometry as separate explicit authority.",
+  "Freeze the downstream linkage-force fidelity decision as ideal pin-jointed two-force members for the first structural statics layer, without implementing that layer or treating axial-link forces as final stress authority."
+]
+
+[prohibited]
+items = [
+  "Inferring a common front/rear/CG origin from wheelbase alone or silently translating source-local suspension hardpoints into a whole-vehicle frame.",
+  "Treating the WUFR-27 inheritance statement as installed/as-built metrology or as authority for mass, CG, corner weights, axle placement, road height, contact patch, spring, damper, ARB, or tire parameters.",
+  "Spring preload/force, damper force, gas force, bump-stop/top-out force, anti-roll-bar force or stiffness, tire radial stiffness, or any other constitutive force law.",
+  "Solving body heave, roll, pitch, wheel loads, load transfer, tire force, or vehicle equilibrium.",
+  "Clipping a negative normal reaction, forcing a failed contact state back into four-wheel contact, or silently changing contact mode.",
+  "Using a scalar motion ratio as a substitute for the complete generalized-force Jacobian or hiding force direction through absolute values.",
+  "Ideal A-arm, tie-rod, pushrod, rocker, bearing, or chassis reaction loads; member stress; weld stress; fatigue; buckling; FEA boundary conditions; or structural release.",
+  "Compliance, friction, backlash, bearing preload, joint misalignment, manufacturing tolerance, physical bump/droop stops, packaging, installed correlation, optimization, or production release."
+]
+
+[numerics]
+body_pose_rotation = "R_IB = R_z(psi) R_y(theta) R_x(phi); the first quasi-static force-coordinate subset holds psi fixed and uses q=[z_s, phi, theta]."
+wrench_translation = "M_O = M_P + (r_P-r_O) cross F; force is unchanged by reference-point translation."
+generalized_force_rule = "delta_W = F dot delta_r_P + M dot delta_omega = Q^T delta_q; Q = J_r^T F + J_omega^T M."
+contact_gap_rule = "g_i = n_road dot (r_contact_i-r_road); first contact mode requires g_i=0 for all four corners."
+contact_reaction_rule = "lambda_i = n_road dot F_contact_i >= 0; lambda_i < 0 is wheel_lift/contact_mode_invalid, never an internal clip."
+finite_difference_rule = "A numerical Jacobian may be used only with declared coordinate steps, branch-preserving upstream states, convergence checks, and comparison against an analytical synthetic benchmark."
+hidden_clipping_allowed = false
+silent_origin_inference_allowed = false
+negative_contact_reaction_allowed = false
+constitutive_force_evaluation_allowed = false
+equilibrium_solve_allowed = false
+linkage_force_solve_allowed = false
+
+[source_boundary]
+primary_literature = [
+  "Guiggiani (2022), The Science of Vehicle Dynamics, Chapter 1 vehicle/body geometry and canonical axes; Chapter 9 vehicle position/orientation and equilibrium with roll motion; Chapter 10.1 separation of kinematic, equilibrium, and constitutive equations.",
+  "Pacejka (2006), Tyre and Vehicle Dynamics, Section 11.3 virtual-work definition of generalized forces, especially equations 11.62 and 11.82-11.84; used for the general virtual-work/Jacobian structure, not motorcycle-specific vehicle parameters.",
+  "Gillespie (1992), Fundamentals of Vehicle Dynamics, quasi-static load-transfer and vehicle-equilibrium discussions; used as an independent vehicle-dynamics consistency source, not as permission to import legacy spreadsheet equations."
+]
+project_frame = "+x forward, +y vehicle left, +z upward; right-handed"
+wufr27_geometry_statement = "Reviewer/user confirmation on 2026-07-25: WUFR-27 will not use different suspension geometry from WUFR-26. This is design-intent inheritance only."
+first_contact_model = "Flat rigid road, vertically rigid tires, all four contacts active; negative normal reaction is explicit wheel lift/contact-mode invalidity."
+first_linkage_fidelity = "Future separate authorization: ideal pin-jointed two-force suspension members and rigid nodes/bodies for equilibrium-derived axial loads; not final stress or installed authority."
+missing_wufr_authority = "A common whole-vehicle body/CG origin, front/rear axle stations relative to that origin, mass properties, static corner weights, contact-patch references, and installed ride-height data have not yet been frozen for implementation."
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-VEH-0003 proves rigid point transport, wrench translation, force/moment summation, and virtual-work/generalized-force equivalence on analytical synthetic fixtures, including origin-change invariance of the physical resultant.",
+  "BENCH-VEH-0004 proves flat-road contact-gap sign, four-contact acceptance, negative-reaction wheel-lift classification, and refusal to infer missing WUFR front/rear/CG origin placement.",
+  "Implementation reports frames, origins, application points, coordinate order, Jacobian method/step, residuals, authority, and unsupported fields explicitly.",
+  "No spring, ARB, tire, load-transfer, equilibrium, or linkage-force calculation is reachable through the authorized implementation interface."
+]
+
+[promotion_gates]
+items = [
+  "This authorization is reviewed and merged before implementation code begins.",
+  "The implementation PR passes BENCH-VEH-0003 and BENCH-VEH-0004 plus structured frame/origin/contact failures.",
+  "WUFR whole-vehicle use requires explicit body/CG origin, axle placement, and contact-reference authority; wheelbase alone is insufficient.",
+  "Spring-force generalized mapping requires a separate authorization with spring free length, installed length/preload, force law, and uncertainty authority.",
+  "ARB force mapping requires a separate coupled-left/right authorization with geometry, preload, adjustment state, torsion law, and no-bar configuration behavior.",
+  "Quasi-static equilibrium requires a separate authorization naming unknowns, residuals, scaling, bounds, contact modes, convergence, and negative-load behavior.",
+  "Ideal linkage statics requires a separate authorization naming bodies, links, joints, brake reaction path, external loads, rank/conditioning diagnostics, and the boundary between axial-force output and structural stress/FEA."
+]
