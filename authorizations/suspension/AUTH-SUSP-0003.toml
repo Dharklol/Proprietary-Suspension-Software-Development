@@ -1,0 +1,84 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0003"
+status = "review_ready"
+title = "WUFR source-bounded rigid suspension actuation kinematics authorization"
+effective_condition = "Effective only after review and merge of the PR carrying this authorization. This authorization permits a bounded rigid push/pull-rod, rocker, coilover-displacement, and explicitly named local actuation-derivative prototype composed with MOD-SUSP-0001/MOD-SUSP-0002. It does not authorize spring/damper forces, wheel rate, ARB kinematics, load transfer, compliance, packaging, installed stroke, or production claims."
+review_record = "docs/reviews/phase2_suspension_actuation_authorization_review.md"
+
+[scope]
+model_ids = ["MOD-SUSP-0003"]
+equation_ids = ["EQ-SUSP-0009", "EQ-SUSP-0010", "EQ-SUSP-0011", "EQ-SUSP-0012"]
+benchmark_ids = ["BENCH-SUSP-0007", "BENCH-SUSP-0008"]
+upstream_model_ids = ["MOD-SUSP-0001", "MOD-SUSP-0002"]
+geometry_configuration = "WUFR27_SUSPENSION_BASELINE_V0"
+source_snapshot = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
+source_fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_ACTUATION_V0.toml"
+implementation_package = "src/pssd_suspension/actuation.py"
+
+[permitted]
+items = [
+  "Transport the frozen front push/pull-rod outboard attachment rigidly with the solved upper A-arm and the frozen rear attachment rigidly with the solved lower A-arm, reusing the reviewed EQ-SUSP-0001 arm-rotation convention.",
+  "Represent the rocker as one rigid body rotating about the frozen chassis rocker axis and solve its angle by enforcing invariant push/pull-rod center-to-center length on the branch continuously connected to nominal theta_R=0.",
+  "Rotate the rocker rod and coilover pickup points with the same solved rocker transform and report rod-length closure residual, root/branch state, and conditioning diagnostics.",
+  "Calculate ideal coilover eye-to-eye length and signed displacement delta_L_d=L_d-L_d0; positive means extension and negative means compression.",
+  "Expose the signed local derivative rho_dw=d(delta_L_d)/d(delta_z_wc_body), where the MOD-SUSP-0002 physical wheel coordinate is positive upward. Report the reciprocal only when numerically well-conditioned.",
+  "Use the frozen WUFR-26 OptimumK pure-heave result as historical external cross-tool evidence for front/rear coilover length/displacement and preserve the source Motion Ratio Heave channel separately as comparison-only evidence.",
+  "Use WUFR front/rear rocker drawings and assembly evidence only to corroborate physical architecture and pickup/fitment intent; do not let drawing dimensions silently override the reviewed OptimumK nominal kinematic source.",
+  "Retain source verification domain, ideal geometry authority, and installed/as-built authority as separate concepts."
+]
+
+[prohibited]
+items = [
+  "Calling an unqualified scalar 'motion ratio' without numerator, denominator, coordinate, and sign convention. The canonical project quantity in this slice is rho_dw=d(delta_L_d)/d(delta_z_wc_body).",
+  "Substituting the historical OptimumK Motion Ratio Heave channel for rho_dw; the source channel uses the historical OptimumK heave motion coordinate rather than the MOD-SUSP-0002 body-frame wheel-center vertical coordinate.",
+  "Taking absolute value of rho_dw to hide sign or silently inverting a near-zero derivative.",
+  "Moving the front actuation pickup with the upright/lower arm or the rear pickup with the upright/upper arm; attachment ownership is source-frozen as front upper arm and rear lower arm.",
+  "Changing push/pull-rod length, clipping rocker angle, jumping to a second rocker root, extrapolating through an infeasible state, or otherwise repairing a failed closure silently.",
+  "Spring force, damper force/velocity law, gas force, bump-stop/top-out force, effective wheel spring rate, wheel damping, ride frequency, damping ratio, energy dissipation, or thermal calculations.",
+  "Anti-roll-bar linkage, blade/arm/torsion stiffness, wheel-rate contribution, preload, or coupled left/right roll calculations.",
+  "Using the +/-25.4 mm OptimumK verification sweep as installed suspension travel, bump-stop, droop-stop, damper-stroke, joint-articulation, tire-clearance, chassis-clearance, or packaging authority.",
+  "Loads, stresses, compliance, bearing play/friction, rod-end misalignment, manufacturing tolerance, durability, optimization, installed/as-built, or production-release claims."
+]
+
+[numerics]
+rocker_state_coordinate = "theta_R_rad, signed rotation about the normalized frozen rocker pivot-to-axis-point direction; theta_R=0 at nominal"
+coilover_displacement_coordinate = "delta_L_d_m = current ideal eye-to-eye length minus nominal ideal eye-to-eye length; positive extension"
+wheel_state_coordinate = "delta_z_wc_body_m from MOD-SUSP-0002; positive wheel-center motion upward relative to body"
+canonical_local_ratio = "rho_dw = d(delta_L_d_m)/d(delta_z_wc_body_m); signed damper-length change per body-frame wheel-center vertical change"
+reciprocal_rule = "rho_wd=1/rho_dw may be reported only above a reviewed conditioning threshold and must retain sign"
+rocker_root_method = "Bracket-preserving scalar solve or algebraically equivalent branch-controlled geometric closure"
+branch_rule = "Start at nominal theta_R=0 and continue the same physical rocker assembly branch; ambiguous/multiple roots fail unless continuation history uniquely selects the nominal branch."
+derivative_rule = "Analytic derivative or centered finite difference in the physical wheel coordinate; use reviewed branch-preserving one-sided difference only at a domain boundary and report actual step."
+hidden_clipping_allowed = false
+alternate_root_fallback_allowed = false
+extrapolation_allowed = false
+absolute_value_ratio_allowed = false
+
+[source_boundary]
+primary_setup = "WUFR-26 FINAL 8.21.2025.xlsx, Box file 2014803790843 version 2224178574043, provider SHA-1 15eadfb93369192038888da92ebaa6674db56cfa"
+external_heave_source = "WUFR-26 8.21 Heaves 1inch.xlsx, Box file 2014806871001, provider SHA-1 4f2d1202d3bbd4be1b42f6e1c552919572078f67, frozen SHA-256 db071b7e696149ec82213e9ed05aa557349d18d19debe7925e7e01058534e4b8, OptimumK Result v2.3.0"
+front_rocker_drawing = "SU-70401-AA - FRONT ROCKER.pdf, Box file 2127681297030 version 2351794211430, SHA-1 6efe2f2e65f6231a3e1e24926f5225bd652caa9d"
+front_rocker_assembly = "SU-A0704-AA FRONT ROCKERS.pdf, Box file 2127683470999 version 2351796282199, SHA-1 0a4c77ebca6a92618e0546f77059120359922c01"
+rear_rocker_drawing = "SU-A070601-AA REAR ROCKER.pdf, Box file 2127710951300 version 2351825113700, SHA-1 542ad39a590bffce378d7826b2bd1e2aed842859"
+front_rocker_fix_source = "WUFR-26 Front FINAL 8.22.25 Rocker Fix.O2Sus, Box file 1962894525462 version 2166066613382, SHA-1 26f58276a19c61009b5a6412367e87ab9c43b67e"
+historical_team_motion_ratio_evidence = "WUFR-26 Inboard Suspension Calculator: MR_f=1.22, MR_r=1, IR=1/MR, wheel spring stiffness calculated as spring stiffness*IR^2; convention evidence only, not geometry authority"
+project_frame = "+x forward, +y vehicle left, +z upward; right-handed"
+source_audit = "docs/models/suspension/actuation_source_audit.md"
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-SUSP-0007 analytically verifies arm-attached-point transport, one-axis rocker closure, invariant push/pull-rod length, coilover length/displacement, signed rho_dw, nominal limiting behavior, and structured failure/ambiguity handling.",
+  "BENCH-SUSP-0008 matches frozen front and rear WUFR-26 OptimumK coilover length/displacement across all 11 pure-heave states within source-precision tolerances and maintains the nominal rocker branch.",
+  "Implementation tests demonstrate that historical OptimumK Motion Ratio Heave is not used as the canonical rho_dw and that source verification range is not exposed as installed travel/stroke authority.",
+  "Implementation propagates upstream MOD-SUSP-0001/MOD-SUSP-0002 failures and never changes link length or selects alternate roots silently."
+]
+
+[promotion_gates]
+items = [
+  "This authorization is reviewed and merged before implementation code begins.",
+  "A separate implementation PR passes BENCH-SUSP-0007 and BENCH-SUSP-0008 plus structured failure tests before MOD-SUSP-0003 is considered implemented.",
+  "Spring/damper force or effective wheel-rate calculations require a separate authorization that names spring/damper parameter authority and the exact energy/virtual-work mapping.",
+  "ARB kinematics and stiffness require a separate coupled-left/right authorization; they are intentionally not folded into this single-corner actuation slice.",
+  "Installed damper stroke, bump/droop stops, articulation, clearance, and packaging require CAD/metrology/hardware evidence before hardware-feasible or as-built claims.",
+  "Loads/compliance and physical correlation remain separate gates before production geometry or durability decisions."
+]
