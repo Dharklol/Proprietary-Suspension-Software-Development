@@ -1,0 +1,25 @@
+[record]
+id = "EQ-SUSP-0011"
+type = "equation"
+title = "Coilover length and displacement from rocker pose"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Calculate ideal eye-to-eye coilover length from the fixed chassis pickup and the EQ-SUSP-0010 rotated rocker coilover pickup. Define coilover displacement as current length minus nominal length, so positive displacement means extension and negative displacement means compression; this sign matches the frozen OptimumK result channel."
+outputs = ["Current coilover length L_d", "Coilover displacement delta_L_d=L_d-L_d0", "Length/source diagnostics"]
+inputs = ["Fixed coilover chassis point", "EQ-SUSP-0010 current rocker coilover point", "Frozen nominal coilover length/source state"]
+assumptions = [
+  "Coilover attachment centers are represented as ideal spherical/revolute joint centers for kinematics.",
+  "No damper body length, shaft stroke, bump stop, top-out stop, installation compliance, or force law is implied by ideal eye-to-eye length.",
+  "Positive delta_L_d is extension; negative delta_L_d is compression."
+]
+verification_level = "none"
+canonical_equation = "L_d=||p_Coil,rocker-p_Coil,chassis||; delta_L_d=L_d-L_d0."
+source_basis = [
+  "WUFR26_OPTIMUMK_ACTUATION_V0 nominal and heave-result CoilOver Length/Displacement channels.",
+  "WUFR front/rear rocker drawings as corroborating physical pickup/fitment evidence."
+]
+validity = "Ideal rigid WUFR actuation geometry over the reviewed source/benchmark branch; not installed stroke authority."
+numerical_method = "Euclidean point distance after successful rocker closure."
+failure_behavior = ["Reject non-finite pickup coordinates", "Propagate EQ-SUSP-0010 rocker failure", "Do not infer usable damper stroke or bump/top-out clearance from source kinematics"]
+benchmark_ids = ["BENCH-SUSP-0007", "BENCH-SUSP-0008"]
