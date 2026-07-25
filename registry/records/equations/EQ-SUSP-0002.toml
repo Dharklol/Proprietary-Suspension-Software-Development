@@ -1,0 +1,26 @@
+[record]
+id = "EQ-SUSP-0002"
+type = "equation"
+title = "Double-wishbone upright joint-separation closure"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Close the one-degree-of-freedom rigid double-wishbone mechanism by enforcing the nominal distance between upper and lower upright joint centers. Given a declared lower-arm rotation, solve only the upper-arm rotation on the branch connected to the nominal assembly."
+outputs = ["Upper-arm rotation q_U", "Upper upright joint-center position", "Upright joint-separation physical residual"]
+inputs = ["Lower-arm rotation q_L", "EQ-SUSP-0001 lower and upper arm maps", "Nominal upper/lower upright joint centers", "Nominal upright joint-center separation L_K"]
+assumptions = [
+  "Upper and lower ball-joint centers are connected by a rigid upright whose center-to-center separation is invariant.",
+  "The mechanism begins from a reviewed nominal assembly at q_L=q_U=0.",
+  "Only the continuous assembly branch connected to the nominal state is admissible.",
+  "Joint-angle limits and packaging are separate constraints, not hidden root-selection rules."
+]
+verification_level = "none"
+canonical_equation = "L_K=||p_U,0-p_L,0||; f(q_U;q_L)=0.5*(||p_U(q_U)-p_L(q_L)||^2-L_K^2)=0; df/dq_U=(p_U-p_L) dot [e_U cross (p_U-a_U,F)]."
+source_basis = [
+  "Rigid-link distance closure for a spatial double-wishbone mechanism.",
+  "Standard holonomic distance constraints in rigid multibody kinematics."
+]
+validity = "The requested lower-arm state must admit a unique root on the declared nominal-continuation branch within the reviewed angular search domain."
+numerical_method = "Use a safeguarded bracket-preserving scalar solve such as bisection or reviewed Brent-Dekker. Track the root continuously from the nominal state. Unconstrained Newton and alternate-root fallback are prohibited."
+failure_behavior = ["No bracketed root on the nominal branch", "Multiple/ambiguous roots inside the branch window", "Closure residual above tolerance", "Near-singular derivative/Jacobian condition reported as a diagnostic", "Domain violation"]
+benchmark_ids = ["BENCH-SUSP-0001", "BENCH-SUSP-0002"]
