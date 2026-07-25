@@ -72,63 +72,82 @@ forward_reference = [0.9999619230641713, -0.008726535498373935, 0.0]
 plane_normal = [-0.008725206404749608, -0.9998096240198643, 0.01745240643728351]
 
 [source_front_steering_removal]
-corner = "front_left"
-rule = "Build EQ-SUSP-0003 minimum-twist reference from current lower/upper upright points; derive signed twist psi from transported nominal vs source-result upright tie-point radius vectors projected perpendicular to current steering axis; remove source twist with R(k,-psi)."
+role = "front_pair"
+rule = "For each front side, build the EQ-SUSP-0003 minimum-twist reference from current lower/upper upright points; derive signed twist psi from transported nominal vs source-result upright tie-point radius vectors projected perpendicular to the current steering axis; remove source twist with R(k,-psi)."
 scalar_steer_angle_role = "comparison_only_not_rotation_input"
+bilateral_symmetry_role = "The frozen result is exactly mirrored in front source steering: right reconstructed twist is the sign-reversed left value at matched heave to numerical precision. This is historical source evidence, not a general as-built symmetry claim."
 
 [[source_front_steering_removal.states]]
 heave_mm = -25.4
-reconstructed_twist_deg = -0.243537954171
-source_scalar_steer_angle_deg = -0.1534021505
+left_reconstructed_twist_deg = -0.243537954170
+right_reconstructed_twist_deg = 0.243537954170
+left_source_scalar_steer_angle_deg = -0.15340215051085346
+right_source_scalar_steer_angle_deg = 0.1534021505108662
 
 [[source_front_steering_removal.states]]
 heave_mm = -20.32
-reconstructed_twist_deg = -0.194249654619
+left_reconstructed_twist_deg = -0.194249654619
+right_reconstructed_twist_deg = 0.194249654619
 
 [[source_front_steering_removal.states]]
 heave_mm = -15.24
-reconstructed_twist_deg = -0.145370121099
+left_reconstructed_twist_deg = -0.145370121096
+right_reconstructed_twist_deg = 0.145370121096
 
 [[source_front_steering_removal.states]]
 heave_mm = -10.16
-reconstructed_twist_deg = -0.096779903458
+left_reconstructed_twist_deg = -0.096779903457
+right_reconstructed_twist_deg = 0.096779903457
 
 [[source_front_steering_removal.states]]
 heave_mm = -5.08
-reconstructed_twist_deg = -0.048361667369
-source_scalar_steer_angle_deg = -0.0298583773
+left_reconstructed_twist_deg = -0.048361667367
+right_reconstructed_twist_deg = 0.048361667367
+left_source_scalar_steer_angle_deg = -0.029858377345356044
+right_source_scalar_steer_angle_deg = 0.029858377345356044
 
 [[source_front_steering_removal.states]]
 heave_mm = 0.0
-reconstructed_twist_deg = 0.0
-source_scalar_steer_angle_deg = 0.0007708074
+left_reconstructed_twist_deg = 0.0
+right_reconstructed_twist_deg = 0.0
+left_source_scalar_steer_angle_deg = 0.0007708073837705024
+right_source_scalar_steer_angle_deg = -0.0007708073837705024
 
 [[source_front_steering_removal.states]]
 heave_mm = 5.08
-reconstructed_twist_deg = 0.048418793705
+left_reconstructed_twist_deg = 0.048418793706
+right_reconstructed_twist_deg = -0.048418793706
+left_source_scalar_steer_angle_deg = 0.03153403332484078
+right_source_scalar_steer_angle_deg = -0.03153403332484078
 
 [[source_front_steering_removal.states]]
 heave_mm = 10.16
-reconstructed_twist_deg = 0.097006904221
+left_reconstructed_twist_deg = 0.097006904222
+right_reconstructed_twist_deg = -0.097006904222
 
 [[source_front_steering_removal.states]]
 heave_mm = 15.24
-reconstructed_twist_deg = 0.145875240221
+left_reconstructed_twist_deg = 0.145875240222
+right_reconstructed_twist_deg = -0.145875240222
 
 [[source_front_steering_removal.states]]
 heave_mm = 20.32
-reconstructed_twist_deg = 0.195133661309
+left_reconstructed_twist_deg = 0.195133661310
+right_reconstructed_twist_deg = -0.195133661310
 
 [[source_front_steering_removal.states]]
 heave_mm = 25.4
-reconstructed_twist_deg = 0.244891221124
-source_scalar_steer_angle_deg = 0.1582241236
+left_reconstructed_twist_deg = 0.244891221126
+right_reconstructed_twist_deg = -0.244891221126
+left_source_scalar_steer_angle_deg = 0.15822412355591292
+right_source_scalar_steer_angle_deg = -0.15822412355591292
 
 [tolerances]
 nominal_wheel_center_m = 2e-9
 nominal_plane_component = 1e-12
 source_steering_removed_wheel_center_m = 2e-9
 reconstructed_twist_rad = 2e-10
+bilateral_twist_sum_rad = 2e-12
 
 [exclusions]
 items = [
