@@ -1,0 +1,20 @@
+[record]
+id = "BENCH-SUSP-0002"
+type = "benchmark"
+title = "WUFR-26 front double-wishbone OptimumK heave comparison"
+status = "proposed"
+description = "Cross-check the planned rigid front double-wishbone position solver against selected right-front joint-center states from the frozen WUFR-26 OptimumK ±1 in pure-heave result. The result export is re-referenced from its ground-fixed heave frame into the source body-fixed suspension frame before the already reviewed OptimumK-to-canonical orientation conversion. Tie-rod, toe, wheel-plane, and steering outputs are excluded because the source result already contains tie-rod-constrained steering."
+verification_level = "C"
+target_ids = ["MOD-SUSP-0001", "EQ-SUSP-0001", "EQ-SUSP-0002"]
+acceptance_criteria = [
+  "The benchmark uses only the frozen source WUFR-26 8.21 Heaves 1inch.xlsx with SHA-256 db071b7e696149ec82213e9ed05aa557349d18d19debe7925e7e01058534e4b8 and OptimumK Result v2.3.0.",
+  "For this pure-heave export only, source point coordinates are re-referenced as p_body,optk=p_export,optk-[0,0,h] mm before canonical conversion; this adapter is not generalized to roll or pitch.",
+  "At all 11 frozen heave states from -25.4 to +25.4 mm, the planned solver driven by the frozen source-derived lower-arm rotation reproduces right-front lower and upper upright joint centers within 2e-6 m of the frozen body-fixed canonical expectations.",
+  "The solved upper-arm rotation stays on the continuous nominal branch and agrees with the source-derived reference q_U values to within 2e-5 rad.",
+  "Rigid arm-distance and upright-separation physical residuals remain below 1e-9 m for the internally solved geometry.",
+  "No front tie-rod point, toe, steer angle, wheel center, wheel plane, or bump-steer channel is used as unresolved suspension-pose authority in this benchmark.",
+  "This comparison is historical external-kinematics evidence, not as-built or production validation."
+]
+fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_FRONT_KINEMATICS_V0.toml"
+source_evidence = "benchmarks/steering/WUFR26_OPTIMUMK_HEAVE_1IN_EVIDENCE_V0.toml"
+planned_implementation_tests = ["tests/test_rigid_suspension_optimumk_comparison.py"]
