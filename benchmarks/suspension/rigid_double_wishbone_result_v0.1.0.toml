@@ -1,0 +1,64 @@
+version = "0.1.0"
+result_id = "MOD_SUSP_0001_RIGID_DOUBLE_WISHBONE_RESULT_V0"
+model_id = "MOD-SUSP-0001"
+authorization_id = "AUTH-SUSP-0001"
+authority = "software_verification_and_historical_external_kinematics_cross_tool_evidence_only"
+report_script = "scripts/run_suspension_kinematics_benchmarks.py"
+workflow = ".github/workflows/suspension-kinematics-validation.yml"
+source_head = "357d46d5b8e896201c0ed02089cc868879feb58e"
+workflow_run_id = 30145980876
+artifact_id = 8616008771
+artifact_digest = "sha256:392c8b198c880f0ee788083295453d3351467eb25683ba20effe291006755b6e"
+
+[wheelbase_context]
+value_m = 1.5624
+source = "team/reviewer confirmation on PR39"
+use = "metadata only in this result; rear source-local hardpoints are not translated by MOD-SUSP-0001"
+
+[BENCH-SUSP-0001]
+status = "pass"
+max_point_error_m = 8.010259122670504e-14
+max_q_U_error_rad = 2.131073095767988e-13
+max_upright_separation_residual_m = 8.010259122670504e-14
+position_tolerance_m = 1e-12
+angle_tolerance_rad = 1e-10
+length_residual_tolerance_m = 1e-12
+
+[BENCH-SUSP-0002]
+status = "pass"
+source_filename = "WUFR-26 8.21 Heaves 1inch.xlsx"
+source_sha256 = "db071b7e696149ec82213e9ed05aa557349d18d19debe7925e7e01058534e4b8"
+source_export_version = "2.3.0"
+state_count = 11
+heave_min_mm = -25.4
+heave_max_mm = 25.4
+max_point_error_m = 5.105803329019665e-7
+max_q_U_error_rad = 1.2765915241574888e-8
+max_upright_separation_residual_m = 9.683920332292928e-14
+position_tolerance_m = 2e-6
+upper_rotation_tolerance_rad = 2e-5
+internal_length_residual_tolerance_m = 1e-9
+scope_note = "Front tie-rod, toe, steer-angle, wheel-center, wheel-plane, and bump-steer channels are excluded because the OptimumK export already includes tie-rod-constrained steering."
+
+[BENCH-SUSP-0003]
+status = "pass_singular_fixture"
+expected_twist_deg = 10.0
+solved_twist_deg = 10.0
+twist_error_rad = 0.0
+max_toe_point_error_m = 1.3877787807814457e-17
+toe_link_residual_m = 0.0
+closure_derivative_m2_per_rad = 1.3877787807814458e-18
+angle_tolerance_rad = 1e-10
+position_tolerance_m = 1e-12
+length_residual_tolerance_m = 1e-12
+scope_note = "The frozen fixture is a tangent/singular closure limit. The benchmark deliberately samples the exact known root and records the near-zero derivative; it is not evidence of a well-conditioned rear operating state."
+
+[prohibited_claims]
+items = [
+  "installed or as-built suspension validation",
+  "authoritative wheel-center or wheel-plane motion",
+  "front bump-steer prediction without MOD-STEER-0001 composition",
+  "motion ratio, rocker, damper, spring, or anti-roll-bar kinematics",
+  "loads, compliance, or vehicle equilibrium",
+  "production suspension optimization"
+]
