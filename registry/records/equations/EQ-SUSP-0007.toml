@@ -1,0 +1,27 @@
+[record]
+id = "EQ-SUSP-0007"
+type = "equation"
+title = "Body-frame wheel-center vertical-displacement to lower-arm coordinate inversion"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Expose a physical suspension-state coordinate as body-frame wheel-center vertical displacement from nominal and invert that coordinate to the internal lower-arm rotation q_L through MOD-SUSP-0001 on the continuous nominal branch. This prevents q_L from being silently renamed wheel travel/jounce/heave."
+outputs = ["Solved q_L for requested delta_z_wc_body", "Solved MOD-SUSP-0001 state", "Vertical-displacement residual", "Bracket/iterations/branch/feasibility diagnostics"]
+inputs = ["Requested delta_z_wc_body", "Nominal source-bounded wheel reference", "MOD-SUSP-0001 corner geometry", "Reviewed q_L search domain and continuation context"]
+assumptions = [
+  "delta_z_wc_body = current wheel-center body-frame z minus nominal wheel-center body-frame z, positive upward.",
+  "The requested state is evaluated on the same MOD-SUSP-0001 assembly branch connected to q_L=0.",
+  "The inversion domain is bounded and no extrapolation or hidden clipping is permitted.",
+  "The OptimumK result channel Wheel Center Displacement Z is not assumed equal to this body-frame quantity; result-frame motion must be re-referenced first."
+]
+verification_level = "none"
+canonical_equation = "F(q_L)=z_wc(q_L)-z_wc(0)-delta_z_wc_body_requested=0, where z_wc(q_L) is obtained by EQ-SUSP-0006 composed with MOD-SUSP-0001."
+source_basis = [
+  "MOD-SUSP-0001 exact rigid suspension state and upright transform.",
+  "Frozen OptimumK pure-heave evidence showing the result frame moves relative to the suspension/body frame and therefore its Wheel Center Displacement channel is not a direct body-relative state input.",
+  "Project architecture requirement to keep q_L as an internal mathematical coordinate until an explicit physical state adapter exists."
+]
+validity = "Requested wheel-center vertical displacement inside a reviewed locally invertible nominal-continuation q_L domain for the selected corner/configuration."
+numerical_method = "Use a safeguarded bracket-preserving scalar root solve. Detect absent brackets, multiple brackets/nonmonotonic ambiguity, branch loss, non-finite states, and root nonconvergence explicitly."
+failure_behavior = ["Reject out-of-domain requested displacement", "Reject no-bracket states", "Reject multiple-root ambiguity rather than selecting an arbitrary q_L", "Reject upstream MOD-SUSP-0001 failure", "Never clip requested displacement or substitute another assembly branch"]
+benchmark_ids = ["BENCH-SUSP-0006"]
