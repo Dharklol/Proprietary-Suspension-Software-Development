@@ -1,0 +1,29 @@
+[record]
+id = "EQ-VEH-0004"
+type = "equation"
+title = "Whole-vehicle body-fixed point transport"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Transport a body-fixed point into the road/inertial frame using one explicit body-origin translation and the project yaw-pitch-roll rotation convention. The first force-coordinate implementation uses this equation to place application and contact-reference points for supplied body heave, roll, and pitch; it does not solve those coordinates."
+outputs = ["Road/inertial-frame point position r_I", "Rotation matrix R_IB", "Frame and origin diagnostics"]
+inputs = ["Body-fixed point r_B", "Body-origin road/inertial position r_O", "Yaw psi", "Pitch theta", "Roll phi"]
+assumptions = [
+  "Canonical axes are +x forward, +y vehicle left, +z upward and right-handed.",
+  "The body-fixed point and body origin belong to an explicitly named whole-vehicle frame; source-local suspension points require a reviewed adapter before use.",
+  "Yaw-pitch-roll elemental rotations are composed as R_IB = R_z(psi) R_y(theta) R_x(phi).",
+  "The first quasi-static subset fixes yaw context and varies q=[z_s, phi, theta]; this equation does not prescribe a small-angle approximation."
+]
+verification_level = "none"
+canonical_equation = "r_I = r_O + R_z(psi) R_y(theta) R_x(phi) r_B"
+source_basis = [
+  "Guiggiani (2022), The Science of Vehicle Dynamics, Chapter 1 canonical vehicle axes and geometry.",
+  "Guiggiani (2022), Chapter 9.1-9.2 vehicle position/orientation and yaw-pitch-roll elemental rotations."
+]
+validity = "Finite coordinates and angles with explicitly compatible body and road/inertial frames."
+failure_behavior = [
+  "Reject nonfinite points or angles.",
+  "Reject missing, incompatible, or source-local frame/origin authority rather than infer a transform.",
+  "Do not translate front/rear source geometry from wheelbase alone."
+]
+benchmark_ids = ["BENCH-VEH-0003", "BENCH-VEH-0004"]
