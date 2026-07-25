@@ -1,4 +1,4 @@
-version = "0.1.2"
+version = "0.1.3"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
 status = "active_design_intent_baseline_not_as_built"
 vehicle_revision = "WUFR-27"
@@ -7,6 +7,8 @@ purpose = "WUFR-27 suspension R&D baseline inheriting the WUFR-26 final OptimumK
 [authority]
 model_id = "MOD-SUSP-0001"
 wheel_reference_model_id = "MOD-SUSP-0002"
+actuation_model_id = "MOD-SUSP-0003"
+actuation_authorization_state = "documentation_candidate_until_AUTH-SUSP-0003_merge"
 source_snapshot = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
 source_snapshot_id = "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0"
 source_catalog_id = "CAT-SUSP-GEO-0001"
@@ -33,10 +35,18 @@ rule = "Static camber, static toe, half-track, offsets, rim/tire diameter, and t
 source_profile = "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
 physical_state_coordinate = "delta_z_wc_body_m = current body-frame wheel-center z minus nominal body-frame wheel-center z; positive upward"
 
+[actuation_boundary]
+rule = "AUTH-SUSP-0003 may authorize only ideal rigid front-upper-arm/rear-lower-arm push/pull attachment transport, one-axis rocker closure, ideal coilover eye-to-eye displacement, and the explicitly signed local derivative rho_dw=d(delta_L_d)/d(delta_z_wc_body). Historical OptimumK Motion Ratio Heave remains a separately named source quantity."
+source_profile = "benchmarks/suspension/WUFR26_OPTIMUMK_ACTUATION_V0.toml"
+coilover_displacement_coordinate = "delta_L_d_m = current ideal coilover eye-to-eye length minus nominal length; positive extension"
+local_ratio_coordinate = "rho_dw = d(delta_L_d_m)/d(delta_z_wc_body_m); sign retained"
+installed_boundary = "The OptimumK +/-25.4 mm heave sweep is verification evidence only, not installed bump/droop, damper stroke, articulation, or packaging authority."
+
 [uses]
 permitted = [
   "MOD-SUSP-0001 rigid kinematics development and verification",
   "MOD-SUSP-0002 source-bounded wheel-reference and physical-state development and verification",
+  "MOD-SUSP-0003 source-bounded ideal actuation documentation/benchmark planning after its authorization gates",
   "source-to-canonical transform regression",
   "suspension kinematics validation against OptimumK",
   "provider-neutral steering suspension-pose generation from reviewed unresolved-steering states",
@@ -44,11 +54,13 @@ permitted = [
   "PDR/FDR R&D documentation"
 ]
 prohibited = [
-  "installed or as-built hardpoint, wheel-center, bearing-axis, or alignment claims",
+  "installed or as-built hardpoint, wheel-center, bearing-axis, alignment, rocker, damper, or actuation claims",
   "physical tolerance or compliance claims",
   "automatic replacement of steering-FDR front tie-rod geometry",
   "generalization of the zero-offset wheel-center construction to nonzero OptimumK wheel offsets",
   "generic contact-patch/tire-envelope or tire-deflection inference",
+  "spring/damper force, wheel-rate, damping, or ARB calculations under the actuation authorization",
+  "treating the source verification heave range as installed suspension travel or damper stroke",
   "rear whole-vehicle origin inference from wheelbase alone without a reviewed origin relationship",
   "production optimization or geometry release"
 ]
