@@ -1,0 +1,26 @@
+[record]
+id = "EQ-SUSP-0009"
+type = "equation"
+title = "Rigid suspension-actuation outboard attachment transport"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Transport the frozen push/pull-rod outboard attachment with the specific suspension arm that owns it: front with the solved upper-arm rotation q_U and rear with the solved lower-arm rotation q_L. The attachment is an arm-fixed point and is not approximated by wheel-center motion or upright motion."
+outputs = ["Current push/pull-rod outboard attachment point", "Owning-arm identity and transform diagnostics"]
+inputs = ["Frozen nominal actuation attachment point", "Owning A-arm inboard hinge axis", "MOD-SUSP-0001 solved q_U or q_L state", "Axle/side/source authority"]
+assumptions = [
+  "The WUFR source explicitly identifies the front actuation attachment with the upper arm and the rear actuation attachment with the lower arm.",
+  "The ideal actuation attachment is rigidly fixed to its owning A-arm for this kinematic layer.",
+  "The same exact A-arm axis-rotation primitive used by EQ-SUSP-0001 is reused rather than creating a second arm-motion convention."
+]
+verification_level = "none"
+canonical_equation = "p_PP(q)=p_axis+R(k_axis,q_owner)(p_PP,0-p_axis), with q_owner=q_U for front and q_owner=q_L for rear."
+source_basis = [
+  "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0 front/rear actuation points and actuation_attachment roles.",
+  "WUFR-26 8.21 Heaves 1inch.xlsx external result states.",
+  "EQ-SUSP-0001 reviewed A-arm rotation primitive."
+]
+validity = "Frozen WUFR nominal ideal-joint suspension geometry and the MOD-SUSP-0001 nominal-continuation branch."
+numerical_method = "Closed-form rigid rotation using the reviewed A-arm hinge-axis primitive."
+failure_behavior = ["Reject missing/unknown actuation attachment role", "Reject degenerate owning-arm hinge axis", "Propagate upstream MOD-SUSP-0001 failure", "Do not substitute wheel-center or upright transport for the arm-fixed attachment"]
+benchmark_ids = ["BENCH-SUSP-0007", "BENCH-SUSP-0008"]
