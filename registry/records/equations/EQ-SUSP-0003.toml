@@ -1,0 +1,26 @@
+[record]
+id = "EQ-SUSP-0003"
+type = "equation"
+title = "Zero-steer upright reference transport"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Define a deterministic zero-steer reference orientation after the wishbones have located the current lower and upper upright joint centers. The nominal kingpin/steering-axis direction is mapped to the current direction by the shortest rigid rotation with no additional twist about the current axis. This is a reference/gauge convention for provider exchange, not a physical prediction of unconstrained front-upright twist."
+outputs = ["Zero-steer upright reference rotation R_align", "Zero-steer rigid transform anchored at the lower upright joint", "Front SuspensionPoseSet-compatible unresolved-steering reference pose"]
+inputs = ["Nominal lower/upper upright joint centers", "Solved lower/upper upright joint centers", "Nominal upright-local points/directions to transport"]
+assumptions = [
+  "The nominal and solved upper/lower upright joint pairs define nonzero kingpin/steering-axis directions.",
+  "The current axis is not antiparallel to the nominal axis within the declared ambiguity tolerance.",
+  "For the front suspension, tie-rod-induced steering rotation remains unresolved and is owned by MOD-STEER-0001.",
+  "All upright-local points and direction bases are transported by the same rigid reference transform."
+]
+verification_level = "none"
+canonical_equation = "k0=(p_U,0-p_L,0)/||p_U,0-p_L,0||; k=(p_U-p_L)/||p_U-p_L||. For k0 not antiparallel to k, choose the shortest rotation R_align mapping k0 to k. Transport a nominal point p0 as p_ref=p_L+R_align*(p0-p_L,0). No additional rotation about k is applied."
+source_basis = [
+  "Shortest rotation between two oriented unit vectors in rigid-body kinematics.",
+  "Merged steering pose contract requires upright_reference_pose_excludes_tie_rod_steering_rotation."
+]
+validity = "Reference transport is defined for continuous suspension states whose nominal/current kingpin axes are not antiparallel. It is a deterministic coordinate convention only."
+numerical_method = "Use dot/cross products with atan2(||k0 cross k||, k0 dot k) or an algebraically equivalent stable shortest-rotation construction. Return identity for same-direction parallel axes; reject antiparallel ambiguity."
+failure_behavior = ["Degenerate nominal or current kingpin axis", "Antiparallel/ambiguous shortest rotation", "Non-finite transform", "Failure of right-handed orthonormal transform checks"]
+benchmark_ids = ["BENCH-SUSP-0001", "BENCH-SUSP-0002"]
