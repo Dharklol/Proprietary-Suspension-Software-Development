@@ -1,0 +1,10 @@
+[record]
+id = "ASM-SUSP-0001"
+type = "assumption"
+title = "Initial ideal two-force-member suspension linkage statics"
+status = "proposed"
+description = "The first separately authorized suspension-linkage force model will idealize tie rods, push/pull rods, anti-roll-bar links, and individual wishbone legs as pin-jointed two-force members acting along declared centerlines, with rigid upright/rocker/node bodies and explicit external loads. This assumption is frozen now only as a downstream fidelity decision; it does not authorize linkage-force computation in MOD-VEH-0003 and does not make ideal axial forces equivalent to final tube, weld, bracket, bearing, fatigue, or buckling stresses."
+severity = "high"
+affected_ids = ["AUTH-VEH-0003", "MOD-VEH-0003", "future ideal suspension-linkage statics authorization"]
+validity = "Future first-pass global load-path and FEA-boundary-condition development only, after external wheel/contact, spring/ARB, brake-reaction, geometry, and joint-role authority are reviewed."
+control = "Require a later authorization with body/link inventory, force application points, rank and conditioning diagnostics, equilibrium residuals, brake torque path, and explicit separation between equilibrium-derived axial loads and structural stress/FEA results."
