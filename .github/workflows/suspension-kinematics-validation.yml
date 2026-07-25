@@ -34,6 +34,11 @@ jobs:
           python scripts/run_wheel_reference_benchmarks.py \
             --summary \
             --output wheel_reference_summary.json
+          python scripts/run_suspension_actuation_benchmarks.py \
+            --output suspension_actuation_report.json > /dev/null
+          python scripts/run_suspension_actuation_benchmarks.py \
+            --summary \
+            --output suspension_actuation_summary.json
       - name: Upload suspension kinematics reports
         uses: actions/upload-artifact@v4
         with:
@@ -43,4 +48,6 @@ jobs:
             suspension_kinematics_summary.json
             wheel_reference_report.json
             wheel_reference_summary.json
+            suspension_actuation_report.json
+            suspension_actuation_summary.json
           if-no-files-found: error
