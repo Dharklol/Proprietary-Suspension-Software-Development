@@ -47,7 +47,12 @@ class SuspensionKinematicsAuthorizationTests(unittest.TestCase):
             model["benchmark_ids"],
             ["BENCH-SUSP-0001", "BENCH-SUSP-0002", "BENCH-SUSP-0003"],
         )
-        self.assertIn("pending_PR39_merge", model["authorization_state"])
+        self.assertEqual(
+            model["authorization_state"],
+            "prototype_authorized_after_PR39_merge",
+        )
+        self.assertEqual(model["implementation_package"], "src/pssd_suspension/kinematics.py")
+        self.assertEqual(model["verification_level"], "B")
 
     def test_all_equation_records_point_to_frozen_benchmarks(self) -> None:
         expected = {
