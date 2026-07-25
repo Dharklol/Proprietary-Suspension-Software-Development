@@ -5,33 +5,43 @@ title = "Rigid double-wishbone suspension kinematics evaluator"
 status = "proposed"
 disposition = "rewrite"
 maturity = "M0"
-description = "Planned source-grounded rigid suspension-kinematics authority. PR38 freezes its geometry/source contract only: four-corner double-wishbone hardpoints, toe-link roles, actuation geometry, wheel setup metadata, source identity, and explicit OptimumK-to-canonical orientation conversion. No suspension motion equations are implemented or authorized by the model record itself."
+description = "Source-grounded rigid ideal-joint double-wishbone kinematics authority. PR38 froze the four-corner geometry/source contract. PR39 freezes the first equation packet, branch/numerical behavior, front unresolved-steering reference rule, rear chassis toe-link closure, and preimplementation benchmarks under AUTH-SUSP-0001; implementation remains pending until that authorization is reviewed and merged."
 inputs = [
   "WUFR27_SUSPENSION_BASELINE_V0 geometry configuration",
   "CAT-SUSP-GEO-0001 / WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0 source snapshot",
-  "Named independent suspension-state coordinate after separate equation authorization",
-  "Canonical chassis/body orientation and reviewed front/rear reference-origin relationship where whole-vehicle placement is requested"
+  "Signed lower-arm rotation q_L about the fore-to-aft lower-arm hinge axis as the first internal independent coordinate",
+  "Ordered state schedule / branch continuation context",
+  "Canonical chassis/body orientation"
 ]
 outputs = [
-  "Planned: solved upper/lower upright joint positions",
-  "Planned: steering-axis orientation and zero-steer upright reference pose",
-  "Planned: wheel-center and wheel-plane state only after their source construction is separately reviewed",
-  "Planned: suspension-state diagnostics, feasibility, provenance, and residuals",
-  "Planned: provider-neutral SuspensionPoseSet compatible front upright transforms"
+  "Solved upper/lower upright joint positions and arm rotations",
+  "Steering/kingpin axis orientation and deterministic zero-steer upright reference transform",
+  "Rear chassis toe-link twist where the frozen rear role applies",
+  "Provider-neutral SuspensionPoseSet-compatible front unresolved-steering transform",
+  "Suspension-state feasibility, branch, convergence, singularity, physical residual, and provenance diagnostics",
+  "Wheel-center and wheel-plane state remain unavailable until their source construction is separately reviewed"
 ]
 assumptions = [
-  "Rigid links and ideal joints will be the first kinematic scope; compliance and loads remain outside the model.",
+  "Rigid links and ideal joints are the first kinematic scope; compliance and loads remain outside the model.",
+  "The lower-arm rotation q_L is an internal mathematical mechanism coordinate and is not silently renamed wheel travel, jounce, rebound, heave, roll, or pitch.",
   "Front tie-rod-induced steering rotation remains unresolved by the suspension solver and is owned by MOD-STEER-0001.",
-  "The rear toe link has a distinct chassis-locating role and must not be silently treated as a front steering tie rod.",
+  "The shortest/minimum-twist front upright orientation is a deterministic reference convention, not a physical free-upright steering prediction.",
+  "The rear toe link has a distinct chassis-locating role and may close rear upright twist only through EQ-SUSP-0004.",
   "Front and rear source coordinates retain their OptimumK suspension-reference origins until a reviewed translation relation is added.",
   "Nominal WUFR-26/27 design geometry is not as-built authority.",
-  "PR38 does not infer wheel-center coordinates from half-track, tire diameter, or source offsets."
+  "Wheel-center coordinates are not inferred from half-track, tire diameter, or source offsets."
 ]
 verification_level = "none"
+equation_ids = ["EQ-SUSP-0001", "EQ-SUSP-0002", "EQ-SUSP-0003", "EQ-SUSP-0004"]
+benchmark_ids = ["BENCH-SUSP-0001", "BENCH-SUSP-0002", "BENCH-SUSP-0003"]
+authorization_id = "AUTH-SUSP-0001"
+authorization_state = "review_ready_pending_PR39_merge"
+preimplementation_specification = "docs/models/suspension/rigid_double_wishbone_function_specification.md"
+review_record = "docs/reviews/phase2_suspension_kinematics_authorization_review.md"
 geometry_contract_state = "implemented_in_PR38"
 geometry_package = "src/pssd_suspension"
 source_snapshot = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
 baseline_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
-next_implementation_gate = "A separate reviewed equation/benchmark authorization must define the independent state coordinate, rigid closure equations, zero-steer upright reference transport, branch selection, numerical method, and failure states before solver code is merged."
+next_implementation_gate = "Review and merge AUTH-SUSP-0001 / PR39, then implement the bounded solver in a separate PR and pass BENCH-SUSP-0001 through BENCH-SUSP-0003 before claiming implemented kinematics."
 upstream_source_ids = ["CAT-SUSP-GEO-0001"]
 downstream_model_ids = ["MOD-STEER-0001", "MOD-STEER-0002"]
