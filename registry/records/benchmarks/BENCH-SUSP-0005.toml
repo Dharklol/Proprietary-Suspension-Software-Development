@@ -1,0 +1,20 @@
+[record]
+id = "BENCH-SUSP-0005"
+type = "benchmark"
+title = "WUFR front OptimumK three-dimensional source-steering removal"
+status = "proposed"
+description = "Verify that historical front OptimumK result states that already contain tie-rod steering can be converted to unresolved-steering validation references by deriving the actual three-dimensional upright twist from the upright tie point about the current steering axis and applying its inverse."
+verification_level = "C"
+target_ids = ["MOD-SUSP-0002", "EQ-SUSP-0006", "EQ-SUSP-0008"]
+acceptance_criteria = [
+  "Use the same 11 frozen front pure-heave states and body-frame re-reference rule already accepted by BENCH-SUSP-0002.",
+  "At each state, derive source twist only from current lower/upper upright and upright tie-point geometry relative to the EQ-SUSP-0003 minimum-twist reference.",
+  "After removing the recovered twist, the source wheel-center point matches the minimum-twist rigid transport of the nominal wheel center within 2e-9 m at all 11 states.",
+  "Recovered twist values match the frozen state table within 2e-10 rad.",
+  "The benchmark demonstrates at representative states that the OptimumK scalar Steer Angle differs materially from the recovered three-dimensional upright twist and is never used as a rotation input.",
+  "The resulting unresolved-steering source reference may be used for validation/correlation but the original source-steered pose may not be fed directly into MOD-STEER-0001."
+]
+fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+upstream_fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_FRONT_KINEMATICS_V0.toml"
+source_audit = "docs/models/suspension/wheel_reference_source_audit.md"
+planned_implementation_tests = ["tests/test_optimumk_source_steering_removal.py"]
