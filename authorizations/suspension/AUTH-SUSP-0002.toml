@@ -1,0 +1,79 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0002"
+status = "review_ready"
+title = "WUFR source-bounded wheel reference and physical suspension-state adapter authorization"
+effective_condition = "Effective only after review and merge of the PR carrying this authorization. This authorization permits a source-bounded wheel-center/wheel-plane reference layer composed with MOD-SUSP-0001 and a bounded body-frame wheel-center vertical-displacement adapter; it does not authorize generic wheel/contact-patch inference, front steering inside suspension, actuation kinematics, loads, or installed/as-built claims."
+review_record = "docs/reviews/phase2_wheel_reference_authorization_review.md"
+
+[scope]
+model_ids = ["MOD-SUSP-0002"]
+equation_ids = ["EQ-SUSP-0005", "EQ-SUSP-0006", "EQ-SUSP-0007", "EQ-SUSP-0008"]
+benchmark_ids = ["BENCH-SUSP-0004", "BENCH-SUSP-0005", "BENCH-SUSP-0006"]
+upstream_model_ids = ["MOD-SUSP-0001"]
+geometry_configuration = "WUFR27_SUSPENSION_BASELINE_V0"
+source_snapshot = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
+implementation_package = "src/pssd_suspension"
+
+[permitted]
+items = [
+  "For the frozen WUFR-26 OptimumK source setup with zero longitudinal/lateral/vertical wheel offsets, reconstruct the nominal wheel center from source half-track, tire radius, side identity, and static camber using the source-verified front-view construction documented by EQ-SUSP-0005.",
+  "Construct the nominal wheel-plane orientation from the already reviewed side-local static toe/camber convention used by MOD-STEER-0001 rather than inventing a second alignment convention.",
+  "Transport the nominal wheel center and wheel-plane basis rigidly with the upright transform produced by MOD-SUSP-0001; for front corners use the unresolved-steering minimum-twist reference transform, and for rear corners use the rear toe-link-closed upright transform.",
+  "Expose body-frame wheel-center vertical displacement relative to nominal as an explicit physical suspension-state coordinate, positive upward in canonical +z.",
+  "Invert requested body-frame wheel-center vertical displacement to q_L with a bounded branch-preserving scalar solve over a reviewed q_L domain, reporting residual, bracket, iterations, branch state, and structured failure rather than clipping or extrapolating.",
+  "For historical OptimumK front-result validation only, reconstruct the source upright steering twist directly from the three-dimensional lower-upright, upper-upright, and upright tie-point states and remove that twist before comparing unresolved-steering wheel/upright references.",
+  "Use the frozen OptimumK pure-heave workbook only as historical external kinematics evidence; retain source identity, result version, body-frame re-reference rule, and channel exclusions.",
+  "Retain wheel-center and wheel-plane source authority separately from installed/as-built hardware authority and from any future tire/contact-patch force model."
+]
+
+[prohibited]
+items = [
+  "Treating the OptimumK scalar Steer Angle channel as the three-dimensional physical upright rotation about the current steering axis; BENCH-SUSP-0005 demonstrates that these are not the same quantity.",
+  "Feeding a front OptimumK pose that already contains tie-rod steering directly into MOD-STEER-0001 without removing source steering rotation; doing so would double count bump steer/toe response.",
+  "Generalizing the zero-offset wheel-center construction to nonzero longitudinal, lateral, or vertical source wheel offsets before those OptimumK semantics are separately reviewed.",
+  "Claiming that the OptimumK contact reference, wheel center, tire radius, and static toe define a unique generic three-dimensional tire contact-patch construction; current source evidence supports the nominal wheel center and plane separately, not a universal tire geometry model.",
+  "Solving the front steering tie rod, road-wheel steer, or steering-arm rotation inside MOD-SUSP-0002; front steering remains owned by MOD-STEER-0001.",
+  "Renaming q_L as wheel travel, jounce, rebound, or heave without passing through the explicit reviewed physical displacement adapter.",
+  "Inferring wheel center from upright/hub CAD when an authoritative source setup is absent, or using drawing dimensions to override the reviewed OptimumK kinematic source without a separate reconciliation.",
+  "Motion ratio, pushrod/pullrod, rocker, spring, damper, anti-roll-bar, wheel-rate, tire-force, tire-deflection, contact-patch force location, load-transfer, compliance, aero, or vehicle-equilibrium calculations.",
+  "Whole-vehicle front/rear source-origin translation from wheelbase alone; the confirmed 1.5624 m wheelbase does not by itself authorize a source-origin adapter.",
+  "Installed/as-built geometry, bearing play, wheel-bearing compliance, packaging clearance, joint-articulation, durability, production optimization, or hardware release claims."
+]
+
+[numerics]
+vertical_state_coordinate = "delta_z_wc_body_m = current wheel-center z in the suspension/body frame minus nominal wheel-center z; positive upward"
+q_L_root_method = "Safeguarded bracket-preserving scalar method such as bisection or reviewed Brent-Dekker"
+branch_rule = "Start at the reviewed nominal q_L=0 state and continue the same MOD-SUSP-0001 assembly branch. A nonmonotonic or multiply bracketed requested displacement is reported as ambiguous rather than silently selecting a root."
+source_steering_removal_rule = "Derive signed twist around the current lower-to-upper steering axis from projected reference/current upright tie-point radius vectors using atan2(k dot (a_perp cross b_perp), a_perp dot b_perp), then apply the negative twist to source upright-attached points for unresolved-steering validation."
+hidden_clipping_allowed = false
+alternate_root_fallback_allowed = false
+extrapolation_allowed = false
+
+[source_boundary]
+primary_setup = "WUFR-26 FINAL 8.21.2025.xlsx, Box file 2014803790843 version 2224178574043, provider SHA-1 15eadfb93369192038888da92ebaa6674db56cfa"
+external_heave_source = "WUFR-26 8.21 Heaves 1inch.xlsx, SHA-256 db071b7e696149ec82213e9ed05aa557349d18d19debe7925e7e01058534e4b8, OptimumK Result v2.3.0"
+front_upright_drawing = "WT-80201-ZZ CNC UPRIGHT, FRONT, RIGHT.pdf, Box file 2071451248395, SHA-1 74a6afa2b8d712f240a84f2b864f1771cb382491"
+front_hub_drawing = "WT-80101-AA FRONT HUB.pdf, Box file 2013149176102, SHA-1 dc9777af31a179c5ef840cdb34cda39923fe5a3d"
+front_hub_assembly_drawing = "WT-A0801-AA FRONT HUBS.pdf, Box file 2181097379981, SHA-1 d567e7e8b24808a4716f2ca7e95921acff46a95e"
+project_frame = "+x forward, +y vehicle left, +z upward; right-handed"
+wheelbase_m = 1.5624
+wheelbase_role = "team-confirmed physical meaning of OptimumK Reference Distance; not an automatic front/rear source-origin translation"
+source_audit = "docs/models/suspension/wheel_reference_source_audit.md"
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-SUSP-0004 reproduces the frozen nominal front/rear left/right OptimumK wheel-center coordinates from the source setup construction and reproduces the reviewed static wheel-plane basis.",
+  "BENCH-SUSP-0005 removes source front tie-rod steering from all 11 frozen pure-heave states using three-dimensional tie-point twist and matches the MOD-SUSP-0001 minimum-twist unresolved-steering wheel-center transport at the frozen tolerance; no OptimumK scalar Steer Angle value is used as a rotation input.",
+  "BENCH-SUSP-0006 recovers known synthetic and selected WUFR q_L states from requested body-frame wheel-center vertical displacement on the nominal-continuation branch and rejects out-of-domain/ambiguous states.",
+  "Implementation tests preserve front unresolved-steering ownership, reject unsupported nonzero source wheel offsets in the v0.1 source adapter, and retain explicit source/configuration authority."
+]
+
+[promotion_gates]
+items = [
+  "This authorization is reviewed and merged before implementation code begins.",
+  "The implementation PR passes BENCH-SUSP-0004 through BENCH-SUSP-0006 plus structured failure tests before MOD-SUSP-0002 is considered implemented.",
+  "Nonzero OptimumK wheel-offset semantics require separate source review before the nominal wheel-center adapter is generalized.",
+  "A reviewed whole-vehicle source-origin adapter is required before front/rear source-local suspension geometry is placed in one authoritative vehicle scene.",
+  "Actuation-linkage equations require separate authorization before motion ratio, spring/damper displacement, rocker motion, or ARB kinematics are added.",
+  "Physical metrology/correlation is required before installed/as-built wheel-center, bearing-axis, alignment, or production geometry claims."
+]
