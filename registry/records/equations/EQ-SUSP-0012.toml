@@ -1,0 +1,26 @@
+[record]
+id = "EQ-SUSP-0012"
+type = "equation"
+title = "Explicit local damper-to-wheel displacement derivative"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Define the canonical local actuation derivative with unambiguous numerator, denominator, and sign: rho_dw = d(delta_L_d)/d(delta_z_wc_body), where delta_L_d is positive coilover extension and delta_z_wc_body is the MOD-SUSP-0002 body-frame wheel-center vertical displacement positive upward. Also report the reciprocal only when well-conditioned. The historical OptimumK Motion Ratio Heave channel remains a separate source quantity and is never silently renamed rho_dw."
+outputs = ["rho_dw = d(delta_L_d)/d(delta_z_wc_body)", "optional reciprocal rho_wd", "conditioning/step diagnostics", "historical source-ratio comparison only when explicitly requested"]
+inputs = ["Successful MOD-SUSP-0002 physical wheel state", "Successful EQ-SUSP-0011 coilover displacement", "Neighboring branch-preserving states or an equivalent analytic derivative"]
+assumptions = [
+  "The derivative is local to a named suspension state and branch; a single nominal scalar does not describe the full nonlinear actuation curve.",
+  "delta_z_wc_body is positive upward in the body/suspension frame and delta_L_d is positive coilover extension.",
+  "The source OptimumK Motion Ratio Heave uses its own historical motion coordinate and therefore is preserved as comparison evidence rather than adopted as the project definition."
+]
+verification_level = "none"
+canonical_equation = "rho_dw=d(delta_L_d)/d(delta_z_wc_body); rho_wd=1/rho_dw only when |rho_dw| exceeds the reviewed conditioning threshold."
+source_basis = [
+  "MOD-SUSP-0002 physical state coordinate from EQ-SUSP-0007.",
+  "EQ-SUSP-0011 explicit coilover displacement convention.",
+  "WUFR26_OPTIMUMK_ACTUATION_V0 historical Motion Ratio Heave channel retained only as source comparison evidence."
+]
+validity = "Local derivative on a continuous feasible suspension/actuation branch with a nondegenerate wheel-displacement increment and successful rocker closure."
+numerical_method = "Prefer analytic differentiation when implementation remains simple and reviewable; otherwise use centered finite differences in the physical wheel coordinate with branch-preserving one-sided fallback only at a reviewed domain boundary. Report the actual step and never cross an infeasible/alternate branch."
+failure_behavior = ["Return unavailable at singular/ill-conditioned derivative states", "Do not divide by a near-zero rho_dw to form a reciprocal", "Do not replace this derivative with the historical source Motion Ratio Heave scalar", "Do not use absolute value to hide sign"]
+benchmark_ids = ["BENCH-SUSP-0007", "BENCH-SUSP-0008"]

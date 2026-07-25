@@ -1,0 +1,51 @@
+[record]
+id = "MOD-SUSP-0003"
+type = "model"
+title = "WUFR source-bounded rigid suspension actuation kinematics"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Proposed rigid ideal-joint actuation layer composed downstream of MOD-SUSP-0001/MOD-SUSP-0002. It transports the front upper-arm or rear lower-arm push/pull attachment, closes the one-DOF rocker through invariant rod length, computes ideal coilover length/displacement, and exposes an explicitly named signed local damper-to-wheel displacement derivative. It does not calculate spring/damper force, wheel rate, damping, ARB action, loads, compliance, packaging, or installed stroke."
+inputs = [
+  "MOD-SUSP-0001 solved front q_U / rear q_L arm state",
+  "MOD-SUSP-0002 body-frame wheel-center vertical state when local derivative output is requested",
+  "Frozen WUFR push/pull attachment, rocker axis/pivot/rod/coilover points, coilover chassis point, and nominal link lengths",
+  "Source/configuration authority and reviewed actuation branch/domain"
+]
+outputs = [
+  "Current push/pull-rod outboard attachment point",
+  "Rocker rotation and current rocker rod/coilover pickup points",
+  "Push/pull-rod closure residual and branch diagnostics",
+  "Ideal coilover eye-to-eye length and signed displacement",
+  "Explicit local rho_dw=d(delta_L_d)/d(delta_z_wc_body) and conditioned reciprocal when available",
+  "Source/fixture provenance and structured failure state"
+]
+assumptions = [
+  "Front WUFR actuation attachment is rigidly fixed to the upper A-arm; rear is rigidly fixed to the lower A-arm, per frozen OptimumK source roles.",
+  "Push/pull rod and rocker are rigid ideal links/bodies with ideal joint centers and no compliance/backlash.",
+  "The rocker has one rotational DOF about the frozen chassis rocker axis and follows the root connected to nominal theta_R=0.",
+  "Coilover displacement means current eye-to-eye length minus nominal eye-to-eye length; extension is positive.",
+  "The canonical local actuation derivative is signed and explicitly ordered damper-over-wheel; historical source Motion Ratio Heave remains a separate comparison quantity.",
+  "The source verification range is not installed bump-stop, top-out, damper stroke, or packaging authority."
+]
+verification_level = "none"
+equation_ids = ["EQ-SUSP-0009", "EQ-SUSP-0010", "EQ-SUSP-0011", "EQ-SUSP-0012"]
+benchmark_ids = ["BENCH-SUSP-0007", "BENCH-SUSP-0008"]
+authorization_id = "AUTH-SUSP-0003"
+authorization_state = "documentation_candidate_until_AUTH-SUSP-0003_merge"
+authorization_document = "authorizations/suspension/AUTH-SUSP-0003.toml"
+upstream_model_ids = ["MOD-SUSP-0001", "MOD-SUSP-0002"]
+downstream_model_ids = ["MOD-ROLL-0001"]
+source_snapshot = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
+source_fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_ACTUATION_V0.toml"
+source_audit = "docs/models/suspension/actuation_source_audit.md"
+preimplementation_specification = "docs/models/suspension/actuation_function_specification.md"
+implementation_package = "src/pssd_suspension/actuation.py"
+implementation_tests = ["tests/test_suspension_actuation.py"]
+benchmark_report_script = "scripts/run_suspension_actuation_benchmarks.py"
+benchmark_result_record = "benchmarks/suspension/suspension_actuation_result_v0.1.0.toml"
+validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
+review_record = "docs/reviews/phase2_suspension_actuation_authorization_review.md"
+baseline_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
+next_implementation_gate = "After AUTH-SUSP-0003 review/merge, a separate implementation PR may implement only EQ-SUSP-0009 through EQ-SUSP-0012 and must pass BENCH-SUSP-0007/0008 plus structured failure tests before MOD-SUSP-0003 is considered implemented."
+prohibited_scope = "Spring/damper force laws, wheel rate, damping ratio/effective damping, anti-roll-bar kinematics/stiffness, tire stiffness, vehicle roll/load transfer, compliance, joint articulation/clearance, physical damper stroke/stops, loads/stress, optimization, installed/as-built or production claims."

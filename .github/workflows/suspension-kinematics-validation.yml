@@ -20,6 +20,7 @@ jobs:
           python -m unittest tests.test_suspension_kinematics -v
           python -m unittest tests.test_wheel_reference_authorization -v
           python -m unittest tests.test_wheel_reference_state_adapter -v
+          python -m unittest tests.test_suspension_actuation_authorization -v
       - name: Generate suspension kinematics reports
         run: |
           python scripts/run_suspension_kinematics_benchmarks.py \

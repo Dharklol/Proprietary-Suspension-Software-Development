@@ -1,0 +1,20 @@
+[record]
+id = "BENCH-SUSP-0007"
+type = "benchmark"
+title = "Analytical rigid rocker-actuation closure and derivative"
+status = "proposed"
+description = "Verify the actuation equations independently of WUFR geometry using a planar synthetic fixture with a known one-axis rocker rotation, exact rigid pushrod closure, exact coilover length, and finite signed local damper-to-wheel derivative. Include intentionally unreachable and alternate-root cases to freeze branch/failure behavior."
+verification_level = "B"
+target_ids = ["MOD-SUSP-0003", "EQ-SUSP-0009", "EQ-SUSP-0010", "EQ-SUSP-0011", "EQ-SUSP-0012"]
+acceptance_criteria = [
+  "At nominal state the transported arm attachment, rocker rotation, rocker pickups, push/pull-rod length, coilover length, and coilover displacement reproduce the analytical fixture within floating-point-scale tolerances.",
+  "At selected nonzero states the solved rocker rotation and coilover length match closed-form synthetic expectations on the branch connected to theta_R=0.",
+  "The reported rho_dw has the frozen signed numerator/denominator convention and agrees with the analytical or high-accuracy centered-difference derivative.",
+  "An unreachable push/pull-rod closure fails explicitly without changing link length or clipping the requested state.",
+  "A deliberately multi-root geometry is rejected as ambiguous unless the continuation history uniquely identifies the nominal branch.",
+  "Degenerate rocker axes and ill-conditioned reciprocal ratios return explicit failures/unavailable outputs."
+]
+fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_ACTUATION_V0.toml"
+implementation_tests = ["tests/test_suspension_actuation.py"]
+report_script = "scripts/run_suspension_actuation_benchmarks.py"
+result_record = "benchmarks/suspension/suspension_actuation_result_v0.1.0.toml"
