@@ -18,6 +18,7 @@ jobs:
       - name: Run focused suspension kinematics tests
         run: |
           python -m unittest tests.test_suspension_kinematics -v
+          python -m unittest tests.test_wheel_reference_authorization -v
           python -m unittest tests.test_wheel_reference_state_adapter -v
       - name: Generate suspension kinematics reports
         run: |
