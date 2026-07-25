@@ -1,0 +1,21 @@
+[record]
+id = "BENCH-SUSP-0008"
+type = "benchmark"
+title = "WUFR-26 OptimumK front/rear actuation cross-tool benchmark"
+status = "proposed"
+description = "Compare the native ideal suspension-actuation chain against the frozen WUFR-26 OptimumK pure-heave result. The benchmark covers front upper-arm actuation and rear lower-arm actuation, rocker closure, coilover length/displacement, left/right symmetry of the source ideal geometry, and explicit handling of the historical Motion Ratio Heave channel."
+verification_level = "B"
+target_ids = ["MOD-SUSP-0003", "EQ-SUSP-0009", "EQ-SUSP-0010", "EQ-SUSP-0011", "EQ-SUSP-0012"]
+acceptance_criteria = [
+  "At the nominal source state, front and rear push/pull-rod and coilover lengths reconstructed from frozen hardpoints match the source scalar lengths within the frozen nominal tolerance.",
+  "Across all 11 frozen pure-heave source states from -25.4 mm through +25.4 mm, native front and rear coilover lengths/displacements agree with the source channels within the frozen source-precision tolerance after using the reviewed body-frame source re-reference and correct front-upper/rear-lower arm attachment ownership.",
+  "The native rocker root remains continuously connected to theta_R=0 and preserves push/pull-rod length at every accepted state.",
+  "Left/right source geometry remains mirrored for this historical ideal benchmark, but symmetry is recorded as source evidence only and is not promoted to an installed/as-built assumption.",
+  "The historical OptimumK Motion Ratio Heave values are retained and reportable, but tests demonstrate they are not silently substituted for rho_dw=d(delta_L_d)/d(delta_z_wc_body), because the two ratios use different motion coordinates/sign conventions.",
+  "No source scalar is extrapolated beyond the frozen +/-25.4 mm heave evidence and the source range is not relabeled as installed bump-stop or damper-stroke authority."
+]
+fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_ACTUATION_V0.toml"
+upstream_fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_FRONT_KINEMATICS_V0.toml"
+implementation_tests = ["tests/test_suspension_actuation.py"]
+report_script = "scripts/run_suspension_actuation_benchmarks.py"
+result_record = "benchmarks/suspension/suspension_actuation_result_v0.1.0.toml"
