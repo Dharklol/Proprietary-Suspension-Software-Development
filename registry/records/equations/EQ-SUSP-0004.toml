@@ -1,0 +1,26 @@
+[record]
+id = "EQ-SUSP-0004"
+type = "equation"
+title = "Rear chassis toe-link upright-twist closure"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "For a rear corner whose source toe link is chassis-locating, close the remaining upright twist about the solved kingpin axis by preserving the nominal toe-link center-to-center length. This equation is rear-specific and must not be used to solve front steering."
+outputs = ["Rear upright twist psi about current kingpin axis", "Rear toe-link outboard joint position", "Rear toe-link physical closure residual", "Rear complete upright rotation"]
+inputs = ["EQ-SUSP-0003 zero-twist reference transform", "Current kingpin axis", "Rear toe-link inboard chassis joint", "Nominal rear toe-link outboard upright joint", "Nominal rear toe-link length"]
+assumptions = [
+  "The rear toe link is a rigid chassis-locating member as declared by the source geometry role.",
+  "The rear upright is rigid and the toe-link outboard joint is fixed in the upright.",
+  "The admissible twist is the branch continuously connected to psi=0 at the nominal assembly.",
+  "Front steering tie rods are outside this equation and remain owned by MOD-STEER-0001."
+]
+verification_level = "none"
+canonical_equation = "p_t(psi)=p_L+R(k,psi)*(p_t,ref-p_L); L_t=||p_t,0-p_t,in||; g(psi)=0.5*(||p_t(psi)-p_t,in||^2-L_t^2)=0; dg/dpsi=(p_t-p_t,in) dot [k cross (p_t-p_L)]; R_rear=R(k,psi)*R_align."
+source_basis = [
+  "Rigid-link distance closure and rotation about the already located upright kingpin axis.",
+  "PR38 source-role distinction between front steering_tie_rod and rear chassis_locating_toe_link."
+]
+validity = "Rear double-wishbone corners with a source-authorized chassis-locating toe link and a unique continuous twist root within the reviewed angular domain."
+numerical_method = "Use the same safeguarded bracket-preserving scalar root policy as EQ-SUSP-0002, with nominal-continuation branch tracking from psi=0."
+failure_behavior = ["Toe-link role is not chassis_locating_toe_link", "No branch-consistent root", "Ambiguous/multiple roots", "Near-singular twist closure", "Physical residual above tolerance", "Domain violation"]
+benchmark_ids = ["BENCH-SUSP-0003"]

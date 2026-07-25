@@ -1,0 +1,80 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0001"
+status = "review_ready"
+title = "Bounded rigid double-wishbone suspension kinematics authorization"
+effective_condition = "Effective only after review and merge of PR #39. This authorization permits a bounded rigid ideal-joint reference implementation of the documented double-wishbone equations; it does not authorize production/as-built suspension claims or upstream vehicle/load physics."
+review_record = "docs/reviews/phase2_suspension_kinematics_authorization_review.md"
+
+[scope]
+model_ids = ["MOD-SUSP-0001"]
+equation_ids = ["EQ-SUSP-0001", "EQ-SUSP-0002", "EQ-SUSP-0003", "EQ-SUSP-0004"]
+benchmark_ids = ["BENCH-SUSP-0001", "BENCH-SUSP-0002", "BENCH-SUSP-0003"]
+geometry_configuration = "WUFR27_SUSPENSION_BASELINE_V0"
+geometry_source = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
+implementation_package = "src/pssd_suspension"
+
+[permitted]
+items = [
+  "Use each rigid A-arm's fore/aft chassis pivots as a fixed hinge axis and rotate the nominal outboard joint center about that axis with exact axis-angle kinematics.",
+  "Use signed lower-arm rotation q_L about the declared fore-to-aft lower-arm hinge axis as the first solver's explicit mathematical independent coordinate.",
+  "Solve upper-arm rotation q_U from invariant upper/lower upright joint-center separation on the continuous branch connected to the nominal assembly.",
+  "Use a safeguarded bracket-preserving scalar root method with explicit convergence, residual, branch, singularity, and domain diagnostics.",
+  "Construct a deterministic shortest-rotation/minimum-twist zero-steer upright reference transform after the upper/lower upright joint centers are located.",
+  "Export front zero-steer upright transforms compatible with the existing steering rule upright_reference_pose_excludes_tie_rod_steering_rotation.",
+  "For rear corners whose frozen role is chassis_locating_toe_link, solve the remaining upright twist from invariant rear toe-link length on the nominal-continuation branch.",
+  "Run analytical synthetic benchmarks and the source-limited WUFR-26 right-front OptimumK pure-heave cross-tool comparison frozen in BENCH-SUSP-0001 through 0003.",
+  "Report solved points, arm rotations, rigid-link physical residuals, branch identity, failure state, source/configuration authority, and zero-steer reference transform.",
+  "Keep front and rear suspension source-local origins separate unless a later reviewed whole-vehicle origin adapter is supplied."
+]
+
+[prohibited]
+items = [
+  "Solving the front steering tie rod, bump steer, road-wheel steer, or steering-arm rotation inside MOD-SUSP-0001; these remain owned by MOD-STEER-0001 after receiving an unresolved-steering suspension pose.",
+  "Treating the minimum-twist front reference orientation as a physical free-upright prediction or as a tire/wheel steer solution.",
+  "Inferring wheel-center position, wheel-plane origin, contact patch, scrub radius, mechanical trail, or other wheel geometry from half-track/tire dimensions before their construction is separately reviewed.",
+  "Inferring user-facing wheel jounce/rebound, heave, roll, or pitch semantics directly from q_L without an explicit reviewed state adapter.",
+  "Using the OptimumK heave result's front tie-rod/toe/steer channels as an unresolved suspension-pose input.",
+  "Promoting the observed 1562.4 mm rear result-export translation to an authoritative front/rear whole-vehicle origin relationship in this authorization.",
+  "Spring, damper, rocker, pushrod/pullrod, anti-roll-bar, wheel-rate, motion-ratio, load-transfer, force, compliance, bushing, tire, aero, or vehicle-equilibrium calculations.",
+  "Unconstrained Newton as the default closure solver, hidden clipping, automatic constraint relaxation, extrapolation past the declared angular domain, or alternate-root substitution after branch loss.",
+  "Installed/as-built geometry, packaging clearance, joint-articulation, durability, production optimization, hardware release, or performance claims."
+]
+
+[numerics]
+independent_coordinate = "q_L: signed right-hand lower-arm rotation about the canonical fore-to-aft lower-arm hinge axis"
+upper_closure_root_method = "Safeguarded bracket-preserving scalar method such as bisection or reviewed Brent-Dekker"
+rear_twist_root_method = "Safeguarded bracket-preserving scalar method such as bisection or reviewed Brent-Dekker"
+branch_rule = "Start from the reviewed nominal assembly q_L=q_U=psi=0 and continue the same root branch through ordered requested states. Branch loss is a failure, not a request to choose another geometric root."
+unconstrained_newton_default_allowed = false
+alternate_root_fallback_allowed = false
+hidden_clipping_allowed = false
+extrapolation_allowed = false
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-SUSP-0001 analytical parallel-arm positions, q_U=q_L closure, link invariants, and zero-steer identity transport pass at the frozen tolerances.",
+  "BENCH-SUSP-0002 reproduces all 11 right-front WUFR-26 OptimumK body-referenced upright-joint states within 2 micrometres using the frozen source-derived q_L schedule while solving q_U internally.",
+  "BENCH-SUSP-0003 recovers the synthetic +10 deg rear chassis toe-link twist and residual at the frozen tolerance.",
+  "Failure tests cover degenerate hinge axes, unreachable closure, branch ambiguity/loss, zero kingpin length, antiparallel reference-axis ambiguity, invalid rear toe-link role, and out-of-domain requests.",
+  "The implementation exports no wheel-center or front steering result that is not explicitly authorized here."
+]
+
+[source_boundary]
+project_frame = "+x forward, +y vehicle left, +z upward; right-handed"
+primary_geometry_source = "WUFR-26 FINAL 8.21.2025.xlsx, Box file 2014803790843 version 2224178574043, provider SHA-1 15eadfb93369192038888da92ebaa6674db56cfa"
+external_heave_source = "WUFR-26 8.21 Heaves 1inch.xlsx, SHA-256 db071b7e696149ec82213e9ed05aa557349d18d19debe7925e7e01058534e4b8, OptimumK Result v2.3.0"
+literature = [
+  "Guiggiani, The Science of Vehicle Dynamics, rigid-body/independent-suspension vehicle model and suspension-geometry treatment.",
+  "Gillespie, Fundamentals of Vehicle Dynamics, independent/SLA suspension geometry background.",
+  "Borg (2009), An Approach to Using Finite Element Models to Predict Suspension Member Loads in a Formula SAE Vehicle, SLA suspension geometry and vertical-articulation context."
+]
+
+[promotion_gates]
+items = [
+  "PR #39 authorization is reviewed and merged before implementation code begins.",
+  "A later implementation PR passes all frozen synthetic and WUFR cross-tool benchmarks and records numerical tolerances and failure behavior.",
+  "A reviewed wheel-center/wheel-plane source or construction is required before MOD-SUSP-0001 may claim authoritative wheel-center or wheel-plane state outputs.",
+  "Actuation-linkage equations require separate authorization before motion ratio, spring/damper displacement, rocker motion, or ARB kinematics are added.",
+  "A reviewed front/rear origin relationship is required before a whole-vehicle suspension scene or geometry model may translate the rear axle from PR38's source-local frame.",
+  "Physical metrology/correlation is required before installed/as-built validation or production geometry claims."
+]

@@ -1,0 +1,55 @@
+version = "0.1.0"
+geometry_id = "GEO-SUSP-BASIC-001"
+authority = "synthetic_analytical_verification_only"
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+independent_coordinate = "lower_arm_rotation_q_L_rad"
+branch_reference = "q_L=q_U=0"
+
+[geometry]
+lower_fore_inboard_m = [0.0, 0.0, 0.0]
+lower_aft_inboard_m = [1.0, 0.0, 0.0]
+lower_upright_nominal_m = [0.0, 0.4, 0.0]
+upper_fore_inboard_m = [0.0, 0.0, 0.2]
+upper_aft_inboard_m = [1.0, 0.0, 0.2]
+upper_upright_nominal_m = [0.0, 0.4, 0.2]
+upright_joint_separation_m = 0.2
+
+[analytical_rule]
+statement = "Both hinge axes are +x and both outboard radii are [0,0.4,0] relative to their fore pivots, so the nominal-continuation closure is q_U=q_L. The kingpin vector remains [0,0,0.2], making the zero-steer shortest-axis transport identity."
+position_rule = "lower=[0,0.4*cos(q),0.4*sin(q)]; upper=[0,0.4*cos(q),0.2+0.4*sin(q)]"
+
+[[states]]
+q_L_deg = -20.0
+expected_q_U_deg = -20.0
+expected_lower_upright_m = [0.0, 0.3758770483143634, -0.1368080573302675]
+expected_upper_upright_m = [0.0, 0.3758770483143634, 0.06319194266973252]
+
+[[states]]
+q_L_deg = -10.0
+expected_q_U_deg = -10.0
+expected_lower_upright_m = [0.0, 0.3939231012048832, -0.06945927106677213]
+expected_upper_upright_m = [0.0, 0.3939231012048832, 0.13054072893322788]
+
+[[states]]
+q_L_deg = 0.0
+expected_q_U_deg = 0.0
+expected_lower_upright_m = [0.0, 0.4, 0.0]
+expected_upper_upright_m = [0.0, 0.4, 0.2]
+
+[[states]]
+q_L_deg = 10.0
+expected_q_U_deg = 10.0
+expected_lower_upright_m = [0.0, 0.3939231012048832, 0.06945927106677213]
+expected_upper_upright_m = [0.0, 0.3939231012048832, 0.26945927106677214]
+
+[[states]]
+q_L_deg = 20.0
+expected_q_U_deg = 20.0
+expected_lower_upright_m = [0.0, 0.3758770483143634, 0.1368080573302675]
+expected_upper_upright_m = [0.0, 0.3758770483143634, 0.33680805733026753]
+
+[tolerances]
+position_m = 1e-12
+angle_rad = 1e-10
+length_residual_m = 1e-12
+rotation_matrix = 1e-12

@@ -1,0 +1,27 @@
+[record]
+id = "EQ-SUSP-0001"
+type = "equation"
+title = "Rigid double-wishbone arm-axis rotation"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Represent each ideal rigid A-arm by rotation of its outboard spherical-joint center about the fixed line through its fore and aft chassis pivots. This is the primitive kinematic map used by MOD-SUSP-0001; it is not a force, compliance, or wheel-travel model."
+outputs = ["Outboard joint-center position p_A(q_A)", "Rigid-arm distance residuals to both inboard pivots"]
+inputs = ["Fore inboard pivot a_A,F", "Aft inboard pivot a_A,A", "Nominal outboard joint center p_A,0", "Signed arm rotation q_A"]
+assumptions = [
+  "The arm and chassis pivots are rigid and the two inboard pivots define a fixed hinge axis.",
+  "Joint centers are modeled as ideal spherical/revolute kinematic constraints with sufficient articulation.",
+  "The source geometry is expressed in one reviewed right-handed frame before evaluation.",
+  "Compliance, backlash, clearances, loads, and member deformation are excluded."
+]
+verification_level = "none"
+canonical_equation = "e_A=(a_A,A-a_A,F)/||a_A,A-a_A,F||; p_A(q_A)=a_A,F+R(e_A,q_A)(p_A,0-a_A,F), where R is the right-hand Rodrigues rotation."
+source_basis = [
+  "Rigid-body rotation about a fixed axis and Euclidean distance invariance.",
+  "Guiggiani, The Science of Vehicle Dynamics, vehicle model assumption that an independently suspended wheel hub is connected to the body by a one-degree-of-freedom linkage.",
+  "Borg (2009), FSAE SLA suspension background and vertical-articulation modeling."
+]
+validity = "Rigid double-wishbone geometry in which each A-arm has two distinct inboard pivots and one outboard joint center; arm rotation remains inside the reviewed kinematic branch/domain."
+numerical_method = "Evaluate directly with a normalized fore-to-aft hinge axis and Rodrigues rotation; reject a degenerate inboard axis rather than inventing a direction."
+failure_behavior = ["Reject coincident/near-coincident inboard pivots", "Reject non-finite geometry or rotation", "Report rigid-arm distance residuals separately from solver closure"]
+benchmark_ids = ["BENCH-SUSP-0001", "BENCH-SUSP-0002"]
