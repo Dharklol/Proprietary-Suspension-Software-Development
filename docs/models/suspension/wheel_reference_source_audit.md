@@ -58,6 +58,8 @@ Current WUFR-26 front outboard hardware exists in the source tree and supports t
   - SHA-1 `d567e7e8b24808a4716f2ca7e95921acff46a95e`
   - BOM includes two `61909-2RS1` wheel bearings plus the hub, bearing spacer, retainer, wheel-speed gear, and bearing abutment ring.
 
+The same source tree also contains WUFR-26 rear hub/upright drawings and assemblies, including `WT-80301-AA REAR HUB.pdf`, `WT-A0803-AA REAR HUBS.pdf`, and left/right `WT-8040*-AA` rear upright drawings. These support the same rigid upright-to-hub-axis architecture at the rear. They are corroborating hardware evidence rather than a replacement for the OptimumK kinematic source.
+
 These drawings support rigid upright-to-hub-axis transport for the ideal-joint model. They do **not** provide installed/as-built bearing play, compliance, alignment, or metrology authority.
 
 Raw STEP/SolidWorks geometry is present in Box, but the current connector cannot expose the STEP binary through the available content interface. That limitation does not block the first source-bounded wheel-reference authorization because the OptimumK setup/result already supplies stronger direct kinematic evidence for the nominal wheel reference.
@@ -139,9 +141,9 @@ The result workbook's scalar `Toe Angle` and `Camber Angle` values are retained 
 
 The front pure-heave OptimumK result already contains tie-rod-constrained upright steering. Feeding that pose directly into `MOD-STEER-0001` would double count steering. Earlier work therefore correctly excluded it as a direct `SuspensionPoseSet` provider.
 
-The current result contains enough three-dimensional geometry to remove that steering without using the ambiguous scalar `Steer Angle` output.
+The current result contains enough three-dimensional geometry on **both front corners** to remove that steering without using the ambiguous scalar `Steer Angle` output.
 
-For each frozen front state:
+For each frozen front state and side:
 
 1. Convert the nominal and current lower-upright, upper-upright, and upright tie points to the same canonical body frame.
 2. Use `EQ-SUSP-0003` to transport the nominal upright into the current minimum-twist unresolved-steering reference pose.
@@ -170,25 +172,29 @@ psi = atan2(k dot (a_perp cross b_perp), a_perp dot b_perp).
 p_unresolved = p_L + R(k,-psi)(p-p_L).
 ```
 
-Applying this to the source wheel-center states makes the unsteered result agree with the minimum-twist rigid transport of the nominal wheel center at floating-point scale over all 11 frozen front-heave states.
+Applying this to the source wheel-center states makes each unsteered front result agree with the corresponding minimum-twist rigid transport of the nominal wheel center at floating-point scale over all 11 frozen front-heave states.
 
-The left-front reconstructed twists are:
+The reconstructed front twists are:
 
-| Heave mm | reconstructed 3D twist deg |
-|---:|---:|
-| -25.40 | -0.243537954171 |
-| -20.32 | -0.194249654619 |
-| -15.24 | -0.145370121099 |
-| -10.16 | -0.096779903458 |
-| -5.08 | -0.048361667369 |
-| 0.00 | 0.000000000000 |
-| +5.08 | +0.048418793705 |
-| +10.16 | +0.097006904221 |
-| +15.24 | +0.145875240221 |
-| +20.32 | +0.195133661309 |
-| +25.40 | +0.244891221124 |
+| Heave mm | Left 3D twist deg | Right 3D twist deg |
+|---:|---:|---:|
+| -25.40 | -0.243537954170 | +0.243537954170 |
+| -20.32 | -0.194249654619 | +0.194249654619 |
+| -15.24 | -0.145370121096 | +0.145370121096 |
+| -10.16 | -0.096779903457 | +0.096779903457 |
+| -5.08 | -0.048361667367 | +0.048361667367 |
+| 0.00 | 0.000000000000 | 0.000000000000 |
+| +5.08 | +0.048418793706 | -0.048418793706 |
+| +10.16 | +0.097006904222 | -0.097006904222 |
+| +15.24 | +0.145875240222 | -0.145875240222 |
+| +20.32 | +0.195133661310 | -0.195133661310 |
+| +25.40 | +0.244891221126 | -0.244891221126 |
 
-The OptimumK scalar `Steer Angle [Left] [Front]` does **not** equal these three-dimensional twists. For example, the source channel is about `-0.1534 deg` at `-25.4 mm` and `+0.1582 deg` at `+25.4 mm`, whereas the actual tie-point-derived upright twists are approximately `-0.2435 deg` and `+0.2449 deg` respectively.
+The matched left/right sign reversal is a property of this mirrored historical source result, not a general installed-symmetry assumption.
+
+The OptimumK scalar front `Steer Angle` does **not** equal these three-dimensional twists. At `-25.4 mm`, the source reports approximately `-0.153402 deg` left and `+0.153402 deg` right, while the actual tie-point-derived upright twists are approximately `-0.243538 deg` left and `+0.243538 deg` right. At `+25.4 mm`, the scalar values are about `+0.158224/-0.158224 deg`, while the reconstructed 3D twists are about `+0.244891/-0.244891 deg`.
+
+The nominal row is another useful diagnostic: the reconstructed 3D twist is exactly zero by construction, while the scalar result channel retains a small offset of approximately `+0.000770807 deg` left and `-0.000770807 deg` right.
 
 Therefore `Steer Angle` must not be used as the rotation that strips source steering from a 3D upright pose.
 
@@ -226,7 +232,7 @@ The existing project sources are sufficient for the next bounded suspension slic
 
 1. nominal WUFR wheel center is directly reconstructible and cross-checked against OptimumK;
 2. nominal wheel-plane orientation already has a reviewed static-alignment convention;
-3. historical source tie-rod steering can be removed exactly from 3D result geometry using the upright tie point rather than the scalar `Steer Angle` channel;
+3. historical source tie-rod steering can be removed exactly from bilateral 3D front result geometry using the upright tie point rather than the scalar `Steer Angle` channel;
 4. body-frame wheel-center vertical displacement provides a physically meaningful state coordinate that can be inverted to the internal `q_L` mechanism coordinate.
 
 The next missing evidence becomes important only when expanding beyond this scope: nonzero source wheel-offset semantics, a whole-vehicle front/rear source-origin adapter, actuation-linkage kinematics, and installed/as-built metrology.
