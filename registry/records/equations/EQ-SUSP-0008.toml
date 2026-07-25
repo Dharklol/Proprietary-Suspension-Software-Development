@@ -1,0 +1,28 @@
+[record]
+id = "EQ-SUSP-0008"
+type = "equation"
+title = "Three-dimensional OptimumK front source-steering removal"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "For historical front OptimumK result validation, recover the signed tie-rod-induced upright twist about the current lower-to-upper steering axis from the actual three-dimensional upright tie-point position relative to the EQ-SUSP-0003 minimum-twist reference, then apply the inverse twist to upright-attached result points before comparing them as unresolved-steering suspension references."
+outputs = ["Recovered source upright twist psi", "Unresolved-steering source point/pose for validation", "Twist geometry diagnostics"]
+inputs = ["Nominal/current lower upright points", "Nominal/current upper upright points", "Nominal/current upright tie points", "EQ-SUSP-0003 minimum-twist reference transform", "Upright-attached source point or basis to unsteer"]
+assumptions = [
+  "The source front result already contains physical tie-rod steering and the upright tie point is rigidly attached to the upright.",
+  "All points are first expressed in the same canonical body frame using the reviewed pure-heave result re-reference when that workbook is used.",
+  "The current steering axis is the normalized lower-to-upper upright joint vector.",
+  "Only the component of the reference/current tie-point radius vectors perpendicular to the current steering axis determines twist about that axis.",
+  "This equation is a validation/source-adapter operation, not a replacement front steering mechanism solver."
+]
+verification_level = "none"
+canonical_equation = "k=normalize(p_U-p_L); a=p_T,ref-p_L; b=p_T,src-p_L; a_perp=a-k(k·a); b_perp=b-k(k·b); psi=atan2(k·(a_perp×b_perp),a_perp·b_perp); p_unresolved=p_L+R(k,-psi)(p_src-p_L)."
+source_basis = [
+  "WUFR-26 8.21 Heaves 1inch.xlsx, OptimumK Result v2.3.0, frozen three-dimensional lower/upper/tie-point states.",
+  "EQ-SUSP-0003 minimum-twist unresolved-steering reference transport.",
+  "Rigid rotation about a known axis; source result wheel-center states verify the recovered twist independently."
+]
+validity = "Historical front result states with nonzero perpendicular tie-point lever arm and a valid current steering axis; intended for source-steering removal/cross-tool validation only."
+numerical_method = "Project radius vectors perpendicular to the current axis and use signed atan2. Reject degenerate projected radii instead of falling back to the scalar OptimumK Steer Angle channel."
+failure_behavior = ["Reject zero/near-zero steering-axis length", "Reject zero/near-zero perpendicular tie-point lever arm", "Reject non-finite source coordinates", "Never substitute OptimumK scalar Steer Angle as the 3D twist input", "Never feed the source-steered pose directly to MOD-STEER-0001"]
+benchmark_ids = ["BENCH-SUSP-0005"]
