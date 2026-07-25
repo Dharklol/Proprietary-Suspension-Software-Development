@@ -16,4 +16,6 @@ acceptance_criteria = [
 ]
 fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
 source_audit = "docs/models/suspension/wheel_reference_source_audit.md"
-planned_implementation_tests = ["tests/test_wheel_reference_state_adapter.py"]
+implementation_tests = ["tests/test_wheel_reference_state_adapter.py"]
+report_script = "scripts/run_wheel_reference_benchmarks.py"
+result_record = "benchmarks/suspension/wheel_reference_result_v0.1.0.toml"
