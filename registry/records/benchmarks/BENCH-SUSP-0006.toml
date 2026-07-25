@@ -1,0 +1,19 @@
+[record]
+id = "BENCH-SUSP-0006"
+type = "benchmark"
+title = "Physical wheel-center vertical-displacement state inversion"
+status = "proposed"
+description = "Verify the bounded adapter that maps an explicit body-frame wheel-center vertical displacement request to the internal lower-arm rotation q_L by composing the wheel reference with MOD-SUSP-0001 on the continuous nominal branch."
+verification_level = "B"
+target_ids = ["MOD-SUSP-0002", "EQ-SUSP-0006", "EQ-SUSP-0007"]
+acceptance_criteria = [
+  "Synthetic monotonic geometry recovers known q_L states from requested body-frame wheel-center vertical displacement with the frozen root/residual tolerances.",
+  "Selected WUFR front pure-heave states recover their frozen source-derived q_L values when the requested coordinate is formed from body-referenced wheel-center z rather than the OptimumK result Wheel Center Displacement channel.",
+  "The nominal request delta_z_wc_body=0 recovers q_L=0 on the nominal assembly branch.",
+  "Requests outside the reviewed displacement image of the q_L domain fail without clipping or extrapolation.",
+  "A deliberately nonmonotonic/multiply bracketed mapping is reported as ambiguous rather than silently selecting an arbitrary root.",
+  "Any upstream MOD-SUSP-0001 infeasibility propagates as an explicit adapter failure."
+]
+fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+upstream_fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_HEAVE_FRONT_KINEMATICS_V0.toml"
+planned_implementation_tests = ["tests/test_wheel_reference_state_adapter.py"]
