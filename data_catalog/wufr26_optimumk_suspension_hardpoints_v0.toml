@@ -1,0 +1,138 @@
+version = "0.1.0"
+snapshot_id = "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0"
+authority = "nominal_design_geometry_source_only"
+reference_distance_mm = 1562.400
+wheel_center_rule = "not_derived_in_PR38; source wheel setup is preserved but wheel-center construction semantics require separate review before use"
+
+[source]
+catalog_id = "CAT-SUSP-GEO-0001"
+provider = "Box"
+file_name = "WUFR-26 FINAL 8.21.2025.xlsx"
+file_id = "2014803790843"
+file_version_id = "2224178574043"
+provider_sha1 = "15eadfb93369192038888da92ebaa6674db56cfa"
+source_frame_id = "OPTK_WUFR26_EXPORT"
+source_length_unit = "mm"
+source_angle_unit = "deg"
+source_vehicle_setup_name = "WUFR-26 FINAL 8.21.2025"
+source_vehicle_setup_version = "2.0.2"
+source_front_suspension_name = "WUFR-26 Front FINAL 8.21.2025 0.5 and Front Fix"
+source_rear_suspension_name = "WUFR-26 Rear FINAL 8.2.2025 Fix 1"
+storage_context = "WashURacing / 6. WUFR-26 / WUFR-26 CAD AND DRAWINGS / 7. SUSPENSION / Geometry"
+extraction_method = "Box get_file_content text representation inspected 2026-07-24; numerical snapshot transcribed without smoothing or geometric inference"
+raw_byte_sha256_state = "not_captured_in_PR38; provider file/version identity and SHA-1 are frozen"
+
+[transform]
+source_to_canonical_matrix = [[1.0, 0.0, 0.0], [0.0, -1.0, 0.0], [0.0, 0.0, 1.0]]
+source_length_scale_to_m = 0.001
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+origin_rule = "front and rear suspension point sets retain their respective OptimumK suspension-reference origins; reference_distance_mm is stored separately and no rear-to-front translation is applied by the PR38 loader"
+
+[front]
+toe_link_role = "steering_tie_rod"
+actuation_attachment = "upper_arm"
+
+[front.wheel_setup]
+half_track_mm = 615.986
+longitudinal_offset_mm = 0.000
+lateral_offset_mm = 0.000
+vertical_offset_mm = 0.000
+static_camber_deg = -2.250
+static_toe_deg = -1.000
+rim_diameter_mm = 254.000
+tire_diameter_mm = 464.820
+tire_width_mm = 190.500
+
+[front.left.points]
+CHAS_LowFor = [167.480, -209.065, 120.966]
+CHAS_LowAft = [-94.743, -223.669, 138.989]
+CHAS_UppFor = [210.581, -261.671, 214.740]
+CHAS_UppAft = [-107.785, -269.957, 244.000]
+UPRI_LowPnt = [0.000, -587.096, 157.117]
+UPRI_UppPnt = [-6.487, -564.662, 305.056]
+CHAS_TiePnt = [-66.598, -220.980, 159.562]
+UPRI_TiePnt = [-58.767, -549.504, 193.427]
+
+[front.left.actuation_points]
+NSMA_PPAttPnt_L = [0.000, -519.405, 277.800]
+CHAS_AttPnt_L = [0.000, -46.426, 171.450]
+CHAS_RocAxi_L = [25.400, -226.746, 132.080]
+CHAS_RocPiv_L = [0.000, -226.746, 132.080]
+ROCK_RodPnt_L = [0.000, -247.676, 117.703]
+ROCK_CoiPnt_L = [0.000, -209.221, 195.755]
+
+[front.right.points]
+CHAS_LowFor = [167.480, 209.065, 120.966]
+CHAS_LowAft = [-94.743, 223.669, 138.989]
+CHAS_UppFor = [210.581, 261.671, 214.740]
+CHAS_UppAft = [-107.785, 269.957, 244.000]
+UPRI_LowPnt = [0.000, 587.096, 157.117]
+UPRI_UppPnt = [-6.487, 564.662, 305.056]
+CHAS_TiePnt = [-66.598, 220.980, 159.562]
+UPRI_TiePnt = [-58.767, 549.504, 193.427]
+
+[front.right.actuation_points]
+NSMA_PPAttPnt_L = [0.000, 519.405, 277.800]
+CHAS_AttPnt_L = [0.000, 46.426, 171.450]
+CHAS_RocAxi_L = [25.400, 226.746, 132.080]
+CHAS_RocPiv_L = [0.000, 226.746, 132.080]
+ROCK_RodPnt_L = [0.000, 247.676, 117.703]
+ROCK_CoiPnt_L = [0.000, 209.221, 195.755]
+
+[rear]
+toe_link_role = "chassis_locating_toe_link"
+actuation_attachment = "lower_arm"
+
+[rear.wheel_setup]
+half_track_mm = 603.286
+longitudinal_offset_mm = 0.000
+lateral_offset_mm = 0.000
+vertical_offset_mm = 0.000
+static_camber_deg = -1.000
+static_toe_deg = 0.500
+rim_diameter_mm = 254.000
+tire_diameter_mm = 464.820
+tire_width_mm = 190.500
+
+[rear.left.points]
+CHAS_LowFor = [176.708, -214.846, 142.738]
+CHAS_LowAft = [-121.917, -188.337, 131.316]
+CHAS_UppFor = [175.487, -272.290, 274.083]
+CHAS_UppAft = [-118.822, -272.059, 274.236]
+UPRI_LowPnt = [0.000, -565.125, 132.639]
+UPRI_UppPnt = [0.000, -523.088, 300.812]
+CHAS_TiePnt = [-176.620, -267.948, 275.989]
+UPRI_TiePnt = [-69.850, -523.088, 300.812]
+
+[rear.left.actuation_points]
+NSMA_PPAttPnt_L = [-22.225, -511.671, 152.801]
+CHAS_AttPnt_L = [-22.225, -45.720, 425.818]
+CHAS_RocAxi_L = [50.800, -224.536, 312.420]
+CHAS_RocPiv_L = [-22.225, -224.536, 312.420]
+ROCK_RodPnt_L = [-22.225, -271.018, 374.193]
+ROCK_CoiPnt_L = [-22.225, -209.829, 438.658]
+
+[rear.right.points]
+CHAS_LowFor = [176.708, 214.846, 142.738]
+CHAS_LowAft = [-121.917, 188.337, 131.316]
+CHAS_UppFor = [175.487, 272.290, 274.083]
+CHAS_UppAft = [-118.822, 272.059, 274.236]
+UPRI_LowPnt = [0.000, 565.125, 132.639]
+UPRI_UppPnt = [0.000, 523.088, 300.812]
+CHAS_TiePnt = [-176.620, 267.948, 275.989]
+UPRI_TiePnt = [-69.850, 523.088, 300.812]
+
+[rear.right.actuation_points]
+NSMA_PPAttPnt_L = [-22.225, 511.671, 152.801]
+CHAS_AttPnt_L = [-22.225, 45.720, 425.818]
+CHAS_RocAxi_L = [50.800, 224.536, 312.420]
+CHAS_RocPiv_L = [-22.225, 224.536, 312.420]
+ROCK_RodPnt_L = [-22.225, 271.018, 374.193]
+ROCK_CoiPnt_L = [-22.225, 209.829, 438.658]
+
+[authority_boundaries]
+nominal_design_geometry = "The source is authoritative for the WUFR-26 OptimumK nominal suspension hardpoints and setup values transcribed here. WUFR-27 currently inherits this geometry as a development baseline with no geometry-change intent."
+front_steering_override = "The front CHAS_TiePnt and UPRI_TiePnt values are preserved as OptimumK suspension-source evidence only. The later steering FDR tie-rod coordinates remain authoritative for MOD-STEER-0001 and must not be overwritten by this snapshot."
+installed_state = "No as-built hardpoint, weld, setup, compliance, backlash, or installed-stop authority is claimed."
+wheel_center = "No wheel-center point is generated from half-track, tire diameter, or offsets in PR38."
+rear_global_origin = "No rear-axle translation into a whole-vehicle body origin is inferred from Reference Distance in PR38."

@@ -1,0 +1,37 @@
+[record]
+id = "MOD-SUSP-0001"
+type = "model"
+title = "Rigid double-wishbone suspension kinematics evaluator"
+status = "proposed"
+disposition = "rewrite"
+maturity = "M0"
+description = "Planned source-grounded rigid suspension-kinematics authority. PR38 freezes its geometry/source contract only: four-corner double-wishbone hardpoints, toe-link roles, actuation geometry, wheel setup metadata, source identity, and explicit OptimumK-to-canonical orientation conversion. No suspension motion equations are implemented or authorized by the model record itself."
+inputs = [
+  "WUFR27_SUSPENSION_BASELINE_V0 geometry configuration",
+  "CAT-SUSP-GEO-0001 / WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0 source snapshot",
+  "Named independent suspension-state coordinate after separate equation authorization",
+  "Canonical chassis/body orientation and reviewed front/rear reference-origin relationship where whole-vehicle placement is requested"
+]
+outputs = [
+  "Planned: solved upper/lower upright joint positions",
+  "Planned: steering-axis orientation and zero-steer upright reference pose",
+  "Planned: wheel-center and wheel-plane state only after their source construction is separately reviewed",
+  "Planned: suspension-state diagnostics, feasibility, provenance, and residuals",
+  "Planned: provider-neutral SuspensionPoseSet compatible front upright transforms"
+]
+assumptions = [
+  "Rigid links and ideal joints will be the first kinematic scope; compliance and loads remain outside the model.",
+  "Front tie-rod-induced steering rotation remains unresolved by the suspension solver and is owned by MOD-STEER-0001.",
+  "The rear toe link has a distinct chassis-locating role and must not be silently treated as a front steering tie rod.",
+  "Front and rear source coordinates retain their OptimumK suspension-reference origins until a reviewed translation relation is added.",
+  "Nominal WUFR-26/27 design geometry is not as-built authority.",
+  "PR38 does not infer wheel-center coordinates from half-track, tire diameter, or source offsets."
+]
+verification_level = "none"
+geometry_contract_state = "implemented_in_PR38"
+geometry_package = "src/pssd_suspension"
+source_snapshot = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
+baseline_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
+next_implementation_gate = "A separate reviewed equation/benchmark authorization must define the independent state coordinate, rigid closure equations, zero-steer upright reference transport, branch selection, numerical method, and failure states before solver code is merged."
+upstream_source_ids = ["CAT-SUSP-GEO-0001"]
+downstream_model_ids = ["MOD-STEER-0001", "MOD-STEER-0002"]
