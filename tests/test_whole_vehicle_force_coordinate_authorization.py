@@ -68,11 +68,9 @@ class WholeVehicleForceCoordinateAuthorizationTests(unittest.TestCase):
             self.assertIn("MOD-VEH-0003", record["target_ids"])
 
         for assumption_id in model["assumption_ids"]:
-            family = "vehicle" if assumption_id.startswith("ASM-VEH") else "suspension"
             record = _load(f"registry/records/assumptions/{assumption_id}.toml")["record"]
             self.assertEqual(record["id"], assumption_id)
             self.assertIn("MOD-VEH-0003", record["affected_ids"])
-            self.assertIn(family, {"vehicle", "suspension"})
 
     def test_canonical_mechanics_and_contact_signs_are_explicit(self) -> None:
         transport = _load("registry/records/equations/EQ-VEH-0004.toml")["record"]
@@ -101,7 +99,7 @@ class WholeVehicleForceCoordinateAuthorizationTests(unittest.TestCase):
         self.assertIn("negative reaction", contact["description"])
         self.assertIn("never clipped", contact["description"])
         self.assertIn("does not authorize linkage-force computation", linkage["description"])
-        self.assertIn("wheelbase alone is insufficient", auth["source_boundary"]["missing_wufr_authority"])
+        self.assertIn("wheelbase alone is insufficient", "\n".join(auth["promotion_gates"]["items"]))
 
     def test_authorization_matrix_contains_active_gate(self) -> None:
         text = (ROOT / "docs/governance/implementation_authorization_matrix.md").read_text(encoding="utf-8")
