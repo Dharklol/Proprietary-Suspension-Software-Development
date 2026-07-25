@@ -40,9 +40,10 @@ Before an item can move to `prototype_authorized`, it requires:
 | `MOD-STEER-0001` | Bounded rigid nominal-height steering evaluator | `prototype_authorized` under `AUTH-STEER-0001` | Maintain geometry schema, rigid closure, branch-controlled position solve, wheel-plane projection, diagnostics, and frozen tests | Installed transmission/stops and Level F evidence still block installed/as-built claims; higher-fidelity physics remains separate | Authoritative steering analyzer and verification backbone |
 | `MOD-STEER-0002` | Role-driven nominal-height steering inverse-design orchestrator | `prototype_authorized` only after `AUTH-STEER-0002` review and merge | Role resolver and parametric geometry generator first; deterministic constrained search only after generator benchmarks pass | Must compose `MOD-STEER-0001`; target-recovery, infeasibility, repeatability, method, and candidate-report benchmarks remain open | Experimental geometry generation and constrained inverse design |
 | `MOD-VEH-0001` | Explicit source-preserving vehicle/per-wheel operating-state exchange provider; no vehicle physics equations | `prototype_authorized` as a non-physics provider after `AUTH-VEH-0001` / PR #29 review and merge | Validate explicit states, missing-data boundaries, canonical sign conversion, wheel identity, and tire-interface readiness | Upstream load/camber/pressure/Fy authority remains separate; generated or production vehicle-state claims require their own reviewed models/evidence | Shared boundary for tire, steering, LLTD/QSS, telemetry, and later effort providers |
-| `MOD-SUSP-0001` | Planned rigid double-wishbone suspension kinematics evaluator | `documentation_candidate`; PR #38 authorizes geometry/source exchange only, not motion equations | Freeze source identity, hardpoint schema, coordinate transform, front/rear link roles, baseline configuration, and preimplementation benchmarks | Independent state coordinate, rigid closure equations, zero-steer front upright-reference rule, branch/numerical behavior, failure states, wheel-center construction, and OptimumK acceptance criteria require a focused authorization before solver code | Native suspension kinematics and canonical zero-steer upright-pose provider for steering |
+| `MOD-SUSP-0001` | Rigid ideal-joint double-wishbone position kinematics with front unresolved-steering reference and rear chassis toe-link closure | `prototype_authorized` only after `AUTH-SUSP-0001` / PR #39 review and merge | Implement `EQ-SUSP-0001` through `0004` behind the frozen geometry contract and pass `BENCH-SUSP-0001` through `0003` | Wheel-center/wheel-plane construction, whole-vehicle rear origin, actuation linkage, loads/compliance, installed correlation, and production authority remain separate gates | Native suspension kinematics and canonical zero-steer upright-pose provider for steering |
 | `MIG-STR-0001` | Steering geometry and tie-rod inverse-design workflow | `prototype_authorized` within `AUTH-STEER-0002` after merge | Requirement roles, candidate generator, target provider, constrained search, candidate set, and diagnostics within the authorized sequence | Hardware-feasible and production ranking still require packaging, articulation, manufacturing, robustness, and later physical evidence | First complete steering calculator replacement vertical slice |
 | `EQ-STEER-0001` through `0007` | Ackermann reference, rigid closure/position, transmission staging, ratios, radius, and error | `prototype_authorized` only within `AUTH-STEER-0001`; the optimizer calls these through `MOD-STEER-0001` | Implement and maintain the exact documented functions and frozen tests | WUFR-specific derived outputs return unavailable when prerequisites are absent | Fundamental analyzer functions; no duplicate optimizer equations |
+| `EQ-SUSP-0001` through `0004` | Rigid A-arm rotation, upright closure, zero-steer reference transport, and rear chassis toe-link twist closure | `prototype_authorized` only within `AUTH-SUSP-0001` after PR #39 merge | Implement exactly the frozen equations, branch rules, residuals, and structured failures | Wheel-center semantics, actuation kinematics, physical joint limits, whole-vehicle placement, and installed validation remain excluded | Fundamental rigid suspension position solver |
 | `EQ-STEER-0010` through `0015` | Tire effort/compliance/tire-informed optimization | `not_authorized` | Literature/model planning and provider-interface design only | Canonical tire, load, compliance, and steering-force models | Later steering fidelity layers |
 | `MIG-SC26-LT-001` / `EQ-MASS-0001` | Static mass distribution | `documentation_candidate` | Equation card and hand benchmark | Resolve mass/weight naming, CG source, vehicle configuration | Fundamental benchmark and future core calculation |
 | `MIG-SC26-LT-002` / `EQ-LOAD-0090` | Legacy fixed-coefficient transfer method | `benchmark_implementation_only` after benchmark card approval | Exact reproduction test only | Freeze source cells, inputs, outputs, and intentional limitations | Regression and migration comparison |
@@ -110,11 +111,25 @@ The following do not block generic nominal optimizer development, but they do bl
 
 Ideal Ackermann remains a reference or selectable target, not a universal performance objective. No open gate may be silently replaced by a spreadsheet value, polynomial fit, symmetry assumption outside its named configuration, or CAD-only agreement.
 
-## 5. Literature and method control
+## 5. Suspension transition gate
+
+After PR #39 merge, `AUTH-SUSP-0001` permits only the first rigid position-kinematics prototype:
+
+1. rotate each A-arm outboard joint about its fixed fore-to-aft inboard hinge axis;
+2. use lower-arm rotation `q_L` as the first internal independent coordinate;
+3. solve upper-arm rotation from invariant upright joint separation on the nominal-continuation branch;
+4. generate a shortest-rotation zero-extra-twist upright reference transform;
+5. keep front steering twist unresolved and pass that reference to `MOD-STEER-0001`;
+6. close rear upright twist only where the frozen link role is `chassis_locating_toe_link`;
+7. pass the analytical synthetic, WUFR front OptimumK, and synthetic rear-toe benchmarks before implementation is considered complete.
+
+`q_L` is not yet a public wheel-travel quantity. Wheel center/wheel plane, actuation linkage, roll center, anti-geometry, forces, compliance, joint limits, packaging, and whole-vehicle rear placement remain separate authorization problems.
+
+## 6. Literature and method control
 
 Physics equations remain tied to the existing equation records and their vehicle-dynamics sources. Optimizer-specific numerical methods must record the algorithm source, package and version where applicable, variable and constraint scaling, initialization, stopping criteria, deterministic seed behavior, and benchmark comparison. Learned or reinforcement-learning methods remain research candidates until a deterministic baseline and fair comparison burden exist.
 
-## 6. Change-control rule
+## 7. Change-control rule
 
 Any authorization-state change requires a focused pull request that lists:
 
