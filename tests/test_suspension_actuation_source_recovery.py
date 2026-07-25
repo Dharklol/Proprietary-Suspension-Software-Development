@@ -33,7 +33,7 @@ def _cross(a: tuple[float, float, float], b: tuple[float, float, float]) -> tupl
 
 
 def _scale(a: tuple[float, float, float], scalar: float) -> tuple[float, float, float]:
-    return tuple(scalar * value for value in a)  # type: ignore[return-value]
+    return (scalar * a[0], scalar * a[1], scalar * a[2])
 
 
 def _signed_hinge_angle_deg(
@@ -82,7 +82,7 @@ class SuspensionActuationSourceRecoveryTests(unittest.TestCase):
     def test_source_fixture_preserves_external_benchmark_boundary(self) -> None:
         source = _load(SOURCE_PATH)
         self.assertEqual(source["source_coordinate_precision_mm"], 0.001)
-        self.assertIn("benchmark", source["authority_boundary"])
+        self.assertIn("BENCH-SUSP-0008", source["authority_boundary"])
         self.assertIn("not installed/as-built", source["authority_boundary"])
 
 
