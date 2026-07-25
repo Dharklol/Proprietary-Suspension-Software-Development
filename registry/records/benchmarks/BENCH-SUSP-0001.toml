@@ -15,4 +15,6 @@ acceptance_criteria = [
   "A deliberately unreachable/invalid branch request returns a structured failure rather than alternate-root substitution."
 ]
 fixture = "benchmarks/suspension/GEO-SUSP-BASIC-001.toml"
-planned_implementation_tests = ["tests/test_rigid_suspension_kinematics.py"]
+implementation_tests = ["tests/test_suspension_kinematics.py"]
+report_script = "scripts/run_suspension_kinematics_benchmarks.py"
+result_record = "benchmarks/suspension/rigid_double_wishbone_result_v0.1.0.toml"
