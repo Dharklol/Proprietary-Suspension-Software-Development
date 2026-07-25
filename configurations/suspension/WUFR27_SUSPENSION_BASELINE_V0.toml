@@ -1,4 +1,4 @@
-version = "0.1.0"
+version = "0.1.1"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
 status = "active_design_intent_baseline_not_as_built"
 vehicle_revision = "WUFR-27"
@@ -15,22 +15,27 @@ canonical_orientation = "+x forward, +y vehicle left, +z upward; right-handed"
 [inheritance]
 rule = "Load the source snapshot through the explicit OptimumK-to-canonical adapter. Do not duplicate, mirror, translate, or revise hardpoints in this configuration. Any future geometry change requires a new configuration ID and provenance."
 
+[vehicle_context]
+wheelbase_m = 1.5624
+wheelbase_source = "Team/reviewer confirmation during PR39: OptimumK Reference Distance 1562.4 mm is the WUFR wheelbase."
+wheelbase_frame_rule = "Wheelbase identity alone does not authorize translating the PR38 rear source-local hardpoints relative to the front source-local origin. Whole-vehicle source-origin placement remains a separate adapter/review decision."
+
 [front_steering_boundary]
 rule = "Front suspension geometry retains the OptimumK CHAS_TiePnt/UPRI_TiePnt values as source evidence, but MOD-STEER-0001 continues to use the later steering-FDR tie-rod coordinates. The suspension model must output a zero-steer upright reference and leave tie-rod-induced steering rotation to the steering evaluator."
 steering_pose_contract = "upright_reference_pose_excludes_tie_rod_steering_rotation"
 
 [coordinate_boundary]
-rule = "Front and rear suspension coordinates remain in their source suspension-reference origins after orientation/unit conversion. Reference Distance is retained separately; rear hardpoints are not translated into a whole-vehicle origin until the source origin relationship is explicitly reviewed."
+rule = "Front and rear suspension coordinates remain in their source suspension-reference origins after orientation/unit conversion. Reference Distance is confirmed as wheelbase and retained as vehicle context; rear hardpoints are not translated into a whole-vehicle origin until the source-origin relationship is explicitly reviewed."
 
 [wheel_boundary]
-rule = "Static camber, static toe, half-track, offsets, rim/tire diameter, and tire width are retained as source setup values. PR38 does not infer a wheel-center point or wheel-plane origin from them."
+rule = "Static camber, static toe, half-track, offsets, rim/tire diameter, and tire width are retained as source setup values. No wheel-center point or wheel-plane origin is inferred from them until a separate review."
 
 [uses]
 permitted = [
-  "MOD-SUSP-0001 geometry-contract development",
-  "preimplementation benchmark definition",
+  "MOD-SUSP-0001 rigid kinematics development and verification",
   "source-to-canonical transform regression",
-  "future suspension kinematics validation against OptimumK",
+  "suspension kinematics validation against OptimumK",
+  "future provider-neutral steering suspension-pose generation",
   "future 3D scene generation after solved states exist",
   "PDR/FDR R&D documentation"
 ]
@@ -39,6 +44,6 @@ prohibited = [
   "physical tolerance or compliance claims",
   "automatic replacement of steering-FDR front tie-rod geometry",
   "wheel-center inference from half-track or tire dimensions",
-  "rear whole-vehicle origin inference without a reviewed origin relationship",
+  "rear whole-vehicle origin inference from wheelbase alone without a reviewed origin relationship",
   "production optimization or geometry release"
 ]
