@@ -2,55 +2,106 @@
 
 **Authorization:** `AUTH-SUSP-0006`  
 **Model:** `MOD-SUSP-0005`  
-**PR:** #51  
+**PR51:** source-boundary gate, merged  
+**Current revision:** nominal mechanism-fixture authority  
 **Status:** review-ready after green CI
 
 ## Decision requested
 
-Approve the recovered-source boundary for the WUFR Z-bar deformation map and explicitly keep numerical vehicle-coordinate ARB force blocked until a named mechanism fixture is frozen.
+Approve the recovered named WUFR Z-bar nominal point/topology fixture while continuing to block the scalar `delta_b(q_L,q_R)`, its Jacobian, and vehicle-coordinate ARB generalized force until the two-ended blade elastic-coordinate reduction is explicitly frozen.
 
-## Why this gate exists
+## Why this revision exists
 
-PR50 corrected the WUFR constitutive authority to discrete SolidWorks blade-tip stiffness. That solved the blade force/energy law but deliberately did not define
+PR50 corrected the governing WUFR constitutive authority to the discrete SolidWorks blade-tip stiffness law:
 
-`(q_L,q_R) -> delta_b`
+`F_b = k_b delta_b`
 
-or
+`U_b = 0.5 k_b delta_b^2`.
 
-`partial(delta_b)/partial(q_L,q_R)`.
+PR51 then correctly rejected body-roll, track, wheel-travel, scalar-motion-ratio, sketch-row, and reduced-stiffness back-conversion shortcuts. It conservatively left the entire named mechanism fixture unresolved.
 
-Those quantities are required before the constitutive force can be mapped into suspension/vehicle generalized coordinates.
+A deeper pass through the files already available to the project shows that the nominal mechanism fixture **is** recoverable without using those shortcuts.
 
-## Source-recovery result
+## Recovered nominal fixture
 
-The audit reviewed the team ARB Owner's Manual, WUFR-25/WUFR-26 inboard FDR material, `WUFR26InboardSuspensionCalculator.m`, `ARB Force Calculation.pdf`, `ARB Calculations.xlsx`, and populated WUFR-26 ARB/CAD lineage.
+Cross-source agreement among the populated WUFR-26 suspension/ARB geometry, ARB assemblies/drawings, Simscape lineage, ARB owner's manual, WUFR-25 inboard FDR, and structural design binder identifies:
 
-The sources establish the Z-bar architecture and useful design history, but the recovered calculations rely on vehicle-level roll/track or beam approximations and do not freeze a named assembled three-dimensional mechanism closure tied to the reviewed rocker states.
+- central blade/housing pivot and `+z` pivot axis;
+- left/right blade-link joints at opposite blade ends;
+- left/right rocker ARB pickups;
+- the corresponding reviewed `MOD-SUSP-0003` rocker pivots and `+x` axes;
+- nominal rigid-link geometry.
 
-Therefore PR51 does **not** invent a numerical WUFR map.
+Raw exporter sketch row order is still explicitly non-authoritative. The row coordinates are used only after the physical roles are independently identified.
+
+## Frozen identity checks
+
+Front:
+
+- blade half-span: `0.0725424000193 m` = `2.85600000076 in`;
+- tip-to-tip span: `0.145084800039 m`;
+- left/right nominal joint-center link length: `0.227517947831 m`;
+- nominal blade-arm/link angle: `88.8740442205 deg`;
+- physical linkage tube drawing length remains separately labelled `7.22 in`.
+
+Rear:
+
+- blade half-span: `0.0725423996293 m` = `2.85599998541 in`;
+- tip-to-tip span: `0.145084799259 m`;
+- left/right nominal joint-center link length: `0.198151336665 m`;
+- nominal blade-arm/link angle: `86.7741933427 deg`;
+- physical linkage tube drawing length remains separately labelled `6.22 in`.
+
+The recovered angles independently agree with the WUFR-25 FDR's approximately 90-degree static blade/link design narrative.
+
+## Rocker-state integration
+
+The rocker ARB pickups are fixed points on the rockers. Their motion is therefore authorized to use the already-reviewed `MOD-SUSP-0003` one-axis rocker state and rigid point-transport primitive.
+
+No historical scalar motion ratio is promoted into the ARB map.
+
+## Rear registration boundary
+
+The raw rear ARB sketch is registered into the rear OptimumK local suspension frame using the historical source translation `+1.5604 m` in x. This exactly maps the raw central pivot x `-1.582625 m` to rear-local x `-0.022225 m`.
+
+This value is source-frame registration only. It does **not** replace the separately reviewed current WUFR-27 wheelbase `1.5624 m`.
 
 ## Preserved PR50 authority
 
-The five governing blade settings remain:
+The governing blade settings remain exactly:
 
-- 280000 N/m
-- 300000 N/m
-- 400000 N/m
-- 700000 N/m
-- 2300000 N/m
+- `280000 N/m`
+- `300000 N/m`
+- `400000 N/m`
+- `700000 N/m`
+- `2300000 N/m`
 
-with discrete setting selection only. The blade law remains valid for externally supplied signed `delta_b`.
+with discrete setting selection only. No interpolation or source stacking is introduced.
 
-## Prohibited shortcuts
+## Remaining blocking question
 
-PR51 explicitly rejects body-roll-equals-blade-deflection, track/half-track lever approximations, direct left-right wheel-travel difference, historical scalar motion ratios, exporter sketch-row topology, and inverse fitting from reduced axle stiffness.
+The physical blade has two end linkages, while PR50 intentionally exposes one scalar `delta_b` and one energy law.
 
-## Required next source fixture
+The recovered files do not explicitly state whether the governing SolidWorks `k_b` should be interpreted as a one-arm/one-end tip stiffness or as an already condensed symmetric two-ended installed-blade mode.
 
-Before a map implementation PR, front and rear must each freeze named blade pivot/axis, blade working point/direction, linkage endpoints/length, rocker ARB pickup, relationship to the `MOD-SUSP-0003` rocker state, frames/units/signs, nominal zero-preload branch, and closure/branch rules.
+Therefore this revision does **not**:
+
+- double the PR50 energy;
+- halve the PR50 stiffness;
+- introduce a `sqrt(2)` modal coordinate;
+- instantiate separate left/right copies of the blade energy;
+- back-fit the scale from historical axle roll stiffness.
+
+That narrower coordinate-definition question must be resolved before a numerical map implementation.
+
+## Benchmarks
+
+`BENCH-SUSP-0013` remains the source-authority/shortcut-rejection gate.
+
+`BENCH-SUSP-0014` freezes the recovered nominal mechanism fixture, frame registration, rocker-point transport, nominal symmetry/length/angle checks, and the explicit no-rescaling boundary.
 
 ## Sequencing decision
 
-After PR51, the next work item is source extraction/review of that explicit mechanism fixture. The quasi-static equilibrium/load-state solver remains downstream of the reviewed ARB map so it can consume source-grounded generalized forces rather than embedding a geometry approximation.
+After approval/merge of this revision, the next work item is to freeze the exact installed two-ended-blade deformation corresponding to the single PR50 `delta_b`. A later implementation PR can then solve the linkage closure and `J_delta_b` against the already frozen fixture.
 
-This PR adds no WUFR Z-bar numerical solver and no vehicle equilibrium solver.
+Quasi-static vehicle equilibrium/load-state work remains downstream of that reviewed map.
