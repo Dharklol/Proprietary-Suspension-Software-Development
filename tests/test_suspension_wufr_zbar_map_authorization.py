@@ -19,7 +19,7 @@ def _midpoint(a: list[float], b: list[float]) -> list[float]:
 
 
 class SuspensionWufrZBarMapAuthorizationTests(unittest.TestCase):
-    def test_authorization_promotes_fixture_but_keeps_scalar_map_blocked(self) -> None:
+    def test_auth_susp_0006_remains_the_fixture_only_stage(self) -> None:
         auth = _load("authorizations/suspension/AUTH-SUSP-0006.toml")
         self.assertEqual(auth["authorization_id"], "AUTH-SUSP-0006")
         self.assertEqual(auth["status"], "review_ready")
@@ -48,7 +48,7 @@ class SuspensionWufrZBarMapAuthorizationTests(unittest.TestCase):
         self.assertIn("doubling", prohibited)
         self.assertIn("vehicle-coordinate q_arb", prohibited)
 
-    def test_source_record_freezes_recovered_sources_fixture_and_remaining_gap(self) -> None:
+    def test_source_record_preserves_preimplementation_recovery_finding(self) -> None:
         source = _load("data_catalog/wufr27_zbar_mapping_source_v0.toml")
         self.assertEqual(source["record_id"], "WUFR27_ZBAR_MAPPING_SOURCE_V0")
         self.assertTrue(source["mechanism_point_fixture_authorized"])
@@ -140,17 +140,17 @@ class SuspensionWufrZBarMapAuthorizationTests(unittest.TestCase):
         self.assertAlmostEqual(rear["nominal_blade_arm_to_link_angle_deg"], 86.7741933427058, places=12)
         self.assertEqual(rear["linkage_tube_nominal_length_in"], 6.22)
 
-    def test_fixture_keeps_scalar_blade_coordinate_unresolved(self) -> None:
+    def test_fixture_records_later_two_arm_rocker_map_without_wheel_promotion(self) -> None:
         fixture = _load("benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml")
-        boundary = fixture["remaining_boundary"]
+        boundary = fixture["current_boundary"]
         self.assertTrue(boundary["mechanism_point_fixture_authorized"])
         self.assertTrue(boundary["rocker_pickup_transport_authorized"])
-        self.assertFalse(boundary["scalar_delta_b_map_authorized"])
-        self.assertFalse(boundary["jacobian_authorized"])
-        self.assertFalse(boundary["vehicle_coordinate_generalized_force_authorized"])
-        self.assertIn("doubled", boundary["reason"].lower())
-        self.assertIn("halved", boundary["reason"].lower())
-        self.assertIn("square-root", boundary["reason"].lower())
+        self.assertTrue(boundary["two_arm_elastic_coordinate_authorized"])
+        self.assertTrue(boundary["rocker_coordinate_jacobian_authorized"])
+        self.assertTrue(boundary["rocker_coordinate_generalized_force_authorized"])
+        self.assertFalse(boundary["wheel_coordinate_generalized_force_authorized"])
+        self.assertFalse(boundary["vehicle_equilibrium_authorized"])
+        self.assertEqual(boundary["authorization_chain"], ["AUTH-SUSP-0006", "AUTH-SUSP-0007", "AUTH-SUSP-0008"])
 
     def test_benchmarks_separate_shortcut_gate_from_fixture_gate(self) -> None:
         source_gate = _load("registry/records/benchmarks/BENCH-SUSP-0013.toml")["record"]
@@ -169,13 +169,16 @@ class SuspensionWufrZBarMapAuthorizationTests(unittest.TestCase):
         self.assertIn("1.5624", fixture_criteria)
         self.assertIn("scalar delta_b", fixture_criteria)
 
-    def test_current_arb_authority_remains_discrete_solidworks_blade_law(self) -> None:
+    def test_current_arb_authority_is_discrete_and_rocker_map_only(self) -> None:
         package = _load("data_catalog/wufr27_anti_roll_bar_package_v0.toml")
         governing = package["governing_solidworks_fea"]
         self.assertEqual(governing["stiffness_N_per_mm"], [280.0, 300.0, 400.0, 700.0, 2300.0])
         self.assertEqual(governing["stiffness_N_per_m"], [280000.0, 300000.0, 400000.0, 700000.0, 2300000.0])
-        self.assertFalse(package["authority_boundaries"]["interpolation_authorized"])
-        self.assertFalse(package["authority_boundaries"]["z_bar_geometry_map_authorized"])
+        boundaries = package["authority_boundaries"]
+        self.assertFalse(boundaries["interpolation_authorized"])
+        self.assertTrue(boundaries["z_bar_geometry_map_authorized"])
+        self.assertTrue(boundaries["rocker_coordinate_generalized_force_authorized"])
+        self.assertFalse(boundaries["wheel_coordinate_generalized_force_authorized"])
 
 
 if __name__ == "__main__":
