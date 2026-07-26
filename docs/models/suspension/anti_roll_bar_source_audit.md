@@ -6,7 +6,7 @@
 
 ## Review question
 
-Determine what can be authorized now for the WUFR Z-bar anti-roll-bar system without inventing blade stiffness or losing the left/right coupling that makes the element physically meaningful.
+Determine what can be authorized now for the WUFR Z-bar anti-roll-bar system without losing the left/right coupling or falsely promoting a reduced axle-level rate into a blade/component stiffness.
 
 ## Reviewer direction
 
@@ -14,9 +14,11 @@ The reviewer stated on 2026-07-26 that:
 
 - the Z-bar geometry and blade calculations in the 2025 suspension `ARB Development`/ARB stiffness material should be used;
 - the same concept is intended for WUFR-27;
-- the ARBs are run with zero preload.
+- the ARBs are run with zero preload;
+- the most reliable available ARB values are the MATLAB values `K_phif_neutral=2560` and `K_phir_neutral=2270`;
+- available Instron data comes somewhat close, but the MATLAB/simulation values were more consistent for the stiffer settings.
 
-This is design-intent authority. It does not, by itself, supply a force-deflection curve or installed/as-built dimensions.
+That final statement changes the PR #49 authority decision. The 2560/2270 values are now the governing **reduced effective axle ARB roll-stiffness** values for the prototype. This does not make them measured blade stiffness or installed/as-built authority.
 
 ## Populated geometry evidence
 
@@ -42,7 +44,7 @@ Current populated front sources include:
 - blade drawing `SU-70301-AA FRONT, ARB, BLADE.pdf`, Box `2120263458420`, SHA-1 `f1b4e9cca2b1ff8f9e080e8a7ec5ef17eb44514e`, Ti-6Al-4V;
 - linkage drawing `SU-70308-AA FRONT, ARB, LINKAGE.pdf`, Box `2120271107980`, SHA-1 `4c64619a9f57a785a1fe50cc6617012027a7e1cb`, carbon fiber, nominal length `7.22 in`, OD `0.50 in`, wall note `0.063 in`.
 
-These establish hardware/geometry identity. No spring constant is inferred from them.
+These establish hardware/geometry identity. No blade spring constant is inferred from them.
 
 ### Current WUFR-26 rear ARB
 
@@ -70,20 +72,11 @@ The current carryover model uses the populated WUFR-26 geometry plus the reviewe
 
 The exported WUFR-26 `FSA` assembly configuration shows the top-level front ARB active and the top-level rear ARB suppressed.
 
-That fact is retained because it matters to configuration provenance. It is **not** generalized into either of these unsupported claims:
-
-- “WUFR-27 never has a rear ARB”; or
-- “the rear ARB geometry is invalid.”
-
-A later vehicle configuration must explicitly choose front/rear enabled/disabled state.
+That fact is retained because it matters to configuration provenance. It is **not** generalized into either “WUFR-27 never has a rear ARB” or “the rear ARB geometry is invalid.” A later vehicle configuration must explicitly choose front/rear enabled/disabled state.
 
 ## 2025 ARB Development / stiffness evidence
 
-The relevant 2025 folder is:
-
-`WUFR-25 CAD & SOLIDWORKS DRAWINGS / 2. SUSPENSION / GEOMETRY AND POINTS / ARB Stiffness`
-
-Box folder `312966793399`.
+The relevant 2025 folder is `WUFR-25 CAD & SOLIDWORKS DRAWINGS / 2. SUSPENSION / GEOMETRY AND POINTS / ARB Stiffness`, Box folder `312966793399`.
 
 It contains the front blade CAD and SolidWorks Simulation result/support files, including:
 
@@ -92,58 +85,64 @@ It contains the front blade CAD and SolidWorks Simulation result/support files, 
 - simulation log Box `1860757976604`, version `2051863650815`, SHA-1 `05ba56e2a410fdc77c5071e949a19a692a407fc2`;
 - associated PGF/GSZ/MFC files frozen in the source packet.
 
-The text-accessible log provides mesh/solver statistics but not an actionable load-deflection result. In this audit we did **not** recover all of the following required items together:
+The text-accessible log provides mesh/solver statistics but not an actionable component force-deflection result. We did not recover the applied load/torque, constraints, deformation observable, units, traceable force-deflection/torque-angle curve, and mapping into the assembled Z-bar coordinate together. Therefore these files remain useful **future detailed blade-law recovery evidence**, not the source of the first reduced constitutive law.
 
-1. applied force or torque and direction/application point;
-2. constraints/fixtures;
-3. deformation observable and its location/direction;
-4. result units;
-5. a traceable force-deflection or torque-angle pair/curve;
-6. a derivation showing how that result maps to the assembled Z-bar deformation coordinate.
+## Reviewer-selected MATLAB values
 
-Therefore the SolidWorks files are valuable source-recovery evidence but are **not yet constitutive stiffness authority**.
-
-## Historical values rejected as constitutive substitutes
-
-### Weight-transfer sensitivity script
-
-`Weight_transfer_sensitivity.m`, Box `1760141970183`, SHA-1 `230b4b7816726e3a7c613716860e09c582f606fb`, contains:
+`Weight_transfer_sensitivity.m`, Box `1760141970183`, version `2054072451786`, SHA-1 `230b4b7816726e3a7c613716860e09c582f606fb`, contains:
 
 - `K_phif_neutral = 2560`
 - `K_phir_neutral = 2270`
 
-The front line carries the source comment `%change and figure out`. The script also uses those values in a broader weight-transfer sensitivity calculation rather than documenting a blade test/FEA derivation. They remain historical exploratory comparison values only.
+The plot axes explicitly label the corresponding front/rear stiffness quantities in `Nm/deg`. The front assignment also carries `%change and figure out`.
 
-### 2026 FSAE spec sheet
+The script uses the K values primarily through their front/rear ratio in the lateral-load-transfer sensitivity expression. Consequently, the script itself does not independently prove the absolute magnitude. Nevertheless, the reviewer has explicitly designated these as the team's most reliable available ARB values based on the simulation history and comparison with available Instron data. That reviewer decision supplies the design-intent authority for the first reduced prototype.
 
-The current spec sheet records `Suspension Roll rate` values of:
+The quantity is therefore frozen as **effective axle ARB roll stiffness**:
 
-- front `556 Nm/deg`;
-- rear `458 Nm/deg`.
+- front `K_phi = 2560 N*m/deg = 146677.19555349075 N*m/rad`;
+- rear `K_phi = 2270 N*m/deg = 130061.41949469688 N*m/rad`.
 
-Those describe suspension roll stiffness, not explicitly ARB-only blade/system stiffness. They may include spring and geometry contributions, so they are comparison/target evidence only for this program.
+The conversion is explicit:
+
+`K_Nm_per_rad = K_Nm_per_deg * 180/pi`.
+
+For a signed axle ARB deformation angle `phi_ARB` in radians:
+
+`U_ARB = 0.5 K_phi phi_ARB^2`
+
+`M_ARB = K_phi phi_ARB`.
+
+Because `K_phi` is already an axle-level reduced quantity, **no additional blade/link/motion-ratio stiffness conversion may be applied**. A future detailed Z-bar/blade model must replace the reduced law, not be stacked on top of it.
+
+## Instron boundary
+
+No exact Instron ARB dataset was frozen in this audit. The reviewer states that the test data comes somewhat close to the MATLAB values but that the MATLAB/simulation values were more consistent for the stiffer settings.
+
+That statement is retained as qualitative corroboration only. No averaging, fitting, uncertainty band, or quantitative correlation is created without the actual test file, fixtures, deformation definition, units, and selected range.
+
+## 2026 FSAE spec sheet
+
+The current spec sheet records `Suspension Roll rate` values of `556 N*m/deg` front and `458 N*m/deg` rear. Those describe whole-suspension roll stiffness, not explicitly ARB-only reduced stiffness, and may include spring/geometric contributions. They remain comparison/target evidence only and do not override the reviewer-selected 2560/2270 ARB values.
 
 ## Design decision for PR #49
 
-The source evidence is sufficient to authorize the **physics architecture** and **geometry/provenance boundary** now:
+PR #49 now authorizes:
 
-- one coupled left/right elastic element;
+- one coupled left/right elastic architecture;
 - explicit zero-preload reference;
-- source-defined mechanism deformation coordinate/vector;
+- source-defined bilateral or reduced axle differential coordinate;
 - conservative energy/action law;
 - signed virtual-work mapping;
 - explicit no-bar configuration;
-- structured unavailable state when constitutive authority is missing.
+- the reviewer-selected reduced effective axle ARB roll stiffness `2560/2270 N*m/deg` for WUFR-27 prototype use;
+- exact SI conversion and one-degree hand benchmarks;
+- structured unavailable states for configurations without reviewed stiffness.
 
-It is **not** sufficient to authorize numeric WUFR ARB force/energy yet.
-
-This is preferable to embedding a plausible-looking rate and contaminating later QSS/load-transfer results. PR #50 may implement the generic mechanics and WUFR geometry/reference adapter, but WUFR force output must remain `missing_stiffness_authority` until a reviewed stiffness source is recovered or generated.
+PR #49 does **not** authorize blade/component stiffness, detailed Z-bar stress/strain, installed/as-built correlation, or a quantitative Instron fit.
 
 ## Replacement evidence
 
-The stiffness gap can be closed with either:
+A higher-fidelity detailed blade/system model can replace the reduced law with either a physical force-deflection/torque-angle test or a re-run/recovered FEA/analytical derivation with frozen load, fixture, deformation coordinate, units, geometry/material revision, fit/domain, and independent sanity check.
 
-- a physical blade/system force-deflection or torque-angle test; or
-- a re-run/recovered FEA/analytical derivation with frozen load, fixture, deformation coordinate, units, geometry/material revision, fit/domain, and independent sanity check.
-
-The result should be stored as constitutive evidence rather than as an already-converted “wheel rate,” so the exact bilateral geometry/Jacobian remains responsible for mapping it into suspension/vehicle generalized coordinates.
+That detailed constitutive evidence is a **replacement** for the reduced 2560/2270 axle-level law. It must not be added to the reduced law or converted again through a second motion ratio.
