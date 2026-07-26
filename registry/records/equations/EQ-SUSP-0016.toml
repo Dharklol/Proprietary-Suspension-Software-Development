@@ -1,0 +1,27 @@
+[record]
+id = "EQ-SUSP-0016"
+type = "equation"
+title = "Source-defined bilateral anti-roll-bar elastic deformation coordinate"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Map a reviewed pair of left/right suspension or actuation states and explicit ARB mechanism geometry into a signed elastic deformation coordinate/vector relative to an explicit preload reference. The equation is intentionally mechanism-general so a Z-bar may use the actual reconstructed blade/link coordinates rather than an invented scalar motion ratio."
+outputs = ["elastic coordinate/vector s_ARB", "deformation Jacobian J_s=partial(s_ARB)/partial(q)", "zero-reference residual", "mechanism/branch diagnostics"]
+inputs = ["left and right reviewed states", "explicit bilateral ARB geometry/topology", "preload/reference state", "generalized coordinate order"]
+assumptions = [
+  "s_ARB is signed and has explicit units fixed by the mechanism/constitutive packet.",
+  "The same source-defined branch/topology is used for both the nominal reference and requested state.",
+  "Zero intentional preload sets the explicit nominal reference only after the mechanism reconstruction is verified; hidden offset repair is not allowed.",
+  "Sketch-point row order is not mechanism connectivity authority."
+]
+verification_level = "none"
+canonical_equation = "s_ARB=s_mech(q_left,q_right; geometry)-s_ref; J_s=partial(s_ARB)/partial(q)."
+source_basis = [
+  "AUTH-SUSP-0005 reviewed bilateral coordinate/sign policy.",
+  "WUFR27_ANTI_ROLL_BAR_PACKAGE_V0 geometry/source boundary for the WUFR carryover mechanism.",
+  "Guiggiani/Milliken coupled suspension elastic-element treatment; no WUFR-specific geometry inferred from literature."
+]
+validity = "Quasi-static reviewed bilateral ARB mechanism branch with explicit geometry/reference authority. Constitutive stiffness is not required to evaluate geometry-only deformation if the mechanism map itself is available."
+numerical_method = "Use exact rigid geometry where derived; numerical closure/Jacobians must declare branch-preserving steps and convergence diagnostics."
+failure_behavior = ["Return missing_bilateral_geometry_authority when topology/roles are unresolved", "Return mechanism_closure_failure or branch_ambiguity explicitly", "Return jacobian_unavailable when a conditioned signed Jacobian cannot be established", "Do not force common-mode cancellation onto asymmetric source geometry"]
+benchmark_ids = ["BENCH-SUSP-0011", "BENCH-SUSP-0012"]
