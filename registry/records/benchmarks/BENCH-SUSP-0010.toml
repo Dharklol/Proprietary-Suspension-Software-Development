@@ -1,0 +1,21 @@
+[record]
+id = "BENCH-SUSP-0010"
+type = "benchmark"
+title = "WUFR-27 spring package authority and incomplete-progressive-law benchmark"
+status = "proposed"
+description = "Freeze the WUFR-27 spring package/source boundary for the first conservative spring provider. The benchmark verifies that the current front 36 N/mm linear spring can be represented as a constitutive law when compression is explicit, while the rear 30-to-36 N/mm progressive identity remains unavailable as a force law until its progression versus compression is sourced. It also protects the zero-preload/reference-length and damper-stroke boundaries."
+verification_level = "B"
+target_ids = ["MOD-SUSP-0004", "EQ-SUSP-0013", "EQ-SUSP-0014", "EQ-SUSP-0015"]
+acceptance_criteria = [
+  "The frozen WUFR27 spring package records a reviewer-declared 100 mm free length, zero intentional preload, no tender/helper spring, front 36 N/mm linear rate, and rear 30-to-36 N/mm linear-progressive identity.",
+  "The front linear constitutive law converts 36 N/mm to 36000 N/m exactly and is available only as a function of explicitly supplied spring compression/reference state.",
+  "The rear source record exposes 30000 and 36000 N/m endpoint tangent-rate labels but explicitly marks the progression law incomplete because no compression interval, force-deflection curve, or equivalent constitutive definition has been frozen.",
+  "No test or implementation may replace the rear law with 30, 33, or 36 N/mm constant rate, average the endpoint rates, or use the 57 mm KW damper stroke as the rate-progression interval.",
+  "Zero intentional preload is retained as a setup statement and is not interpreted as zero nominal loaded spring force or as authority for a zero-load eye-to-eye/reference length.",
+  "Historical WUFR-26 OptimumK 36 N/mm rear input, historical inboard-calculator 30 N/mm rear input, and shock-BOM 35-36 N/mm text remain comparison/corroboration evidence only and do not override the current reviewed rear progressive identity.",
+  "Damper dyno, damping adjustments, ARB behavior, installed travel/stops, vehicle equilibrium, and wheel-load generation remain outside this benchmark."
+]
+fixture = "data_catalog/wufr27_spring_package_v0.toml"
+planned_implementation = "src/pssd_suspension/spring_force.py"
+planned_implementation_tests = ["tests/test_suspension_spring_force.py"]
+result_record = "planned in PR48 implementation"
