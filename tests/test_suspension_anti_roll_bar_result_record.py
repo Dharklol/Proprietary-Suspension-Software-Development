@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import math
 from pathlib import Path
 import tomllib
 import unittest
@@ -10,9 +9,9 @@ from pssd_suspension import (
     AntiRollBarReference,
     check_anti_roll_bar_energy_gradient,
     evaluate_anti_roll_bar,
-    load_wufr27_anti_roll_bar_package,
     symmetric_differential_coordinate,
 )
+from pssd_suspension.wufr_anti_roll_bar import load_wufr27_blade_anti_roll_bar_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,43 +28,49 @@ class SuspensionAntiRollBarResultRecordTests(unittest.TestCase):
         self.assertEqual(result["assumption_ids"], ["ASM-SUSP-0003"])
         self.assertFalse(result["installed_as_built_authority"])
         self.assertFalse(result["vehicle_equilibrium_evaluated"])
-        self.assertFalse(result["blade_component_stiffness_evaluated"])
+        self.assertTrue(result["blade_component_stiffness_evaluated"])
+        self.assertFalse(result["z_bar_geometry_map_evaluated"])
 
-        package = load_wufr27_anti_roll_bar_package(PACKAGE_PATH)
-        phi = math.radians(1.0)
-        front = evaluate_anti_roll_bar(
-            package.front,
-            package.reference,
-            phi,
-            ds_dq=1.0,
-            coordinate_order=("phi_arb_rad",),
-            coordinate_units=("rad",),
-        )
-        rear = evaluate_anti_roll_bar(package.rear, package.reference, phi)
-        self.assertTrue(front.ok)
-        self.assertTrue(rear.ok)
-
+        package = load_wufr27_blade_anti_roll_bar_package(PACKAGE_PATH)
         b12 = result["BENCH-SUSP-0012"]
-        self.assertTrue(math.isclose(package.front.stiffness_action_per_coordinate, b12["front_stiffness_Nm_per_rad"], rel_tol=1e-14))
-        self.assertTrue(math.isclose(package.rear.stiffness_action_per_coordinate, b12["rear_stiffness_Nm_per_rad"], rel_tol=1e-14))
-        self.assertTrue(math.isclose(float(front.elastic_action), b12["front_one_degree_action_Nm"], rel_tol=1e-14))
-        self.assertTrue(math.isclose(float(rear.elastic_action), b12["rear_one_degree_action_Nm"], rel_tol=1e-14))
-        self.assertTrue(math.isclose(float(front.stored_energy_J), b12["front_one_degree_energy_J"], rel_tol=1e-14))
-        self.assertTrue(math.isclose(float(rear.stored_energy_J), b12["rear_one_degree_energy_J"], rel_tol=1e-14))
-        self.assertTrue(math.isclose(front.generalized_force[0], b12["front_one_degree_generalized_force"], rel_tol=1e-14))
-        self.assertTrue(package.front.reduced_axle_level)
-        self.assertTrue(b12["reduced_axle_level"])
+        self.assertEqual(
+            list(package.solidworks_fea_stiffness_N_per_mm),
+            b12["governing_stiffness_N_per_mm"],
+        )
+        self.assertEqual(
+            [item.definition.stiffness_action_per_coordinate for item in package.settings],
+            b12["governing_stiffness_N_per_m"],
+        )
+        self.assertEqual(list(package.simulink_comparison_N_per_mm), b12["simulink_comparison_N_per_mm"])
+        self.assertEqual(list(package.instron_comparison_N_per_mm), b12["instron_comparison_N_per_mm"])
+        self.assertEqual(
+            list(package.matlab_reduced_axle_comparison_Nm_per_deg),
+            b12["matlab_reduced_axle_comparison_Nm_per_deg"],
+        )
+        self.assertFalse(b12["interpolation_authorized"])
+        self.assertFalse(b12["z_bar_geometry_map_authorized"])
+        self.assertFalse(b12["generalized_force_available_without_map"])
+
+        for index, (expected_force, expected_energy) in enumerate(
+            zip(b12["one_mm_force_N"], b12["one_mm_energy_J"]), start=1
+        ):
+            state = evaluate_anti_roll_bar(
+                package.definition_for_setting(index), package.reference, 0.001
+            )
+            self.assertTrue(state.ok)
+            self.assertAlmostEqual(state.elastic_action, expected_force, places=12)
+            self.assertAlmostEqual(state.stored_energy_J, expected_energy, places=12)
+            self.assertFalse(state.generalized_force_available)
 
         energy = check_anti_roll_bar_energy_gradient(
-            package.front,
+            package.definition_for_setting(3),
             package.reference,
-            phi,
+            0.001,
             1.0,
-            step_sizes=(1.0e-6, 5.0e-7),
+            step_sizes=(1.0e-7, 5.0e-8),
         )
         self.assertTrue(energy.ok)
-        self.assertLessEqual(max(energy.absolute_residuals), 1.0e-6)
-        self.assertLessEqual(b12["front_energy_check_max_residual"], 1.0e-6)
+        self.assertLessEqual(max(energy.absolute_residuals), 1.0e-7)
 
     def test_frozen_synthetic_result_record_matches_provider(self) -> None:
         with RESULT_PATH.open("rb") as stream:
