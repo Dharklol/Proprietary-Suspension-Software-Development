@@ -3,7 +3,7 @@ id = "BENCH-SUSP-0012"
 type = "benchmark"
 title = "WUFR-27 Z-bar geometry, preload, and reduced roll-stiffness authority benchmark"
 status = "proposed"
-description = "Freeze the WUFR-27 anti-roll-bar source/assumption boundary before implementation. Verify carryover lineage, current populated geometry/drawing evidence, zero-preload semantics, configuration/suppression evidence, historical FEA recovery limits, and the reviewer-selected Weight_transfer_sensitivity.m effective axle roll-stiffness values with explicit unit conversion and no double reduction."
+description = "Verify the WUFR-27 anti-roll-bar source/assumption and reduced-law implementation boundary: carryover lineage, zero-preload semantics, configuration/suppression evidence, historical FEA recovery limits, and the reviewer-selected Weight_transfer_sensitivity.m effective axle roll-stiffness values with explicit unit conversion and no double reduction."
 verification_level = "B"
 target_ids = ["MOD-SUSP-0005", "EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018", "ASM-SUSP-0003"]
 acceptance_criteria = [
@@ -11,17 +11,19 @@ acceptance_criteria = [
   "The source packet freezes current populated WUFR-26 front/rear ARB assembly, blade, linkage, and suspension-geometry source identities plus the 2025 ARB Stiffness/FEA lineage used for source recovery.",
   "Current front and rear blade drawings identify Ti-6Al-4V blades; front/rear linkage drawings identify carbon-fiber links of 7.22 in and 6.22 in nominal length respectively. These dimensions/materials are geometry/hardware evidence, not blade constitutive stiffness authority.",
   "The source packet records the raw front/rear ARB sketch-point sets from the reviewed suspension exporter while explicitly stating that row ordering is not connectivity/topology authority.",
-  "The WUFR-27 A0303 front and A0305 rear assembly files are recorded as identical-file placeholders/copies (same SHA-1/size) and do not supersede populated carryover geometry.",
+  "The WUFR-27 A0303 front and A0305 rear assembly files are recorded as identical-file placeholders/copies and do not supersede populated carryover geometry.",
   "The active WUFR-26 FSA assembly-state evidence records front ARB active and rear ARB top-level assembly suppressed, but this is not generalized into installed WUFR-27 presence/absence authority.",
-  "The 2025 front blade SolidWorks Simulation CWR/LOG/support files remain source-recovery evidence for a future component law because applied load/torque, constraints, deformation observable, and a traceable stiffness result have not been recovered.",
+  "The 2025 front blade SolidWorks Simulation files remain source-recovery evidence for a future component law because a traceable applied load/fixture/deformation/stiffness result has not been recovered.",
   "Weight_transfer_sensitivity.m freezes K_phif_neutral=2560 and K_phir_neutral=2270 with source-displayed N*m/deg unit context and the front-line 'change and figure out' warning. Reviewer/user selection on 2026-07-26 promotes only these two values to reduced effective axle ARB roll-stiffness authority for the prototype.",
   "The exact SI conversion is verified: front 2560 N*m/deg -> 146677.19555349075 N*m/rad and rear 2270 N*m/deg -> 130061.41949469688 N*m/rad.",
-  "At phi_ARB=1 deg, the reduced linear law returns front action magnitude 2560 N*m and rear action magnitude 2270 N*m, with stored energies approximately 22.340214425527417 J and 19.80948701013564 J respectively.",
+  "At phi_ARB=1 deg, the reduced linear law returns front action magnitude 2560 N*m and rear action magnitude 2270 N*m, with stored energies 22.340214425527417 J and 19.80948701013564 J respectively.",
+  "The WUFR adapter exposes the selected K_phi as an angular scalar law and does not infer phi_ARB from body roll, wheel travel, track, or CAD sketch ordering.",
   "No blade/link/motion-ratio stiffness reduction is applied on top of the 2560/2270 values; a future detailed component law replaces rather than adds to the reduced law.",
   "The 2026 spec-sheet Suspension Roll rate values 556 N*m/deg front and 458 N*m/deg rear remain whole-suspension comparison/target values and are not substituted for the selected ARB law.",
   "Qualitative Instron corroboration remains provenance only until the exact dataset and correlation method are frozen; it is not averaged with the selected MATLAB values."
 ]
 fixture = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
-planned_implementation = "src/pssd_suspension/anti_roll_bar.py"
-planned_implementation_tests = ["tests/test_suspension_anti_roll_bar.py"]
-result_record = "planned in PR50 implementation"
+implementation = "src/pssd_suspension/anti_roll_bar.py"
+implementation_tests = ["tests/test_suspension_anti_roll_bar.py", "tests/test_suspension_anti_roll_bar_result_record.py"]
+report_script = "scripts/run_suspension_anti_roll_bar_benchmarks.py"
+result_record = "benchmarks/suspension/suspension_anti_roll_bar_result_v0.1.0.toml"
