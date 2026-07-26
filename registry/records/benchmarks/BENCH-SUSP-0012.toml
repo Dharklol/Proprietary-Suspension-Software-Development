@@ -1,0 +1,24 @@
+[record]
+id = "BENCH-SUSP-0012"
+type = "benchmark"
+title = "WUFR-27 Z-bar geometry, preload, and stiffness-authority boundary benchmark"
+status = "proposed"
+description = "Freeze the WUFR-27 anti-roll-bar source/assumption boundary before implementation. Verify carryover lineage, current populated geometry/drawing evidence, zero-preload semantics, configuration/suppression evidence, historical FEA/calculation recovery limits, and explicit rejection of unsupported stiffness substitutes."
+verification_level = "B"
+target_ids = ["MOD-SUSP-0005", "EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018", "ASM-SUSP-0003"]
+acceptance_criteria = [
+  "The source packet records the reviewer/user statement that the 2025 Z-bar/blade design basis carries into WUFR-27 and nominal setup uses zero intentional ARB preload.",
+  "The source packet freezes current populated WUFR-26 front/rear ARB assembly, blade, linkage, and suspension-geometry source identities plus the 2025 ARB Stiffness/FEA lineage used for source recovery.",
+  "Current front and rear blade drawings identify Ti-6Al-4V blades; front/rear linkage drawings identify carbon-fiber links of 7.22 in and 6.22 in nominal length respectively. These dimensions/materials are geometry/hardware evidence, not constitutive stiffness authority.",
+  "The source packet records the raw front/rear ARB sketch-point sets from the reviewed suspension exporter while explicitly stating that row ordering is not connectivity/topology authority.",
+  "The WUFR-27 A0303 front and A0305 rear assembly files are recorded as identical-file placeholders/copies (same SHA-1/size) and do not supersede populated carryover geometry.",
+  "The active WUFR-26 FSA assembly-state evidence records front ARB active and rear ARB top-level assembly suppressed, but this is not generalized into installed WUFR-27 presence/absence authority.",
+  "The 2025 front blade SolidWorks Simulation CWR/LOG/support files are recorded as source-recovery evidence only because applied load/torque, constraints, deformation observable, and a traceable stiffness result have not been recovered.",
+  "Weight_transfer_sensitivity.m K_phif_neutral=2560 and K_phir_neutral=2270 remain comparison-only; at least the front literal carries the source warning 'change and figure out'.",
+  "The 2026 spec-sheet Suspension Roll rate values 556 Nm/deg front and 458 Nm/deg rear remain whole-suspension comparison/target values and are not accepted as ARB constitutive stiffness.",
+  "WUFR-specific EQ-SUSP-0017/0018 force/energy output is expected to return missing_stiffness_authority until a reviewed front/rear blade or system stiffness datum is frozen."
+]
+fixture = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
+planned_implementation = "src/pssd_suspension/anti_roll_bar.py"
+planned_implementation_tests = ["tests/test_suspension_anti_roll_bar.py"]
+result_record = "planned in PR50 implementation"
