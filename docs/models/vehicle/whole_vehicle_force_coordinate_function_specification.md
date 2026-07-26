@@ -2,13 +2,13 @@
 
 ## Status
 
-Preimplementation specification for `MOD-VEH-0003` under `AUTH-VEH-0003`.
+Reviewed implementation specification for `MOD-VEH-0003` under `AUTH-VEH-0003`; PR #46 implements this bounded interface after PR #45 authorization.
 
 No implementation may add constitutive force laws, equilibrium solving, linkage loads, or installed authority under this specification.
 
 ## 1. Responsibilities
 
-The implementation must provide four bounded mechanics primitives:
+The implementation provides four bounded mechanics primitives:
 
 1. transport an explicitly body-fixed point into a declared road/inertial frame;
 2. translate and assemble force/couple wrenches about a named reference point;
@@ -46,7 +46,7 @@ The first road frame contains:
 - body-origin position `r_O`;
 - body orientation relative to the road frame.
 
-The first bounded model supports a flat plane only.
+The first bounded model supports a flat plane only. A road plane or contact snapshot may be expressed in another explicitly named compatible frame only when both the plane and every point declare that same frame/origin; this does not create a hidden transform.
 
 ### 2.3 Body pose
 
@@ -74,13 +74,13 @@ with:
 - `phi`: positive roll about body `+x`, radians;
 - `theta`: positive pitch about the intermediate/body lateral axis according to the declared yaw-pitch-roll convention, radians.
 
-PR #45 does not solve `q`.
+`MOD-VEH-0003` evaluates mechanics at an explicitly supplied `q`; it does not solve `q`.
 
 ## 3. Data contracts
 
 ### 3.1 Point reference
 
-A point record should contain at minimum:
+A point record contains at minimum:
 
 ```text
 point_id
@@ -95,7 +95,7 @@ authority
 
 ### 3.2 Applied wrench
 
-An applied action should contain:
+An applied action contains:
 
 ```text
 wrench_id
@@ -111,7 +111,7 @@ A force may not omit its application point. A pure free couple may use a declare
 
 ### 3.3 Resultant wrench
 
-The result must include:
+The result includes:
 
 ```text
 reference_point_id
@@ -124,7 +124,7 @@ source/model provenance
 
 ### 3.4 Generalized-force result
 
-The result must include:
+The result includes:
 
 ```text
 coordinate_order
@@ -199,7 +199,7 @@ J_r = partial r_P / partial q
 J_omega maps delta_q to the compatible infinitesimal angular variation.
 ```
 
-The implementation must not assume `J_omega` is the identity for finite yaw-pitch-roll angles. For the first small local QSS use, an exact local angular-variation mapping or a verified numerical virtual-work derivative is acceptable.
+The implementation must not assume `J_omega` is the identity for finite yaw-pitch-roll angles. PR #46 uses the exact local yaw-pitch-roll angular-variation mapping for the analytical path and independently verifies it with centered pose differences and an SO(3) rotation-log increment.
 
 ### 4.4 Rigid contact — `EQ-VEH-0007`
 
@@ -222,11 +222,13 @@ for all four corners.
 Analytical Jacobians are preferred where simple. A centered finite difference is allowed when:
 
 - the coordinate step is declared per coordinate;
-- both perturbed states stay on the same upstream suspension/actuation branch;
+- both perturbed states stay on the same upstream suspension/actuation branch when an upstream state is involved;
 - the point map succeeds at both neighbors;
 - at least two step sizes demonstrate convergence;
 - the synthetic virtual-work benchmark passes;
-- the actual step and residual are returned.
+- the actual step and convergence diagnostic are returned.
+
+PR #46 implements the point/pose numerical check without an upstream bounded suspension state. The requested step is evaluated at `h` and `h/2`; the finer result is returned only after the generalized-force difference satisfies the declared scaled convergence tolerance.
 
 One-sided differences are not needed in this first unconstrained coordinate primitive. Later bounded suspension/contact states require their own reviewed rule.
 
@@ -240,34 +242,46 @@ No derivative may:
 
 ## 6. WUFR adapter boundary
 
-The implementation may consume the existing WUFR-26/27 suspension-local providers only through explicit adapters.
+The implementation may consume WUFR-26/27 geometry only through an explicit reviewed adapter. The design-intent adapter for PR #46 is `data_catalog/wufr26_whole_vehicle_frame_v0.toml`.
 
 Allowed now:
 
 - preserve WUFR-27 inheritance of WUFR-26 suspension geometry;
 - preserve front/rear/left/right identity;
-- carry source-local point results without pretending they share a whole-vehicle origin;
-- return `missing_whole_vehicle_transform` when placement authority is absent.
+- use the reviewed unsuppressed SolidWorks CAD references to freeze the common source axes, front/rear axle centers, front/rear tracks, and nominal `z=0` road datum;
+- transform those explicitly frozen source positions to a named body/CG reference using the adapter's stored transform;
+- use the specifically reviewed no-driver/no-fuel corner-scale state to establish the named planar CG reference;
+- retain the separately sourced no-driver `0.290 m` spec-sheet CG height as a distinct provenance contribution to a composite design-intent no-driver reference;
+- retain the driver/no-fuel planar CG as a separate state with `z_CG` unavailable;
+- define deterministic rigid-contact **reference points** at the frozen axle/track stations projected to the nominal road plane;
+- return `missing_transform_authority` for any source/configuration that lacks equivalent explicit placement authority.
 
-Not allowed now:
+Not allowed:
 
 - place front and rear source-local origins using wheelbase alone;
-- infer CG origin from static loads or spreadsheet values;
-- construct contact patches from tire diameter/width without a reviewed contact-reference model;
-- call the geometry installed/as-built.
+- derive a generic CG transform from arbitrary corner weights or a legacy spreadsheet without a reviewed named measurement state and geometry basis;
+- reuse the no-driver `0.290 m` CG height for the driver/no-fuel scale state;
+- treat the composite no-driver CG reference as one-session installed metrology;
+- construct a physical tire footprint centroid, loaded radius, or compliance model from tire diameter/width;
+- treat the projected rigid-contact references as physical contact-patch metrology;
+- call the CAD geometry, scale-derived adapter, or contact references installed/as-built.
+
+The SolidWorks metadata export distinguishes suppression from visibility. Suppressed components/features are excluded from the active configuration; hidden but unsuppressed reference/optimization geometry may remain valid design evidence. PR #46 does not use the exporter run's unreliable transformed `model_x_m/model_y_m/model_z_m` sketch-point columns.
 
 ## 7. Contact policy
 
 The initial flat-road rigid-contact model is a classification layer, not a force solver.
 
-It may check externally supplied normal reactions. It may not calculate them from total mass or load-transfer equations.
+It may check externally supplied normal reactions. It may not calculate them from total mass, CG, corner weights, or load-transfer equations.
 
-A negative normal reaction must produce a failed four-contact state. The failure result should retain the negative value and corner identity for diagnosis. It must not:
+A negative normal reaction must produce a failed four-contact state. The failure result retains the negative value and corner identity for diagnosis. It must not:
 
 - replace it with zero;
 - redistribute the deficit;
 - remove the corner and continue;
 - declare convergence.
+
+The measured static corner weights are not a target for this contact classifier. Four vertical reactions are not uniquely determined by rigid-body force/roll/pitch equilibrium alone; diagonal load split requires later elastic/preload/compatibility authority.
 
 Later contact-mode enumeration or complementarity requires separate authorization.
 
@@ -290,7 +304,7 @@ A later solver may consume the resultant external wrenches and explicit applicat
 
 ## 9. Failure codes
 
-The implementation should provide structured codes including at least:
+The implementation provides or preserves structured codes including:
 
 ```text
 nonfinite_input
@@ -308,11 +322,13 @@ negative_normal_reaction
 contact_mode_invalid
 jacobian_unavailable
 jacobian_not_converged
-upstream_kinematics_failure
+missing_authority
 unsupported_force_law
 unsupported_equilibrium_request
 unsupported_linkage_force_request
 ```
+
+An unavailable future force law/equilibrium/linkage operation is not silently approximated by this module; those scopes remain absent from the public implementation interface.
 
 ## 10. Benchmark requirements
 
@@ -321,22 +337,23 @@ unsupported_linkage_force_request
 - exact point rotations/translations;
 - exact wrench moment arms and summation;
 - reference-point translation consistency;
-- analytical versus virtual-work versus finite-difference generalized force;
+- analytical versus centered finite-difference generalized force;
 - frame/origin and Jacobian failure behavior.
 
 ### `BENCH-VEH-0004`
 
 - contact-gap sign;
 - valid four-contact classification;
-- explicit negative-reaction wheel lift;
+- explicit negative-reaction wheel lift with the negative value preserved;
 - unsupported contact fidelity;
 - WUFR-27 suspension-geometry inheritance;
-- no whole-vehicle transform from wheelbase alone;
+- successful use of the separately reviewed WUFR design-intent placement adapter;
+- continued rejection of a wheelbase-only/incomplete transform fixture;
 - no linkage-force outputs.
 
 ## 11. Result authority
 
-Every output must be labeled with one of these practical roles:
+Every output is labeled with one of these practical roles:
 
 - synthetic benchmark result;
 - source-local suspension geometry/state;
@@ -344,4 +361,4 @@ Every output must be labeled with one of these practical roles:
 - installed/as-built measurement;
 - unavailable.
 
-PR #45 authorizes only the first three as data categories. It does not create any installed/as-built result.
+PR #46 implements only synthetic mechanics and explicit design-intent WUFR placement. It does not create an installed/as-built result, force-law result, wheel-load prediction, equilibrium solution, or linkage-load result.
