@@ -1,0 +1,24 @@
+[record]
+id = "BENCH-SUSP-0014"
+type = "benchmark"
+title = "WUFR Z-bar nominal mechanism-fixture identity and closure benchmark"
+status = "proposed"
+description = "Freeze and verify the named nominal front/rear WUFR Z-bar mechanism fixture recovered from populated CAD/Simscape/manual/FDR evidence without promoting raw sketch row order or historical roll approximations into the scalar blade elastic-coordinate map."
+verification_level = "B"
+target_ids = ["MOD-SUSP-0005", "EQ-SUSP-0016", "ASM-SUSP-0003"]
+acceptance_criteria = [
+  "The fixture uses canonical +x forward, +y vehicle left, +z upward coordinates and identifies front/rear blade-housing pivot, +z pivot axis, left/right blade-link joints, rocker ARB pickups, rocker pivots, and +x rocker axes.",
+  "Point-role assignment is cross-source and explicitly does not use exported sketch row order as topology authority.",
+  "Front blade-link joints are symmetric about the front housing pivot with half-span 0.07254240001930749 m (2.8560000007601376 in) and total span 0.14508480003861499 m.",
+  "Rear blade-link joints are symmetric about the registered rear housing pivot with half-span 0.07254239962933001 m (2.8559999854066933 in) and total span 0.14508479925866002 m.",
+  "The nominal left/right joint-center linkage lengths are equal within each axle: front 0.22751794783149773 m and rear 0.19815133666505558 m.",
+  "Historical linkage tube nominal lengths remain separately labelled 7.22 in front and 6.22 in rear; they are not substituted for joint-center linkage lengths.",
+  "The nominal blade-arm/link angles are 88.87404422054695 deg front and 86.7741933427058 deg rear, consistent with the historical approximately 90-degree static design narrative.",
+  "Front/rear rocker ARB pickups are fixed rocker points and must be transported by the reviewed MOD-SUSP-0003 rocker rotation, not a scalar motion ratio.",
+  "The rear +1.5604 m x translation is explicitly only a historical source-frame registration into the rear OptimumK local frame and does not replace the separately reviewed WUFR-27 1.5624 m wheelbase authority.",
+  "The named point/topology fixture is authorized while scalar delta_b(q_L,q_R), J_delta_b, and vehicle-coordinate Q_ARB remain unavailable until the two-ended blade elastic-coordinate reduction is separately reviewed.",
+  "No factor-two, half, sqrt(2), or other stiffness/energy rescaling is inferred from the presence of two blade arms."
+]
+fixture = "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml"
+authorization = "authorizations/suspension/AUTH-SUSP-0006.toml"
+implementation = "nominal_mechanism_fixture_only_scalar_elastic_map_not_authorized"

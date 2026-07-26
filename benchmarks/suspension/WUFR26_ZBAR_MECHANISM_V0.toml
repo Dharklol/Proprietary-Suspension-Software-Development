@@ -1,0 +1,89 @@
+version = "0.1.0"
+fixture_id = "WUFR26_ZBAR_MECHANISM_V0"
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+status = "review_ready_nominal_design_geometry"
+installed_as_built_authority = false
+coordinate_frame = "+x forward, +y vehicle left, +z upward; meters"
+source_role = "Named nominal carryover Z-bar mechanism fixture reconstructed by cross-source entity identification; not installed metrology and not a scalar blade elastic-coordinate definition."
+
+[authority]
+suspension_geometry_box_file_id = "1943897977651"
+suspension_geometry_sha1 = "2cfb771f296961be0857161f7b57a6c178180d7a"
+optimumk_snapshot = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
+front_arb_assembly_box_file_id = "1966622548582"
+front_arb_assembly_sha1 = "af57e21fb1f152297c21e51a09ab41b9fee1b3d3"
+rear_arb_assembly_box_file_id = "1966622815072"
+rear_arb_assembly_sha1 = "d04059e2b6b53737459c9df3cc35dcb3f71100b5"
+front_simscape_model_box_file_id = "2027160870540"
+front_simscape_model_sha1 = "a5518f4dd29e142626b1fcd07ca92148ac850d02"
+rear_simscape_model_box_file_id = "2027153797982"
+rear_simscape_model_sha1 = "c0a215a5cf6f4f9abac686059373228cca513fbc"
+rear_simscape_figure_box_file_id = "2027140002033"
+rear_simscape_figure_sha1 = "27b48346c2bb5625a3aa3dad5f8e568f03d08d34"
+owner_manual_google_document_id = "15tAbE14hBqLxdlkTXHE1mTL7MoLgfh4fZoA9HQpbiZY"
+wufr25_inboard_fdr_google_document_id = "1twDfbcVNycsf2Jw49fkz64ML_5JsmMhePqoO9QPIOqE"
+structural_design_binder_google_presentation_id = "1aGXggyvdOBSUNVWx82j0Amqns8nsUUToDJGSnpHlb74"
+role_assignment_rule = "Point roles are assigned from agreement among populated assembly/drawing identity, the Simscape assembly/model evidence, the ARB owner's-manual assembly topology, and the WUFR-25 FDR static-angle/load-path narrative. Raw sketch row order is not used as connectivity authority."
+
+[front]
+axle = "front"
+blade_housing_pivot_m = [0.0, 0.0, 0.088803563820]
+blade_housing_axis_unit = [0.0, 0.0, 1.0]
+blade_link_joint_left_m = [-0.070956780108, 0.015084268536, 0.088803563820]
+blade_link_joint_right_m = [0.070956780108, -0.015084268536, 0.088803563820]
+rocker_arb_pickup_left_m = [-0.028035250000, 0.238489003082, 0.085270375306]
+rocker_arb_pickup_right_m = [0.028035250000, -0.238489003082, 0.085270375306]
+rocker_pivot_left_m = [0.0, 0.226746000000, 0.132080000000]
+rocker_pivot_right_m = [0.0, -0.226746000000, 0.132080000000]
+rocker_axis_unit = [1.0, 0.0, 0.0]
+rocker_pickup_offset_left_m = [-0.028035250000, 0.011743003082, -0.046809624694]
+rocker_pickup_offset_right_m = [0.028035250000, -0.011743003082, -0.046809624694]
+blade_half_span_m = 0.07254240001930749
+blade_half_span_in = 2.8560000007601376
+blade_tip_span_m = 0.14508480003861499
+blade_tip_span_in = 5.712000001520275
+link_joint_center_length_left_m = 0.22751794783149773
+link_joint_center_length_right_m = 0.22751794783149773
+link_joint_center_length_in = 8.957399520925108
+linkage_tube_nominal_length_in = 7.22
+nominal_blade_arm_to_link_angle_deg = 88.87404422054695
+nominal_midpoint_residual_m = [0.0, 0.0, 0.0]
+
+[rear]
+axle = "rear"
+raw_source_frame_registration_translation_m = [1.5604, 0.0, 0.0]
+registration_semantics = "Exact historical source-frame registration used only to place the recovered rear ARB sketch into the rear OptimumK local suspension frame: raw central pivot x=-1.582625 m plus 1.5604 m equals rear-local rocker x=-0.022225 m. This is not WUFR-27 wheelbase authority; current whole-vehicle wheelbase remains 1.5624 m under its separate reviewed source."
+blade_housing_pivot_m = [-0.022225000000, 0.0, 0.423024046000]
+blade_housing_axis_unit = [0.0, 0.0, 1.0]
+blade_link_joint_left_m = [0.047689754000, 0.019347530000, 0.423024046000]
+blade_link_joint_right_m = [-0.092139754000, -0.019347530000, 0.423024046000]
+rocker_arb_pickup_left_m = [0.005708703000, 0.212858444000, 0.415603147000]
+rocker_arb_pickup_right_m = [-0.050158703000, -0.212858444000, 0.415603147000]
+rocker_pivot_left_m = [-0.022225000000, 0.224536000000, 0.312420000000]
+rocker_pivot_right_m = [-0.022225000000, -0.224536000000, 0.312420000000]
+rocker_axis_unit = [1.0, 0.0, 0.0]
+rocker_pickup_offset_left_m = [0.027933703000, -0.011677556000, 0.103183147000]
+rocker_pickup_offset_right_m = [-0.027933703000, 0.011677556000, 0.103183147000]
+blade_half_span_m = 0.07254239962933001
+blade_half_span_in = 2.8559999854066933
+blade_tip_span_m = 0.14508479925866002
+blade_tip_span_in = 5.711999970813387
+link_joint_center_length_left_m = 0.19815133666505558
+link_joint_center_length_right_m = 0.19815133666505558
+link_joint_center_length_in = 7.801233726970692
+linkage_tube_nominal_length_in = 6.22
+nominal_blade_arm_to_link_angle_deg = 86.7741933427058
+nominal_midpoint_residual_m = [0.0, 0.0, 0.0]
+
+[rocker_transport]
+authority = "Use the already-reviewed MOD-SUSP-0003 one-axis rocker state. The ARB pickup is a point rigidly fixed to each rocker and is transported about the named rocker pivot/axis; no scalar motion ratio substitutes for this point transport."
+implementation_helper = "src/pssd_suspension/actuation.py::rocker_point_at_angle"
+
+[remaining_boundary]
+mechanism_point_fixture_authorized = true
+rocker_pickup_transport_authorized = true
+rigid_link_nominal_geometry_authorized = true
+scalar_delta_b_map_authorized = false
+jacobian_authorized = false
+vehicle_coordinate_generalized_force_authorized = false
+reason = "The recovered files now close the named nominal point/topology fixture. They do not yet unambiguously state how the PR50 single scalar blade-tip elastic coordinate delta_b is reduced from the two-ended installed blade deformation. The SolidWorks k_b must not be doubled, halved, square-root rescaled, or stacked across the two blade arms without separate source/reviewer authority."

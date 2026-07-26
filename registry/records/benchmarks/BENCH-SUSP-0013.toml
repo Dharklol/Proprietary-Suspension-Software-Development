@@ -3,21 +3,20 @@ id = "BENCH-SUSP-0013"
 type = "benchmark"
 title = "WUFR Z-bar deformation-map source-authority and shortcut-rejection benchmark"
 status = "proposed"
-description = "Freeze the source boundary for a future WUFR Z-bar deformation map. Verify that recovered team sources do not yet supply the explicit named three-dimensional mechanism fixture needed for a unique delta_b(q_L,q_R) and signed Jacobian, and that body-roll, track-width, wheel-travel, historical motion-ratio, sketch-row, or reduced-stiffness back-conversion shortcuts remain prohibited."
+description = "Preserve the source-authority boundary for the WUFR Z-bar deformation map. The named nominal mechanism fixture is now frozen separately by BENCH-SUSP-0014; this benchmark continues to reject body-roll, track-width, wheel-travel, historical motion-ratio, sketch-row, reduced-stiffness back-conversion, and unauthorized two-arm stiffness-rescaling shortcuts."
 verification_level = "B"
 target_ids = ["MOD-SUSP-0005", "EQ-SUSP-0016", "EQ-SUSP-0018", "ASM-SUSP-0003"]
 acceptance_criteria = [
-  "The source record identifies the WUFR ARB Owner's Manual, WUFR-25/WUFR-26 inboard FDR evidence, WUFR26InboardSuspensionCalculator.m, ARB Force Calculation.pdf, ARB Calculations.xlsx, and populated carryover WUFR-26 ARB geometry sources.",
-  "The source record states map_authorized=false and jacobian_authorized=false for the current WUFR numerical map.",
-  "The historical inboard calculator is recorded as a roll/pitch analysis that uses track-width and scalar installation-ratio formulas and does not contain an assembled Z-bar closure or d(delta_b)/d(q_L,q_R).",
+  "The source record identifies the WUFR ARB Owner's Manual, WUFR-25/WUFR-26 inboard FDR evidence, WUFR26InboardSuspensionCalculator.m, ARB Force Calculation.pdf, ARB Calculations.xlsx, structural design binder, Simscape lineage, and populated carryover WUFR-26 ARB geometry sources.",
+  "The source record may authorize the named nominal point/topology fixture while scalar map_authorized=false and jacobian_authorized=false remain explicit.",
+  "The historical inboard calculator remains recorded as a roll/pitch analysis that uses track-width and scalar installation-ratio formulas and does not contain an assembled Z-bar scalar delta_b closure or d(delta_b)/d(q_L,q_R).",
   "The ARB Force Calculation.pdf roll-angle/single-lever construction remains comparison-only and is not promoted to governing map authority.",
-  "ARB Calculations.xlsx is retained for historical blade/required-load calculations but is not treated as an assembled left/right mechanism closure.",
-  "Exporter sketch-point row ordering is not connectivity, blade-direction, or linkage-role authority.",
-  "Body roll equals blade deflection, track-width lever approximation, direct wheel-travel difference, historical scalar motion ratio, and reduced axle stiffness back-conversion are all explicitly prohibited.",
-  "The required future fixture names blade pivot/axis, blade working point, linkage endpoints, rocker ARB pickup, rocker-state relationship, frames/units/signs, zero-preload branch, closure constraints, and branch-continuation rule.",
-  "WUFR vehicle-coordinate Q_ARB remains unavailable until delta_b(q_L,q_R) and J_delta_b are reviewed; the existing PR50 blade constitutive law remains independently valid for externally supplied delta_b."
+  "ARB Calculations.xlsx remains historical blade/required-load/design-lineage evidence and is not treated as the scalar installed two-ended blade coordinate definition.",
+  "Exporter sketch-point row ordering remains non-authoritative for connectivity; named point roles must be supported by independent topology evidence.",
+  "Body roll equals blade deflection, track-width lever approximation, direct wheel-travel difference, historical scalar motion ratio, and reduced axle stiffness back-conversion remain explicitly prohibited.",
+  "The presence of two blade arms/end linkages does not authorize doubling, halving, square-root rescaling, or stacking the PR50 SolidWorks k_b or energy law.",
+  "WUFR vehicle-coordinate Q_ARB remains unavailable until the single scalar delta_b(q_L,q_R) and J_delta_b are reviewed; the existing PR50 blade constitutive law remains independently valid for externally supplied delta_b."
 ]
 fixture = "data_catalog/wufr27_zbar_mapping_source_v0.toml"
 authorization = "authorizations/suspension/AUTH-SUSP-0006.toml"
-source_audit = "docs/models/suspension/wufr_zbar_map_source_audit.md"
-implementation = "not_authorized_current_source_gap"
+implementation = "shortcut_rejection_gate_scalar_map_not_authorized"
