@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
 from pathlib import Path
 
 from pssd_suspension import (
@@ -15,9 +14,9 @@ from pssd_suspension import (
     check_anti_roll_bar_energy_gradient,
     evaluate_anti_roll_bar,
     evaluate_anti_roll_bar_law,
-    load_wufr27_anti_roll_bar_package,
     symmetric_differential_coordinate,
 )
+from pssd_suspension.wufr_anti_roll_bar import load_wufr27_blade_anti_roll_bar_package
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -54,13 +53,9 @@ def synthetic_benchmark() -> dict:
         coordinate_units=("m", "m"),
     )
     energy_check = check_anti_roll_bar_energy_gradient(
-        definition,
-        zero_reference,
-        float(differential_map.deformation_m),
-        float(differential_map.ds_dz_left),
+        definition, zero_reference, float(differential_map.deformation_m), 1.0,
         step_sizes=(1.0e-6, 5.0e-7),
     )
-
     shifted_reference = AntiRollBarReference(
         reference_id="BENCH_SUSP_0011_SHIFTED",
         configuration_id="SYNTHETIC",
@@ -82,36 +77,20 @@ def synthetic_benchmark() -> dict:
     missing = evaluate_anti_roll_bar(None, zero_reference, 0.020)
     outside = evaluate_anti_roll_bar_law(definition, 0.0501)
 
-    if not all((common.ok, differential.ok, energy_check.ok, shifted.ok, no_bar.ok)):
-        raise RuntimeError("BENCH-SUSP-0011 synthetic ARB benchmark could not be evaluated")
-
-    common_energy_error = abs(float(common.stored_energy_J))
-    common_action_error = abs(float(common.elastic_action))
-    differential_coordinate_error = abs(float(differential.deformation) - 0.020)
-    differential_action_error = abs(float(differential.elastic_action) - 200.0)
-    differential_energy_error = abs(float(differential.stored_energy_J) - 2.0)
-    generalized_error = max(
-        abs(differential.generalized_force[0] + 200.0),
-        abs(differential.generalized_force[1] - 200.0),
-    )
-    shifted_error = abs(float(shifted.deformation) - 0.017)
-    max_energy_gradient_residual = max(energy_check.absolute_residuals)
-
+    max_residual = max(energy_check.absolute_residuals)
     passed = (
-        common_energy_error <= 1.0e-14
-        and common_action_error <= 1.0e-14
-        and differential_coordinate_error <= 1.0e-14
-        and differential_action_error <= 1.0e-12
-        and differential_energy_error <= 1.0e-12
-        and generalized_error <= 1.0e-12
-        and abs(sum(differential.generalized_force)) <= 1.0e-12
-        and shifted_error <= 1.0e-14
+        common.ok and differential.ok and energy_check.ok and shifted.ok and no_bar.ok
+        and abs(float(common.stored_energy_J)) <= 1.0e-14
+        and abs(float(common.elastic_action)) <= 1.0e-14
+        and abs(float(differential.deformation) - 0.020) <= 1.0e-14
+        and abs(float(differential.elastic_action) - 200.0) <= 1.0e-12
+        and abs(float(differential.stored_energy_J) - 2.0) <= 1.0e-12
+        and differential.generalized_force == (-200.0, 200.0)
+        and abs(float(shifted.deformation) - 0.017) <= 1.0e-14
         and no_bar.status is AntiRollBarStatus.NO_BAR
-        and no_bar.stored_energy_J == 0.0
-        and no_bar.elastic_action == 0.0
         and missing.failure_code is AntiRollBarFailureCode.MISSING_STIFFNESS_AUTHORITY
         and outside.failure_code is AntiRollBarFailureCode.CONSTITUTIVE_DOMAIN_EXCEEDED
-        and max_energy_gradient_residual <= 1.0e-8
+        and max_residual <= 1.0e-8
     )
     return {
         "common_mode_deformation_m": common.deformation,
@@ -121,104 +100,78 @@ def synthetic_benchmark() -> dict:
         "differential_action_N": differential.elastic_action,
         "differential_energy_J": differential.stored_energy_J,
         "differential_generalized_force_N": list(differential.generalized_force),
-        "generalized_force_error_N": generalized_error,
         "shifted_reference_deformation_m": shifted.deformation,
         "no_bar_status": no_bar.status.value,
         "missing_stiffness_failure_code": missing.failure_code.value if missing.failure_code else None,
         "outside_domain_failure_code": outside.failure_code.value if outside.failure_code else None,
         "energy_check_steps_m": list(energy_check.step_sizes),
         "energy_check_fd_generalized_force_N": list(energy_check.finite_difference_generalized_force),
-        "max_energy_gradient_residual_N": max_energy_gradient_residual,
+        "max_energy_gradient_residual_N": max_residual,
         "pass": passed,
     }
 
 
 def wufr_benchmark() -> dict:
-    package = load_wufr27_anti_roll_bar_package(
+    package = load_wufr27_blade_anti_roll_bar_package(
         ROOT / "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
     )
-    phi = math.radians(1.0)
-    front = evaluate_anti_roll_bar(
-        package.front,
-        package.reference,
-        phi,
-        ds_dq=1.0,
-        coordinate_order=("phi_arb_rad",),
-        coordinate_units=("rad",),
-    )
-    rear = evaluate_anti_roll_bar(package.rear, package.reference, phi)
-    zero_front = evaluate_anti_roll_bar(package.front, package.reference, 0.0)
-    if not front.ok or not rear.ok or not zero_front.ok:
-        raise RuntimeError("BENCH-SUSP-0012 WUFR reduced ARB benchmark could not be evaluated")
+    expected_forces = (280.0, 300.0, 400.0, 700.0, 2300.0)
+    expected_energies = (0.140, 0.150, 0.200, 0.350, 1.150)
+    one_mm = 0.001
+    settings: list[dict] = []
 
-    front_si_expected = package.source_front_stiffness_Nm_per_deg * 180.0 / math.pi
-    rear_si_expected = package.source_rear_stiffness_Nm_per_deg * 180.0 / math.pi
-    front_stiffness_error = abs(package.front.stiffness_action_per_coordinate - front_si_expected)
-    rear_stiffness_error = abs(package.rear.stiffness_action_per_coordinate - rear_si_expected)
-    front_action_error = abs(float(front.elastic_action) - 2560.0)
-    rear_action_error = abs(float(rear.elastic_action) - 2270.0)
-    front_energy_expected = 0.5 * front_si_expected * phi * phi
-    rear_energy_expected = 0.5 * rear_si_expected * phi * phi
-    front_energy_error = abs(float(front.stored_energy_J) - front_energy_expected)
-    rear_energy_error = abs(float(rear.stored_energy_J) - rear_energy_expected)
+    for index, (expected_force, expected_energy) in enumerate(zip(expected_forces, expected_energies), start=1):
+        definition = package.definition_for_setting(index)
+        state = evaluate_anti_roll_bar(definition, package.reference, one_mm)
+        if not state.ok:
+            raise RuntimeError(f"BENCH-SUSP-0012 setting {index} could not be evaluated: {state.message}")
+        settings.append({
+            "setting": index,
+            "stiffness_N_per_mm": definition.stiffness_action_per_coordinate / 1000.0,
+            "stiffness_N_per_m": definition.stiffness_action_per_coordinate,
+            "deflection_mm": 1.0,
+            "force_N": state.elastic_action,
+            "energy_J": state.stored_energy_J,
+            "generalized_force_available": state.generalized_force_available,
+            "force_error_N": abs(float(state.elastic_action) - expected_force),
+            "energy_error_J": abs(float(state.stored_energy_J) - expected_energy),
+        })
 
-    front_check = check_anti_roll_bar_energy_gradient(
-        package.front,
-        package.reference,
-        phi,
-        1.0,
-        step_sizes=(1.0e-6, 5.0e-7),
+    energy_check = check_anti_roll_bar_energy_gradient(
+        package.definition_for_setting(3), package.reference, one_mm, 1.0,
+        step_sizes=(1.0e-7, 5.0e-8),
     )
-    if not front_check.ok:
-        raise RuntimeError(f"BENCH-SUSP-0012 energy check failed: {front_check.message}")
+    if not energy_check.ok:
+        raise RuntimeError(f"BENCH-SUSP-0012 blade-coordinate energy check failed: {energy_check.message}")
 
     passed = (
         package.configuration_id == "WUFR27_SUSPENSION_BASELINE_V0"
-        and package.front.assumption_ids == ("ASM-SUSP-0003",)
-        and package.rear.assumption_ids == ("ASM-SUSP-0003",)
+        and package.solidworks_fea_stiffness_N_per_mm == expected_forces
+        and package.simulink_comparison_N_per_mm == (285.0, 309.0, 400.0, 724.0, 2628.0)
+        and package.instron_comparison_N_per_mm == (900.0, 980.0, 1320.0, 1970.0, 2630.0)
+        and package.matlab_reduced_axle_comparison_Nm_per_deg == (2560.0, 2270.0)
+        and not package.interpolation_authorized
+        and not package.geometry_map_authorized
         and not package.installed_as_built_authority
-        and package.front.reduced_axle_level
-        and package.rear.reduced_axle_level
-        and package.front.elastic_coordinate_unit == "rad"
-        and package.front.elastic_action_unit == "N*m"
-        and package.source_front_stiffness_Nm_per_deg == 2560.0
-        and package.source_rear_stiffness_Nm_per_deg == 2270.0
-        and package.instron_status == "qualitative_corroboration_only"
-        and front_stiffness_error <= 1.0e-10
-        and rear_stiffness_error <= 1.0e-10
-        and front_action_error <= 1.0e-10
-        and rear_action_error <= 1.0e-10
-        and front_energy_error <= 1.0e-12
-        and rear_energy_error <= 1.0e-12
-        and abs(float(zero_front.stored_energy_J)) <= 1.0e-14
-        and abs(float(zero_front.elastic_action)) <= 1.0e-14
-        and math.isclose(front.generalized_force[0], -2560.0, rel_tol=1.0e-14, abs_tol=1.0e-12)
-        and max(front_check.absolute_residuals) <= 1.0e-6
+        and all(item["force_error_N"] <= 1.0e-12 for item in settings)
+        and all(item["energy_error_J"] <= 1.0e-12 for item in settings)
+        and all(not item["generalized_force_available"] for item in settings)
+        and max(energy_check.absolute_residuals) <= 1.0e-7
     )
     return {
         "configuration_id": package.configuration_id,
-        "assumption_ids": list(package.front.assumption_ids),
+        "source_url": package.source_url,
+        "source_sheet": package.source_sheet,
+        "governing_quantity": "SolidWorks FEA linear blade-tip stiffness",
+        "governing_unit": "N/mm (stored in SI as N/m)",
+        "settings": settings,
+        "simulink_comparison_N_per_mm": list(package.simulink_comparison_N_per_mm),
+        "instron_comparison_N_per_mm": list(package.instron_comparison_N_per_mm),
+        "matlab_reduced_axle_comparison_Nm_per_deg": list(package.matlab_reduced_axle_comparison_Nm_per_deg),
+        "interpolation_authorized": package.interpolation_authorized,
+        "z_bar_geometry_map_authorized": package.geometry_map_authorized,
         "installed_as_built_authority": package.installed_as_built_authority,
-        "reduced_axle_level": package.front.reduced_axle_level and package.rear.reduced_axle_level,
-        "source_front_stiffness_Nm_per_deg": package.source_front_stiffness_Nm_per_deg,
-        "source_rear_stiffness_Nm_per_deg": package.source_rear_stiffness_Nm_per_deg,
-        "front_stiffness_Nm_per_rad": package.front.stiffness_action_per_coordinate,
-        "rear_stiffness_Nm_per_rad": package.rear.stiffness_action_per_coordinate,
-        "front_one_degree_action_Nm": front.elastic_action,
-        "rear_one_degree_action_Nm": rear.elastic_action,
-        "front_one_degree_energy_J": front.stored_energy_J,
-        "rear_one_degree_energy_J": rear.stored_energy_J,
-        "front_one_degree_generalized_force": front.generalized_force[0],
-        "zero_front_energy_J": zero_front.stored_energy_J,
-        "zero_front_action_Nm": zero_front.elastic_action,
-        "front_stiffness_conversion_error": front_stiffness_error,
-        "rear_stiffness_conversion_error": rear_stiffness_error,
-        "front_action_error_Nm": front_action_error,
-        "rear_action_error_Nm": rear_action_error,
-        "front_energy_error_J": front_energy_error,
-        "rear_energy_error_J": rear_energy_error,
-        "front_energy_check_max_residual": max(front_check.absolute_residuals),
-        "instron_status": package.instron_status,
+        "setting3_blade_coordinate_energy_check_max_residual_N": max(energy_check.absolute_residuals),
         "pass": passed,
     }
 
@@ -232,7 +185,7 @@ def build_report() -> dict:
         "model_id": "MOD-SUSP-0005",
         "authorization_id": "AUTH-SUSP-0005",
         "assumption_ids": ["ASM-SUSP-0003"],
-        "authority": "software verification and reviewer-selected reduced design-intent ARB stiffness only; not blade/component or installed authority",
+        "authority": "generic conservative ARB mechanics plus reviewer-selected discrete SolidWorks FEA blade-tip stiffness; WUFR Z-bar geometry map remains unavailable",
         "BENCH-SUSP-0011": b11,
         "BENCH-SUSP-0012": b12,
     }
@@ -249,10 +202,9 @@ def main() -> int:
         b12 = report["BENCH-SUSP-0012"]
         print(
             "MOD-SUSP-0005: "
-            f"front_K_Nm_per_deg={b12['source_front_stiffness_Nm_per_deg']:.9g}, "
-            f"rear_K_Nm_per_deg={b12['source_rear_stiffness_Nm_per_deg']:.9g}, "
-            f"front_1deg_M_Nm={b12['front_one_degree_action_Nm']:.9g}, "
-            f"front_energy_residual={b12['front_energy_check_max_residual']:.3g}"
+            f"blade_k_N_per_mm={[item['stiffness_N_per_mm'] for item in b12['settings']]}, "
+            f"one_mm_force_N={[item['force_N'] for item in b12['settings']]}, "
+            f"zbar_map_authorized={b12['z_bar_geometry_map_authorized']}"
         )
     return 0
 
