@@ -1,0 +1,54 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0007"
+status = "review_ready"
+title = "WUFR two-arm blade constitutive interpretation authorization"
+effective_condition = "Effective after review/merge. The governing SolidWorks FEA setting stiffness is interpreted as the stiffness of one blade arm. The installed two-ended blade therefore uses two arm elastic coordinates and additive conservative energy. This authorization does not yet implement the Z-bar closure or vehicle-coordinate Jacobian."
+review_record = "docs/reviews/phase2_wufr_arb_arm_constitutive_authorization_review.md"
+
+[scope]
+model_ids = ["MOD-SUSP-0005"]
+benchmark_ids = ["BENCH-SUSP-0012", "BENCH-SUSP-0015"]
+assumption_ids = ["ASM-SUSP-0003"]
+source_snapshot = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
+mechanism_fixture = "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml"
+implementation_authorized = false
+
+[source_interpretation]
+source_sheet = "ARB FEA vs Simulink"
+source_semantics = "The sheet labels the beam/FEA interpretation as Blade arm and checks the weak/strong settings with the cantilever relation k=3EI/L^3 using an approximately 2.3 in arm length. The governing 280/300/400/700/2300 N/mm values are therefore one-arm transverse force/deflection stiffnesses."
+arm_count = 2
+arm_stiffness_N_per_m = [280000.0, 300000.0, 400000.0, 700000.0, 2300000.0]
+
+[permitted]
+items = [
+  "Represent the installed blade elastic state as d=[d_L,d_R] in meters, one transverse elastic tip deflection per blade arm relative to that arm's rigid root pose.",
+  "For one selected setting use the same per-arm k_b on both arms: F=[k_b*d_L,k_b*d_R].",
+  "Use additive conservative energy U=0.5*k_b*d_L^2+0.5*k_b*d_R^2.",
+  "Map to vehicle generalized force only after a reviewed J_d=partial([d_L,d_R])/partial(q_L,q_R) exists: Q=-J_d^T*F.",
+  "Retain the PR50 1 mm result as a one-arm constitutive benchmark: one arm at 1 mm produces force equal numerically to the N/mm stiffness and energy 0.5*k_b*(0.001)^2.",
+  "Treat historical 2560/2270 N*m/deg as setting-1 effective axle roll-stiffness outputs derived downstream from the same blade-stiffness lineage, not an independent constitutive source."
+]
+
+[prohibited]
+items = [
+  "Using one scalar delta_b with the per-arm k_b as though it were already a whole two-ended blade modal stiffness.",
+  "Doubling, halving, sqrt(2)-rescaling, averaging, or stacking k_b to manufacture a scalar equivalent.",
+  "Treating Instron whole-fixture values or Simulink comparison values as governing arm stiffness.",
+  "Using historical 2560/2270 N*m/deg as independent blade constitutive authority.",
+  "Claiming vehicle-coordinate Q_ARB before the two-arm mechanism closure and signed Jacobian are implemented and verified."
+]
+
+[numerics]
+arm_coordinate_order = ["d_L_m", "d_R_m"]
+energy = "U=0.5*k_b*(d_L^2+d_R^2)"
+action = "F=[k_b*d_L,k_b*d_R]"
+generalized_force = "Q=-J_d^T*F"
+scalar_rescaling_allowed = false
+interpolation_allowed = false
+
+[promotion_gates]
+items = [
+  "Implement the two-arm constitutive provider without changing the discrete setting values.",
+  "Compose it with WUFR26_ZBAR_MECHANISM_V0 using the reviewed rocker-point transport and rigid-link closure.",
+  "Verify common/differential limiting behavior, branch continuity, closure residuals, energy gradient, and J_d at two finite-difference step sizes before vehicle equilibrium work."
+]

@@ -5,46 +5,45 @@ title = "Coupled conservative anti-roll-bar elastic provider"
 status = "proposed"
 disposition = "accepted_with_restrictions"
 maturity = "M1"
-description = "Bilateral/source-defined conservative anti-roll-bar provider authorized by AUTH-SUSP-0005 / PR49 and implemented in PR50. The corrected WUFR-27 constitutive adapter uses one of five discrete SolidWorks FEA blade-tip force/deflection stiffness settings: 280/300/400/700/2300 N/mm. AUTH-SUSP-0006 now freezes the named nominal front/rear WUFR Z-bar point/topology fixture and transport of the rocker ARB pickups with MOD-SUSP-0003. The single scalar installed two-ended blade coordinate delta_b and its Jacobian remain unavailable, so vehicle-coordinate ARB generalized force is still blocked."
+description = "Coupled conservative anti-roll-bar provider. PR50 implemented the generic scalar mechanics and discrete WUFR SolidWorks setting values. AUTH-SUSP-0006 freezes the nominal WUFR Z-bar mechanism fixture. AUTH-SUSP-0007 corrects the installed WUFR constitutive interpretation: the governing SolidWorks values are one blade-arm transverse tip stiffnesses, so the installed two-ended blade uses two arm elastic coordinates with additive energy. The numerical Z-bar arm-deformation map/Jacobian remains the next implementation gate."
 inputs = [
-  "Explicit source-defined ARB elastic coordinate with matching configuration and coordinate-unit identity",
+  "Explicit source-defined ARB elastic coordinate or coordinate vector with matching configuration and units",
   "Explicit zero-energy/preload reference",
-  "Source-authorized conservative scalar stiffness/action law with reviewed units/domain",
+  "Source-authorized conservative stiffness/action law",
   "Generalized coordinate order and signed deformation Jacobian when generalized force is requested",
   "Explicit enabled/disabled configuration state",
-  "For WUFR: one discrete blade setting 1..5; interpolation is not authorized",
-  "For future WUFR mapping: WUFR26_ZBAR_MECHANISM_V0 nominal mechanism fixture plus reviewed scalar delta_b reduction"
+  "For WUFR: one discrete blade setting 1..5 used as the same per-arm k_b on both blade arms",
+  "For WUFR mapping: WUFR26_ZBAR_MECHANISM_V0 nominal mechanism fixture and MOD-SUSP-0003 rocker state"
 ]
 outputs = [
-  "Signed anti-roll-bar elastic deformation and zero-reference state",
+  "Signed anti-roll-bar elastic deformation scalar/vector and reference state",
   "Conservative stored energy",
-  "Conjugate elastic action and local tangent stiffness",
-  "Signed generalized anti-roll-bar force vector only when a deformation Jacobian is supplied",
-  "Explicit no-bar state, source/configuration/assumption provenance, and structured failure state"
+  "Conjugate elastic action vector and local tangent stiffness",
+  "Signed generalized anti-roll-bar force only when a reviewed deformation Jacobian is supplied",
+  "Explicit no-bar state and structured failure/provenance"
 ]
 assumptions = [
   "The first anti-roll-bar model is conservative and quasi-static; friction, bearing drag, backlash, hysteresis, and damping are excluded.",
-  "The anti-roll bar is a coupled left/right element. Its elastic coordinate is source-defined and is not replaced by two independent corner springs.",
-  "Zero intentional preload is represented only by an explicit named reference state; hidden offset repair is prohibited.",
-  "WUFR governing constitutive authority is the SolidWorks FEA blade-tip stiffness column from the Google Sheet ARB FEA vs Simulink: settings 1..5 = 280/300/400/700/2300 N/mm = 280000/300000/400000/700000/2300000 N/m.",
-  "The WUFR blade law is F_b=k_b*delta_b and U_b=0.5*k_b*delta_b^2. Q_ARB=-J_delta_b^T*F_b requires a reviewed WUFR deformation Jacobian.",
-  "WUFR settings are discrete. Interpolation, averaging, blending, or stacking stiffness sources is prohibited without separate authorization.",
-  "MATLAB 2560/2270 N*m/deg, Simulink 285/309/400/724/2628 N/mm, and Instron 900/980/1320/1970/2630 N/mm are comparison-only evidence.",
-  "AUTH-SUSP-0006 freezes the nominal WUFR point/topology fixture and rigid rocker-pickup transport. It does not authorize a scalar delta_b reduction for the two-ended installed blade, any factor-two/half/sqrt(2) rescaling, or vehicle-coordinate Q_ARB."
+  "The anti-roll bar is a coupled left/right element and is not replaced by two independent wheel springs.",
+  "Zero intentional preload uses an explicit reference; hidden offset repair is prohibited.",
+  "WUFR governing stiffness settings are 280/300/400/700/2300 N/mm. The source sheet labels the modeled quantity Blade arm and checks it with k=3EI/L^3; AUTH-SUSP-0007 therefore treats k_b as one-arm transverse tip stiffness.",
+  "Installed WUFR blade energy is U=0.5*k_b*(d_L^2+d_R^2), with F=[k_b*d_L,k_b*d_R]. No scalar factor-two/half/sqrt(2) rescaling is permitted.",
+  "The historical 2560/2270 N*m/deg pair is downstream setting-1 effective axle roll-stiffness evidence in the 2025 design-binder lineage; it is not independent blade constitutive authority.",
+  "AUTH-SUSP-0006 freezes the nominal point/topology fixture and rigid rocker-pickup transport; the numerical two-arm d(q_L,q_R) and J_d still require implementation/verification."
 ]
 verification_level = "B"
 equation_ids = ["EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018"]
-benchmark_ids = ["BENCH-SUSP-0011", "BENCH-SUSP-0012", "BENCH-SUSP-0013", "BENCH-SUSP-0014"]
+benchmark_ids = ["BENCH-SUSP-0011", "BENCH-SUSP-0012", "BENCH-SUSP-0013", "BENCH-SUSP-0014", "BENCH-SUSP-0015"]
 authorization_id = "AUTH-SUSP-0005"
-authorization_state = "constitutive_provider_implemented_in_PR50; nominal_WUFR_Zbar_fixture_under_AUTH-SUSP-0006; scalar_delta_b_map_pending"
+authorization_state = "generic_provider_PR50; nominal_Zbar_fixture_AUTH-SUSP-0006; two_arm_constitutive_semantics_AUTH-SUSP-0007; numerical_arm_deformation_map_pending"
 authorization_document = "authorizations/suspension/AUTH-SUSP-0005.toml"
 upstream_model_ids = ["MOD-SUSP-0001", "MOD-SUSP-0002", "MOD-SUSP-0003"]
 downstream_model_ids = []
 planned_downstream = [
-  "review/freeze of the exact two-ended-installed-blade reduction to the single PR50 scalar delta_b",
-  "WUFR Z-bar mechanism solver providing delta_b(q_L,q_R) and its signed Jacobian against WUFR26_ZBAR_MECHANISM_V0",
-  "separately authorized quasi-static body equilibrium/load-state solver after the WUFR mechanism map is available",
-  "later roll-stiffness/LLTD diagnostics consuming reviewed generalized-force/tangent information"
+  "two-arm WUFR Z-bar mechanism solver providing d=[d_L,d_R](q_L,q_R) and J_d against WUFR26_ZBAR_MECHANISM_V0",
+  "vehicle-coordinate ARB generalized force composition",
+  "quasi-static body equilibrium/load-state solver after the WUFR mechanism map is available",
+  "later roll-stiffness/LLTD diagnostics and historical effective-axle correlation"
 ]
 source_snapshot = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
 source_audit = "docs/models/suspension/anti_roll_bar_source_audit.md"
@@ -57,5 +56,5 @@ benchmark_result_record = "benchmarks/suspension/suspension_anti_roll_bar_result
 validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
 review_record = "docs/reviews/phase2_anti_roll_bar_implementation_review.md"
 baseline_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
-next_implementation_gate = "AUTH-SUSP-0006 / BENCH-SUSP-0014 freezes the named nominal front/rear Z-bar mechanism fixture. Before implementing WUFR delta_b(q_L,q_R), resolve the single PR50 scalar elastic-coordinate definition for the recovered two-ended blade without inventing a stiffness/energy scale factor. Quasi-static equilibrium remains downstream of the reviewed map."
-prohibited_scope = "Interpolation between WUFR settings; averaging or stacking SolidWorks FEA, Simulink, Instron, or MATLAB stiffness sources; inferring delta_b/J_delta_b from body roll, track width, wheel travel, historical scalar motion ratio, or CAD sketch order; inverse fitting from reduced axle stiffness; factor-two/half/sqrt(2) two-arm stiffness rescaling without authority; vehicle equilibrium/load transfer before a reviewed map; damper/tire force; linkage/member/bearing reactions; stress/fatigue release; compliance/backlash/friction; installed limits; installed/as-built or production claims."
+next_implementation_gate = "Implement and verify the two-arm Z-bar mechanism closure d(q_L,q_R), J_d, and generalized-force composition against WUFR26_ZBAR_MECHANISM_V0 using the AUTH-SUSP-0007 per-arm constitutive law."
+prohibited_scope = "Interpolation between WUFR settings; averaging/stacking SolidWorks, Simulink, Instron, or effective-axle values; scalar whole-blade rescaling; body-roll/track/wheel-travel/historical-MR shortcuts; back-fitting geometry from effective axle stiffness; vehicle equilibrium before a reviewed map; damper/tire force; structural release; installed/as-built claims."
