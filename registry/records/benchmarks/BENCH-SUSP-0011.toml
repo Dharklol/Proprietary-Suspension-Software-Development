@@ -1,0 +1,22 @@
+[record]
+id = "BENCH-SUSP-0011"
+type = "benchmark"
+title = "Analytical bilateral anti-roll-bar energy and generalized-force benchmark"
+status = "proposed"
+description = "Verify the coupled ARB architecture independently of WUFR stiffness uncertainty with a symmetric differential synthetic mechanism. Freeze common-mode heave cancellation, differential roll response, zero/preload reference behavior, signed generalized force, independent energy-gradient agreement, no-bar behavior, and structured missing/domain failures."
+verification_level = "B"
+target_ids = ["MOD-SUSP-0005", "EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018"]
+acceptance_criteria = [
+  "Use synthetic generalized coordinates q=[z_L,z_R] m and elastic coordinate s=z_L-z_R-s0 with J_s=[1,-1].",
+  "With zero preload s0=0 and equal common-mode input z_L=z_R, s=0, U=0, elastic action=0, and Q=[0,0] exactly within floating-point tolerance.",
+  "With k=10000 N/m, z_L=+0.010 m, z_R=-0.010 m, s=0.020 m, action=k*s=200 N, U=0.5*k*s^2=2.0 J, and Q=[-200,+200] N.",
+  "The differential synthetic reactions are equal and opposite and their common-mode sum is zero; no separate corner-spring rule is used.",
+  "A centered finite difference of stored energy with respect to each generalized coordinate agrees with -Q to reviewed tolerance at two step sizes.",
+  "A nonzero explicit reference/preload offset changes s and energy only through the named s0 term; zero preload and nonzero preload remain distinguishable.",
+  "An explicitly disabled/no-bar configuration returns zero U/action/Q with configuration provenance rather than representing a present mechanism with hidden zero stiffness.",
+  "Missing constitutive stiffness returns missing_stiffness_authority; source-defined table/nonlinear requests outside their domain return constitutive_domain_exceeded rather than extrapolating."
+]
+fixture_definition = "Synthetic hand-calculation differential mechanism fully specified in this record; no WUFR data are required."
+planned_implementation = "src/pssd_suspension/anti_roll_bar.py"
+planned_implementation_tests = ["tests/test_suspension_anti_roll_bar.py"]
+result_record = "planned in PR50 implementation"
