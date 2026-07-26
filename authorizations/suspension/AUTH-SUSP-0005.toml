@@ -1,0 +1,94 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0005"
+status = "review_ready"
+title = "Coupled anti-roll-bar kinematics, energy, and generalized-force authorization"
+effective_condition = "Effective only after review and merge of the PR carrying this authorization. This authorization permits a bounded coupled left/right anti-roll-bar elastic provider composed with reviewed suspension/actuation states. It defines a source-explicit bilateral deformation coordinate or coordinate vector, conservative energy/action, zero-preload reference semantics, and signed generalized-force mapping through virtual work. It does not authorize an invented WUFR blade stiffness, scalar ARB wheel-rate substitution, vehicle equilibrium, linkage/member loads, stress/FEA release, installed/as-built claims, or production optimization."
+review_record = "docs/reviews/phase2_anti_roll_bar_authorization_review.md"
+
+[scope]
+model_ids = ["MOD-SUSP-0005"]
+equation_ids = ["EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018"]
+benchmark_ids = ["BENCH-SUSP-0011", "BENCH-SUSP-0012"]
+assumption_ids = ["ASM-SUSP-0003"]
+upstream_model_ids = ["MOD-SUSP-0001", "MOD-SUSP-0002", "MOD-SUSP-0003"]
+geometry_configuration = "WUFR27_SUSPENSION_BASELINE_V0"
+source_snapshot = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
+planned_implementation_package = "src/pssd_suspension/anti_roll_bar.py"
+
+[permitted]
+items = [
+  "Represent an anti-roll bar as a bilateral elastic element that consumes both left and right suspension/actuation states. A per-corner scalar wheel-rate element is not the governing architecture.",
+  "Define an explicitly sourced signed elastic coordinate vector s_ARB(q_L,q_R) with s_ARB=0 at the named zero-preload reference. The coordinate dimension and units must be frozen by the mechanism/constitutive packet; no implementation may guess sketch connectivity or blade working directions from point ordering alone.",
+  "Evaluate conservative anti-roll-bar action from U_ARB(s). Define the conjugate elastic action vector a_ARB=gradient_s(U_ARB) and tangent matrix K_ARB=partial(a_ARB)/partial(s). For a reviewed linear law U=0.5*s^T*K*s with symmetric positive-semidefinite K.",
+  "Map anti-roll-bar energy into signed generalized force with Q_ARB=-J_s^T*a_ARB, where J_s=partial(s_ARB)/partial(q). Preserve left/right signs and coordinate order; no absolute-value motion ratio is permitted.",
+  "Use the explicit reviewer-declared WUFR-27 zero-preload setup under ASM-SUSP-0003. The nominal source state is the zero-energy reference only after the bilateral mechanism map is reconstructed and verified.",
+  "Use the reviewer statement that the 2025 Z-bar/blade concept carries into WUFR-27 as design-intent lineage evidence, while retaining current WUFR-26 CAD/drawing geometry as the populated geometry source until a populated WUFR-27 revision supersedes it.",
+  "Implement an explicit no-bar configuration branch that returns zero anti-roll-bar energy/action/generalized force with configuration provenance, rather than silently assigning zero stiffness to an otherwise present mechanism.",
+  "Permit generic/synthetic constitutive laws and externally supplied reviewed stiffness/force-deflection data in the later prototype implementation. WUFR force output must return missing_stiffness_authority until a traceable blade/system load-deflection or equivalent stiffness source is frozen.",
+  "Retain whole-suspension roll-rate values, exploratory historical ARB-rate literals, and SolidWorks Simulation artifacts as comparison/source-recovery evidence only unless their load cases, deformation definition, and stiffness derivation are explicitly recovered."
+]
+
+[prohibited]
+items = [
+  "Treating the anti-roll bar as two independent corner springs or using a scalar k_ARB*MR^2 wheel-rate formula as governing physics.",
+  "Inventing a WUFR front or rear ARB stiffness from blade material/dimensions alone, the spec-sheet suspension roll-rate values, the historical Weight_transfer_sensitivity.m literals, CAD appearance, or an unrecovered SolidWorks result database.",
+  "Assuming sketch-point row ordering defines Z-bar connectivity, blade axes, link attachment roles, or deformation direction. The known exporter does not preserve sketch connectivity reliably enough for that inference.",
+  "Presenting the 2025 front blade SolidWorks Simulation files as stiffness authority without recovered applied load/torque, constraints, deformation observable, units, and result extraction.",
+  "Presenting current WUFR-26 front-active/rear-suppressed assembly state as universal WUFR-27 installed configuration authority. Suppression is configuration evidence only.",
+  "Using the 2026 spec-sheet Suspension Roll rate values 556/458 Nm/deg as ARB-only constitutive stiffness; those values describe suspension roll stiffness and may include spring/geometric contributions.",
+  "Using the historical K_phif_neutral=2560 and K_phir_neutral=2270 literals as reviewed ARB stiffness; the source itself marks at least the front value with a change/figure-out warning.",
+  "Hidden preload, clipping, sign removal, hidden symmetry repair, force redistribution, or constitutive extrapolation beyond a reviewed source domain.",
+  "Damper force, spring-force duplication, tire force, heave/roll/pitch equilibrium, load transfer, contact-mode switching, linkage/member/bearing reactions, stress/fatigue/FEA release, compliance, installed limits, packaging, or production release."
+]
+
+[numerics]
+elastic_coordinate_rule = "s_ARB is a signed source-defined scalar or vector deformation coordinate with explicit units and q ordering. For the WUFR zero-preload reference under ASM-SUSP-0003, s_ARB(q_nominal)=0 only after the bilateral mechanism reconstruction is verified."
+energy_rule = "U_ARB(s)>=0 for the authorized conservative reference class and U_ARB(0)=0. Linear reference law: U=0.5*s^T*K*s with K symmetric positive-semidefinite."
+action_rule = "a_ARB=gradient_s(U_ARB). Generalized force Q_ARB=-J_s^T*a_ARB with J_s=partial(s_ARB)/partial(q)."
+finite_difference_rule = "Analytic Jacobians are preferred where practical. Numerical mechanism/Jacobian and energy-gradient checks must use declared branch-preserving steps, compare at least two step sizes, and report failures rather than cross invalid mechanism states."
+heave_limit_rule = "For an ideal symmetric differential benchmark, equal left/right input must produce zero differential elastic coordinate and zero ARB energy/action within tolerance. This is a benchmark property, not a license to force symmetry onto asymmetric source geometry."
+roll_limit_rule = "For the symmetric differential benchmark, equal-and-opposite left/right input must produce nonzero elastic deformation and equal/opposite generalized reactions with zero net common-mode work."
+hidden_clipping_allowed = false
+absolute_ratio_allowed = false
+stiffness_inference_allowed = false
+
+[source_boundary]
+primary_literature = [
+  "Guiggiani (2022), The Science of Vehicle Dynamics: suspension elastic elements and virtual-work/generalized-force treatment; used for coupled conservative mechanics architecture, not WUFR-specific blade parameters.",
+  "Milliken & Milliken (1995/1997), Race Car Vehicle Dynamics: anti-roll bars as left/right-coupled suspension elastic elements and roll-stiffness contributors; used for architecture/limiting behavior, not WUFR-specific stiffness."
+]
+wufr27_package = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
+reviewed_current_setup = "Reviewer/user confirmation on 2026-07-26: the Z-bar/blade geometry and 2025 ARB Development design basis are to be carried into WUFR-27, and the setup is run at zero ARB preload."
+geometry_evidence = "WUFR-26 suspension geometry part/export and current front/rear ARB assemblies/drawings provide the populated design-intent mechanism evidence. WUFR-27 front/rear ARB assembly files presently have identical file hashes and are treated as placeholder/copy evidence rather than independent populated geometry authority."
+historical_calculation_boundary = "The 2025 ARB Stiffness folder contains front blade CAD plus SolidWorks Simulation result/support files, but no recovered human-readable load-deflection/torque-angle result with boundary conditions was found in this audit. Weight_transfer_sensitivity.m and 2026 spec-sheet roll rates remain comparison-only."
+remaining_wufr_gap = "A traceable front/rear blade or assembled-Z-bar force-deflection/torque-angle stiffness datum and its deformation definition are still required before WUFR-specific anti-roll-bar force can be authorized. The later implementation may therefore compute generic/synthetic or geometry-only states while returning missing_stiffness_authority for WUFR force/energy."
+
+[failure_behavior]
+codes = [
+  "missing_bilateral_geometry_authority",
+  "mechanism_closure_failure",
+  "branch_ambiguity",
+  "missing_zero_preload_reference",
+  "missing_stiffness_authority",
+  "constitutive_domain_exceeded",
+  "jacobian_unavailable",
+  "source_configuration_mismatch"
+]
+rule = "Return a structured unavailable/failure result with source/configuration/assumption context. Do not repair missing geometry or stiffness by symmetry, scalar wheel-rate substitution, historical literal reuse, clipping, or hidden extrapolation."
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-SUSP-0011 analytically verifies a symmetric differential two-side synthetic mechanism: common-mode heave gives zero elastic coordinate/energy/action, equal-and-opposite roll gives nonzero energy and equal/opposite reactions, and generalized force agrees with an independent energy finite difference.",
+  "BENCH-SUSP-0011 also verifies zero-preload versus explicit preload/reference behavior, no-bar behavior, left/right sign preservation, and structured missing-stiffness/domain failures.",
+  "BENCH-SUSP-0012 verifies the WUFR source packet, current/populated geometry lineage, zero-preload statement, active/suppressed assembly-state boundary, 2025 blade-FEA recovery boundary, and rejection of comparison-only stiffness substitutes.",
+  "A WUFR-specific force benchmark remains unavailable until stiffness authority is recovered; implementation must prove that the unavailable state is explicit rather than silently substituting a rate."
+]
+
+[promotion_gates]
+items = [
+  "This authorization is reviewed and merged before anti-roll-bar implementation begins.",
+  "A separate implementation PR passes BENCH-SUSP-0011 and BENCH-SUSP-0012 plus mechanism/source/failure tests before MOD-SUSP-0005 is considered implemented.",
+  "Recover or produce traceable front and rear blade/system stiffness evidence before enabling WUFR-specific ARB force/energy outputs.",
+  "Any physical blade test or re-run FEA used for constitutive authority must freeze load/torque, constraints, deformation coordinate, units, fit/domain, and source revision.",
+  "Quasi-static body equilibrium remains separately authorized and must consume this provider rather than reproduce ARB equations."
+]
