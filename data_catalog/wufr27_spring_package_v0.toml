@@ -1,7 +1,7 @@
-version = "0.1.0"
+version = "0.1.1"
 record_id = "WUFR27_SPRING_PACKAGE_V0"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
-record_authority = "reviewed_design_intent_spring_package_with_explicit_parameter_gaps"
+record_authority = "reviewed_design_intent_spring_package_with_explicit_team_modeling_assumptions"
 installed_as_built_authority = false
 
 [reviewed_setup]
@@ -16,20 +16,24 @@ front_linear_rate_N_per_m = 36000.0
 rear_spring_description = "30 to 36 N/mm linear-progressive"
 rear_rate_start_N_per_m = 30000.0
 rear_rate_end_N_per_m = 36000.0
-rear_progression_law_status = "incomplete_parameter_authority"
-rear_progression_gap = "The reviewed setup identifies the endpoint tangent rates but does not provide the spring-compression interval, force-versus-compression table, or equivalent constitutive definition that locates the 30-to-36 N/mm progression. Do not average the endpoints, substitute either endpoint as the full law, or use damper stroke as the progression interval."
+rear_progression_law_status = "reviewed_team_modeling_assumption"
+rear_progression_assumption = "Until physical spring testing replaces it, model the rear spring tangent rate as increasing linearly with spring compression from 30 N/mm at x_s=0 to 36 N/mm at x_s=57 mm. The 57 mm span is the KW piggyback damper stroke and is used here only because the reviewer explicitly asked to assume a linear transition between the spring-rate endpoints over the usable direct-coilover compression range; this is not a KW-published spring-rate curve or installed-travel claim."
+rear_progression_span_m = 0.057
+rear_tangent_rate_gradient_N_per_m2 = 105263.15789473684
+rear_force_law = "For 0<=x_s<=0.057 m: k_t(x_s)=30000+(6000/0.057)*x_s [N/m]; F_s(x_s)=30000*x_s+0.5*(6000/0.057)*x_s^2 [N]; U_s(x_s)=0.5*30000*x_s^2+(1/6)*(6000/0.057)*x_s^3 [J]."
+rear_progression_replacement_gate = "Replace this assumption with measured force-versus-deflection or tangent-rate-versus-deflection data when the spring is tested."
 
 [kw_vendor_attachment]
 name = "kw-v5racing-formula-student-int-technologytesting.pdf"
 sha256 = "647b7b451612174852293b0bd65d193452991c6a3c697a242c07b04860cea36c"
-source_role = "damper hardware and adjustment evidence; not spring-rate-curve authority"
-piggyback_dimension_eye_to_eye_mm = 185.7
+source_role = "damper hardware, dimensions, travel, and adjustment evidence; not measured WUFR spring-rate-curve authority"
+piggyback_full_extension_eye_to_eye_mm = 185.7
 damper_travel_mm = 57.0
 spring_inner_diameter_mm = 36.0
 spring_perch_click_lift_mm = 0.16666666666666666
 rebound_sign = "positive in vendor dyno plots"
 compression_sign = "negative in vendor dyno plots"
-reference_length_warning = "The vendor damper dimensions do not by themselves establish the WUFR zero-preload spring-seat separation or a spring-compression reference for the vehicle model."
+reference_length_rule = "The 185.7 mm piggyback eye-to-eye dimension is treated as the full-extension damper reference. Combined with the reviewer-declared zero-intentional-preload setup and the reviewed direct-coilover CAD placement line, AUTH-SUSP-0004 may use x_s=L_d_full_extension-L_d as the WUFR design-intent spring-compression mapping. This mapping is an explicit reviewed setup assumption, not installed metrology."
 
 [wufr26_shock_bom]
 box_file_id = "2027193944590"
@@ -45,7 +49,47 @@ box_file_id = "2020245335291"
 box_file_version_id = "2269605443663"
 sha1 = "b9849faacd23eb9e9e8d2b5482eca219a9446b22"
 name = "KW SPRING.SLDPRT"
-source_role = "hardware/CAD identity only; no text representation supplied a force-deflection law"
+source_role = "hardware/CAD identity only; no measured force-deflection law"
+
+[wufr26_suspension_geometry]
+box_file_id = "1943897977651"
+box_file_version_id = "2546941960247"
+sha1 = "2cfb771f296961be0857161f7b57a6c178180d7a"
+name = "SU-00001-AA 2026 SUSPENSION GEOMETRY.SLDPRT"
+export_attachment_sha256 = "30bf10a4a9c6097fc32f897d0d16a16e1bee802c3bccf5481f0fd253f2fd8085"
+export_sketch_points_sha256 = "3886507bcae05d243832647efffb4a9daaf4612e6e364fae7292a072b46166ec"
+source_role = "reviewed design-intent damper placement line and nominal eye-to-eye geometry; not installed metrology"
+coordinate_frame = "+x forward, +y vehicle left, +z upward; meters"
+front_left_damper_chassis_point_m = [0.0, 0.046426, 0.171450]
+front_left_damper_rocker_point_m = [0.0, 0.209221, 0.195755]
+front_nominal_eye_to_eye_from_export_m = 0.16459934705216787
+rear_left_damper_chassis_point_m = [-1.584625, 0.045720, 0.425818]
+rear_left_damper_rocker_point_m = [-1.584625, 0.209829, 0.438658]
+rear_nominal_eye_to_eye_from_export_m = 0.1646105387908077
+placement_line_review = "Reviewer/user confirmation on 2026-07-26: the inboard line from the rocker is the line used to place the piggyback damper in CAD; adjacent ARB blade geometry connects the opposing corners but is not part of the spring force law."
+actuation_crosscheck = "The independent WUFR26_OPTIMUMK_ACTUATION_V0 fixture reports nominal coilover lengths 164.600 mm front and 164.611 mm rear, matching these CAD line lengths to source precision."
+
+[wufr27_zero_preload_reference]
+authority = "reviewed_design_intent_assumption_under_ASM-SUSP-0002"
+full_extension_eye_to_eye_m = 0.1857
+compression_mapping = "x_s_m = 0.1857 - L_d_m"
+preload_reference = "x_s=0 at the full-extension 185.7 mm eye-to-eye state; zero intentional preload means the spring is modeled just seated at that reference."
+front_nominal_L_d_m = 0.16459934705216787
+rear_nominal_L_d_m = 0.1646105387908077
+front_nominal_spring_compression_m = 0.02110065294783212
+rear_nominal_spring_compression_m = 0.02108946120919228
+front_nominal_spring_seat_separation_m = 0.07889934705216788
+rear_nominal_spring_seat_separation_m = 0.07891053879080772
+front_nominal_force_N_under_reviewed_model = 759.6235061219563
+rear_nominal_force_N_under_reviewed_model = 656.0925401754539
+rear_nominal_tangent_rate_N_per_m_under_reviewed_model = 32219.94328517813
+nominal_force_status = "design_intent_model_value_for_future_PR48_benchmarking; not installed/as-built load authority and not vehicle-equilibrium output"
+
+[shockpot_ride_height_note]
+reported_raw = "44m"
+review_date = "2026-07-26"
+interpretation = "Likely a 44 mm shock-pot reading from context, but the unit, electrical/mechanical zero, span, sign, and mapping to damper eye-to-eye length are not yet frozen."
+physics_use = "correlation datum only; do not use in spring compression or force until shock-pot calibration/reference semantics are reviewed"
 
 [wufr26_historical_inboard_calculator]
 box_file_id = "2026725896730"
@@ -56,7 +100,7 @@ source_role = "historical comparison evidence only"
 observed_front_rate_N_per_m = 36000.0
 observed_rear_rate_N_per_m = 30000.0
 historical_method = "scalar motion-ratio / installation-ratio approximation"
-method_warning = "The historical calculator's constant rear rate and scalar MR/IR method do not define the current 30-to-36 N/mm progressive rear law and are not the governing generalized-force architecture."
+method_warning = "The historical calculator's constant rear rate and scalar MR/IR method do not define the current reviewed progressive rear law and are not the governing generalized-force architecture."
 unsprung_mass_warning = "The historical script labels m_u=10 kg as quarter-car unsprung mass. This conflicts with the reviewer's current measured statement of 10 kg front axle plus 10 kg rear axle, so the script is not mass authority."
 
 [wufr26_optimumk_setup]
@@ -73,13 +117,14 @@ rate_warning = "The historical OptimumK rear 36 N/mm scalar is not the current W
 upstream_model_id = "MOD-SUSP-0003"
 coilover_coordinate = "delta_L_d_m = L_d - L_d0; positive extension"
 canonical_local_derivative = "rho_dw = d(delta_L_d_m)/d(delta_z_wc_body_m); signed"
-spring_seat_mapping_status = "not_yet_frozen_for_wufr_absolute_force"
-reference_gap = "A WUFR-specific spring compression at a vehicle state requires an explicit spring-seat separation or equivalent zero-load/reference-length relation. Zero intentional preload alone does not identify nominal static spring compression."
+spring_seat_mapping_status = "frozen_design_intent_assumption_under_ASM-SUSP-0002"
+spring_compression_mapping = "x_s_m = 0.1857 - L_d_m for the reviewed zero-preload KW piggyback setup"
+mapping_derivative = "dx_s/dq = -dL_d/dq"
 
 [authority_boundaries]
-front_constitutive_identity = "The reviewed 36 N/mm linear front rate and 100 mm free length are sufficient to define an ideal linear spring force law as a function of explicitly supplied spring compression."
-rear_constitutive_identity = "The reviewed 30-to-36 N/mm linear-progressive label is insufficient to define force as a function of compression until the progression interval/curve is supplied."
-preload_identity = "Zero intentional preload is a setup statement. It must not be converted into zero spring force at nominal ride height or into an inferred eye-to-eye reference length."
+front_constitutive_identity = "The reviewed 36 N/mm front rate and 100 mm free length define the ideal linear front spring law within the reviewed seated/direct-coilover domain."
+rear_constitutive_identity = "Until test data replace it, the rear law is the explicit team assumption of linearly increasing tangent rate from 30 to 36 N/mm over 57 mm spring compression; force and energy must be obtained by integrating that tangent-rate law, not by multiplying x_s by the instantaneous tangent rate."
+preload_identity = "The zero-preload/full-extension reference and CAD damper line are an explicit reviewed design-intent assumption. They authorize prototype spring-force calculation but remain below installed/as-built metrology authority."
 damper_force_authority = false
 arb_force_authority = false
 wheel_rate_authority = false
