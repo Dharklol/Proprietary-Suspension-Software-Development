@@ -13,7 +13,7 @@ acceptance_criteria = [
   "Requests involving tire radial compliance, nonflat road, curb contact, or alternate contact modes return unsupported rather than silently reusing the rigid four-contact equations.",
   "The WUFR-27 baseline explicitly inherits the WUFR-26 suspension geometry source and the reviewed whole-vehicle adapter separately freezes CAD axle/track placement and source-separated CG/contact authority.",
   "A wheelbase-only or otherwise incomplete fixture still produces no whole-vehicle front/rear/CG transform; wheelbase alone cannot satisfy this benchmark.",
-  "The WUFR adapter remains design-intent only; the no-driver composite CG retains separate x/y versus z provenance and the driver/no-fuel z coordinate remains unavailable.",
+  "The WUFR adapter remains design-intent only; the primary driver/no-fuel reference retains separate planar-scale versus driver-equivalent-ballast tilt provenance, while the no-driver/no-fuel scale state retains no authorized vertical CG coordinate.",
   "The ideal two-force-member linkage assumption is recorded as downstream-only and no member-force or stress output is exposed by MOD-VEH-0003."
 ]
 source_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
