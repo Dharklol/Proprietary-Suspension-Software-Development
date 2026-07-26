@@ -1,0 +1,77 @@
+version = "0.1.0"
+result_id = "WUFR27_SUSPENSION_ANTI_ROLL_BAR_RESULT_V0"
+model_id = "MOD-SUSP-0005"
+authorization_id = "AUTH-SUSP-0005"
+assumption_ids = ["ASM-SUSP-0003"]
+authority = "software_verification_and_reviewer_selected_reduced_design_intent_ARB_stiffness_only"
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+report_script = "scripts/run_suspension_anti_roll_bar_benchmarks.py"
+validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
+performance_authority = false
+installed_as_built_authority = false
+installed_limits_evaluated = false
+vehicle_equilibrium_evaluated = false
+blade_component_stiffness_evaluated = false
+
+[source]
+anti_roll_bar_package = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
+source_record_id = "WUFR27_ANTI_ROLL_BAR_PACKAGE_V0"
+assumption_id = "ASM-SUSP-0003"
+matlab_box_file_id = "1760141970183"
+matlab_box_file_version_id = "2054072451786"
+matlab_sha1 = "230b4b7816726e3a7c613716860e09c582f606fb"
+
+[BENCH-SUSP-0011]
+verification_level = "B"
+common_mode_deformation_m = 0.0
+common_mode_energy_J = 0.0
+common_mode_action_N = 0.0
+differential_deformation_m = 0.02
+differential_action_N = 200.0
+differential_energy_J = 2.0
+differential_generalized_force_N = [-200.0, 200.0]
+generalized_force_error_N = 0.0
+shifted_reference_deformation_m = 0.017
+no_bar_status = "no_bar"
+missing_stiffness_failure_code = "missing_stiffness_authority"
+outside_domain_failure_code = "constitutive_domain_exceeded"
+energy_check_step_1_m = 1.0e-6
+energy_check_step_2_m = 5.0e-7
+energy_check_fd_generalized_force_1_N = -200.00000000020003
+energy_check_fd_generalized_force_2_N = -200.00000000042206
+max_energy_gradient_residual_N = 4.220623850414995e-10
+pass = true
+
+[BENCH-SUSP-0012]
+verification_level = "B"
+source_front_stiffness_Nm_per_deg = 2560.0
+source_rear_stiffness_Nm_per_deg = 2270.0
+front_stiffness_Nm_per_rad = 146677.19555349075
+rear_stiffness_Nm_per_rad = 130061.41949469688
+front_one_degree_action_Nm = 2560.0
+rear_one_degree_action_Nm = 2270.0
+front_one_degree_energy_J = 22.340214425527417
+rear_one_degree_energy_J = 19.80948701013564
+front_one_degree_generalized_force = -2560.0
+zero_front_energy_J = 0.0
+zero_front_action_Nm = 0.0
+front_stiffness_conversion_error = 0.0
+rear_stiffness_conversion_error = 0.0
+front_action_error_Nm = 0.0
+rear_action_error_Nm = 0.0
+front_energy_error_J = 0.0
+rear_energy_error_J = 0.0
+front_energy_check_max_residual = 6.113168637966737e-09
+instron_status = "qualitative_corroboration_only"
+reduced_axle_level = true
+installed_as_built_authority = false
+pass = true
+
+[boundaries]
+items = [
+  "The WUFR 2560/2270 N*m/deg values are reviewer-selected reduced effective axle ARB roll stiffness, not blade torsional stiffness, measured Instron stiffness, or installed/as-built validation.",
+  "The reduced WUFR K_phi values are converted explicitly to N*m/rad for a radian coordinate and receive no second blade/link/motion-ratio stiffness reduction.",
+  "BENCH-SUSP-0011 is a synthetic differential elastic-coordinate benchmark and does not infer WUFR Z-bar topology or installed wheel-to-bar motion.",
+  "Available Instron information remains qualitative corroboration only until the exact dataset and correlation method are frozen.",
+  "Damper force, tire force, vehicle equilibrium/load transfer, linkage/member/bearing loads, blade stress/fatigue/FEA release, installed limits, compliance/backlash/friction, and production authority remain outside MOD-SUSP-0005."
+]
