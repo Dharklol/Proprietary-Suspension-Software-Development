@@ -1,0 +1,18 @@
+[record]
+id = "BENCH-SUSP-0016"
+type = "benchmark"
+title = "WUFR two-arm Z-bar closure, Jacobian, and rocker-force implementation benchmark"
+status = "proposed"
+description = "Verify the numerical WUFR two-arm Z-bar mechanism map implemented in PR54 against the AUTH-SUSP-0006 fixture and AUTH-SUSP-0007 per-arm energy law, including closure residuals, branch behavior, two-step Jacobian agreement, symmetry, and independent energy-gradient force verification."
+verification_level = "B"
+target_ids = ["MOD-SUSP-0005", "ASM-SUSP-0003"]
+acceptance_criteria = [
+  "For both front and rear fixtures, theta_RL=theta_RR=0 closes with d_L=d_R=0 and link residual magnitudes below 1e-9 m.",
+  "The nominal state returns a two-by-two J_d in m/rad with the two configured finite-difference step sizes and maximum element disagreement below 5e-4 m/rad.",
+  "Small front common and differential rocker perturbations of order 0.01 rad remain reachable on the nominal continuation branch and produce finite nonnegative stored energy.",
+  "For the symmetric front fixture, swapping the signs of equal-and-opposite left/right rocker perturbations preserves stored energy within the focused implementation tolerance.",
+  "For a rear asymmetric benchmark state, Q_rocker=-J_d^T*F agrees componentwise with an independent centered finite-difference gradient of total two-arm elastic energy within 0.2 percent relative or 0.002 N*m absolute tolerance.",
+  "The output generalized-force coordinate remains explicitly [theta_RL_rad, theta_RR_rad]; no wheel/body-force claim is made in this benchmark."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0008.toml"
+implementation_test = "tests/test_suspension_wufr_zbar.py"
