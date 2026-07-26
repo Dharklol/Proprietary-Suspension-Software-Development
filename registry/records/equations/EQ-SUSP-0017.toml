@@ -1,0 +1,27 @@
+[record]
+id = "EQ-SUSP-0017"
+type = "equation"
+title = "Conservative anti-roll-bar energy, elastic action, and tangent stiffness"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Evaluate conservative anti-roll-bar stored energy from the EQ-SUSP-0016 elastic coordinate/vector using a source-authorized constitutive law. Return the conjugate elastic action and local tangent stiffness/matrix. WUFR-specific force remains unavailable when stiffness authority is missing."
+outputs = ["stored energy U_ARB", "conjugate elastic action vector a_ARB", "local tangent stiffness/matrix K_ARB", "constitutive-domain diagnostics"]
+inputs = ["EQ-SUSP-0016 elastic coordinate/vector", "source-authorized conservative constitutive law", "source/domain/units authority"]
+assumptions = [
+  "The first ARB constitutive model is conservative, rate-independent, and quasi-static.",
+  "For a linear law, K_ARB is symmetric positive-semidefinite in the reviewed deformation coordinates.",
+  "U_ARB(0)=0 at the explicit zero-preload reference.",
+  "No WUFR numeric stiffness is created by ASM-SUSP-0003; missing stiffness returns an unavailable state."
+]
+verification_level = "none"
+canonical_equation = "a_ARB=gradient_s(U_ARB); K_ARB=partial(a_ARB)/partial(s). Linear reference: U_ARB=0.5*s^T*K_ARB*s and a_ARB=K_ARB*s."
+source_basis = [
+  "AUTH-SUSP-0005 conservative energy/action policy.",
+  "Guiggiani (2022) and Milliken & Milliken coupled elastic suspension treatment.",
+  "WUFR27_ANTI_ROLL_BAR_PACKAGE_V0 for source-specific constitutive availability/provenance only."
+]
+validity = "Reviewed constitutive law inside its explicit deformation domain; no extrapolation."
+numerical_method = "Analytic law where available; bounded interpolation/integration may be used only for source-defined tables with explicit domain."
+failure_behavior = ["Return missing_stiffness_authority when no reviewed constitutive source is frozen", "Return constitutive_domain_exceeded rather than extrapolating", "Return invalid_energy_law for nonfinite/inconsistent source law", "Do not substitute suspension roll rate, exploratory literals, or scalar wheel rate"]
+benchmark_ids = ["BENCH-SUSP-0011", "BENCH-SUSP-0012"]
