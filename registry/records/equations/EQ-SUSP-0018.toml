@@ -1,0 +1,26 @@
+[record]
+id = "EQ-SUSP-0018"
+type = "equation"
+title = "Signed anti-roll-bar generalized force from virtual work"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Map the conservative anti-roll-bar elastic action from EQ-SUSP-0017 into the declared left/right or vehicle generalized coordinates using the signed deformation Jacobian from EQ-SUSP-0016. This preserves bilateral coupling and rejects per-corner scalar wheel-rate substitution."
+outputs = ["generalized anti-roll-bar force vector Q_ARB", "coordinate order/units", "energy-gradient/Jacobian diagnostics"]
+inputs = ["elastic action vector a_ARB", "signed deformation Jacobian J_s", "generalized coordinate order and units"]
+assumptions = [
+  "Q_ARB is work-conjugate to the declared generalized coordinates.",
+  "All left/right signs are preserved; absolute-value motion ratios are prohibited.",
+  "Common-mode cancellation in a symmetric benchmark emerges from J_s and s_ARB rather than being hard-coded into force output."
+]
+verification_level = "none"
+canonical_equation = "Q_ARB=-(partial(s_ARB)/partial(q))^T*a_ARB=-J_s^T*a_ARB."
+source_basis = [
+  "AUTH-SUSP-0005 virtual-work policy.",
+  "EQ-VEH-0006 generalized-force convention and MOD-SUSP-0004 energy-force architecture.",
+  "Guiggiani (2022) generalized-coordinate/virtual-work treatment."
+]
+validity = "Successful EQ-SUSP-0016 deformation/Jacobian state and EQ-SUSP-0017 constitutive action state with matching source/configuration identity."
+numerical_method = "Direct matrix product after dimension/unit/source validation. Independently verify with centered finite differences of U_ARB over branch-preserving generalized-coordinate perturbations."
+failure_behavior = ["Return jacobian_unavailable for missing or nonfinite J_s", "Return source_configuration_mismatch for inconsistent left/right/constitutive packets", "Propagate missing_stiffness_authority from EQ-SUSP-0017", "Never replace J_s with a scalar motion ratio or square it to generate force"]
+benchmark_ids = ["BENCH-SUSP-0011", "BENCH-SUSP-0012"]
