@@ -44,7 +44,7 @@ class SuspensionAntiRollBarAuthorizationTests(unittest.TestCase):
         self.assertEqual(model["equation_ids"], ["EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018"])
         self.assertEqual(
             model["benchmark_ids"],
-            ["BENCH-SUSP-0011", "BENCH-SUSP-0012", "BENCH-SUSP-0013"],
+            ["BENCH-SUSP-0011", "BENCH-SUSP-0012", "BENCH-SUSP-0013", "BENCH-SUSP-0014"],
         )
         self.assertEqual(model["upstream_model_ids"], ["MOD-SUSP-0001", "MOD-SUSP-0002", "MOD-SUSP-0003"])
 
