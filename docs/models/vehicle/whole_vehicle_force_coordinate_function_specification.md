@@ -250,9 +250,11 @@ Allowed now:
 - preserve front/rear/left/right identity;
 - use the reviewed unsuppressed SolidWorks CAD references to freeze the common source axes, front/rear axle centers, front/rear tracks, and nominal `z=0` road datum;
 - transform those explicitly frozen source positions to a named body/CG reference using the adapter's stored transform;
-- use the specifically reviewed no-driver/no-fuel corner-scale state to establish the named planar CG reference;
-- retain the separately sourced no-driver `0.290 m` spec-sheet CG height as a distinct provenance contribution to a composite design-intent no-driver reference;
-- retain the driver/no-fuel planar CG as a separate state with `z_CG` unavailable;
+- use the specifically reviewed driver/no-fuel corner-scale state to establish the primary named planar CG reference;
+- retain the separately sourced `0.290 m` tilt-test CG height as a distinct driver-equivalent provenance contribution because the test used ballast to simulate a driver;
+- combine those two driver-related sources only as an explicitly source-separated driver/no-fuel **design-intent** body reference, not same-session metrology;
+- retain the no-driver/no-fuel planar CG as a separate state with `z_CG` unavailable;
+- retain the reported `10 kg` front-axle and `10 kg` rear-axle unsprung masses as future mass-model evidence only; they are not consumed by this model;
 - define deterministic rigid-contact **reference points** at the frozen axle/track stations projected to the nominal road plane;
 - return `missing_transform_authority` for any source/configuration that lacks equivalent explicit placement authority.
 
@@ -260,8 +262,9 @@ Not allowed:
 
 - place front and rear source-local origins using wheelbase alone;
 - derive a generic CG transform from arbitrary corner weights or a legacy spreadsheet without a reviewed named measurement state and geometry basis;
-- reuse the no-driver `0.290 m` CG height for the driver/no-fuel scale state;
-- treat the composite no-driver CG reference as one-session installed metrology;
+- relabel the `0.290 m` driver-equivalent tilt-test value as a no-driver CG height;
+- treat the composite driver/no-fuel design reference as same-session or installed metrology;
+- use the reported unsprung masses to generate gravity/inertia/wheel loads under this authorization;
 - construct a physical tire footprint centroid, loaded radius, or compliance model from tire diameter/width;
 - treat the projected rigid-contact references as physical contact-patch metrology;
 - call the CAD geometry, scale-derived adapter, or contact references installed/as-built.
