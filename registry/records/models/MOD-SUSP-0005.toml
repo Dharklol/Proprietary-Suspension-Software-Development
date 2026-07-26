@@ -5,7 +5,7 @@ title = "Coupled conservative anti-roll-bar elastic provider"
 status = "proposed"
 disposition = "accepted_with_restrictions"
 maturity = "M1"
-description = "Coupled conservative anti-roll-bar provider. PR50 implemented the generic conservative mechanics and discrete WUFR SolidWorks setting values. AUTH-SUSP-0006 freezes the nominal WUFR Z-bar mechanism fixture, AUTH-SUSP-0007 interprets the governing values as one blade-arm transverse tip stiffnesses with additive two-arm energy, and PR54 implements the nominal-continuation two-arm mechanism closure. AUTH-SUSP-0008 promotes the verified d=[d_L,d_R](theta_RL,theta_RR), two-step J_d, and Q_rocker=-J_d^T F in left/right rocker-angle coordinates. Wheel/body-coordinate ARB generalized force remains downstream."
+description = "Coupled conservative anti-roll-bar provider. PR50 implemented the generic conservative mechanics and discrete WUFR SolidWorks setting values. AUTH-SUSP-0006 freezes the nominal WUFR Z-bar mechanism fixture, AUTH-SUSP-0007 interprets the governing values as one blade-arm transverse tip stiffnesses with additive two-arm energy, and PR54 implements the nominal-continuation two-arm mechanism closure. AUTH-SUSP-0008 promotes the verified d=[d_L,d_R](theta_RL,theta_RR), two-step J_d, and Q_rocker=-J_d^T F in left/right rocker-angle coordinates. AUTH-SUSP-0009 composes the signed physical-wheel-to-rocker derivative with that mechanism Jacobian to provide Q_z in left/right MOD-SUSP-0002 physical wheel-center vertical coordinates. Whole-vehicle equilibrium and load transfer remain downstream."
 inputs = [
   "Explicit source-defined ARB elastic coordinate or coordinate vector with matching configuration and units",
   "Explicit zero-energy/preload reference",
@@ -13,7 +13,8 @@ inputs = [
   "Generalized coordinate order and signed deformation Jacobian when generalized force is requested",
   "Explicit enabled/disabled configuration state",
   "For WUFR: one discrete blade setting 1..5 used as the same per-arm k_b on both blade arms",
-  "For WUFR mapping: WUFR26_ZBAR_MECHANISM_V0 nominal mechanism fixture and MOD-SUSP-0003 left/right rocker states"
+  "For WUFR rocker mapping: WUFR26_ZBAR_MECHANISM_V0 nominal mechanism fixture and MOD-SUSP-0003 left/right rocker states",
+  "For WUFR wheel mapping: MOD-SUSP-0002 left/right physical wheel-center vertical coordinates and branch-preserving local d(theta_R)/d(delta_z_wc_body)"
 ]
 outputs = [
   "Signed anti-roll-bar elastic deformation scalar/vector and reference state",
@@ -21,6 +22,7 @@ outputs = [
   "Conjugate elastic action vector and local tangent stiffness",
   "Signed generalized anti-roll-bar force only in explicitly reviewed work-conjugate coordinates",
   "For WUFR: left/right rocker-coordinate generalized torque after successful nominal-branch closure and J_d verification",
+  "For WUFR: left/right physical wheel-center vertical generalized ARB force after the reviewed signed chain-rule composition",
   "Explicit no-bar state and structured failure/provenance"
 ]
 assumptions = [
@@ -30,32 +32,32 @@ assumptions = [
   "WUFR governing stiffness settings are 280/300/400/700/2300 N/mm. The source sheet labels the modeled quantity Blade arm and checks it with k=3EI/L^3; AUTH-SUSP-0007 therefore treats k_b as one-arm transverse tip stiffness.",
   "Installed WUFR blade energy is U=0.5*k_b*(d_L^2+d_R^2), with F=[k_b*d_L,k_b*d_R]. No scalar factor-two/half/sqrt(2) rescaling is permitted.",
   "The historical 2560/2270 N*m/deg pair is downstream setting-1 effective axle roll-stiffness evidence in the 2025 design-binder lineage; it is not independent blade constitutive authority.",
-  "AUTH-SUSP-0008 accepts the PR54 nominal-continuation mechanism closure and signed J_d only in [theta_RL,theta_RR] rocker-angle coordinates. A separate reviewed chain is still required before wheel/body-coordinate force or load transfer is claimed."
+  "AUTH-SUSP-0008 accepts the PR54 nominal-continuation mechanism closure and signed J_d in [theta_RL,theta_RR] rocker-angle coordinates.",
+  "AUTH-SUSP-0009 uses the existing independent-corner rigid kinematic map, so J_theta_z is diagonal and its signed diagonal terms are evaluated from physical-wheel perturbations rather than historical scalar motion ratios.",
+  "Q_z is work-conjugate to left/right physical wheel-center vertical coordinates only; it is not by itself a tire load-transfer or vehicle-equilibrium result."
 ]
 verification_level = "B"
 equation_ids = ["EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018"]
-benchmark_ids = ["BENCH-SUSP-0011", "BENCH-SUSP-0012", "BENCH-SUSP-0013", "BENCH-SUSP-0014", "BENCH-SUSP-0015", "BENCH-SUSP-0016"]
+benchmark_ids = ["BENCH-SUSP-0011", "BENCH-SUSP-0012", "BENCH-SUSP-0013", "BENCH-SUSP-0014", "BENCH-SUSP-0015", "BENCH-SUSP-0016", "BENCH-SUSP-0017"]
 authorization_id = "AUTH-SUSP-0005"
-authorization_state = "generic_provider_PR50; nominal_fixture_AUTH-SUSP-0006; two_arm_constitutive_AUTH-SUSP-0007; rocker_coordinate_mechanism_and_force_AUTH-SUSP-0008"
+authorization_state = "generic_provider_PR50; nominal_fixture_AUTH-SUSP-0006; two_arm_constitutive_AUTH-SUSP-0007; rocker_coordinate_mechanism_and_force_AUTH-SUSP-0008; physical_wheel_coordinate_chain_AUTH-SUSP-0009"
 authorization_document = "authorizations/suspension/AUTH-SUSP-0005.toml"
 upstream_model_ids = ["MOD-SUSP-0001", "MOD-SUSP-0002", "MOD-SUSP-0003"]
 downstream_model_ids = []
 planned_downstream = [
-  "signed branch-preserving mapping from left/right MOD-SUSP-0002 wheel-center vertical coordinates to the corresponding MOD-SUSP-0003 rocker angles",
-  "wheel/body-coordinate ARB generalized-force composition by chain rule",
-  "quasi-static body equilibrium/load-state solver after the wheel-coordinate ARB force is reviewed",
-  "later roll-stiffness/LLTD diagnostics and historical effective-axle correlation"
+  "quasi-static whole-vehicle/body equilibrium with explicit chassis/body generalized coordinates, tire/contact constraints, gravity/aero/external loads, and spring/ARB elastic force composition",
+  "later roll-stiffness/LLTD diagnostics and historical effective-axle correlation after the equilibrium/load-state architecture is reviewed"
 ]
 source_snapshot = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
 source_audit = "docs/models/suspension/anti_roll_bar_source_audit.md"
 preimplementation_specification = "docs/models/suspension/anti_roll_bar_function_specification.md"
-implementation_package = "src/pssd_suspension/anti_roll_bar.py; src/pssd_suspension/wufr_anti_roll_bar.py; src/pssd_suspension/wufr_zbar.py; src/pssd_suspension/wufr_zbar_nominal.py"
+implementation_package = "src/pssd_suspension/anti_roll_bar.py; src/pssd_suspension/wufr_anti_roll_bar.py; src/pssd_suspension/wufr_zbar.py; src/pssd_suspension/wufr_zbar_nominal.py; src/pssd_suspension/wufr_zbar_wheel.py"
 implementation_document = "docs/models/suspension/anti_roll_bar_implementation_v0.1.0.md"
-implementation_tests = ["tests/test_suspension_anti_roll_bar.py", "tests/test_suspension_anti_roll_bar_result_record.py", "tests/test_suspension_wufr_zbar_implementation.py"]
+implementation_tests = ["tests/test_suspension_anti_roll_bar.py", "tests/test_suspension_anti_roll_bar_result_record.py", "tests/test_suspension_wufr_zbar_implementation.py", "tests/test_suspension_wufr_zbar_wheel.py"]
 benchmark_report_script = "scripts/run_suspension_anti_roll_bar_benchmarks.py"
 benchmark_result_record = "benchmarks/suspension/suspension_anti_roll_bar_result_v0.1.0.toml"
 validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
-review_record = "docs/reviews/phase2_wufr_zbar_implementation_promotion_review.md"
+review_record = "docs/reviews/phase2_wufr_zbar_wheel_coordinate_review.md"
 baseline_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
-next_implementation_gate = "Define and verify the signed local chain from left/right physical wheel-center vertical coordinates to left/right rocker angles, then compose the existing J_d and two-arm force into work-conjugate wheel/body coordinates without historical scalar motion-ratio shortcuts."
-prohibited_scope = "Interpolation between WUFR settings; averaging/stacking SolidWorks, Simulink, Instron, or effective-axle values; scalar whole-blade rescaling; body-roll/track/wheel-travel/historical-MR shortcuts; back-fitting geometry from effective axle stiffness; calling Q_rocker a wheel/body force; vehicle equilibrium before a reviewed wheel-coordinate chain; damper/tire force; structural release; installed/as-built claims."
+next_implementation_gate = "Define and authorize a whole-vehicle quasi-static equilibrium/load-state problem before converting the now-reviewed wheel-coordinate spring/ARB generalized forces into maneuver-specific tire/contact loads, body roll, axle load transfer, LLTD, or equilibrium outputs."
+prohibited_scope = "Interpolation between WUFR settings; averaging/stacking SolidWorks, Simulink, Instron, or effective-axle values; scalar whole-blade rescaling; body-roll/track/wheel-travel/historical-MR shortcuts; back-fitting geometry from effective axle stiffness; calling Q_z tire load transfer or body equilibrium; damper/tire force unless separately authorized; structural release; installed/as-built claims."
