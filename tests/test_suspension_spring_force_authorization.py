@@ -35,11 +35,12 @@ class SuspensionSpringForceAuthorizationTests(unittest.TestCase):
         self.assertFalse(auth["numerics"]["scalar_motion_ratio_substitution_allowed"])
 
         prohibited = "\n".join(auth["prohibited"]["items"])
-        self.assertIn("30, 33, or 36 N/mm", prohibited)
-        self.assertIn("57 mm", prohibited)
-        self.assertIn("spring_unseated", prohibited)
-        self.assertIn("Damper velocity force", prohibited)
-        self.assertIn("vehicle heave/roll/pitch equilibrium", prohibited)
+        prohibited_lower = prohibited.lower()
+        self.assertIn("30, 33, or 36 n/mm", prohibited_lower)
+        self.assertIn("57 mm", prohibited_lower)
+        self.assertIn("spring_unseated", prohibited_lower)
+        self.assertIn("damper velocity force", prohibited_lower)
+        self.assertIn("vehicle heave/roll/pitch equilibrium", prohibited_lower)
 
     def test_model_equation_benchmark_links_are_frozen(self) -> None:
         model = _load("registry/records/models/MOD-SUSP-0004.toml")["record"]
@@ -130,9 +131,9 @@ class SuspensionSpringForceAuthorizationTests(unittest.TestCase):
         self.assertLess(zero_preload_x, 0.0)
 
         eq = _load("registry/records/equations/EQ-SUSP-0013.toml")["record"]
-        failures = "\n".join(eq["failure_behavior"])
+        failures = "\n".join(eq["failure_behavior"]).lower()
         self.assertIn("spring_unseated", failures)
-        self.assertIn("Do not clip", failures)
+        self.assertIn("do not clip", failures)
 
     def test_synthetic_piecewise_progressive_hand_case(self) -> None:
         # Frozen BENCH-SUSP-0009 table:
