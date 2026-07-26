@@ -1,0 +1,30 @@
+[record]
+id = "EQ-VEH-0006"
+type = "equation"
+title = "Generalized force from virtual work"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Map an applied point force and free couple into forces conjugate to an explicitly ordered generalized-coordinate vector through virtual work. This equation supplies the force-coordinate contract for later spring, anti-roll-bar, contact, aero, and inertial contributions without authorizing their constitutive laws or equilibrium solution."
+outputs = ["Generalized force vector Q", "Point-position Jacobian J_r", "Angular-variation Jacobian J_omega", "Virtual-work consistency residual"]
+inputs = ["Generalized-coordinate vector q and declared order", "Application-point map r_P(q)", "Orientation map R(q) or angular-variation Jacobian", "Applied point force F", "Applied free couple M"]
+assumptions = [
+  "The virtual displacement is compatible with the declared generalized coordinates and frames.",
+  "For q=[z_s, phi, theta], the conjugate generalized-force units are [N, N*m, N*m].",
+  "A numerical Jacobian is permitted only with declared coordinate steps and branch-preserving upstream kinematic states.",
+  "The sign of every generalized-force component is retained; absolute values are prohibited."
+]
+verification_level = "none"
+canonical_equation = "delta_W = F dot delta_r_P + M dot delta_omega = Q^T delta_q; Q = J_r^T F + J_omega^T M"
+source_basis = [
+  "Pacejka (2006), Tyre and Vehicle Dynamics, Section 11.3, equations 11.62 and 11.82-11.84, for generalized forces obtained from virtual work.",
+  "Guiggiani (2022), The Science of Vehicle Dynamics, Chapters 9-10, for explicit vehicle coordinates and separation of kinematic, equilibrium, and constitutive equations."
+]
+validity = "Differentiable local point/orientation maps or a declared converged numerical Jacobian over a branch-preserving neighborhood."
+failure_behavior = [
+  "Reject missing coordinate order, units, frame, origin, or application point.",
+  "Reject singular/nonfinite Jacobians and report the numerical method and actual step used.",
+  "Do not substitute a scalar motion ratio for a full force Jacobian when multiple generalized coordinates or coupled components are active.",
+  "Do not evaluate a constitutive force law or solve equilibrium inside this mapping equation."
+]
+benchmark_ids = ["BENCH-VEH-0003"]

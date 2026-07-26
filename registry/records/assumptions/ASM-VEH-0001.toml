@@ -1,0 +1,11 @@
+[record]
+id = "ASM-VEH-0001"
+type = "assumption"
+title = "WUFR-27 inherits WUFR-26 suspension geometry"
+status = "active"
+description = "For the current R&D baseline, WUFR-27 uses the same reviewed suspension geometry as WUFR-26 and therefore consumes the existing WUFR27_SUSPENSION_BASELINE_V0 inheritance configuration. This statement does not establish a common whole-vehicle origin, CG-relative axle placement, mass properties, corner weights, installed ride height, or as-built geometry."
+severity = "medium"
+affected_ids = ["MOD-VEH-0003", "MOD-SUSP-0001", "MOD-SUSP-0002", "MOD-SUSP-0003", "AUTH-VEH-0003", "BENCH-VEH-0004"]
+source = "Reviewer/user confirmation on 2026-07-25: WUFR-27 will not have different suspension geometry from WUFR-26."
+validity = "Current WUFR-27 R&D baseline only; any suspension geometry revision requires a new configuration ID and provenance."
+control = "Keep source-local suspension geometry and whole-vehicle placement separate; reject missing transforms rather than infer them from wheelbase."

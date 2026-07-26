@@ -1,0 +1,10 @@
+[record]
+id = "ASM-VEH-0002"
+type = "assumption"
+title = "Initial flat-road rigid four-contact model"
+status = "active"
+description = "The first whole-vehicle force-coordinate and later prescribed-force QSS development assumes one flat rigid road plane, vertically rigid tires, and all four wheel contact references active. Every active contact has zero road-normal gap and nonnegative road-normal reaction. A negative reaction invalidates the four-contact mode and is reported as wheel lift; it is never clipped to zero within the model."
+severity = "high"
+affected_ids = ["MOD-VEH-0003", "EQ-VEH-0007", "AUTH-VEH-0003", "BENCH-VEH-0004"]
+validity = "Initial bounded quasi-static R&D only; no road profile, curb contact, tire radial compliance, or alternate contact mode."
+control = "Expose gap and reaction sign per corner, reject negative reactions, and require a separate authorization before contact-mode switching or tire vertical compliance."

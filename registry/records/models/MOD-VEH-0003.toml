@@ -1,0 +1,52 @@
+[record]
+id = "MOD-VEH-0003"
+type = "model"
+title = "Whole-vehicle force-coordinate and rigid-contact assembly"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Bounded provider-neutral foundation for placing explicitly authorized body-fixed application/contact-reference points in a declared whole-vehicle frame, translating and summing force/couple wrenches, mapping applied actions into generalized forces through virtual work, and classifying the first flat-road rigid four-contact mode. Future WUFR-27 points may enter only after their whole-vehicle adapter is reviewed. WUFR-27 inherits WUFR-26 suspension geometry, but whole-vehicle body/CG placement remains explicit and cannot be inferred from wheelbase alone. The model does not evaluate constitutive forces or solve equilibrium."
+inputs = [
+  "Explicit whole-vehicle body frame and road/inertial frame with named origins and orientation",
+  "Body pose/context including the first generalized-coordinate order q=[z_s, phi, theta]",
+  "Body-fixed application and contact-reference points with source/configuration authority",
+  "Applied point forces and free couples supplied by separately authorized providers",
+  "Flat-road plane and declared all-four-active contact mode",
+  "Optional numerical-Jacobian configuration with declared coordinate steps"
+]
+outputs = [
+  "Transported road/inertial-frame points",
+  "Per-contribution and resultant force/moment wrench about a named reference point",
+  "Signed generalized-force vector and Jacobian diagnostics",
+  "Per-corner contact gap, normal-reaction admissibility, contact-mode status, and wheel-lift failure",
+  "Frame, origin, coordinate-order, application-point, source, and configuration provenance",
+  "Explicit unsupported/missing-authority states"
+]
+assumptions = [
+  "WUFR-27 uses the reviewed WUFR-26 suspension geometry without a suspension-geometry change; this is design-intent inheritance, not installed metrology.",
+  "All force and geometry inputs declare a common compatible frame/origin or pass through a reviewed adapter.",
+  "The first contact model is a flat rigid road with vertically rigid tires and all four contacts active.",
+  "Any negative road-normal reaction invalidates the four-contact mode and is not clipped.",
+  "The future first linkage-force model will use ideal pin-jointed two-force members and rigid nodes/bodies, but linkage forces and stresses are outside this model."
+]
+verification_level = "none"
+equation_ids = ["EQ-VEH-0004", "EQ-VEH-0005", "EQ-VEH-0006", "EQ-VEH-0007"]
+benchmark_ids = ["BENCH-VEH-0003", "BENCH-VEH-0004"]
+authorization_id = "AUTH-VEH-0003"
+authorization_state = "review_ready_pending_PR45_review_and_merge"
+authorization_document = "authorizations/vehicle/AUTH-VEH-0003.toml"
+assumption_ids = ["ASM-VEH-0001", "ASM-VEH-0002", "ASM-SUSP-0001"]
+upstream_model_ids = ["MOD-SUSP-0001", "MOD-SUSP-0002", "MOD-SUSP-0003"]
+downstream_model_ids = []
+planned_downstream = [
+  "separately authorized spring and anti-roll-bar generalized-force providers",
+  "separately authorized prescribed-force quasi-static load-state solver",
+  "separately authorized ideal suspension-linkage statics"
+]
+baseline_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
+source_audit = "docs/models/vehicle/whole_vehicle_force_coordinate_source_audit.md"
+preimplementation_specification = "docs/models/vehicle/whole_vehicle_force_coordinate_function_specification.md"
+planned_implementation_package = "src/pssd_vehicle/force_coordinates.py"
+review_record = "docs/reviews/phase2_whole_vehicle_force_coordinate_authorization_review.md"
+next_implementation_gate = "Implement only rigid point transport, wrench assembly, generalized-force mapping, and rigid-contact classification. WUFR use remains blocked until common body/CG origin and axle/contact-reference placement are explicitly sourced. Keep spring, ARB, tire, equilibrium, linkage loads, stress, installed limits, and optimization separately authorized."
+prohibited_scope = "Constitutive spring/damper/ARB/tire force laws; vehicle equilibrium; load transfer; wheel-load generation; linkage/member/bearing reactions; stress/FEA; compliance; tire vertical deflection; alternate contact modes; physical stops; installed/as-built or production claims."

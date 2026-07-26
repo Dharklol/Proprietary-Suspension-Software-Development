@@ -1,0 +1,19 @@
+[record]
+id = "BENCH-VEH-0003"
+type = "benchmark"
+title = "Analytical rigid point, wrench, and virtual-work force-coordinate benchmark"
+status = "proposed"
+description = "Verify MOD-VEH-0003 independently of WUFR data using synthetic rigid-body fixtures with exact yaw-pitch-roll point transport, known point-force moment arms, multiple-wrench summation, and generalized forces obtained both analytically and from virtual work. Include incompatible-frame and ill-conditioned numerical-Jacobian failures."
+verification_level = "B"
+target_ids = ["MOD-VEH-0003", "EQ-VEH-0004", "EQ-VEH-0005", "EQ-VEH-0006"]
+acceptance_criteria = [
+  "Identity and selected 90-degree elemental rotations transport synthetic body-fixed points to closed-form expected positions within floating-point-scale tolerances.",
+  "Point-force moment about a named reference equals (r_P-r_O) cross F and multiple contributions sum componentwise without losing free couples.",
+  "Changing the wrench reference point changes the reported moment by the exact cross-product translation while preserving the same physical resultant force/couple system.",
+  "For a synthetic q=[z_s,phi,theta] pose and applied point force/couple, Q=J_r^T F+J_omega^T M equals the coefficient of virtual work and agrees with a converged centered finite-difference result.",
+  "Generalized-force signs and mixed units [N,N*m,N*m] remain explicit; no absolute value or scalar motion-ratio substitution is used.",
+  "Missing/incompatible frame or origin authority, nonfinite inputs, and nonconverged numerical Jacobians fail explicitly."
+]
+planned_implementation = "src/pssd_vehicle/force_coordinates.py"
+planned_tests = ["tests/test_whole_vehicle_force_coordinate_authorization.py", "tests/test_vehicle_force_coordinates.py"]
+planned_report_script = "scripts/run_vehicle_force_coordinate_benchmarks.py"

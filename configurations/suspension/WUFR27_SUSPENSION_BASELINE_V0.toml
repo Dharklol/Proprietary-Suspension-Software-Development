@@ -1,14 +1,16 @@
-version = "0.1.4"
+version = "0.1.5"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
 status = "active_design_intent_baseline_not_as_built"
 vehicle_revision = "WUFR-27"
-purpose = "WUFR-27 suspension R&D baseline inheriting the WUFR-26 final OptimumK nominal suspension geometry without a geometry change. This configuration is for source-grounded kinematics development, regression, visualization, and later correlation; it is not installed/as-built authority."
+purpose = "WUFR-27 suspension R&D baseline inheriting the WUFR-26 final OptimumK nominal suspension geometry without a geometry change. This configuration is for source-grounded kinematics development, regression, visualization, force-coordinate interface planning, and later correlation; it is not installed/as-built authority."
 
 [authority]
 model_id = "MOD-SUSP-0001"
 wheel_reference_model_id = "MOD-SUSP-0002"
 actuation_model_id = "MOD-SUSP-0003"
-actuation_authorization_state = "prototype_authorized_after_AUTH-SUSP-0003_PR43_merge; implementation_in_PR44"
+force_coordinate_model_id = "MOD-VEH-0003"
+actuation_authorization_state = "prototype_authorized_after_AUTH-SUSP-0003_PR43_merge; implementation_merged_in_PR44"
+force_coordinate_authorization_state = "review_ready_under_AUTH-VEH-0003_pending_PR45_review_and_merge"
 source_snapshot = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
 source_snapshot_id = "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0"
 source_catalog_id = "CAT-SUSP-GEO-0001"
@@ -17,11 +19,15 @@ canonical_orientation = "+x forward, +y vehicle left, +z upward; right-handed"
 
 [inheritance]
 rule = "Load the source snapshot through the explicit OptimumK-to-canonical adapter. Do not duplicate, mirror, translate, or revise hardpoints in this configuration. Any future geometry change requires a new configuration ID and provenance."
+reviewed_statement = "Reviewer/user confirmation on 2026-07-25: WUFR-27 will not have different suspension geometry from WUFR-26."
 
 [vehicle_context]
 wheelbase_m = 1.5624
 wheelbase_source = "Team/reviewer confirmation during PR39: OptimumK Reference Distance 1562.4 mm is the WUFR wheelbase."
 wheelbase_frame_rule = "Wheelbase identity alone does not authorize translating the PR38 rear source-local hardpoints relative to the front source-local origin. Whole-vehicle source-origin placement remains a separate adapter/review decision."
+whole_vehicle_body_origin_status = "not_frozen"
+cg_relative_axle_placement_status = "not_frozen"
+contact_reference_placement_status = "not_frozen"
 
 [front_steering_boundary]
 rule = "Front suspension geometry retains the OptimumK CHAS_TiePnt/UPRI_TiePnt values as source evidence, but MOD-STEER-0001 continues to use the later steering-FDR tie-rod coordinates. MOD-SUSP-0001/MOD-SUSP-0002 output the unresolved-steering upright/wheel reference and leave tie-rod-induced steering rotation to the steering evaluator."
@@ -29,6 +35,7 @@ steering_pose_contract = "upright_reference_pose_excludes_tie_rod_steering_rotat
 
 [coordinate_boundary]
 rule = "Front and rear suspension coordinates remain in their source suspension-reference origins after orientation/unit conversion. Reference Distance is confirmed as wheelbase and retained as vehicle context; rear hardpoints are not translated into a whole-vehicle origin until the source-origin relationship is explicitly reviewed."
+force_coordinate_rule = "AUTH-VEH-0003 may define the explicit body/road frame and return missing_transform_authority, but may not infer front/rear/CG placement from wheelbase or suspension inheritance."
 
 [wheel_boundary]
 rule = "Static camber, static toe, half-track, offsets, rim/tire diameter, and tire width remain source setup values. Under AUTH-SUSP-0002, MOD-SUSP-0002 may construct the nominal wheel center and wheel-plane reference only for the frozen zero-longitudinal/lateral/vertical-offset OptimumK setup and transport them rigidly with the reviewed upright state. Nonzero offset semantics, contact-patch/tire-envelope construction, tire deflection, and installed wheel/bearing metrology remain unavailable."
@@ -42,11 +49,19 @@ coilover_displacement_coordinate = "delta_L_d_m = current ideal coilover eye-to-
 local_ratio_coordinate = "rho_dw = d(delta_L_d_m)/d(delta_z_wc_body_m); sign retained"
 installed_boundary = "The OptimumK +/-25.4 mm heave sweep is verification evidence only, not installed bump/droop, damper stroke, articulation, or packaging authority."
 
+[force_coordinate_boundary]
+rule = "AUTH-VEH-0003 / PR45 authorizes only explicit body/road point transport, point-force/free-couple wrench assembly, virtual-work generalized-force mapping, and flat-road rigid four-contact classification. It does not authorize force laws or equilibrium."
+generalized_coordinate_order = ["z_s_m", "phi_rad", "theta_rad"]
+first_contact_model = "flat rigid road; vertically rigid tires; all four contacts active; negative normal reaction is wheel_lift/contact_mode_invalid and is never clipped"
+first_linkage_fidelity = "downstream-only ideal pin-jointed two-force members and rigid bodies/nodes; not linkage-force, stress, FEA, or installed authority in this configuration"
+whole_vehicle_use_status = "blocked_until_explicit_body_CG_origin_axle_stations_and_contact_references_are_frozen"
+
 [uses]
 permitted = [
   "MOD-SUSP-0001 rigid kinematics development and verification",
   "MOD-SUSP-0002 source-bounded wheel-reference and physical-state development and verification",
   "MOD-SUSP-0003 source-bounded ideal actuation development, verification, and downstream R&D state provision within AUTH-SUSP-0003",
+  "MOD-VEH-0003 source-preserving force-coordinate interface and synthetic benchmark development within AUTH-VEH-0003 after PR45 merge",
   "source-to-canonical transform regression",
   "suspension kinematics validation against OptimumK",
   "provider-neutral steering suspension-pose generation from reviewed unresolved-steering states",
@@ -54,12 +69,15 @@ permitted = [
   "PDR/FDR R&D documentation"
 ]
 prohibited = [
-  "installed or as-built hardpoint, wheel-center, bearing-axis, alignment, rocker, damper, or actuation claims",
+  "installed or as-built hardpoint, wheel-center, bearing-axis, alignment, rocker, damper, actuation, contact, or force-coordinate claims",
   "physical tolerance or compliance claims",
   "automatic replacement of steering-FDR front tie-rod geometry",
   "generalization of the zero-offset wheel-center construction to nonzero OptimumK wheel offsets",
   "generic contact-patch/tire-envelope or tire-deflection inference",
-  "spring/damper force, wheel-rate, damping, or ARB calculations under the actuation authorization",
+  "spring/damper force, wheel-rate, damping, or ARB calculations under the actuation or force-coordinate authorizations",
+  "vehicle equilibrium, wheel-load generation, or load-transfer calculation under AUTH-VEH-0003",
+  "negative normal-reaction clipping or hidden contact-mode switching",
+  "linkage/member/bearing loads, stress, FEA, fatigue, or structural release under AUTH-VEH-0003",
   "treating the source verification heave range as installed suspension travel or damper stroke",
   "rear whole-vehicle origin inference from wheelbase alone without a reviewed origin relationship",
   "production optimization or geometry release"
