@@ -1,0 +1,35 @@
+[record]
+id = "ASM-SUSP-0003"
+type = "assumption"
+title = "WUFR-27 Z-bar carryover, zero-preload reference, and reviewer-selected effective roll stiffness"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Freeze the reviewer-declared WUFR-27 anti-roll-bar design-intent boundary. The 2025 Z-bar/blade concept and current populated WUFR-26 geometry are carried into the WUFR-27 R&D baseline, nominal setup uses zero intentional ARB preload, and the reduced prototype uses reviewer-selected effective axle roll stiffness K_phif=2560 N*m/deg and K_phir=2270 N*m/deg from Weight_transfer_sensitivity.m. These values are not blade torsional stiffness, installed/as-built authority, or a recovered Instron/FEA force-deflection law."
+assumptions = [
+  "Reviewer/user statement on 2026-07-26: use the 2025 ARB Development Z-bar/blade design basis for WUFR-27 and run zero ARB preload.",
+  "Reviewer/user statement on 2026-07-26: the most reliable available ARB values are Weight_transfer_sensitivity.m K_phif_neutral=2560 and K_phir_neutral=2270; available Instron data comes somewhat close, while the MATLAB/simulation values were more consistent for the stiffer settings.",
+  "The source plot axes label these stiffness quantities in N*m/deg. For a radian elastic coordinate the implementation converts explicitly with K_Nm_per_rad=K_Nm_per_deg*180/pi.",
+  "The MATLAB file uses K_phif/K_phir mainly through their ratio and the front assignment carries the comment '%change and figure out'. Therefore the absolute-value authority is the reviewer's explicit team design-intent selection, not an independently reconstructed derivation from that script.",
+  "The 2560/2270 quantities are reduced effective axle ARB roll stiffness. Do not apply an additional blade/link/motion-ratio stiffness reduction on top of them.",
+  "Until a populated WUFR-27 ARB revision supersedes it, current WUFR-26 suspension geometry and front/rear ARB CAD/drawings are the design-intent geometry source for the carryover model.",
+  "Zero intentional preload means the named nominal bilateral/reduced roll state is the zero-energy reference; it does not justify forcing a numerically nonzero reconstructed deformation to zero by hidden offset repair.",
+  "The current WUFR-27 front and rear ARB assembly files have identical file SHA-1 and size/timestamp and are treated as placeholder/copy evidence only, not independent geometry authority."
+]
+severity = "high"
+affected_ids = ["MOD-SUSP-0005", "EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018", "BENCH-SUSP-0012"]
+source_basis = [
+  "Reviewer/user statements in FSAE project conversation, 2026-07-26.",
+  "Weight_transfer_sensitivity.m, Box 1760141970183 version 2054072451786 SHA-1 230b4b7816726e3a7c613716860e09c582f606fb.",
+  "WUFR-25 ARB Stiffness folder and 2025 front/rear ARB design files.",
+  "Current WUFR-26 suspension geometry and front/rear ARB CAD/drawings.",
+  "WUFR-27 A0303/A0305 assembly placeholder files inspected 2026-07-26."
+]
+replacement_gate = "Replace carryover/placeholder geometry with a populated WUFR-27 revision when available. A traceable blade/system test, FEA, or exact Instron correlation may replace the reduced 2560/2270 law only through a separately reviewed higher-fidelity configuration; do not stack the detailed law on the reduced effective axle stiffness."
+prohibited_inference = [
+  "Do not infer front/rear ARB stiffness from the 2026 spec-sheet suspension roll-rate values.",
+  "Do not infer stiffness from Ti-6Al-4V material plus drawing dimensions without an explicitly reviewed beam/FEA/test model.",
+  "Do not present 2560/2270 as blade torsional stiffness, measured Instron values, or installed/as-built stiffness.",
+  "Do not infer Z-bar topology from exporter sketch-point row ordering.",
+  "Do not infer installed rear-ARB absence for all WUFR-27 configurations from one WUFR-26 FSA assembly suppression state."
+]

@@ -1,0 +1,28 @@
+[record]
+id = "EQ-SUSP-0017"
+type = "equation"
+title = "Conservative anti-roll-bar energy, elastic action, and tangent stiffness"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Evaluate conservative anti-roll-bar stored energy from the EQ-SUSP-0016 elastic coordinate/vector using a source-authorized constitutive law. Return the conjugate elastic action and local tangent stiffness/matrix. The WUFR-27 reduced prototype uses reviewer-selected effective axle roll stiffness 2560 N*m/deg front and 2270 N*m/deg rear, converted explicitly to N*m/rad for a radian deformation coordinate."
+outputs = ["stored energy U_ARB", "conjugate elastic action vector a_ARB or reduced axle moment M_ARB", "local tangent stiffness/matrix K_ARB", "constitutive-domain diagnostics"]
+inputs = ["EQ-SUSP-0016 elastic coordinate/vector", "source-authorized conservative constitutive law", "source/domain/units authority"]
+assumptions = [
+  "The first ARB constitutive model is conservative, rate-independent, and quasi-static.",
+  "For a linear law, K_ARB is symmetric positive-semidefinite in the reviewed deformation coordinates.",
+  "U_ARB(0)=0 at the explicit zero-preload reference.",
+  "For the reduced WUFR law, phi_ARB is in radians and K_phi_Nm_per_rad=K_phi_Nm_per_deg*180/pi.",
+  "The WUFR 2560/2270 values are effective axle ARB roll stiffness and are not additionally transformed by blade/link motion ratios."
+]
+verification_level = "none"
+canonical_equation = "a_ARB=gradient_s(U_ARB); K_ARB=partial(a_ARB)/partial(s). Linear reference: U_ARB=0.5*s^T*K_ARB*s and a_ARB=K_ARB*s. Reduced WUFR scalar law: U_ARB=0.5*K_phi_rad*phi_ARB^2; M_ARB=K_phi_rad*phi_ARB; K_phi_rad=K_phi_deg*180/pi."
+source_basis = [
+  "AUTH-SUSP-0005 conservative energy/action policy.",
+  "Guiggiani (2022) and Milliken & Milliken coupled elastic suspension treatment.",
+  "WUFR27_ANTI_ROLL_BAR_PACKAGE_V0 reviewer-selected Weight_transfer_sensitivity.m effective axle roll-stiffness values."
+]
+validity = "Reviewed constitutive law inside its explicit deformation domain; no extrapolation. WUFR reduced law is design-intent prototype authority, not installed/as-built or blade-component authority."
+numerical_method = "Analytic law where available; bounded interpolation/integration may be used only for source-defined tables with explicit domain."
+failure_behavior = ["Return missing_stiffness_authority when no reviewed constitutive source is frozen for the requested configuration", "Return constitutive_domain_exceeded rather than extrapolating", "Return invalid_energy_law for nonfinite/inconsistent source law", "Do not substitute spec-sheet suspension roll rate, unreviewed historical literals, or scalar wheel rate", "Do not apply an additional mechanism reduction to the reviewer-selected reduced WUFR K_phi values"]
+benchmark_ids = ["BENCH-SUSP-0011", "BENCH-SUSP-0012"]
