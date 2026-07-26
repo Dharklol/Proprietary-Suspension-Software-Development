@@ -30,6 +30,7 @@ jobs:
           {
             python -m unittest tests.test_suspension_spring_force -v
             python -m unittest tests.test_suspension_spring_force_result_record -v
+            python -m unittest tests.test_suspension_spring_force_integration -v
           } > spring_force_implementation_test.log 2>&1
       - name: Upload spring implementation diagnostics
         if: always()
