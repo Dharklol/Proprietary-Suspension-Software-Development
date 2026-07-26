@@ -1,0 +1,59 @@
+version = "0.1.0"
+result_id = "WUFR27_VEHICLE_FORCE_COORDINATE_RESULT_V0"
+model_id = "MOD-VEH-0003"
+authorization_id = "AUTH-VEH-0003"
+authority = "software_verification_and_reviewed_design_intent_frame_adapter_only"
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+report_script = "scripts/run_vehicle_force_coordinate_benchmarks.py"
+validation_workflow = ".github/workflows/motion-aware-validation.yml"
+performance_authority = false
+installed_as_built_authority = false
+force_law_authority = false
+equilibrium_authority = false
+linkage_force_authority = false
+
+[source]
+adapter = "data_catalog/wufr26_whole_vehicle_frame_v0.toml"
+cad_part_box_file_id = "1943897977651"
+cad_part_version = "2546941960247"
+cad_part_sha1 = "2cfb771f296961be0857161f7b57a6c178180d7a"
+cad_assembly_box_file_id = "1966637303418"
+cad_assembly_version = "2547286736404"
+cad_assembly_sha1 = "cfb95b650db19ca0624eaf82f272690aa70625df"
+spec_sheet_box_file_id = "2149814001036"
+spec_sheet_version = "2510738677599"
+spec_sheet_sha1 = "588669d320ff8097ec0bc85a85a970640d5a4d38"
+
+[BENCH-VEH-0003]
+verification_level = "B"
+transport_error_m = 6.123233995736766e-17
+wrench_moment_error_Nm = 0.0
+generalized_force_max_error = 4.809294296137523e-09
+numerical_convergence_error = 1.2099519608455012e-08
+q_z_s_N = 410.0
+q_phi_Nm = -121.35223119337041
+q_theta_Nm = -264.6782040093599
+pass = true
+
+[BENCH-VEH-0004]
+verification_level = "B"
+valid_contact_status = "four_contact_admissible"
+negative_reaction_status = "wheel_lift"
+negative_reaction_preserved_N = -1.0
+wufr_wheelbase_m = 1.5624
+wufr_front_track_m = 1.231972
+wufr_rear_track_m = 1.206572
+wufr_cg_to_front_axle_m = 0.8516226415094339
+wufr_cg_to_rear_axle_m = 0.7107773584905661
+wufr_contact_max_gap_m = 0.0
+installed_authority = false
+pass = true
+
+[boundaries]
+items = [
+  "The WUFR body origin is a composite no-driver design-intent CG reference. Its x/y coordinates come from the reviewer-supplied no-driver/no-fuel scale session; z=0.290 m comes from the separate no-driver FSAE spec-sheet CG-height source. These are not asserted to be the same physical setup state.",
+  "The driver/no-fuel scale state has an independently frozen planar CG location but no authorized vertical CG coordinate in this PR.",
+  "The nominal rigid contact references are modeling points at the frozen axle/track stations projected to source z=0. They are not tire footprint centroids or installed tire-contact metrology.",
+  "No corner normal reactions are calculated from mass or CG. BENCH-VEH-0004 only classifies externally supplied reactions.",
+  "No spring/damper/ARB/tire force law, vehicle equilibrium, linkage/member loads, stress, compliance, installed limits, or optimization is implemented by MOD-VEH-0003."
+]
