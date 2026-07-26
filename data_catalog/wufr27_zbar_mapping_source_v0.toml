@@ -1,0 +1,84 @@
+version = "0.1.0"
+record_id = "WUFR27_ZBAR_MAPPING_SOURCE_V0"
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+status = "source_gap_frozen_no_vehicle_coordinate_map_authority"
+review_date = "2026-07-26"
+installed_as_built_authority = false
+map_authorized = false
+jacobian_authorized = false
+
+[required_contract]
+input_coordinates = "reviewed left/right suspension or actuation states q_L,q_R with explicit coordinate definitions and configuration identity"
+output_coordinate = "signed blade-tip elastic deflection delta_b in meters relative to the zero-preload reference"
+jacobian = "J_delta_b = partial(delta_b)/partial(q_L,q_R), preserving sign and coordinate order"
+force_mapping = "Q_ARB = -J_delta_b^T * F_b is unavailable for WUFR until both delta_b(q_L,q_R) and J_delta_b are reviewed"
+
+[governing_constitutive_context]
+source = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
+blade_settings_N_per_m = [280000.0, 300000.0, 400000.0, 700000.0, 2300000.0]
+selection_rule = "settings are discrete; no interpolation, averaging, blending, or stiffness stacking"
+
+[recovered_sources.owner_manual]
+google_document_id = "15tAbE14hBqLxdlkTXHE1mTL7MoLgfh4fZoA9HQpbiZY"
+role = "topology and service semantics"
+finding = "The Z-bar couples the two sides, twists under differential wheel motion, and changes stiffness with blade orientation/linkage position. The document does not freeze a numerical suspension-state-to-blade-deflection closure."
+
+[recovered_sources.wufr25_inboard_fdr]
+google_document_id = "1twDfbcVNycsf2Jw49fkz64ML_5JsmMhePqoO9QPIOqE"
+role = "historical installed-geometry/design narrative"
+finding = "Documents approximately 90-degree blade/link relationship at CAD static and a later 4 mm linkage-length/static-angle adjustment to reduce rod-end bending. This is useful mechanism history but does not uniquely define the current three-dimensional closure."
+
+[recovered_sources.wufr26_inboard_fdr]
+google_document_id = "1_zLUOdFNOuKtiOFQlCcENggb9AWQssjY8x6jlKwF050"
+role = "current design-analysis narrative and source index"
+finding = "References a five-way Z-bar and identifies the WUFR26InboardSuspensionCalculator.m source. Historical axle roll-stiffness results and scalar spring motion ratios are comparison/design-analysis evidence, not a blade-deformation map."
+
+[recovered_sources.inboard_calculator]
+box_file_id = "2026725896730"
+sha1 = "2f98937654a43914bb586a7e0a1ae9908d97bcb5"
+name = "WUFR26InboardSuspensionCalculator.m"
+role = "historical roll/pitch analysis"
+finding = "The script computes lateral weight transfer and roll angles with track-width and scalar spring installation-ratio formulas. It contains no assembled Z-bar linkage closure, blade-tip position solution, or derivative d(delta_b)/d(q_L,q_R)."
+prohibited_reuse = "Do not promote its track-width roll-angle calculation or MR_f/MR_r spring ratios into the WUFR ARB geometry map."
+
+[recovered_sources.arb_force_calculation]
+google_drive_file_id = "1pm6DgBXh4sUUca1xnoesmautUZxdcLNU"
+role = "historical hand-calculation evidence"
+finding = "The three-page calculation maps roll angle through a single lever distance and then computes ARB torque. It is retained as historical comparison only because PR50 explicitly prohibits body-roll/track-style approximations as governing delta_b authority."
+
+[recovered_sources.arb_calculations]
+google_drive_file_id = "1o7wbbLSiNtu51q8WpGCYHXycQKR3TGzA"
+name = "ARB Calculations.xlsx"
+role = "historical blade and required-load calculations"
+finding = "The workbook contains beam-section inertia/deflection calculations, required ARB load calculations, and historical roll calculations. It does not provide a unique assembled left/right Z-bar closure from suspension coordinates to blade-tip deflection."
+
+[recovered_sources.populated_wufr26_geometry]
+suspension_geometry_box_file_id = "1943897977651"
+front_arb_assembly_box_file_id = "1966622548582"
+rear_arb_assembly_box_file_id = "1966622815072"
+front_linkage_nominal_length_in = 7.22
+rear_linkage_nominal_length_in = 6.22
+finding = "Populated carryover CAD/drawings establish hardware identity and geometry evidence, but the existing exported ARB sketch rows do not preserve connectivity and are not sufficient by themselves to assign blade/link roles or a branch-consistent mechanism coordinate."
+
+[blocked_shortcuts]
+body_roll_equals_blade_deflection = true
+track_width_lever_approximation = true
+wheel_travel_difference_as_blade_deflection = true
+historical_scalar_motion_ratio = true
+exporter_sketch_row_connectivity = true
+reduced_axle_roll_stiffness_back_conversion = true
+
+[required_before_wufr_map_implementation]
+items = [
+  "Freeze an explicit front and rear mechanism fixture with named blade pivot/axis, blade working point, linkage endpoints, rocker ARB pickup point, and the relationship of the rocker pickup to the already reviewed rocker state.",
+  "Freeze coordinate frames, units, left/right sign convention, nominal zero-preload branch, and configuration identity.",
+  "Define the rigid-link/rod-end constraints and branch-continuation rule used to solve blade working-point motion from q_L,q_R.",
+  "Verify closure residuals and branch uniqueness over a reviewed suspension domain.",
+  "Verify analytic or finite-difference J_delta_b at two step sizes without crossing a mechanism singularity or branch change.",
+  "Verify common-mode and differential limiting behavior from the actual mechanism fixture rather than imposing symmetry by formula.",
+  "Only after these gates may the existing SolidWorks blade law be mapped to vehicle-coordinate generalized force."
+]
+
+[decision]
+implementation_status = "blocked_pending_explicit_mechanism_fixture"
+next_gate = "Recover/export and review explicit named Z-bar mechanism geometry; do not implement a WUFR numerical delta_b map from the currently recovered approximations."
