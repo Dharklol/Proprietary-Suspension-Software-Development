@@ -49,16 +49,6 @@ The export run's transformed `model_x_m/model_y_m/model_z_m` sketch-point fields
 
 The reviewer supplied two distinct scale states, confirmed in pounds.
 
-No driver / no fuel:
-
-```text
-LF=113, RF=104, LR=126, RR=134
-x_CG_source = -0.8516226415094339 m
-y_CG_source = +0.0015043731656184725 m
-```
-
-The separate 2026 FSAE Design IC spec sheet reports no-driver `z_CG=0.290 m`. The scale session and CG-height session are not proven to be the same physical mass/setup state. Therefore the combined no-driver 3D CG point is explicitly labeled **composite design-intent analysis authority**, not one-session metrology or installed/as-built authority.
-
 Driver / no fuel:
 
 ```text
@@ -67,7 +57,19 @@ x_CG_source = -0.7453226666666667 m
 y_CG_source = +0.006312743703703716 m
 ```
 
-No driver-state vertical CG coordinate has been supplied, so `z_CG` for this state remains unavailable. The no-driver `0.290 m` value is not reused.
+The `0.290 m` CG-height value was clarified by the reviewer to come from a separate tilt test with ballast used to simulate a driver. The scale session and tilt-test session are not proven to be the same physical setup. Therefore the combined driver/no-fuel 3D CG point is explicitly labeled **source-separated design-intent analysis authority**, not same-session metrology or installed/as-built authority.
+
+No driver / no fuel:
+
+```text
+LF=113, RF=104, LR=126, RR=134
+x_CG_source = -0.8516226415094339 m
+y_CG_source = +0.0015043731656184725 m
+```
+
+No no-driver-state vertical CG coordinate has been supplied. The `0.290 m` driver-equivalent tilt value is not reused or relabeled for this state.
+
+The reviewer also supplied measured unsprung mass of `10 kg` for the front axle and `10 kg` for the rear axle (`20 kg` total). That measurement is retained only for later mass/QSS authorization and is not consumed by this mechanics layer.
 
 ## Contact-reference review
 
