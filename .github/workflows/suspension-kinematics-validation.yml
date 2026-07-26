@@ -24,6 +24,15 @@ jobs:
           name: spring-force-authorization-test-log
           path: spring_force_authorization_test.log
           if-no-files-found: error
+      - name: Validate spring force implementation
+        run: python -m unittest tests.test_suspension_spring_force -v > spring_force_implementation_test.log 2>&1
+      - name: Upload spring implementation diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spring-force-implementation-test-log
+          path: spring_force_implementation_test.log
+          if-no-files-found: error
       - name: Run existing focused suspension kinematics tests
         run: |
           set -e
@@ -59,6 +68,11 @@ jobs:
           python scripts/run_suspension_actuation_benchmarks.py \
             --summary \
             --output suspension_actuation_summary.json
+          python scripts/run_suspension_spring_force_benchmarks.py \
+            --output suspension_spring_force_report.json > /dev/null
+          python scripts/run_suspension_spring_force_benchmarks.py \
+            --summary \
+            --output suspension_spring_force_summary.json
       - name: Upload suspension kinematics reports
         uses: actions/upload-artifact@v4
         with:
@@ -70,4 +84,6 @@ jobs:
             wheel_reference_summary.json
             suspension_actuation_report.json
             suspension_actuation_summary.json
+            suspension_spring_force_report.json
+            suspension_spring_force_summary.json
           if-no-files-found: error
