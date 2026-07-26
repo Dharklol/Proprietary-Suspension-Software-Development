@@ -1,0 +1,72 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0006"
+status = "review_ready"
+title = "WUFR Z-bar deformation-map source and reconstruction boundary authorization"
+effective_condition = "Effective only after review and merge of the PR carrying this authorization. This authorization freezes the source boundary and reconstruction requirements for a future WUFR Z-bar map delta_b(q_L,q_R) and its signed Jacobian. It does not authorize a numerical WUFR map from the currently recovered track/body-roll approximations, historical scalar motion ratios, or exporter sketch row ordering. WUFR vehicle-coordinate ARB generalized force remains blocked until an explicit named mechanism fixture is separately frozen and verified."
+review_record = "docs/reviews/phase2_wufr_zbar_map_authorization_review.md"
+
+[scope]
+model_ids = ["MOD-SUSP-0005"]
+equation_ids = ["EQ-SUSP-0016", "EQ-SUSP-0018"]
+benchmark_ids = ["BENCH-SUSP-0013"]
+assumption_ids = ["ASM-SUSP-0003"]
+upstream_model_ids = ["MOD-SUSP-0001", "MOD-SUSP-0002", "MOD-SUSP-0003", "MOD-SUSP-0005"]
+geometry_configuration = "WUFR27_SUSPENSION_BASELINE_V0"
+source_snapshot = "data_catalog/wufr27_zbar_mapping_source_v0.toml"
+implementation_authorized = false
+
+[permitted]
+items = [
+  "Recover and freeze explicit named front/rear Z-bar mechanism geometry: blade axis/pivot, blade working point, linkage endpoints, rocker ARB pickup, and the rocker-state relationship already owned by MOD-SUSP-0003.",
+  "Define signed delta_b(q_L,q_R) relative to the explicit zero-preload reference only after that mechanism fixture is frozen.",
+  "Define J_delta_b=partial(delta_b)/partial(q_L,q_R) with explicit coordinate order, units, sign, branch, and numerical conditioning rules.",
+  "Use rigid-link closure and branch-continuation numerics in a later implementation only against an explicitly reviewed mechanism fixture.",
+  "Use the existing PR50 discrete SolidWorks blade law after, and only after, a reviewed delta_b/J_delta_b map exists.",
+  "Retain historical calculations, FDR values, MATLAB, Simulink, and Instron information as comparison/source-recovery evidence with their original quantity semantics."
+]
+
+[prohibited]
+items = [
+  "Assuming body roll angle equals blade rotation or blade-tip deflection.",
+  "Using track width, half-track, a single lever arm, or the ARB Force Calculation.pdf roll-angle approximation as governing WUFR delta_b geometry.",
+  "Using left-right wheel-travel difference directly as WUFR blade deflection.",
+  "Using historical scalar spring/rocker motion ratios as the ARB deformation Jacobian.",
+  "Inferring connectivity, blade working direction, or linkage roles from exporter sketch row ordering.",
+  "Back-calculating a geometry map from MATLAB reduced axle roll-stiffness values or from historical reported Nm/rad axle contributions.",
+  "Claiming WUFR vehicle-coordinate Q_ARB before the mechanism map and signed Jacobian are reviewed.",
+  "Interpolating, averaging, blending, or stacking the discrete PR50 SolidWorks blade stiffness with Simulink, Instron, MATLAB, or whole-suspension roll-rate quantities."
+]
+
+[numerics]
+output_coordinate = "delta_b_m, signed blade-tip elastic deflection relative to the named zero-preload reference"
+jacobian_rule = "J_delta_b must preserve q_L/q_R order and sign. Analytic derivatives are preferred; numerical derivatives must be branch-preserving and checked at two step sizes."
+closure_rule = "A future rigid mechanism solver must report closure residual, branch identity, singular/near-singular conditioning, and unavailable states rather than silently repairing geometry."
+reference_rule = "Nominal zero preload is a physical/reference statement; it does not permit subtracting an unexplained reconstruction residual."
+body_roll_substitution_allowed = false
+track_width_approximation_allowed = false
+wheel_travel_shortcut_allowed = false
+historical_motion_ratio_allowed = false
+sketch_row_connectivity_allowed = false
+implementation_authorized = false
+
+[source_boundary]
+source_record = "data_catalog/wufr27_zbar_mapping_source_v0.toml"
+source_audit = "docs/models/suspension/wufr_zbar_map_source_audit.md"
+function_specification = "docs/models/suspension/wufr_zbar_map_function_specification.md"
+current_finding = "Recovered sources establish Z-bar topology, blade/link hardware, historical static-angle/service information, and several approximate roll/beam calculations, but do not yet freeze the explicit named three-dimensional mechanism fixture required for a unique branch-consistent delta_b(q_L,q_R) map."
+
+[benchmark_gates]
+required_before_implementation = [
+  "BENCH-SUSP-0013 remains a source-authority gate: the current WUFR numerical map is unavailable, and all prohibited shortcuts remain rejected.",
+  "A later source-fixture revision must freeze named mechanism points/axes and replace the current blocked state before a numerical WUFR map implementation PR is opened.",
+  "That later implementation must verify closure residuals, branch uniqueness/continuation, common/differential behavior, and J_delta_b with independent finite differences at two step sizes."
+]
+
+[promotion_gates]
+items = [
+  "Merge this authorization/source-boundary PR before attempting a WUFR Z-bar numerical map.",
+  "Do not treat this merge as authorization to compute WUFR vehicle-coordinate ARB generalized force.",
+  "Recover or export an explicit named mechanism fixture and review it in a subsequent source-authority change.",
+  "Only then may a separate implementation PR map the already-authorized PR50 blade force/energy law through J_delta_b.",
+  "Quasi-static vehicle equilibrium/load-state work remains downstream of the reviewed WUFR map."
+]
