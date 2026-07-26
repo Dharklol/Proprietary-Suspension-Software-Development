@@ -27,7 +27,7 @@ from .anti_roll_bar import (
     AntiRollBarStateResult,
     AntiRollBarStatus,
     SuspensionAntiRollBarError,
-    SymmetricDifferentialAngleResult,
+    SymmetricDifferentialCoordinateResult,
     WufrAntiRollBarPackage,
     anti_roll_bar_coordinate,
     check_anti_roll_bar_energy_gradient,
@@ -36,7 +36,7 @@ from .anti_roll_bar import (
     generalized_anti_roll_bar_force,
     load_wufr27_anti_roll_bar_package,
     stiffness_Nm_per_deg_to_Nm_per_rad,
-    symmetric_differential_angle,
+    symmetric_differential_coordinate,
 )
 from .geometry import (
     ActuationAttachment,
@@ -167,7 +167,7 @@ __all__ = [
     "SuspensionKinematicsError",
     "SuspensionPoint",
     "SuspensionSpringError",
-    "SymmetricDifferentialAngleResult",
+    "SymmetricDifferentialCoordinateResult",
     "ToeLinkGeometry",
     "ToeLinkRole",
     "UprightReferenceTransform",
@@ -215,7 +215,7 @@ __all__ = [
     "solve_rocker_closure",
     "solve_wheel_reference_state",
     "stiffness_Nm_per_deg_to_Nm_per_rad",
-    "symmetric_differential_angle",
+    "symmetric_differential_coordinate",
     "transport_arm_attachment",
     "transport_wheel_reference",
 ]
