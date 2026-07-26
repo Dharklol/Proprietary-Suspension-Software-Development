@@ -4,8 +4,8 @@ type = "model"
 title = "Whole-vehicle force-coordinate and rigid-contact assembly"
 status = "proposed"
 disposition = "accepted_with_restrictions"
-maturity = "M0"
-description = "Bounded provider-neutral foundation for placing explicitly authorized body-fixed application/contact-reference points in a declared whole-vehicle frame, translating and summing force/couple wrenches, mapping applied actions into generalized forces through virtual work, and classifying the first flat-road rigid four-contact mode. Future WUFR-27 points may enter only after their whole-vehicle adapter is reviewed. WUFR-27 inherits WUFR-26 suspension geometry, but whole-vehicle body/CG placement remains explicit and cannot be inferred from wheelbase alone. The model does not evaluate constitutive forces or solve equilibrium."
+maturity = "M1"
+description = "Bounded provider-neutral mechanics foundation authorized by AUTH-VEH-0003 / PR45 and implemented in PR46. It transports explicitly authorized body-fixed points, translates and sums force/couple wrenches, maps applied actions into signed generalized forces through virtual work, and classifies the first flat-road rigid four-contact mode. A reviewed WUFR-26/27 design-intent adapter now supplies explicit common axle/track/contact placement and a separately provenance-tagged driver/no-fuel design reference. The model does not evaluate constitutive forces or solve vehicle equilibrium or linkage loads."
 inputs = [
   "Explicit whole-vehicle body frame and road/inertial frame with named origins and orientation",
   "Body pose/context including the first generalized-coordinate order q=[z_s, phi, theta]",
@@ -27,13 +27,15 @@ assumptions = [
   "All force and geometry inputs declare a common compatible frame/origin or pass through a reviewed adapter.",
   "The first contact model is a flat rigid road with vertically rigid tires and all four contacts active.",
   "Any negative road-normal reaction invalidates the four-contact mode and is not clipped.",
+  "The WUFR primary 3D body reference is a composite driver/no-fuel design-intent point: planar scale-derived x/y plus a separately sourced 0.290 m tilt-test z measured with driver-simulating ballast; it is not same-session installed metrology.",
+  "The no-driver/no-fuel scale state remains separate and has no authorized vertical CG coordinate in this model.",
   "The future first linkage-force model will use ideal pin-jointed two-force members and rigid nodes/bodies, but linkage forces and stresses are outside this model."
 ]
-verification_level = "none"
+verification_level = "B"
 equation_ids = ["EQ-VEH-0004", "EQ-VEH-0005", "EQ-VEH-0006", "EQ-VEH-0007"]
 benchmark_ids = ["BENCH-VEH-0003", "BENCH-VEH-0004"]
 authorization_id = "AUTH-VEH-0003"
-authorization_state = "review_ready_pending_PR45_review_and_merge"
+authorization_state = "prototype_authorized_after_PR45_merge"
 authorization_document = "authorizations/vehicle/AUTH-VEH-0003.toml"
 assumption_ids = ["ASM-VEH-0001", "ASM-VEH-0002", "ASM-SUSP-0001"]
 upstream_model_ids = ["MOD-SUSP-0001", "MOD-SUSP-0002", "MOD-SUSP-0003"]
@@ -44,9 +46,15 @@ planned_downstream = [
   "separately authorized ideal suspension-linkage statics"
 ]
 baseline_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
+source_snapshot = "data_catalog/wufr26_whole_vehicle_frame_v0.toml"
 source_audit = "docs/models/vehicle/whole_vehicle_force_coordinate_source_audit.md"
 preimplementation_specification = "docs/models/vehicle/whole_vehicle_force_coordinate_function_specification.md"
-planned_implementation_package = "src/pssd_vehicle/force_coordinates.py"
-review_record = "docs/reviews/phase2_whole_vehicle_force_coordinate_authorization_review.md"
-next_implementation_gate = "Implement only rigid point transport, wrench assembly, generalized-force mapping, and rigid-contact classification. WUFR use remains blocked until common body/CG origin and axle/contact-reference placement are explicitly sourced. Keep spring, ARB, tire, equilibrium, linkage loads, stress, installed limits, and optimization separately authorized."
+implementation_package = "src/pssd_vehicle/force_coordinates.py"
+implementation_document = "docs/models/vehicle/whole_vehicle_force_coordinate_implementation_v0.1.0.md"
+implementation_tests = ["tests/test_vehicle_force_coordinates.py"]
+benchmark_report_script = "scripts/run_vehicle_force_coordinate_benchmarks.py"
+benchmark_result_record = "benchmarks/vehicle/vehicle_force_coordinate_result_v0.1.0.toml"
+validation_workflow = ".github/workflows/motion-aware-validation.yml"
+review_record = "docs/reviews/phase2_whole_vehicle_force_coordinate_implementation_review.md"
+next_implementation_gate = "Keep spring/damper force laws, coupled ARB behavior, mass/gravity and aero/brake force providers, quasi-static equilibrium, linkage loads, stress, tire compliance, alternate contact modes, installed limits, and production authority separately authorized. Exact same-session actual-driver z_CG remains unavailable; the 0.290 m value is retained only as a driver-equivalent-ballast design reference."
 prohibited_scope = "Constitutive spring/damper/ARB/tire force laws; vehicle equilibrium; load transfer; wheel-load generation; linkage/member/bearing reactions; stress/FEA; compliance; tire vertical deflection; alternate contact modes; physical stops; installed/as-built or production claims."

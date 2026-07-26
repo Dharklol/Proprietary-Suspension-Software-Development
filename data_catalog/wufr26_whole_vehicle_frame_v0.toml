@@ -1,0 +1,90 @@
+version = "0.1.1"
+adapter_id = "WUFR26_WHOLE_VEHICLE_FRAME_V0"
+source_record_id = "CAT-VEH-GEO-0001"
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+record_authority = "reviewed_design_intent_whole_vehicle_placement_only"
+
+[frame]
+source_frame_id = "WUFR26_SUSPENSION_CAD"
+source_origin_id = "WUFR26_SUSPENSION_CAD_ORIGIN"
+body_frame_id = "WUFR27_BODY_DRIVER_NO_FUEL_REFERENCE"
+body_origin_id = "WUFR27_CG_DRIVER_NO_FUEL_REFERENCE"
+road_frame_id = "WUFR27_NOMINAL_ROAD"
+road_origin_id = "WUFR27_NOMINAL_ROAD_ORIGIN"
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+source_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+source_to_body_rotation = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+translation_rule = "r_body = r_source - r_CG_reference_source; no wheelbase-only origin inference"
+
+[geometry]
+front_axle_source_position_m = [0.0, 0.0, 0.228600]
+rear_axle_source_position_m = [-1.562400, 0.0, 0.228600]
+front_track_m = 1.231972
+rear_track_m = 1.206572
+wheel_center_height_m = 0.228600
+road_plane_z_source_m = 0.0
+front_reference_point = "Center Front TW / Front Track Width in unsuppressed SU-00001-AA export"
+rear_reference_point = "Center Rear TW / Rear Track Width in unsuppressed SU-00001-AA export"
+road_plane_rule = "Nominal design-intent road datum is source z=0. Contact references are axle/track stations projected to this plane for the authorized vertically rigid first contact model; they are not tire footprint centroids or installed measurements."
+
+[cg_reference]
+state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+source_position_m = [-0.7453226666666667, 0.006312743703703716, 0.290000]
+planar_method = "static scale reaction centroid using the explicitly supplied driver/no-fuel four corner weights and the frozen CAD axle/track coordinates"
+vertical_method = "0.290 m tilt-test CG height; reviewer clarified on 2026-07-26 that ballast was used to simulate a driver"
+source_state_warning = "The driver/no-fuel scale session and the driver-equivalent-ballast tilt test are not proven to be the same physical setup session. The combined 3D point is a design-intent driver/no-fuel reference for R&D/QSS framing only, not same-session metrology or installed/as-built authority."
+scale_units = "lb as confirmed by reviewer"
+lf = 178.0
+rf = 175.0
+lr = 163.0
+rr = 159.0
+total = 675.0
+front_fraction = 0.5229629629629630
+left_fraction = 0.5051851851851852
+cross_fraction_lf_rr = 0.49925925925925924
+
+[no_driver_no_fuel_reference]
+state_id = "WUFR26_NO_DRIVER_NO_FUEL_REFERENCE"
+lf = 113.0
+rf = 104.0
+lr = 126.0
+rr = 134.0
+total = 477.0
+scale_units = "lb as confirmed by reviewer"
+planar_cg_source_position_m = [-0.8516226415094339, 0.0015043731656184725]
+front_fraction = 0.4549266247379455
+left_fraction = 0.5010482180293501
+cross_fraction_lf_rr = 0.5178197064989518
+vertical_cg_state = "unavailable; the 0.290 m tilt-test value used driver-simulating ballast and must not be labeled no-driver"
+
+[provenance]
+cad_part_box_file_id = "1943897977651"
+cad_part_file_version_id = "2546941960247"
+cad_part_sha1 = "2cfb771f296961be0857161f7b57a6c178180d7a"
+cad_part_name = "SU-00001-AA 2026 SUSPENSION GEOMETRY.SLDPRT"
+cad_assembly_box_file_id = "1966637303418"
+cad_assembly_file_version_id = "2547286736404"
+cad_assembly_sha1 = "cfb95b650db19ca0624eaf82f272690aa70625df"
+cad_assembly_name = "FSA SUSPENSION.SLDASM"
+geometry_export_generated_local = "2026-07-25 23:14:45"
+geometry_reference_geometry_csv_sha256 = "8f8c70600549f168504b1c3e4ddf3479493f9467a391280a9ab61e2a1d0ffb0f"
+geometry_sketch_points_csv_sha256 = "3886507bcae05d243832647efffb4a9daaf4612e6e364fae7292a072b46166ec"
+geometry_features_csv_sha256 = "d0d4e1a2ba3a74ff0d777de3aaf2ed8be51d15dccccd5465c7969ecd4b6db355"
+assembly_export_generated_local = "2026-07-25 23:18:50"
+assembly_components_csv_sha256 = "904516830aed0a4a7535caf9bcd955199f3a57c9440e505bef91107749a89de6"
+spec_sheet_box_file_id = "2149814001036"
+spec_sheet_file_version_id = "2510738677599"
+spec_sheet_sha1 = "588669d320ff8097ec0bc85a85a970640d5a4d38"
+spec_sheet_name = "2026_FSAE_Design_IC_Spec_Sheet_WashU_Racing.xlsx"
+scale_measurement_source = "Reviewer-supplied corner scale readings in project conversation on 2026-07-26; driver/no-fuel and no-driver/no-fuel states explicitly distinguished."
+cg_height_clarification = "Reviewer clarified on 2026-07-26 that the 0.290 m tilt-test CG-height measurement used ballast to simulate a driver; the spec-sheet no-driver label is not used as the physical-state authority for that measurement."
+
+[authority_boundaries]
+whole_vehicle_placement = "Explicit reviewed design-intent placement for MOD-VEH-0003 and downstream R&D composition. Not installed/as-built metrology."
+contact_reference = "Modeling reference for the authorized flat-road vertically rigid contact mode only; not physical tire footprint geometry."
+installed_authority = false
+mass_force_authority = "Corner readings and the driver-equivalent tilt value are provenance for named design-intent CG-reference calculations only in this PR. They are not used to generate wheel loads, gravity force, spring preload, or equilibrium."
+driver_no_fuel_cg_height = "0.290 m is a driver-equivalent-ballast tilt-test value combined with the separate driver/no-fuel planar scale state only as an explicitly source-separated design-intent reference."
+no_driver_cg_height = "Unavailable in this PR; the 0.290 m tilt-test value must not be relabeled as no-driver."
+rear_arb_state = "FSA SUSPENSION active configuration shows the top-level rear ARB assembly suppressed; this is preserved as source context only and does not authorize ARB force/stiffness physics."
+export_transform_warning = "The 2026-07-25 exporter model-space columns for sketch points were found unreliable. This snapshot uses raw 3D sketch coordinates and SolidWorks reference-point coordinates only; no model_x/model_y/model_z sketch fields are used."

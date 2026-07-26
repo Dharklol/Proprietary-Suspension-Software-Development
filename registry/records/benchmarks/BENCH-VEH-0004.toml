@@ -3,7 +3,7 @@ id = "BENCH-VEH-0004"
 type = "benchmark"
 title = "Rigid four-contact classification and WUFR whole-vehicle authority boundary"
 status = "proposed"
-description = "Verify the initial flat-road vertically rigid four-contact contract and the WUFR-27 geometry-inheritance boundary. Synthetic fixtures freeze contact-gap sign and negative-reaction behavior; source-boundary tests prove that WUFR-26/27 suspension geometry may be reused while missing body/CG/front-rear origin placement remains unavailable rather than inferred."
+description = "Verify the initial flat-road vertically rigid four-contact contract and the WUFR-27 geometry-inheritance/whole-vehicle adapter boundary. Synthetic fixtures freeze contact-gap sign and negative-reaction behavior. A reviewed explicit WUFR CAD/scale/spec-sheet adapter may now supply design-intent axle/track/contact/CG placement, while a deliberately incomplete wheelbase-only fixture must still fail rather than infer a transform."
 verification_level = "B"
 target_ids = ["MOD-VEH-0003", "EQ-VEH-0004", "EQ-VEH-0007", "ASM-VEH-0001", "ASM-VEH-0002"]
 acceptance_criteria = [
@@ -11,11 +11,15 @@ acceptance_criteria = [
   "A valid synthetic all-four-contact state has four closed gaps and four finite nonnegative road-normal reactions.",
   "Any supplied negative road-normal reaction returns wheel_lift/contact_mode_invalid and is not clipped or redistributed.",
   "Requests involving tire radial compliance, nonflat road, curb contact, or alternate contact modes return unsupported rather than silently reusing the rigid four-contact equations.",
-  "The WUFR-27 baseline explicitly inherits the WUFR-26 suspension geometry source and configuration identity.",
-  "No whole-vehicle front/rear/CG transform is produced when common-origin/axle-placement authority is missing; wheelbase alone cannot satisfy this benchmark.",
+  "The WUFR-27 baseline explicitly inherits the WUFR-26 suspension geometry source and the reviewed whole-vehicle adapter separately freezes CAD axle/track placement and source-separated CG/contact authority.",
+  "A wheelbase-only or otherwise incomplete fixture still produces no whole-vehicle front/rear/CG transform; wheelbase alone cannot satisfy this benchmark.",
+  "The WUFR adapter remains design-intent only; the primary driver/no-fuel reference retains separate planar-scale versus driver-equivalent-ballast tilt provenance, while the no-driver/no-fuel scale state retains no authorized vertical CG coordinate.",
   "The ideal two-force-member linkage assumption is recorded as downstream-only and no member-force or stress output is exposed by MOD-VEH-0003."
 ]
-planned_implementation = "src/pssd_vehicle/force_coordinates.py"
-planned_tests = ["tests/test_whole_vehicle_force_coordinate_authorization.py", "tests/test_vehicle_force_coordinates.py"]
-planned_report_script = "scripts/run_vehicle_force_coordinate_benchmarks.py"
 source_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
+source_adapter = "data_catalog/wufr26_whole_vehicle_frame_v0.toml"
+implementation = "src/pssd_vehicle/force_coordinates.py"
+implementation_method = "Explicit flat-plane gap/reaction classification plus a frozen reviewed WUFR design-intent adapter; no mass-to-wheel-load solve and no contact-mode switching."
+implementation_tests = ["tests/test_vehicle_force_coordinates.py"]
+report_script = "scripts/run_vehicle_force_coordinate_benchmarks.py"
+result_record = "benchmarks/vehicle/vehicle_force_coordinate_result_v0.1.0.toml"
