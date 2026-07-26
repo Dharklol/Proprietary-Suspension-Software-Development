@@ -299,23 +299,24 @@ class VehicleForceCoordinateImplementationTests(unittest.TestCase):
     def test_wufr_adapter_freezes_explicit_frame_axles_tracks_and_contact_references(self) -> None:
         adapter = load_wufr_whole_vehicle_adapter(WUFR_ADAPTER)
         self.assertEqual(adapter.configuration_id, "WUFR27_SUSPENSION_BASELINE_V0")
+        self.assertEqual(adapter.body_origin_id, "WUFR27_CG_DRIVER_NO_FUEL_REFERENCE")
         self.assertFalse(adapter.installed_authority)
         self.assertAlmostEqual(adapter.wheelbase_m, 1.5624, places=12)
         self.assertAlmostEqual(adapter.front_track_m, 1.231972, places=12)
         self.assertAlmostEqual(adapter.rear_track_m, 1.206572, places=12)
         self.assertAlmostEqual(
             adapter.cg_to_front_axle_m,
-            0.8516226415094339,
+            0.7453226666666667,
             places=12,
         )
         self.assertAlmostEqual(
             adapter.cg_to_rear_axle_m,
-            0.7107773584905661,
+            0.8170773333333333,
             places=12,
         )
         self.assertAlmostEqual(
             adapter.cg_source_position_m[1],
-            0.0015043731656184725,
+            0.006312743703703716,
             places=15,
         )
         self.assertAlmostEqual(adapter.cg_source_position_m[2], 0.29, places=12)
