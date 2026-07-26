@@ -3,170 +3,115 @@
 **Model:** `MOD-SUSP-0005`  
 **Authorization:** `AUTH-SUSP-0005` / merged PR #49  
 **Implementation PR:** #50  
-**Package:** `src/pssd_suspension/anti_roll_bar.py`
+**Generic package:** `src/pssd_suspension/anti_roll_bar.py`  
+**WUFR adapter:** `src/pssd_suspension/wufr_anti_roll_bar.py`
 
 ## Scope
 
-This implementation supplies the first conservative coupled anti-roll-bar elastic provider. It keeps the elastic coordinate source-defined and evaluates
+PR #50 implements a conservative coupled anti-roll-bar mechanics contract while keeping the physical elastic coordinate source-defined:
 
 `a_ARB = dU_ARB/ds`
 
 `Q_ARB = -J_s^T a_ARB`, where `J_s = ds/dq`.
 
-The implementation is deliberately narrower than a full Z-bar mechanism model. It does not infer WUFR bar deformation from body roll, wheel travel, track, or CAD sketch ordering. A consumer must provide an explicitly reviewed elastic coordinate and, when generalized force is requested, its signed Jacobian.
+The generic architecture is unchanged by the WUFR source correction. It does not make wheel travel, body roll, blade deformation, blade angle, and axle roll angle interchangeable.
 
-## Source-defined scalar coordinate
+## Generic conservative law
 
-`AntiRollBarDefinition` stores:
-
-- the scalar conservative stiffness `da/ds`;
-- elastic-coordinate unit;
-- conjugate-action unit;
-- source/configuration/assumption identity;
-- optional deformation domain;
-- whether the definition is already a reduced axle-level quantity.
-
-This supports both authorized benchmark and WUFR cases without pretending they use the same physical coordinate:
-
-- `BENCH-SUSP-0011`: `s=z_L-z_R-s0` [m], action [N], stiffness [N/m];
-- WUFR reduced law: signed `phi_ARB` [rad], action [N*m], stiffness [N*m/rad].
-
-The provider verifies that definition and reference coordinate units/configuration identities match. It does not perform implicit unit conversion between source-defined coordinate classes.
-
-## EQ-SUSP-0016 — elastic coordinate/reference
-
-`anti_roll_bar_coordinate()` evaluates
-
-`s = s_current - s_zero`
-
-with optional signed `ds/dq`, generalized-coordinate order, and units.
-
-The zero-energy coordinate is an explicit `AntiRollBarReference`; it is not reconstructed by subtracting a nominal residual. This preserves the zero-preload boundary from `ASM-SUSP-0003`.
-
-`symmetric_differential_coordinate()` implements only the frozen synthetic benchmark map
-
-`s = z_L - z_R - s0`, `J=[+1,-1]`.
-
-It is not a WUFR geometry adapter.
-
-## EQ-SUSP-0017 — conservative law
-
-The v0.1.0 provider implements the authorized linear conservative scalar law:
+For a reviewed linear scalar elastic coordinate `s`:
 
 `a = k s`
 
 `U = 0.5 k s^2`
 
-`k_t = k`.
-
-The action can be negative when the signed deformation is negative. Energy remains nonnegative. Optional source-defined deformation bounds return `constitutive_domain_exceeded`; no clipping or extrapolation is performed.
-
-## EQ-SUSP-0018 — generalized force
-
-`generalized_anti_roll_bar_force()` implements
-
 `Q = -J_s^T a`.
 
-The Jacobian sign is retained. No absolute motion ratio is used.
+`BENCH-SUSP-0011` remains the synthetic differential case `s=z_L-z_R-s0`, `J=[+1,-1]`, `k=10000 N/m`. At `z_L=+10 mm`, `z_R=-10 mm`, it produces `s=20 mm`, `a=200 N`, `U=2 J`, and generalized reactions `[-200,+200] N`.
 
-For the synthetic differential benchmark, `J=[+1,-1]`, `k=10000 N/m`, and `s=0.020 m` produce
+The implementation also retains explicit zero-energy references, explicit no-bar behavior, structured source/configuration/unit/domain failures, and independent energy-gradient checks.
 
-- action `200 N`;
-- energy `2 J`;
-- `Q=[-200,+200] N`.
+## Corrected WUFR governing constitutive authority
 
-A centered energy finite difference at two step sizes independently verifies the signed generalized-force mapping.
+The governing WUFR source is the Google Sheet:
 
-## Explicit no-bar mode
+`https://docs.google.com/spreadsheets/d/1rJjQBnSOMEGQmyromb9SjNgOEMwBBOdUpUKPPLOf-3c/edit?gid=0#gid=0`
 
-`evaluate_anti_roll_bar(..., enabled=False)` returns `status=no_bar` with zero deformation energy/action/generalized force and preserved configuration/source identity. This is distinct from an enabled ARB with missing stiffness, which returns `missing_stiffness_authority`.
+sheet `ARB FEA vs Simulink`, column `FEA SolidWorks Stiffness`.
 
-Front/rear enablement is not inferred from the WUFR-26 FSA assembly suppression state.
+The five authorized blade settings are discrete linear blade-tip force/deflection stiffnesses:
 
-## WUFR-27 reduced source adapter
+| Setting | Source stiffness [N/mm] | SI stiffness [N/m] |
+| ---: | ---: | ---: |
+| 1 | 280 | 280000 |
+| 2 | 300 | 300000 |
+| 3 | 400 | 400000 |
+| 4 | 700 | 700000 |
+| 5 | 2300 | 2300000 |
 
-`load_wufr27_anti_roll_bar_package()` reads `data_catalog/wufr27_anti_roll_bar_package_v0.toml` and freezes the reviewer-selected source values:
+The sheet's beam-theory expressions use `k=3EI/L^3` and divide by `1000` from N/m to N/mm. The governing quantity is therefore linear blade-tip stiffness, not torque per degree.
 
-- front `2560 N*m/deg`;
-- rear `2270 N*m/deg`.
+The WUFR constitutive law is
 
-The loader recomputes the SI conversion rather than accepting a second independent rate:
+`F_b = k_b delta_b`
 
-`K_Nm_per_rad = K_Nm_per_deg * 180/pi`.
+`U_b = 0.5 k_b delta_b^2`
 
-Resulting values are:
+and, only after a reviewed geometry Jacobian exists,
 
-- front `146677.19555349075 N*m/rad`;
-- rear `130061.41949469688 N*m/rad`.
+`Q_ARB = -J_delta_b^T F_b`.
 
-The loader also verifies that the selected source values still match the frozen MATLAB literals and that the stored SI values match the explicit conversion.
+`load_wufr27_blade_anti_roll_bar_package()` freezes the five values and constructs one definition per setting with coordinate unit `m`, action unit `N`, and SI stiffness in `N/m`.
 
-For signed source-supplied `phi_ARB` in radians:
+## Discrete setting boundary
 
-`U = 0.5 K_phi phi_ARB^2`
+Settings 1 through 5 are categorical choices. The adapter rejects non-integer and out-of-range setting requests. No interpolation, averaging, blending, or stiffness stacking is authorized.
 
-`M = K_phi phi_ARB`
+The following remain comparison-only evidence:
 
-`Q = -J_phi^T M`.
+- historical MATLAB reduced axle values: `2560/2270 N*m/deg`;
+- Simulink: `285/309/400/724/2628 N/mm`;
+- Instron: `900/980/1320/1970/2630 N/mm`.
 
-At exactly one degree:
+None of these is averaged with or added to the SolidWorks FEA blade stiffness.
 
-- front action `2560 N*m`, energy `22.340214425527417 J`;
-- rear action `2270 N*m`, energy `19.80948701013564 J`.
+## Frozen 1 mm blade-law benchmark
 
-The definitions carry `reduced_axle_level=true`. No blade/link/Z-bar motion-ratio reduction is applied after loading these values.
+`BENCH-SUSP-0012` evaluates an externally supplied blade-tip deformation `delta_b=1 mm` without claiming a suspension-to-blade geometry map:
 
-## Source and authority boundary
+| Setting | Force [N] | Energy [J] |
+| ---: | ---: | ---: |
+| 1 | 280 | 0.140 |
+| 2 | 300 | 0.150 |
+| 3 | 400 | 0.200 |
+| 4 | 700 | 0.350 |
+| 5 | 2300 | 1.150 |
 
-The implementation preserves the PR #49 decision:
+The benchmark also verifies the comparison-only arrays, discrete-selection boundary, and conservative energy gradient in blade coordinate space.
 
-- the MATLAB values are reviewer-selected design-intent reduced effective axle ARB stiffness;
-- the MATLAB file's front `%change and figure out` warning remains source provenance;
-- the MATLAB calculation mainly exercises the rates through their ratio, so the absolute-value authority comes from the reviewer's explicit team selection;
-- reported Instron agreement remains qualitative corroboration only;
-- 2025 SolidWorks Simulation files remain future detailed blade-law recovery evidence;
-- spec-sheet 556/458 N*m/deg suspension roll rates are not substituted for the ARB law.
+## WUFR Z-bar geometry boundary
 
-No result from this provider is a blade torsional-stiffness measurement or installed/as-built validation.
+PR #50 does **not** authorize or implement
 
-## Failure behavior
+`(q_L, q_R) -> delta_b`
 
-The public contract exposes structured failures including:
+or
 
-- `missing_bilateral_geometry_authority` for future source-specific mechanism adapters;
-- `mechanism_closure_failure` / `branch_ambiguity` reserved for such adapters;
-- `missing_zero_preload_reference`;
-- `missing_stiffness_authority`;
-- `constitutive_domain_exceeded`;
-- `jacobian_unavailable`;
-- `source_configuration_mismatch`;
-- `invalid_energy_law`.
+`partial(delta_b)/partial(q_L,q_R)`.
 
-The v0.1.0 reduced WUFR path does not invoke a detailed mechanism closure, so it does not manufacture geometry failures simply to fill those future branches.
+Therefore the WUFR adapter may compute blade force, energy, and tangent stiffness for a supplied `delta_b`, but it does not claim vehicle/suspension generalized force without a separately reviewed Jacobian.
 
-## Verification
+In particular, PR #50 does not infer `delta_b` from:
 
-`BENCH-SUSP-0011` exercises:
+- body roll angle;
+- left/right wheel travel alone;
+- track width;
+- CAD/exporter sketch row ordering;
+- a scalar historical motion ratio.
 
-- exact common-mode cancellation;
-- equal/opposite differential generalized reactions;
-- explicit shifted reference;
-- no-bar behavior;
-- missing-stiffness/domain failures;
-- centered energy-gradient checks at two step sizes.
-
-`BENCH-SUSP-0012` exercises:
-
-- exact WUFR source values;
-- exact degree-to-radian rate conversion;
-- one-degree action and energy hand cases;
-- `reduced_axle_level=true`;
-- zero-energy reference;
-- signed generalized force for `q=phi_ARB`;
-- source/Instron/installed boundaries.
-
-The frozen result record is `benchmarks/suspension/suspension_anti_roll_bar_result_v0.1.0.toml`, tied back to executable provider behavior by `tests/test_suspension_anti_roll_bar_result_record.py`.
+Body roll is not treated as blade deformation, and no track-width approximation is used.
 
 ## Explicitly not implemented
 
-No WUFR body-roll-to-bar-angle mapping, detailed Z-bar/link/blade closure, blade stress/strain, linkage/member/bearing load, damper force, tire force, vehicle equilibrium/load transfer, contact-mode switching, friction/backlash/hysteresis, installed travel/limits, installed/as-built correlation, or production optimization is added in PR #50.
+No WUFR Z-bar closure, suspension-to-blade mapping, blade stress/fatigue release, linkage/member/bearing loads, damper force, tire force, vehicle equilibrium/load transfer, contact switching, friction/backlash/hysteresis, installed travel/limits, installed/as-built validation, or production optimization is added in PR #50.
+
+The frozen result record is `benchmarks/suspension/suspension_anti_roll_bar_result_v0.1.0.toml`, with regression coverage in `tests/test_suspension_anti_roll_bar.py` and `tests/test_suspension_anti_roll_bar_result_record.py`.
