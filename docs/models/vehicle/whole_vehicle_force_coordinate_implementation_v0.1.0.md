@@ -96,21 +96,9 @@ rear track        = 1.206572 m
 
 The source frame is already right-handed `+x` forward, `+y` vehicle left, `+z` upward.
 
-The first body origin is a named **no-driver design-intent CG reference**, not an installed/as-built
-claim. Its planar coordinates are calculated from the reviewer-supplied no-driver/no-fuel scale
-readings and the frozen CAD contact stations:
-
-```text
-LF=113 lb, RF=104 lb, LR=126 lb, RR=134 lb
-x_CG_source = -0.8516226415094339 m
-y_CG_source = +0.0015043731656184725 m
-```
-
-Its vertical coordinate `z=0.290 m` comes from the separate no-driver CG-height entry in the 2026
-FSAE Design IC spec sheet. The two sources are not asserted to represent the same physical mass or
-setup state. The combined 3D point is therefore explicitly design-intent analysis authority only.
-
-The reviewer also supplied a distinct **driver/no-fuel** scale state:
+The first body origin is a named **driver/no-fuel design-intent CG reference**, not an installed/as-built
+claim. Its planar coordinates are calculated from the reviewer-supplied driver/no-fuel scale readings
+and the frozen CAD contact stations:
 
 ```text
 LF=178 lb, RF=175 lb, LR=163 lb, RR=159 lb
@@ -118,8 +106,25 @@ x_CG_source = -0.7453226666666667 m
 y_CG_source = +0.006312743703703716 m
 ```
 
-No driver-state `z_CG` is authorized in this PR. The no-driver `0.290 m` value must not be reused
-for that state.
+Its vertical coordinate `z=0.290 m` comes from a separate tilt test that the reviewer clarified used
+ballast to simulate a driver. The scale and tilt-test states are not asserted to be the same physical
+setup session. The combined 3D point is therefore explicitly source-separated design-intent analysis
+authority only.
+
+The reviewer also supplied a distinct **no-driver/no-fuel** scale state:
+
+```text
+LF=113 lb, RF=104 lb, LR=126 lb, RR=134 lb
+x_CG_source = -0.8516226415094339 m
+y_CG_source = +0.0015043731656184725 m
+```
+
+No no-driver/no-fuel `z_CG` is authorized in this PR. The `0.290 m` driver-equivalent tilt value must
+not be relabeled or reused for that state.
+
+The reviewer additionally reported measured unsprung mass of `10 kg` for the front axle and `10 kg`
+for the rear axle. This information is retained for later mass/QSS work only; `MOD-VEH-0003` does
+not use it to generate gravity, inertia, or wheel loads.
 
 ### Road and contact references
 
