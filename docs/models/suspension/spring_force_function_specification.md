@@ -6,14 +6,14 @@ Preimplementation specification for `MOD-SUSP-0004` under `AUTH-SUSP-0004`. PR #
 
 ## 1. Responsibility
 
-The provider represents one conservative coil spring at one suspension corner. It consumes an explicitly authorized spring compression/reference state and constitutive law and returns:
+The provider represents one conservative coil spring at one suspension corner. It consumes an explicitly authorized spring compression/reference state and conservative constitutive law and returns:
 
 - spring compression and contact status;
 - spring force magnitude;
 - stored elastic energy;
 - local tangent stiffness;
 - signed generalized force through the coordinate/actuation Jacobian;
-- source/configuration/domain diagnostics.
+- source/configuration/assumption/domain diagnostics.
 
 It does not evaluate damper force, ARB force, body equilibrium, tire force, linkage reactions, stress, or installed limits.
 
@@ -39,15 +39,23 @@ An equivalent direct-coilover reference form is
 x_s = x_pre + L_ref - L_d
 ```
 
-only when `x_pre` and `L_ref`/spring-seat mapping have explicit authority.
+only when `x_pre` and `L_ref`/spring-seat mapping have explicit source or reviewed-assumption authority.
 
-`MOD-SUSP-0003` defines `L_d` and `delta_L_d=L_d-L_d0` with extension positive. No implementation may silently interpret `L_d0` as a zero-preload spring reference.
+`MOD-SUSP-0003` defines `L_d` and `delta_L_d=L_d-L_d0` with extension positive. No generic implementation may silently interpret `L_d0` as a zero-preload spring reference.
+
+For WUFR-27 specifically, `ASM-SUSP-0002` freezes
+
+```text
+x_pre = 0
+L_ref = 0.1857 m
+x_s = 0.1857 - L_d
+```
+
+for the current KW piggyback/fixed-seat-offset design-intent setup. This is a reviewed modeling assumption, not installed metrology.
 
 ### 2.2 Force magnitude
 
 `F_s >= 0` is the compression-force magnitude for the authorized seated coil-spring class. Direction in suspension/vehicle generalized coordinates comes from the signed coordinate Jacobian.
-
-This avoids embedding a side/axle-dependent sign into the constitutive law.
 
 ## 3. Constitutive law
 
@@ -63,20 +71,37 @@ k_t = k
 
 with SI units `x_s [m]`, `F_s [N]`, `U_s [J]`, `k,k_t [N/m]`.
 
-### 3.2 Source-defined nonlinear/progressive spring
+### 3.2 Affine tangent-rate progressive law
 
-A progressive spring is represented by the actual source-defined `F_s(x_s)` or an equivalent complete definition of `k_t(x_s)` plus a force/reference condition.
+When a reviewed source or assumption defines tangent stiffness as affine in compression,
 
-Endpoint rate labels alone are insufficient. The implementation must not infer the missing independent-variable range.
+```text
+k_t(x_s) = k_0 + a x_s
+```
 
-A later table implementation may use piecewise-linear force interpolation if the source itself is represented as discrete force-compression data. In that case:
+then because `k_t=dF_s/dx_s`, the force and energy are
+
+```text
+F_s(x_s) = k_0 x_s + 0.5 a x_s^2
+U_s(x_s) = 0.5 k_0 x_s^2 + (a/6) x_s^3
+```
+
+with `F_s(0)=0`, `U_s(0)=0`.
+
+The implementation must **not** compute `F_s=k_t(x_s)*x_s`; instantaneous tangent rate is not the same as secant stiffness.
+
+### 3.3 Source-defined nonlinear/table spring
+
+A later progressive spring may instead be represented by measured/source-defined `F_s(x_s)` or an equivalent complete definition of `k_t(x_s)` plus a force/reference condition.
+
+A table implementation may use piecewise-linear force interpolation if the source itself is represented as discrete force-compression data. In that case:
 
 - no extrapolation outside the frozen domain;
 - stored energy is the exact segmentwise integral of the interpolant;
 - tangent stiffness is the active-segment slope;
 - a knot reports its side/segment convention rather than hiding a derivative discontinuity.
 
-No monotonicity or hardening behavior is invented beyond the source.
+No monotonicity or hardening behavior is invented beyond the source or explicit reviewed assumption.
 
 ## 4. Stored energy and generalized force
 
@@ -121,11 +146,12 @@ Minimum fields:
 spring_id
 source_id
 configuration_id
+assumption_ids when applicable
 constitutive_kind
 free_length_m
 preload/reference authority
 constitutive domain
-linear k_N_per_m OR complete nonlinear/table law
+linear k_N_per_m OR complete nonlinear/tangent-rate law
 installed_as_built_authority
 ```
 
@@ -140,8 +166,8 @@ seated_status
 F_s_N
 U_s_J
 k_t_N_per_m
-constitutive_segment/domain state
-source/configuration authority
+constitutive segment/domain state
+source/configuration/assumption authority
 failure code when unavailable
 ```
 
@@ -156,7 +182,7 @@ Q_s
 spring compression Jacobian or equivalent L_d Jacobian
 Jacobian method and step when numerical
 energy finite-difference residual/check
-source/configuration authority
+source/configuration/assumption authority
 ```
 
 ## 6. Failure behavior
@@ -168,7 +194,6 @@ missing_spring_parameter_authority
 missing_reference_length
 spring_unseated
 constitutive_domain_exceeded
-progressive_law_incomplete
 invalid_energy_law
 upstream_actuation_failure
 jacobian_unavailable
@@ -177,53 +202,94 @@ jacobian_unavailable
 The provider must never repair those states by:
 
 - clipping spring compression or force;
-- averaging progressive endpoint rates;
+- averaging progressive endpoint rates into a constant law;
 - extrapolating the constitutive law;
-- assuming an unknown preload/reference length;
+- silently assuming a preload/reference length;
 - substituting historical OptimumK `Motion Ratio Heave`;
 - using an absolute motion ratio;
 - falling back to a scalar wheel-rate equation.
 
 ## 7. WUFR-27 source adapter
 
-`data_catalog/wufr27_spring_package_v0.toml` is the reviewed source boundary.
+`data_catalog/wufr27_spring_package_v0.toml` is the reviewed source boundary and `ASM-SUSP-0002` carries the explicit current assumptions.
 
-### Front
+### 7.1 Installation reference
+
+Current design-intent inputs:
+
+```text
+KW piggyback full-extension eye-to-eye = 185.7 mm
+intentional preload = zero
+front nominal CAD/actuation eye-to-eye ~= 164.599/164.600 mm
+rear nominal CAD/actuation eye-to-eye  ~= 164.611 mm
+```
+
+Therefore under `ASM-SUSP-0002`:
+
+```text
+x_s = 185.7 mm - L_d
+front nominal x_s ~= 21.100653 mm
+rear nominal x_s  ~= 21.089461 mm
+```
+
+The CAD line used is the reviewer-identified inboard chassis-to-rocker damper placement line. The adjacent ARB blade is a separate future elastic element.
+
+The raw reported ride-height shock-pot value `44m` is not used until its unit/zero/span/sign and eye-to-eye mapping are calibrated.
+
+### 7.2 Front
 
 Current R&D source identity:
 
 ```text
 free length = 0.100 m
-intentional preload = zero
 rate = 36 N/mm = 36000 N/m, linear
 no tender/helper spring
 ```
 
-This is sufficient to evaluate `F_s(x_s)`, `U_s(x_s)`, and `k_t` when `x_s` is explicitly supplied.
+At the nominal design-intent compression:
 
-The WUFR spring-seat/reference mapping from solved `L_d` to absolute `x_s` is not yet frozen, so a provider must not invent nominal static force from eye-to-eye geometry alone.
+```text
+F_front_nominal ~= 759.624 N
+```
 
-### Rear
+This is a spring-provider benchmark value, not a solved corner load.
 
-Current R&D source identity:
+### 7.3 Rear
+
+Current R&D identity and reviewed assumption:
 
 ```text
 free length = 0.100 m
-intentional preload = zero
-rate identity = 30 -> 36 N/mm linear-progressive
+rate endpoints = 30 -> 36 N/mm
+assumed tangent-rate transition = linear over x_s = 0 -> 57 mm
 no tender/helper spring
 ```
 
-The progression versus compression is unavailable. Therefore the WUFR rear constitutive result is `progressive_law_incomplete` until the missing curve/interval is supplied.
-
-The following are explicitly invalid substitutes:
+Define
 
 ```text
-k = 30 N/mm constant
-k = 33 N/mm averaged
-k = 36 N/mm constant
-progress 30 -> 36 over 57 mm damper stroke
+k_0 = 30000 N/m
+k_1 = 36000 N/m
+x_span = 0.057 m
+a = (k_1-k_0)/x_span
 ```
+
+then for `0<=x_s<=0.057 m`:
+
+```text
+k_t = k_0 + a x_s
+F_s = k_0 x_s + 0.5 a x_s^2
+U_s = 0.5 k_0 x_s^2 + (a/6) x_s^3
+```
+
+At nominal design-intent compression:
+
+```text
+k_t ~= 32.2199 N/mm
+F_rear_nominal ~= 656.093 N
+```
+
+The implementation must preserve `ASM-SUSP-0002` provenance and must not present this curve as KW test data. `x_s>57 mm` returns `constitutive_domain_exceeded` rather than extrapolating.
 
 ## 8. Benchmark requirements
 
@@ -240,17 +306,20 @@ Synthetic analytical cases verify:
 
 ### `BENCH-SUSP-0010`
 
-WUFR source-boundary cases verify:
+WUFR cases verify:
 
-- front `36 N/mm` conversion and availability as a compression-input law;
-- rear progressive-law incompleteness;
-- no endpoint averaging;
-- no damper-stroke progression assumption;
+- front `36 N/mm` law;
+- `185.7 mm` full-extension zero-preload reference;
+- nominal CAD/actuation damper lengths and resulting spring compression;
+- rear affine tangent-rate law from 30 to 36 N/mm over 57 mm;
+- integrated rear force/energy rather than `k_t*x`;
+- no constant 30/33/36 N/mm substitution;
 - no use of historical OptimumK or legacy calculator scalars as current-law replacements;
-- zero-preload/reference-length separation.
+- explicit `ASM-SUSP-0002` provenance;
+- shock-pot non-use until calibration.
 
 ## 9. Result authority
 
-PR #47 authorizes only model/equation/benchmark definitions. No spring-force implementation result exists until a later PR implements `MOD-SUSP-0004` and passes the frozen benchmarks.
+PR #47 authorizes only model/equation/benchmark/assumption definitions. No spring-force implementation result exists until a later PR implements `MOD-SUSP-0004` and passes the frozen benchmarks.
 
-Even after implementation, WUFR force predictions remain design-intent R&D results unless and until the spring setup/reference relation and any required installed measurements are separately promoted.
+Even after implementation, WUFR force predictions remain design-intent R&D results. The rear law must be replaced when spring force-deflection testing is available, and the installation reference must be validated/replaced when perch metrology or calibrated shock-pot data are available.
