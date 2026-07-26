@@ -1,4 +1,4 @@
-version = "0.1.6"
+version = "0.1.7"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
 status = "active_design_intent_baseline_not_as_built"
 vehicle_revision = "WUFR-27"
@@ -17,6 +17,7 @@ source_snapshot = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
 source_snapshot_id = "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0"
 source_catalog_id = "CAT-SUSP-GEO-0001"
 spring_package_snapshot = "data_catalog/wufr27_spring_package_v0.toml"
+spring_assumption_id = "ASM-SUSP-0002"
 geometry_change_intent = "none_for_WUFR27_current_R&D_baseline"
 canonical_orientation = "+x forward, +y vehicle left, +z upward; right-handed"
 
@@ -55,14 +56,17 @@ installed_boundary = "The OptimumK +/-25.4 mm heave sweep is verification eviden
 [spring_boundary]
 rule = "AUTH-SUSP-0004 / PR47 may authorize only a conservative coil-spring compression/constitutive/energy/generalized-force provider. Spring generalized force must come from Q_s=-partial U_s/partial q and the signed actuation Jacobian; scalar MR wheel-rate formulas are not governing force physics."
 source_profile = "data_catalog/wufr27_spring_package_v0.toml"
+assumption_id = "ASM-SUSP-0002"
 current_damper = "KW V5 Racing Formula Student 4-way adjustable piggyback"
 spring_free_length_m = 0.100
 intentional_preload = "zero"
 tender_or_helper_spring = "none"
-front_spring = "36 N/mm linear; constitutive law available as a function of explicitly supplied spring compression"
-rear_spring = "30 to 36 N/mm linear-progressive; exact rate-versus-compression/force-deflection law not yet sourced, so executable rear spring force is unavailable"
-reference_mapping_status = "Spring-seat separation or equivalent zero-load/reference relation needed to convert solved coilover eye-to-eye length into absolute WUFR spring compression has not yet been frozen. Zero intentional preload does not imply nominal zero force."
-prohibited_shortcuts = "No rear endpoint averaging, no constant 30/33/36 N/mm substitution, no use of KW 57 mm damper stroke as progression interval, no negative-compression clipping, no historical Motion Ratio Heave substitution."
+front_spring = "36 N/mm linear"
+rear_spring = "30 to 36 N/mm linear-progressive; under ASM-SUSP-0002 tangent rate is assumed linear with spring compression from 30 N/mm at x_s=0 to 36 N/mm at x_s=57 mm until physical spring testing replaces it"
+reference_mapping_status = "Under ASM-SUSP-0002 the zero-preload direct-coilover reference is x_s=0 at KW piggyback full extension L_d=185.7 mm, so x_s=0.1857-L_d. Reviewer-identified CAD damper placement lines give nominal L_d=164.599347 mm front and 164.610539 mm rear. This is design-intent assumption authority, not installed metrology."
+nominal_model_values = "front x_s=21.100653 mm and F_s=759.624 N; rear x_s=21.089461 mm, k_t=32.2199 N/mm and F_s=656.093 N under the assumed affine tangent-rate law; not solved corner loads"
+shockpot_boundary = "Reviewer reported ride-height shock-pot value '44m'; retain only as uncalibrated correlation evidence until unit/zero/span/sign and eye-to-eye mapping are frozen."
+prohibited_shortcuts = "No constant rear 30/33/36 N/mm substitution, no endpoint averaging, no F_s=k_t*x_s for the progressive law, no negative-compression clipping, no historical Motion Ratio Heave substitution, and no presenting ASM-SUSP-0002 as KW test data or installed travel authority."
 
 [force_coordinate_boundary]
 rule = "AUTH-VEH-0003 / PR45 authorizes and PR46 implements explicit body/road point transport, point-force/free-couple wrench assembly, virtual-work generalized-force mapping, flat-road rigid four-contact classification, and the reviewed WUFR design-intent frame adapter. It does not authorize constitutive force laws or equilibrium."
@@ -77,7 +81,7 @@ permitted = [
   "MOD-SUSP-0002 source-bounded wheel-reference and physical-state development and verification",
   "MOD-SUSP-0003 source-bounded ideal actuation development, verification, and downstream R&D state provision within AUTH-SUSP-0003",
   "MOD-VEH-0003 reviewed design-intent whole-vehicle force-coordinate composition and mechanics benchmarks",
-  "AUTH-SUSP-0004 spring-force equation/source/benchmark review in PR47; implementation only after authorization merge",
+  "AUTH-SUSP-0004 spring-force equation/source/assumption/benchmark review in PR47; implementation only after authorization merge",
   "source-to-canonical transform regression",
   "suspension kinematics validation against OptimumK",
   "provider-neutral steering suspension-pose generation from reviewed unresolved-steering states",
@@ -90,12 +94,12 @@ prohibited = [
   "automatic replacement of steering-FDR front tie-rod geometry",
   "generalization of the zero-offset wheel-center construction to nonzero OptimumK wheel offsets",
   "generic physical contact-patch/tire-envelope or tire-deflection inference",
-  "spring-force implementation before AUTH-SUSP-0004 review/merge or fabrication of the incomplete rear progressive law",
+  "spring-force implementation before AUTH-SUSP-0004 review/merge or unlabeled modification of ASM-SUSP-0002",
   "damper force, wheel damping, gas force, stops, or ARB calculations under the spring authorization",
   "vehicle equilibrium, wheel-load generation, or load-transfer calculation under AUTH-VEH-0003 or AUTH-SUSP-0004",
   "negative normal-reaction clipping, negative spring-compression clipping, or hidden contact-mode switching",
   "linkage/member/bearing loads, stress, FEA, fatigue, or structural release under the current force-coordinate/spring authorizations",
-  "treating the source verification heave range or vendor damper travel as installed suspension travel, spring progression range, or damper stroke authority for the vehicle",
+  "treating the source verification heave range or vendor damper travel as installed suspension/wheel travel; the 57 mm value may only bound the explicit ASM-SUSP-0002 rear constitutive assumption",
   "reconstructing whole-vehicle origin placement from wheelbase alone instead of the reviewed frame adapter",
   "production optimization or geometry release"
 ]
