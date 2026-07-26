@@ -12,11 +12,12 @@ PR #47 proposes:
 
 - `MOD-SUSP-0004`: one conservative coil-spring force/energy/generalized-force provider;
 - `EQ-SUSP-0013`: explicit spring compression and preload/reference coordinate;
-- `EQ-SUSP-0014`: source-defined force, stored energy, and tangent stiffness;
+- `EQ-SUSP-0014`: conservative force, stored energy, and tangent stiffness, including an explicitly reviewed affine tangent-rate progressive law;
 - `EQ-SUSP-0015`: signed generalized spring force through potential energy/virtual work;
+- `ASM-SUSP-0002`: WUFR-27 zero-preload/full-extension reference and rear progressive-rate modeling assumption;
 - `BENCH-SUSP-0009`: analytical synthetic spring benchmark;
-- `BENCH-SUSP-0010`: WUFR-27 spring package and incomplete-progressive-law authority benchmark;
-- `WUFR27_SPRING_PACKAGE_V0`: frozen source boundary for the reviewed current spring/damper package.
+- `BENCH-SUSP-0010`: WUFR-27 spring package/reference/progressive-law benchmark;
+- `WUFR27_SPRING_PACKAGE_V0`: frozen source and assumption boundary for the reviewed current spring/damper package.
 
 ## Architecture decision
 
@@ -46,7 +47,7 @@ Q_delta_z = F_s rho_dw.
 
 This preserves the sign of `MOD-SUSP-0003`'s `rho_dw`. It does not adopt historical OptimumK `Motion Ratio Heave`, an absolute motion ratio, or `k*MR^2` as governing force physics.
 
-## WUFR source review
+## WUFR source and reviewer update
 
 The reviewer-declared WUFR-27 setup is:
 
@@ -59,19 +60,61 @@ intentional preload: zero
 no tender/helper spring
 ```
 
-The attached KW technical document corroborates damper hardware, 57 mm travel, the piggyback dimensional package, 36 mm spring-ID compatibility, and spring-perch adjustment. It does not provide the WUFR rear spring progression curve.
+On 2026-07-26 the reviewer further clarified:
 
-Team Box evidence was also audited:
+- KW does not publish the rear rate progression and the team has not yet tested it;
+- for the current engineering model, assume the transition between the 30 and 36 N/mm endpoint rates is linear;
+- the inboard suspension-geometry line from chassis to rocker is the line used to place the piggyback damper in CAD;
+- ARB blade geometry adjacent to that line is a separate coupled element;
+- a ride-height shock-pot reading was reported as `44m`, but no calibration semantics were supplied.
 
-- the WUFR-26 shock BOM lists `KW 35-36-100 / 35-36 N/MM SPRINGS`;
-- historical OptimumK stores 36 N/mm front/rear scalar spring fields;
-- the historical inboard calculator uses 36 kN/m front and 30 kN/m rear with scalar MR/IR wheel-stiffness logic.
+Those statements are handled explicitly rather than silently inferred.
 
-Those artifacts are retained as historical/corroborating evidence and are not allowed to override the later reviewer-declared current setup.
+## Vendor and geometry evidence
+
+The attached KW technical document gives:
+
+```text
+piggyback full-extension eye-to-eye = 185.7 mm
+damper travel = 57 mm
+```
+
+It does not provide measured rear spring force-deflection data.
+
+The reviewer-run suspension-geometry export gives the design-intent damper placement line:
+
+```text
+front nominal eye-to-eye = 164.599347 mm
+rear nominal eye-to-eye  = 164.610539 mm
+```
+
+Those independently agree with the reviewed `MOD-SUSP-0003` actuation fixture values of `164.600 mm` front and `164.611 mm` rear.
+
+## Zero-preload/reference decision
+
+`ASM-SUSP-0002` freezes the first prototype interpretation of zero intentional preload:
+
+```text
+x_s = 0 at KW piggyback full extension, L_d = 185.7 mm
+x_s = 185.7 mm - L_d
+```
+
+for the current fixed-seat-offset direct-coilover design-intent configuration.
+
+The nominal model spring compressions are therefore:
+
+```text
+front x_s0 = 21.100653 mm
+rear  x_s0 = 21.089461 mm
+```
+
+This is an explicit team modeling assumption, not installed perch/seat metrology. It must be replaced or validated when perch measurements or calibrated shock-pot data are available.
+
+The raw shock-pot value is not used until its unit, zero, span, sign, and mapping to damper eye-to-eye length are frozen.
 
 ## Front spring decision
 
-The front spring has enough parameter authority to define the ideal constitutive law **as a function of explicitly supplied compression**:
+The front law is exact within this model:
 
 ```text
 k_f = 36000 N/m
@@ -79,39 +122,49 @@ F_f = k_f x_s
 U_f = 0.5 k_f x_s^2
 ```
 
-PR #47 does not claim that nominal loaded spring compression is already known from the coilover eye-to-eye state.
+At the nominal design-intent compression:
+
+```text
+F_f0 ~= 759.624 N
+```
+
+This is a spring-provider benchmark value, not a solved corner load.
 
 ## Rear progressive spring decision
 
-The rear spring cannot yet be turned into an exact force law.
+The rear spring remains untested, so PR #47 does not present a fabricated vendor curve. Instead, `ASM-SUSP-0002` makes the team's current assumption explicit:
 
-The statement `30 -> 36 N/mm linear-progressive` supplies endpoint tangent-rate information but does not locate those rates on the compression axis. No reviewed source currently supplies the missing rate-versus-compression interval or force-deflection table.
+```text
+k_0 = 30000 N/m at x_s = 0
+k_1 = 36000 N/m at x_s = 0.057 m
+k_t(x_s) = k_0 + ((k_1-k_0)/0.057) x_s
+```
 
-Therefore the authorization requires `progressive_law_incomplete` rather than any of these shortcuts:
+Because `k_t=dF_s/dx_s`, the correct conservative force and energy are
 
-- 30 N/mm constant;
-- 33 N/mm average;
-- 36 N/mm constant;
-- 30-to-36 progression spread over the 57 mm damper stroke;
-- the historical OptimumK rear 36 N/mm scalar.
+```text
+F_s = k_0 x_s + 0.5*((k_1-k_0)/0.057)*x_s^2
+U_s = 0.5*k_0*x_s^2 + ((k_1-k_0)/(6*0.057))*x_s^3
+```
 
-This is an intentional source-authority failure, not a numerical problem.
+for `0 <= x_s <= 0.057 m`.
 
-## Preload/reference decision
+The implementation must not use `F_s=k_t*x_s`; tangent rate is not secant stiffness.
 
-The reviewer explicitly states zero intentional preload. The authorization preserves that fact without overinterpreting it.
+At nominal rear compression:
 
-Zero intentional preload does **not** mean:
+```text
+k_t0 ~= 32.2199 N/mm
+F_r0  ~= 656.093 N
+```
 
-- zero spring force at nominal loaded ride height;
-- nominal `MOD-SUSP-0003` coilover length is the zero-load reference;
-- KW's damper dimension by itself fixes spring-seat separation.
-
-A WUFR-specific absolute spring force from solved eye-to-eye geometry therefore still requires an explicit spring-seat separation/reference relation.
+The 57 mm span is an explicit team modeling assumption tied to the direct-coilover usable damper compression range. It is **not** a KW-published spring-rate test range and is **not** installed wheel-travel authority.
 
 ## Seated-spring mode
 
 The first model supports a seated compression coil spring only. A state that produces `x_s<0` is reported as `spring_unseated`; compression/force is not silently clipped to zero.
+
+For the assumed rear law, `x_s>57 mm` returns `constitutive_domain_exceeded`; the model does not extrapolate the 30-to-36 N/mm progression.
 
 Because the reviewed WUFR setup has no tender/helper spring, no secondary spring contact law is introduced.
 
@@ -119,19 +172,28 @@ Because the reviewed WUFR setup has no tender/helper spring, no secondary spring
 
 `BENCH-SUSP-0009` freezes analytical checks for:
 
-- `k=10000 N/m`, `x_s=0.020 m` -> `F=200 N`, `U=2 J`, `k_t=10000 N/m`;
+- linear force/energy/tangent stiffness;
 - explicit preload/reference arithmetic;
 - signed generalized force and finite-difference potential-energy consistency;
 - unseated failure;
 - a synthetic bounded progressive table with exact hand values and no extrapolation.
 
-`BENCH-SUSP-0010` freezes the WUFR package boundaries and specifically tests that the rear law cannot be fabricated from endpoint labels or damper stroke.
+`BENCH-SUSP-0010` now freezes:
+
+- the front 36 N/mm law;
+- the 185.7 mm zero-preload/full-extension reference;
+- the nominal CAD/actuation damper lengths and resulting spring compression;
+- the rear affine tangent-rate assumption from 30 to 36 N/mm over 57 mm;
+- integrated force/energy rather than `k_t*x_s`;
+- explicit `ASM-SUSP-0002` provenance;
+- non-use of the raw shock-pot value until calibration.
 
 ## Prohibited scope
 
 PR #47 does not authorize:
 
 - spring-force implementation before merge;
+- presenting `ASM-SUSP-0002` as KW measured spring data;
 - damper dyno/velocity force or damping ratios;
 - gas force, friction, hysteresis, stops, or thermal behavior;
 - ARB kinematics/stiffness/preload;
@@ -142,9 +204,9 @@ PR #47 does not authorize:
 
 ## Review decision requested
 
-Approve `AUTH-SUSP-0004` as the bounded conservative spring-force authorization while preserving two explicit WUFR parameter gaps for later implementation/use:
+Approve `AUTH-SUSP-0004` as the bounded conservative spring-force authorization with `ASM-SUSP-0002` explicitly carrying the current team assumptions for:
 
-1. exact rear 30-to-36 N/mm progression versus spring compression;
-2. WUFR spring-seat/reference mapping needed to convert solved coilover eye-to-eye state into absolute spring compression.
+1. zero-preload/full-extension spring reference;
+2. rear 30-to-36 N/mm linear tangent-rate progression over 57 mm compression.
 
-Those gaps do not block defining or reviewing the generic conservative spring architecture, but they must not be silently filled in PR #48.
+Both assumptions have explicit replacement gates: rear spring testing for the constitutive law, and perch/seat metrology or calibrated shock-pot data for the installation reference.
