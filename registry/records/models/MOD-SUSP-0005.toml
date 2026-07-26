@@ -4,49 +4,54 @@ type = "model"
 title = "Coupled conservative anti-roll-bar elastic provider"
 status = "proposed"
 disposition = "accepted_with_restrictions"
-maturity = "M0"
-description = "Bilateral anti-roll-bar model proposed under AUTH-SUSP-0005. It consumes explicit left/right suspension/actuation states or an explicitly derived axle differential/roll coordinate, forms a signed elastic deformation coordinate/vector relative to an explicit preload reference, evaluates conservative stored energy and conjugate elastic action, and maps that action into signed generalized force through the deformation Jacobian. The WUFR-27 reduced prototype uses reviewer-selected effective axle ARB roll stiffness 2560 N*m/deg front and 2270 N*m/deg rear from Weight_transfer_sensitivity.m with explicit SI conversion. It refuses scalar per-corner wheel-rate substitution, additional motion-ratio reduction of those already reduced axle values, and any claim that they are blade/component or installed stiffness."
+maturity = "M1"
+description = "Bilateral/source-defined anti-roll-bar provider authorized by AUTH-SUSP-0005 / PR49 and implemented in PR50. It evaluates a signed scalar elastic deformation relative to an explicit reference, conservative stored energy and conjugate elastic action, and signed generalized force through the deformation Jacobian. BENCH-SUSP-0011 retains the generic translational bilateral coordinate; the WUFR-27 adapter uses reviewer-selected reduced effective axle ARB roll stiffness 2560 N*m/deg front and 2270 N*m/deg rear with explicit SI conversion. The implementation refuses scalar per-corner wheel-rate substitution, additional motion-ratio reduction of those already reduced axle values, and any claim that they are blade/component or installed stiffness."
 inputs = [
-  "Successful reviewed left and right suspension/actuation states with matching axle/configuration identity, or an explicitly reviewed signed effective axle ARB deformation coordinate",
-  "Explicit bilateral ARB mechanism geometry/branch/reference identity when a mechanism map is used",
-  "Explicit zero-preload/preload reference",
-  "Source-defined conservative force-deflection/torque-angle law or effective axle roll stiffness with reviewed units/domain",
-  "Generalized coordinate order and signed deformation Jacobian"
+  "Explicit source-defined bilateral/reduced ARB elastic coordinate with matching configuration and coordinate-unit identity",
+  "Explicit zero-energy/preload reference",
+  "Source-authorized conservative scalar stiffness/action law with reviewed units/domain",
+  "Generalized coordinate order and signed deformation Jacobian when generalized force is requested",
+  "Explicit enabled/disabled configuration state"
 ]
 outputs = [
-  "Signed anti-roll-bar elastic coordinate/vector and zero-reference residual",
+  "Signed anti-roll-bar elastic deformation and zero-reference state",
   "Conservative stored energy",
-  "Conjugate elastic action vector or reduced axle restoring moment and tangent stiffness/matrix",
+  "Conjugate elastic action and local tangent stiffness",
   "Signed generalized anti-roll-bar force vector",
-  "Common-mode/differential diagnostics, source/configuration/assumption provenance, and structured failure state"
+  "Explicit no-bar state, source/configuration/assumption provenance, and structured failure state"
 ]
 assumptions = [
   "The first anti-roll-bar model is conservative and quasi-static; friction, bearing drag, backlash, hysteresis, and damping are excluded.",
-  "The anti-roll bar is a coupled left/right element. Its elastic coordinate is source-defined from the bilateral mechanism or reduced axle differential state and is not replaced by two independent corner springs.",
+  "The anti-roll bar is a coupled left/right element. Its elastic coordinate is source-defined from a bilateral mechanism or reduced axle differential state and is not replaced by two independent corner springs.",
   "Zero intentional preload is represented only by an explicit named reference state; hidden offset repair is prohibited.",
-  "WUFR-27 reduced force authority uses ASM-SUSP-0003: K_phif=2560 N*m/deg and K_phir=2270 N*m/deg, converted explicitly to N*m/rad for a radian deformation coordinate.",
-  "The selected K_phi values are effective axle ARB roll stiffness. They are not blade torsional stiffness and must not receive an additional geometry/motion-ratio reduction.",
-  "A future detailed blade/system constitutive law is a replacement higher-fidelity model, not an additive stiffness term on top of the reduced K_phi law."
+  "WUFR-27 reduced force authority uses ASM-SUSP-0003: K_phif=2560 N*m/deg and K_phir=2270 N*m/deg, converted explicitly to N*m/rad for a radian elastic coordinate.",
+  "The selected WUFR K_phi values are effective axle ARB roll stiffness. They are not blade torsional stiffness and must not receive an additional geometry/motion-ratio reduction.",
+  "A future detailed blade/system constitutive law is a replacement higher-fidelity model, not an additive stiffness term on top of the reduced K_phi law.",
+  "The implementation does not infer WUFR phi_ARB from body roll, wheel travel, track, or CAD sketch row ordering; a downstream source-specific mechanism/state adapter must supply that coordinate and Jacobian."
 ]
-verification_level = "none"
+verification_level = "B"
 equation_ids = ["EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018"]
 benchmark_ids = ["BENCH-SUSP-0011", "BENCH-SUSP-0012"]
 authorization_id = "AUTH-SUSP-0005"
-authorization_state = "review_ready_pending_PR49_review_and_merge"
+authorization_state = "prototype_authorized_after_AUTH-SUSP-0005_PR49_merge"
 authorization_document = "authorizations/suspension/AUTH-SUSP-0005.toml"
 upstream_model_ids = ["MOD-SUSP-0001", "MOD-SUSP-0002", "MOD-SUSP-0003"]
 downstream_model_ids = []
 planned_downstream = [
   "separately authorized quasi-static body equilibrium/load-state solver",
-  "later roll-stiffness/LLTD diagnostics consuming local tangent information"
+  "later roll-stiffness/LLTD diagnostics consuming local tangent information",
+  "future detailed WUFR Z-bar mechanism adapter replacing the reduced coordinate where source evidence permits"
 ]
 source_snapshot = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
 source_audit = "docs/models/suspension/anti_roll_bar_source_audit.md"
 preimplementation_specification = "docs/models/suspension/anti_roll_bar_function_specification.md"
-planned_implementation_package = "src/pssd_suspension/anti_roll_bar.py"
-planned_implementation_tests = ["tests/test_suspension_anti_roll_bar.py"]
+implementation_package = "src/pssd_suspension/anti_roll_bar.py"
+implementation_document = "docs/models/suspension/anti_roll_bar_implementation_v0.1.0.md"
+implementation_tests = ["tests/test_suspension_anti_roll_bar.py", "tests/test_suspension_anti_roll_bar_result_record.py"]
+benchmark_report_script = "scripts/run_suspension_anti_roll_bar_benchmarks.py"
+benchmark_result_record = "benchmarks/suspension/suspension_anti_roll_bar_result_v0.1.0.toml"
 validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
-review_record = "docs/reviews/phase2_anti_roll_bar_authorization_review.md"
+review_record = "docs/reviews/phase2_anti_roll_bar_implementation_review.md"
 baseline_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
-next_implementation_gate = "After AUTH-SUSP-0005 review/merge, implement generic coupled ARB mechanics plus the reviewer-selected WUFR reduced effective axle roll-stiffness adapter. Detailed blade/system stiffness and mechanism-force reconstruction remain a separate replacement fidelity gate."
-prohibited_scope = "Blade/component stiffness claims from the reduced K_phi values, extra motion-ratio reduction of 2560/2270, scalar ARB wheel-rate/MR governing substitution, damper/spring duplication, tire forces, vehicle equilibrium/load transfer, contact-mode switching, linkage/member/bearing reactions, stress/fatigue/FEA release, compliance/backlash/friction, installed limits, packaging, optimization, installed/as-built or production claims."
+next_implementation_gate = "After PR50 review/merge, proceed to the separately authorized prescribed-force quasi-static equilibrium/load-state gate. A source-specific detailed Z-bar mechanism map and blade/component constitutive law remain optional higher-fidelity replacement work, not prerequisites for the reviewer-selected reduced K_phi prototype."
+prohibited_scope = "Inferring WUFR phi_ARB from body roll/wheel travel without a reviewed adapter, blade/component stiffness claims from the reduced K_phi values, extra motion-ratio reduction of 2560/2270, scalar ARB wheel-rate/MR governing substitution, damper/spring duplication, tire forces, vehicle equilibrium/load transfer, contact-mode switching, linkage/member/bearing reactions, stress/fatigue/FEA release, compliance/backlash/friction, installed limits, packaging, optimization, installed/as-built or production claims."
