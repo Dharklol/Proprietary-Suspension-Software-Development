@@ -14,6 +14,7 @@ assumptions = [
   "No WUFR-specific ARB constitutive stiffness is assumed. Historical roll-stiffness values, exploratory MATLAB literals, and unrecovered SolidWorks Simulation databases remain comparison/source-recovery evidence only."
 ]
 severity = "high"
+affected_ids = ["MOD-SUSP-0005", "EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018", "BENCH-SUSP-0012"]
 source_basis = [
   "Reviewer/user statement in FSAE project conversation, 2026-07-26.",
   "WUFR-25 ARB Stiffness folder and 2025 front/rear ARB design files.",
