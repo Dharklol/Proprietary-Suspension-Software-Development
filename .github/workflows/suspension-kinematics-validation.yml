@@ -16,7 +16,14 @@ jobs:
       - name: Install package
         run: python -m pip install -e .
       - name: Validate spring force authorization
-        run: python -m unittest tests.test_suspension_spring_force_authorization -v
+        run: python -m unittest tests.test_suspension_spring_force_authorization -v > spring_force_authorization_test.log 2>&1
+      - name: Upload spring authorization diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spring-force-authorization-test-log
+          path: spring_force_authorization_test.log
+          if-no-files-found: error
       - name: Run existing focused suspension kinematics tests
         run: |
           python -m unittest tests.test_suspension_kinematics -v
