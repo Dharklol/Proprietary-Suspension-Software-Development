@@ -5,22 +5,23 @@ title = "Conservative spring force, stored energy, and tangent stiffness"
 status = "proposed"
 disposition = "accepted_with_restrictions"
 maturity = "M0"
-description = "Evaluate a source-defined conservative coil-spring constitutive law as compression-force magnitude F_s=f_s(x_s), stored energy U_s(x_s)=integral_0^x_s F_s(xi) dxi, and local tangent stiffness k_t=dF_s/dx_s. Linear and explicitly sourced nonlinear/table laws are permitted only inside their reviewed constitutive domains."
-outputs = ["compression-force magnitude F_s", "stored energy U_s", "local tangent stiffness k_t", "constitutive segment/domain diagnostics"]
-inputs = ["successful EQ-SUSP-0013 spring compression", "source-defined linear or nonlinear force-versus-compression law", "constitutive domain and source authority"]
+description = "Evaluate a reviewed conservative coil-spring constitutive law as compression-force magnitude F_s=f_s(x_s), stored energy U_s(x_s)=integral_0^x_s F_s(xi) dxi, and local tangent stiffness k_t=dF_s/dx_s. Linear, explicitly reviewed affine-progressive tangent-rate, and explicitly sourced nonlinear/table laws are permitted only inside their reviewed constitutive domains."
+outputs = ["compression-force magnitude F_s", "stored energy U_s", "local tangent stiffness k_t", "constitutive segment/domain/assumption diagnostics"]
+inputs = ["successful EQ-SUSP-0013 spring compression", "reviewed linear force law, affine tangent-rate law, or nonlinear force-versus-compression law", "constitutive domain and source/assumption authority"]
 assumptions = [
   "The spring element is conservative and rate-independent in this model; velocity-dependent damping, hysteresis, friction, gas force, and stops are separate elements.",
   "U_s(0)=0 at the zero-load seated reference and F_s is compression-positive for the authorized coil-spring class.",
-  "A progressive spring requires its progression versus compression or equivalent force-deflection definition; endpoint rate labels alone do not define f_s(x_s)."
+  "For a progressive spring defined by tangent-rate endpoints, the progression versus compression must be explicitly sourced or explicitly authorized as an assumption; endpoint rate labels alone are not silently converted into a law.",
+  "When tangent stiffness varies with compression, force is the integral of tangent stiffness from the zero-load reference; F_s is not generally equal to k_t(x_s)*x_s."
 ]
 verification_level = "none"
-canonical_equation = "F_s=f_s(x_s); U_s(x_s)=integral_0^x_s F_s(xi) dxi; k_t=dF_s/dx_s. For a linear spring F_s=k*x_s and U_s=0.5*k*x_s^2."
+canonical_equation = "F_s=f_s(x_s); U_s(x_s)=integral_0^x_s F_s(xi) dxi; k_t=dF_s/dx_s. Linear: F_s=k*x_s, U_s=0.5*k*x_s^2. Affine tangent rate k_t=k_0+a*x_s: F_s=k_0*x_s+0.5*a*x_s^2 and U_s=0.5*k_0*x_s^2+(a/6)*x_s^3."
 source_basis = [
   "Guiggiani (2022) conservative suspension elastic-element framework and recognition of nonlinear/hardening spring behavior.",
   "Dixon, The Shock Absorber Handbook, generic mechanical spring restoring-force/energy behavior.",
-  "WUFR27_SPRING_PACKAGE_V0 for WUFR-specific spring identities and explicit progressive-law gap."
+  "WUFR27_SPRING_PACKAGE_V0 and ASM-SUSP-0002 for the WUFR-specific front linear law, explicitly assumed rear affine tangent-rate law, and provenance boundary."
 ]
 validity = "Successful seated-spring state within the exact reviewed constitutive compression/force domain."
-numerical_method = "Linear law is analytic. A later reviewed table implementation may use piecewise-linear force interpolation with exact segmentwise trapezoidal energy integration and explicit tangent/side convention at knots; no extrapolation is permitted."
-failure_behavior = ["Return progressive_law_incomplete when endpoint rates do not define the curve", "Return constitutive_domain_exceeded rather than extrapolate", "Return invalid_energy_law for malformed/nonintegrable source data", "Do not average progressive endpoint rates"]
+numerical_method = "Linear and affine tangent-rate laws are analytic. A later reviewed table implementation may use piecewise-linear force interpolation with exact segmentwise trapezoidal energy integration and explicit tangent/side convention at knots; no extrapolation is permitted."
+failure_behavior = ["Return missing_spring_parameter_authority when neither source nor reviewed assumption defines the law", "Return constitutive_domain_exceeded rather than extrapolate", "Return invalid_energy_law for malformed/nonintegrable source data", "Do not average progressive endpoint rates into a constant law", "Do not compute progressive force as instantaneous tangent rate times compression"]
 benchmark_ids = ["BENCH-SUSP-0009", "BENCH-SUSP-0010"]
