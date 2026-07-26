@@ -1,0 +1,18 @@
+[record]
+id = "BENCH-SUSP-0015"
+type = "benchmark"
+title = "WUFR two-arm blade constitutive authority benchmark"
+status = "proposed"
+description = "Freeze the source-backed interpretation of the governing SolidWorks setting stiffness as one blade-arm transverse stiffness and the additive two-arm conservative energy law."
+verification_level = "B"
+target_ids = ["MOD-SUSP-0005", "ASM-SUSP-0003"]
+acceptance_criteria = [
+  "The governing settings remain exactly 280/300/400/700/2300 N/mm with no interpolation.",
+  "The source record identifies the sheet's Blade arm block and k=3EI/L^3 cantilever check as the quantity-semantics basis.",
+  "At setting 1, d=[0.001,0] m gives F=[280,0] N and U=0.140 J.",
+  "At setting 1, d=[0.001,-0.001] m gives F=[280,-280] N and U=0.280 J.",
+  "At setting 5, d=[0.001,-0.001] m gives F=[2300,-2300] N and U=2.300 J.",
+  "No factor-two, half, sqrt(2), averaging, or stiffness stacking is used to create a scalar equivalent.",
+  "Historical 2560/2270 N*m/deg is labelled as downstream setting-1 effective axle roll-stiffness evidence rather than an independent constitutive source."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0007.toml"
