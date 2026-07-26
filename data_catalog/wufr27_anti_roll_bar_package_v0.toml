@@ -1,224 +1,54 @@
-version = "0.1.1"
+version = "0.2.0"
 record_id = "WUFR27_ANTI_ROLL_BAR_PACKAGE_V0"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
-record_authority = "reviewed_design_intent_geometry_and_reviewer_selected_effective_axle_roll_stiffness"
+record_authority = "reviewer_selected_SolidWorks_FEA_linear_blade_tip_stiffness"
 installed_as_built_authority = false
 constitutive_stiffness_authority = true
 
 [reviewed_setup]
 review_date = "2026-07-26"
-review_source = "Reviewer/user statements in the FSAE project conversation"
-architecture = "Z-bar / blade anti-roll-bar concept"
-wufr27_carryover = "Use the 2025 ARB Development Z-bar/blade design basis for WUFR-27. Current populated WUFR-26 geometry/drawings are the carryover geometry evidence until a populated WUFR-27 revision supersedes them."
+review_source = "Reviewer/user correction in the FSAE project conversation"
+architecture = "WUFR Z-bar / adjustable blade anti-roll-bar concept"
 intentional_preload = "zero"
-zero_preload_semantics = "The named nominal bilateral mechanism state is intended as the zero-energy ARB reference after source-specific mechanism reconstruction; do not hide a reconstruction residual by silently subtracting it."
-constitutive_selection = "Reviewer/user decision on 2026-07-26: use Weight_transfer_sensitivity.m K_phif_neutral=2560 and K_phir_neutral=2270 as the governing effective front/rear ARB roll-stiffness values for the WUFR-27 reduced prototype. Reviewer reports available Instron data comes somewhat close, while the MATLAB/simulation values were more consistent for the stiffer settings."
+constitutive_selection = "The governing WUFR constitutive data are the five discrete SolidWorks FEA blade-tip stiffness values from the Google Sheet tab ARB FEA vs Simulink. Values are linear force/deflection slopes in N/mm. No interpolation between settings is authorized."
 
-[wufr26_suspension_geometry]
-box_file_id = "1943897977651"
-box_file_version_id = "2546941960247"
-sha1 = "2cfb771f296961be0857161f7b57a6c178180d7a"
-name = "SU-00001-AA 2026 SUSPENSION GEOMETRY.SLDPRT"
-export_attachment_sha256 = "30bf10a4a9c6097fc32f897d0d16a16e1bee802c3bccf5481f0fd253f2fd8085"
-export_sketch_points_sha256 = "3886507bcae05d243832647efffb4a9daaf4612e6e364fae7292a072b46166ec"
-coordinate_frame = "+x forward, +y vehicle left, +z upward; meters"
-source_role = "populated carryover design-intent suspension/ARB sketch geometry; exporter raw 3D sketch coordinates are usable but sketch connectivity is not preserved"
-connectivity_warning = "Do not infer segment connectivity, link roles, blade working directions, or topology from sketch-point row order. The exporter has a known sketch model-coordinate transform defect and does not freeze sketch entity connectivity."
+[governing_solidworks_fea]
+spreadsheet_url = "https://docs.google.com/spreadsheets/d/1rJjQBnSOMEGQmyromb9SjNgOEMwBBOdUpUKPPLOf-3c/edit?gid=0#gid=0"
+sheet_name = "ARB FEA vs Simulink"
+quantity = "linear blade-tip stiffness"
+source_column = "FEA SolidWorks Stiffness"
+source_unit = "N/mm"
+setting_numbers = [1, 2, 3, 4, 5]
+stiffness_N_per_mm = [280.0, 300.0, 400.0, 700.0, 2300.0]
+stiffness_N_per_m = [280000.0, 300000.0, 400000.0, 700000.0, 2300000.0]
+beam_theory_unit_check = "The sheet uses k=3EI/L^3 in N/m and divides by 1000 to report N/mm, confirming the force/deflection units used by the FEA column."
+constitutive_law = "F_b = k_b * delta_b; U_b = 0.5 * k_b * delta_b^2; Q_ARB = -J_delta_b^T * F_b"
+selection_rule = "Setting is discrete. Select exactly one of settings 1..5; do not interpolate, average, blend, or stack stiffness sources without separate authorization."
 
-[wufr26_suspension_geometry.front_arb_raw_sketch]
-feature_name = "Front ARB"
-visibility_state = "hidden_unsuppressed"
-points_m = [
-  [0.0, 0.0, 0.08880356382],
-  [0.070956780108, -0.015084268536, 0.08880356382],
-  [0.02803525, -0.238489003082, 0.085270375306],
-  [-0.02803525, 0.238489003082, 0.085270375306],
-  [0.0, 0.247687084, 0.117705378],
-  [-0.070956780108, 0.015084268536, 0.08880356382],
-  [-0.02803525, 0.238489003082, 0.085270375306],
-  [0.0, 0.209221578, 0.195752466],
-  [0.0, 0.226746, 0.13208],
-  [0.02803525, -0.238489003082, 0.085270375306]
-]
-
-[wufr26_suspension_geometry.rear_arb_raw_sketch]
-feature_name = "Rear ARB"
-visibility_state = "hidden_unsuppressed"
-points_m = [
-  [-1.554691297, 0.212858444, 0.415603147],
-  [-1.512710246, 0.01934753, 0.423024046],
-  [-1.582625, 0.0, 0.423024046],
-  [-1.652539754, -0.01934753, 0.423024046],
-  [-1.610558703, -0.212858444, 0.415603147],
-  [-1.652539754, -0.01934753, 0.423024046],
-  [-1.610558703, -0.212858444, 0.415603147],
-  [-1.582625, 0.0, 0.423024046],
-  [-1.512710246, 0.01934753, 0.423024046],
-  [-1.554691297, 0.212858444, 0.415603147]
-]
-
-[wufr26_front_arb]
-assembly_box_file_id = "1966622548582"
-assembly_box_file_version_id = "2419939815902"
-assembly_sha1 = "af57e21fb1f152297c21e51a09ab41b9fee1b3d3"
-assembly_name = "SU-A0703-AA FRONT ANTI-ROLL BAR.SLDASM"
-assembly_pdf_box_file_id = "2135607229280"
-assembly_pdf_box_file_version_id = "2360606377280"
-assembly_pdf_sha1 = "34823b5b6a2c0a09a8d2441b6d19525c7219e4cb"
-blade_pdf_box_file_id = "2120263458420"
-blade_pdf_box_file_version_id = "2343428595880"
-blade_pdf_sha1 = "f1b4e9cca2b1ff8f9e080e8a7ec5ef17eb44514e"
-blade_pdf_name = "SU-70301-AA FRONT, ARB, BLADE.pdf"
-blade_material = "Ti-6Al-4V"
-blade_drawing_observed_dimensions_in = [2.100, 2.000, 0.750, 0.6250, 0.225, 0.374, 0.188]
-linkage_pdf_box_file_id = "2120271107980"
-linkage_pdf_box_file_version_id = "2343425651980"
-linkage_pdf_sha1 = "4c64619a9f57a785a1fe50cc6617012027a7e1cb"
-linkage_pdf_name = "SU-70308-AA FRONT, ARB, LINKAGE.pdf"
-linkage_material = "CARBON FIBER"
-linkage_nominal_length_in = 7.22
-linkage_od_in = 0.50
-linkage_wall_thickness_in = 0.063
-source_role = "current populated carryover hardware/geometry evidence; no blade stiffness inferred from dimensions/material"
-
-[wufr26_rear_arb]
-assembly_box_file_id = "1966622815072"
-assembly_box_file_version_id = "2547286451403"
-assembly_sha1 = "d04059e2b6b53737459c9df3cc35dcb3f71100b5"
-assembly_name = "SU-A0705-AA REAR ANTI-ROLL BAR.SLDASM"
-assembly_pdf_box_file_id = "2135614149053"
-assembly_pdf_box_file_version_id = "2360613964253"
-assembly_pdf_sha1 = "4cda02930ab2ee853c82cf024fc5bde5edf406c1"
-blade_pdf_box_file_id = "2135720924601"
-blade_pdf_box_file_version_id = "2410126538039"
-blade_pdf_sha1 = "c7ab08c916e9e72721572bb65238b9cd5b53e73a"
-blade_pdf_name = "SU-70502-AA REAR, ARB, BLADE.pdf"
-blade_material = "Ti-6Al-4V"
-blade_drawing_observed_dimensions_in = [2.000, 0.750, 0.6250, 0.225, 0.374]
-linkage_pdf_box_file_id = "2135748483981"
-linkage_pdf_box_file_version_id = "2410132785537"
-linkage_pdf_sha1 = "e2e81b398c162321e41ac3b20682aeb2300b4282"
-linkage_pdf_name = "SU-70508-AA REAR, ARB, LINKAGE.pdf"
-linkage_material = "CARBON FIBER"
-linkage_nominal_length_in = 6.22
-linkage_od_in = 0.50
-linkage_drawing_thickness_note_in = 0.125
-source_role = "current populated carryover hardware/geometry evidence; no blade stiffness inferred from dimensions/material"
-
-[wufr26_active_assembly_state]
-assembly_box_file_id = "1966637303418"
-assembly_box_file_version_id = "2547286736404"
-assembly_sha1 = "cfb95b650db19ca0624eaf82f272690aa70625df"
-assembly_configuration = "FSA"
-front_top_level_arb = "included_visible/lightweight"
-rear_top_level_arb = "EXCLUDED_SUPPRESSED"
-interpretation = "assembly-state evidence for the exported WUFR-26 FSA configuration only; not a universal WUFR-27 installed-presence rule and not constitutive authority"
-
-[wufr25_arb_stiffness_source]
-folder_box_id = "312966793399"
-folder_name = "ARB Stiffness"
-source_role = "historical source-recovery/corroboration target; contains front blade CAD and SolidWorks Simulation result/support files"
-front_blade_part_box_file_id = "1860740123335"
-front_blade_part_box_file_version_id = "2051848182332"
-front_blade_part_sha1 = "cdc59578f2109a7f21d076a7e799e73047d40a5f"
-front_simulation_cwr_box_file_id = "1860760496998"
-front_simulation_cwr_box_file_version_id = "2051863720679"
-front_simulation_cwr_sha1 = "b8d865c7b15330e947b531b8e39e148d5808829b"
-front_simulation_log_box_file_id = "1860757976604"
-front_simulation_log_box_file_version_id = "2051863650815"
-front_simulation_log_sha1 = "05ba56e2a410fdc77c5071e949a19a692a407fc2"
-front_simulation_log_observed = "mesh/solver statistics only: approximately 28602 nodes, 17458 elements, 81366 DOF, 25 s solution time; no recovered load-deflection stiffness"
-front_simulation_support_files = [
-  "PGF Box 1860759143101 v2051847723901 SHA1 9b11d9a5e71f7fd8f80afabe81cebaaa0c4beaf6",
-  "GSZ Box 1860742552428 v2051831068428 SHA1 edeb078142f72518309922eec4ab777e515c3542",
-  "MFC Box 1860756729238 v2051864291049 SHA1 7864d161535fb97a8fcf5db396493dcf30c8b7f9"
-]
-stiffness_recovery_status = "incomplete_for_component_blade_law"
-stiffness_recovery_gap = "No human-readable applied load/torque, fixture/constraint definition, deformation observable, units, force-deflection/torque-angle result, or reviewed stiffness extraction was recovered from these files in the PR49 source audit. This blocks a detailed blade law but no longer blocks the reviewer-selected reduced effective axle roll-stiffness model."
-
-[wufr25_design_lineage]
-front_blade_pdf_box_file_id = "1719572711908"
-front_blade_pdf_box_file_version_id = "2006562589744"
-front_blade_pdf_sha1 = "e0672bebdf63756be51a3350325e52fdc04d44ab"
-rear_blade_pdf_box_file_id = "1720944743471"
-rear_blade_pdf_box_file_version_id = "2006570402000"
-rear_blade_pdf_sha1 = "73e311fa1103a5a8d323f1d16d5277b90b4c6118"
-front_linkage_pdf_box_file_id = "1720934687984"
-front_linkage_pdf_sha1 = "a29ba93e8b0122fab9ab0f3c3e839a0295cc8024"
-rear_linkage_pdf_box_file_id = "1720940730113"
-rear_linkage_pdf_sha1 = "d79cee37d8b46b8e45c1e016feffa7f417e94d62"
-front_assembly_pdf_box_file_id = "1721889878144"
-front_assembly_pdf_sha1 = "d9d26b37185fa359b9a54debdde8b2b7d832670f"
-rear_assembly_pdf_box_file_id = "1730368573972"
-rear_assembly_pdf_sha1 = "6c8a2b1ff073622171369b34060513c31cd236e1"
-source_role = "historical design lineage/corroboration; current populated WUFR-26 files above are preferred for carryover geometry"
-
-[wufr27_direct_cad_placeholders]
-front_assembly_box_file_id = "2297763875346"
-front_assembly_box_file_version_id = "2544178295346"
-front_assembly_sha1 = "8a5ca3ceaece773cb2d877290f07650d77c55042"
-front_assembly_size_bytes = 141646
-rear_assembly_box_file_id = "2297762603071"
-rear_assembly_box_file_version_id = "2544177011071"
-rear_assembly_sha1 = "8a5ca3ceaece773cb2d877290f07650d77c55042"
-rear_assembly_size_bytes = 141646
-interpretation = "front and rear WUFR-27 ARB assembly files are byte-identical by SHA-1 and size at audit time; treat as placeholder/copy evidence, not independent populated front/rear geometry authority"
-
-[historical_weight_transfer_script]
-box_file_id = "1760141970183"
-box_file_version_id = "2054072451786"
-sha1 = "230b4b7816726e3a7c613716860e09c582f606fb"
-name = "Weight_transfer_sensitivity.m"
-observed_front_literal = 2560.0
-observed_rear_literal = 2270.0
-source_displayed_unit = "N*m/deg"
-source_variable_names = ["K_phif_neutral", "K_phir_neutral"]
-source_plot_axis_labels = ["Front Cornering Stiffness [Nm/deg]", "Rear Cornering Stiffness [Nm/deg]"]
-source_warning = "The front assignment line includes the comment '%change and figure out'. The script uses K_phif/K_phir primarily through their ratio in the load-transfer sensitivity calculation, so the script itself does not independently validate the absolute scale."
-reviewer_authority_decision = "On 2026-07-26 the reviewer/user designated these literals as the most reliable available WUFR ARB values and directed that they be used. Available Instron data was described as coming somewhat close, while the MATLAB/simulation values were judged more consistent for the stiffer settings."
-quantity_semantics = "reviewer-selected effective axle anti-roll roll stiffness for the reduced WUFR prototype; not blade torsional stiffness and not a separately recovered force-deflection law"
-front_effective_roll_stiffness_Nm_per_deg = 2560.0
-rear_effective_roll_stiffness_Nm_per_deg = 2270.0
-front_effective_roll_stiffness_Nm_per_rad = 146677.19555349075
-rear_effective_roll_stiffness_Nm_per_rad = 130061.41949469688
-si_conversion = "K_Nm_per_rad = K_Nm_per_deg * 180/pi. When the elastic coordinate is radians, use the SI values above so U=0.5*K*phi^2 and M=K*phi are dimensionally consistent."
-authority = "reviewer_selected_design_intent_for_reduced_effective_axle_roll_stiffness"
-
-[instron_corroboration]
-review_source = "Reviewer/user statement in FSAE project conversation, 2026-07-26"
-status = "qualitative_corroboration_only"
-reviewer_statement = "Available Instron data comes somewhat close to the MATLAB values, but the MATLAB simulation was more consistent for the stiffer settings."
-physics_use = "Do not fit, average, or replace the governing 2560/2270 values from this qualitative statement. Freeze exact Instron data separately before any quantitative correlation claim."
-
-[wufr26_spec_sheet_comparison]
-box_file_id = "2149814001036"
-box_file_version_id = "2510738677599"
-sha1 = "588669d320ff8097ec0bc85a85a970640d5a4d38"
-name = "2026_FSAE_Design_IC_Spec_Sheet_WashU_Racing.xlsx"
-front_suspension_roll_rate_Nm_per_deg = 556.0
-rear_suspension_roll_rate_Nm_per_deg = 458.0
-interpretation = "whole-suspension roll-rate comparison/target evidence only; not substituted for the reviewer-selected effective ARB values and not treated as blade/system constitutive stiffness"
-
-[constitutive_authority]
-front_status = "reviewer_selected_effective_axle_roll_stiffness"
-rear_status = "reviewer_selected_effective_axle_roll_stiffness"
-constitutive_model = "linear reduced axle-level roll stiffness about the explicit zero-preload reference"
-source_coordinate = "signed effective axle ARB differential/roll deformation angle phi_ARB in radians for the SI implementation; source-displayed stiffness values are N*m/deg and are converted explicitly"
-allow_generic_synthetic_implementation = true
-allow_wufr_geometry_only_evaluation = true
-allow_wufr_force_energy_output = true
-allow_detailed_blade_force_energy_output = false
-replacement_evidence = "A traceable physical or FEA blade/system force-deflection or torque-angle law may replace the reduced reviewer-selected stiffness model in a separately reviewed higher-fidelity configuration. It must not be stacked on top of the reduced effective axle stiffness."
+[comparison_only]
+matlab_source = "Weight_transfer_sensitivity.m"
+matlab_reduced_axle_Nm_per_deg = [2560.0, 2270.0]
+matlab_semantics = "comparison-only historical reduced effective axle roll-stiffness evidence; not governing and not converted into or stacked with the blade-tip law"
+simulink_stiffness_N_per_mm = [285.0, 309.0, 400.0, 724.0, 2628.0]
+simulink_semantics = "comparison-only values from the same spreadsheet; do not average or substitute for SolidWorks FEA authority"
+instron_stiffness_N_per_mm = [900.0, 980.0, 1320.0, 1970.0, 2630.0]
+instron_semantics = "comparison-only values from the same spreadsheet; do not average or substitute for SolidWorks FEA authority"
+comparison_rule = "MATLAB, Simulink, and Instron values are comparison-only evidence. Do not average, fit, blend, stack, or substitute them for the governing SolidWorks blade stiffness."
 
 [authority_boundaries]
-zero_preload_authority = "reviewed design-intent setup statement under ASM-SUSP-0003; not installed metrology"
-geometry_authority = "reviewed carryover design-intent from current populated WUFR-26 geometry/drawings plus 2025 lineage; not installed/as-built"
-stiffness_authority = "reviewer-selected reduced effective axle roll stiffness: front 2560 N*m/deg, rear 2270 N*m/deg"
-blade_constitutive_authority = "unavailable"
+zero_preload_authority = "reviewed design-intent statement under ASM-SUSP-0003; not installed metrology"
+blade_constitutive_authority = "available only as the five discrete SolidWorks FEA linear blade-tip stiffness settings"
+interpolation_authorized = false
+z_bar_geometry_map_authorized = false
+z_bar_geometry_map_status = "Not yet authorized or implemented: (q_L, q_R) -> delta_b and partial(delta_b)/partial(q_L,q_R)."
+body_roll_substitution_allowed = false
+track_width_approximation_allowed = false
 wheel_rate_authority = false
-suspension_roll_rate_substitution_allowed = false
-historical_literal_substitution_allowed = true
-historical_literal_substitution_scope = "Only the explicitly reviewer-selected Weight_transfer_sensitivity.m 2560/2270 values may be used, and only as reduced effective axle ARB roll stiffness with source warning/provenance retained. No other historical literal is promoted by analogy."
 stress_fatigue_authority = false
 linkage_load_authority = false
 installed_limits_authority = false
+installed_as_built_authority = false
+
+[historical_record_note]
+status = "superseded_authority_semantics"
+note = "Earlier revisions of this record promoted MATLAB 2560/2270 N*m/deg reduced axle values. That authority decision is superseded by the reviewer correction on 2026-07-26. Git history retains the earlier geometry/source-audit detail; those MATLAB values now remain comparison-only."
