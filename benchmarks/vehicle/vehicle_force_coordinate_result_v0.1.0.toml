@@ -43,16 +43,16 @@ negative_reaction_preserved_N = -1.0
 wufr_wheelbase_m = 1.5624
 wufr_front_track_m = 1.231972
 wufr_rear_track_m = 1.206572
-wufr_cg_to_front_axle_m = 0.8516226415094339
-wufr_cg_to_rear_axle_m = 0.7107773584905661
+wufr_cg_to_front_axle_m = 0.7453226666666667
+wufr_cg_to_rear_axle_m = 0.8170773333333333
 wufr_contact_max_gap_m = 0.0
 installed_authority = false
 pass = true
 
 [boundaries]
 items = [
-  "The WUFR body origin is a composite no-driver design-intent CG reference. Its x/y coordinates come from the reviewer-supplied no-driver/no-fuel scale session; z=0.290 m comes from the separate no-driver FSAE spec-sheet CG-height source. These are not asserted to be the same physical setup state.",
-  "The driver/no-fuel scale state has an independently frozen planar CG location but no authorized vertical CG coordinate in this PR.",
+  "The WUFR body origin is a source-separated driver/no-fuel design-intent CG reference. Its x/y coordinates come from the reviewer-supplied driver/no-fuel scale session; z=0.290 m comes from a separate tilt test that used ballast to simulate a driver. These are not asserted to be the same physical setup session.",
+  "The no-driver/no-fuel scale state remains frozen separately with planar CG only; the 0.290 m tilt-test value is not relabeled as no-driver.",
   "The nominal rigid contact references are modeling points at the frozen axle/track stations projected to source z=0. They are not tire footprint centroids or installed tire-contact metrology.",
   "No corner normal reactions are calculated from mass or CG. BENCH-VEH-0004 only classifies externally supplied reactions.",
   "No spring/damper/ARB/tire force law, vehicle equilibrium, linkage/member loads, stress, compliance, installed limits, or optimization is implemented by MOD-VEH-0003."
