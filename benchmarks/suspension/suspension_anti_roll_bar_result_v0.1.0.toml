@@ -1,9 +1,9 @@
-version = "0.1.0"
+version = "0.2.0"
 result_id = "WUFR27_SUSPENSION_ANTI_ROLL_BAR_RESULT_V0"
 model_id = "MOD-SUSP-0005"
 authorization_id = "AUTH-SUSP-0005"
 assumption_ids = ["ASM-SUSP-0003"]
-authority = "software_verification_and_reviewer_selected_reduced_design_intent_ARB_stiffness_only"
+authority = "software_verification_and_reviewer_selected_SolidWorks_FEA_blade_tip_stiffness"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
 report_script = "scripts/run_suspension_anti_roll_bar_benchmarks.py"
 validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
@@ -11,15 +11,17 @@ performance_authority = false
 installed_as_built_authority = false
 installed_limits_evaluated = false
 vehicle_equilibrium_evaluated = false
-blade_component_stiffness_evaluated = false
+blade_component_stiffness_evaluated = true
+z_bar_geometry_map_evaluated = false
 
 [source]
 anti_roll_bar_package = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
 source_record_id = "WUFR27_ANTI_ROLL_BAR_PACKAGE_V0"
 assumption_id = "ASM-SUSP-0003"
-matlab_box_file_id = "1760141970183"
-matlab_box_file_version_id = "2054072451786"
-matlab_sha1 = "230b4b7816726e3a7c613716860e09c582f606fb"
+spreadsheet_url = "https://docs.google.com/spreadsheets/d/1rJjQBnSOMEGQmyromb9SjNgOEMwBBOdUpUKPPLOf-3c/edit?gid=0#gid=0"
+sheet_name = "ARB FEA vs Simulink"
+governing_column = "FEA SolidWorks Stiffness"
+source_unit = "N/mm"
 
 [BENCH-SUSP-0011]
 verification_level = "B"
@@ -30,48 +32,33 @@ differential_deformation_m = 0.02
 differential_action_N = 200.0
 differential_energy_J = 2.0
 differential_generalized_force_N = [-200.0, 200.0]
-generalized_force_error_N = 0.0
 shifted_reference_deformation_m = 0.017
 no_bar_status = "no_bar"
 missing_stiffness_failure_code = "missing_stiffness_authority"
 outside_domain_failure_code = "constitutive_domain_exceeded"
-energy_check_step_1_m = 1.0e-6
-energy_check_step_2_m = 5.0e-7
-energy_check_fd_generalized_force_1_N = -200.00000000031105
-energy_check_fd_generalized_force_2_N = -199.99999999975594
 max_energy_gradient_residual_N = 3.1104718800634146e-10
 pass = true
 
 [BENCH-SUSP-0012]
 verification_level = "B"
-source_front_stiffness_Nm_per_deg = 2560.0
-source_rear_stiffness_Nm_per_deg = 2270.0
-front_stiffness_Nm_per_rad = 146677.19555349075
-rear_stiffness_Nm_per_rad = 130061.41949469688
-front_one_degree_action_Nm = 2560.0
-rear_one_degree_action_Nm = 2270.0
-front_one_degree_energy_J = 22.340214425527417
-rear_one_degree_energy_J = 19.80948701013564
-front_one_degree_generalized_force = -2560.0
-zero_front_energy_J = 0.0
-zero_front_action_Nm = 0.0
-front_stiffness_conversion_error = 0.0
-rear_stiffness_conversion_error = 0.0
-front_action_error_Nm = 0.0
-rear_action_error_Nm = 0.0
-front_energy_error_J = 0.0
-rear_energy_error_J = 0.0
-front_energy_check_max_residual = 6.113168637966737e-09
-instron_status = "qualitative_corroboration_only"
-reduced_axle_level = true
+governing_stiffness_N_per_mm = [280.0, 300.0, 400.0, 700.0, 2300.0]
+governing_stiffness_N_per_m = [280000.0, 300000.0, 400000.0, 700000.0, 2300000.0]
+one_mm_force_N = [280.0, 300.0, 400.0, 700.0, 2300.0]
+one_mm_energy_J = [0.140, 0.150, 0.200, 0.350, 1.150]
+simulink_comparison_N_per_mm = [285.0, 309.0, 400.0, 724.0, 2628.0]
+instron_comparison_N_per_mm = [900.0, 980.0, 1320.0, 1970.0, 2630.0]
+matlab_reduced_axle_comparison_Nm_per_deg = [2560.0, 2270.0]
+interpolation_authorized = false
+z_bar_geometry_map_authorized = false
+generalized_force_available_without_map = false
 installed_as_built_authority = false
 pass = true
 
 [boundaries]
 items = [
-  "The WUFR 2560/2270 N*m/deg values are reviewer-selected reduced effective axle ARB roll stiffness, not blade torsional stiffness, measured Instron stiffness, or installed/as-built validation.",
-  "The reduced WUFR K_phi values are converted explicitly to N*m/rad for a radian coordinate and receive no second blade/link/motion-ratio stiffness reduction.",
-  "BENCH-SUSP-0011 is a synthetic differential elastic-coordinate benchmark and does not infer WUFR Z-bar topology or installed wheel-to-bar motion.",
-  "Available Instron information remains qualitative corroboration only until the exact dataset and correlation method are frozen.",
-  "Damper force, tire force, vehicle equilibrium/load transfer, linkage/member/bearing loads, blade stress/fatigue/FEA release, installed limits, compliance/backlash/friction, and production authority remain outside MOD-SUSP-0005."
+  "The five SolidWorks FEA values are governing linear blade-tip force/deflection stiffness in N/mm and are stored as SI N/m in the WUFR adapter.",
+  "Blade settings 1 through 5 are discrete. Interpolation, averaging, blending, and stacking stiffness sources are not authorized.",
+  "MATLAB 2560/2270 N*m/deg, Simulink 285/309/400/724/2628 N/mm, and Instron 900/980/1320/1970/2630 N/mm are comparison-only evidence.",
+  "The WUFR map (q_L,q_R) -> delta_b and its Jacobian are not authorized or implemented, so vehicle-coordinate generalized force is unavailable until that map is reviewed.",
+  "Body roll is not blade deformation and track-width approximations are prohibited."
 ]
