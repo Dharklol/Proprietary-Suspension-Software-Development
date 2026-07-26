@@ -1,0 +1,86 @@
+version = "0.1.0"
+record_id = "WUFR27_SPRING_PACKAGE_V0"
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+record_authority = "reviewed_design_intent_spring_package_with_explicit_parameter_gaps"
+installed_as_built_authority = false
+
+[reviewed_setup]
+review_date = "2026-07-26"
+review_source = "Reviewer/user statements in the FSAE project conversation"
+damper = "KW V5 Racing Formula Student 4-way adjustable piggyback"
+spring_free_length_m = 0.100
+intentional_preload = "zero"
+tender_or_helper_spring = "none"
+front_spring_description = "36 N/mm linear"
+front_linear_rate_N_per_m = 36000.0
+rear_spring_description = "30 to 36 N/mm linear-progressive"
+rear_rate_start_N_per_m = 30000.0
+rear_rate_end_N_per_m = 36000.0
+rear_progression_law_status = "incomplete_parameter_authority"
+rear_progression_gap = "The reviewed setup identifies the endpoint tangent rates but does not provide the spring-compression interval, force-versus-compression table, or equivalent constitutive definition that locates the 30-to-36 N/mm progression. Do not average the endpoints, substitute either endpoint as the full law, or use damper stroke as the progression interval."
+
+[kw_vendor_attachment]
+name = "kw-v5racing-formula-student-int-technologytesting.pdf"
+sha256 = "647b7b451612174852293b0bd65d193452991c6a3c697a242c07b04860cea36c"
+source_role = "damper hardware and adjustment evidence; not spring-rate-curve authority"
+piggyback_dimension_eye_to_eye_mm = 185.7
+damper_travel_mm = 57.0
+spring_inner_diameter_mm = 36.0
+spring_perch_click_lift_mm = 0.16666666666666666
+rebound_sign = "positive in vendor dyno plots"
+compression_sign = "negative in vendor dyno plots"
+reference_length_warning = "The vendor damper dimensions do not by themselves establish the WUFR zero-preload spring-seat separation or a spring-compression reference for the vehicle model."
+
+[wufr26_shock_bom]
+box_file_id = "2027193944590"
+box_file_version_id = "2238189987790"
+sha1 = "18fd915191fb8bf2cb89628e96399e80be88e526"
+name = "SU-A0707-AA SHOCKS.pdf"
+source_role = "historical/current-car hardware corroboration only"
+observed_bom_text = "KW 35-36-100; 35-36 N/MM SPRINGS; KW V5 RACING FORMULA STUDENT 4-WAY ADJUSTABLE PIGGYBACK DAMPER"
+conflict_rule = "This BOM does not override the later reviewer-declared WUFR-27 front 36 N/mm and rear 30-to-36 N/mm setup."
+
+[wufr26_spring_cad]
+box_file_id = "2020245335291"
+box_file_version_id = "2269605443663"
+sha1 = "b9849faacd23eb9e9e8d2b5482eca219a9446b22"
+name = "KW SPRING.SLDPRT"
+source_role = "hardware/CAD identity only; no text representation supplied a force-deflection law"
+
+[wufr26_historical_inboard_calculator]
+box_file_id = "2026725896730"
+box_file_version_id = "2238161183237"
+sha1 = "2f98937654a43914bb586a7e0a1ae9908d97bcb5"
+name = "WUFR26InboardSuspensionCalculator.m"
+source_role = "historical comparison evidence only"
+observed_front_rate_N_per_m = 36000.0
+observed_rear_rate_N_per_m = 30000.0
+historical_method = "scalar motion-ratio / installation-ratio approximation"
+method_warning = "The historical calculator's constant rear rate and scalar MR/IR method do not define the current 30-to-36 N/mm progressive rear law and are not the governing generalized-force architecture."
+unsprung_mass_warning = "The historical script labels m_u=10 kg as quarter-car unsprung mass. This conflicts with the reviewer's current measured statement of 10 kg front axle plus 10 kg rear axle, so the script is not mass authority."
+
+[wufr26_optimumk_setup]
+box_file_id = "2014803790843"
+box_file_version_id = "2224178574043"
+sha1 = "15eadfb93369192038888da92ebaa6674db56cfa"
+name = "WUFR-26 FINAL 8.21.2025.xlsx"
+source_role = "historical suspension setup and kinematics evidence"
+observed_front_rate_N_per_mm = 36.0
+observed_rear_rate_N_per_mm = 36.0
+rate_warning = "The historical OptimumK rear 36 N/mm scalar is not the current WUFR-27 progressive rear constitutive law."
+
+[actuation_interface]
+upstream_model_id = "MOD-SUSP-0003"
+coilover_coordinate = "delta_L_d_m = L_d - L_d0; positive extension"
+canonical_local_derivative = "rho_dw = d(delta_L_d_m)/d(delta_z_wc_body_m); signed"
+spring_seat_mapping_status = "not_yet_frozen_for_wufr_absolute_force"
+reference_gap = "A WUFR-specific spring compression at a vehicle state requires an explicit spring-seat separation or equivalent zero-load/reference-length relation. Zero intentional preload alone does not identify nominal static spring compression."
+
+[authority_boundaries]
+front_constitutive_identity = "The reviewed 36 N/mm linear front rate and 100 mm free length are sufficient to define an ideal linear spring force law as a function of explicitly supplied spring compression."
+rear_constitutive_identity = "The reviewed 30-to-36 N/mm linear-progressive label is insufficient to define force as a function of compression until the progression interval/curve is supplied."
+preload_identity = "Zero intentional preload is a setup statement. It must not be converted into zero spring force at nominal ride height or into an inferred eye-to-eye reference length."
+damper_force_authority = false
+arb_force_authority = false
+wheel_rate_authority = false
+installed_limits_authority = false
