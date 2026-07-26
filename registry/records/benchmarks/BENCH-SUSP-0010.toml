@@ -20,6 +20,7 @@ acceptance_criteria = [
   "Damper dyno force, damping adjustments, ARB behavior, installed travel/stops, vehicle equilibrium, and wheel-load generation remain outside this benchmark."
 ]
 fixture = "data_catalog/wufr27_spring_package_v0.toml"
-planned_implementation = "src/pssd_suspension/spring_force.py"
-planned_implementation_tests = ["tests/test_suspension_spring_force.py"]
-result_record = "planned in PR48 implementation"
+implementation = "src/pssd_suspension/spring_force.py"
+implementation_tests = ["tests/test_suspension_spring_force.py"]
+report_script = "scripts/run_suspension_spring_force_benchmarks.py"
+result_record = "benchmarks/suspension/suspension_spring_force_result_v0.1.0.toml"
