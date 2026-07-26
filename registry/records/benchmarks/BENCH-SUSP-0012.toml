@@ -1,29 +1,25 @@
 [record]
 id = "BENCH-SUSP-0012"
 type = "benchmark"
-title = "WUFR-27 Z-bar geometry, preload, and reduced roll-stiffness authority benchmark"
+title = "WUFR-27 discrete blade-stiffness authority benchmark"
 status = "proposed"
-description = "Verify the WUFR-27 anti-roll-bar source/assumption and reduced-law implementation boundary: carryover lineage, zero-preload semantics, configuration/suppression evidence, historical FEA recovery limits, and the reviewer-selected Weight_transfer_sensitivity.m effective axle roll-stiffness values with explicit unit conversion and no double reduction."
+description = "Verify the WUFR anti-roll-bar governing constitutive authority from the SolidWorks FEA blade-tip stiffness column in the Google Sheet tab ARB FEA vs Simulink, including exact discrete settings, SI conversion, the frozen 1 mm blade-law results, comparison-only source boundaries, and the explicit absence of a WUFR Z-bar suspension-to-blade deformation map."
 verification_level = "B"
 target_ids = ["MOD-SUSP-0005", "EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018", "ASM-SUSP-0003"]
 acceptance_criteria = [
-  "The source packet records the reviewer/user statement that the 2025 Z-bar/blade design basis carries into WUFR-27 and nominal setup uses zero intentional ARB preload.",
-  "The source packet freezes current populated WUFR-26 front/rear ARB assembly, blade, linkage, and suspension-geometry source identities plus the 2025 ARB Stiffness/FEA lineage used for source recovery.",
-  "Current front and rear blade drawings identify Ti-6Al-4V blades; front/rear linkage drawings identify carbon-fiber links of 7.22 in and 6.22 in nominal length respectively. These dimensions/materials are geometry/hardware evidence, not blade constitutive stiffness authority.",
-  "The source packet records the raw front/rear ARB sketch-point sets from the reviewed suspension exporter while explicitly stating that row ordering is not connectivity/topology authority.",
-  "The WUFR-27 A0303 front and A0305 rear assembly files are recorded as identical-file placeholders/copies and do not supersede populated carryover geometry.",
-  "The active WUFR-26 FSA assembly-state evidence records front ARB active and rear ARB top-level assembly suppressed, but this is not generalized into installed WUFR-27 presence/absence authority.",
-  "The 2025 front blade SolidWorks Simulation files remain source-recovery evidence for a future component law because a traceable applied load/fixture/deformation/stiffness result has not been recovered.",
-  "Weight_transfer_sensitivity.m freezes K_phif_neutral=2560 and K_phir_neutral=2270 with source-displayed N*m/deg unit context and the front-line 'change and figure out' warning. Reviewer/user selection on 2026-07-26 promotes only these two values to reduced effective axle ARB roll-stiffness authority for the prototype.",
-  "The exact SI conversion is verified: front 2560 N*m/deg -> 146677.19555349075 N*m/rad and rear 2270 N*m/deg -> 130061.41949469688 N*m/rad.",
-  "At phi_ARB=1 deg, the reduced linear law returns front action magnitude 2560 N*m and rear action magnitude 2270 N*m, with stored energies 22.340214425527417 J and 19.80948701013564 J respectively.",
-  "The WUFR adapter exposes the selected K_phi as an angular scalar law and does not infer phi_ARB from body roll, wheel travel, track, or CAD sketch ordering.",
-  "No blade/link/motion-ratio stiffness reduction is applied on top of the 2560/2270 values; a future detailed component law replaces rather than adds to the reduced law.",
-  "The 2026 spec-sheet Suspension Roll rate values 556 N*m/deg front and 458 N*m/deg rear remain whole-suspension comparison/target values and are not substituted for the selected ARB law.",
-  "Qualitative Instron corroboration remains provenance only until the exact dataset and correlation method are frozen; it is not averaged with the selected MATLAB values."
+  "The governing WUFR stiffness source is the Google Sheet tab ARB FEA vs Simulink, column FEA SolidWorks Stiffness.",
+  "Settings 1..5 are exactly 280, 300, 400, 700, and 2300 N/mm, stored in SI as 280000, 300000, 400000, 700000, and 2300000 N/m.",
+  "The sheet beam-theory expressions use k=3EI/L^3 and divide by 1000 from N/m to N/mm, confirming that the governing values are linear blade-tip force/deflection stiffness rather than N*m/deg.",
+  "The WUFR blade law is F_b=k_b*delta_b, U_b=0.5*k_b*delta_b^2, and Q_ARB=-J_delta_b^T*F_b only when a reviewed deformation Jacobian is available.",
+  "At delta_b=1 mm, settings 1..5 return force magnitudes 280, 300, 400, 700, and 2300 N and energies 0.140, 0.150, 0.200, 0.350, and 1.150 J.",
+  "Blade setting selection is discrete. No interpolation, averaging, blending, or source stacking is authorized.",
+  "MATLAB reduced axle values 2560/2270 N*m/deg are comparison-only evidence and are not governing blade stiffness.",
+  "Simulink 285/309/400/724/2628 N/mm and Instron 900/980/1320/1970/2630 N/mm remain comparison-only and are not averaged or stacked with the SolidWorks FEA values.",
+  "The WUFR map (q_L,q_R)->delta_b and partial(delta_b)/partial(q_L,q_R) is not authorized or implemented. The benchmark must not infer it from body roll, wheel travel, track width, or CAD sketch ordering.",
+  "Without a reviewed WUFR Jacobian, the provider may return blade force and energy for an externally supplied delta_b but must not claim vehicle-coordinate generalized ARB force."
 ]
 fixture = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
-implementation = "src/pssd_suspension/anti_roll_bar.py"
+implementation = "src/pssd_suspension/anti_roll_bar.py; src/pssd_suspension/wufr_anti_roll_bar.py"
 implementation_tests = ["tests/test_suspension_anti_roll_bar.py", "tests/test_suspension_anti_roll_bar_result_record.py"]
 report_script = "scripts/run_suspension_anti_roll_bar_benchmarks.py"
 result_record = "benchmarks/suspension/suspension_anti_roll_bar_result_v0.1.0.toml"
