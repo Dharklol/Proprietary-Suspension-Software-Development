@@ -1,0 +1,10 @@
+[record]
+id = "ASM-SUSP-0002"
+type = "assumption"
+title = "WUFR-27 zero-preload coilover reference and rear progressive-rate model"
+status = "proposed"
+description = "For the first WUFR-27 spring-force prototype, model the KW piggyback coil spring as a direct fixed-seat-offset element whose compression equals full-extension eye-to-eye length minus current eye-to-eye length. The reviewer-declared zero intentional preload is interpreted as x_s=0 at the KW 185.7 mm full-extension piggyback eye-to-eye reference. Until physical rear-spring testing replaces it, model the rear tangent spring rate as increasing linearly from 30 N/mm at x_s=0 to 36 N/mm at x_s=57 mm, the vendor damper stroke. This is an explicit team modeling assumption, not a KW-published spring-rate curve or installed/as-built metrology claim."
+severity = "high"
+affected_ids = ["AUTH-SUSP-0004", "MOD-SUSP-0004", "EQ-SUSP-0013", "EQ-SUSP-0014", "EQ-SUSP-0015", "BENCH-SUSP-0010", "WUFR27_SPRING_PACKAGE_V0"]
+validity = "WUFR-27 design-intent prototype calculations using the reviewed KW piggyback damper, zero intentional preload, 100 mm spring free length, and current inherited WUFR-26 suspension geometry. Rear constitutive use is bounded to 0<=x_s<=57 mm and must be replaced when measured spring force-deflection data become available."
+control = "Preserve the assumption label and provenance in every result; use F_s as the integral of the assumed tangent-rate law rather than F_s=k_t*x_s; do not promote the 57 mm span to installed wheel travel; replace the rear law after spring testing and replace the zero-preload/full-extension mapping if perch metrology or shock-pot calibration demonstrates a different reference."
