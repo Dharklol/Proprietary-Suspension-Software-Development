@@ -17,6 +17,15 @@ jobs:
         run: python -m pip install -e .
       - name: Validate whole-vehicle force-coordinate authorization
         run: python -m unittest tests.test_whole_vehicle_force_coordinate_authorization -v
+      - name: Validate whole-vehicle force-coordinate implementation
+        run: python -m unittest tests.test_vehicle_force_coordinates -v
+      - name: Generate whole-vehicle force-coordinate reports
+        run: |
+          python scripts/run_vehicle_force_coordinate_benchmarks.py \
+            --output vehicle_force_coordinate_report.json > /dev/null
+          python scripts/run_vehicle_force_coordinate_benchmarks.py \
+            --summary \
+            --output vehicle_force_coordinate_summary.json
       - name: Generate planar slip-kinematics reports
         run: |
           python scripts/run_planar_slip_kinematics_benchmarks.py \
@@ -36,6 +45,8 @@ jobs:
         with:
           name: motion-aware-vehicle-steering-reports
           path: |
+            vehicle_force_coordinate_report.json
+            vehicle_force_coordinate_summary.json
             planar_slip_kinematics_report.json
             planar_slip_kinematics_summary.json
             motion_aware_force_demand_report.json
