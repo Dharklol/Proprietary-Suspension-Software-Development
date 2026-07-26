@@ -1,0 +1,29 @@
+[record]
+id = "ASM-SUSP-0003"
+type = "assumption"
+title = "WUFR-27 Z-bar carryover, zero-preload reference, and stiffness-authority boundary"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Freeze the reviewer-declared WUFR-27 anti-roll-bar design-intent boundary without manufacturing missing constitutive data. The 2025 Z-bar/blade concept and current populated WUFR-26 geometry are carried into the WUFR-27 R&D baseline, and nominal setup uses zero intentional ARB preload. This assumption does not create front/rear blade stiffness, installed/as-built authority, or a populated WUFR-27 CAD revision where the current direct WUFR-27 assembly files are identical placeholders."
+assumptions = [
+  "Reviewer/user statement on 2026-07-26: use the 2025 ARB Development Z-bar/blade design basis for WUFR-27 and run zero ARB preload.",
+  "Until a populated WUFR-27 ARB revision supersedes it, current WUFR-26 suspension geometry and front/rear ARB CAD/drawings are the design-intent geometry source for the carryover model.",
+  "Zero intentional preload means the named nominal bilateral mechanism state is the zero-energy/reference state after the mechanism reconstruction is verified; it does not justify forcing a numerically nonzero reconstructed deformation to zero by hidden offset repair.",
+  "The current WUFR-27 front and rear ARB assembly files have identical file SHA-1 and size/timestamp and are treated as placeholder/copy evidence only, not independent geometry authority.",
+  "No WUFR-specific ARB constitutive stiffness is assumed. Historical roll-stiffness values, exploratory MATLAB literals, and unrecovered SolidWorks Simulation databases remain comparison/source-recovery evidence only."
+]
+severity = "high"
+source_basis = [
+  "Reviewer/user statement in FSAE project conversation, 2026-07-26.",
+  "WUFR-25 ARB Stiffness folder and 2025 front/rear ARB design files.",
+  "Current WUFR-26 suspension geometry and front/rear ARB CAD/drawings.",
+  "WUFR-27 A0303/A0305 assembly placeholder files inspected 2026-07-26."
+]
+replacement_gate = "Replace carryover/placeholder assumptions with a populated WUFR-27 ARB CAD/source revision when available. Add WUFR force authority only after traceable blade/system force-deflection or torque-angle evidence is frozen."
+prohibited_inference = [
+  "Do not infer front/rear ARB stiffness from the 2026 spec-sheet suspension roll-rate values.",
+  "Do not infer stiffness from Ti-6Al-4V material plus drawing dimensions without an explicitly reviewed beam/FEA/test model.",
+  "Do not infer Z-bar topology from exporter sketch-point row ordering.",
+  "Do not infer installed rear-ARB absence for all WUFR-27 configurations from one WUFR-26 FSA assembly suppression state."
+]
