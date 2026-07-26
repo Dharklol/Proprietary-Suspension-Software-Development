@@ -1,10 +1,10 @@
-version = "0.1.0"
+version = "0.2.0"
 fixture_id = "WUFR26_ZBAR_MECHANISM_V0"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
 status = "review_ready_nominal_design_geometry"
 installed_as_built_authority = false
 coordinate_frame = "+x forward, +y vehicle left, +z upward; meters"
-source_role = "Named nominal carryover Z-bar mechanism fixture reconstructed by cross-source entity identification; not installed metrology and not a scalar blade elastic-coordinate definition."
+source_role = "Named nominal carryover Z-bar mechanism fixture reconstructed by cross-source entity identification; not installed metrology. AUTH-SUSP-0007 separately defines the two-arm elastic coordinates and AUTH-SUSP-0008 separately authorizes the implemented rocker-coordinate map."
 
 [authority]
 suspension_geometry_box_file_id = "1943897977651"
@@ -79,11 +79,14 @@ nominal_midpoint_residual_m = [0.0, 0.0, 0.0]
 authority = "Use the already-reviewed MOD-SUSP-0003 one-axis rocker state. The ARB pickup is a point rigidly fixed to each rocker and is transported about the named rocker pivot/axis; no scalar motion ratio substitutes for this point transport."
 implementation_helper = "src/pssd_suspension/actuation.py::rocker_point_at_angle"
 
-[remaining_boundary]
+[current_boundary]
 mechanism_point_fixture_authorized = true
 rocker_pickup_transport_authorized = true
 rigid_link_nominal_geometry_authorized = true
-scalar_delta_b_map_authorized = false
-jacobian_authorized = false
-vehicle_coordinate_generalized_force_authorized = false
-reason = "The recovered files now close the named nominal point/topology fixture. They do not yet unambiguously state how the PR50 single scalar blade-tip elastic coordinate delta_b is reduced from the two-ended installed blade deformation. The SolidWorks k_b must not be doubled, halved, square-root rescaled, or stacked across the two blade arms without separate source/reviewer authority."
+two_arm_elastic_coordinate_authorized = true
+rocker_coordinate_jacobian_authorized = true
+rocker_coordinate_generalized_force_authorized = true
+wheel_coordinate_generalized_force_authorized = false
+vehicle_equilibrium_authorized = false
+authorization_chain = ["AUTH-SUSP-0006", "AUTH-SUSP-0007", "AUTH-SUSP-0008"]
+reason = "AUTH-SUSP-0007 resolves the earlier scalar-coordinate ambiguity as two per-arm elastic deflections. PR54 plus AUTH-SUSP-0008 implements and verifies d(theta_RL,theta_RR), J_d, and Q_rocker. The remaining boundary is the signed chain from physical wheel/body coordinates to the two rocker angles; historical scalar motion ratios are still not accepted as that chain."
