@@ -30,8 +30,9 @@ The following decisions are frozen for this program:
 3. A negative road-normal reaction is wheel lift/contact-mode invalidity and must not be clipped.
 4. The first later linkage-force model will use ideal pin-jointed two-force members as a global load-path approximation, followed by separate structural/FEA work rather than treating ideal member forces as final stresses.
 5. Corner-scale states supplied on 2026-07-26 are explicitly distinguished as driver/no-fuel and no-driver/no-fuel states; they must not be blended into one mass state.
+6. The `0.290 m` CG-height value came from a tilt test with ballast used to simulate a driver. It is therefore driver-equivalent evidence and must not be labeled as a no-driver CG-height measurement.
 
-The first four decisions are represented by `ASM-VEH-0001`, `ASM-VEH-0002`, and `ASM-SUSP-0001`. The measured scale values are frozen only in the reviewed WUFR adapter record used by PR #46.
+The first four decisions are represented by `ASM-VEH-0001`, `ASM-VEH-0002`, and `ASM-SUSP-0001`. The measured scale and CG-height values are frozen only in the reviewed WUFR adapter record used by PR #46.
 
 ## 3. Literature basis
 
@@ -92,45 +93,47 @@ A limitation was found in this exporter run: sketch-point `model_x_m/model_y_m/m
 
 The reviewer supplied two distinct level-scale states, confirmed in pounds.
 
-### No driver, no fuel
-
-```text
-LF=113, RF=104, LR=126, RR=134, total=477 lb
-```
-
-Using the explicitly frozen CAD axle and left/right contact-reference stations, the vertical-reaction centroid gives the planar design reference:
-
-```text
-x_CG_source = -0.8516226415094339 m
-y_CG_source = +0.0015043731656184725 m
-```
-
-The 2026 FSAE Design IC spec sheet, Box file `2149814001036`, version `2510738677599`, SHA-1 `588669d320ff8097ec0bc85a85a970640d5a4d38`, separately reports a no-driver CG height of `0.290 m`.
-
-The scale session and spec-sheet CG-height measurement are **not proven to be the same physical mass/setup state**. PR #46 therefore labels the composite point
-
-```text
-[-0.8516226415094339, +0.0015043731656184725, +0.290] m
-```
-
-as a named **design-intent no-driver reference only**, not one-session metrology or installed/as-built authority.
-
-### Driver, no fuel
+### Driver, no fuel — primary design-intent body reference
 
 ```text
 LF=178, RF=175, LR=163, RR=159, total=675 lb
 ```
 
-The separately frozen planar reference is:
+Using the explicitly frozen CAD axle and left/right contact-reference stations, the vertical-reaction centroid gives the planar design reference:
 
 ```text
 x_CG_source = -0.7453226666666667 m
 y_CG_source = +0.006312743703703716 m
 ```
 
-No driver/no-fuel vertical CG coordinate is currently authorized. The no-driver `0.290 m` value is not reused.
+The 2026 FSAE Design IC spec sheet, Box file `2149814001036`, version `2510738677599`, SHA-1 `588669d320ff8097ec0bc85a85a970640d5a4d38`, contains the `0.290 m` CG-height value. The reviewer clarified on 2026-07-26 that this value came from a tilt test using ballast to simulate a driver. The spec-sheet no-driver label is therefore not used as the physical-state authority for that measurement.
+
+The driver/no-fuel scale session and driver-equivalent-ballast tilt test are **not proven to be the same physical setup session**. PR #46 therefore labels the composite point
+
+```text
+[-0.7453226666666667, +0.006312743703703716, +0.290] m
+```
+
+as a named **driver/no-fuel design-intent reference only**, not same-session metrology or installed/as-built authority. It is appropriate as the initial R&D/QSS body reference while retaining the two-source provenance explicitly.
+
+### No driver, no fuel
+
+```text
+LF=113, RF=104, LR=126, RR=134, total=477 lb
+```
+
+The separately frozen planar reference is:
+
+```text
+x_CG_source = -0.8516226415094339 m
+y_CG_source = +0.0015043731656184725 m
+```
+
+No no-driver/no-fuel vertical CG coordinate is currently authorized. The `0.290 m` driver-equivalent tilt value is not reused or relabeled for this state.
 
 The corner-weight readings are provenance for these named planar CG-reference calculations in PR #46. They do **not** authorize gravity-force generation, sprung/unsprung allocation, spring preload, four-corner equilibrium, or dynamic load transfer.
+
+The reviewer additionally reported measured unsprung mass of `10 kg` for the front axle and `10 kg` for the rear axle (`20 kg` total), with no large WUFR-27 change expected. PR #46 records that information only as future mass-model evidence; it is not consumed by `MOD-VEH-0003`, does not establish a per-corner unsprung split, and does not create mass-force authority.
 
 ## 6. Contact-model boundary
 
@@ -173,10 +176,11 @@ No linkage-force equation is implemented by PR #46.
 
 The PR #46 evidence is sufficient for the bounded whole-vehicle coordinate/wrench/contact implementation, but it does not close later force/equilibrium programs. Still unavailable or separately gated are:
 
-- driver/no-fuel `z_CG`;
-- authoritative total/sprung/unsprung mass allocation for force generation;
-- spring free length, installed length/preload, and force law;
-- coupled ARB geometry/preload/torsion law;
+- same-session actual-driver `z_CG` metrology; the `0.290 m` value is only the source-separated driver-equivalent-ballast design reference;
+- authoritative total vehicle mass and sprung-mass allocation for force generation;
+- per-corner unsprung mass allocation beyond the reported `10 kg` front-axle and `10 kg` rear-axle totals;
+- spring free length, installed length/preload, and constitutive force law under a separately authorized spring program;
+- coupled ARB geometry/preload/torsion law under a separately authorized ARB program;
 - aero/brake/powertrain/component force application points and force laws;
 - physical tire radial compliance/contact patch geometry;
 - alternate contact modes and wheel-lift continuation;
@@ -190,7 +194,7 @@ The evidence now supports implementation of:
 - force/couple wrench translation and summation;
 - virtual-work generalized-force mapping;
 - flat-road rigid-contact gap/reaction classification;
-- an explicit WUFR-26/27 **design-intent** whole-vehicle frame/axle/contact adapter;
+- an explicit WUFR-26/27 **design-intent** whole-vehicle frame/axle/contact adapter referenced to the source-separated driver/no-fuel design state;
 - strict frame, origin, application-point, source-state, and provenance diagnostics.
 
 The evidence does not authorize spring/ARB/tire force laws, wheel loads, QSS equilibrium, alternate contact modes, linkage forces, stress, installed/as-built correlation, or production decisions.
