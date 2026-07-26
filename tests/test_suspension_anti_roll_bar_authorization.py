@@ -29,14 +29,16 @@ class SuspensionAntiRollBarAuthorizationTests(unittest.TestCase):
         self.assertFalse(auth["numerics"]["hidden_clipping_allowed"])
         self.assertFalse(auth["numerics"]["absolute_ratio_allowed"])
         self.assertFalse(auth["numerics"]["stiffness_inference_allowed"])
+        self.assertFalse(auth["numerics"]["reduced_stiffness_double_count_allowed"])
 
         permitted = "\n".join(auth["permitted"]["items"]).lower()
         prohibited = "\n".join(auth["prohibited"]["items"]).lower()
         self.assertIn("bilateral", permitted)
-        self.assertIn("missing_stiffness_authority", permitted)
+        self.assertIn("2560", permitted)
+        self.assertIn("2270", permitted)
         self.assertIn("scalar k_arb*mr^2", prohibited)
         self.assertIn("556/458", prohibited)
-        self.assertIn("2560", prohibited)
+        self.assertIn("double-count", prohibited)
 
     def test_registry_links_and_equation_contracts_are_frozen(self) -> None:
         model = _load("registry/records/models/MOD-SUSP-0005.toml")["record"]
@@ -52,6 +54,8 @@ class SuspensionAntiRollBarAuthorizationTests(unittest.TestCase):
         self.assertEqual(assumption["id"], "ASM-SUSP-0003")
         self.assertEqual(assumption["severity"], "high")
         self.assertIn("zero intentional arb preload", assumption["description"].lower())
+        self.assertIn("2560", assumption["description"])
+        self.assertIn("2270", assumption["description"])
 
         for equation_id in model["equation_ids"]:
             equation = _load(f"registry/records/equations/{equation_id}.toml")["record"]
@@ -95,6 +99,7 @@ class SuspensionAntiRollBarAuthorizationTests(unittest.TestCase):
         self.assertAlmostEqual(q_left + q_right, 0.0)
 
         h = 1.0e-6
+
         def u(z_l: float, z_r: float) -> float:
             local_s = z_l - z_r - s0
             return 0.5 * k * local_s * local_s
@@ -113,11 +118,11 @@ class SuspensionAntiRollBarAuthorizationTests(unittest.TestCase):
         self.assertAlmostEqual(preloaded_s, 0.017)
         self.assertNotEqual(zero_preload_s, preloaded_s)
 
-    def test_wufr_package_freezes_geometry_lineage_without_stiffness(self) -> None:
+    def test_wufr_package_freezes_geometry_and_reduced_stiffness_authority(self) -> None:
         package = _load("data_catalog/wufr27_anti_roll_bar_package_v0.toml")
         self.assertEqual(package["configuration_id"], "WUFR27_SUSPENSION_BASELINE_V0")
         self.assertFalse(package["installed_as_built_authority"])
-        self.assertFalse(package["constitutive_stiffness_authority"])
+        self.assertTrue(package["constitutive_stiffness_authority"])
         self.assertEqual(package["reviewed_setup"]["intentional_preload"], "zero")
         self.assertIn("2025", package["reviewed_setup"]["wufr27_carryover"])
 
@@ -131,11 +136,12 @@ class SuspensionAntiRollBarAuthorizationTests(unittest.TestCase):
         self.assertAlmostEqual(rear["linkage_nominal_length_in"], 6.22)
 
         authority = package["constitutive_authority"]
-        self.assertEqual(authority["front_status"], "missing_stiffness_authority")
-        self.assertEqual(authority["rear_status"], "missing_stiffness_authority")
+        self.assertEqual(authority["front_status"], "reviewer_selected_effective_axle_roll_stiffness")
+        self.assertEqual(authority["rear_status"], "reviewer_selected_effective_axle_roll_stiffness")
         self.assertTrue(authority["allow_generic_synthetic_implementation"])
         self.assertTrue(authority["allow_wufr_geometry_only_evaluation"])
-        self.assertFalse(authority["allow_wufr_force_energy_output"])
+        self.assertTrue(authority["allow_wufr_force_energy_output"])
+        self.assertFalse(authority["allow_detailed_blade_force_energy_output"])
 
     def test_wufr27_direct_assembly_files_are_explicit_placeholders(self) -> None:
         package = _load("data_catalog/wufr27_anti_roll_bar_package_v0.toml")
@@ -151,22 +157,50 @@ class SuspensionAntiRollBarAuthorizationTests(unittest.TestCase):
         self.assertEqual(len(geometry["front_arb_raw_sketch"]["points_m"]), 10)
         self.assertEqual(len(geometry["rear_arb_raw_sketch"]["points_m"]), 10)
 
-    def test_historical_numeric_substitutes_remain_rejected(self) -> None:
+    def test_reviewer_selected_matlab_stiffness_and_si_conversion(self) -> None:
         package = _load("data_catalog/wufr27_anti_roll_bar_package_v0.toml")
         historical = package["historical_weight_transfer_script"]
         self.assertEqual(historical["observed_front_literal"], 2560.0)
         self.assertEqual(historical["observed_rear_literal"], 2270.0)
+        self.assertEqual(historical["source_displayed_unit"], "N*m/deg")
         self.assertIn("change and figure out", historical["source_warning"])
-        self.assertIn("not arb constitutive stiffness", historical["authority"].lower())
+        self.assertIn("reviewer_selected", historical["authority"])
 
+        expected_front_si = 2560.0 * 180.0 / math.pi
+        expected_rear_si = 2270.0 * 180.0 / math.pi
+        self.assertTrue(math.isclose(historical["front_effective_roll_stiffness_Nm_per_rad"], expected_front_si, rel_tol=1e-14))
+        self.assertTrue(math.isclose(historical["rear_effective_roll_stiffness_Nm_per_rad"], expected_rear_si, rel_tol=1e-14))
+
+        phi = math.radians(1.0)
+        front_moment = expected_front_si * phi
+        rear_moment = expected_rear_si * phi
+        front_energy = 0.5 * expected_front_si * phi * phi
+        rear_energy = 0.5 * expected_rear_si * phi * phi
+        self.assertTrue(math.isclose(front_moment, 2560.0, rel_tol=1e-14))
+        self.assertTrue(math.isclose(rear_moment, 2270.0, rel_tol=1e-14))
+        self.assertTrue(math.isclose(front_energy, 22.340214425527417, rel_tol=1e-14))
+        self.assertTrue(math.isclose(rear_energy, 19.80948701013564, rel_tol=1e-14))
+
+        boundaries = package["authority_boundaries"]
+        self.assertTrue(boundaries["historical_literal_substitution_allowed"])
+        self.assertIn("only", boundaries["historical_literal_substitution_scope"].lower())
+        self.assertIn("reduced effective axle", boundaries["stiffness_authority"].lower())
+        self.assertEqual(boundaries["blade_constitutive_authority"], "unavailable")
+
+    def test_comparison_sources_do_not_override_selected_reduced_law(self) -> None:
+        package = _load("data_catalog/wufr27_anti_roll_bar_package_v0.toml")
         spec = package["wufr26_spec_sheet_comparison"]
         self.assertEqual(spec["front_suspension_roll_rate_Nm_per_deg"], 556.0)
         self.assertEqual(spec["rear_suspension_roll_rate_Nm_per_deg"], 458.0)
-        self.assertIn("not arb-only", spec["interpretation"].lower())
+        self.assertIn("not substituted", spec["interpretation"].lower())
 
         fea = package["wufr25_arb_stiffness_source"]
-        self.assertEqual(fea["stiffness_recovery_status"], "incomplete")
+        self.assertIn("incomplete", fea["stiffness_recovery_status"])
         self.assertIn("no human-readable", fea["stiffness_recovery_gap"].lower())
+
+        instron = package["instron_corroboration"]
+        self.assertEqual(instron["status"], "qualitative_corroboration_only")
+        self.assertIn("do not fit", instron["physics_use"].lower())
 
     def test_active_suppressed_state_is_configuration_evidence_only(self) -> None:
         package = _load("data_catalog/wufr27_anti_roll_bar_package_v0.toml")
