@@ -1,9 +1,9 @@
-version = "0.1.0"
+version = "0.1.1"
 record_id = "WUFR27_ANTI_ROLL_BAR_PACKAGE_V0"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
-record_authority = "reviewed_design_intent_geometry_and_lineage_with_missing_constitutive_stiffness"
+record_authority = "reviewed_design_intent_geometry_and_reviewer_selected_effective_axle_roll_stiffness"
 installed_as_built_authority = false
-constitutive_stiffness_authority = false
+constitutive_stiffness_authority = true
 
 [reviewed_setup]
 review_date = "2026-07-26"
@@ -12,6 +12,7 @@ architecture = "Z-bar / blade anti-roll-bar concept"
 wufr27_carryover = "Use the 2025 ARB Development Z-bar/blade design basis for WUFR-27. Current populated WUFR-26 geometry/drawings are the carryover geometry evidence until a populated WUFR-27 revision supersedes them."
 intentional_preload = "zero"
 zero_preload_semantics = "The named nominal bilateral mechanism state is intended as the zero-energy ARB reference after source-specific mechanism reconstruction; do not hide a reconstruction residual by silently subtracting it."
+constitutive_selection = "Reviewer/user decision on 2026-07-26: use Weight_transfer_sensitivity.m K_phif_neutral=2560 and K_phir_neutral=2270 as the governing effective front/rear ARB roll-stiffness values for the WUFR-27 reduced prototype. Reviewer reports available Instron data comes somewhat close, while the MATLAB/simulation values were more consistent for the stiffer settings."
 
 [wufr26_suspension_geometry]
 box_file_id = "1943897977651"
@@ -78,7 +79,7 @@ linkage_material = "CARBON FIBER"
 linkage_nominal_length_in = 7.22
 linkage_od_in = 0.50
 linkage_wall_thickness_in = 0.063
-source_role = "current populated carryover hardware/geometry evidence; no constitutive stiffness inferred from dimensions/material"
+source_role = "current populated carryover hardware/geometry evidence; no blade stiffness inferred from dimensions/material"
 
 [wufr26_rear_arb]
 assembly_box_file_id = "1966622815072"
@@ -102,7 +103,7 @@ linkage_material = "CARBON FIBER"
 linkage_nominal_length_in = 6.22
 linkage_od_in = 0.50
 linkage_drawing_thickness_note_in = 0.125
-source_role = "current populated carryover hardware/geometry evidence; no constitutive stiffness inferred from dimensions/material"
+source_role = "current populated carryover hardware/geometry evidence; no blade stiffness inferred from dimensions/material"
 
 [wufr26_active_assembly_state]
 assembly_box_file_id = "1966637303418"
@@ -116,7 +117,7 @@ interpretation = "assembly-state evidence for the exported WUFR-26 FSA configura
 [wufr25_arb_stiffness_source]
 folder_box_id = "312966793399"
 folder_name = "ARB Stiffness"
-source_role = "historical source-recovery target requested by reviewer; contains front blade CAD and SolidWorks Simulation result/support files"
+source_role = "historical source-recovery/corroboration target; contains front blade CAD and SolidWorks Simulation result/support files"
 front_blade_part_box_file_id = "1860740123335"
 front_blade_part_box_file_version_id = "2051848182332"
 front_blade_part_sha1 = "cdc59578f2109a7f21d076a7e799e73047d40a5f"
@@ -132,8 +133,8 @@ front_simulation_support_files = [
   "GSZ Box 1860742552428 v2051831068428 SHA1 edeb078142f72518309922eec4ab777e515c3542",
   "MFC Box 1860756729238 v2051864291049 SHA1 7864d161535fb97a8fcf5db396493dcf30c8b7f9"
 ]
-stiffness_recovery_status = "incomplete"
-stiffness_recovery_gap = "No human-readable applied load/torque, fixture/constraint definition, deformation observable, units, force-deflection/torque-angle result, or reviewed stiffness extraction was recovered from these files in the PR49 source audit."
+stiffness_recovery_status = "incomplete_for_component_blade_law"
+stiffness_recovery_gap = "No human-readable applied load/torque, fixture/constraint definition, deformation observable, units, force-deflection/torque-angle result, or reviewed stiffness extraction was recovered from these files in the PR49 source audit. This blocks a detailed blade law but no longer blocks the reviewer-selected reduced effective axle roll-stiffness model."
 
 [wufr25_design_lineage]
 front_blade_pdf_box_file_id = "1719572711908"
@@ -170,9 +171,24 @@ sha1 = "230b4b7816726e3a7c613716860e09c582f606fb"
 name = "Weight_transfer_sensitivity.m"
 observed_front_literal = 2560.0
 observed_rear_literal = 2270.0
-observed_units_context = "script variables K_phif_neutral and K_phir_neutral; exact physical/unit authority not sufficiently frozen here"
-source_warning = "The front assignment line includes the comment '%change and figure out'."
-authority = "historical exploratory comparison only; not ARB constitutive stiffness"
+source_displayed_unit = "N*m/deg"
+source_variable_names = ["K_phif_neutral", "K_phir_neutral"]
+source_plot_axis_labels = ["Front Cornering Stiffness [Nm/deg]", "Rear Cornering Stiffness [Nm/deg]"]
+source_warning = "The front assignment line includes the comment '%change and figure out'. The script uses K_phif/K_phir primarily through their ratio in the load-transfer sensitivity calculation, so the script itself does not independently validate the absolute scale."
+reviewer_authority_decision = "On 2026-07-26 the reviewer/user designated these literals as the most reliable available WUFR ARB values and directed that they be used. Available Instron data was described as coming somewhat close, while the MATLAB/simulation values were judged more consistent for the stiffer settings."
+quantity_semantics = "reviewer-selected effective axle anti-roll roll stiffness for the reduced WUFR prototype; not blade torsional stiffness and not a separately recovered force-deflection law"
+front_effective_roll_stiffness_Nm_per_deg = 2560.0
+rear_effective_roll_stiffness_Nm_per_deg = 2270.0
+front_effective_roll_stiffness_Nm_per_rad = 146677.19555349075
+rear_effective_roll_stiffness_Nm_per_rad = 130061.41949469688
+si_conversion = "K_Nm_per_rad = K_Nm_per_deg * 180/pi. When the elastic coordinate is radians, use the SI values above so U=0.5*K*phi^2 and M=K*phi are dimensionally consistent."
+authority = "reviewer_selected_design_intent_for_reduced_effective_axle_roll_stiffness"
+
+[instron_corroboration]
+review_source = "Reviewer/user statement in FSAE project conversation, 2026-07-26"
+status = "qualitative_corroboration_only"
+reviewer_statement = "Available Instron data comes somewhat close to the MATLAB values, but the MATLAB simulation was more consistent for the stiffer settings."
+physics_use = "Do not fit, average, or replace the governing 2560/2270 values from this qualitative statement. Freeze exact Instron data separately before any quantitative correlation claim."
 
 [wufr26_spec_sheet_comparison]
 box_file_id = "2149814001036"
@@ -181,23 +197,28 @@ sha1 = "588669d320ff8097ec0bc85a85a970640d5a4d38"
 name = "2026_FSAE_Design_IC_Spec_Sheet_WashU_Racing.xlsx"
 front_suspension_roll_rate_Nm_per_deg = 556.0
 rear_suspension_roll_rate_Nm_per_deg = 458.0
-interpretation = "whole-suspension roll-rate comparison/target evidence only; not ARB-only constitutive stiffness and not used by MOD-SUSP-0005 as a blade/system rate"
+interpretation = "whole-suspension roll-rate comparison/target evidence only; not substituted for the reviewer-selected effective ARB values and not treated as blade/system constitutive stiffness"
 
 [constitutive_authority]
-front_status = "missing_stiffness_authority"
-rear_status = "missing_stiffness_authority"
-required_replacement_evidence = "Traceable blade or assembled-Z-bar force-deflection/torque-angle data, or a reviewed analytical/FEA derivation that freezes load/torque, constraints, deformation coordinate, units, source revision, fitted law/domain, and verification."
+front_status = "reviewer_selected_effective_axle_roll_stiffness"
+rear_status = "reviewer_selected_effective_axle_roll_stiffness"
+constitutive_model = "linear reduced axle-level roll stiffness about the explicit zero-preload reference"
+source_coordinate = "signed effective axle ARB differential/roll deformation angle phi_ARB in radians for the SI implementation; source-displayed stiffness values are N*m/deg and are converted explicitly"
 allow_generic_synthetic_implementation = true
 allow_wufr_geometry_only_evaluation = true
-allow_wufr_force_energy_output = false
+allow_wufr_force_energy_output = true
+allow_detailed_blade_force_energy_output = false
+replacement_evidence = "A traceable physical or FEA blade/system force-deflection or torque-angle law may replace the reduced reviewer-selected stiffness model in a separately reviewed higher-fidelity configuration. It must not be stacked on top of the reduced effective axle stiffness."
 
 [authority_boundaries]
 zero_preload_authority = "reviewed design-intent setup statement under ASM-SUSP-0003; not installed metrology"
 geometry_authority = "reviewed carryover design-intent from current populated WUFR-26 geometry/drawings plus 2025 lineage; not installed/as-built"
-stiffness_authority = "unavailable"
+stiffness_authority = "reviewer-selected reduced effective axle roll stiffness: front 2560 N*m/deg, rear 2270 N*m/deg"
+blade_constitutive_authority = "unavailable"
 wheel_rate_authority = false
 suspension_roll_rate_substitution_allowed = false
-historical_literal_substitution_allowed = false
+historical_literal_substitution_allowed = true
+historical_literal_substitution_scope = "Only the explicitly reviewer-selected Weight_transfer_sensitivity.m 2560/2270 values may be used, and only as reduced effective axle ARB roll stiffness with source warning/provenance retained. No other historical literal is promoted by analogy."
 stress_fatigue_authority = false
 linkage_load_authority = false
 installed_limits_authority = false
