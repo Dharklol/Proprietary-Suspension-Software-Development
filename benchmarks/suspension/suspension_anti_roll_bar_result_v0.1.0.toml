@@ -37,9 +37,9 @@ missing_stiffness_failure_code = "missing_stiffness_authority"
 outside_domain_failure_code = "constitutive_domain_exceeded"
 energy_check_step_1_m = 1.0e-6
 energy_check_step_2_m = 5.0e-7
-energy_check_fd_generalized_force_1_N = -200.00000000020003
-energy_check_fd_generalized_force_2_N = -200.00000000042206
-max_energy_gradient_residual_N = 4.220623850414995e-10
+energy_check_fd_generalized_force_1_N = -200.00000000031105
+energy_check_fd_generalized_force_2_N = -199.99999999975594
+max_energy_gradient_residual_N = 3.1104718800634146e-10
 pass = true
 
 [BENCH-SUSP-0012]
