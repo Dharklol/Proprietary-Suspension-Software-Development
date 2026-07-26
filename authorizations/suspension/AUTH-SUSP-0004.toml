@@ -1,0 +1,94 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0004"
+status = "review_ready"
+title = "Conservative coil-spring force, energy, and generalized-force authorization"
+effective_condition = "Effective only after review and merge of the PR carrying this authorization. This authorization permits a bounded conservative coil-spring provider composed with the reviewed suspension/actuation state. It defines explicit spring compression/preload coordinates, source-defined constitutive force and stored energy, tangent stiffness, and signed generalized-force mapping through virtual work. It does not authorize damper force, ARB force, wheel-rate shortcuts as governing physics, vehicle equilibrium, installed travel/stops, or completion of an incompletely sourced progressive spring law."
+review_record = "docs/reviews/phase2_spring_force_authorization_review.md"
+
+[scope]
+model_ids = ["MOD-SUSP-0004"]
+equation_ids = ["EQ-SUSP-0013", "EQ-SUSP-0014", "EQ-SUSP-0015"]
+benchmark_ids = ["BENCH-SUSP-0009", "BENCH-SUSP-0010"]
+upstream_model_ids = ["MOD-SUSP-0003"]
+geometry_configuration = "WUFR27_SUSPENSION_BASELINE_V0"
+source_snapshot = "data_catalog/wufr27_spring_package_v0.toml"
+planned_implementation_package = "src/pssd_suspension/spring_force.py"
+
+[permitted]
+items = [
+  "Define spring compression x_s as a positive-compression coordinate from an explicitly authorized free length and current spring-seat separation, or from an algebraically equivalent explicit reference/preload relation. The mapping may not infer an unknown seat offset from nominal coilover length.",
+  "Represent intentional spring preload as an explicit nonnegative setup compression/reference parameter. Zero intentional preload is permitted as a named setup state but does not mean zero spring force at nominal loaded ride height.",
+  "Evaluate a conservative source-defined spring law F_s=f_s(x_s) with compression-positive force magnitude and define stored energy U_s(x_s)=integral_0^x_s F_s(xi) dxi and local tangent stiffness k_t=dF_s/dx_s.",
+  "Use an exact linear law when the source authorizes a constant spring rate. For reviewed force-versus-compression tables, a later implementation may use explicitly documented interpolation/integration only inside the frozen source domain.",
+  "Map spring energy into signed generalized force with Q_s=-partial U_s/partial q. When x_s=x_pre+L_ref-L_d, this becomes Q_s=F_s partial L_d/partial q. For the single physical wheel coordinate, Q_delta_z=F_s rho_dw using the signed MOD-SUSP-0003 rho_dw.",
+  "Expose force, compression, stored energy, tangent stiffness, generalized force/Jacobian diagnostics, source/configuration identity, and explicit availability/failure state without replacing them by an ambiguous scalar wheel rate.",
+  "Use the reviewer-declared WUFR-27 36 N/mm front spring as a linear design-intent constitutive source when spring compression is explicitly supplied.",
+  "Retain the reviewer-declared rear 30-to-36 N/mm linear-progressive spring identity while returning progressive_law_incomplete until a source defines the progression versus compression."
+]
+
+[prohibited]
+items = [
+  "Treating the WUFR rear 30-to-36 N/mm progressive spring as a constant 30, 33, or 36 N/mm spring; averaging endpoint rates; or inventing a progression interval.",
+  "Using the KW V5 damper's 57 mm stroke, 185.7 mm dimension, spring-perch click increment, OptimumK heave sweep, or any unrelated travel range as the rear spring progression interval without separate source authority.",
+  "Inferring spring-seat separation, zero-load eye-to-eye length, installed spring compression, or nominal spring force from coilover eye-to-eye length alone when the fixed seat-offset/reference relation has not been frozen.",
+  "Silently clipping negative calculated compression to zero. A coil spring that would require tension leaves the authorized seated-spring contact mode and must return spring_unseated or equivalent explicit failure/unavailable state.",
+  "Extrapolating a source-defined nonlinear/table law beyond its reviewed compression/force domain, crossing an upstream actuation branch failure, or hiding derivative sign through absolute values.",
+  "Damper velocity force, hysteresis, gas force, seal friction, bump-stop/top-out force, tender/helper-spring behavior, anti-roll-bar behavior, tire stiffness, or energy dissipation.",
+  "Using k_s*rho^2 or any scalar motion-ratio wheel-rate expression as the governing force architecture. Such a quantity may later be reported only as a local derived diagnostic with its exact assumptions and nonlinear geometric-stiffness terms identified.",
+  "Vehicle heave/roll/pitch equilibrium, wheel-load generation, load transfer, contact-mode switching, linkage/member/bearing reactions, stress/FEA, compliance, installed/as-built limits, or production release."
+]
+
+[numerics]
+spring_compression_coordinate = "x_s_m >= 0 for the authorized seated-spring mode; positive means spring compression from its zero-load/free-length reference."
+reference_mapping = "Preferred physical definition x_s=L_free-L_seat. Algebraically equivalent x_s=x_pre+L_ref-L_d is allowed only when x_pre and L_ref/seat mapping have explicit source/configuration authority."
+force_sign = "F_s_N is a nonnegative compression-force magnitude for this coil-spring class; force direction in vehicle coordinates is created by the signed coordinate Jacobian, not by discarding Jacobian sign."
+stored_energy_rule = "U_s(x_s)=integral from 0 to x_s of F_s(xi) dxi, with U_s(0)=0 for the zero-load seated reference."
+tangent_rule = "k_t=dF_s/dx_s at the current state; for piecewise source data the implementation must report the local segment/side convention at knots."
+generalized_force_rule = "Q_s=-partial U_s/partial q=-F_s*partial x_s/partial q. For x_s=x_pre+L_ref-L_d, Q_s=F_s*partial L_d/partial q; for q=delta_z_wc_body, Q_s=F_s*rho_dw."
+finite_difference_rule = "Analytic derivatives are preferred. Numerical generalized-force/energy checks must use declared branch-preserving steps, compare at least two step sizes, and never cross an unavailable spring or actuation state."
+hidden_clipping_allowed = false
+constitutive_extrapolation_allowed = false
+progressive_endpoint_averaging_allowed = false
+scalar_motion_ratio_substitution_allowed = false
+
+[source_boundary]
+primary_literature = [
+  "Guiggiani (2022), The Science of Vehicle Dynamics: suspension elastic forces are constitutive elements and real springs may be nonlinear/hardening; used for the separation of kinematics, constitutive laws, and equilibrium rather than any WUFR-specific spring parameter.",
+  "Dixon, The Shock Absorber Handbook, 2nd ed.: mechanical spring restoring force and energy concepts; used only for generic conservative spring behavior, not WUFR-specific rates or installation."
+]
+wufr27_package = "data_catalog/wufr27_spring_package_v0.toml"
+reviewed_current_setup = "Reviewer/user confirmation on 2026-07-26: KW V5 Racing Formula Student piggyback dampers; front 36 N/mm linear spring; rear 30-to-36 N/mm linear-progressive spring; 100 mm spring free length; zero intentional preload; no tender/helper spring; carried into WUFR-27."
+kw_attachment = "kw-v5racing-formula-student-int-technologytesting.pdf, reviewer attachment SHA-256 647b7b451612174852293b0bd65d193452991c6a3c697a242c07b04860cea36c; damper hardware/adjustment evidence only."
+historical_team_sources = "WUFR-26 shock BOM, OptimumK setup, and inboard calculator are retained as corroborating/historical evidence and may not override the reviewer-declared current spring package or define the missing progressive rear curve."
+missing_wufr_authority = "Exact rear rate-versus-compression progression and an explicit WUFR spring-seat/reference-length mapping needed to turn a solved coilover eye-to-eye state into absolute spring compression/force are not yet frozen."
+
+[failure_behavior]
+codes = [
+  "missing_spring_parameter_authority",
+  "missing_reference_length",
+  "spring_unseated",
+  "constitutive_domain_exceeded",
+  "progressive_law_incomplete",
+  "invalid_energy_law",
+  "upstream_actuation_failure",
+  "jacobian_unavailable"
+]
+rule = "Return a structured unavailable/failure result with the original source/configuration context. Do not repair missing spring data by interpolation outside source bounds, endpoint averaging, clipping, assumed preload, or hidden motion-ratio substitution."
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-SUSP-0009 analytically verifies linear spring compression, force, stored energy, tangent stiffness, signed generalized force, energy finite-difference consistency, explicit preload behavior, spring-unseated failure, and a synthetic bounded nonlinear/table case without extrapolation.",
+  "BENCH-SUSP-0010 freezes the WUFR source boundary: front 36 N/mm linear law is available as a function of explicit compression; rear 30-to-36 N/mm identity remains unavailable as an executable force law until progression data are supplied; no endpoint averaging or damper-stroke substitution is permitted.",
+  "Implementation composes the signed MOD-SUSP-0003 actuation derivative rather than historical OptimumK Motion Ratio Heave or a scalar MR/IR shortcut.",
+  "No damper, ARB, tire, equilibrium, linkage-force, installed-limit, or production output is reachable through the spring provider."
+]
+
+[promotion_gates]
+items = [
+  "This authorization is reviewed and merged before spring-force implementation begins.",
+  "A separate implementation PR passes BENCH-SUSP-0009 and BENCH-SUSP-0010 plus structured source/domain/failure tests before MOD-SUSP-0004 is considered implemented.",
+  "WUFR rear spring force requires the actual 30-to-36 N/mm progression versus spring compression or an equivalent force-deflection source; endpoint labels alone are insufficient.",
+  "WUFR absolute spring force at a solved vehicle state requires a reviewed spring-seat separation/reference relation. Zero intentional preload must not be treated as nominal zero force.",
+  "ARB energy/generalized force remains a separate coupled-left/right authorization.",
+  "Quasi-static body equilibrium remains separately authorized and must consume this provider rather than reproduce its spring equations."
+]
