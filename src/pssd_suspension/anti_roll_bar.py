@@ -2,10 +2,11 @@
 
 Implements AUTH-SUSP-0005 / EQ-SUSP-0016 through EQ-SUSP-0018.
 
-The first WUFR adapter intentionally uses a reviewer-selected *reduced effective
-axle roll stiffness*.  It does not reconstruct blade torsion, linkage forces,
-installed travel, or vehicle equilibrium, and it never applies a second motion-
-ratio reduction to the already reduced WUFR ``K_phi`` values.
+The provider keeps the elastic coordinate source-defined.  BENCH-SUSP-0011 uses
+an explicit translational differential coordinate; the first WUFR adapter uses a
+reviewer-selected reduced axle angular coordinate.  The WUFR ``K_phi`` values are
+already reduced axle roll stiffness and must not receive a second motion-ratio
+reduction.
 """
 from __future__ import annotations
 
@@ -42,36 +43,48 @@ class AntiRollBarFailureCode(str, Enum):
 
 @dataclass(frozen=True)
 class AntiRollBarDefinition:
-    """Linear scalar ARB law in a signed angular elastic coordinate.
+    """Linear conservative ARB law in one explicitly named elastic coordinate.
 
-    ``stiffness_Nm_per_rad`` is conjugate to ``deformation_rad``.  For the WUFR
-    reduced law it is an axle-level roll stiffness, not a blade torsional rate.
+    ``stiffness_action_per_coordinate`` is the slope of the action conjugate to
+    the elastic coordinate.  Examples:
+
+    - translational coordinate [m] -> action [N] -> stiffness [N/m];
+    - angular coordinate [rad] -> action [N*m] -> stiffness [N*m/rad].
+
+    Unit strings are provenance/contract metadata; this provider never silently
+    converts an arbitrary coordinate between those classes.
     """
 
     arb_id: str
     axle: str
-    stiffness_Nm_per_rad: float
+    stiffness_action_per_coordinate: float
+    elastic_coordinate_unit: str
+    elastic_action_unit: str
     source_id: str
     configuration_id: str
     assumption_ids: tuple[str, ...] = ()
     installed_as_built_authority: bool = False
     reduced_axle_level: bool = False
     source_stiffness_Nm_per_deg: float | None = None
-    max_abs_deformation_rad: float | None = None
+    max_abs_deformation: float | None = None
 
     def __post_init__(self) -> None:
         if not self.arb_id or not self.axle or not self.source_id or not self.configuration_id:
             raise SuspensionAntiRollBarError("ARB identity, axle, source, and configuration are required")
-        if not math.isfinite(self.stiffness_Nm_per_rad) or self.stiffness_Nm_per_rad <= 0.0:
+        if not self.elastic_coordinate_unit or not self.elastic_action_unit:
+            raise SuspensionAntiRollBarError("ARB elastic coordinate and action units are required")
+        if not math.isfinite(self.stiffness_action_per_coordinate) or self.stiffness_action_per_coordinate <= 0.0:
             raise SuspensionAntiRollBarError("ARB stiffness must be finite and positive")
         if self.source_stiffness_Nm_per_deg is not None:
+            if self.elastic_coordinate_unit != "rad" or self.elastic_action_unit != "N*m":
+                raise SuspensionAntiRollBarError("N*m/deg source stiffness requires a radian / N*m reduced law")
             if not math.isfinite(self.source_stiffness_Nm_per_deg) or self.source_stiffness_Nm_per_deg <= 0.0:
                 raise SuspensionAntiRollBarError("Source stiffness in N*m/deg must be finite and positive")
             expected = stiffness_Nm_per_deg_to_Nm_per_rad(self.source_stiffness_Nm_per_deg)
-            if not math.isclose(self.stiffness_Nm_per_rad, expected, rel_tol=1.0e-12, abs_tol=1.0e-12):
+            if not math.isclose(self.stiffness_action_per_coordinate, expected, rel_tol=1.0e-12, abs_tol=1.0e-12):
                 raise SuspensionAntiRollBarError("Stored SI ARB stiffness does not match the declared N*m/deg source value")
-        if self.max_abs_deformation_rad is not None:
-            if not math.isfinite(self.max_abs_deformation_rad) or self.max_abs_deformation_rad <= 0.0:
+        if self.max_abs_deformation is not None:
+            if not math.isfinite(self.max_abs_deformation) or self.max_abs_deformation <= 0.0:
                 raise SuspensionAntiRollBarError("ARB deformation domain must be finite and positive when supplied")
 
 
@@ -79,24 +92,26 @@ class AntiRollBarDefinition:
 class AntiRollBarReference:
     reference_id: str
     configuration_id: str
-    zero_energy_angle_rad: float = 0.0
+    elastic_coordinate_unit: str
+    zero_energy_coordinate: float = 0.0
     assumption_ids: tuple[str, ...] = ()
     installed_as_built_authority: bool = False
 
     def __post_init__(self) -> None:
-        if not self.reference_id or not self.configuration_id:
-            raise SuspensionAntiRollBarError("ARB reference identity and configuration are required")
-        if not math.isfinite(self.zero_energy_angle_rad):
-            raise SuspensionAntiRollBarError("ARB zero-energy reference angle must be finite")
+        if not self.reference_id or not self.configuration_id or not self.elastic_coordinate_unit:
+            raise SuspensionAntiRollBarError("ARB reference identity, configuration, and coordinate unit are required")
+        if not math.isfinite(self.zero_energy_coordinate):
+            raise SuspensionAntiRollBarError("ARB zero-energy reference coordinate must be finite")
 
 
 @dataclass(frozen=True)
 class AntiRollBarCoordinateResult:
     status: AntiRollBarStatus
-    deformation_rad: float | None = None
-    current_angle_rad: float | None = None
-    reference_angle_rad: float | None = None
-    dphi_dq: tuple[float, ...] = ()
+    deformation: float | None = None
+    current_coordinate: float | None = None
+    reference_coordinate: float | None = None
+    elastic_coordinate_unit: str = ""
+    ds_dq: tuple[float, ...] = ()
     coordinate_order: tuple[str, ...] = ()
     coordinate_units: tuple[str, ...] = ()
     failure_code: AntiRollBarFailureCode | None = None
@@ -110,10 +125,12 @@ class AntiRollBarCoordinateResult:
 @dataclass(frozen=True)
 class AntiRollBarConstitutiveResult:
     status: AntiRollBarStatus
-    deformation_rad: float | None = None
-    restoring_moment_Nm: float | None = None
+    deformation: float | None = None
+    elastic_action: float | None = None
     stored_energy_J: float | None = None
-    tangent_stiffness_Nm_per_rad: float | None = None
+    tangent_stiffness: float | None = None
+    elastic_coordinate_unit: str = ""
+    elastic_action_unit: str = ""
     failure_code: AntiRollBarFailureCode | None = None
     message: str = ""
 
@@ -132,15 +149,17 @@ class AntiRollBarStateResult:
     assumption_ids: tuple[str, ...] = ()
     enabled: bool = True
     reduced_axle_level: bool = False
-    current_angle_rad: float | None = None
-    reference_angle_rad: float | None = None
-    deformation_rad: float | None = None
-    restoring_moment_Nm: float | None = None
+    elastic_coordinate_unit: str = ""
+    elastic_action_unit: str = ""
+    current_coordinate: float | None = None
+    reference_coordinate: float | None = None
+    deformation: float | None = None
+    elastic_action: float | None = None
     stored_energy_J: float | None = None
-    tangent_stiffness_Nm_per_rad: float | None = None
+    tangent_stiffness: float | None = None
     coordinate_order: tuple[str, ...] = ()
     coordinate_units: tuple[str, ...] = ()
-    dphi_dq: tuple[float, ...] = ()
+    ds_dq: tuple[float, ...] = ()
     generalized_force: tuple[float, ...] = ()
     generalized_force_available: bool = False
     installed_as_built_authority: bool = False
@@ -168,11 +187,11 @@ class AntiRollBarEnergyCheckResult:
 
 
 @dataclass(frozen=True)
-class SymmetricDifferentialAngleResult:
+class SymmetricDifferentialCoordinateResult:
     status: AntiRollBarStatus
-    angle_rad: float | None = None
-    dphi_dz_left: float | None = None
-    dphi_dz_right: float | None = None
+    deformation_m: float | None = None
+    ds_dz_left: float | None = None
+    ds_dz_right: float | None = None
     failure_code: AntiRollBarFailureCode | None = None
     message: str = ""
 
@@ -195,73 +214,68 @@ class WufrAntiRollBarPackage:
 
 
 def stiffness_Nm_per_deg_to_Nm_per_rad(value: float) -> float:
-    """Convert a torque-per-degree slope to the SI torque-per-radian slope."""
+    """Convert a torque-per-degree slope to torque per radian."""
     if not math.isfinite(value):
         raise SuspensionAntiRollBarError("ARB stiffness conversion requires a finite value")
     return float(value) * 180.0 / math.pi
 
 
-def symmetric_differential_angle(
+def symmetric_differential_coordinate(
     z_left_m: float,
     z_right_m: float,
-    reference_length_m: float,
-) -> SymmetricDifferentialAngleResult:
-    """Synthetic BENCH-SUSP-0011 bilateral map: phi=(z_L-z_R)/ell.
+    reference_offset_m: float = 0.0,
+) -> SymmetricDifferentialCoordinateResult:
+    """BENCH-SUSP-0011 map: s=z_L-z_R-s0 with J=[+1,-1].
 
-    This helper is a dimensionally consistent limiting-case benchmark, not a
-    WUFR geometry inference and not a body-roll/contact-patch model.
+    This is a synthetic limiting-case map only.  It does not infer WUFR Z-bar
+    topology or an installed wheel-to-bar relationship.
     """
-    if not all(math.isfinite(value) for value in (z_left_m, z_right_m, reference_length_m)):
-        return SymmetricDifferentialAngleResult(
+    if not all(math.isfinite(value) for value in (z_left_m, z_right_m, reference_offset_m)):
+        return SymmetricDifferentialCoordinateResult(
             status=AntiRollBarStatus.FAILURE,
             failure_code=AntiRollBarFailureCode.NONFINITE_INPUT,
-            message="Synthetic bilateral coordinates and reference length must be finite",
+            message="Synthetic bilateral coordinates and reference offset must be finite",
         )
-    if reference_length_m <= 0.0:
-        return SymmetricDifferentialAngleResult(
-            status=AntiRollBarStatus.FAILURE,
-            failure_code=AntiRollBarFailureCode.MISSING_BILATERAL_GEOMETRY_AUTHORITY,
-            message="Synthetic bilateral reference length must be positive",
-        )
-    inverse_length = 1.0 / reference_length_m
-    return SymmetricDifferentialAngleResult(
+    return SymmetricDifferentialCoordinateResult(
         status=AntiRollBarStatus.SUCCESS,
-        angle_rad=(z_left_m - z_right_m) * inverse_length,
-        dphi_dz_left=inverse_length,
-        dphi_dz_right=-inverse_length,
+        deformation_m=z_left_m - z_right_m - reference_offset_m,
+        ds_dz_left=1.0,
+        ds_dz_right=-1.0,
     )
 
 
 def anti_roll_bar_coordinate(
-    current_angle_rad: float,
+    current_coordinate: float,
     reference: AntiRollBarReference,
     *,
-    dphi_dq: float | Iterable[float] | None = None,
+    ds_dq: float | Iterable[float] | None = None,
     coordinate_order: Sequence[str] = (),
     coordinate_units: Sequence[str] = (),
 ) -> AntiRollBarCoordinateResult:
-    """EQ-SUSP-0016 signed deformation relative to an explicit reference."""
-    if not math.isfinite(current_angle_rad):
+    """EQ-SUSP-0016: signed elastic deformation from an explicit reference."""
+    if not math.isfinite(current_coordinate):
         return AntiRollBarCoordinateResult(
             status=AntiRollBarStatus.FAILURE,
-            current_angle_rad=current_angle_rad,
-            reference_angle_rad=reference.zero_energy_angle_rad,
+            current_coordinate=current_coordinate,
+            reference_coordinate=reference.zero_energy_coordinate,
+            elastic_coordinate_unit=reference.elastic_coordinate_unit,
             failure_code=AntiRollBarFailureCode.NONFINITE_INPUT,
-            message="ARB angle must be finite",
+            message="ARB elastic coordinate must be finite",
         )
     derivatives: tuple[float, ...] = ()
-    if dphi_dq is not None:
+    if ds_dq is not None:
         derivatives = (
-            (float(dphi_dq),)
-            if isinstance(dphi_dq, (int, float))
-            else tuple(float(value) for value in dphi_dq)
+            (float(ds_dq),)
+            if isinstance(ds_dq, (int, float))
+            else tuple(float(value) for value in ds_dq)
         )
         if not derivatives or not all(math.isfinite(value) for value in derivatives):
             return AntiRollBarCoordinateResult(
                 status=AntiRollBarStatus.FAILURE,
-                current_angle_rad=current_angle_rad,
-                reference_angle_rad=reference.zero_energy_angle_rad,
-                dphi_dq=derivatives,
+                current_coordinate=current_coordinate,
+                reference_coordinate=reference.zero_energy_coordinate,
+                elastic_coordinate_unit=reference.elastic_coordinate_unit,
+                ds_dq=derivatives,
                 failure_code=AntiRollBarFailureCode.JACOBIAN_UNAVAILABLE,
                 message="ARB deformation Jacobian must contain finite components",
             )
@@ -270,31 +284,34 @@ def anti_roll_bar_coordinate(
     if order and len(order) != len(derivatives):
         return AntiRollBarCoordinateResult(
             status=AntiRollBarStatus.FAILURE,
-            current_angle_rad=current_angle_rad,
-            reference_angle_rad=reference.zero_energy_angle_rad,
-            dphi_dq=derivatives,
+            current_coordinate=current_coordinate,
+            reference_coordinate=reference.zero_energy_coordinate,
+            elastic_coordinate_unit=reference.elastic_coordinate_unit,
+            ds_dq=derivatives,
             coordinate_order=order,
             coordinate_units=units,
             failure_code=AntiRollBarFailureCode.JACOBIAN_UNAVAILABLE,
-            message="Coordinate order length must match dphi/dq length",
+            message="Coordinate order length must match ds/dq length",
         )
     if units and len(units) != len(derivatives):
         return AntiRollBarCoordinateResult(
             status=AntiRollBarStatus.FAILURE,
-            current_angle_rad=current_angle_rad,
-            reference_angle_rad=reference.zero_energy_angle_rad,
-            dphi_dq=derivatives,
+            current_coordinate=current_coordinate,
+            reference_coordinate=reference.zero_energy_coordinate,
+            elastic_coordinate_unit=reference.elastic_coordinate_unit,
+            ds_dq=derivatives,
             coordinate_order=order,
             coordinate_units=units,
             failure_code=AntiRollBarFailureCode.JACOBIAN_UNAVAILABLE,
-            message="Coordinate units length must match dphi/dq length",
+            message="Coordinate units length must match ds/dq length",
         )
     return AntiRollBarCoordinateResult(
         status=AntiRollBarStatus.SUCCESS,
-        deformation_rad=current_angle_rad - reference.zero_energy_angle_rad,
-        current_angle_rad=current_angle_rad,
-        reference_angle_rad=reference.zero_energy_angle_rad,
-        dphi_dq=derivatives,
+        deformation=current_coordinate - reference.zero_energy_coordinate,
+        current_coordinate=current_coordinate,
+        reference_coordinate=reference.zero_energy_coordinate,
+        elastic_coordinate_unit=reference.elastic_coordinate_unit,
+        ds_dq=derivatives,
         coordinate_order=order,
         coordinate_units=units,
     )
@@ -302,86 +319,95 @@ def anti_roll_bar_coordinate(
 
 def evaluate_anti_roll_bar_law(
     definition: AntiRollBarDefinition,
-    deformation_rad: float,
+    deformation: float,
 ) -> AntiRollBarConstitutiveResult:
-    """EQ-SUSP-0017 linear conservative ARB law in signed radians."""
-    if not math.isfinite(deformation_rad):
+    """EQ-SUSP-0017: conservative linear action, energy, and tangent stiffness."""
+    if not math.isfinite(deformation):
         return AntiRollBarConstitutiveResult(
             status=AntiRollBarStatus.FAILURE,
-            deformation_rad=deformation_rad,
+            deformation=deformation,
+            elastic_coordinate_unit=definition.elastic_coordinate_unit,
+            elastic_action_unit=definition.elastic_action_unit,
             failure_code=AntiRollBarFailureCode.NONFINITE_INPUT,
             message="ARB deformation must be finite",
         )
-    if definition.max_abs_deformation_rad is not None and abs(deformation_rad) > definition.max_abs_deformation_rad:
+    if definition.max_abs_deformation is not None and abs(deformation) > definition.max_abs_deformation:
         return AntiRollBarConstitutiveResult(
             status=AntiRollBarStatus.FAILURE,
-            deformation_rad=deformation_rad,
+            deformation=deformation,
+            elastic_coordinate_unit=definition.elastic_coordinate_unit,
+            elastic_action_unit=definition.elastic_action_unit,
             failure_code=AntiRollBarFailureCode.CONSTITUTIVE_DOMAIN_EXCEEDED,
             message="ARB deformation exceeds the reviewed constitutive domain",
         )
-    k = definition.stiffness_Nm_per_rad
-    moment = k * deformation_rad
-    energy = 0.5 * k * deformation_rad * deformation_rad
-    if not all(math.isfinite(value) for value in (moment, energy, k)) or energy < 0.0:
+    stiffness = definition.stiffness_action_per_coordinate
+    action = stiffness * deformation
+    energy = 0.5 * stiffness * deformation * deformation
+    if not all(math.isfinite(value) for value in (action, energy, stiffness)) or energy < 0.0:
         return AntiRollBarConstitutiveResult(
             status=AntiRollBarStatus.FAILURE,
-            deformation_rad=deformation_rad,
+            deformation=deformation,
+            elastic_coordinate_unit=definition.elastic_coordinate_unit,
+            elastic_action_unit=definition.elastic_action_unit,
             failure_code=AntiRollBarFailureCode.INVALID_ENERGY_LAW,
             message="ARB constitutive evaluation produced a nonfinite/nonconservative state",
         )
     return AntiRollBarConstitutiveResult(
         status=AntiRollBarStatus.SUCCESS,
-        deformation_rad=deformation_rad,
-        restoring_moment_Nm=moment,
+        deformation=deformation,
+        elastic_action=action,
         stored_energy_J=energy,
-        tangent_stiffness_Nm_per_rad=k,
+        tangent_stiffness=stiffness,
+        elastic_coordinate_unit=definition.elastic_coordinate_unit,
+        elastic_action_unit=definition.elastic_action_unit,
     )
 
 
 def generalized_anti_roll_bar_force(
-    restoring_moment_Nm: float,
-    dphi_dq: float | Iterable[float],
+    elastic_action: float,
+    ds_dq: float | Iterable[float],
     *,
     coordinate_order: Sequence[str] = (),
     coordinate_units: Sequence[str] = (),
 ) -> tuple[AntiRollBarStatus, tuple[float, ...], AntiRollBarFailureCode | None, str]:
-    """EQ-SUSP-0018: Q_ARB = -(dphi/dq)^T * M_ARB."""
+    """EQ-SUSP-0018: Q_ARB = -(ds/dq)^T * a_ARB."""
     derivatives = (
-        (float(dphi_dq),)
-        if isinstance(dphi_dq, (int, float))
-        else tuple(float(value) for value in dphi_dq)
+        (float(ds_dq),)
+        if isinstance(ds_dq, (int, float))
+        else tuple(float(value) for value in ds_dq)
     )
     order = tuple(coordinate_order)
     units = tuple(coordinate_units)
-    if not math.isfinite(restoring_moment_Nm) or not derivatives or not all(math.isfinite(value) for value in derivatives):
+    if not math.isfinite(elastic_action) or not derivatives or not all(math.isfinite(value) for value in derivatives):
         return (
             AntiRollBarStatus.FAILURE,
             (),
             AntiRollBarFailureCode.JACOBIAN_UNAVAILABLE,
-            "ARB action and dphi/dq must be finite, with at least one derivative component",
+            "ARB action and ds/dq must be finite, with at least one derivative component",
         )
     if order and len(order) != len(derivatives):
-        return AntiRollBarStatus.FAILURE, (), AntiRollBarFailureCode.JACOBIAN_UNAVAILABLE, "Coordinate order length must match dphi/dq length"
+        return AntiRollBarStatus.FAILURE, (), AntiRollBarFailureCode.JACOBIAN_UNAVAILABLE, "Coordinate order length must match ds/dq length"
     if units and len(units) != len(derivatives):
-        return AntiRollBarStatus.FAILURE, (), AntiRollBarFailureCode.JACOBIAN_UNAVAILABLE, "Coordinate units length must match dphi/dq length"
-    return AntiRollBarStatus.SUCCESS, tuple(-restoring_moment_Nm * value for value in derivatives), None, ""
+        return AntiRollBarStatus.FAILURE, (), AntiRollBarFailureCode.JACOBIAN_UNAVAILABLE, "Coordinate units length must match ds/dq length"
+    return AntiRollBarStatus.SUCCESS, tuple(-elastic_action * value for value in derivatives), None, ""
 
 
 def evaluate_anti_roll_bar(
     definition: AntiRollBarDefinition | None,
     reference: AntiRollBarReference,
-    current_angle_rad: float,
+    current_coordinate: float,
     *,
     enabled: bool = True,
-    dphi_dq: float | Iterable[float] | None = None,
+    ds_dq: float | Iterable[float] | None = None,
     coordinate_order: Sequence[str] = (),
     coordinate_units: Sequence[str] = (),
     disabled_arb_id: str = "",
     disabled_axle: str = "",
     disabled_source_id: str = "",
 ) -> AntiRollBarStateResult:
-    """Compose EQ-SUSP-0016/0017/0018 for one axle-level ARB state."""
+    """Compose EQ-SUSP-0016/0017/0018 for one ARB elastic state."""
     if not enabled:
+        order = tuple(coordinate_order)
         return AntiRollBarStateResult(
             status=AntiRollBarStatus.NO_BAR,
             arb_id=definition.arb_id if definition else disabled_arb_id,
@@ -391,14 +417,18 @@ def evaluate_anti_roll_bar(
             assumption_ids=tuple(dict.fromkeys((*(definition.assumption_ids if definition else ()), *reference.assumption_ids))),
             enabled=False,
             reduced_axle_level=definition.reduced_axle_level if definition else False,
-            current_angle_rad=current_angle_rad if math.isfinite(current_angle_rad) else None,
-            reference_angle_rad=reference.zero_energy_angle_rad,
-            deformation_rad=0.0,
-            restoring_moment_Nm=0.0,
+            elastic_coordinate_unit=definition.elastic_coordinate_unit if definition else reference.elastic_coordinate_unit,
+            elastic_action_unit=definition.elastic_action_unit if definition else "",
+            current_coordinate=current_coordinate if math.isfinite(current_coordinate) else None,
+            reference_coordinate=reference.zero_energy_coordinate,
+            deformation=0.0,
+            elastic_action=0.0,
             stored_energy_J=0.0,
-            tangent_stiffness_Nm_per_rad=0.0,
-            generalized_force=tuple(0.0 for _ in tuple(coordinate_order)),
-            generalized_force_available=bool(tuple(coordinate_order)),
+            tangent_stiffness=0.0,
+            coordinate_order=order,
+            coordinate_units=tuple(coordinate_units),
+            generalized_force=tuple(0.0 for _ in order),
+            generalized_force_available=bool(order),
             installed_as_built_authority=False,
             message="Anti-roll bar explicitly disabled by configuration; returned zero action with provenance",
         )
@@ -406,11 +436,12 @@ def evaluate_anti_roll_bar(
         return AntiRollBarStateResult(
             status=AntiRollBarStatus.FAILURE,
             configuration_id=reference.configuration_id,
-            reference_angle_rad=reference.zero_energy_angle_rad,
+            elastic_coordinate_unit=reference.elastic_coordinate_unit,
+            reference_coordinate=reference.zero_energy_coordinate,
             failure_code=AntiRollBarFailureCode.MISSING_STIFFNESS_AUTHORITY,
             message="Enabled anti-roll bar requires a reviewed constitutive definition",
         )
-    if definition.configuration_id != reference.configuration_id:
+    if definition.configuration_id != reference.configuration_id or definition.elastic_coordinate_unit != reference.elastic_coordinate_unit:
         return AntiRollBarStateResult(
             status=AntiRollBarStatus.FAILURE,
             arb_id=definition.arb_id,
@@ -419,19 +450,21 @@ def evaluate_anti_roll_bar(
             configuration_id=definition.configuration_id,
             assumption_ids=definition.assumption_ids,
             reduced_axle_level=definition.reduced_axle_level,
+            elastic_coordinate_unit=definition.elastic_coordinate_unit,
+            elastic_action_unit=definition.elastic_action_unit,
             failure_code=AntiRollBarFailureCode.SOURCE_CONFIGURATION_MISMATCH,
-            message="ARB definition and zero-energy reference configuration identities do not match",
+            message="ARB definition and zero-energy reference configuration/unit identities do not match",
         )
 
     assumptions = tuple(dict.fromkeys((*definition.assumption_ids, *reference.assumption_ids)))
     coordinate = anti_roll_bar_coordinate(
-        current_angle_rad,
+        current_coordinate,
         reference,
-        dphi_dq=dphi_dq,
+        ds_dq=ds_dq,
         coordinate_order=coordinate_order,
         coordinate_units=coordinate_units,
     )
-    if not coordinate.ok or coordinate.deformation_rad is None:
+    if not coordinate.ok or coordinate.deformation is None:
         return AntiRollBarStateResult(
             status=AntiRollBarStatus.FAILURE,
             arb_id=definition.arb_id,
@@ -440,13 +473,15 @@ def evaluate_anti_roll_bar(
             configuration_id=definition.configuration_id,
             assumption_ids=assumptions,
             reduced_axle_level=definition.reduced_axle_level,
-            current_angle_rad=current_angle_rad,
-            reference_angle_rad=reference.zero_energy_angle_rad,
+            elastic_coordinate_unit=definition.elastic_coordinate_unit,
+            elastic_action_unit=definition.elastic_action_unit,
+            current_coordinate=current_coordinate,
+            reference_coordinate=reference.zero_energy_coordinate,
             failure_code=coordinate.failure_code,
             message=coordinate.message,
         )
 
-    constitutive = evaluate_anti_roll_bar_law(definition, coordinate.deformation_rad)
+    constitutive = evaluate_anti_roll_bar_law(definition, coordinate.deformation)
     if not constitutive.ok:
         return AntiRollBarStateResult(
             status=AntiRollBarStatus.FAILURE,
@@ -456,19 +491,21 @@ def evaluate_anti_roll_bar(
             configuration_id=definition.configuration_id,
             assumption_ids=assumptions,
             reduced_axle_level=definition.reduced_axle_level,
-            current_angle_rad=current_angle_rad,
-            reference_angle_rad=reference.zero_energy_angle_rad,
-            deformation_rad=coordinate.deformation_rad,
+            elastic_coordinate_unit=definition.elastic_coordinate_unit,
+            elastic_action_unit=definition.elastic_action_unit,
+            current_coordinate=current_coordinate,
+            reference_coordinate=reference.zero_energy_coordinate,
+            deformation=coordinate.deformation,
             failure_code=constitutive.failure_code,
             message=constitutive.message,
         )
 
     generalized: tuple[float, ...] = ()
     generalized_available = False
-    if coordinate.dphi_dq and constitutive.restoring_moment_Nm is not None:
+    if coordinate.ds_dq and constitutive.elastic_action is not None:
         q_status, generalized, q_failure, q_message = generalized_anti_roll_bar_force(
-            constitutive.restoring_moment_Nm,
-            coordinate.dphi_dq,
+            constitutive.elastic_action,
+            coordinate.ds_dq,
             coordinate_order=coordinate.coordinate_order,
             coordinate_units=coordinate.coordinate_units,
         )
@@ -481,12 +518,14 @@ def evaluate_anti_roll_bar(
                 configuration_id=definition.configuration_id,
                 assumption_ids=assumptions,
                 reduced_axle_level=definition.reduced_axle_level,
-                current_angle_rad=current_angle_rad,
-                reference_angle_rad=reference.zero_energy_angle_rad,
-                deformation_rad=coordinate.deformation_rad,
-                restoring_moment_Nm=constitutive.restoring_moment_Nm,
+                elastic_coordinate_unit=definition.elastic_coordinate_unit,
+                elastic_action_unit=definition.elastic_action_unit,
+                current_coordinate=current_coordinate,
+                reference_coordinate=reference.zero_energy_coordinate,
+                deformation=coordinate.deformation,
+                elastic_action=constitutive.elastic_action,
                 stored_energy_J=constitutive.stored_energy_J,
-                tangent_stiffness_Nm_per_rad=constitutive.tangent_stiffness_Nm_per_rad,
+                tangent_stiffness=constitutive.tangent_stiffness,
                 failure_code=q_failure,
                 message=q_message,
             )
@@ -501,15 +540,17 @@ def evaluate_anti_roll_bar(
         assumption_ids=assumptions,
         enabled=True,
         reduced_axle_level=definition.reduced_axle_level,
-        current_angle_rad=current_angle_rad,
-        reference_angle_rad=reference.zero_energy_angle_rad,
-        deformation_rad=coordinate.deformation_rad,
-        restoring_moment_Nm=constitutive.restoring_moment_Nm,
+        elastic_coordinate_unit=definition.elastic_coordinate_unit,
+        elastic_action_unit=definition.elastic_action_unit,
+        current_coordinate=current_coordinate,
+        reference_coordinate=reference.zero_energy_coordinate,
+        deformation=coordinate.deformation,
+        elastic_action=constitutive.elastic_action,
         stored_energy_J=constitutive.stored_energy_J,
-        tangent_stiffness_Nm_per_rad=constitutive.tangent_stiffness_Nm_per_rad,
+        tangent_stiffness=constitutive.tangent_stiffness,
         coordinate_order=coordinate.coordinate_order,
         coordinate_units=coordinate.coordinate_units,
-        dphi_dq=coordinate.dphi_dq,
+        ds_dq=coordinate.ds_dq,
         generalized_force=generalized,
         generalized_force_available=generalized_available,
         installed_as_built_authority=definition.installed_as_built_authority and reference.installed_as_built_authority,
@@ -519,15 +560,15 @@ def evaluate_anti_roll_bar(
 def check_anti_roll_bar_energy_gradient(
     definition: AntiRollBarDefinition,
     reference: AntiRollBarReference,
-    current_angle_rad: float,
-    dphi_dq: float,
+    current_coordinate: float,
+    ds_dq: float,
     *,
     step_sizes: Sequence[float] = (1.0e-6, 5.0e-7),
 ) -> AntiRollBarEnergyCheckResult:
     """Independent centered finite-difference check of EQ-SUSP-0018."""
     if (
-        not math.isfinite(current_angle_rad)
-        or not math.isfinite(dphi_dq)
+        not math.isfinite(current_coordinate)
+        or not math.isfinite(ds_dq)
         or not step_sizes
         or not all(math.isfinite(step) and step > 0.0 for step in step_sizes)
     ):
@@ -536,19 +577,19 @@ def check_anti_roll_bar_energy_gradient(
             failure_code=AntiRollBarFailureCode.NONFINITE_INPUT,
             message="Energy-check state, derivative, and step sizes must be finite with positive steps",
         )
-    center = evaluate_anti_roll_bar(definition, reference, current_angle_rad)
-    if not center.ok or center.restoring_moment_Nm is None:
+    center = evaluate_anti_roll_bar(definition, reference, current_coordinate)
+    if not center.ok or center.elastic_action is None:
         return AntiRollBarEnergyCheckResult(
             status=AntiRollBarStatus.FAILURE,
             failure_code=center.failure_code,
             message=center.message or "Center ARB state is unavailable for energy check",
         )
-    expected = -center.restoring_moment_Nm * dphi_dq
+    expected = -center.elastic_action * ds_dq
     finite_difference: list[float] = []
     residuals: list[float] = []
     for step in step_sizes:
-        plus = evaluate_anti_roll_bar(definition, reference, current_angle_rad + dphi_dq * step)
-        minus = evaluate_anti_roll_bar(definition, reference, current_angle_rad - dphi_dq * step)
+        plus = evaluate_anti_roll_bar(definition, reference, current_coordinate + ds_dq * step)
+        minus = evaluate_anti_roll_bar(definition, reference, current_coordinate - ds_dq * step)
         if not plus.ok or not minus.ok or plus.stored_energy_J is None or minus.stored_energy_J is None:
             failure = plus if not plus.ok else minus
             return AntiRollBarEnergyCheckResult(
@@ -600,7 +641,9 @@ def load_wufr27_anti_roll_bar_package(path: str | Path) -> WufrAntiRollBarPackag
     front = AntiRollBarDefinition(
         arb_id="WUFR27_FRONT_ARB_REDUCED_V0",
         axle="front",
-        stiffness_Nm_per_rad=front_si,
+        stiffness_action_per_coordinate=front_si,
+        elastic_coordinate_unit="rad",
+        elastic_action_unit="N*m",
         source_stiffness_Nm_per_deg=front_deg,
         source_id=source_record_id,
         configuration_id=configuration_id,
@@ -611,7 +654,9 @@ def load_wufr27_anti_roll_bar_package(path: str | Path) -> WufrAntiRollBarPackag
     rear = AntiRollBarDefinition(
         arb_id="WUFR27_REAR_ARB_REDUCED_V0",
         axle="rear",
-        stiffness_Nm_per_rad=rear_si,
+        stiffness_action_per_coordinate=rear_si,
+        elastic_coordinate_unit="rad",
+        elastic_action_unit="N*m",
         source_stiffness_Nm_per_deg=rear_deg,
         source_id=source_record_id,
         configuration_id=configuration_id,
@@ -622,7 +667,8 @@ def load_wufr27_anti_roll_bar_package(path: str | Path) -> WufrAntiRollBarPackag
     reference = AntiRollBarReference(
         reference_id="WUFR27_ARB_ZERO_PRELOAD_REFERENCE_V0",
         configuration_id=configuration_id,
-        zero_energy_angle_rad=0.0,
+        elastic_coordinate_unit="rad",
+        zero_energy_coordinate=0.0,
         assumption_ids=assumptions,
         installed_as_built_authority=False,
     )
