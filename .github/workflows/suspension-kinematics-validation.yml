@@ -24,6 +24,20 @@ jobs:
           name: anti-roll-bar-authorization-test-log
           path: anti_roll_bar_authorization_test.log
           if-no-files-found: error
+      - name: Validate anti-roll-bar implementation
+        run: |
+          set -e
+          {
+            python -m unittest tests.test_suspension_anti_roll_bar -v
+            python -m unittest tests.test_suspension_anti_roll_bar_result_record -v
+          } > anti_roll_bar_implementation_test.log 2>&1
+      - name: Upload anti-roll-bar implementation diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: anti-roll-bar-implementation-test-log
+          path: anti_roll_bar_implementation_test.log
+          if-no-files-found: error
       - name: Validate spring force authorization
         run: python -m unittest tests.test_suspension_spring_force_authorization -v > spring_force_authorization_test.log 2>&1
       - name: Upload spring authorization diagnostics
@@ -88,6 +102,11 @@ jobs:
           python scripts/run_suspension_spring_force_benchmarks.py \
             --summary \
             --output suspension_spring_force_summary.json
+          python scripts/run_suspension_anti_roll_bar_benchmarks.py \
+            --output suspension_anti_roll_bar_report.json > /dev/null
+          python scripts/run_suspension_anti_roll_bar_benchmarks.py \
+            --summary \
+            --output suspension_anti_roll_bar_summary.json
       - name: Upload suspension kinematics reports
         uses: actions/upload-artifact@v4
         with:
@@ -101,4 +120,6 @@ jobs:
             suspension_actuation_summary.json
             suspension_spring_force_report.json
             suspension_spring_force_summary.json
+            suspension_anti_roll_bar_report.json
+            suspension_anti_roll_bar_summary.json
           if-no-files-found: error
