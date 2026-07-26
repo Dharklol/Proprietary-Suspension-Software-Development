@@ -28,12 +28,12 @@ selection_rule = "Setting is discrete. Select exactly one of settings 1..5; do n
 [comparison_only]
 matlab_source = "Weight_transfer_sensitivity.m"
 matlab_reduced_axle_Nm_per_deg = [2560.0, 2270.0]
-matlab_semantics = "historical reduced effective axle roll-stiffness evidence only; not governing and not converted into or stacked with the blade-tip law"
+matlab_semantics = "comparison-only historical reduced effective axle roll-stiffness evidence; not governing and not converted into or stacked with the blade-tip law"
 simulink_stiffness_N_per_mm = [285.0, 309.0, 400.0, 724.0, 2628.0]
 simulink_semantics = "comparison-only values from the same spreadsheet; do not average or substitute for SolidWorks FEA authority"
 instron_stiffness_N_per_mm = [900.0, 980.0, 1320.0, 1970.0, 2630.0]
 instron_semantics = "comparison-only values from the same spreadsheet; do not average or substitute for SolidWorks FEA authority"
-comparison_rule = "MATLAB, Simulink, and Instron values are evidence for comparison/correlation only. They are not parallel springs and must not be combined with the governing SolidWorks blade stiffness."
+comparison_rule = "MATLAB, Simulink, and Instron values are comparison-only evidence. Do not average, fit, blend, stack, or substitute them for the governing SolidWorks blade stiffness."
 
 [authority_boundaries]
 zero_preload_authority = "reviewed design-intent statement under ASM-SUSP-0003; not installed metrology"
