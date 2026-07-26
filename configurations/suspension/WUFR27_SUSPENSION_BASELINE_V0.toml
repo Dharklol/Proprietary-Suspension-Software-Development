@@ -1,8 +1,8 @@
-version = "0.1.11"
+version = "0.1.12"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
 status = "active_design_intent_baseline_not_as_built"
 vehicle_revision = "WUFR-27"
-purpose = "WUFR-27 suspension R&D baseline inheriting the WUFR-26 final OptimumK nominal suspension geometry without a geometry change. This configuration is for source-grounded kinematics development, regression, visualization, force-coordinate composition, conservative spring-force modeling, reduced anti-roll-bar force modeling, and later correlation; it is not installed/as-built authority."
+purpose = "WUFR-27 suspension R&D baseline inheriting the WUFR-26 final OptimumK nominal suspension geometry without a geometry change. This configuration is for source-grounded kinematics development, regression, visualization, force-coordinate composition, conservative spring-force modeling, discrete anti-roll-bar blade-stiffness modeling, and later correlation; it is not installed/as-built authority."
 
 [authority]
 model_id = "MOD-SUSP-0001"
@@ -13,7 +13,7 @@ anti_roll_bar_model_id = "MOD-SUSP-0005"
 force_coordinate_model_id = "MOD-VEH-0003"
 actuation_authorization_state = "prototype_authorized_after_AUTH-SUSP-0003_PR43_merge; implementation_merged_in_PR44"
 spring_force_authorization_state = "prototype_authorized_after_AUTH-SUSP-0004_PR47_merge; implementation_merged_in_PR48"
-anti_roll_bar_authorization_state = "prototype_authorized_after_AUTH-SUSP-0005_PR49_merge; reduced scalar elastic provider implemented_in_PR50_pending_review"
+anti_roll_bar_authorization_state = "prototype_authorized_after_AUTH-SUSP-0005_PR49_merge; generic provider and corrected discrete SolidWorks FEA blade-stiffness adapter implemented_in_PR50_pending_review; WUFR Z-bar geometry map not yet authorized"
 force_coordinate_authorization_state = "prototype_authorized_after_AUTH-VEH-0003_PR45_merge; implementation_merged_in_PR46"
 source_snapshot = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
 source_snapshot_id = "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0"
@@ -27,7 +27,7 @@ canonical_orientation = "+x forward, +y vehicle left, +z upward; right-handed"
 
 [inheritance]
 rule = "Load the source snapshot through the explicit OptimumK-to-canonical adapter. Do not duplicate, mirror, translate, or revise hardpoints in this configuration. Any future geometry change requires a new configuration ID and provenance."
-reviewed_statement = "Reviewer/user confirmation on 2026-07-25: WUFR-27 will not have different suspension geometry from WUFR-26. Reviewer/user confirmations on 2026-07-26 additionally carry the 2025/current Z-bar anti-roll-bar design basis into WUFR-27, specify zero ARB preload, and select the MATLAB 2560/2270 N*m/deg reduced effective axle ARB stiffness values under ASM-SUSP-0003."
+reviewed_statement = "Reviewer/user confirmation on 2026-07-25: WUFR-27 will not have different suspension geometry from WUFR-26. Reviewer/user correction on 2026-07-26 selects the SolidWorks FEA blade-tip stiffness values 280/300/400/700/2300 N/mm from the Google Sheet ARB FEA vs Simulink as the governing WUFR ARB constitutive authority. MATLAB, Simulink, and Instron values are comparison-only."
 
 [vehicle_context]
 wheelbase_m = 1.5624
@@ -74,19 +74,18 @@ shockpot_boundary = "Reviewer reported ride-height shock-pot value '44m'; retain
 prohibited_shortcuts = "No constant rear 30/33/36 N/mm substitution, no endpoint averaging, no F_s=k_t*x_s for the progressive law, no negative-compression clipping, no historical Motion Ratio Heave substitution, and no presenting ASM-SUSP-0002 as KW test data or installed travel authority."
 
 [anti_roll_bar_boundary]
-rule = "AUTH-SUSP-0005 / PR49 authorizes and PR50 implements a coupled/source-defined conservative anti-roll-bar provider. The governing path is signed elastic coordinate s_ARB and J_s, then U_ARB/action/tangent, then Q_ARB=-J_s^T*a_ARB. Scalar ARB wheel-rate or two independent corner springs are not governing physics."
+rule = "AUTH-SUSP-0005 / PR49 authorizes and PR50 implements a coupled/source-defined conservative anti-roll-bar provider. The governing generic path is signed elastic coordinate s_ARB and J_s, then U_ARB/action/tangent, then Q_ARB=-J_s^T*a_ARB. The corrected WUFR constitutive adapter uses blade-tip deformation delta_b and blade force F_b; scalar ARB wheel-rate or two independent corner springs are not governing physics."
 source_profile = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
 assumption_id = "ASM-SUSP-0003"
-architecture = "Z-bar / blade concept carried from 2025/current populated WUFR-26 design intent into WUFR-27; first force implementation is a reduced axle-level law rather than a detailed blade/link reconstruction"
+architecture = "WUFR Z-bar / adjustable blade concept; PR50 provides generic conservative mechanics and the discrete blade constitutive law but not the WUFR mechanism map"
 intentional_preload = "zero"
-geometry_status = "populated carryover design-intent evidence exists in WUFR-26 suspension and front/rear ARB CAD/drawings; direct WUFR-27 A0303/A0305 assembly files are identical-file placeholders at audit time"
-constitutive_stiffness_status = "reviewer-selected reduced effective axle ARB roll stiffness: front 2560 N*m/deg, rear 2270 N*m/deg; explicit SI conversion to 146677.19555349075 and 130061.41949469688 N*m/rad"
-constitutive_semantics = "effective axle ARB roll stiffness for a source-supplied signed phi_ARB coordinate, not blade torsional stiffness; no additional Z-bar/link/motion-ratio stiffness reduction is allowed"
-state_mapping_status = "PR50 does not infer phi_ARB from body roll, wheel travel, track, or CAD sketch row ordering. The reduced provider accepts an externally reviewed elastic coordinate and signed Jacobian; source-specific vehicle/suspension-to-phi_ARB mapping remains downstream."
-assembly_state_note = "WUFR-26 FSA export has front ARB active and rear top-level ARB suppressed; configuration evidence only, not universal WUFR-27 installed-presence authority. Provider enablement must be explicit."
-comparison_boundaries = "Spec-sheet suspension roll rates 556/458 N*m/deg remain whole-suspension comparison values. 2025 SolidWorks files remain detailed component-law recovery evidence. Reviewer reports Instron comes somewhat close but exact data is not frozen; do not average or fit it into the governing law."
+constitutive_stiffness_status = "governing SolidWorks FEA linear blade-tip stiffness by discrete setting: 1=280 N/mm, 2=300 N/mm, 3=400 N/mm, 4=700 N/mm, 5=2300 N/mm; SI 280000/300000/400000/700000/2300000 N/m"
+constitutive_semantics = "blade-tip force/deflection stiffness for F_b=k_b*delta_b and U_b=0.5*k_b*delta_b^2; not axle roll stiffness and not N*m/deg"
+state_mapping_status = "The WUFR Z-bar map (q_L,q_R)->delta_b and partial(delta_b)/partial(q_L,q_R) is not authorized or implemented. PR50 must not infer blade deformation from body roll, wheel travel, track width, or CAD sketch row ordering."
+comparison_boundaries = "MATLAB reduced axle 2560/2270 N*m/deg, Simulink 285/309/400/724/2628 N/mm, and Instron 900/980/1320/1970/2630 N/mm are comparison-only. Do not average, interpolate, blend, or stack them with the governing SolidWorks blade stiffness."
+setting_rule = "Settings 1..5 are discrete and must be selected exactly; interpolation is prohibited without separate authorization."
 benchmark_result = "benchmarks/suspension/suspension_anti_roll_bar_result_v0.1.0.toml"
-implementation_boundary = "PR50 implements generic scalar conservative ARB mechanics, explicit no-bar state, source/config/unit checks, energy-gradient verification, and the WUFR reduced 2560/2270 effective axle roll-stiffness adapter. Detailed blade/system stiffness and exact WUFR mechanism reconstruction are replacement higher-fidelity gates, not additive terms."
+implementation_boundary = "PR50 implements generic scalar conservative ARB mechanics, explicit no-bar state, source/config/unit checks, energy-gradient verification, and the WUFR discrete SolidWorks FEA blade-stiffness adapter. Vehicle-coordinate generalized force remains blocked until a reviewed WUFR Z-bar deformation/Jacobian map exists."
 
 [force_coordinate_boundary]
 rule = "AUTH-VEH-0003 / PR45 authorizes and PR46 implements explicit body/road point transport, point-force/free-couple wrench assembly, virtual-work generalized-force mapping, flat-road rigid four-contact classification, and the reviewed WUFR design-intent frame adapter. It does not authorize constitutive force laws or equilibrium."
@@ -101,7 +100,7 @@ permitted = [
   "MOD-SUSP-0002 source-bounded wheel-reference and physical-state development and verification",
   "MOD-SUSP-0003 source-bounded ideal actuation development, verification, and downstream R&D state provision within AUTH-SUSP-0003",
   "MOD-SUSP-0004 conservative spring force/energy/tangent/generalized-force prototype under AUTH-SUSP-0004 with explicit ASM-SUSP-0002 provenance",
-  "MOD-SUSP-0005 conservative coupled/reduced ARB energy/action/tangent/generalized-force prototype under AUTH-SUSP-0005 with explicit ASM-SUSP-0003 provenance",
+  "MOD-SUSP-0005 generic conservative coupled ARB mechanics and WUFR discrete blade force/energy/tangent evaluation under AUTH-SUSP-0005 with explicit ASM-SUSP-0003 provenance; WUFR vehicle-coordinate generalized force awaits the mechanism map",
   "MOD-VEH-0003 reviewed design-intent whole-vehicle force-coordinate composition and mechanics benchmarks",
   "source-to-canonical transform regression",
   "suspension kinematics validation against OptimumK",
@@ -116,13 +115,13 @@ prohibited = [
   "generalization of the zero-offset wheel-center construction to nonzero OptimumK wheel offsets",
   "generic physical contact-patch/tire-envelope or tire-deflection inference",
   "unlabeled modification of ASM-SUSP-0002/ASM-SUSP-0003 or promotion of spring/ARB models to installed/production authority",
-  "damper force, wheel damping, gas force, stops, or ARB physics outside the explicitly authorized reduced K_phi law",
-  "using spec-sheet suspension roll rates, another historical literal, blade material/dimensions, or unfrozen Instron values as WUFR ARB stiffness",
-  "presenting the 2560/2270 reduced K_phi values as blade/component stiffness or applying an additional motion-ratio reduction to them",
-  "inferring WUFR phi_ARB directly from body roll, wheel travel, track, or exporter sketch order without a reviewed state/mechanism adapter",
-  "vehicle equilibrium, wheel-load generation, or load-transfer calculation under the current force-coordinate/spring/ARB authorizations",
+  "damper force, wheel damping, gas force, stops, or ARB physics outside the explicitly authorized conservative/blade law",
+  "using MATLAB 2560/2270 N*m/deg, Simulink values, Instron values, spec-sheet suspension roll rates, or other historical literals as governing WUFR blade stiffness",
+  "interpolating between WUFR blade settings or averaging/blending/stacking stiffness sources",
+  "inferring WUFR delta_b or J_delta_b from body roll, wheel travel, track width, or exporter sketch order without a reviewed state/mechanism adapter",
+  "vehicle equilibrium, wheel-load generation, load-transfer calculation, or vehicle-coordinate ARB generalized force under the current WUFR ARB authorization without the reviewed geometry map",
   "negative normal-reaction clipping, negative spring-compression clipping, hidden ARB preload offsets, or hidden contact-mode switching",
-  "linkage/member/bearing loads, blade stress/FEA/fatigue, or structural release under the current force-coordinate/spring/ARB authorizations",
+  "linkage/member/bearing loads, blade stress/FEA/fatigue release, or structural release under the current force-coordinate/spring/ARB authorizations",
   "treating the source verification heave range or vendor damper travel as installed suspension/wheel travel; the 57 mm value may only bound the explicit ASM-SUSP-0002 rear spring constitutive assumption",
   "reconstructing whole-vehicle origin placement from wheelbase alone instead of the reviewed frame adapter",
   "production optimization or geometry release"
