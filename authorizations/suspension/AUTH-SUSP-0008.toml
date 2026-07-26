@@ -1,0 +1,60 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0008"
+status = "review_ready"
+title = "WUFR two-arm Z-bar mechanism implementation and rocker-coordinate generalized-force authorization"
+effective_condition = "Effective after review/merge. AUTH-SUSP-0006 supplies the named nominal front/rear Z-bar fixture and rocker-pickup transport; AUTH-SUSP-0007 supplies the two-arm per-blade-arm constitutive interpretation. This authorization permits the implemented branch-controlled mechanism closure d=[d_L,d_R](theta_RL,theta_RR), its signed Jacobian, and conservative generalized force in the declared left/right rocker-angle coordinates. It does not yet authorize wheel/body-coordinate ARB force, quasi-static vehicle equilibrium, or installed/as-built claims."
+review_record = "docs/reviews/phase2_wufr_zbar_implementation_promotion_review.md"
+
+[scope]
+model_ids = ["MOD-SUSP-0005"]
+equation_ids = ["EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018"]
+benchmark_ids = ["BENCH-SUSP-0014", "BENCH-SUSP-0015", "BENCH-SUSP-0016"]
+assumption_ids = ["ASM-SUSP-0003"]
+upstream_model_ids = ["MOD-SUSP-0003", "MOD-SUSP-0005"]
+mechanism_fixture = "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml"
+implementation_package = "src/pssd_suspension/wufr_zbar.py"
+implementation_test = "tests/test_suspension_wufr_zbar.py"
+implementation_authorized = true
+rocker_coordinate_generalized_force_authorized = true
+wheel_coordinate_generalized_force_authorized = false
+vehicle_equilibrium_authorized = false
+
+[permitted]
+items = [
+  "Transport the frozen left/right rocker ARB pickups by the reviewed one-axis rocker rotations and solve the two rigid-link constraints against the named WUFR26_ZBAR_MECHANISM_V0 fixture.",
+  "Represent each blade arm as its rigidly rotated nominal arm plus one transverse cantilever tip deflection d_i in the AUTH-SUSP-0007 working direction.",
+  "For a prescribed left/right rocker state, select the ideal free housing rotation by minimizing d_L^2+d_R^2, which is proportional to the authorized equal-k_b two-arm energy.",
+  "Use the nominal-continuation deflection root nearest d_i=0 for each arm and fail rather than repair an unreachable rigid-link closure.",
+  "Compute J_d=partial([d_L,d_R])/partial([theta_RL,theta_RR]) with branch-preserving centered differences checked at two step sizes.",
+  "For one discrete setting use F=[k_b*d_L,k_b*d_R], U=0.5*k_b*(d_L^2+d_R^2), and Q_rocker=-J_d^T*F in left/right rocker-angle coordinates.",
+  "Use independent finite differences of total elastic energy as the verification oracle for Q_rocker."
+]
+
+[prohibited]
+items = [
+  "Replacing the solved two-arm mechanism with body roll, track width, wheel-travel difference, historical scalar motion ratio, or effective axle roll stiffness.",
+  "Changing, averaging, interpolating, doubling, halving, sqrt(2)-rescaling, or stacking the governing discrete per-arm SolidWorks stiffness values.",
+  "Silently changing rigid-link length, clipping a rocker/housing state, selecting a different closure branch without continuation evidence, or suppressing an unavailable Jacobian.",
+  "Calling Q_rocker a wheel force, contact-patch force, body roll moment, axle roll stiffness, or load transfer without a separately reviewed coordinate chain.",
+  "Quasi-static vehicle equilibrium, tire force, damper force, structural loads, stress/fatigue, compliance/backlash/friction, installed limits, or installed/as-built claims."
+]
+
+[numerics]
+input_coordinate_order = ["theta_RL_rad", "theta_RR_rad"]
+elastic_coordinate_order = ["d_L_m", "d_R_m"]
+output_coordinate_order = ["theta_RL_rad", "theta_RR_rad"]
+closure_rule = "Exact rigid-link distance constraints with explicit residual reporting; unreachable states fail."
+housing_rule = "Search the continuation neighborhood and minimize d_L^2+d_R^2 for the ideal free housing coordinate."
+deflection_branch_rule = "Select the per-arm quadratic root nearest zero on the nominal continuation branch; do not manufacture an offset or change link length."
+jacobian_rule = "Centered branch-preserving finite differences at two step sizes; disagreement above the reviewed tolerance returns jacobian_unavailable."
+energy_gradient_rule = "Q_rocker must agree with -dU/d(theta_R) from an independent centered finite-difference energy check."
+
+[promotion_gates]
+items = [
+  "Nominal front and rear states close at zero arm deflection and zero stored energy within numerical tolerance.",
+  "Small common and differential rocker perturbations remain reachable on the nominal branch.",
+  "Left/right reversal preserves energy for the symmetric front fixture.",
+  "Two-step J_d is available and satisfies the reviewed agreement tolerance for the benchmark states.",
+  "Q_rocker agrees with independent finite-difference total-energy gradients.",
+  "A later authorization must define and verify d(theta_RL,theta_RR)/d(z_wL,z_wR) or an equivalent reviewed coordinate chain before wheel/body-coordinate force is exposed."
+]
