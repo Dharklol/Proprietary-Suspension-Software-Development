@@ -1,19 +1,23 @@
 [record]
 id = "BENCH-SUSP-0010"
 type = "benchmark"
-title = "WUFR-27 spring package authority and incomplete-progressive-law benchmark"
+title = "WUFR-27 spring package, installation-reference, and progressive-law benchmark"
 status = "proposed"
-description = "Freeze the WUFR-27 spring package/source boundary for the first conservative spring provider. The benchmark verifies that the current front 36 N/mm linear spring can be represented as a constitutive law when compression is explicit, while the rear 30-to-36 N/mm progressive identity remains unavailable as a force law until its progression versus compression is sourced. It also protects the zero-preload/reference-length and damper-stroke boundaries."
+description = "Freeze the WUFR-27 spring package/source/assumption boundary for the first conservative spring provider. The benchmark verifies the front 36 N/mm linear law, the reviewed zero-preload/full-extension direct-coilover reference against the suspension-geometry damper placement line, and the explicitly assumed rear affine tangent-rate law from 30 to 36 N/mm over 57 mm spring compression. It also ensures those assumptions remain visibly distinct from KW-published spring data and installed/as-built authority."
 verification_level = "B"
-target_ids = ["MOD-SUSP-0004", "EQ-SUSP-0013", "EQ-SUSP-0014", "EQ-SUSP-0015"]
+target_ids = ["MOD-SUSP-0004", "EQ-SUSP-0013", "EQ-SUSP-0014", "EQ-SUSP-0015", "ASM-SUSP-0002"]
 acceptance_criteria = [
   "The frozen WUFR27 spring package records a reviewer-declared 100 mm free length, zero intentional preload, no tender/helper spring, front 36 N/mm linear rate, and rear 30-to-36 N/mm linear-progressive identity.",
-  "The front linear constitutive law converts 36 N/mm to 36000 N/m exactly and is available only as a function of explicitly supplied spring compression/reference state.",
-  "The rear source record exposes 30000 and 36000 N/m endpoint tangent-rate labels but explicitly marks the progression law incomplete because no compression interval, force-deflection curve, or equivalent constitutive definition has been frozen.",
-  "No test or implementation may replace the rear law with 30, 33, or 36 N/mm constant rate, average the endpoint rates, or use the 57 mm KW damper stroke as the rate-progression interval.",
-  "Zero intentional preload is retained as a setup statement and is not interpreted as zero nominal loaded spring force or as authority for a zero-load eye-to-eye/reference length.",
-  "Historical WUFR-26 OptimumK 36 N/mm rear input, historical inboard-calculator 30 N/mm rear input, and shock-BOM 35-36 N/mm text remain comparison/corroboration evidence only and do not override the current reviewed rear progressive identity.",
-  "Damper dyno, damping adjustments, ARB behavior, installed travel/stops, vehicle equilibrium, and wheel-load generation remain outside this benchmark."
+  "ASM-SUSP-0002 is carried as explicit high-severity assumption authority: x_s=0 at the KW piggyback 185.7 mm full-extension eye-to-eye reference, and the rear tangent rate rises linearly from 30 N/mm at x_s=0 to 36 N/mm at x_s=57 mm until test data replace it.",
+  "The reviewed suspension-geometry export line from damper chassis point to rocker damper point reconstructs 164.599347 mm front and 164.610539 mm rear nominal eye-to-eye length and cross-checks the independent MOD-SUSP-0003 164.600/164.611 mm nominal actuation lengths.",
+  "The zero-preload/full-extension mapping produces nominal design-intent spring compressions of 21.100653 mm front and 21.089461 mm rear; these are benchmark/model values, not installed metrology or vehicle-equilibrium results.",
+  "The front nominal model force is 759.623506 N from the exact 36 N/mm linear law.",
+  "For the rear assumed affine tangent-rate law, k_t(x)=30000+(6000/0.057)x N/m, force is the integral F=30000*x+0.5*(6000/0.057)*x^2 rather than k_t*x, and nominal rear model force/tangent rate are 656.092540 N and 32219.943285 N/m.",
+  "The rear assumption is bounded to 0<=x_s<=57 mm and returns constitutive_domain_exceeded outside that range rather than extrapolating.",
+  "No test or implementation may replace the rear law with a constant 30, 33, or 36 N/mm rate, endpoint-average the spring, or present the assumed 57 mm progression span as measured KW spring data or installed wheel travel.",
+  "The reported ride-height shock-pot value is retained only as an uncalibrated correlation datum until its unit/zero/span/sign and eye-to-eye mapping are reviewed.",
+  "Historical WUFR-26 OptimumK 36 N/mm rear input, historical inboard-calculator 30 N/mm rear input, and shock-BOM 35-36 N/mm text remain comparison/corroboration evidence only and do not override the current reviewed setup or ASM-SUSP-0002.",
+  "Damper dyno force, damping adjustments, ARB behavior, installed travel/stops, vehicle equilibrium, and wheel-load generation remain outside this benchmark."
 ]
 fixture = "data_catalog/wufr27_spring_package_v0.toml"
 planned_implementation = "src/pssd_suspension/spring_force.py"
