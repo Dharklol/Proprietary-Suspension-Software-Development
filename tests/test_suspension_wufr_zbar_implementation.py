@@ -3,12 +3,8 @@ import math
 from pathlib import Path
 import unittest
 
-from pssd_suspension.wufr_zbar import (
-    ZBarStatus,
-    evaluate_two_arm_force,
-    load_wufr_zbar_fixture,
-    solve_zbar_mechanism,
-)
+from pssd_suspension.wufr_zbar import ZBarStatus, evaluate_two_arm_force, load_wufr_zbar_fixture
+from pssd_suspension.wufr_zbar_nominal import solve_nominal_zbar_mechanism
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml"
@@ -18,7 +14,7 @@ class WufrZBarImplementationTests(unittest.TestCase):
     def test_nominal_front_and_rear_close_at_zero_energy(self) -> None:
         for axle in ("front", "rear"):
             fixture = load_wufr_zbar_fixture(FIXTURE, axle)
-            result = solve_zbar_mechanism(fixture, 0.0, 0.0)
+            result = solve_nominal_zbar_mechanism(fixture, 0.0, 0.0)
             self.assertEqual(result.status, ZBarStatus.SUCCESS, result.message)
             self.assertAlmostEqual(result.d_left_m or 0.0, 0.0, places=9)
             self.assertAlmostEqual(result.d_right_m or 0.0, 0.0, places=9)
@@ -30,7 +26,7 @@ class WufrZBarImplementationTests(unittest.TestCase):
     def test_small_rocker_inputs_are_reachable_and_conservative(self) -> None:
         fixture = load_wufr_zbar_fixture(FIXTURE, "front")
         for ql, qr in ((0.01, 0.01), (0.01, -0.01), (-0.01, 0.01)):
-            state = solve_zbar_mechanism(fixture, ql, qr)
+            state = solve_nominal_zbar_mechanism(fixture, ql, qr)
             self.assertTrue(state.ok, state.message)
             force = evaluate_two_arm_force(state, setting=1, stiffness_N_per_m=280000.0)
             self.assertTrue(force.ok, force.message)
@@ -39,8 +35,8 @@ class WufrZBarImplementationTests(unittest.TestCase):
 
     def test_left_right_reversal_preserves_energy_for_symmetric_front_fixture(self) -> None:
         fixture = load_wufr_zbar_fixture(FIXTURE, "front")
-        a = solve_zbar_mechanism(fixture, 0.01, -0.01)
-        b = solve_zbar_mechanism(fixture, -0.01, 0.01)
+        a = solve_nominal_zbar_mechanism(fixture, 0.01, -0.01)
+        b = solve_nominal_zbar_mechanism(fixture, -0.01, 0.01)
         self.assertTrue(a.ok and b.ok, (a.message, b.message))
         fa = evaluate_two_arm_force(a, setting=3, stiffness_N_per_m=400000.0)
         fb = evaluate_two_arm_force(b, setting=3, stiffness_N_per_m=400000.0)
@@ -49,17 +45,19 @@ class WufrZBarImplementationTests(unittest.TestCase):
     def test_energy_gradient_matches_generalized_rocker_torque(self) -> None:
         fixture = load_wufr_zbar_fixture(FIXTURE, "rear")
         ql, qr = 0.008, -0.006
-        state = solve_zbar_mechanism(fixture, ql, qr)
+        state = solve_nominal_zbar_mechanism(fixture, ql, qr)
         self.assertTrue(state.ok, state.message)
         force = evaluate_two_arm_force(state, setting=2, stiffness_N_per_m=300000.0)
         self.assertTrue(force.ok)
         h = 2e-6
         numerical = []
         for index in (0, 1):
-            plus = [ql, qr]; minus = [ql, qr]
-            plus[index] += h; minus[index] -= h
-            sp = solve_zbar_mechanism(fixture, plus[0], plus[1], with_jacobian=False)
-            sm = solve_zbar_mechanism(fixture, minus[0], minus[1], with_jacobian=False)
+            plus = [ql, qr]
+            minus = [ql, qr]
+            plus[index] += h
+            minus[index] -= h
+            sp = solve_nominal_zbar_mechanism(fixture, plus[0], plus[1], with_jacobian=False)
+            sm = solve_nominal_zbar_mechanism(fixture, minus[0], minus[1], with_jacobian=False)
             fp = evaluate_two_arm_force(sp, setting=2, stiffness_N_per_m=300000.0)
             fm = evaluate_two_arm_force(sm, setting=2, stiffness_N_per_m=300000.0)
             numerical.append(-((fp.stored_energy_J or 0.0)-(fm.stored_energy_J or 0.0))/(2*h))
