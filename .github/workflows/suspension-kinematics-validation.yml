@@ -25,7 +25,12 @@ jobs:
           path: spring_force_authorization_test.log
           if-no-files-found: error
       - name: Validate spring force implementation
-        run: python -m unittest tests.test_suspension_spring_force -v > spring_force_implementation_test.log 2>&1
+        run: |
+          set -e
+          {
+            python -m unittest tests.test_suspension_spring_force -v
+            python -m unittest tests.test_suspension_spring_force_result_record -v
+          } > spring_force_implementation_test.log 2>&1
       - name: Upload spring implementation diagnostics
         if: always()
         uses: actions/upload-artifact@v4
