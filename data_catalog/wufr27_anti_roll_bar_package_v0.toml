@@ -1,46 +1,59 @@
-version = "0.2.0"
+version = "0.3.0"
 record_id = "WUFR27_ANTI_ROLL_BAR_PACKAGE_V0"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
-record_authority = "reviewer_selected_SolidWorks_FEA_linear_blade_tip_stiffness"
+record_authority = "SolidWorks_FEA_single_blade_arm_linear_tip_stiffness"
 installed_as_built_authority = false
 constitutive_stiffness_authority = true
 
 [reviewed_setup]
 review_date = "2026-07-26"
-review_source = "Reviewer/user correction in the FSAE project conversation"
-architecture = "WUFR Z-bar / adjustable blade anti-roll-bar concept"
+review_source = "Reviewer/user correction plus source-semantics recovery from the WUFR-25 Simulink Study sheet"
+architecture = "WUFR Z-bar / two-arm adjustable blade anti-roll-bar concept"
 intentional_preload = "zero"
-constitutive_selection = "The governing WUFR constitutive data are the five discrete SolidWorks FEA blade-tip stiffness values from the Google Sheet tab ARB FEA vs Simulink. Values are linear force/deflection slopes in N/mm. No interpolation between settings is authorized."
+constitutive_selection = "The governing WUFR constitutive data are the five discrete SolidWorks FEA stiffness values from ARB FEA vs Simulink. The same sheet labels the physical/beam quantity Blade arm and checks weak/strong settings with the cantilever relation k=3EI/L^3 using an approximately 2.3 in arm length. The setting stiffness is therefore used as one blade-arm transverse tip force/deflection stiffness."
 
 [governing_solidworks_fea]
 spreadsheet_url = "https://docs.google.com/spreadsheets/d/1rJjQBnSOMEGQmyromb9SjNgOEMwBBOdUpUKPPLOf-3c/edit?gid=0#gid=0"
 sheet_name = "ARB FEA vs Simulink"
-quantity = "linear blade-tip stiffness"
+quantity = "single blade-arm linear transverse tip stiffness"
 source_column = "FEA SolidWorks Stiffness"
 source_unit = "N/mm"
 setting_numbers = [1, 2, 3, 4, 5]
 stiffness_N_per_mm = [280.0, 300.0, 400.0, 700.0, 2300.0]
 stiffness_N_per_m = [280000.0, 300000.0, 400000.0, 700000.0, 2300000.0]
-beam_theory_unit_check = "The sheet uses k=3EI/L^3 in N/m and divides by 1000 to report N/mm, confirming the force/deflection units used by the FEA column."
-constitutive_law = "F_b = k_b * delta_b; U_b = 0.5 * k_b * delta_b^2; Q_ARB = -J_delta_b^T * F_b"
-selection_rule = "Setting is discrete. Select exactly one of settings 1..5; do not interpolate, average, blend, or stack stiffness sources without separate authorization."
+arm_count = 2
+beam_theory_semantics = "The sheet explicitly labels the calculation block Blade arm. It uses k=3EI/L^3 for a cantilever arm with approximately 2.3 in length and reports N/mm. The weak-axis check is about 293 N/mm versus setting-1 FEA 280 N/mm; the strong-axis check is about 2787 N/mm versus setting-5 FEA 2300 N/mm."
+one_arm_law = "F_i=k_b*d_i; U_i=0.5*k_b*d_i^2"
+installed_two_arm_law = "d=[d_L,d_R]; F=[k_b*d_L,k_b*d_R]; U=0.5*k_b*(d_L^2+d_R^2); Q_ARB=-J_d^T*F only after J_d is reviewed"
+selection_rule = "Setting is discrete. Select exactly one setting 1..5 and use that same per-arm k_b on both blade arms; do not interpolate, average, blend, stack, or scalar-rescale stiffness sources."
 
 [comparison_only]
 matlab_source = "Weight_transfer_sensitivity.m"
 matlab_reduced_axle_Nm_per_deg = [2560.0, 2270.0]
-matlab_semantics = "comparison-only historical reduced effective axle roll-stiffness evidence; not governing and not converted into or stacked with the blade-tip law"
+matlab_semantics = "comparison-only downstream setting-1 effective axle roll-stiffness values. The 2025 Structural Design Binder table maps approximately 282 N/mm FEA setting 1 to 2560 N*m/deg front and 2270 N*m/deg rear; Weight_transfer_sensitivity.m later carries those values but does not derive them. They are not an independent blade constitutive source."
 simulink_stiffness_N_per_mm = [285.0, 309.0, 400.0, 724.0, 2628.0]
 simulink_semantics = "comparison-only values from the same spreadsheet; do not average or substitute for SolidWorks FEA authority"
 instron_stiffness_N_per_mm = [900.0, 980.0, 1320.0, 1970.0, 2630.0]
-instron_semantics = "comparison-only values from the same spreadsheet; do not average or substitute for SolidWorks FEA authority"
-comparison_rule = "MATLAB, Simulink, and Instron values are comparison-only evidence. Do not average, fit, blend, stack, or substitute them for the governing SolidWorks blade stiffness."
+instron_semantics = "comparison-only whole test-fixture values from the same spreadsheet/design-binder lineage. The owner manual describes a three-point blade test; do not substitute these values for the governing one-arm SolidWorks stiffness."
+comparison_rule = "MATLAB/effective-axle, Simulink, and Instron values are comparison/correlation evidence. Do not average, fit, blend, stack, or substitute them for the governing per-arm SolidWorks stiffness."
+
+[historical_effective_axle_lineage]
+source = "Suspension Structural Design Binder 2025, ARB Blade Stiffness Validation"
+setting_numbers = [1, 2, 3, 4, 5]
+fea_stiffness_N_per_mm_as_reported = [282.0, 305.0, 396.0, 706.0, 2300.0]
+front_roll_stiffness_Nm_per_deg = [2560.0, 2720.0, 3300.0, 5500.0, 16500.0]
+rear_roll_stiffness_Nm_per_deg = [2270.0, 2430.0, 3000.0, 5100.0, 15600.0]
+role = "historical downstream whole-axle comparison/correlation evidence; useful for later independent map validation, not constitutive authority and not a license to back-fit geometry"
 
 [authority_boundaries]
 zero_preload_authority = "reviewed design-intent statement under ASM-SUSP-0003; not installed metrology"
-blade_constitutive_authority = "available only as the five discrete SolidWorks FEA linear blade-tip stiffness settings"
+blade_constitutive_authority = "five discrete SolidWorks FEA single-arm transverse tip stiffness settings"
 interpolation_authorized = false
+two_arm_vector_constitutive_authorized = true
+scalar_whole_blade_rescaling_authorized = false
+z_bar_geometry_fixture_authorized = true
 z_bar_geometry_map_authorized = false
-z_bar_geometry_map_status = "Not yet authorized or implemented: (q_L, q_R) -> delta_b and partial(delta_b)/partial(q_L,q_R)."
+z_bar_geometry_map_status = "WUFR26_ZBAR_MECHANISM_V0 freezes named point/topology geometry. The numerical two-arm elastic deformation map d(q_L,q_R) and J_d remain to be implemented and verified."
 body_roll_substitution_allowed = false
 track_width_approximation_allowed = false
 wheel_rate_authority = false
@@ -50,5 +63,5 @@ installed_limits_authority = false
 installed_as_built_authority = false
 
 [historical_record_note]
-status = "superseded_authority_semantics"
-note = "Earlier revisions of this record promoted MATLAB 2560/2270 N*m/deg reduced axle values. That authority decision is superseded by the reviewer correction on 2026-07-26. Git history retains the earlier geometry/source-audit detail; those MATLAB values now remain comparison-only."
+status = "superseded_scalar_semantics"
+note = "PR50's 1 mm force/energy benchmark remains valid as a one-arm local constitutive check. It must not be interpreted as the complete installed two-ended blade energy. Earlier treatment of 2560/2270 N*m/deg as an independent MATLAB source is corrected: the design binder shows them as downstream setting-1 effective axle roll-stiffness values derived in the same blade-study lineage."
