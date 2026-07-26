@@ -23,5 +23,5 @@ source_basis = [
 ]
 validity = "Quasi-static seated coil spring with explicitly authorized geometry/reference relation and successful upstream actuation state."
 numerical_method = "Direct algebra after validating finite inputs and reference authority. Do not clip x_s to zero."
-failure_behavior = ["Return missing_reference_length when the spring-seat/reference relation is unavailable", "Return spring_unseated when x_s<0 in the requested seated-spring mode", "Do not infer nominal preload from vehicle weight, damper travel, or historical setup values"]
+failure_behavior = ["Return missing_reference_length when the spring-seat/reference relation is unavailable", "Return spring_unseated when x_s<0 in the requested seated-spring mode; do not clip x_s or force to zero internally", "Do not infer nominal preload from vehicle weight, damper travel, or historical setup values"]
 benchmark_ids = ["BENCH-SUSP-0009", "BENCH-SUSP-0010"]
