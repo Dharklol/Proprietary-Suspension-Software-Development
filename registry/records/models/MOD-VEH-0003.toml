@@ -5,7 +5,7 @@ title = "Whole-vehicle force-coordinate and rigid-contact assembly"
 status = "proposed"
 disposition = "accepted_with_restrictions"
 maturity = "M1"
-description = "Bounded provider-neutral mechanics foundation authorized by AUTH-VEH-0003 / PR45 and implemented in PR46. It transports explicitly authorized body-fixed points, translates and sums force/couple wrenches, maps applied actions into signed generalized forces through virtual work, and classifies the first flat-road rigid four-contact mode. A reviewed WUFR-26/27 design-intent adapter now supplies explicit common axle/track/contact placement and a separately provenance-tagged no-driver CG reference. The model does not evaluate constitutive forces or solve vehicle equilibrium or linkage loads."
+description = "Bounded provider-neutral mechanics foundation authorized by AUTH-VEH-0003 / PR45 and implemented in PR46. It transports explicitly authorized body-fixed points, translates and sums force/couple wrenches, maps applied actions into signed generalized forces through virtual work, and classifies the first flat-road rigid four-contact mode. A reviewed WUFR-26/27 design-intent adapter now supplies explicit common axle/track/contact placement and a separately provenance-tagged driver/no-fuel design reference. The model does not evaluate constitutive forces or solve vehicle equilibrium or linkage loads."
 inputs = [
   "Explicit whole-vehicle body frame and road/inertial frame with named origins and orientation",
   "Body pose/context including the first generalized-coordinate order q=[z_s, phi, theta]",
@@ -27,7 +27,8 @@ assumptions = [
   "All force and geometry inputs declare a common compatible frame/origin or pass through a reviewed adapter.",
   "The first contact model is a flat rigid road with vertically rigid tires and all four contacts active.",
   "Any negative road-normal reaction invalidates the four-contact mode and is not clipped.",
-  "The WUFR no-driver 3D CG reference is a composite design-intent point: scale-derived x/y and separately sourced no-driver spec-sheet z; it is not one-session installed metrology.",
+  "The WUFR primary 3D body reference is a composite driver/no-fuel design-intent point: planar scale-derived x/y plus a separately sourced 0.290 m tilt-test z measured with driver-simulating ballast; it is not same-session installed metrology.",
+  "The no-driver/no-fuel scale state remains separate and has no authorized vertical CG coordinate in this model.",
   "The future first linkage-force model will use ideal pin-jointed two-force members and rigid nodes/bodies, but linkage forces and stresses are outside this model."
 ]
 verification_level = "B"
@@ -55,5 +56,5 @@ benchmark_report_script = "scripts/run_vehicle_force_coordinate_benchmarks.py"
 benchmark_result_record = "benchmarks/vehicle/vehicle_force_coordinate_result_v0.1.0.toml"
 validation_workflow = ".github/workflows/motion-aware-validation.yml"
 review_record = "docs/reviews/phase2_whole_vehicle_force_coordinate_implementation_review.md"
-next_implementation_gate = "Keep spring/damper force laws, coupled ARB behavior, mass/gravity and aero/brake force providers, quasi-static equilibrium, linkage loads, stress, tire compliance, alternate contact modes, installed limits, and production authority separately authorized. The driver/no-fuel vertical CG coordinate remains unavailable."
+next_implementation_gate = "Keep spring/damper force laws, coupled ARB behavior, mass/gravity and aero/brake force providers, quasi-static equilibrium, linkage loads, stress, tire compliance, alternate contact modes, installed limits, and production authority separately authorized. Exact same-session actual-driver z_CG remains unavailable; the 0.290 m value is retained only as a driver-equivalent-ballast design reference."
 prohibited_scope = "Constitutive spring/damper/ARB/tire force laws; vehicle equilibrium; load transfer; wheel-load generation; linkage/member/bearing reactions; stress/FEA; compliance; tire vertical deflection; alternate contact modes; physical stops; installed/as-built or production claims."
