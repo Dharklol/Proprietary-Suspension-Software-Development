@@ -35,8 +35,16 @@ class SuspensionSpringForceIntegrationTests(unittest.TestCase):
 
     def test_nominal_actuation_lengths_feed_spring_provider_without_scalar_motion_ratio(self) -> None:
         for axle, expected_length_m, expected_force_N in (
-            ("front", 0.164600, 759.6000000000003),
-            ("rear", 0.164611, 656.0776800526314),
+            (
+                "front",
+                self.spring_package.front_nominal_coilover_length_m,
+                self.spring_package.front_nominal_force_N,
+            ),
+            (
+                "rear",
+                self.spring_package.rear_nominal_coilover_length_m,
+                self.spring_package.rear_nominal_force_N,
+            ),
         ):
             corner = self.geometry.corner(axle, "left")
             nominal = build_nominal_wheel_reference(self.wheel_profile, axle, "left")
@@ -48,7 +56,7 @@ class SuspensionSpringForceIntegrationTests(unittest.TestCase):
                 source_authority=self.geometry.authority,
             )
             self.assertTrue(actuation.ok, actuation.message)
-            self.assertAlmostEqual(actuation.current_coilover_length_m, expected_length_m, places=6)
+            self.assertAlmostEqual(actuation.current_coilover_length_m, expected_length_m, places=12)
 
             spring = self.spring_package.front if axle == "front" else self.spring_package.rear
             result = evaluate_spring_from_actuation(
@@ -58,7 +66,7 @@ class SuspensionSpringForceIntegrationTests(unittest.TestCase):
                 use_local_rho_dw_when_available=False,
             )
             self.assertTrue(result.ok, result.message)
-            self.assertAlmostEqual(result.force_N, expected_force_N, places=6)
+            self.assertAlmostEqual(result.force_N, expected_force_N, places=9)
             self.assertFalse(result.generalized_force_available)
             self.assertFalse(result.installed_as_built_authority)
             self.assertIn("ASM-SUSP-0002", result.assumption_ids)
