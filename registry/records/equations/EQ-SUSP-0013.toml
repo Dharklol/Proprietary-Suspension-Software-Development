@@ -1,1 +1,27 @@
-noop
+[record]
+id = "EQ-SUSP-0013"
+type = "equation"
+title = "Explicit spring compression and preload/reference coordinate"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Define spring compression x_s as a positive-compression coordinate from an explicitly sourced free length and current spring-seat separation, or an algebraically equivalent explicit reference/preload relation. This equation prevents nominal coilover length, zero intentional preload, or vendor damper dimensions from silently becoming an installed spring-compression reference."
+outputs = ["spring compression x_s", "seated/unseated state", "reference/preload provenance", "structured missing-reference failure"]
+inputs = ["spring free length L_free", "current spring-seat separation L_seat or explicit x_pre/L_ref mapping", "source/configuration authority"]
+assumptions = [
+  "Positive x_s means compression from the spring zero-load/free-length reference.",
+  "For a direct coilover with fixed seat offsets, an equivalent mapping x_s=x_pre+L_ref-L_d may be used only after x_pre and L_ref/seat mapping are explicitly frozen.",
+  "The first coil-spring mode is seated and does not transmit tension; x_s<0 is a contact-mode failure/unavailable state rather than a negative spring force.",
+  "Zero intentional preload means x_pre=0 only at the explicitly named zero-load setup reference, not at nominal loaded ride height."
+]
+verification_level = "none"
+canonical_equation = "x_s=L_free-L_seat; equivalently x_s=x_pre+L_ref-L_d only with explicit reference authority. Authorized seated mode requires x_s>=0."
+source_basis = [
+  "AUTH-SUSP-0004 reviewed coordinate/sign policy.",
+  "WUFR27_SPRING_PACKAGE_V0 free-length/preload evidence and explicit reference-length authority or gap.",
+  "MOD-SUSP-0003 coilover length/displacement convention for any later equivalent eye-to-eye mapping."
+]
+validity = "Quasi-static seated coil spring with explicitly authorized geometry/reference relation and successful upstream actuation state."
+numerical_method = "Direct algebra after validating finite inputs and reference authority. Do not clip x_s to zero."
+failure_behavior = ["Return missing_reference_length when the spring-seat/reference relation is unavailable", "Return spring_unseated when x_s<0 in the requested seated-spring mode", "Do not clip negative compression to zero", "Do not infer nominal preload from vehicle weight, damper travel, or historical setup values"]
+benchmark_ids = ["BENCH-SUSP-0009", "BENCH-SUSP-0010"]
