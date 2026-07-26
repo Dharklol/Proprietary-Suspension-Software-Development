@@ -1,0 +1,26 @@
+[record]
+id = "EQ-SUSP-0015"
+type = "equation"
+title = "Spring generalized force from potential energy and signed actuation Jacobian"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Map the conservative spring element into generalized coordinates through potential energy and virtual work rather than a scalar wheel-rate shortcut. With spring compression x_s and energy U_s, Q_s=-partial U_s/partial q=-F_s partial x_s/partial q. For a fixed-reference direct-coilover mapping x_s=x_pre+L_ref-L_d, Q_s=F_s partial L_d/partial q."
+outputs = ["signed generalized spring force Q_s", "spring-compression Jacobian", "energy/virtual-work residual", "Jacobian method/step diagnostics"]
+inputs = ["successful EQ-SUSP-0014 force/energy state", "successful coordinate/actuation map", "signed partial x_s/partial q or partial L_d/partial q"]
+assumptions = [
+  "The generalized coordinate and Jacobian signs are retained exactly; spring force magnitude is not multiplied by an absolute motion ratio.",
+  "For q=delta_z_wc_body and x_s=x_pre+L_ref-L_d, MOD-SUSP-0003 supplies rho_dw=partial L_d/partial delta_z_wc_body and Q_delta_z=F_s*rho_dw.",
+  "For later whole-body q=[z_s,phi,theta], the full coordinate-dependent suspension/actuation map must be differentiated; a nominal scalar ratio is insufficient."
+]
+verification_level = "none"
+canonical_equation = "Q_s=-partial U_s/partial q=-F_s*partial x_s/partial q; if x_s=x_pre+L_ref-L_d then Q_s=F_s*partial L_d/partial q; for q=delta_z_wc_body, Q_s=F_s*rho_dw."
+source_basis = [
+  "AUTH-SUSP-0004 conservative spring energy convention.",
+  "EQ-SUSP-0012 signed rho_dw actuation derivative.",
+  "AUTH-VEH-0003 / EQ-VEH-0006 virtual-work generalized-force architecture."
+]
+validity = "Successful spring/actuation state on one continuous branch with an available, well-conditioned coordinate Jacobian."
+numerical_method = "Prefer exact chain-rule Jacobians. A centered finite-difference energy check may perturb the declared generalized coordinate only while preserving the same upstream actuation/constitutive branch; compare h and h/2 before accepting the numerical check."
+failure_behavior = ["Propagate upstream actuation/spring failures", "Return jacobian_unavailable at singular or unavailable derivative states", "Do not substitute historical Motion Ratio Heave or a scalar MR/IR rule", "Do not use absolute value to hide generalized-force sign"]
+benchmark_ids = ["BENCH-SUSP-0009", "BENCH-SUSP-0010"]

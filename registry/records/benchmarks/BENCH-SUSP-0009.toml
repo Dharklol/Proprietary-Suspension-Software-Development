@@ -1,0 +1,20 @@
+[record]
+id = "BENCH-SUSP-0009"
+type = "benchmark"
+title = "Analytical conservative spring force, energy, and generalized-force benchmark"
+status = "proposed"
+description = "Verify the first conservative spring provider independently of WUFR parameter uncertainty. The benchmark freezes a linear spring hand case, explicit preload/reference behavior, spring-unseated failure, signed generalized-force/energy consistency, and a bounded synthetic progressive table case."
+verification_level = "B"
+target_ids = ["MOD-SUSP-0004", "EQ-SUSP-0013", "EQ-SUSP-0014", "EQ-SUSP-0015"]
+acceptance_criteria = [
+  "For k=10000 N/m and x_s=0.020 m, the provider returns F_s=200 N, U_s=2.0 J, and k_t=10000 N/m within floating-point tolerance.",
+  "For the equivalent mapping x_s=x_pre+L_ref-L_d with x_pre=0.005 m and L_ref-L_d=0.010 m, x_s=0.015 m exactly; zero-preload and nonzero-preload references remain explicitly distinguishable.",
+  "A requested seated-spring state with x_s<0 returns spring_unseated and does not clip compression or force to zero internally.",
+  "With dL_d/dq=-0.25 and F_s=200 N, generalized force is Q_s=-50 N in the synthetic translational coordinate, preserving sign. A centered finite-difference of stored energy agrees with Q_s=-dU/dq at reviewed tolerance.",
+  "For the synthetic force-compression table (0 m,0 N), (0.01 m,100 N), (0.02 m,240 N), the state x_s=0.015 m returns F_s=170 N, U_s=1.175 J, and local segment tangent 14000 N/m under piecewise-linear interpolation/trapezoidal integration.",
+  "Requests outside the synthetic table domain fail as constitutive_domain_exceeded rather than extrapolating."
+]
+fixture_definition = "Synthetic hand-calculation cases are fully specified in this record and in the authorization test; no WUFR data are required."
+planned_implementation = "src/pssd_suspension/spring_force.py"
+planned_implementation_tests = ["tests/test_suspension_spring_force.py"]
+result_record = "planned in PR48 implementation"

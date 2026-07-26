@@ -1,0 +1,54 @@
+[record]
+id = "MOD-SUSP-0004"
+type = "model"
+title = "Conservative coil-spring force, energy, and generalized-force provider"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Bounded conservative coil-spring provider proposed under AUTH-SUSP-0004. It consumes an explicitly authorized spring compression/reference state and conservative constitutive law, returns spring force, stored energy, local tangent stiffness, and maps the elastic action into signed generalized force through exact coordinate Jacobians/virtual work. WUFR-27 may additionally use the explicitly labeled ASM-SUSP-0002 zero-preload/full-extension installation reference and rear affine tangent-rate assumption. It refuses unseated-spring states, hidden or unlabeled reference inference, constitutive extrapolation, scalar motion-ratio substitution, and all damper/ARB/equilibrium/structural scope."
+inputs = [
+  "Successful MOD-SUSP-0003 actuation state or an explicitly supplied spring-seat/compression state with matching source/configuration authority",
+  "Spring free length and explicit seat-separation or equivalent reference/preload relation",
+  "Source-defined or explicitly reviewed assumption-defined conservative force/tangent-rate law within a reviewed constitutive domain",
+  "Signed coordinate Jacobian, including rho_dw where the physical single-wheel coordinate is used",
+  "Source/configuration/assumption identity and constitutive availability state"
+]
+outputs = [
+  "Spring compression x_s with seated/unseated status",
+  "Compression-force magnitude F_s",
+  "Stored elastic energy U_s with declared zero-energy reference",
+  "Local tangent stiffness k_t",
+  "Signed generalized spring force and Jacobian/energy-consistency diagnostics",
+  "Source/configuration/assumption provenance and structured unavailable/failure state"
+]
+assumptions = [
+  "The first spring element is conservative, rate-independent, and quasi-static; damping, hysteresis, gas force, friction, and stops are separate elements.",
+  "Spring compression is positive from a reviewed zero-load/free-length reference; the seated-spring mode does not support tensile coil-spring force.",
+  "Force direction in vehicle/generalized coordinates is determined by the signed compression/actuation Jacobian; no absolute-value motion-ratio convention is used.",
+  "The WUFR-27 front spring uses the reviewed 36 N/mm linear law.",
+  "Under ASM-SUSP-0002, the WUFR-27 rear tangent rate rises linearly from 30 N/mm at x_s=0 to 36 N/mm at x_s=57 mm until physical spring testing replaces the assumption.",
+  "Under ASM-SUSP-0002, zero intentional preload is represented by x_s=0 at the KW piggyback 185.7 mm full-extension eye-to-eye reference, with x_s=0.1857-L_d for the current fixed-seat-offset design-intent configuration.",
+  "Neither ASM-SUSP-0002 assumption is installed/as-built metrology or vendor spring-curve authority."
+]
+verification_level = "none"
+equation_ids = ["EQ-SUSP-0013", "EQ-SUSP-0014", "EQ-SUSP-0015"]
+benchmark_ids = ["BENCH-SUSP-0009", "BENCH-SUSP-0010"]
+authorization_id = "AUTH-SUSP-0004"
+authorization_state = "review_ready_pending_PR47_review_and_merge"
+authorization_document = "authorizations/suspension/AUTH-SUSP-0004.toml"
+upstream_model_ids = ["MOD-SUSP-0003"]
+downstream_model_ids = []
+planned_downstream = [
+  "separately authorized coupled anti-roll-bar elastic provider",
+  "separately authorized quasi-static body equilibrium/load-state solver"
+]
+source_snapshot = "data_catalog/wufr27_spring_package_v0.toml"
+source_audit = "docs/models/suspension/spring_force_source_audit.md"
+preimplementation_specification = "docs/models/suspension/spring_force_function_specification.md"
+planned_implementation_package = "src/pssd_suspension/spring_force.py"
+planned_implementation_tests = ["tests/test_suspension_spring_force.py"]
+validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
+review_record = "docs/reviews/phase2_spring_force_authorization_review.md"
+baseline_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
+next_implementation_gate = "After AUTH-SUSP-0004 review/merge, implement only the conservative spring element and pass BENCH-SUSP-0009/0010. Preserve ASM-SUSP-0002 provenance in all WUFR outputs, replace the rear assumed law after physical spring testing, and replace/validate the eye-to-eye reference when perch metrology or calibrated shock-pot data become available."
+prohibited_scope = "Damper force/damping, gas force, hysteresis/friction, bump/top-out stops, tender/helper behavior, ARB coupling, governing scalar wheel-rate/MR substitution, tire stiffness, vehicle equilibrium/load transfer, linkage/member/bearing loads, stress/FEA, compliance, installed travel/stroke, optimization, installed/as-built or production claims."
