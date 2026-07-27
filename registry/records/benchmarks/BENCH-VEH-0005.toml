@@ -1,0 +1,25 @@
+[record]
+id = "BENCH-VEH-0005"
+type = "benchmark"
+title = "Synthetic symmetric conservative quasi-static equilibrium"
+status = "proposed"
+description = "Freeze an analytical provider-neutral equilibrium case for MOD-VEH-0004. Four identical vertical suspension elements support a 100 kg synthetic sprung body on a flat rigid road. The compatibility map uses physical wheel coordinates and the road-normal reactions are recovered only after the reduced body equilibrium is solved. Explicit synthetic 5 kg wheel-side masses are used only inside this benchmark and are not WUFR authority."
+verification_level = "B"
+target_ids = ["MOD-VEH-0004", "EQ-VEH-0008", "EQ-VEH-0009", "EQ-VEH-0010"]
+acceptance_criteria = [
+  "Use body coordinates q_b=[z_s, phi, theta] and four wheel coordinates ordered [FL,FR,RL,RR]. For the symmetric zero-roll/zero-pitch analytical state, the compatibility map reduces to z_i=-z_s with dz_i/dz_s=-1.",
+  "Use four synthetic linear conservative suspension elements with k=10000 N/m and U_i=0.5*k*z_i^2 for z_i>=0; Q_susp_i=-dU_i/dz_i=-k*z_i.",
+  "Use an explicit synthetic sprung mass of 100 kg with g=9.81 m/s^2, so Q_body_ext,z=-981 N. No WUFR mass or CG value is consumed.",
+  "The analytical body equilibrium is z_s=-0.024525 m, phi=0, theta=0; therefore each wheel coordinate is +0.024525 m and each suspension wheel generalized force is -245.25 N.",
+  "With explicit synthetic wheel-side mass 5 kg at each corner, Q_wheel_ext_i=-49.05 N and contact coefficient c_i=+1, each recovered road-normal reaction is +294.30 N.",
+  "The four road-normal reactions sum to 1177.20 N = (100+4*5)*9.81 N within numerical tolerance.",
+  "The converged reduced equilibrium residual norm is <=1e-8 in the benchmark's scaled coordinates and the numerical tangent remains nonsingular.",
+  "Independent two-step finite differences of total conservative potential with respect to z_s agree with the assembled reduced residual sign convention within 1e-6 N near the analytical solution.",
+  "No track-width load-transfer relation, crossweight rule, scalar motion ratio, scalar wheel rate, or WUFR parameter is used to obtain the result."
+]
+source_configuration = "synthetic_only"
+implementation = "planned: src/pssd_vehicle/quasi_static.py"
+implementation_method = "Reduced-coordinate virtual-work equilibrium followed by explicit wheel-coordinate road-reaction recovery."
+implementation_tests = ["planned: tests/test_vehicle_quasi_static.py"]
+report_script = "planned: scripts/run_vehicle_quasi_static_benchmarks.py"
+result_record = "planned: benchmarks/vehicle/vehicle_quasi_static_result_v0.1.0.toml"
