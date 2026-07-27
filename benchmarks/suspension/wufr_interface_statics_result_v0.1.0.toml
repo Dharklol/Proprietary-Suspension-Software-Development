@@ -1,0 +1,72 @@
+version = "0.1.0"
+model_id = "MOD-SUSP-0007"
+authorization_id = "AUTH-SUSP-0012"
+assumption_id = "ASM-SUSP-0005"
+status = "implementation_benchmark"
+authority = "Synthetic mechanics and source-ownership verification for WUFR27 Level-1 interface statics only. This is not a WUFR maneuver/member-load result, rocker load, stress result, FEA boundary condition, or installed/as-built validation."
+
+[BENCH-SUSP-0021]
+passed = true
+unknown_order = [
+  "upper_hinge_force_x_N", "upper_hinge_force_y_N", "upper_hinge_force_z_N", "upper_hinge_moment_v1_Nm", "upper_hinge_moment_v2_Nm",
+  "lower_hinge_force_x_N", "lower_hinge_force_y_N", "lower_hinge_force_z_N", "lower_hinge_moment_v1_Nm", "lower_hinge_moment_v2_Nm",
+  "upper_spherical_force_on_carrier_x_N", "upper_spherical_force_on_carrier_y_N", "upper_spherical_force_on_carrier_z_N",
+  "lower_spherical_force_on_carrier_x_N", "lower_spherical_force_on_carrier_y_N", "lower_spherical_force_on_carrier_z_N",
+  "lateral_link_axial_force_N", "actuation_rod_axial_force_N"
+]
+expected_solution = [
+  -486.797726581690,
+  780.251166344441,
+  -54.176236183913,
+  499.766045573140,
+  26.394714235571,
+  -654.215373361056,
+  -524.095610408825,
+  389.319114514492,
+  -214.991224462526,
+  -243.099797295896,
+  -164.692329354707,
+  412.130712370746,
+  114.545638554030,
+  -654.215373361056,
+  -524.095610408825,
+  389.319114514492,
+  740.690663077577,
+  517.427895045907
+]
+expected_characteristic_lengths_m = [1.0116323442832382, 0.5257375771237967, 0.7539893898457722]
+expected_condition_number_inf = 256.1483168750569
+maximum_solution_error_allowed = 1.0e-8
+maximum_force_residual_inf_norm_N_allowed = 1.0e-9
+maximum_moment_residual_inf_norm_Nm_allowed = 1.0e-9
+hinge_axis_moment_component_Nm_allowed = 1.0e-9
+condition_limit = 1.0e10
+relative_pivot_rejection_threshold = 1.0e-12
+
+[BENCH-SUSP-0022]
+passed = true
+verification = "Source-preserving adapter constructs exact fore/aft hinge axes, uses current suspension outboard joint points, preserves front-UCA/rear-LCA actuation ownership, uses reviewed rear toe closure, and requires an explicit current MOD-STEER-0001 tie-rod state for front rather than inventing steering geometry."
+implementation_test = "tests/test_wufr_interface_adapter.py"
+
+[BENCH-SUSP-0023]
+passed = true
+rigid_translation_solution_difference_allowed = 1.0e-9
+reference_translation_solution_difference_allowed = 1.0e-9
+required_failure_codes = [
+  "source_ownership_mismatch",
+  "incomplete_external_wrench",
+  "frame_mismatch",
+  "source_mismatch",
+  "degenerate_hinge_axis",
+  "degenerate_axial_link",
+  "nonfinite_input",
+  "singular_equilibrium",
+  "ill_conditioned_equilibrium"
+]
+
+[boundaries]
+wufr_member_force_load_case_generated = false
+rocker_reaction_propagated = false
+individual_a_arm_chassis_joint_split = false
+beam_or_weld_stress_generated = false
+structural_release_authorized = false
