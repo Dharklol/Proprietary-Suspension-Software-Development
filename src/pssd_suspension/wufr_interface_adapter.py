@@ -1,7 +1,7 @@
 """Source-preserving adapter from reviewed WUFR kinematic states to Level-1 statics geometry.
 
-The adapter deliberately does not solve steering.  Front lateral-link endpoints
-must be supplied by the current MOD-STEER-0001 closure.  Rear toe-link endpoints
+The adapter deliberately does not solve steering. Front lateral-link endpoints
+must be supplied by the current MOD-STEER-0001 closure. Rear toe-link endpoints
 may be reconstructed from the already-reviewed rear upright/toe closure because
 that closure is owned by MOD-SUSP-0001.
 """
@@ -56,6 +56,14 @@ def _unit(vector: Point3) -> Point3:
     return tuple(value / magnitude for value in vector)  # type: ignore[return-value]
 
 
+def _normalize_owner(owner: str) -> str:
+    if owner in ("upper", "upper_arm", "upper_a_arm"):
+        return "upper_a_arm"
+    if owner in ("lower", "lower_arm", "lower_a_arm"):
+        return "lower_a_arm"
+    raise WufrInterfaceAdapterError("Actuation state does not declare a recognized owning arm")
+
+
 def build_level1_geometry_from_current_states(
     corner: SuspensionCornerGeometry,
     suspension_state: SuspensionCornerStateResult,
@@ -67,9 +75,9 @@ def build_level1_geometry_from_current_states(
     """Build one source-bounded current Level-1 statics geometry record.
 
     Front steering remains owned by MOD-STEER-0001, so a front corner requires an
-    explicit ``CurrentLateralLinkState`` carrying the tie-rod points from that
-    closure.  Rear toe geometry is already closed by MOD-SUSP-0001 and is
-    reconstructed from ``suspension_state.upright_transform``.
+    explicit ``CurrentLateralLinkState`` carrying tie-rod points from that closure.
+    Rear toe geometry is already closed by MOD-SUSP-0001 and is reconstructed
+    from ``suspension_state.upright_transform``.
     """
 
     if corner.axle is not suspension_state.axle or corner.side is not suspension_state.side:
@@ -129,11 +137,7 @@ def build_level1_geometry_from_current_states(
         )
 
     expected_owner = "upper_a_arm" if corner.axle is Axle.FRONT else "lower_a_arm"
-    if actuation_state.owning_arm not in ("upper", "lower", "upper_a_arm", "lower_a_arm"):
-        raise WufrInterfaceAdapterError("Actuation state does not declare a recognized owning arm")
-    normalized_owner = (
-        "upper_a_arm" if actuation_state.owning_arm in ("upper", "upper_a_arm") else "lower_a_arm"
-    )
+    normalized_owner = _normalize_owner(actuation_state.owning_arm)
     if normalized_owner != expected_owner:
         raise WufrInterfaceAdapterError(
             f"{corner.axle.value} actuation ownership must remain {expected_owner}; got {normalized_owner}"
