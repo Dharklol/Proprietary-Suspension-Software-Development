@@ -228,25 +228,32 @@ class WUFRRoadContactImplementationTests(unittest.TestCase):
             assert root.wheel_coordinate_m is not None
             assert coefficient.value is not None
             assert gravity_force.value is not None
-            plus = evaluate_corner_road_state(
-                self.provider,
-                self.nominal_pose,
-                root.corner_id,
-                root.wheel_coordinate_m + h,
-            )
-            minus = evaluate_corner_road_state(
-                self.provider,
-                self.nominal_pose,
-                root.corner_id,
-                root.wheel_coordinate_m - h,
-            )
-            direct_c = (plus.contact_road.position_m[2] - minus.contact_road.position_m[2]) / (2.0 * h)
-            self.assertAlmostEqual(coefficient.value, direct_c, places=5)
-            mass = masses[root.corner_id]
-            u_plus = mass.mass_kg * self.gravity.g_mps2 * plus.wheel_center_road.position_m[2]
-            u_minus = mass.mass_kg * self.gravity.g_mps2 * minus.wheel_center_road.position_m[2]
-            direct_q = -(u_plus - u_minus) / (2.0 * h)
-            self.assertAlmostEqual(gravity_force.value, direct_q, places=5)
+            def direct(step: float) -> tuple[float, float]:
+                plus = evaluate_corner_road_state(
+                    self.provider,
+                    self.nominal_pose,
+                    root.corner_id,
+                    root.wheel_coordinate_m + step,
+                )
+                minus = evaluate_corner_road_state(
+                    self.provider,
+                    self.nominal_pose,
+                    root.corner_id,
+                    root.wheel_coordinate_m - step,
+                )
+                direct_c = (plus.contact_road.position_m[2] - minus.contact_road.position_m[2]) / (2.0 * step)
+                mass = masses[root.corner_id]
+                u_plus = mass.mass_kg * self.gravity.g_mps2 * plus.wheel_center_road.position_m[2]
+                u_minus = mass.mass_kg * self.gravity.g_mps2 * minus.wheel_center_road.position_m[2]
+                direct_q = -(u_plus - u_minus) / (2.0 * step)
+                return direct_c, direct_q
+
+            coarse_c, coarse_q = direct(2.0 * h)
+            fine_c, fine_q = direct(h)
+            direct_c = (4.0 * fine_c - coarse_c) / 3.0
+            direct_q = (4.0 * fine_q - coarse_q) / 3.0
+            self.assertLessEqual(abs(coefficient.value - direct_c), 1.0e-8 + 1.0e-6 * max(1.0, abs(direct_c)))
+            self.assertLessEqual(abs(gravity_force.value - direct_q), 1.0e-6)
 
     def test_out_of_domain_body_pose_fails_without_coordinate_clipping(self) -> None:
         outside = solve_road_compatibility(self.provider, replace(self.nominal_pose, z_s_m=0.050))

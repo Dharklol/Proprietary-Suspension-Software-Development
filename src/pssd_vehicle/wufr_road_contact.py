@@ -1032,12 +1032,13 @@ def evaluate_contact_coefficient(
             message=str(exc),
         )
     error = abs(coarse - fine)
-    tolerance = provider.config.derivative_absolute_tolerance + provider.config.derivative_relative_tolerance * max(1.0, abs(fine))
+    accepted = (4.0 * fine - coarse) / 3.0
+    tolerance = provider.config.derivative_absolute_tolerance + provider.config.derivative_relative_tolerance * max(1.0, abs(accepted))
     if error > tolerance:
         return ScalarProjectionResult(
             WUFRRoadContactStatus.FAILURE,
             root.corner_id,
-            fine,
+            accepted,
             coarse,
             coarse_step,
             fine_step,
@@ -1045,11 +1046,11 @@ def evaluate_contact_coefficient(
             WUFRRoadContactFailureCode.DERIVATIVE_NOT_CONVERGED,
             f"Contact coefficient h/h2 difference {error:.6g} exceeds tolerance {tolerance:.6g}",
         )
-    if not math.isfinite(fine) or abs(fine) < provider.config.contact_coefficient_min_abs:
+    if not math.isfinite(accepted) or abs(accepted) < provider.config.contact_coefficient_min_abs:
         return ScalarProjectionResult(
             WUFRRoadContactStatus.FAILURE,
             root.corner_id,
-            fine,
+            accepted,
             coarse,
             coarse_step,
             fine_step,
@@ -1060,7 +1061,7 @@ def evaluate_contact_coefficient(
     return ScalarProjectionResult(
         WUFRRoadContactStatus.SUCCESS,
         root.corner_id,
-        fine,
+        accepted,
         coarse,
         coarse_step,
         fine_step,
@@ -1104,12 +1105,13 @@ def evaluate_unsprung_gravity_projection(
             message=str(exc),
         )
     error = abs(coarse - fine)
-    tolerance = 1.0e-6 + provider.config.derivative_relative_tolerance * max(1.0, abs(fine))
-    if error > tolerance or not math.isfinite(fine):
+    accepted = (4.0 * fine - coarse) / 3.0
+    tolerance = 1.0e-6 + provider.config.derivative_relative_tolerance * max(1.0, abs(accepted))
+    if error > tolerance or not math.isfinite(accepted):
         return ScalarProjectionResult(
             WUFRRoadContactStatus.FAILURE,
             root.corner_id,
-            fine,
+            accepted,
             coarse,
             coarse_step,
             fine_step,
@@ -1120,7 +1122,7 @@ def evaluate_unsprung_gravity_projection(
     return ScalarProjectionResult(
         WUFRRoadContactStatus.SUCCESS,
         root.corner_id,
-        fine,
+        accepted,
         coarse,
         coarse_step,
         fine_step,
