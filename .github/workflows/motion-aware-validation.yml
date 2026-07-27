@@ -24,7 +24,16 @@ jobs:
       - name: Validate WUFR road contact map authorization
         run: python -m unittest tests.test_wufr_road_contact_authorization -v
       - name: Validate WUFR road contact map implementation
-        run: python -m unittest tests.test_wufr_road_contact -v
+        run: |
+          set -o pipefail
+          python -m unittest tests.test_wufr_road_contact -v 2>&1 | tee wufr_road_contact_test.log
+      - name: Upload WUFR road contact map diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wufr-road-contact-test-log
+          path: wufr_road_contact_test.log
+          if-no-files-found: error
       - name: Validate WUFR static gravity allocation implementation
         run: |
           python -m unittest tests.test_wufr_static_gravity -v
