@@ -66,7 +66,7 @@ class WufrLinkageTopologyAuditTests(unittest.TestCase):
         model = _load("registry/records/models/MOD-SUSP-0006.toml")["record"]
         self.assertEqual(model["authorization_id"], "AUTH-SUSP-0010")
         self.assertIn("provider-neutral", model["title"].lower())
-        self.assertIn("no wufr", model["authorization_state"].lower())
+        self.assertIn("no_wufr", model["authorization_state"].lower())
         self.assertIn("topology", model["next_implementation_gate"].lower())
 
 
