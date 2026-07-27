@@ -18,8 +18,8 @@ acceptance_criteria = [
   "No track-width load-transfer relation, crossweight rule, scalar motion ratio, scalar wheel rate, or WUFR parameter is used to obtain the result."
 ]
 source_configuration = "synthetic_only"
-implementation = "planned: src/pssd_vehicle/quasi_static.py"
+implementation = "src/pssd_vehicle/quasi_static.py"
 implementation_method = "Reduced-coordinate virtual-work equilibrium followed by explicit wheel-coordinate road-reaction recovery."
-implementation_tests = ["planned: tests/test_vehicle_quasi_static.py"]
-report_script = "planned: scripts/run_vehicle_quasi_static_benchmarks.py"
-result_record = "planned: benchmarks/vehicle/vehicle_quasi_static_result_v0.1.0.toml"
+implementation_tests = ["tests/test_vehicle_quasi_static.py", "tests/test_vehicle_quasi_static_result_record.py"]
+report_script = "scripts/run_vehicle_quasi_static_benchmarks.py"
+result_record = "benchmarks/vehicle/vehicle_quasi_static_result_v0.1.0.toml"
