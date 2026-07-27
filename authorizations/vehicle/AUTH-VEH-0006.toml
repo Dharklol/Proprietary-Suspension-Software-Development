@@ -1,9 +1,11 @@
-version = "0.1.0"
+version = "0.1.1"
 authorization_id = "AUTH-VEH-0006"
-status = "review_ready"
+status = "suspended_by_AUTH-VEH-0007"
 title = "WUFR flat-road physical wheel-coordinate compatibility authorization"
-effective_condition = "Effective after review/merge. Permits only the WUFR source-contact/reference, flat-road all-four-active compatibility map and work-conjugate derivative/projection layer defined by EQ-VEH-0011 through EQ-VEH-0013. It does not authorize the final WUFR spring+ARB equilibrium result or production wheel loads."
+effective_condition = "Historical authorization record. Its implementation permission is suspended by AUTH-VEH-0007 because the mandatory BENCH-VEH-0008 source-consistency gate failed during PR #64."
 review_record = "docs/reviews/phase2_wufr_road_contact_map_authorization_review.md"
+implementation_authorized = false
+correction_authorization_id = "AUTH-VEH-0007"
 
 [scope]
 model_ids = ["MOD-VEH-0006"]
@@ -15,52 +17,51 @@ planned_implementation_package = "src/pssd_vehicle/wufr_road_contact.py"
 
 [permitted]
 items = [
-  "Load the four nominal WUFR source contact-reference points from WUFR26_ROAD_CONTACT_REFERENCE_V0 with exact frame/source/configuration provenance.",
-  "Treat those contact points under ASM-VEH-0004 as rigid upright-attached source references for this R&D model and verify that interpretation against selected historical OptimumK heave rows.",
-  "For rear corners, compose MOD-SUSP-0002's physical wheel-state inversion with the reviewed rear toe-link-closed upright transform to transport wheel center and contact reference.",
-  "For front corners, use MOD-SUSP-0002's minimum-twist unresolved-steering pose, transform the existing WUFR steering geometry into that suspension pose, and call MOD-STEER-0001's centered-rack tie-rod closure to obtain the additional upright rotation. No duplicate steering closure equation may be introduced.",
-  "Place the source-frame wheel/contact points into the existing MOD-VEH-0003 body/road frames using the reviewed source origin/CG transform and transport them with q_b=[z_s,phi,theta].",
-  "Solve each scalar flat-road constraint g_i=n dot (r_cp_i-road_reference)=0 on the nominal-continuation suspension/steering branch to define z_w(q_b).",
-  "Evaluate J_wb, contact coefficients c_i, and physical wheel-center unsprung-gravity generalized forces by declared two-step finite differences/virtual work through the exact same providers.",
-  "Use centered finite differences whenever both perturbations are inside the reviewed domain; use one-sided differentiation only at an explicit coordinate/domain bound and propagate upstream perturbation failures.",
-  "Expose source identity, coordinate order/units, root brackets/residuals, steering branch, finite-difference steps/convergence, and structured failures."
+  "Preserve the four nominal WUFR source Contact Patch observations from WUFR26_ROAD_CONTACT_REFERENCE_V0 with exact frame/source/configuration provenance.",
+  "Preserve the failed ASM-VEH-0004 rigid-attached-point hypothesis and PR #64 implementation probe as negative verification evidence.",
+  "Use MOD-SUSP-0002, MOD-STEER-0001, MOD-VEH-0003, MOD-VEH-0004, and MOD-VEH-0005 within their independent existing authorization scopes.",
+  "Prepare replacement road-contact model/source-assumption documentation and benchmarks for separate review."
 ]
 
 [prohibited]
 items = [
+  "Implementing or merging the ASM-VEH-0004 rigid upright-attached Contact Patch map after BENCH-VEH-0008 failed.",
+  "Weakening BENCH-VEH-0008's historical reconstruction tolerance to promote the failed source interpretation.",
   "Using body roll times track/half-track as the governing wheel-coordinate map.",
   "Using direct left-right wheel-travel difference, scalar spring motion ratio, scalar ARB roll stiffness, or hidden crossweight/load-transfer equations to close compatibility.",
   "Using the OptimumK scalar Steer Angle channel as a front upright rotation input or forcing front suspension-induced steering to zero.",
-  "Using translation-only front contact motion that omits centered-rack tie-rod closure.",
-  "Inferring a generic tire contact patch from tire radius, instantaneous lowest point, loaded radius, or a tire envelope in this authorization.",
-  "Hard-coding c_i=1 or Q_u_i=-49.05 N for arbitrary body/suspension states; those values are limiting checks only when the exact derivative independently reduces to them.",
+  "Hard-coding c_i=1 or Q_u_i=-49.05 N for arbitrary body/suspension states.",
   "Clipping wheel coordinates, repairing road gaps, or switching branches to force a solution.",
-  "Publishing WUFR road reactions, static wheel loads, crossweight, load transfer, LLTD, roll gradient, or tire loads from this compatibility provider alone.",
-  "Tire vertical compliance, loaded-radius/footprint physics, alternate contact modes after wheel lift, chassis compliance, installed/as-built validation, or production authority."
+  "Introducing a generic/rigid circular tire, loaded radius, tire envelope, footprint, or vertical-compliance model without a new reviewed authorization.",
+  "Publishing WUFR road reactions, static wheel loads, crossweight, load transfer, LLTD, roll gradient, or tire loads while the replacement contact layer is unresolved."
 ]
 
 [source_boundary]
 primary_record = "data_catalog/wufr26_road_contact_reference_v0.toml"
-contact_assumption = "ASM-VEH-0004"
+contact_assumption = "ASM-VEH-0004 (invalidated by BENCH-VEH-0008)"
 suspension_authority = "AUTH-SUSP-0002 / MOD-SUSP-0002 physical wheel-coordinate and upright pose"
 steering_authority = "AUTH-STEER-0001 / MOD-STEER-0001 centered-rack closure"
 whole_vehicle_authority = "AUTH-VEH-0003 / MOD-VEH-0003 body/road point transport"
 gravity_authority = "AUTH-VEH-0005 / MOD-VEH-0005 physical unsprung point gravity"
-source_limitation = "OptimumK Contact Patch is historical external design-source evidence. The first provider uses it only to define/validate a rigid reference point; no tire deformation or physical footprint authority is inferred."
+source_limitation = "OptimumK Contact Patch is a historical road-contact output. The source supports nominal contact-output observations but did not validate one rigid upright-attached material point across heave."
 
 [benchmark_gates]
-required_before_implementation_merge = [
-  "BENCH-VEH-0008 verifies nominal source contact points and selected historical front pure-heave contact-reference reconstruction using the existing minimum-twist transform plus independently reconstructed source twist, with scalar OptimumK Steer Angle excluded.",
-  "BENCH-VEH-0009 verifies nominal zero-pose road closure, unique nonzero body-pose roots, branch diagnostics, and canonical wheel/body coordinate ordering.",
-  "BENCH-VEH-0009 verifies J_wb by two-step differentiation and reports convergence rather than hiding a failed perturbation.",
-  "BENCH-VEH-0009 independently verifies contact coefficients by contact-point virtual work and unsprung gravity generalized forces by wheel-center point-potential/virtual work.",
-  "Failure tests cover unreachable body/contact states, upstream steering/suspension failure, zero/invalid contact coefficient, and the prohibition on hidden clipping/substitution."
+required_before_any_replacement_implementation_merge = [
+  "A new reviewed contact model/source assumption replaces ASM-VEH-0004.",
+  "The replacement has independent geometric/source limiting-case verification before body-to-wheel Jacobian or road-reaction publication.",
+  "Failure behavior continues to prohibit clipping, hidden track-width/load-transfer substitutions, and source-angle misuse."
 ]
+
+[failed_gate]
+benchmark_id = "BENCH-VEH-0008"
+probe_pr = 64
+observed_max_error_m = 0.0008458158026623031
+required_max_error_m = 0.000005
+result_record = "benchmarks/vehicle/wufr_road_contact_assumption_probe_v0.1.0.toml"
 
 [promotion_gates]
 items = [
-  "This authorization merges before MOD-VEH-0006 implementation.",
-  "Implementation composes existing mechanism solvers and does not duplicate suspension or steering closure physics.",
-  "A separate authorization is required to compose MOD-SUSP-0004 spring forces, MOD-SUSP-0005 WUFR Z-bar forces, MOD-VEH-0005 gravity, and MOD-VEH-0006 compatibility inside MOD-VEH-0004 and publish the first WUFR static road reactions.",
-  "A later tire/contact authorization must replace or validate ASM-VEH-0004 before loaded-radius, tire-deflection, footprint, or tire-force claims."
+  "AUTH-VEH-0007 must merge before this suspended state is treated as project control.",
+  "A separate replacement contact authorization must merge before MOD-VEH-0006 implementation restarts.",
+  "A still later authorization is required to compose spring, Z-bar, gravity, compatibility, and MOD-VEH-0004 into published WUFR static road reactions."
 ]

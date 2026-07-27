@@ -2,19 +2,23 @@
 id = "BENCH-VEH-0008"
 type = "benchmark"
 title = "WUFR source contact-reference transport reconstruction"
-status = "proposed"
-description = "Verify that the frozen OptimumK Contact Patch evidence is consistent with a source-defined nominal upright-attached contact reference, while keeping historical source steering separate from the WUFR runtime centered-rack steering provider."
+status = "active"
+description = "Test whether the frozen OptimumK Contact Patch evidence is consistent with a source-defined nominal upright-attached material contact reference. The first implementation probe falsified that interpretation at the frozen tolerance; this benchmark is preserved as the negative gate that prevents ASM-VEH-0004 from being promoted."
 verification_level = "B"
 target_ids = ["MOD-VEH-0006", "EQ-VEH-0011"]
 acceptance_criteria = [
-  "At nominal state, the four frozen contact-reference points reproduce the OptimumK Contact Patch channels: front x=0, |y|=0.61598556 m, z=0 and rear x=-1.5624 m, |y|=0.60328556 m, z=0 within source-rounding tolerance.",
-  "For the selected front-left pure-heave rows in WUFR26_ROAD_CONTACT_REFERENCE_V0, apply the already-reviewed EQ-SUSP-0003 minimum-twist transform to the nominal contact reference, then apply the independently reconstructed historical EQ-SUSP-0008 source twist about the current steering axis. The reconstructed point agrees with the frozen OptimumK Contact Patch body-frame point within 5e-6 m Euclidean distance.",
-  "The same reconstruction uses the source 3D twist from WUFR26_OPTIMUMK_HEAVE_FRONT_LEFT_WHEEL_REFERENCE_SOURCE_V0; the scalar OptimumK Steer Angle is not used as a rotation input.",
-  "A synthetic rear rigid-upright transform test verifies that rear contact reference and wheel center are transported by the same reviewed rear upright transform without a second toe/steering solve.",
-  "Historical source-twist reconstruction is verification-only. The WUFR runtime front contact provider uses MOD-STEER-0001 centered-rack closure on the MOD-SUSP-0002 minimum-twist pose."
+  "At nominal state, the four frozen contact-output points reproduce the OptimumK Contact Patch channels: front x=0, |y|=0.61598556 m, z=0 and rear x=-1.5624 m, |y|=0.60328556 m, z=0 within source-rounding tolerance.",
+  "For the selected front-left pure-heave rows in WUFR26_ROAD_CONTACT_REFERENCE_V0, apply the already-reviewed EQ-SUSP-0003 minimum-twist transform to the nominal contact reference, then apply the independently reconstructed historical EQ-SUSP-0008 source twist about the current steering axis. A rigid upright-attached interpretation would require agreement with the frozen OptimumK Contact Patch body-frame point within 5e-6 m Euclidean distance.",
+  "The reconstruction uses the source 3D twist from WUFR26_OPTIMUMK_HEAVE_FRONT_LEFT_WHEEL_REFERENCE_SOURCE_V0; the scalar OptimumK Steer Angle is not used as a rotation input.",
+  "If the historical rigid-point criterion fails, implementation under ASM-VEH-0004 is rejected rather than retuning the tolerance or substituting another contact model inside the same authorization."
 ]
 source_configuration = "WUFR-26 OptimumK 8.21 design-source result carried into unchanged WUFR-27 R&D baseline"
-implementation = "planned: src/pssd_vehicle/wufr_road_contact.py"
-implementation_tests = ["planned: tests/test_wufr_road_contact.py"]
-report_script = "planned: scripts/run_wufr_road_contact_benchmarks.py"
-result_record = "planned: benchmarks/vehicle/wufr_road_contact_result_v0.1.0.toml"
+probe_result = "benchmarks/vehicle/wufr_road_contact_assumption_probe_v0.1.0.toml"
+probe_pr = 64
+observed_max_euclidean_error_m = 0.0008458158026623031
+required_max_euclidean_error_m = 0.000005
+outcome = "failed; ASM-VEH-0004 invalidated for governing arbitrary-state contact compatibility"
+implementation = "PR #64 probe closed unmerged"
+implementation_tests = ["PR #64 tests/test_wufr_road_contact.py retained on closed branch as negative evidence"]
+report_script = "none; failed probe result frozen directly from CI diagnostic"
+result_record = "benchmarks/vehicle/wufr_road_contact_assumption_probe_v0.1.0.toml"
