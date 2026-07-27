@@ -1,0 +1,33 @@
+[record]
+id = "EQ-VEH-0014"
+type = "equation"
+title = "Ideal rigid circular tire centerline road-contact point"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Construct the road-contact reference for ASM-VEH-0005 from the current physical wheel center, the fully solved unit wheel-plane normal, the unit road normal, and the frozen nominal tire radius. The point is the minimum-road-height point on a zero-width rigid circle lying in the wheel plane."
+outputs = ["Ideal rigid-circle road-contact point", "Unit radial direction from contact point toward wheel center", "Projection magnitude / degeneracy diagnostic"]
+inputs = ["Current physical wheel-center point r_wc", "Fully solved unit wheel-plane normal n_w after suspension and, for the front, centered-rack steering closure", "Unit road normal n_R", "Frozen source radius R=0.23241 m from WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0"]
+assumptions = [
+  "The tire is a zero-width rigid circle with fixed source-setup radius under ASM-VEH-0005.",
+  "Wheel spin about n_w is irrelevant because the ideal circle is axisymmetric in its plane.",
+  "The road is locally planar and rigid for this first compatibility mode.",
+  "The wheel plane is not parallel to the road plane; equivalently the projection of n_R into the wheel plane has nonzero norm."
+]
+verification_level = "none"
+canonical_equation = "v = n_R - (n_R dot n_w)n_w; s=||v||; e=v/s; r_cp=r_wc-R e. Require unit n_R and n_w within tolerance, R>0, and s>s_min. The contact radial vector r_cp-r_wc=-R e lies in the wheel plane and minimizes n_R dot r over the ideal circle."
+source_basis = [
+  "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml: tire_radius_mm=232.41 and reviewed nominal wheel center/plane construction",
+  "AUTH-SUSP-0002 / MOD-SUSP-0002 current wheel-center and wheel-plane transport",
+  "AUTH-STEER-0001 / MOD-STEER-0001 front centered-rack steering closure",
+  "ASM-VEH-0005 explicit low-fidelity contact assumption",
+  "AUTH-VEH-0007 rejection of the prior rigidly transported OptimumK Contact Patch interpretation"
+]
+validity = "WUFR-27 design-intent rigid static road compatibility only, using R=0.23241 m and fully solved wheel orientation. No tire load/pressure/temperature/speed dependence, finite width, contact patch, or compliance."
+failure_behavior = [
+  "Reject nonfinite or nonpositive radius.",
+  "Reject non-unit/nonfinite road or wheel normals outside declared normalization tolerance rather than silently repairing unrelated source errors.",
+  "Reject s=||n_R-(n_R dot n_w)n_w|| at or below the declared degeneracy threshold.",
+  "Do not substitute body vertical, tire-width edges, loaded radius, the historical OptimumK Contact Patch output, or a wheel-center-minus-constant-z shortcut."
+]
+benchmark_ids = ["BENCH-VEH-0010"]
