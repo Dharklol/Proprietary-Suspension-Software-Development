@@ -1,16 +1,17 @@
 [record]
 id = "MOD-SUSP-0004"
 type = "model"
-title = "Conservative coil-spring force, energy, and generalized-force provider"
+title = "Conservative coil-spring force, energy, generalized-force, and physical eye-force provider"
 status = "proposed"
 disposition = "accepted_with_restrictions"
 maturity = "M1"
-description = "Bounded conservative coil-spring provider authorized by AUTH-SUSP-0004 / PR47 and implemented in PR48. It consumes an explicitly authorized spring compression/reference state and conservative constitutive law, returns spring force, stored energy, local tangent stiffness, and maps the elastic action into signed generalized force through exact coordinate Jacobians/virtual work. WUFR-27 additionally uses the explicitly labeled ASM-SUSP-0002 zero-preload/full-extension installation reference and rear affine tangent-rate assumption. It refuses unseated-spring states, hidden or unlabeled reference inference, constitutive extrapolation, scalar motion-ratio substitution, and all damper/ARB/equilibrium/structural scope."
+description = "Bounded conservative coil-spring provider authorized by AUTH-SUSP-0004 / PR47 and implemented in PR48. It consumes an explicitly authorized spring compression/reference state and conservative constitutive law, returns spring force, stored energy, local tangent stiffness, and maps the elastic action into signed generalized force through exact coordinate Jacobians/virtual work. AUTH-SUSP-0014 additionally authorizes a WUFR-specific spring-only physical force-vector bridge along the exact current direct-coilover eye line, without adding non-spring damper physics or rocker equilibrium. WUFR-27 uses the explicitly labeled ASM-SUSP-0002 zero-preload/full-extension reference and rear affine tangent-rate assumption."
 inputs = [
   "Successful MOD-SUSP-0003 actuation state or an explicitly supplied spring-seat/compression state with matching source/configuration authority",
   "Spring free length and explicit seat-separation or equivalent reference/preload relation",
   "Source-defined or explicitly reviewed assumption-defined conservative force/tangent-rate law within a reviewed constitutive domain",
   "Signed coordinate Jacobian, including rho_dw where the physical single-wheel coordinate is used",
+  "For the AUTH-SUSP-0014 WUFR physical-vector extension: current chassis eye, rocker eye, rocker pivot, rocker axis, and successful source-matched spring state",
   "Source/configuration/assumption identity and constitutive availability state"
 ]
 outputs = [
@@ -19,6 +20,7 @@ outputs = [
   "Stored elastic energy U_s with declared zero-energy reference",
   "Local tangent stiffness k_t",
   "Signed generalized spring force with coordinate order/units and two-step energy-gradient verification support",
+  "Under AUTH-SUSP-0014 after implementation: spring-only equal-and-opposite physical force vectors at the current rocker/chassis eyes plus rocker-torque identity diagnostics",
   "Source/configuration/assumption provenance and structured unavailable/failure state"
 ]
 assumptions = [
@@ -28,31 +30,37 @@ assumptions = [
   "The WUFR-27 front spring uses the reviewed 36 N/mm linear law.",
   "Under ASM-SUSP-0002, the WUFR-27 rear tangent rate rises linearly from 30 N/mm at x_s=0 to 36 N/mm at x_s=57 mm until physical spring testing replaces the assumption.",
   "Under ASM-SUSP-0002, zero intentional preload is represented by x_s=0 at the KW piggyback 185.7 mm full-extension eye-to-eye reference, with x_s=0.1857-L_d for the current fixed-seat-offset design-intent configuration.",
-  "Neither ASM-SUSP-0002 assumption is installed/as-built metrology or vendor spring-curve authority."
+  "Under ASM-SUSP-0007, only the conservative spring contribution acts as an ideal axial load along the current direct-coilover eye line; no damper gas/velocity/friction/stop contribution is included.",
+  "Neither ASM-SUSP-0002 nor ASM-SUSP-0007 is installed/as-built metrology or complete damper-force authority."
 ]
 verification_level = "B"
-equation_ids = ["EQ-SUSP-0013", "EQ-SUSP-0014", "EQ-SUSP-0015"]
-benchmark_ids = ["BENCH-SUSP-0009", "BENCH-SUSP-0010"]
+equation_ids = ["EQ-SUSP-0013", "EQ-SUSP-0014", "EQ-SUSP-0015", "EQ-SUSP-0028"]
+benchmark_ids = ["BENCH-SUSP-0009", "BENCH-SUSP-0010", "BENCH-SUSP-0025"]
 authorization_id = "AUTH-SUSP-0004"
-authorization_state = "prototype_authorized_after_AUTH-SUSP-0004_PR47_merge"
+authorization_state = "prototype_spring_provider_authorized; physical_WUFR_eye_force_extension_review_ready_under_AUTH-SUSP-0014"
 authorization_document = "authorizations/suspension/AUTH-SUSP-0004.toml"
+physical_vector_authorization_document = "authorizations/suspension/AUTH-SUSP-0014.toml"
 upstream_model_ids = ["MOD-SUSP-0003"]
 downstream_model_ids = []
 planned_downstream = [
-  "separately authorized coupled anti-roll-bar elastic provider",
+  "separately authorized rocker free-body equilibrium using physical spring and ARB linkage forces",
   "separately authorized quasi-static body equilibrium/load-state solver"
 ]
 source_snapshot = "data_catalog/wufr27_spring_package_v0.toml"
+physical_vector_source_record = "data_catalog/wufr27_spring_physical_rocker_force_v0.toml"
 source_audit = "docs/models/suspension/spring_force_source_audit.md"
 preimplementation_specification = "docs/models/suspension/spring_force_function_specification.md"
 implementation_package = "src/pssd_suspension/spring_force.py"
+physical_vector_planned_implementation_package = "src/pssd_suspension/wufr_spring_rocker_force.py"
 implementation_document = "docs/models/suspension/spring_force_implementation_v0.1.0.md"
 implementation_tests = ["tests/test_suspension_spring_force.py"]
+physical_vector_planned_test = "tests/test_suspension_wufr_spring_rocker_force.py"
 benchmark_report_script = "scripts/run_suspension_spring_force_benchmarks.py"
 benchmark_result_record = "benchmarks/suspension/suspension_spring_force_result_v0.1.0.toml"
 validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
 authorization_review_record = "docs/reviews/phase2_spring_force_authorization_review.md"
+physical_vector_authorization_review_record = "docs/reviews/phase3_wufr_spring_rocker_force_authorization_review.md"
 implementation_review_record = "docs/reviews/phase2_spring_force_implementation_review.md"
 baseline_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
-next_implementation_gate = "Authorize the coupled left/right anti-roll-bar elastic provider next. Keep spring outputs provider-local until a separately reviewed body-equilibrium/QSS solver consumes them. Replace ASM-SUSP-0002 rear progression with physical spring test data and validate/replace the eye-to-eye reference with installed metrology or calibrated shock-pot data when available."
-prohibited_scope = "Damper force/damping, gas force, hysteresis/friction, bump/top-out stops, tender/helper behavior, ARB coupling, governing scalar wheel-rate/MR substitution, tire stiffness, vehicle equilibrium/load transfer, linkage/member/bearing loads, stress/FEA, compliance, installed travel/stroke, optimization, installed/as-built or production claims."
+next_implementation_gate = "After AUTH-SUSP-0014 review/merge, implement only EQ-SUSP-0028 and BENCH-SUSP-0025. Then separately authorize rocker free-body equilibrium. Before calling rocker pivot reactions complete physical hardware loads, explicitly decide the treatment of omitted non-spring damper effects such as gas force/static friction."
+prohibited_scope = "Damper force/damping/gas force/hysteresis/friction, bump/top-out stops, tender/helper behavior, ARB coupling inside the spring provider, governing scalar wheel-rate/MR substitution, tire stiffness, vehicle equilibrium/load transfer, rocker pivot reactions, individual linkage/member/bearing loads, stress/FEA, compliance, installed travel/stroke, optimization, installed/as-built or production claims."

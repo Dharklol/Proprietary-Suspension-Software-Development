@@ -1,0 +1,80 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0014"
+status = "review_ready"
+title = "WUFR physical coil-spring force-vector-at-rocker authorization"
+effective_condition = "Effective only after review and merge. This authorization extends the already-reviewed MOD-SUSP-0004 conservative spring provider only far enough to map its compression-force magnitude onto the current direct-coilover eye-to-eye line and expose the equal-and-opposite physical spring force vectors at the rocker eye and chassis eye. It does not add damper velocity force, gas force, seal friction, stops, side load, rocker equilibrium, rocker pivot reaction, ARB composition, wheel/tire load transfer, stress, or installed/as-built authority."
+review_record = "docs/reviews/phase3_wufr_spring_rocker_force_authorization_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-SUSP-0004"]
+equation_ids = ["EQ-SUSP-0028"]
+benchmark_ids = ["BENCH-SUSP-0025"]
+assumption_ids = ["ASM-SUSP-0002", "ASM-SUSP-0007"]
+source_record = "data_catalog/wufr27_spring_physical_rocker_force_v0.toml"
+upstream_authorizations = ["AUTH-SUSP-0003", "AUTH-SUSP-0004"]
+planned_implementation_package = "src/pssd_suspension/wufr_spring_rocker_force.py"
+planned_implementation_test = "tests/test_suspension_wufr_spring_rocker_force.py"
+physical_spring_force_vector_authorized = true
+rocker_equilibrium_authorized = false
+rocker_pivot_reaction_authorized = false
+damper_force_authorized = false
+arb_structural_composition_authorized = false
+structural_release_authorized = false
+
+[coordinates]
+line_direction = "For current chassis eye C and current rocker eye D, e=(D-C)/||D-C|| points from chassis eye to rocker eye."
+force_sign = "F_s>=0 is the existing MOD-SUSP-0004 spring compression-force magnitude. The compressed spring pushes the two eyes apart: F_rocker=+F_s*e and F_chassis=-F_s*e."
+rocker_torque = "For rocker pivot R and reviewed unit rocker axis a, tau_s=a dot ((D-R) cross F_rocker)."
+length_derivative = "For a rocker-fixed eye D(theta), dD/dtheta=a cross (D-R), so dL_d/dtheta=e dot (a cross (D-R))."
+virtual_work_identity = "tau_s=F_s*dL_d/dtheta, exactly matching the MOD-SUSP-0004 generalized-force rule Q_s=F_s*dL_d/dq when q is rocker angle."
+
+[permitted]
+items = [
+  "Consume a successful source-matched MOD-SUSP-0003 actuation state with current rocker eye, chassis eye, rocker pivot, and rocker axis.",
+  "Consume a successful source-matched MOD-SUSP-0004 spring state and its nonnegative spring compression-force magnitude F_s.",
+  "Construct the exact current eye-to-eye unit direction and return equal-and-opposite physical spring force vectors at the rocker and chassis eyes.",
+  "Compute the physical rocker-axis torque from the rocker-eye force and independently verify it against F_s*dL_d/dtheta from exact rigid rocker geometry.",
+  "Preserve the existing WUFR spring-package and ASM-SUSP-0002 provenance; this layer does not reinterpret spring rate, preload, or constitutive law."
+]
+
+[prohibited]
+items = [
+  "Treating spring force magnitude as a vehicle-axis force without the current eye-to-eye direction.",
+  "Adding damper velocity force, gas force, seal friction, hysteresis, bump/top-out stop force, or side load to the spring result.",
+  "Calling the spring force vector a complete coilover force when non-spring damper contributions have not been authorized.",
+  "Using historical scalar motion ratio, installation ratio, or wheel-rate formulas to infer the physical rocker-eye force.",
+  "Computing rocker pivot reaction or balancing spring and ARB forces on the rocker before a separate rocker free-body authorization.",
+  "Inferring individual bearing/tab loads, member stress, buckling, fatigue, factor of safety, installed/as-built load, or structural release."
+]
+
+[numerics]
+eye_length_tolerance_m = 1.0e-12
+unit_vector_tolerance = 1.0e-12
+force_action_reaction_tolerance_N = 1.0e-10
+rocker_torque_identity_tolerance_Nm = 1.0e-10
+negative_force_tolerance_N = 1.0e-12
+hidden_clipping_allowed = false
+scalar_motion_ratio_substitution_allowed = false
+
+[failure_behavior]
+codes = [
+  "upstream_actuation_failure",
+  "upstream_spring_failure",
+  "source_mismatch",
+  "nonfinite_geometry",
+  "negative_spring_force",
+  "degenerate_eye_line",
+  "degenerate_rocker_axis",
+  "action_reaction_residual",
+  "rocker_torque_identity_mismatch"
+]
+rule = "Return a structured unavailable physical-spring-force result with upstream source/configuration/assumption provenance. Do not repair failed geometry or missing non-spring damper physics with scalar motion ratios, clipping, guessed gas force, or hidden assumptions."
+
+[promotion_gates]
+items = [
+  "BENCH-SUSP-0025 verifies nominal front/rear design-intent geometry, force magnitude, action-reaction, and exact rocker-torque/length-derivative identity.",
+  "BENCH-SUSP-0025 verifies a synthetic arbitrary three-dimensional case and structured failure of a degenerate eye line/source mismatch.",
+  "A separate implementation PR must pass BENCH-SUSP-0025 and retain explicit spring-only/non-damper labeling before this physical vector is considered implemented.",
+  "A later rocker-equilibrium authorization must decide how omitted damper gas/static-friction effects are treated before WUFR rocker pivot reactions are called complete physical hardware loads."
+]

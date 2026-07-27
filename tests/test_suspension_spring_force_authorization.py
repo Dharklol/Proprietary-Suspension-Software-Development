@@ -43,19 +43,30 @@ class SuspensionSpringForceAuthorizationTests(unittest.TestCase):
         model = _load("registry/records/models/MOD-SUSP-0004.toml")["record"]
         self.assertEqual(model["authorization_id"], "AUTH-SUSP-0004")
         self.assertEqual(model["upstream_model_ids"], ["MOD-SUSP-0003"])
-        self.assertEqual(model["equation_ids"], ["EQ-SUSP-0013", "EQ-SUSP-0014", "EQ-SUSP-0015"])
-        self.assertEqual(model["benchmark_ids"], ["BENCH-SUSP-0009", "BENCH-SUSP-0010"])
+        self.assertEqual(
+            model["equation_ids"],
+            ["EQ-SUSP-0013", "EQ-SUSP-0014", "EQ-SUSP-0015", "EQ-SUSP-0028"],
+        )
+        self.assertEqual(
+            model["benchmark_ids"],
+            ["BENCH-SUSP-0009", "BENCH-SUSP-0010", "BENCH-SUSP-0025"],
+        )
+        self.assertEqual(model["physical_vector_authorization_document"], "authorizations/suspension/AUTH-SUSP-0014.toml")
         assumption = _load("registry/records/assumptions/ASM-SUSP-0002.toml")["record"]
         self.assertEqual(assumption["id"], "ASM-SUSP-0002")
         self.assertEqual(assumption["severity"], "high")
         self.assertIn("57 mm", assumption["description"])
         self.assertIn("185.7 mm", assumption["description"])
 
-        for equation_id in model["equation_ids"]:
+        for equation_id in ("EQ-SUSP-0013", "EQ-SUSP-0014", "EQ-SUSP-0015"):
             equation = _load(f"registry/records/equations/{equation_id}.toml")["record"]
             self.assertEqual(equation["id"], equation_id)
             self.assertEqual(equation["verification_level"], "none")
             self.assertEqual(set(equation["benchmark_ids"]), {"BENCH-SUSP-0009", "BENCH-SUSP-0010"})
+        physical_eq = _load("registry/records/equations/EQ-SUSP-0028.toml")["record"]
+        self.assertEqual(physical_eq["verification_level"], "A")
+        self.assertEqual(physical_eq["benchmark_ids"], ["BENCH-SUSP-0025"])
+
         for benchmark_id in model["benchmark_ids"]:
             benchmark = _load(f"registry/records/benchmarks/{benchmark_id}.toml")["record"]
             self.assertEqual(benchmark["id"], benchmark_id)

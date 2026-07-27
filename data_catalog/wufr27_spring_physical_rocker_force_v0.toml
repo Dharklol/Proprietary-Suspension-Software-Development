@@ -1,0 +1,69 @@
+version = "0.1.0"
+record_id = "WUFR27_SPRING_PHYSICAL_ROCKER_FORCE_V0"
+status = "reviewed_source_boundary"
+authority = "Design-intent source record for mapping the already-authorized WUFR27 conservative spring force magnitude onto the current direct-coilover chassis-eye/rocker-eye line. It does not authorize non-spring damper force, rocker equilibrium, pivot reactions, stress, or installed/as-built loads."
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+
+[source.spring_package]
+record = "data_catalog/wufr27_spring_package_v0.toml"
+source_role = "governing WUFR27 design-intent spring package, zero-preload mapping, nominal direct-coilover placement-line coordinates, and nominal spring force values"
+front_linear_rate_N_per_m = 36000.0
+rear_law = "ASM-SUSP-0002 affine tangent rate from 30000 to 36000 N/m over 0.057 m compression"
+full_extension_eye_to_eye_m = 0.1857
+front_nominal_chassis_eye_m = [0.0, 0.046426, 0.171450]
+front_nominal_rocker_eye_m = [0.0, 0.209221, 0.195755]
+front_nominal_eye_to_eye_m = 0.16459934705216787
+rear_nominal_chassis_eye_m = [-1.584625, 0.045720, 0.425818]
+rear_nominal_rocker_eye_m = [-1.584625, 0.209829, 0.438658]
+rear_nominal_eye_to_eye_m = 0.1646105387908077
+front_nominal_force_N = 759.6235061219563
+rear_nominal_force_N = 656.0925401754539
+
+[source.actuation]
+model_id = "MOD-SUSP-0003"
+authorization_id = "AUTH-SUSP-0003"
+source_fixture = "benchmarks/suspension/WUFR26_OPTIMUMK_ACTUATION_V0.toml"
+source_role = "governing current rocker pivot/axis and exact rigid transport of the rocker-attached coilover eye for the inherited WUFR26/WUFR27 geometry baseline"
+observations = [
+  "The direct coilover chassis eye remains chassis-fixed while the rocker eye is transported rigidly about the reviewed rocker axis.",
+  "The physical spring-vector layer must consume the current MOD-SUSP-0003 eye coordinates rather than reconstructing them from a scalar motion ratio.",
+  "WUFR27 load path, geometry, and hardware carry over from WUFR26 under the reviewer decision frozen by AUTH-SUSP-0012."
+]
+
+[source.wufr26_shock_assembly]
+box_file_id = "2027193944590"
+box_filename = "SU-A0707-AA SHOCKS.pdf"
+source_role = "physical hardware corroboration only"
+observations = [
+  "The assembly BOM identifies KW springs and KW V5 Racing Formula Student 4-way adjustable piggyback dampers.",
+  "This BOM corroborates the direct spring/damper hardware identity but does not provide gas force, seal friction, velocity-force, or installed preload metrology."
+]
+
+[source.spring_provider]
+model_id = "MOD-SUSP-0004"
+authorization_id = "AUTH-SUSP-0004"
+implementation = "src/pssd_suspension/spring_force.py"
+source_role = "governing conservative spring-force magnitude, energy, and constitutive provenance"
+observations = [
+  "SpringStateResult.force_N is the nonnegative compression-force magnitude used by this physical-vector bridge.",
+  "The physical-vector bridge must not duplicate or modify the front linear law, rear ASM-SUSP-0002 law, spring compression, or preload reference."
+]
+
+[physical_load_path]
+assumption_id = "ASM-SUSP-0007"
+line_rule = "For current chassis eye C and rocker eye D, e=(D-C)/||D-C||."
+spring_only_rule = "F_rocker=+F_s*e and F_chassis=-F_s*e for MOD-SUSP-0004 compression-force magnitude F_s>=0."
+rocker_torque_rule = "tau_s=a dot ((D-R) cross F_rocker)=F_s*[e dot (a cross (D-R))]."
+
+[boundaries]
+damper_velocity_force_authorized = false
+damper_gas_force_authorized = false
+seal_friction_authorized = false
+bump_stop_or_top_out_authorized = false
+rocker_equilibrium_authorized = false
+rocker_pivot_reaction_authorized = false
+arb_structural_composition_authorized = false
+installed_as_built_authority = false
+structural_release_authorized = false
+next_gate = "Implement EQ-SUSP-0028 under AUTH-SUSP-0014. Before complete WUFR rocker pivot reactions are published, separately review the rocker free body and explicitly decide the treatment of omitted non-spring damper forces."
