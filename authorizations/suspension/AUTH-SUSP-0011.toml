@@ -1,0 +1,84 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0011"
+status = "review_ready"
+title = "WUFR linkage topology source audit and adapter implementation hold"
+effective_condition = "Effective after review and merge. This authorization freezes the current WUFR26 linkage/load-path source audit and explicitly blocks a WUFR-specific linkage-statics adapter until the unresolved current WUFR27 topology, joint idealizations, and brake/drive reaction interfaces are reviewed. The generic MOD-SUSP-0006 six-link kernel remains authorized within AUTH-SUSP-0010; this hold applies only to adapting that or a future multi-body solver to WUFR member loads."
+review_record = "docs/reviews/phase3_wufr_linkage_topology_audit_review.md"
+implementation_authorized = false
+
+[scope]
+model_ids = ["MOD-SUSP-0006"]
+source_record = "data_catalog/wufr26_linkage_topology_source_audit_v0.toml"
+generic_linkage_kernel_remains_authorized = true
+wufr_corner_adapter_authorized = false
+wufr_multi_body_graph_authorized = false
+wufr_member_force_output_authorized = false
+wufr_load_case_generation_authorized = false
+structural_release_authorized = false
+
+[finding]
+summary = "The current sources are sufficient to reject a direct six-links-to-upright WUFR adapter, but not sufficient to freeze the first WUFR multi-body statics graph. WUFR actuation is arm-mounted (front upper A-arm, rear lower A-arm), the A-arms are welded steel assemblies, and brake/drive loads have nontrivial hub/caliper interfaces. Current WUFR27 linkage documentation/CAD is not yet complete enough to prove unchanged hardware topology."
+legacy_load_matrix_governing = false
+legacy_negative_force_clipping_allowed = false
+wufr26_architecture_evidence_available = true
+wufr27_topology_confirmation_available = false
+
+[confirmed]
+items = [
+  "Retain the frozen WUFR suspension hardpoints and attachment ownership from MOD-SUSP-0001/MOD-SUSP-0003: front push/pull pickup moves with the upper A-arm; rear pickup moves with the lower A-arm.",
+  "Treat the front steering tie rod and rear chassis-locating toe link as different roles; neither may be silently replaced by the other or by an upright scalar reaction.",
+  "Preserve the rocker as a separate rigid-body/load-path stage downstream of the arm-mounted push/pull rod.",
+  "Treat WUFR26 front/rear corner assembly drawings and BOMs as physical hardware evidence, including welded steel A-arm tubes, bearing housings, push/pull rods, rear toe link, spherical bearings, and rod-end inventory.",
+  "Treat the WUFR26 upright/hub/brake design review as evidence that tire/wheel/hub/bearing/upright/brake interfaces matter to the external wrench seen by the suspension linkage.",
+  "Preserve signed tension/compression. The historical load-matrix instruction to zero negative values is rejected as governing physics."
+]
+
+[permitted]
+items = [
+  "Continue source discovery and document explicit body/joint/interface topology without computing WUFR member loads.",
+  "Develop synthetic multi-body statics benchmark architecture that does not embed WUFR-specific joint assumptions, provided it is kept separate from current-car outputs.",
+  "Use WUFR26 corner assembly drawings/BOMs, frozen hardpoints, rocker drawings, and design reviews to propose candidate free-body partitions and identify missing current-WUFR27 confirmation.",
+  "Compare candidate idealizations such as equivalent A-arm revolute support, explicit point joints, or later beam/FE arms, but label all candidates as not authorized until the joint/source decision is made.",
+  "Define the data fields needed from CAD/drawings/team confirmation for a later authorization packet."
+]
+
+[prohibited]
+items = [
+  "Publishing WUFR26 or WUFR27 suspension member forces from MOD-SUSP-0006 by moving the front/rear arm-mounted push/pull attachment to the upright.",
+  "Assuming the WUFR27 corner hardware/topology is unchanged solely because the current kinematic baseline inherits WUFR26 geometry or because WUFR27 CAD folders exist.",
+  "Inferring endpoint-specific joint type solely from aggregate BOM part counts when the assembly callout/mate ownership has not been frozen.",
+  "Treating each welded A-arm tube as an independent pin-ended two-force link when an off-node push/pull load is applied to the welded arm assembly.",
+  "Assuming unique forward/aft chassis-tab or A-arm-leg load sharing from rigid-body equilibrium without a separately authorized joint/load-sharing or stiffness model.",
+  "Using the historical Load Case List with Load Matrices as a governing signed-force source; in particular, its negative-to-zero rule is prohibited.",
+  "Generating braking reactions from contact-patch longitudinal force alone while omitting caliper/rotor/hub torque paths, or generating rear drive reactions without an explicit hub/CV/halfshaft torque contract.",
+  "Calling spring, ARB, or damper loads inside the statics layer with duplicated constitutive equations; reviewed MOD-SUSP-0004/MOD-SUSP-0005 providers retain those responsibilities.",
+  "Beam stress, buckling, fatigue, weld stress, bearing stress, factor of safety, FEA boundary-condition release, installed/as-built claims, or production structural authority."
+]
+
+[candidate_architecture]
+status = "not_authorized"
+body_partition = ["upright/corner body", "upper A-arm rigid body", "lower A-arm rigid body", "rocker rigid body", "chassis ground"]
+axial_elements = ["front tie rod or rear toe link", "push/pull rod"]
+a_arm_support_candidate = "Represent each inboard forward/aft pickup pair by an equivalent revolute support about the frozen arm hinge axis for interface-level equilibrium only, if the current hardware/joint review supports that reduction."
+reason = "This partition preserves arm-mounted actuation and reuses the already-reviewed hinge-axis kinematics. It avoids pretending the welded wishbone is a set of independent two-force members."
+limitation = "An equivalent revolute support does not by itself provide unique forward/aft bearing/tab load sharing or welded-tube internal forces. Those outputs need a separate structural/load-sharing model."
+
+[source_boundary]
+primary_geometry_contract = "docs/models/suspension/suspension_geometry_contract_v0.1.0.md"
+source_audit = "docs/models/suspension/wufr_linkage_topology_source_audit.md"
+source_record = "data_catalog/wufr26_linkage_topology_source_audit_v0.toml"
+provider_neutral_kernel_authorization = "AUTH-SUSP-0010"
+actuation_authorization = "AUTH-SUSP-0003"
+spring_provider_authorization = "AUTH-SUSP-0004"
+arb_provider_authorizations = "AUTH-SUSP-0005 through AUTH-SUSP-0009"
+wufr27_current_design_document = "WUFR-27 Linkages & Loads PDR, Google Drive document 1zogjzSuwyGg96bJFc3XR4rFGPdvSZhZ6xkYsqjtAvOc; work in progress at audit time, not topology authority"
+
+[next_gate]
+required_decisions = [
+  "Confirm WUFR27 carryover/change status for front and rear A-arms, push/pull rods, tie/toe links, rockers, ARBs, uprights/hubs, and brake interfaces.",
+  "Freeze endpoint-by-endpoint joint hardware and ideal kinematic/static reaction type/axis for all current WUFR27 suspension connections.",
+  "Decide first A-arm output fidelity: equivalent hinge/outboard reactions only, individual bearing/tab loads, or tube/member loads. The latter two may require additional structural assumptions or beam/FE stiffness.",
+  "Freeze brake caliper/rotor/upright/hub external-wrench handling and rear drive torque path before maneuver structural load cases.",
+  "Freeze how spring and ARB provider results enter rocker/corner statics without duplicating constitutive mechanics."
+]
+implementation_rule = "A separate authorization must name the chosen WUFR graph/joint idealizations, equations/unknowns, rank/conditioning behavior, benchmark cases, and exact source identities before current-car linkage statics code is implemented."
