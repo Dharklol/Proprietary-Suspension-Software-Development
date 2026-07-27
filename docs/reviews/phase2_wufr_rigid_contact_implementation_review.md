@@ -31,7 +31,7 @@ Each corner solves the flat-road condition in the physical wheel-center vertical
 
 `J_wb`, contact coefficients, and wheel-center gravity projections use centered two-step finite differences. Provider perturbation failures propagate rather than causing an undeclared one-sided derivative. Contact and gravity scalar projections use second-order two-step extrapolation after the coarse/fine convergence gate.
 
-The contact/gravity benchmark requires the final physical-point virtual-work result to agree at the `1e-6 N` level. The outer `MOD-SUSP-0002` wheel-coordinate inversion therefore uses `1e-14 m` displacement residual and `2e-14 rad` bracket-angle tolerances in this provider. These are numerical inversion tolerances only: they do not assert physical geometry accuracy or installed measurement precision. Their purpose is to keep the inversion residual well below the finite-difference derivative scale rather than letting root-solver noise determine the virtual-work result.
+The contact/gravity benchmark requires the final physical-point virtual-work result to agree at the `1e-6 N` level. Trial finite differences at tens of micrometers exposed the outer wheel-state inversion residual as the dominant numerical-noise source. The accepted provider therefore retains a `1e-12 m` physical wheel-coordinate inversion tolerance and uses a `2e-4 m` coarse wheel finite-difference step (`1e-4 m` fine step); the independent check uses a different `1.5e-4 / 7.5e-5 m` pair. These are numerical verification scales only and do not assert physical geometry or measurement accuracy.
 
 ## Verification gates
 
