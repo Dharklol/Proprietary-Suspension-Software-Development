@@ -1,0 +1,25 @@
+[record]
+id = "EQ-SUSP-0020"
+type = "equation"
+title = "Rigid-body six-link force and moment equilibrium assembly"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Assemble the six signed axial link forces into one rigid-body three-force/three-moment equilibrium system about an explicit reference point. This is the direct provider-neutral form of the six-member space-truss/upright statics matrix."
+outputs = ["6x6 equilibrium matrix A", "external wrench right-hand side b", "declared force/moment row order and link-column order"]
+inputs = ["six EQ-SUSP-0019 link axes and body application points", "reference point r_O", "prescribed external force F_ext", "prescribed external couple M_ext,O"]
+assumptions = [
+  "Exactly six ASM-SUSP-0004 ideal axial links act on one rigid body for the first determinate kernel.",
+  "The external wrench is expressed about the same declared reference point used for link moments.",
+  "No body inertia or dynamic fictitious wrench is included unless it is explicitly supplied later as part of a prescribed external wrench under a separate load-case authority."
+]
+verification_level = "none"
+canonical_equation = "For each link j, a_j=[u_j; (r_bj-r_O) cross u_j]. Assemble A=[a_1 ... a_6], N=[N_1...N_6]^T, and b=-[F_ext; M_ext,O], so A*N=b."
+source_basis = [
+  "Borg (2009), Chapter 3 Section 3.3.1, Eqs. 3.6-3.9: three force plus three moment equilibrium equations solved by matrix algebra for six axial suspension-member loads.",
+  "MOD-VEH-0003 / EQ-VEH-0005 explicit wrench translation and application-point policy."
+]
+validity = "One rigid body, exactly six authorized ideal links, one explicit external wrench, and a geometrically determinate full-rank equilibrium system."
+numerical_method = "Direct 6x6 column assembly from current geometry. Solvability/conditioning and scaling are owned by EQ-SUSP-0021."
+failure_behavior = ["Reject wrong link count/order", "Reject frame/origin/application-point mismatch", "Reject nonfinite wrench or geometry", "Do not add hidden chassis/tire/spring reactions to close equilibrium"]
+benchmark_ids = ["BENCH-SUSP-0018", "BENCH-SUSP-0019", "BENCH-SUSP-0020"]
