@@ -53,7 +53,8 @@ class SuspensionActuationAuthorizationTests(unittest.TestCase):
         self.assertIn("`EQ-SUSP-0009` through `0012`", matrix)
         self.assertIn("`AUTH-SUSP-0003`", matrix)
         self.assertIn("historical OptimumK `Motion Ratio Heave` as comparison-only evidence", matrix)
-        self.assertIn("spring/damper force", matrix.lower())
+        self.assertIn("damper force", matrix.lower())
+        self.assertIn("separately authorized conservative spring", matrix.lower())
         self.assertIn("installed/as-built validation", matrix)
 
     def test_model_and_equation_links_are_frozen(self) -> None:
