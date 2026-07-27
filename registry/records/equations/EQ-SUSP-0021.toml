@@ -1,0 +1,25 @@
+[record]
+id = "EQ-SUSP-0021"
+type = "equation"
+title = "Scaled determinate linkage-statics solve and conditioning gate"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Solve the EQ-SUSP-0020 determinate six-link equilibrium only after scaling moment rows by an explicit geometric characteristic length and proving the scaled matrix is finite, nonsingular, and acceptably conditioned."
+outputs = ["signed axial-force vector N", "characteristic length L_ref", "scaled matrix and right-hand side", "conditioning/pivot diagnostics", "structured failure state"]
+inputs = ["EQ-SUSP-0020 A and b", "link attachment geometry", "declared conditioning threshold"]
+assumptions = [
+  "The first kernel is exactly determined; no redundant or deficient force-sharing problem is solved.",
+  "Moment rows require length scaling before numerical conditioning is interpreted.",
+  "A large condition number is a geometry/load-path warning and must not be repaired with force clipping or regularization."
+]
+verification_level = "none"
+canonical_equation = "Choose L_ref=max_j ||r_bj-r_O|| > 0. Define S=diag(1,1,1,1/L_ref,1/L_ref,1/L_ref), A_tilde=S*A, b_tilde=S*b. Require finite full-rank A_tilde and cond_inf(A_tilde)<=kappa_max; solve A_tilde*N=b_tilde without regularization."
+source_basis = [
+  "Borg (2009) six-equation matrix solution as the physical equilibrium basis.",
+  "Repository MOD-VEH-0004 numerical policy: explicit scaling, conditioning diagnostics, and failure rather than hidden repair."
+]
+validity = "Finite exactly-6x6 EQ-SUSP-0020 system with positive finite L_ref and acceptable scaled conditioning."
+numerical_method = "Implementation may use deterministic partial-pivot Gaussian elimination. cond_inf(A_tilde)=||A_tilde||_inf*||A_tilde^-1||_inf may be evaluated from the same deterministic linear solves; default authorization threshold kappa_max=1e10."
+failure_behavior = ["Return degenerate_characteristic_length if L_ref is unavailable/near zero", "Return singular_equilibrium for rank/pivot failure", "Return ill_conditioned_equilibrium when cond_inf exceeds kappa_max", "Return unsupported_topology for link count other than six", "Never use least squares, pseudoinverse, minimum-norm, regularization, or stiffness-weighted force sharing"]
+benchmark_ids = ["BENCH-SUSP-0018", "BENCH-SUSP-0019", "BENCH-SUSP-0020"]

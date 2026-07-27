@@ -1,0 +1,18 @@
+[record]
+id = "BENCH-SUSP-0020"
+type = "benchmark"
+title = "Linkage statics topology, singularity, and conditioning failures"
+status = "proposed"
+description = "Verify that MOD-SUSP-0006 refuses unsupported or numerically unreliable statics problems rather than inventing force sharing."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0006", "EQ-SUSP-0019", "EQ-SUSP-0021"]
+acceptance_criteria = [
+  "A zero-length/coincident-endpoint link returns a structured degenerate_link failure before matrix assembly.",
+  "Five-link and seven-link inputs return unsupported_topology for the v0.1 determinate kernel; no least-squares or minimum-norm solution is produced.",
+  "A six-link fixture with linearly dependent wrench columns returns singular_equilibrium and preserves the unsolved state.",
+  "A near-dependent six-link fixture whose scaled cond_inf exceeds kappa_max=1e10 returns ill_conditioned_equilibrium; no regularization, force clipping, or hidden geometry perturbation is allowed.",
+  "Nonfinite endpoint/wrench input returns a structured nonfinite_input failure.",
+  "Failure output retains link order, frame/reference point, characteristic length when available, conditioning/pivot diagnostics when meaningful, and the original external-wrench provenance."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0010.toml"
+implementation_test = "planned: tests/test_suspension_linkage_statics_failures.py"

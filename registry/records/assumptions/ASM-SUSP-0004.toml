@@ -1,0 +1,10 @@
+[record]
+id = "ASM-SUSP-0004"
+type = "assumption"
+title = "Ideal pin-ended two-force suspension link statics"
+status = "active"
+description = "For the first suspension linkage-statics kernel, each retained link is modeled as massless, rigid in geometry, pin/spherical-jointed at both ends, and capable only of a signed axial force along its current endpoint-to-endpoint axis. The connected body is rigid and quasi-static. This is an intentionally low-fidelity load-path screening model, not beam/member stress, welded-wishbone load sharing, compliance, buckling, fatigue, bearing, joint, or installed/as-built authority."
+severity = "high"
+affected_ids = ["AUTH-SUSP-0010", "MOD-SUSP-0006", "EQ-SUSP-0019", "EQ-SUSP-0020", "EQ-SUSP-0021", "EQ-SUSP-0022", "BENCH-SUSP-0018", "BENCH-SUSP-0019", "BENCH-SUSP-0020"]
+validity = "Provider-neutral static equilibrium of one rigid body supported by exactly six geometrically nondegenerate ideal two-force links, with a prescribed external wrench and no inertial/dynamic terms. The first implementation is a determinate six-unknown/six-equation kernel only."
+control = "Preserve positive-tension sign and explicit link endpoint/application-point geometry. Reject zero-length links, singular/ill-conditioned equilibrium matrices, nonfinite data, and any topology that is not exactly the authorized determinate single-rigid-body/six-link problem. Do not use least squares, minimum-norm force sharing, hidden stiffness weighting, scalar load distribution, or absolute-value repair. Treat Borg (2009) truss results as generic method/limitation evidence only; later beam-model findings are explicit evidence that this assumption is not structural-release fidelity."
