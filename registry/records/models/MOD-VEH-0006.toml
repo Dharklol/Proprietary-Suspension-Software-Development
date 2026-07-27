@@ -2,7 +2,7 @@
 id = "MOD-VEH-0006"
 type = "model"
 title = "WUFR flat-road physical wheel-coordinate compatibility provider"
-status = "proposed"
+status = "blocked"
 disposition = "accepted_with_restrictions"
 maturity = "M0"
 description = "Planned WUFR-specific R&D provider for a flat-road physical wheel-coordinate map. The first source interpretation under ASM-VEH-0004 failed mandatory BENCH-VEH-0008 validation during PR #64 and is not implementation-authorized. The model remains architecturally planned, but its contact-point provider must be replaced by a separately reviewed contact model/source assumption before implementation resumes."
