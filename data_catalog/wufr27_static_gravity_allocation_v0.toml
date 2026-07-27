@@ -1,0 +1,64 @@
+version = "0.1.0"
+record_id = "WUFR27_STATIC_GRAVITY_ALLOCATION_V0"
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+record_authority = "reviewed_prototype_static_gravity_allocation"
+
+[source]
+whole_vehicle_frame_record = "data_catalog/wufr26_whole_vehicle_frame_v0.toml"
+whole_vehicle_adapter_id = "WUFR26_WHOLE_VEHICLE_FRAME_V0"
+reviewed_corner_scale_lb = [178.0, 175.0, 163.0, 159.0]
+reviewed_total_scale_lb = 675.0
+lb_to_kg = 0.45359237
+total_mass_kg = 306.17484975
+reviewed_front_unsprung_axle_mass_kg = 10.0
+reviewed_rear_unsprung_axle_mass_kg = 10.0
+reviewer_allocation_decision = "On 2026-07-27 the reviewer approved an equal left/right split of the measured axle totals for the first prototype: 5 kg unsprung per corner."
+assumption_id = "ASM-VEH-0003"
+
+[prototype_unsprung_allocation]
+corner_order = ["front_left", "front_right", "rear_left", "rear_right"]
+corner_mass_kg = [5.0, 5.0, 5.0, 5.0]
+total_unsprung_mass_kg = 20.0
+point_model = "Each prototype unsprung lump follows the corresponding nominal/solved physical wheel-center point from the reviewed suspension state. This is not measured per-corner CG data."
+nominal_wheel_center_source_m = [
+  [0.0, 0.615986, 0.228600],
+  [0.0, -0.615986, 0.228600],
+  [-1.562400, 0.603286, 0.228600],
+  [-1.562400, -0.603286, 0.228600],
+]
+wheel_generalized_force_rule = "Derive each gravity generalized force by virtual work from the 5 kg point gravity load and the reviewed physical wheel-coordinate motion/contact projection. Do not replace that projection with a constant -m*g scalar away from the nominal level state."
+
+[derived_sprung_body]
+method = "Mass and first-moment subtraction from the reviewed total driver/no-fuel design reference using the explicit prototype wheel-center unsprung lumps."
+sprung_mass_kg = 286.17484975
+total_cg_source_m = [-0.7453226666666667, 0.006312743703703716, 0.2900000000000000]
+sprung_cg_source_m = [-0.7428152951513378, 0.006753924590788551, 0.29429108288542044]
+sprung_cg_relative_to_total_cg_body_m = [0.002507371515328871, 0.0004411808870848346, 0.004291082885420461]
+first_moment_identity = "m_total*r_total = m_sprung*r_sprung + sum_i(m_ui*r_ui)"
+vertical_source_warning = "The 0.290 m total-CG height is the previously reviewed driver-equivalent-ballast tilt-test value combined with a separate driver/no-fuel scale session. The inferred 0.2942910829 m sprung-CG height inherits that source separation plus ASM-VEH-0003 and is R&D design-intent authority only."
+
+[gravity]
+g_mps2 = 9.81
+sprung_weight_N = 2807.3752760475004
+nominal_each_unsprung_weight_N = 49.05
+nominal_total_weight_N = 3003.5802760475004
+body_gravity_rule = "Apply the sprung-body gravity point force [0,0,-m_s*g] at the inferred sprung CG through MOD-VEH-0003 generalized-force mapping."
+wheel_gravity_rule = "Apply each 5 kg point gravity load at the corresponding physical wheel center and map it into the wheel coordinate/contact recovery through the reviewed local Jacobian/projection."
+
+[authority_boundaries]
+measured_per_corner_unsprung_mass = false
+measured_unsprung_cg = false
+installed_as_built_authority = false
+maneuver_unsprung_inertia_authority = false
+static_gravity_prototype_authority = true
+road_compatibility_map_authority = false
+full_wufr_equilibrium_authority = false
+prohibited_substitutions = [
+  "historical 10 kg per corner",
+  "207 kg LLTD sprung mass",
+  "220 kg car + 100 kg driver calculation input",
+  "hidden crossweight/diagonal rule",
+  "constant wheel-gravity scalar projection away from the nominal level state",
+]
+next_gate = "Authorize the WUFR road-compatible four-corner wheel-coordinate map/contact projection and its composition with MOD-SUSP-0004/MOD-SUSP-0005 before publishing a WUFR static road-reaction solve."
