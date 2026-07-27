@@ -1,0 +1,26 @@
+[record]
+id = "EQ-SUSP-0022"
+type = "equation"
+title = "Linkage statics wrench reconstruction and equilibrium residual"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Reconstruct the complete link wrench about the declared reference point from the solved signed axial forces and report physical force/moment equilibrium residuals independently of the scaled linear solve."
+outputs = ["reconstructed link force", "reconstructed link moment about r_O", "force residual", "moment residual", "per-link body/remote action-reaction forces"]
+inputs = ["EQ-SUSP-0019 link states", "EQ-SUSP-0021 signed axial forces", "external wrench", "reference point r_O"]
+assumptions = [
+  "Residuals are evaluated in physical SI units after solving; they are not inferred only from the scaled algebraic residual.",
+  "Remote-end link action is equal and opposite to body-end action for the ideal two-force member.",
+  "Residual acceptance does not validate ASM-SUSP-0004 as a physical beam/compliance model."
+]
+verification_level = "none"
+canonical_equation = "F_links=sum_j N_j*u_j; M_links,O=sum_j (r_bj-r_O) cross (N_j*u_j); R_F=F_ext+F_links; R_M=M_ext,O+M_links,O. Remote-end force for link j is -N_j*u_j."
+source_basis = [
+  "Classical rigid-body force and moment equilibrium.",
+  "MOD-VEH-0003 explicit wrench/reference-point convention.",
+  "Borg (2009) Chapter 3 force/moment balance used to recover six suspension-member axial forces."
+]
+validity = "Successful EQ-SUSP-0021 solve with consistent link order, geometry, frame, and reference point."
+numerical_method = "Direct physical-unit reconstruction using the original unscaled geometry and solved signed forces."
+failure_behavior = ["Reject mismatched link/force order or provenance", "Reject nonfinite reconstructed quantities", "Do not zero small forces/moments by clipping", "Report residual failure if frozen benchmark tolerances are exceeded"]
+benchmark_ids = ["BENCH-SUSP-0018", "BENCH-SUSP-0019", "BENCH-SUSP-0020"]
