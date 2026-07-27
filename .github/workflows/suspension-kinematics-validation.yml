@@ -109,6 +109,24 @@ jobs:
           name: wufr-zbar-implementation-test-log
           path: wufr_zbar_implementation_test.log
           if-no-files-found: error
+      - name: Validate physical WUFR Z-bar linkage-force authorization
+        run: python -m unittest tests.test_suspension_wufr_zbar_link_force_authorization -v > wufr_zbar_link_force_authorization_test.log 2>&1
+      - name: Upload physical WUFR Z-bar linkage-force authorization diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wufr-zbar-link-force-authorization-test-log
+          path: wufr_zbar_link_force_authorization_test.log
+          if-no-files-found: error
+      - name: Validate physical WUFR Z-bar linkage-force implementation
+        run: python -m unittest tests.test_suspension_wufr_zbar_link_force -v > wufr_zbar_link_force_test.log 2>&1
+      - name: Upload physical WUFR Z-bar linkage-force implementation diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wufr-zbar-link-force-test-log
+          path: wufr_zbar_link_force_test.log
+          if-no-files-found: error
       - name: Validate WUFR Z-bar wheel-coordinate authorization
         run: python -m unittest tests.test_suspension_wufr_zbar_wheel_authorization -v > wufr_zbar_wheel_authorization_test.log 2>&1
       - name: Upload WUFR Z-bar wheel-coordinate authorization diagnostics
@@ -199,6 +217,8 @@ jobs:
           python scripts/run_suspension_linkage_statics_benchmarks.py --summary --output suspension_linkage_statics_summary.json
           python scripts/run_wufr_interface_statics_benchmarks.py --output wufr_interface_statics_report.json > /dev/null
           python scripts/run_wufr_interface_statics_benchmarks.py --summary --output wufr_interface_statics_summary.json
+          python scripts/run_wufr_zbar_link_force_benchmarks.py --output wufr_zbar_link_force_report.json > /dev/null
+          python scripts/run_wufr_zbar_link_force_benchmarks.py --summary --output wufr_zbar_link_force_summary.json
       - name: Upload suspension kinematics reports
         uses: actions/upload-artifact@v4
         with:
@@ -218,4 +238,6 @@ jobs:
             suspension_linkage_statics_summary.json
             wufr_interface_statics_report.json
             wufr_interface_statics_summary.json
+            wufr_zbar_link_force_report.json
+            wufr_zbar_link_force_summary.json
           if-no-files-found: error
