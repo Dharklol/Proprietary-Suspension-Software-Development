@@ -1,0 +1,55 @@
+version = "0.1.0"
+record_id = "WUFR27_ARB_PHYSICAL_LINK_FORCE_V0"
+status = "review_ready"
+authority = "Source and topology authority for recovering the physical signed axial force in each WUFR Z-bar linkage from the already-reviewed two-arm mechanism/blade state. WUFR27 hardware/load-path/geometry carryover from WUFR26 was explicitly reviewer-confirmed on 2026-07-27. This record does not authorize rocker equilibrium, wheel/tire load transfer, structural stress, installed/as-built loads, or a maneuver load case."
+configuration_context = "WUFR27 design intent using unchanged WUFR26 suspension and ARB hardware/load paths/geometry"
+
+[reviewer_confirmation]
+date = "2026-07-27"
+decision = "WUFR27 retains the WUFR26 suspension load paths, geometry, and hardware; source-backed connection inference is permitted unless a genuine ambiguity remains."
+
+[source.mechanism_fixture]
+record = "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml"
+authorizations = ["AUTH-SUSP-0006", "AUTH-SUSP-0008"]
+role = "governing blade housing axis, nominal blade/link joints, rocker pickups/pivots, rigid link lengths, and current solved blade-tip/rocker-pickup geometry"
+
+[source.constitutive]
+assumption = "ASM-SUSP-0003"
+authorization = "AUTH-SUSP-0007"
+role = "governing discrete per-blade-arm transverse stiffness and signed elastic coordinate force f_i=k_b*d_i"
+
+[source.front_arb_assembly]
+box_file_id = "2135607229280"
+box_filename = "SU-A0703-AA FRONT ANTI-ROLL BAR.pdf"
+box_sha1 = "34823b5b6a2c0a09a8d2441b6d19525c7219e4cb"
+observations = [
+  "The assembly BOM contains two FRONT, ARB, LINKAGE parts (SU-70308-AB/AA lineage) and two RH plus two LH 10-32 rod-end bodies, establishing one pin/rod-end linkage per side between rocker and blade.",
+  "The physical linkage architecture supports a first-order massless ideal signed axial two-force-member abstraction for interface-force recovery; bending, joint friction/backlash, and installed compliance remain excluded."
+]
+
+[source.rear_arb_assembly]
+box_file_id = "2135614149053"
+box_filename = "SU-A0705-AA REAR ANTI-ROLL BAR.pdf"
+box_sha1 = "4cda02930ab2ee853c82cf024fc5bde5edf406c1"
+observations = [
+  "The rear assembly BOM contains two REAR, ARB, LINKAGE parts (SU-70508-AA) with two CML3 LH and two CMR3 RH 10-32 rod ends, again establishing one rod-ended linkage per side between rocker and blade.",
+  "The same ideal axial two-force-member abstraction is therefore source-supported at the first structural-interface fidelity."
+]
+
+[force_recovery]
+deflection_coordinate = "For side i, n_i(theta_h) is the signed unit transverse direction used by the existing blade-arm coordinate d_i, and f_i=k_b*d_i is the already-authorized signed elastic force conjugate to d_i."
+link_axis = "u_i=(P_i-B_i)/||P_i-B_i|| points from current blade tip B_i to current rocker pickup P_i."
+axial_sign = "T_i>0 means linkage tension. Force on blade tip is +T_i*u_i; force on rocker is -T_i*u_i."
+virtual_work_equilibrium = "T_i*(u_i dot n_i)=f_i, hence T_i=f_i/(u_i dot n_i)."
+degeneracy = "Reject |u_i dot n_i| at or below the reviewed projection threshold; do not divide through a near-zero transverse projection or substitute generalized force."
+
+[verification_identity]
+rocker_torque = "For each side i, tau_i = rocker_axis dot ((P_i-R_i) cross F_rocker_i), where F_rocker_i=-T_i*u_i. This physical-link torque must reproduce the existing AUTH-SUSP-0008 generalized rocker torque Q_rocker_i=-dU/dtheta_Ri within the frozen numerical tolerance."
+reason = "The housing angle is an ideal free energy-minimizing coordinate, so the envelope/virtual-work derivative with respect to a prescribed rocker angle is carried by the physical linkage force at that rocker pickup."
+
+[boundaries]
+rocker_equilibrium_authorized = false
+spring_force_vector_authorized_here = false
+wheel_or_tire_load_transfer_authorized = false
+structural_stress_authorized = false
+installed_as_built_authority = false
