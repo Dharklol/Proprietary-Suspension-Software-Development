@@ -1,0 +1,84 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0013"
+status = "review_ready"
+title = "WUFR physical Z-bar linkage axial-force authorization"
+effective_condition = "Effective only after review and merge. This authorization extends the already-reviewed MOD-SUSP-0005 WUFR Z-bar mechanism only far enough to recover the signed physical axial force vector in each rod-ended rocker-to-blade linkage from the existing transverse blade elastic action and exact current mechanism geometry. It does not authorize rocker equilibrium, rocker pivot reaction, spring/ARB structural load composition, wheel/tire load transfer, maneuver loads, stress, or installed/as-built claims."
+review_record = "docs/reviews/phase3_wufr_arb_link_force_authorization_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-SUSP-0005"]
+equation_ids = ["EQ-SUSP-0027"]
+benchmark_ids = ["BENCH-SUSP-0024"]
+assumption_ids = ["ASM-SUSP-0003", "ASM-SUSP-0006"]
+source_record = "data_catalog/wufr27_arb_physical_link_force_v0.toml"
+upstream_authorizations = ["AUTH-SUSP-0006", "AUTH-SUSP-0007", "AUTH-SUSP-0008"]
+planned_implementation_package = "src/pssd_suspension/wufr_zbar_link_force.py"
+planned_implementation_test = "tests/test_suspension_wufr_zbar_link_force.py"
+physical_linkage_force_authorized = true
+rocker_equilibrium_authorized = false
+rocker_pivot_reaction_authorized = false
+spring_arb_structural_composition_authorized = false
+wheel_or_tire_load_transfer_authorized = false
+structural_release_authorized = false
+
+[coordinates]
+blade_transverse_direction = "n_i is exactly the signed transverse direction used by the current AUTH-SUSP-0008 blade-arm deflection coordinate d_i after housing rotation."
+link_direction = "u_i points from current blade tip B_i to current rocker pickup P_i."
+axial_sign = "T_i>0 tension. Force on blade tip is +T_i*u_i; force on rocker pickup is -T_i*u_i."
+projection_equilibrium = "T_i*(u_i dot n_i)=k_b*d_i."
+physical_force_on_rocker = "F_Ri=-T_i*u_i."
+rocker_torque_check = "tau_i=rocker_axis dot ((P_i-rocker_pivot_i) cross F_Ri) and must match the existing AUTH-SUSP-0008 generalized_rocker_torque_Nm[i]."
+
+[permitted]
+items = [
+  "Consume a successful source-matched AUTH-SUSP-0008 mechanism state and its exact current blade tips, rocker pickups, housing angle, and fixture geometry.",
+  "Consume the exact discrete AUTH-SUSP-0007 per-arm stiffness / evaluate_two_arm_force state and preserve its signed f_i=k_b*d_i semantics.",
+  "Reconstruct the blade transverse unit direction from the same housing-axis/nominal-arm geometry used by the mechanism solver.",
+  "Recover signed linkage tension/compression T_i=(k_b*d_i)/(u_i dot n_i) only when the current link/transverse projection is nondegenerate.",
+  "Return the physical equal-and-opposite linkage force vectors on the rocker and blade tip with full left/right/source/configuration provenance.",
+  "Independently reconstruct the moment of the physical rocker force about the rocker axis and require agreement with AUTH-SUSP-0008 Q_rocker before publishing the physical force."
+]
+
+[prohibited]
+items = [
+  "Calling k_b*d_i itself the physical linkage axial force unless u_i dot n_i is explicitly evaluated; the transverse elastic coordinate force and axial linkage force are not generally identical.",
+  "Calling Q_rocker or Q_z a physical linkage force or dividing either by an ad hoc moment arm/motion ratio.",
+  "Using a nominal link angle when a current solved blade tip and rocker pickup are available.",
+  "Taking absolute values of d_i, k_b*d_i, projection, T_i, physical force vectors, or rocker torque to hide sign conventions.",
+  "Dividing by or regularizing a near-zero u_i dot n_i projection.",
+  "Inferring rod bending, rod-end bending, joint friction/backlash, compliance, stress, buckling, fatigue, factor of safety, or installed/as-built load from this ideal axial result.",
+  "Computing rocker pivot reaction or calling the linkage force a wheel/tire/load-transfer/body-equilibrium result without separate downstream authority."
+]
+
+[numerics]
+projection_absolute_threshold = 1.0e-6
+force_projection_residual_tolerance_N = 1.0e-8
+rocker_torque_agreement_tolerance_Nm = 1.0e-8
+unit_vector_tolerance = 1.0e-12
+link_closure_residual_tolerance_m = 1.0e-9
+hidden_clipping_allowed = false
+absolute_value_sign_repair_allowed = false
+regularization_allowed = false
+
+[failure_behavior]
+codes = [
+  "upstream_mechanism_failure",
+  "upstream_force_failure",
+  "source_mismatch",
+  "nonfinite_geometry",
+  "degenerate_link",
+  "degenerate_link_projection",
+  "link_closure_residual",
+  "force_projection_residual",
+  "rocker_torque_mismatch"
+]
+rule = "Return a structured unsolved physical-link-force result with source/mechanism provenance. Do not substitute generalized force, nominal angles, a scalar motion ratio, clipping, or regularization."
+
+[promotion_gates]
+items = [
+  "BENCH-SUSP-0024 nominal front/rear zero-force checks pass.",
+  "BENCH-SUSP-0024 front differential and rear asymmetric nonzero states recover finite signed physical link forces and reproduce the existing generalized rocker torque side-by-side.",
+  "Projection/closure/residual failure gates are verified.",
+  "A separate later authorization must define the physical spring force vector at the rocker and the rocker free-body equilibrium before rocker pivot reactions are exposed."
+]
