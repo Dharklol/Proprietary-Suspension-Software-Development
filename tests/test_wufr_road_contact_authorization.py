@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import math
 import tomllib
 import unittest
 
@@ -14,119 +15,126 @@ def _load(relative: str) -> dict:
 
 
 class WUFRRoadContactAuthorizationTests(unittest.TestCase):
-    def test_failed_implementation_authority_is_suspended(self) -> None:
+    def test_failed_prior_contact_assumption_remains_rejected(self) -> None:
         auth6 = _load("authorizations/vehicle/AUTH-VEH-0006.toml")
         auth7 = _load("authorizations/vehicle/AUTH-VEH-0007.toml")
-        model = _load("registry/records/models/MOD-VEH-0006.toml")["record"]
-        assumption = _load("registry/records/assumptions/ASM-VEH-0004.toml")["record"]
-
-        self.assertEqual(auth6["authorization_id"], "AUTH-VEH-0006")
-        self.assertEqual(auth6["status"], "suspended_by_AUTH-VEH-0007")
-        self.assertFalse(auth6["implementation_authorized"])
-        self.assertEqual(auth6["correction_authorization_id"], "AUTH-VEH-0007")
-
-        self.assertEqual(auth7["authorization_id"], "AUTH-VEH-0007")
-        self.assertEqual(auth7["status"], "review_ready")
-        self.assertFalse(auth7["implementation_authorized"])
-        self.assertEqual(auth7["scope"]["model_ids"], ["MOD-VEH-0006"])
-        self.assertEqual(auth7["scope"]["assumption_ids"], ["ASM-VEH-0004"])
-
-        self.assertEqual(model["status"], "blocked")
-        self.assertEqual(model["authorization_id"], "AUTH-VEH-0006")
-        self.assertEqual(model["correction_authorization_id"], "AUTH-VEH-0007")
-        self.assertIn("implementation_blocked", model["authorization_state"])
-        self.assertEqual(assumption["status"], "deprecated")
-        self.assertIn("not valid", assumption["description"])
-        self.assertIn("0.0008458158026623031", assumption["description"])
-
-    def test_failed_bench_veh_0008_probe_is_frozen_without_tolerance_repair(self) -> None:
+        assumption4 = _load("registry/records/assumptions/ASM-VEH-0004.toml")["record"]
         result = _load("benchmarks/vehicle/wufr_road_contact_assumption_probe_v0.1.0.toml")
         b8 = _load("registry/records/benchmarks/BENCH-VEH-0008.toml")["record"]
 
+        self.assertEqual(auth6["status"], "suspended_by_AUTH-VEH-0007")
+        self.assertFalse(auth6["implementation_authorized"])
+        self.assertFalse(auth7["implementation_authorized"])
+        self.assertEqual(assumption4["status"], "deprecated")
         self.assertFalse(result["pass"])
         probe = result["historical_front_left_reconstruction"]
         self.assertAlmostEqual(probe["required_max_euclidean_error_m"], 5.0e-6, places=15)
         self.assertAlmostEqual(probe["observed_max_euclidean_error_m"], 0.0008458158026623031, places=15)
         self.assertGreater(probe["observed_max_euclidean_error_m"], 100.0 * probe["required_max_euclidean_error_m"])
         self.assertEqual(b8["status"], "active")
-        self.assertAlmostEqual(b8["required_max_euclidean_error_m"], 5.0e-6, places=15)
-        self.assertAlmostEqual(b8["observed_max_euclidean_error_m"], probe["observed_max_euclidean_error_m"], places=15)
-        self.assertIn("failed", b8["outcome"])
         self.assertIn("invalidated", b8["outcome"])
 
-    def test_source_nominal_contact_outputs_are_retained_but_rigid_attachment_is_rejected(self) -> None:
-        source = _load("data_catalog/wufr26_road_contact_reference_v0.toml")
-        self.assertEqual(source["record_id"], "WUFR26_ROAD_CONTACT_REFERENCE_V0")
-        contact = source["contact_reference"]
-        self.assertEqual(contact["front_left_source_m"], [0.0, 0.61598556, 0.0])
-        self.assertEqual(contact["front_right_source_m"], [0.0, -0.61598556, 0.0])
-        self.assertEqual(contact["rear_left_source_m"], [-1.5624, 0.60328556, 0.0])
-        self.assertEqual(contact["rear_right_source_m"], [-1.5624, -0.60328556, 0.0])
-        self.assertIn("road-contact output", contact["construction_role"])
-        self.assertIn("failed", contact["source_correlation_rule"])
+    def test_auth_veh_0008_is_explicit_replacement_not_revival(self) -> None:
+        auth8 = _load("authorizations/vehicle/AUTH-VEH-0008.toml")
+        model = _load("registry/records/models/MOD-VEH-0006.toml")["record"]
+        assumption5 = _load("registry/records/assumptions/ASM-VEH-0005.toml")["record"]
+        eq14 = _load("registry/records/equations/EQ-VEH-0014.toml")["record"]
 
-        outcome = source["validation_outcome"]
-        self.assertFalse(outcome["rigid_upright_attachment_validated"])
-        self.assertAlmostEqual(outcome["maximum_selected_front_reconstruction_error_m"], 0.0008458158026623031, places=15)
-        self.assertEqual(outcome["correction_authorization_id"], "AUTH-VEH-0007")
-        self.assertFalse(source["authority_boundaries"]["rigid_upright_attached_contact_authority"])
+        self.assertEqual(auth8["status"], "review_ready")
+        self.assertTrue(auth8["implementation_authorized"])
+        self.assertEqual(auth8["scope"]["prior_hold"], "AUTH-VEH-0007")
+        self.assertEqual(auth8["scope"]["failed_prior_assumption"], "ASM-VEH-0004")
+        self.assertEqual(auth8["scope"]["assumption_ids"], ["ASM-VEH-0005"])
+        self.assertIn("EQ-VEH-0014", auth8["scope"]["equation_ids"])
+        self.assertEqual(model["status"], "proposed")
+        self.assertEqual(model["authorization_id"], "AUTH-VEH-0008")
+        self.assertEqual(model["active_contact_assumption_id"], "ASM-VEH-0005")
+        self.assertEqual(model["invalidated_assumption_id"], "ASM-VEH-0004")
+        self.assertEqual(assumption5["status"], "active")
+        self.assertEqual(eq14["status"], "proposed")
 
-    def test_architecture_and_runtime_steering_ownership_are_preserved_without_contact_fallback(self) -> None:
-        source = _load("data_catalog/wufr26_road_contact_reference_v0.toml")
-        contract = source["map_contract"]
-        self.assertEqual(contract["body_coordinate_order"], ["z_s_m", "phi_rad", "theta_rad"])
-        self.assertEqual(
-            contract["wheel_coordinate_order"],
-            [
-                "front_left_delta_z_wc_body_m",
-                "front_right_delta_z_wc_body_m",
-                "rear_left_delta_z_wc_body_m",
-                "rear_right_delta_z_wc_body_m",
-            ],
-        )
-        self.assertIn("Architectural target only", contract["road_closure"])
-        self.assertIn("replacement", contract["contact_coefficient"])
-        steering = source["contact_reference"]["steering_rule"]
-        self.assertIn("MOD-STEER-0001", steering)
-        self.assertIn("centered rack", steering)
-        self.assertIn("never", steering)
-        self.assertIn("scalar Steer Angle", steering)
+    def test_source_radius_is_single_frozen_nominal_radius(self) -> None:
+        wheel = _load("benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml")
+        auth8 = _load("authorizations/vehicle/AUTH-VEH-0008.toml")
+        assumption5 = _load("registry/records/assumptions/ASM-VEH-0005.toml")["record"]
+        self.assertAlmostEqual(float(wheel["nominal_source"]["tire_radius_mm"]), 232.41, places=12)
+        self.assertIn("0.23241", assumption5["description"])
+        self.assertIn("232.41", auth8["source_boundary"]["radius_source"])
+        self.assertIn("not measured loaded radius", auth8["source_boundary"]["radius_role"])
 
-    def test_forbidden_shortcuts_and_unreviewed_replacement_tire_models_remain_prohibited(self) -> None:
-        source = _load("data_catalog/wufr26_road_contact_reference_v0.toml")
-        prohibited = "\n".join(source["authority_boundaries"]["prohibited_substitutions"]).lower()
-        for phrase in (
-            "body roll times track",
-            "wheel-travel difference",
-            "scalar spring or arb motion ratio",
-            "scalar steer angle",
-            "invalidated rigid upright-attached",
-            "rigid circular tire",
-            "hard-coded unit contact coefficient",
-            "hard-coded -49.05 n",
-        ):
-            self.assertIn(phrase, prohibited)
-        self.assertFalse(source["authority_boundaries"]["generic_tire_contact_patch_authority"])
-        self.assertFalse(source["authority_boundaries"]["loaded_radius_authority"])
-        self.assertFalse(source["authority_boundaries"]["tire_deflection_authority"])
-        self.assertFalse(source["authority_boundaries"]["installed_as_built_authority"])
+    def test_circle_equation_has_required_geometry_and_exclusions(self) -> None:
+        eq14 = _load("registry/records/equations/EQ-VEH-0014.toml")["record"]
+        canonical = eq14["canonical_equation"]
+        self.assertIn("n_R - (n_R dot n_w)n_w", canonical)
+        self.assertIn("r_cp=r_wc-R e", canonical)
+        self.assertIn("s>s_min", canonical)
+        failures = "\n".join(eq14["failure_behavior"]).lower()
+        self.assertIn("body vertical", failures)
+        self.assertIn("loaded radius", failures)
+        self.assertIn("historical optimumk contact patch", failures)
 
-    def test_blocked_records_use_registry_valid_statuses(self) -> None:
+    def test_nominal_geometry_values_are_formula_outputs_not_fitted_contact_patch_targets(self) -> None:
+        wheel = _load("benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml")
+        bench = _load("registry/records/benchmarks/BENCH-VEH-0010.toml")["record"]
+        R = 0.001 * float(wheel["nominal_source"]["tire_radius_mm"])
+        expected = {
+            ("front", "left"): (0.000159242280, 0.615984170, 0.0),
+            ("front", "right"): (0.000159242280, -0.615984170, 0.0),
+            ("rear", "left"): (-0.000035395821, 0.603285406, 0.0),
+            ("rear", "right"): (-0.000035395821, -0.603285406, 0.0),
+        }
+        for row in wheel["nominal_expected"]:
+            center = tuple(float(v) for v in row["wheel_center_m"])
+            normal = tuple(float(v) for v in row["plane_normal"])
+            road = (0.0, 0.0, 1.0)
+            dot = sum(a * b for a, b in zip(road, normal))
+            v = tuple(road[i] - dot * normal[i] for i in range(3))
+            norm = math.sqrt(sum(x * x for x in v))
+            e = tuple(x / norm for x in v)
+            contact = tuple(center[i] - R * e[i] for i in range(3))
+            target = expected[(row["axle"], row["side"])]
+            for actual, frozen in zip(contact, target):
+                self.assertAlmostEqual(actual, frozen, places=9)
+            self.assertAlmostEqual(contact[2], 0.0, places=12)
+        text = "\n".join(bench["acceptance_criteria"])
+        self.assertIn("not fitted targets", text)
+        self.assertIn("nonzero longitudinal offsets", text)
+
+    def test_compatibility_records_are_reopened_only_with_rigid_circle_authority(self) -> None:
         for relative in (
+            "registry/records/models/MOD-VEH-0006.toml",
             "registry/records/equations/EQ-VEH-0011.toml",
             "registry/records/equations/EQ-VEH-0012.toml",
             "registry/records/equations/EQ-VEH-0013.toml",
+            "registry/records/equations/EQ-VEH-0014.toml",
             "registry/records/benchmarks/BENCH-VEH-0009.toml",
+            "registry/records/benchmarks/BENCH-VEH-0010.toml",
         ):
-            self.assertEqual(_load(relative)["record"]["status"], "blocked")
+            self.assertEqual(_load(relative)["record"]["status"], "proposed")
 
-    def test_next_gate_requires_replacement_contact_review_before_implementation(self) -> None:
-        auth7 = _load("authorizations/vehicle/AUTH-VEH-0007.toml")
-        next_gate = auth7["next_gate"]
-        self.assertIn("replacement road-contact model", next_gate["required_decision"])
-        self.assertIn("rigid circular", next_gate["required_decision"])
-        self.assertIn("candidate, not an authorization", next_gate["required_decision"])
-        self.assertIn("must merge before", next_gate["implementation_rule"])
+        auth8 = _load("authorizations/vehicle/AUTH-VEH-0008.toml")
+        prohibited = "\n".join(auth8["prohibited"]["items"]).lower()
+        for phrase in (
+            "asm-veh-0004",
+            "loaded radius",
+            "tire width",
+            "body-roll-times-track",
+            "scalar motion ratio",
+            "road reactions",
+            "installed/as-built",
+        ):
+            self.assertIn(phrase, prohibited)
+
+    def test_historical_contact_output_record_points_to_separate_replacement_authority(self) -> None:
+        source = _load("data_catalog/wufr26_road_contact_reference_v0.toml")
+        replacement = source["replacement_contact_authority"]
+        self.assertEqual(replacement["authorization_id"], "AUTH-VEH-0008")
+        self.assertEqual(replacement["assumption_id"], "ASM-VEH-0005")
+        self.assertEqual(replacement["equation_id"], "EQ-VEH-0014")
+        self.assertAlmostEqual(replacement["radius_m"], 0.23241, places=12)
+        self.assertIn("not derived or fitted", replacement["relationship_to_this_record"])
+        self.assertFalse(source["authority_boundaries"]["loaded_radius_authority"])
+        self.assertFalse(source["authority_boundaries"]["tire_deflection_authority"])
 
 
 if __name__ == "__main__":

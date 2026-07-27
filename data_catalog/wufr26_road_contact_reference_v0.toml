@@ -1,8 +1,8 @@
-version = "0.2.0"
+version = "0.3.0"
 record_id = "WUFR26_ROAD_CONTACT_REFERENCE_V0"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
 status = "reviewed_historical_contact_output_with_failed_rigid_attachment_hypothesis"
-authority = "WUFR-26 OptimumK design-source nominal and historical road-contact output evidence carried into unchanged WUFR-27 suspension geometry; R&D only, not a material contact-point, loaded-tire, or as-built geometry model"
+authority = "WUFR-26 OptimumK design-source nominal and historical road-contact output evidence carried into unchanged WUFR-27 suspension geometry; R&D comparison only, not a material contact-point, loaded-tire, or as-built geometry model"
 canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
 
 [source]
@@ -23,10 +23,10 @@ front_left_source_m = [0.0, 0.61598556, 0.0]
 front_right_source_m = [0.0, -0.61598556, 0.0]
 rear_left_source_m = [-1.5624, 0.60328556, 0.0]
 rear_right_source_m = [-1.5624, -0.60328556, 0.0]
-front_rule = "No governing arbitrary-state transport rule is authorized from this source record after BENCH-VEH-0008. MOD-SUSP-0002 and MOD-STEER-0001 still provide wheel/upright/steering states, but a replacement contact model is required to construct r_cp."
-rear_rule = "No governing arbitrary-state transport rule is authorized from this source record after BENCH-VEH-0008. A replacement contact model is required to construct r_cp from the reviewed rear wheel/upright state."
-steering_rule = "For any future WUFR runtime design intent, front steering rotation remains owned by MOD-STEER-0001 at centered rack. Historical OptimumK scalar Steer Angle is never a governing rotation input."
-source_correlation_rule = "EQ-SUSP-0008's independently reconstructed source twist was used in PR #64 to test the rigid attached-point hypothesis. The hypothesis failed with maximum selected-row Euclidean point disagreement 0.0008458158026623031 m versus 0.000005 m tolerance."
+front_rule = "This source record supplies comparison observations only. AUTH-VEH-0008 instead constructs runtime contact from the separately sourced MOD-SUSP-0002 physical wheel center/plane, MOD-STEER-0001 centered-rack front steering, and ASM-VEH-0005/EQ-VEH-0014 ideal rigid-circle geometry."
+rear_rule = "This source record supplies comparison observations only. AUTH-VEH-0008 instead constructs runtime contact from the separately sourced MOD-SUSP-0002 rear wheel center/plane and ASM-VEH-0005/EQ-VEH-0014 ideal rigid-circle geometry."
+steering_rule = "For WUFR runtime design intent, front steering rotation remains owned by MOD-STEER-0001 at centered rack. Historical OptimumK scalar Steer Angle is never a governing rotation input."
+source_correlation_rule = "EQ-SUSP-0008's independently reconstructed source twist was used in PR #64 to test the rigid attached-point hypothesis. The hypothesis failed with maximum selected-row Euclidean point disagreement 0.0008458158026623031 m versus 0.000005 m tolerance. This failure is not retuned by AUTH-VEH-0008."
 
 [[historical_heave_checks]]
 corner = "front_left"
@@ -103,13 +103,21 @@ required_tolerance_m = 0.000005
 source_semantics = "Contact Patch is treated as a solved road-contact output observation. In the selected pure-heave rows its source z remains road-fixed; after body re-reference its z equals negative body heave."
 correction_authorization_id = "AUTH-VEH-0007"
 
+[replacement_contact_authority]
+authorization_id = "AUTH-VEH-0008"
+assumption_id = "ASM-VEH-0005"
+equation_id = "EQ-VEH-0014"
+radius_source = "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+radius_m = 0.23241
+relationship_to_this_record = "The ideal rigid-circle runtime model is not derived or fitted from this Contact Patch record. This record remains historical comparison/negative evidence only."
+
 [map_contract]
 body_coordinate_order = ["z_s_m", "phi_rad", "theta_rad"]
 wheel_coordinate_order = ["front_left_delta_z_wc_body_m", "front_right_delta_z_wc_body_m", "rear_left_delta_z_wc_body_m", "rear_right_delta_z_wc_body_m"]
-road_closure = "Architectural target only while AUTH-VEH-0007 hold is active: for each active corner solve g_i(q_b,z_i)=n_road dot (r_cp_i^road(q_b,z_i)-r_road_ref)=0 after a replacement r_cp provider is reviewed."
-jacobian = "Architectural target only: J_wb = partial(z_w)/partial(q_b) after the replacement contact provider is authorized; retain declared two-step differentiation and branch-preserving solves."
-contact_coefficient = "Architectural target only: c_i = n_road dot partial(r_cp_i^road)/partial(z_i) from the same replacement contact provider."
-unsprung_gravity_projection = "Still physically well-defined once a wheel coordinate is supplied: Q_u_i = F_u_i^road dot partial(r_wc_i^road)/partial(z_i), using the physical wheel-center point load from MOD-VEH-0005. Do not publish through blocked MOD-VEH-0006 before replacement compatibility authority."
+road_closure = "Under AUTH-VEH-0008, for each active corner solve g_i(q_b,z_i)=n_road dot (r_cp_i^road(q_b,z_i)-r_road_ref)=0 with r_cp from ASM-VEH-0005/EQ-VEH-0014, not from this historical Contact Patch output."
+jacobian = "J_wb = partial(z_w)/partial(q_b), evaluated with declared two-step differentiation and branch-preserving solves through the AUTH-VEH-0008 contact provider."
+contact_coefficient = "c_i = n_road dot partial(r_cp_i^road)/partial(z_i) from the same ASM-VEH-0005/EQ-VEH-0014 provider."
+unsprung_gravity_projection = "Q_u_i = F_u_i^road dot partial(r_wc_i^road)/partial(z_i), using the physical wheel-center point load from MOD-VEH-0005; this remains separate from contact-point motion."
 
 [authority_boundaries]
 generic_tire_contact_patch_authority = false
@@ -117,6 +125,7 @@ loaded_radius_authority = false
 tire_deflection_authority = false
 installed_as_built_authority = false
 rigid_upright_attached_contact_authority = false
+ideal_rigid_circle_contact_authority = "AUTH-VEH-0008 only; source radius and assumption live outside this historical Contact Patch record"
 runtime_front_steering_owned_by = "MOD-STEER-0001"
 runtime_suspension_pose_owned_by = "MOD-SUSP-0002"
 body_pose_and_road_owned_by = "MOD-VEH-0003"
@@ -127,6 +136,6 @@ prohibited_substitutions = [
   "OptimumK scalar Steer Angle as the front upright rotation input",
   "translation-only front contact point that omits centered tie-rod closure",
   "reusing the invalidated rigid upright-attached OptimumK Contact Patch assumption",
-  "generic tire-radius/lowest-point, rigid circular tire, loaded-radius, or tire-envelope inference without new reviewed authorization",
+  "generic tire-radius/lowest-point, rigid circular tire, loaded-radius, or tire-envelope inference outside a separately reviewed authorization; AUTH-VEH-0008 is limited specifically to ASM-VEH-0005/EQ-VEH-0014",
   "hard-coded unit contact coefficient or hard-coded -49.05 N unsprung generalized force away from a verified nominal limiting case"
 ]

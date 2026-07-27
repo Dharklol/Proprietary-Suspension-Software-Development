@@ -1,0 +1,10 @@
+[record]
+id = "ASM-VEH-0005"
+type = "assumption"
+title = "WUFR ideal rigid circular centerline tire for first static road compatibility"
+status = "active"
+description = "For the first WUFR rigid-road static QSS composition, model each tire only as a zero-width rigid circle of fixed radius R=0.23241 m in the fully solved wheel plane. The radius is the frozen WUFR-26 OptimumK source-setup tire radius already used by MOD-SUSP-0002 to construct the wheel reference. The road-contact point is the point on that circle with minimum signed distance along the road normal. This is an intentionally low-fidelity geometry assumption for road compatibility only; it is not a physical loaded-radius, footprint, carcass-deflection, contact-pressure, or installed-tire model."
+severity = "high"
+affected_ids = ["AUTH-VEH-0008", "MOD-VEH-0006", "EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013", "EQ-VEH-0014", "BENCH-VEH-0009", "BENCH-VEH-0010"]
+validity = "WUFR-27 design-intent R&D static-gravity baseline, flat rigid road, all four contacts active, WUFR-26 nominal 232.41 mm source radius, and the reviewed MOD-SUSP-0002 / MOD-STEER-0001 wheel pose. Replace or validate before loaded-radius, tire vertical-compliance, footprint, maneuver tire-force, installed/as-built, or production claims."
+control = "Preserve the exact source radius and assumption ID in every result; use the fully solved wheel-plane normal rather than body vertical or a track-width shortcut; reject degenerate wheel-plane/road-normal projection; do not make the radius load-, pressure-, camber-, speed-, or temperature-dependent without a new reviewed model."
