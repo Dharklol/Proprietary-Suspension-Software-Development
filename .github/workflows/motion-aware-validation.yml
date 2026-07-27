@@ -19,6 +19,8 @@ jobs:
         run: python -m unittest tests.test_whole_vehicle_force_coordinate_authorization -v
       - name: Validate quasi-static equilibrium authorization
         run: python -m unittest tests.test_vehicle_quasi_static_authorization -v
+      - name: Validate WUFR static gravity allocation authorization
+        run: python -m unittest tests.test_wufr_static_gravity_authorization -v
       - name: Validate quasi-static equilibrium implementation
         run: |
           python -m unittest tests.test_vehicle_quasi_static -v

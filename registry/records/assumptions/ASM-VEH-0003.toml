@@ -1,0 +1,10 @@
+[record]
+id = "ASM-VEH-0003"
+type = "assumption"
+title = "WUFR driver/no-fuel prototype unsprung mass allocation"
+status = "active"
+description = "For the first WUFR driver/no-fuel static-gravity QSS prototype, allocate the reviewer-measured 10 kg front-axle unsprung total as 5 kg at each front wheel and the reviewer-measured 10 kg rear-axle unsprung total as 5 kg at each rear wheel. Each 5 kg lump is attached to the corresponding physical wheel-center point/vertical state; this is an explicitly reviewed prototype allocation assumption, not a measured per-corner mass or measured unsprung center of mass. Reviewer approved the 5 kg/corner split in project conversation on 2026-07-27."
+severity = "high"
+affected_ids = ["MOD-VEH-0004", "MOD-VEH-0005", "AUTH-VEH-0005", "BENCH-VEH-0007"]
+validity = "WUFR-27 R&D, driver/no-fuel static-gravity four-contact prototype only. Replace with measured per-corner unsprung mass/CG data when available; do not reuse for lateral/longitudinal unsprung inertia or installed/as-built claims."
+control = "Carry the assumption ID and source state in every derived mass/gravity result; retain the measured axle totals separately; map wheel gravity through the actual reviewed wheel-coordinate Jacobian/contact coefficient rather than assuming a constant scalar projection away from the nominal level state."
