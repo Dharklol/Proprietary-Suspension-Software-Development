@@ -6,12 +6,12 @@ from pathlib import Path
 import tomllib
 import unittest
 
-from pssd_vehicle import (
+from pssd_vehicle import load_wufr_static_gravity_allocation
+from pssd_vehicle.wufr_road_contact import (
     WUFRRoadContactFailureCode,
     evaluate_corner_road_state,
     evaluate_wufr_road_contact,
     load_wufr_road_contact_provider,
-    load_wufr_static_gravity_allocation,
     reconstruct_historical_front_contact_reference,
     solve_road_compatibility,
 )
