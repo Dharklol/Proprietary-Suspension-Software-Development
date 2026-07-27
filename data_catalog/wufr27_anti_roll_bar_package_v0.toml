@@ -1,4 +1,4 @@
-version = "0.3.0"
+version = "0.4.0"
 record_id = "WUFR27_ANTI_ROLL_BAR_PACKAGE_V0"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
 record_authority = "SolidWorks_FEA_single_blade_arm_linear_tip_stiffness"
@@ -24,7 +24,7 @@ stiffness_N_per_m = [280000.0, 300000.0, 400000.0, 700000.0, 2300000.0]
 arm_count = 2
 beam_theory_semantics = "The sheet explicitly labels the calculation block Blade arm. It uses k=3EI/L^3 for a cantilever arm with approximately 2.3 in length and reports N/mm. The weak-axis check is about 293 N/mm versus setting-1 FEA 280 N/mm; the strong-axis check is about 2787 N/mm versus setting-5 FEA 2300 N/mm."
 one_arm_law = "F_i=k_b*d_i; U_i=0.5*k_b*d_i^2"
-installed_two_arm_law = "d=[d_L,d_R]; F=[k_b*d_L,k_b*d_R]; U=0.5*k_b*(d_L^2+d_R^2); Q_ARB=-J_d^T*F only after J_d is reviewed"
+installed_two_arm_law = "d=[d_L,d_R]; F=[k_b*d_L,k_b*d_R]; U=0.5*k_b*(d_L^2+d_R^2); Q=-J_d^T*F in any separately reviewed work-conjugate generalized coordinates"
 selection_rule = "Setting is discrete. Select exactly one setting 1..5 and use that same per-arm k_b on both blade arms; do not interpolate, average, blend, stack, or scalar-rescale stiffness sources."
 
 [comparison_only]
@@ -52,10 +52,15 @@ interpolation_authorized = false
 two_arm_vector_constitutive_authorized = true
 scalar_whole_blade_rescaling_authorized = false
 z_bar_geometry_fixture_authorized = true
-z_bar_geometry_map_authorized = false
-z_bar_geometry_map_status = "WUFR26_ZBAR_MECHANISM_V0 freezes named point/topology geometry. The numerical two-arm elastic deformation map d(q_L,q_R) and J_d remain to be implemented and verified."
+z_bar_geometry_map_authorized = true
+z_bar_geometry_map_coordinate = "left/right MOD-SUSP-0003 rocker angles [theta_RL_rad, theta_RR_rad] only"
+z_bar_geometry_map_status = "PR54 implements the AUTH-SUSP-0006/AUTH-SUSP-0007 nominal-continuation two-arm map d=[d_L,d_R](theta_RL,theta_RR), a two-step J_d, and AUTH-SUSP-0008 rocker-coordinate Q=-J_d^T*F. The wheel/body-coordinate chain remains unavailable."
+rocker_coordinate_generalized_force_authorized = true
+wheel_coordinate_generalized_force_authorized = false
+vehicle_equilibrium_authorized = false
 body_roll_substitution_allowed = false
 track_width_approximation_allowed = false
+historical_motion_ratio_substitution_allowed = false
 wheel_rate_authority = false
 stress_fatigue_authority = false
 linkage_load_authority = false

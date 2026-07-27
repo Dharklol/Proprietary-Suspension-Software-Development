@@ -1,13 +1,15 @@
 """WUFR-27 anti-roll-bar blade-stiffness adapter.
 
 The governing WUFR constitutive authority is the discrete SolidWorks FEA blade-tip
-stiffness data in the Google Sheet ``ARB FEA vs Simulink``.  These are linear
-force/deflection slopes in N/mm, converted explicitly to SI N/m.
+stiffness data in the Google Sheet ``ARB FEA vs Simulink``. These are linear
+single-blade-arm force/deflection slopes in N/mm, converted explicitly to SI N/m.
 
-This module intentionally does not implement the WUFR Z-bar mechanism map from
-left/right suspension coordinates to blade-tip deformation.  Consumers must supply
-an independently reviewed ``delta_b`` and Jacobian before requesting vehicle-level
-generalized forces.  Settings are discrete; interpolation is prohibited.
+This module remains a constitutive adapter only. The separately reviewed
+``wufr_zbar`` / ``wufr_zbar_nominal`` modules now provide the AUTH-SUSP-0008
+rocker-coordinate mechanism map. This adapter therefore does not manufacture or
+return a vehicle/wheel-coordinate Jacobian even when the source record notes that
+a later rocker-coordinate map has been authorized. Settings remain discrete and
+interpolation is prohibited.
 """
 from __future__ import annotations
 
@@ -65,11 +67,12 @@ def _finite_positive_tuple(values: object, name: str, expected_len: int) -> tupl
 
 
 def load_wufr27_blade_anti_roll_bar_package(path: str | Path) -> WufrAntiRollBarBladePackage:
-    """Load the governing discrete WUFR blade-tip stiffness package.
+    """Load the governing discrete WUFR single-blade-arm stiffness package.
 
-    The returned definitions use ``delta_b`` [m] as their elastic coordinate and
-    blade-tip force [N] as conjugate action.  No vehicle/suspension-to-blade map is
-    manufactured here.
+    The returned definitions use a one-arm transverse blade-tip deflection [m] as
+    elastic coordinate and blade-tip force [N] as conjugate action. The installed
+    two-arm mechanism map is intentionally supplied by the separate WUFR Z-bar
+    solver, not by this constitutive loader.
     """
     source_path = Path(path)
     with source_path.open("rb") as stream:
@@ -117,8 +120,6 @@ def load_wufr27_blade_anti_roll_bar_package(path: str | Path) -> WufrAntiRollBar
     boundaries = data["authority_boundaries"]
     if bool(boundaries["interpolation_authorized"]):
         raise SuspensionAntiRollBarError("WUFR ARB setting interpolation must remain disabled until separately authorized")
-    if bool(boundaries["z_bar_geometry_map_authorized"]):
-        raise SuspensionAntiRollBarError("WUFR Z-bar geometry map is not authorized in this package")
 
     return WufrAntiRollBarBladePackage(
         configuration_id=configuration_id,

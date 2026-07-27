@@ -3,7 +3,12 @@ import math
 from pathlib import Path
 import unittest
 
-from pssd_suspension.wufr_zbar import ZBarStatus, evaluate_two_arm_force, load_wufr_zbar_fixture
+from pssd_suspension.wufr_zbar import (
+    ZBarFailureCode,
+    ZBarStatus,
+    evaluate_two_arm_force,
+    load_wufr_zbar_fixture,
+)
 from pssd_suspension.wufr_zbar_nominal import solve_nominal_zbar_mechanism
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,6 +37,15 @@ class WufrZBarImplementationTests(unittest.TestCase):
             self.assertTrue(force.ok, force.message)
             self.assertGreaterEqual(force.stored_energy_J or 0.0, 0.0)
             self.assertEqual(len(force.generalized_rocker_torque_Nm), 2)
+
+    def test_discrete_setting_and_stiffness_pair_cannot_be_mismatched(self) -> None:
+        fixture = load_wufr_zbar_fixture(FIXTURE, "front")
+        state = solve_nominal_zbar_mechanism(fixture, 0.01, -0.01)
+        self.assertTrue(state.ok, state.message)
+        mismatch = evaluate_two_arm_force(state, setting=1, stiffness_N_per_m=2300000.0)
+        self.assertEqual(mismatch.status, ZBarStatus.FAILURE)
+        self.assertEqual(mismatch.failure_code, ZBarFailureCode.SOURCE_MISMATCH)
+        self.assertIn("280000", mismatch.message)
 
     def test_left_right_reversal_preserves_energy_for_symmetric_front_fixture(self) -> None:
         fixture = load_wufr_zbar_fixture(FIXTURE, "front")

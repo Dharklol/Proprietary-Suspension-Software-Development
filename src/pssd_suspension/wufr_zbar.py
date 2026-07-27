@@ -5,8 +5,9 @@ MOD-SUSP-0003.  Each blade arm is a cantilever with transverse elastic tip
 coordinate d_i.  The central housing is an ideal frictionless rotation about the
 fixture +z axis.  For prescribed rocker states the two rigid-link constraints are
 solved while the free housing angle minimizes the authorized two-arm elastic
-energy.  No body-roll, track-width, wheel-travel, or scalar motion-ratio shortcut
-is used.
+energy.  AUTH-SUSP-0008 limits generalized-force output here to left/right rocker
+angle coordinates.  No body-roll, track-width, wheel-travel, or scalar motion-ratio
+shortcut is used.
 """
 from __future__ import annotations
 
@@ -18,6 +19,9 @@ import tomllib
 from typing import Sequence
 
 Point3 = tuple[float, float, float]
+
+# AUTH-SUSP-0007: exact discrete SolidWorks FEA one-blade-arm settings in SI.
+WUFR_BLADE_STIFFNESS_N_PER_M = (280000.0, 300000.0, 400000.0, 700000.0, 2300000.0)
 
 
 class WufrZBarError(ValueError):
@@ -340,6 +344,15 @@ def evaluate_two_arm_force(mechanism: ZBarMechanismResult, *, setting: int, stif
         return ZBarForceResult(ZBarStatus.FAILURE, setting=setting, stiffness_N_per_m=stiffness_N_per_m, failure_code=mechanism.failure_code, message=mechanism.message or "mechanism state unavailable")
     if isinstance(setting, bool) or setting not in (1, 2, 3, 4, 5) or not math.isfinite(stiffness_N_per_m) or stiffness_N_per_m <= 0.0:
         return ZBarForceResult(ZBarStatus.FAILURE, setting=setting, stiffness_N_per_m=stiffness_N_per_m, failure_code=ZBarFailureCode.SOURCE_MISMATCH, message="discrete setting 1..5 and positive per-arm stiffness are required")
+    expected_stiffness = WUFR_BLADE_STIFFNESS_N_PER_M[setting - 1]
+    if not math.isclose(stiffness_N_per_m, expected_stiffness, rel_tol=0.0, abs_tol=1.0e-9):
+        return ZBarForceResult(
+            ZBarStatus.FAILURE,
+            setting=setting,
+            stiffness_N_per_m=stiffness_N_per_m,
+            failure_code=ZBarFailureCode.SOURCE_MISMATCH,
+            message=f"setting {setting} requires the frozen SolidWorks per-arm stiffness {expected_stiffness:g} N/m",
+        )
     dl, dr = mechanism.d_left_m, mechanism.d_right_m
     fl, fr = stiffness_N_per_m*dl, stiffness_N_per_m*dr
     energy = 0.5*stiffness_N_per_m*(dl*dl+dr*dr)
