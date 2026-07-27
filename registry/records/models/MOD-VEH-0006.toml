@@ -4,8 +4,8 @@ type = "model"
 title = "WUFR flat-road physical wheel-coordinate compatibility provider"
 status = "proposed"
 disposition = "accepted_with_restrictions"
-maturity = "M0"
-description = "WUFR-specific R&D provider for a flat-road physical wheel-coordinate map. AUTH-VEH-0008 replaces the failed ASM-VEH-0004 contact interpretation with the explicit ASM-VEH-0005 ideal rigid circular tire contact geometry from EQ-VEH-0014. The historical OptimumK Contact Patch remains negative/comparison evidence only."
+maturity = "M1"
+description = "WUFR-specific implemented R&D provider for a flat-road physical wheel-coordinate map. AUTH-VEH-0008 replaces the failed ASM-VEH-0004 contact interpretation with the explicit ASM-VEH-0005 ideal rigid circular tire contact geometry from EQ-VEH-0014. PR #67 implements and freezes the provider at uncorrelated design-intent fidelity; the historical OptimumK Contact Patch remains negative/comparison evidence only."
 inputs = [
   "Body coordinates q_b=[z_s,phi,theta] and MOD-VEH-0003 BodyPose/RoadPlane",
   "ASM-VEH-0005 / EQ-VEH-0014 fixed-radius rigid circular contact geometry with R=0.23241 m",
@@ -29,11 +29,11 @@ assumptions = [
   "Front rack displacement is zero for the static-gravity baseline; suspension-induced centered-rack toe/steering remains solved by MOD-STEER-0001 rather than suppressed.",
   "Each corner remains on a reviewed nominal-continuation physical suspension/steering/contact branch over the local map/differentiation domain."
 ]
-verification_level = "none"
+verification_level = "B"
 equation_ids = ["EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013", "EQ-VEH-0014"]
 benchmark_ids = ["BENCH-VEH-0009", "BENCH-VEH-0010"]
 authorization_id = "AUTH-VEH-0008"
-authorization_state = "review_ready_for_ideal_rigid_circle_implementation_after_AUTH-VEH-0008_merge; no_WUFR_road_reaction_authority"
+authorization_state = "ideal_rigid_circle_compatibility_implemented_in_PR67_under_AUTH-VEH-0008; no_WUFR_road_reaction_authority"
 prior_authorization_ids = ["AUTH-VEH-0006", "AUTH-VEH-0007"]
 invalidated_assumption_id = "ASM-VEH-0004"
 active_contact_assumption_id = "ASM-VEH-0005"
@@ -44,7 +44,13 @@ negative_source_record = "data_catalog/wufr26_road_contact_reference_v0.toml"
 preimplementation_specification = "docs/models/vehicle/wufr_road_contact_map_function_specification.md"
 failed_assumption_audit = "docs/models/vehicle/wufr_road_contact_assumption_failure_audit.md"
 failed_probe_result = "benchmarks/vehicle/wufr_road_contact_assumption_probe_v0.1.0.toml"
-planned_implementation_package = "src/pssd_vehicle/wufr_road_contact.py plus a focused EQ-VEH-0014 contact helper"
+implementation_package = "src/pssd_vehicle/wufr_road_contact.py"
+implementation_document = "docs/reviews/phase2_wufr_rigid_contact_implementation_review.md"
+implementation_tests = ["tests/test_wufr_road_contact.py", "tests/test_wufr_road_contact_result_record.py"]
+benchmark_report_script = "scripts/run_wufr_road_contact_benchmarks.py"
+benchmark_result_record = "benchmarks/vehicle/wufr_road_contact_result_v0.1.0.toml"
+validation_workflow = ".github/workflows/motion-aware-validation.yml"
+implementation_pr = 67
 review_record = "docs/reviews/phase2_wufr_rigid_circular_contact_authorization_review.md"
 planned_downstream = [
   "first WUFR spring-plus-Z-bar-plus-gravity static four-corner equilibrium composition under a separate authorization",
@@ -52,4 +58,5 @@ planned_downstream = [
   "later loaded-radius or tire vertical-compliance contact model",
   "later alternate contact-mode continuation after wheel lift"
 ]
+next_implementation_gate = "Before any WUFR road-reaction publication, separately authorize the composition of MOD-SUSP-0004 spring force, MOD-SUSP-0005 Z-bar force, MOD-VEH-0005 gravity, and MOD-VEH-0006 compatibility through MOD-VEH-0004. Any such result remains explicitly uncorrelated design-intent output until WUFR-27 on-car data exist."
 prohibited_scope = "ASM-VEH-0004 reuse; fitted radius; loaded radius/tire compliance/finite-width footprint; body-roll-times-track wheel-travel shortcut; scalar spring/ARB motion ratio; OptimumK scalar Steer Angle as rotation input; hidden crossweight/load-transfer formulas; road-reaction or wheel-load publication by this model alone; alternate contact modes; installed/as-built or production authority."

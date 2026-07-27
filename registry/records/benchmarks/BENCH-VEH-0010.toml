@@ -2,8 +2,8 @@
 id = "BENCH-VEH-0010"
 type = "benchmark"
 title = "WUFR ideal rigid circular tire contact geometry"
-status = "proposed"
-description = "Verify EQ-VEH-0014 independently of the road-equilibrium solver: exact circle geometry, road-normal minimization, WUFR nominal source-radius consistency, wheel-plane sign invariance, and explicit disagreement boundaries relative to the historical OptimumK Contact Patch output."
+status = "active"
+description = "Verify EQ-VEH-0014 independently of the road-equilibrium solver: exact circle geometry, road-normal minimization, WUFR nominal source-radius consistency, wheel-plane sign invariance, and explicit disagreement boundaries relative to the historical OptimumK Contact Patch output. Passing implementation evidence is frozen by PR #67."
 verification_level = "B"
 target_ids = ["MOD-VEH-0006", "EQ-VEH-0014", "ASM-VEH-0005"]
 acceptance_criteria = [
@@ -18,7 +18,8 @@ acceptance_criteria = [
   "Tests explicitly demonstrate that tire width, pressure, vertical load, temperature, speed, carcass deflection, and the failed ASM-VEH-0004 historical material-point reconstruction are not inputs to EQ-VEH-0014."
 ]
 source_configuration = "WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0 + WUFR27_SUSPENSION_BASELINE_V0; flat rigid road; ideal zero-width circle"
-implementation = "planned: src/pssd_vehicle/wufr_rigid_tire_contact.py or equivalent focused provider composed by MOD-VEH-0006"
-implementation_tests = ["planned: tests/test_wufr_rigid_tire_contact.py", "planned: tests/test_wufr_road_contact.py"]
-report_script = "planned: scripts/run_wufr_rigid_tire_contact_benchmarks.py"
-result_record = "planned: benchmarks/vehicle/wufr_rigid_tire_contact_result_v0.1.0.toml"
+implementation = "src/pssd_vehicle/wufr_road_contact.py::ideal_rigid_circle_contact"
+implementation_tests = ["tests/test_wufr_road_contact.py", "tests/test_wufr_road_contact_result_record.py"]
+report_script = "scripts/run_wufr_road_contact_benchmarks.py"
+result_record = "benchmarks/vehicle/wufr_road_contact_result_v0.1.0.toml"
+implementation_pr = 67

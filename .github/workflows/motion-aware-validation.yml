@@ -23,6 +23,10 @@ jobs:
         run: python -m unittest tests.test_wufr_static_gravity_authorization -v
       - name: Validate WUFR road contact map authorization
         run: python -m unittest tests.test_wufr_road_contact_authorization -v
+      - name: Validate WUFR rigid-contact implementation
+        run: |
+          python -m unittest tests.test_wufr_road_contact -v
+          python -m unittest tests.test_wufr_road_contact_result_record -v
       - name: Validate WUFR static gravity allocation implementation
         run: |
           python -m unittest tests.test_wufr_static_gravity -v
@@ -57,6 +61,13 @@ jobs:
           python scripts/run_wufr_static_gravity_benchmarks.py \
             --summary \
             --output wufr_static_gravity_summary.json
+      - name: Generate WUFR road-contact reports
+        run: |
+          python scripts/run_wufr_road_contact_benchmarks.py \
+            --output wufr_road_contact_report.json > /dev/null
+          python scripts/run_wufr_road_contact_benchmarks.py \
+            --summary \
+            --output wufr_road_contact_summary.json
       - name: Generate planar slip-kinematics reports
         run: |
           python scripts/run_planar_slip_kinematics_benchmarks.py \
@@ -82,6 +93,8 @@ jobs:
             vehicle_quasi_static_summary.json
             wufr_static_gravity_report.json
             wufr_static_gravity_summary.json
+            wufr_road_contact_report.json
+            wufr_road_contact_summary.json
             planar_slip_kinematics_report.json
             planar_slip_kinematics_summary.json
             motion_aware_force_demand_report.json

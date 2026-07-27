@@ -2,8 +2,8 @@
 id = "BENCH-VEH-0009"
 type = "benchmark"
 title = "WUFR flat-road compatibility and wheel-force projection"
-status = "proposed"
-description = "Verify the AUTH-VEH-0008 WUFR flat-road all-four-active compatibility provider, its body-to-wheel Jacobian, ideal-circle contact coefficients, and physical unsprung-gravity wheel projections without using load-transfer or scalar motion-ratio shortcuts."
+status = "active"
+description = "Verify the AUTH-VEH-0008 WUFR flat-road all-four-active compatibility provider, its body-to-wheel Jacobian, ideal-circle contact coefficients, and physical unsprung-gravity wheel projections without using load-transfer or scalar motion-ratio shortcuts. Passing implementation evidence is frozen by PR #67."
 verification_level = "B"
 target_ids = ["MOD-VEH-0006", "EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013", "EQ-VEH-0014"]
 acceptance_criteria = [
@@ -17,7 +17,8 @@ acceptance_criteria = [
 ]
 source_configuration = "WUFR27_SUSPENSION_BASELINE_V0 + WUFR27_STEERING_BASELINE_V0 + ASM-VEH-0005/EQ-VEH-0014 + flat rigid road"
 prior_blocker = "AUTH-VEH-0007 / BENCH-VEH-0008 rejected ASM-VEH-0004; AUTH-VEH-0008 supplies the separately reviewed replacement contact assumption."
-implementation = "planned: src/pssd_vehicle/wufr_road_contact.py"
-implementation_tests = ["planned: tests/test_wufr_road_contact.py", "planned: tests/test_wufr_road_contact_result_record.py"]
-report_script = "planned: scripts/run_wufr_road_contact_benchmarks.py"
-result_record = "planned: benchmarks/vehicle/wufr_road_contact_result_v0.1.0.toml"
+implementation = "src/pssd_vehicle/wufr_road_contact.py"
+implementation_tests = ["tests/test_wufr_road_contact.py", "tests/test_wufr_road_contact_result_record.py"]
+report_script = "scripts/run_wufr_road_contact_benchmarks.py"
+result_record = "benchmarks/vehicle/wufr_road_contact_result_v0.1.0.toml"
+implementation_pr = 67
