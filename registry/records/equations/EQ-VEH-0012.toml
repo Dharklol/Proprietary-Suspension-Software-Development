@@ -2,7 +2,7 @@
 id = "EQ-VEH-0012"
 type = "equation"
 title = "WUFR flat-road physical wheel-coordinate compatibility"
-status = "proposed_blocked_by_AUTH-VEH-0007"
+status = "blocked"
 disposition = "accepted_with_restrictions"
 maturity = "M0"
 description = "Architectural road-compatibility equation: for a supplied whole-body heave/roll/pitch state, solve each physical wheel-center vertical coordinate so a separately reviewed EQ-VEH-0011 contact point lies on the declared MOD-VEH-0003 road plane. The original ASM-VEH-0004 contact provider failed BENCH-VEH-0008, so no WUFR z_w(q_b) implementation is currently authorized."
