@@ -5,7 +5,7 @@ title = "Provider-neutral ideal suspension linkage statics kernel"
 status = "proposed"
 disposition = "accepted_with_restrictions"
 maturity = "M1"
-description = "Provider-neutral implemented single-rigid-body statics kernel for exactly six ideal pin-ended two-force suspension links. Given explicit current endpoint geometry and one prescribed external wrench, it assembles and solves the exact three-force/three-moment equilibrium system for signed axial link forces, with explicit moment-row scaling, condition-number/pivot diagnostics, physical residual reconstruction, and structured failures. PR #69 implements the first reusable load-path layer toward replacing hand/OptimumK member-force calculations, but it contains no WUFR load-case generator and no stress/FEA release logic."
+description = "Provider-neutral implemented single-rigid-body statics kernel for exactly six ideal pin-ended two-force suspension links. Given explicit current endpoint geometry and one prescribed external wrench, it assembles and solves the exact three-force/three-moment equilibrium system for signed axial link forces, with explicit moment-row scaling, condition-number/pivot diagnostics, physical residual reconstruction, and structured failures. PR #69 implements the first reusable load-path layer toward replacing hand/OptimumK member-force calculations. AUTH-SUSP-0011 now freezes the WUFR source/topology audit and explicitly keeps current-car adaptation blocked until WUFR27 joint/topology and external-wrench interfaces are reviewed."
 inputs = [
   "One rigid-body identity, explicit frame, and reference point",
   "Exactly six ideal link body attachment points and remote endpoints in the same frame",
@@ -31,7 +31,7 @@ verification_level = "A"
 equation_ids = ["EQ-SUSP-0019", "EQ-SUSP-0020", "EQ-SUSP-0021", "EQ-SUSP-0022"]
 benchmark_ids = ["BENCH-SUSP-0018", "BENCH-SUSP-0019", "BENCH-SUSP-0020"]
 authorization_id = "AUTH-SUSP-0010"
-authorization_state = "provider_neutral_determinate_linkage_statics_implemented_in_PR69_under_AUTH-SUSP-0010; no_WUFR_corner_adapter_or_structural_release_authority"
+authorization_state = "provider_neutral_determinate_linkage_statics_implemented_in_PR69_under_AUTH-SUSP-0010; WUFR_adapter_blocked_by_AUTH-SUSP-0011_pending_current_topology_joint_and_external_wrench_review; no_WUFR_member_force_or_structural_release_authority"
 assumption_ids = ["ASM-SUSP-0004"]
 upstream_model_ids = ["MOD-VEH-0003"]
 downstream_model_ids = []
@@ -42,12 +42,15 @@ benchmark_report_script = "scripts/run_suspension_linkage_statics_benchmarks.py"
 benchmark_result_record = "benchmarks/suspension/suspension_linkage_statics_result_v0.1.0.toml"
 validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
 implementation_review = "docs/reviews/phase3_linkage_statics_implementation_review.md"
+wufr_topology_audit_authorization = "authorizations/suspension/AUTH-SUSP-0011.toml"
+wufr_topology_audit = "docs/models/suspension/wufr_linkage_topology_source_audit.md"
+wufr_topology_source_record = "data_catalog/wufr26_linkage_topology_source_audit_v0.toml"
 planned_downstream = [
-  "WUFR suspension load-path/topology source audit before any current-car adapter",
-  "multi-body/massless-joint equilibrium graph for arm-mounted actuation and nontrivial load paths",
+  "resolve AUTH-SUSP-0011 WUFR27 suspension load-path/topology hold before any current-car adapter",
+  "multi-body equilibrium graph for arm-mounted actuation and nontrivial WUFR load paths after joint idealizations are reviewed",
   "actuation/rocker/chassis reaction propagation using already-reviewed spring and ARB providers",
   "source-preserving structural load-case exchange for CAD/FEA",
-  "later beam/compliance/buckling/fatigue/weld/bearing models under separate authority"
+  "later joint load-sharing and beam/compliance/buckling/fatigue/weld/bearing models under separate authority"
 ]
-next_implementation_gate = "Before any WUFR member-force result, separately audit and authorize the actual upright/control-arm/tie-rod/toe-link/arm-mounted actuation topology and prescribed external-wrench source. The generic six-link kernel must not move the reviewed front upper-arm or rear lower-arm push/pull pickup onto the upright."
-prohibited_scope = "No WUFR tire/load-case generation; no road-reaction or maneuver prediction; no scalar load distribution; no least-squares/pseudoinverse/minimum-norm/regularized force sharing; no stiffness-weighted redundant-link solution; no moving arm-mounted pickups onto the upright; no spring/ARB/damper constitutive duplication; no beam bending/shear/stress, buckling, fatigue, weld, bearing, compliance, friction/backlash, installed/as-built, factor-of-safety, FEA boundary-condition release, or production structural authority."
+next_implementation_gate = "AUTH-SUSP-0011 must be resolved before any WUFR member-force implementation. Freeze current WUFR27 carryover/change status, endpoint joint types/axes, desired A-arm output fidelity, brake/drive external-wrench interfaces, and spring/ARB-to-rocker structural interfaces. The generic six-link kernel must not move the reviewed front upper-arm or rear lower-arm push/pull pickup onto the upright."
+prohibited_scope = "No WUFR tire/load-case generation; no WUFR corner adapter or member-force output while AUTH-SUSP-0011 is unresolved; no road-reaction or maneuver prediction; no scalar load distribution; no least-squares/pseudoinverse/minimum-norm/regularized force sharing; no stiffness-weighted redundant-link solution; no moving arm-mounted pickups onto the upright; no legacy negative-force clipping; no spring/ARB/damper constitutive duplication; no unique forward/aft A-arm bearing/tab split without separate load-sharing authority; no beam bending/shear/stress, buckling, fatigue, weld, bearing, compliance, friction/backlash, installed/as-built, factor-of-safety, FEA boundary-condition release, or production structural authority."
