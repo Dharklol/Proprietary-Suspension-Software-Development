@@ -4,8 +4,8 @@ type = "model"
 title = "Provider-neutral ideal suspension linkage statics kernel"
 status = "proposed"
 disposition = "accepted_with_restrictions"
-maturity = "M0"
-description = "Provider-neutral single-rigid-body statics kernel for exactly six ideal pin-ended two-force suspension links. Given explicit current endpoint geometry and one prescribed external wrench, it assembles and solves the exact three-force/three-moment equilibrium system for signed axial link forces, with explicit scaling, conditioning, residual reconstruction, and structured failures. It is the first reusable load-path layer toward replacing hand/OptimumK member-force calculations, but it contains no WUFR load-case generator and no stress/FEA release logic."
+maturity = "M1"
+description = "Provider-neutral implemented single-rigid-body statics kernel for exactly six ideal pin-ended two-force suspension links. Given explicit current endpoint geometry and one prescribed external wrench, it assembles and solves the exact three-force/three-moment equilibrium system for signed axial link forces, with explicit moment-row scaling, condition-number/pivot diagnostics, physical residual reconstruction, and structured failures. PR #69 implements the first reusable load-path layer toward replacing hand/OptimumK member-force calculations, but it contains no WUFR load-case generator and no stress/FEA release logic."
 inputs = [
   "One rigid-body identity, explicit frame, and reference point",
   "Exactly six ideal link body attachment points and remote endpoints in the same frame",
@@ -27,17 +27,21 @@ assumptions = [
   "External loading is prescribed by the caller. The model does not calculate tire loads, road reactions, vehicle acceleration, aero, brake torque, spring force, ARB force, or damper force.",
   "Positive axial force means tension; compression remains negative and is never converted to magnitude-only output."
 ]
-verification_level = "none"
+verification_level = "A"
 equation_ids = ["EQ-SUSP-0019", "EQ-SUSP-0020", "EQ-SUSP-0021", "EQ-SUSP-0022"]
 benchmark_ids = ["BENCH-SUSP-0018", "BENCH-SUSP-0019", "BENCH-SUSP-0020"]
 authorization_id = "AUTH-SUSP-0010"
-authorization_state = "review_ready_for_provider_neutral_determinate_linkage_statics_implementation_after_AUTH-SUSP-0010_merge"
+authorization_state = "provider_neutral_determinate_linkage_statics_implemented_in_PR69_under_AUTH-SUSP-0010; no_WUFR_corner_adapter_or_structural_release_authority"
 assumption_ids = ["ASM-SUSP-0004"]
 upstream_model_ids = ["MOD-VEH-0003"]
 downstream_model_ids = []
-planned_implementation_package = "src/pssd_suspension/linkage_statics.py"
+implementation_package = "src/pssd_suspension/linkage_statics.py"
 preimplementation_specification = "docs/models/suspension/linkage_statics_function_specification.md"
-review_record = "docs/reviews/phase3_linkage_statics_authorization_review.md"
+implementation_tests = ["tests/test_suspension_linkage_statics.py", "tests/test_suspension_linkage_statics_failures.py", "tests/test_suspension_linkage_statics_result_record.py"]
+benchmark_report_script = "scripts/run_suspension_linkage_statics_benchmarks.py"
+benchmark_result_record = "benchmarks/suspension/suspension_linkage_statics_result_v0.1.0.toml"
+validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
+implementation_review = "docs/reviews/phase3_linkage_statics_implementation_review.md"
 planned_downstream = [
   "WUFR suspension load-path/topology source audit before any current-car adapter",
   "multi-body/massless-joint equilibrium graph for arm-mounted actuation and nontrivial load paths",
@@ -45,4 +49,5 @@ planned_downstream = [
   "source-preserving structural load-case exchange for CAD/FEA",
   "later beam/compliance/buckling/fatigue/weld/bearing models under separate authority"
 ]
+next_implementation_gate = "Before any WUFR member-force result, separately audit and authorize the actual upright/control-arm/tie-rod/toe-link/arm-mounted actuation topology and prescribed external-wrench source. The generic six-link kernel must not move the reviewed front upper-arm or rear lower-arm push/pull pickup onto the upright."
 prohibited_scope = "No WUFR tire/load-case generation; no road-reaction or maneuver prediction; no scalar load distribution; no least-squares/pseudoinverse/minimum-norm/regularized force sharing; no stiffness-weighted redundant-link solution; no moving arm-mounted pickups onto the upright; no spring/ARB/damper constitutive duplication; no beam bending/shear/stress, buckling, fatigue, weld, bearing, compliance, friction/backlash, installed/as-built, factor-of-safety, FEA boundary-condition release, or production structural authority."

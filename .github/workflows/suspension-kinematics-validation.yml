@@ -24,6 +24,21 @@ jobs:
           name: linkage-statics-authorization-test-log
           path: linkage_statics_authorization_test.log
           if-no-files-found: error
+      - name: Validate linkage statics implementation
+        run: |
+          set -e
+          {
+            python -m unittest tests.test_suspension_linkage_statics -v
+            python -m unittest tests.test_suspension_linkage_statics_failures -v
+            python -m unittest tests.test_suspension_linkage_statics_result_record -v
+          } > linkage_statics_implementation_test.log 2>&1
+      - name: Upload linkage statics implementation diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: linkage-statics-implementation-test-log
+          path: linkage_statics_implementation_test.log
+          if-no-files-found: error
       - name: Validate anti-roll-bar authorization
         run: python -m unittest tests.test_suspension_anti_roll_bar_authorization -v > anti_roll_bar_authorization_test.log 2>&1
       - name: Upload anti-roll-bar authorization diagnostics
@@ -161,6 +176,11 @@ jobs:
           python scripts/run_suspension_anti_roll_bar_benchmarks.py \
             --summary \
             --output suspension_anti_roll_bar_summary.json
+          python scripts/run_suspension_linkage_statics_benchmarks.py \
+            --output suspension_linkage_statics_report.json > /dev/null
+          python scripts/run_suspension_linkage_statics_benchmarks.py \
+            --summary \
+            --output suspension_linkage_statics_summary.json
       - name: Upload suspension kinematics reports
         uses: actions/upload-artifact@v4
         with:
@@ -176,4 +196,6 @@ jobs:
             suspension_spring_force_summary.json
             suspension_anti_roll_bar_report.json
             suspension_anti_roll_bar_summary.json
+            suspension_linkage_statics_report.json
+            suspension_linkage_statics_summary.json
           if-no-files-found: error
