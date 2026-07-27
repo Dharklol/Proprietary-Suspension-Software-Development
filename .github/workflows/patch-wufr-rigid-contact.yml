@@ -1,0 +1,48 @@
+name: Patch WUFR rigid-contact derivatives
+
+on:
+  push:
+    branches: [phase-2-wufr-rigid-contact-implementation]
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: phase-2-wufr-rigid-contact-implementation
+      - name: Apply focused derivative patch
+        shell: python
+        run: |
+          from pathlib import Path
+
+          source_path = Path("src/pssd_vehicle/wufr_road_contact.py")
+          text = source_path.read_text(encoding="utf-8")
+          old_contact = '''    error = abs(coarse - fine)\n    tolerance = provider.config.derivative_absolute_tolerance + provider.config.derivative_relative_tolerance * max(1.0, abs(fine))\n    if error > tolerance:\n        return ScalarProjectionResult(\n            WUFRRoadContactStatus.FAILURE,\n            root.corner_id,\n            fine,\n            coarse,\n            coarse_step,\n            fine_step,\n            error,\n            WUFRRoadContactFailureCode.DERIVATIVE_NOT_CONVERGED,\n            f"Contact coefficient h/h2 difference {error:.6g} exceeds tolerance {tolerance:.6g}",\n        )\n    if not math.isfinite(fine) or abs(fine) < provider.config.contact_coefficient_min_abs:\n        return ScalarProjectionResult(\n            WUFRRoadContactStatus.FAILURE,\n            root.corner_id,\n            fine,\n            coarse,\n            coarse_step,\n            fine_step,\n            error,\n            WUFRRoadContactFailureCode.CONTACT_COEFFICIENT_DEGENERATE,\n            "Contact coefficient is nonfinite or too close to zero",\n        )\n    return ScalarProjectionResult(\n        WUFRRoadContactStatus.SUCCESS,\n        root.corner_id,\n        fine,\n        coarse,\n        coarse_step,\n        fine_step,\n        error,\n    )\n'''
+          new_contact = '''    error = abs(coarse - fine)\n    accepted = (4.0 * fine - coarse) / 3.0\n    tolerance = provider.config.derivative_absolute_tolerance + provider.config.derivative_relative_tolerance * max(1.0, abs(accepted))\n    if error > tolerance:\n        return ScalarProjectionResult(\n            WUFRRoadContactStatus.FAILURE,\n            root.corner_id,\n            accepted,\n            coarse,\n            coarse_step,\n            fine_step,\n            error,\n            WUFRRoadContactFailureCode.DERIVATIVE_NOT_CONVERGED,\n            f"Contact coefficient h/h2 difference {error:.6g} exceeds tolerance {tolerance:.6g}",\n        )\n    if not math.isfinite(accepted) or abs(accepted) < provider.config.contact_coefficient_min_abs:\n        return ScalarProjectionResult(\n            WUFRRoadContactStatus.FAILURE,\n            root.corner_id,\n            accepted,\n            coarse,\n            coarse_step,\n            fine_step,\n            error,\n            WUFRRoadContactFailureCode.CONTACT_COEFFICIENT_DEGENERATE,\n            "Contact coefficient is nonfinite or too close to zero",\n        )\n    return ScalarProjectionResult(\n        WUFRRoadContactStatus.SUCCESS,\n        root.corner_id,\n        accepted,\n        coarse,\n        coarse_step,\n        fine_step,\n        error,\n    )\n'''
+          old_gravity = '''    error = abs(coarse - fine)\n    tolerance = 1.0e-6 + provider.config.derivative_relative_tolerance * max(1.0, abs(fine))\n    if error > tolerance or not math.isfinite(fine):\n        return ScalarProjectionResult(\n            WUFRRoadContactStatus.FAILURE,\n            root.corner_id,\n            fine,\n            coarse,\n            coarse_step,\n            fine_step,\n            error,\n            WUFRRoadContactFailureCode.DERIVATIVE_NOT_CONVERGED,\n            f"Unsprung-gravity projection h/h2 difference {error:.6g} exceeds tolerance {tolerance:.6g}",\n        )\n    return ScalarProjectionResult(\n        WUFRRoadContactStatus.SUCCESS,\n        root.corner_id,\n        fine,\n        coarse,\n        coarse_step,\n        fine_step,\n        error,\n    )\n'''
+          new_gravity = '''    error = abs(coarse - fine)\n    accepted = (4.0 * fine - coarse) / 3.0\n    tolerance = 1.0e-6 + provider.config.derivative_relative_tolerance * max(1.0, abs(accepted))\n    if error > tolerance or not math.isfinite(accepted):\n        return ScalarProjectionResult(\n            WUFRRoadContactStatus.FAILURE,\n            root.corner_id,\n            accepted,\n            coarse,\n            coarse_step,\n            fine_step,\n            error,\n            WUFRRoadContactFailureCode.DERIVATIVE_NOT_CONVERGED,\n            f"Unsprung-gravity projection h/h2 difference {error:.6g} exceeds tolerance {tolerance:.6g}",\n        )\n    return ScalarProjectionResult(\n        WUFRRoadContactStatus.SUCCESS,\n        root.corner_id,\n        accepted,\n        coarse,\n        coarse_step,\n        fine_step,\n        error,\n    )\n'''
+          if old_contact not in text or old_gravity not in text:
+              raise SystemExit("expected derivative blocks not found")
+          text = text.replace(old_contact, new_contact).replace(old_gravity, new_gravity)
+          source_path.write_text(text, encoding="utf-8")
+
+          test_path = Path("tests/test_wufr_road_contact.py")
+          test = test_path.read_text(encoding="utf-8")
+          old_test = '''            plus = evaluate_corner_road_state(\n                self.provider,\n                self.nominal_pose,\n                root.corner_id,\n                root.wheel_coordinate_m + h,\n            )\n            minus = evaluate_corner_road_state(\n                self.provider,\n                self.nominal_pose,\n                root.corner_id,\n                root.wheel_coordinate_m - h,\n            )\n            direct_c = (plus.contact_road.position_m[2] - minus.contact_road.position_m[2]) / (2.0 * h)\n            self.assertAlmostEqual(coefficient.value, direct_c, places=5)\n            mass = masses[root.corner_id]\n            u_plus = mass.mass_kg * self.gravity.g_mps2 * plus.wheel_center_road.position_m[2]\n            u_minus = mass.mass_kg * self.gravity.g_mps2 * minus.wheel_center_road.position_m[2]\n            direct_q = -(u_plus - u_minus) / (2.0 * h)\n            self.assertAlmostEqual(gravity_force.value, direct_q, places=5)\n'''
+          new_test = '''            def direct(step: float) -> tuple[float, float]:\n                plus = evaluate_corner_road_state(\n                    self.provider,\n                    self.nominal_pose,\n                    root.corner_id,\n                    root.wheel_coordinate_m + step,\n                )\n                minus = evaluate_corner_road_state(\n                    self.provider,\n                    self.nominal_pose,\n                    root.corner_id,\n                    root.wheel_coordinate_m - step,\n                )\n                direct_c = (plus.contact_road.position_m[2] - minus.contact_road.position_m[2]) / (2.0 * step)\n                mass = masses[root.corner_id]\n                u_plus = mass.mass_kg * self.gravity.g_mps2 * plus.wheel_center_road.position_m[2]\n                u_minus = mass.mass_kg * self.gravity.g_mps2 * minus.wheel_center_road.position_m[2]\n                direct_q = -(u_plus - u_minus) / (2.0 * step)\n                return direct_c, direct_q\n\n            coarse_c, coarse_q = direct(2.0 * h)\n            fine_c, fine_q = direct(h)\n            direct_c = (4.0 * fine_c - coarse_c) / 3.0\n            direct_q = (4.0 * fine_q - coarse_q) / 3.0\n            self.assertLessEqual(abs(coefficient.value - direct_c), 1.0e-8 + 1.0e-6 * max(1.0, abs(direct_c)))\n            self.assertLessEqual(abs(gravity_force.value - direct_q), 1.0e-6)\n'''
+          if old_test not in test:
+              raise SystemExit("expected virtual-work test block not found")
+          test_path.write_text(test.replace(old_test, new_test), encoding="utf-8")
+      - name: Commit patch and remove temporary workflow
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/patch-wufr-rigid-contact.yml
+          git add src/pssd_vehicle/wufr_road_contact.py tests/test_wufr_road_contact.py
+          git commit -m "Use two-step extrapolated road-contact derivatives"
+          git push origin HEAD:phase-2-wufr-rigid-contact-implementation
