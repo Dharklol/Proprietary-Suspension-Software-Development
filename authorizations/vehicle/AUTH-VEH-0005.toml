@@ -1,0 +1,60 @@
+version = "0.1.0"
+authorization_id = "AUTH-VEH-0005"
+status = "review_ready"
+title = "WUFR driver/no-fuel static gravity allocation authorization"
+effective_condition = "Effective after review/merge of this authorization. It permits only the WUFR static-gravity mass allocation/provider defined by WUFR27_STATIC_GRAVITY_ALLOCATION_V0 and ASM-VEH-0003. It does not authorize a WUFR road-compatible wheel map or a final four-corner road-reaction result."
+review_record = "docs/reviews/phase2_wufr_gravity_allocation_authorization_review.md"
+
+[scope]
+model_ids = ["MOD-VEH-0005"]
+benchmark_ids = ["BENCH-VEH-0007"]
+assumption_ids = ["ASM-VEH-0002", "ASM-VEH-0003"]
+upstream_model_ids = ["MOD-VEH-0003", "MOD-VEH-0004", "MOD-SUSP-0002"]
+planned_implementation_package = "src/pssd_vehicle/wufr_gravity.py"
+
+[permitted]
+items = [
+  "Use the reviewed driver/no-fuel scale state LF/RF/LR/RR=178/175/163/159 lb and exact lb-to-kg conversion to obtain total mass 306.17484975 kg.",
+  "Use the reviewer-measured unsprung axle totals of 10 kg front and 10 kg rear.",
+  "Under ASM-VEH-0003, allocate those axle totals equally left/right as 5 kg at each corner for the first prototype only.",
+  "Attach each prototype unsprung lump to the corresponding reviewed physical wheel-center point/state for static gravity, preserving the assumption ID and configuration provenance.",
+  "Derive sprung mass and sprung CG by exact mass/first-moment subtraction using the source-separated driver/no-fuel total CG design reference and the four explicit wheel-center lumps.",
+  "Apply sprung gravity as a point force at the derived sprung CG through MOD-VEH-0003 virtual-work generalized-force mapping.",
+  "Represent each unsprung gravity load as a physical point force at the corresponding wheel center and map it through the actual reviewed wheel/contact coordinate projection when that downstream map is authorized.",
+  "Implement BENCH-VEH-0007 source/arithmetic/provenance checks and structured failures for missing or mismatched source/assumption state."
+]
+
+[prohibited]
+items = [
+  "Calling 5 kg/corner a measurement or installed/as-built per-corner mass.",
+  "Using historical 10 kg per corner, 207 kg sprung mass, 220+100 kg total, or another calculator input as a silent substitute.",
+  "Treating the derived sprung CG as same-session metrology; it inherits the source-separated 0.290 m driver-equivalent-ballast tilt datum and ASM-VEH-0003.",
+  "Using a constant Q_u=-m*g wheel generalized-force value away from the nominal level state unless the actual coordinate/contact projection independently reduces to that value.",
+  "Defining the road-compatible z_w(q_b) map, contact coefficients, or suspension/body compatibility in this authorization.",
+  "Publishing WUFR road reactions, wheel loads, roll/pitch equilibrium, load transfer, LLTD, or crossweight from this allocation alone.",
+  "Using these point lumps as lateral/longitudinal unsprung inertia or load-transfer CG authority.",
+  "Aero/brake/powertrain/tire force laws, alternate contact modes, chassis compliance, linkage loads/stress, installed limits, optimization, or production release."
+]
+
+[source_boundary]
+primary_record = "data_catalog/wufr27_static_gravity_allocation_v0.toml"
+whole_vehicle_record = "data_catalog/wufr26_whole_vehicle_frame_v0.toml"
+reviewer_decision = "2026-07-27: reviewer approved the equal 5 kg/corner split of the measured 10 kg front and 10 kg rear unsprung axle totals for the prototype and directed work to continue."
+source_separation = "The 675 lb planar scale state and 0.290 m driver-equivalent-ballast tilt-test height remain explicitly source-separated design-intent evidence."
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-VEH-0007 verifies 675 lb = 306.17484975 kg with the exact 0.45359237 kg/lb conversion.",
+  "BENCH-VEH-0007 verifies per-corner unsprung [5,5,5,5] kg, total unsprung 20 kg, and sprung mass 286.17484975 kg.",
+  "BENCH-VEH-0007 verifies the first-moment-derived sprung CG [-0.7428152951513378, +0.006753924590788551, +0.29429108288542044] m in the frozen suspension-CAD source frame.",
+  "BENCH-VEH-0007 verifies mass and all three first moments reconstruct the reviewed total mass/CG within floating-point tolerance.",
+  "Implementation retains ASM-VEH-0003 and does not expose a historical/default mass fallback."
+]
+
+[promotion_gates]
+items = [
+  "This authorization merges before MOD-VEH-0005 implementation.",
+  "Implementation is source-driven and passes BENCH-VEH-0007 plus missing-source/assumption tests.",
+  "A separate authorization must define the exact WUFR road-compatible four-corner wheel-coordinate/contact projection before MOD-VEH-0004 can consume the real spring/ARB providers and publish WUFR static road reactions.",
+  "Later maneuver work replaces/extends ASM-VEH-0003 with measured unsprung CG/inertia evidence or a separately reviewed maneuver assumption."
+]
