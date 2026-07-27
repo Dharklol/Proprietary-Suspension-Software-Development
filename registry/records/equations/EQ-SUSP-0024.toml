@@ -1,0 +1,27 @@
+[record]
+id = "EQ-SUSP-0024"
+type = "equation"
+title = "WUFR Level-1 three-body corner equilibrium assembly"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Assemble exact force/moment equilibrium for the WUFR outboard carrier/upright, upper A-arm, and lower A-arm as three rigid bodies. The front graph retains arm-mounted pullrod loading on the upper arm; the rear graph retains pushrod loading on the lower arm. The authorized topology produces exactly eighteen scalar unknowns for eighteen equilibrium equations."
+outputs = ["18x18 physical equilibrium matrix A", "18-component right-hand side b", "stable reaction unknown order", "body/application-point provenance"]
+inputs = ["EQ-SUSP-0023 joint/link wrench bases", "complete prescribed external wrench on outboard carrier", "current WUFR upper/lower arm and tie/toe/actuation geometry", "three explicit body reference points"]
+assumptions = [
+  "ASM-SUSP-0005 rigid-body/ideal-joint Level-1 topology.",
+  "The outboard carrier receives one complete externally sourced wrench; no tire/brake/drive force generation occurs in this equation.",
+  "The rocker is not a solved body in the first Level-1 outboard graph; the push/pull rod remote rocker pickup is used only to define the two-force-link axis.",
+  "No spring, damper, or ARB force law enters this first outboard solve."
+]
+verification_level = "none"
+canonical_equation = "Stack body equilibrium in order [carrier,UCA,LCA]: A*x=b=-W_ext_stack. Unknowns are UCA inboard revolute reaction (5), LCA inboard revolute reaction (5), carrier force from UCA spherical joint (3), carrier force from LCA spherical joint (3), tie/toe axial force (1), push/pull axial force (1). Internal spherical-joint columns enter carrier and corresponding arm rows with equal/opposite signs. Front push/pull column acts on UCA at the source-defined front arm pickup; rear push/pull column acts on LCA at the source-defined rear arm pickup."
+source_basis = [
+  "WUFR27_LEVEL1_LINKAGE_TOPOLOGY_V0 body/joint ownership.",
+  "MOD-SUSP-0001/MOD-SUSP-0003 frozen WUFR arm and actuation application-point ownership.",
+  "Classical multi-rigid-body static equilibrium."
+]
+validity = "Exactly the authorized three-body Level-1 corner topology with finite current geometry and a complete prescribed outboard-carrier wrench."
+numerical_method = "Deterministic column/body ordering; physical SI force/moment rows are assembled before any numerical scaling."
+failure_behavior = ["Reject missing/duplicate body or joint identity", "Reject front actuation applied to carrier/LCA or rear actuation applied to carrier/UCA", "Reject incomplete external-wrench provenance", "Reject any topology whose scalar unknown count is not exactly 18 for this version"]
+benchmark_ids = ["BENCH-SUSP-0021", "BENCH-SUSP-0022", "BENCH-SUSP-0023"]
