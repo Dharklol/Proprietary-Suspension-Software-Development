@@ -108,8 +108,8 @@ class SuspensionLinkageStaticsAuthorizationTests(unittest.TestCase):
             "Program E — integrated maneuver QSS after correlation",
         ):
             self.assertIn(heading, roadmap)
-        self.assertIn("front push/pull attachment is on the upper A-arm", roadmap)
-        self.assertIn("rear attachment is on the lower A-arm", roadmap)
+        self.assertIn("front push/pull attachment on the upper A-arm", roadmap)
+        self.assertIn("rear attachment on the lower A-arm", roadmap)
 
 
 if __name__ == "__main__":
