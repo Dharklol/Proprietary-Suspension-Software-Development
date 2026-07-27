@@ -39,6 +39,15 @@ jobs:
           name: linkage-statics-implementation-test-log
           path: linkage_statics_implementation_test.log
           if-no-files-found: error
+      - name: Validate WUFR linkage topology audit hold
+        run: python -m unittest tests.test_suspension_wufr_linkage_topology_audit -v > wufr_linkage_topology_audit_test.log 2>&1
+      - name: Upload WUFR linkage topology audit diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wufr-linkage-topology-audit-test-log
+          path: wufr_linkage_topology_audit_test.log
+          if-no-files-found: error
       - name: Validate anti-roll-bar authorization
         run: python -m unittest tests.test_suspension_anti_roll_bar_authorization -v > anti_roll_bar_authorization_test.log 2>&1
       - name: Upload anti-roll-bar authorization diagnostics
