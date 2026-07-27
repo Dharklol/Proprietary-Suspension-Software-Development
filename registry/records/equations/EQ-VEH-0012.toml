@@ -1,0 +1,29 @@
+[record]
+id = "EQ-VEH-0012"
+type = "equation"
+title = "WUFR flat-road physical wheel-coordinate compatibility"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "For a supplied whole-body heave/roll/pitch state, solve each physical wheel-center vertical coordinate so the corresponding EQ-VEH-0011 source contact reference lies on the declared MOD-VEH-0003 road plane. The four scalar solves define the road-compatible map z_w(q_b) without a track-width or crossweight approximation."
+outputs = ["Road-compatible wheel coordinates z_w(q_b) in FL,FR,RL,RR order", "Per-corner road-gap residuals", "Per-corner root brackets, branch identities, iterations, and failures"]
+inputs = ["Body state q_b=[z_s,phi,theta] and MOD-VEH-0003 BodyPose", "MOD-VEH-0003 RoadPlane", "EQ-VEH-0011 per-corner contact-reference provider", "Declared physical wheel-coordinate domains and root tolerances"]
+assumptions = [
+  "The active mode is flat rigid road with all four source contact references constrained to the same road plane.",
+  "Each corner's contact-gap function is solved on the nominal-continuation physical suspension branch and has exactly one accepted root within the declared local domain.",
+  "The source contact reference is a rigid design-reference point and does not model tire vertical compliance, loaded radius, footprint migration, or carcass deformation."
+]
+verification_level = "none"
+canonical_equation = "g_i(q_b,z_i)=n_R dot (r_cp,i^R(q_b,z_i)-r_R0)=0; solve independently for z_i on the declared nominal-continuation branch; z_w=[z_FL,z_FR,z_RL,z_RR]"
+source_basis = [
+  "MOD-VEH-0003 / EQ-VEH-0004 and EQ-VEH-0007 body-point transport and flat-road contact contract",
+  "EQ-VEH-0011 WUFR source contact-reference transport",
+  "MOD-SUSP-0002 physical wheel-center vertical coordinate and inversion contract"
+]
+validity = "WUFR-27 rigid design-intent R&D baseline, flat-road all-four-active mode, within the reviewed local suspension and centered-steering branches."
+failure_behavior = [
+  "Reject a body state for which any corner has no root, multiple roots, nonmonotonic/ambiguous branch behavior, upstream suspension/steering failure, or nonfinite road gap.",
+  "Never clip a wheel coordinate to make contact and never replace a failed root with body-roll-times-track or direct wheel-travel formulas.",
+  "Alternate three-contact/wheel-lift continuation is not solved by this equation."
+]
+benchmark_ids = ["BENCH-VEH-0009"]

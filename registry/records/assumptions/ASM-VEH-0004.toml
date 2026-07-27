@@ -1,0 +1,10 @@
+[record]
+id = "ASM-VEH-0004"
+type = "assumption"
+title = "WUFR OptimumK Contact Patch as rigid upright-attached road reference"
+status = "active"
+description = "For the first WUFR rigid-road QSS prototype, interpret the WUFR-26 OptimumK Contact Patch channel as evidence for a nominal upright-attached contact-reference point that moves rigidly with the solved upright/steering pose. This is a source-specific design-reference assumption to be checked against historical heave rows; it is not a generic tire contact-envelope, loaded-radius, carcass-deflection, or footprint model."
+severity = "high"
+affected_ids = ["MOD-VEH-0006", "AUTH-VEH-0006", "EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013", "BENCH-VEH-0008", "BENCH-VEH-0009"]
+validity = "WUFR-27 rigid design-intent R&D baseline using unchanged WUFR-26 nominal suspension/steering geometry and the frozen OptimumK Contact Patch source channel. Replace or validate with a reviewed tire/contact model before tire-compliance, loaded-radius, footprint, or installed/as-built claims."
+control = "Preserve the source record and assumption ID in every road-map result. Verify the historical front pure-heave Contact Patch rows by rigid transport plus reconstructed source twist. Runtime front steering remains MOD-STEER-0001 centered-rack closure, not the historical source twist."
