@@ -2,7 +2,7 @@
 id = "BENCH-VEH-0008"
 type = "benchmark"
 title = "WUFR source contact-reference transport reconstruction"
-status = "failed_on_PR64_source_consistency_probe"
+status = "active"
 description = "Test whether the frozen OptimumK Contact Patch evidence is consistent with a source-defined nominal upright-attached material contact reference. The first implementation probe falsified that interpretation at the frozen tolerance; this benchmark is preserved as the negative gate that prevents ASM-VEH-0004 from being promoted."
 verification_level = "B"
 target_ids = ["MOD-VEH-0006", "EQ-VEH-0011"]
