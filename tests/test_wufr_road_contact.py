@@ -219,7 +219,7 @@ class WUFRRoadContactImplementationTests(unittest.TestCase):
         result = self.nominal
         self.assertTrue(result.ok, result.message)
         masses = {item.corner_id: item for item in self.gravity.unsprung}
-        h = 7.5e-6
+        h = 7.5e-5
         for root, coefficient, gravity_force in zip(
             result.compatibility.roots,
             result.contact_coefficients,
