@@ -19,7 +19,7 @@ acceptance_criteria = [
   "Wheel gravity is represented as a physical point load whose generalized-force projection remains downstream of the reviewed wheel/contact Jacobian; the benchmark does not authorize constant -49.05 N in every nonlevel state."
 ]
 source_configuration = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE carried into WUFR27_SUSPENSION_BASELINE_V0 under ASM-VEH-0003"
-implementation = "planned: src/pssd_vehicle/wufr_gravity.py"
-implementation_tests = ["planned: tests/test_wufr_static_gravity.py", "tests/test_wufr_static_gravity_authorization.py"]
-report_script = "planned: scripts/run_wufr_static_gravity_benchmarks.py"
-result_record = "planned: benchmarks/vehicle/wufr_static_gravity_result_v0.1.0.toml"
+implementation = "src/pssd_vehicle/wufr_gravity.py"
+implementation_tests = ["tests/test_wufr_static_gravity.py", "tests/test_wufr_static_gravity_authorization.py", "tests/test_wufr_static_gravity_result_record.py"]
+report_script = "scripts/run_wufr_static_gravity_benchmarks.py"
+result_record = "benchmarks/vehicle/wufr_static_gravity_result_v0.1.0.toml"

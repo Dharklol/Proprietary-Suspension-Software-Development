@@ -21,13 +21,15 @@ jobs:
         run: python -m unittest tests.test_vehicle_quasi_static_authorization -v
       - name: Validate WUFR static gravity allocation authorization
         run: python -m unittest tests.test_wufr_static_gravity_authorization -v
+      - name: Validate WUFR static gravity allocation implementation
+        run: |
+          python -m unittest tests.test_wufr_static_gravity -v
+          python -m unittest tests.test_wufr_static_gravity_result_record -v
       - name: Validate quasi-static equilibrium implementation
         run: |
           python -m unittest tests.test_vehicle_quasi_static -v
           python -m unittest tests.test_vehicle_quasi_static_tangent_boundary -v
-          if [ -f tests/test_vehicle_quasi_static_result_record.py ]; then
-            python -m unittest tests.test_vehicle_quasi_static_result_record -v
-          fi
+          python -m unittest tests.test_vehicle_quasi_static_result_record -v
       - name: Validate whole-vehicle force-coordinate implementation
         run: |
           python -m unittest tests.test_vehicle_force_coordinates -v
@@ -46,6 +48,13 @@ jobs:
           python scripts/run_vehicle_quasi_static_benchmarks.py \
             --summary \
             --output vehicle_quasi_static_summary.json
+      - name: Generate WUFR static gravity reports
+        run: |
+          python scripts/run_wufr_static_gravity_benchmarks.py \
+            --output wufr_static_gravity_report.json > /dev/null
+          python scripts/run_wufr_static_gravity_benchmarks.py \
+            --summary \
+            --output wufr_static_gravity_summary.json
       - name: Generate planar slip-kinematics reports
         run: |
           python scripts/run_planar_slip_kinematics_benchmarks.py \
@@ -69,6 +78,8 @@ jobs:
             vehicle_force_coordinate_summary.json
             vehicle_quasi_static_report.json
             vehicle_quasi_static_summary.json
+            wufr_static_gravity_report.json
+            wufr_static_gravity_summary.json
             planar_slip_kinematics_report.json
             planar_slip_kinematics_summary.json
             motion_aware_force_demand_report.json
