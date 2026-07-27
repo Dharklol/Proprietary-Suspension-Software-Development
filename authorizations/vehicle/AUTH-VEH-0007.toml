@@ -1,0 +1,44 @@
+version = "0.1.0"
+authorization_id = "AUTH-VEH-0007"
+status = "review_ready"
+title = "WUFR road-contact source interpretation correction and implementation hold"
+effective_condition = "Effective after review/merge. Supersedes AUTH-VEH-0006's implementation permission because its mandatory BENCH-VEH-0008 source-consistency gate failed during PR #64. No WUFR road-compatible wheel map may be implemented until a replacement contact model/source assumption is separately reviewed."
+review_record = "docs/reviews/phase2_wufr_road_contact_authority_correction_review.md"
+implementation_authorized = false
+
+[scope]
+model_ids = ["MOD-VEH-0006"]
+equation_ids = ["EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013"]
+benchmark_ids = ["BENCH-VEH-0008", "BENCH-VEH-0009"]
+assumption_ids = ["ASM-VEH-0004"]
+supersedes_implementation_permission = "AUTH-VEH-0006"
+
+[finding]
+probe_pr = 64
+probe_status = "closed_unmerged_after_required_benchmark_failure"
+maximum_historical_contact_reconstruction_error_m = 0.0008458158026623031
+required_tolerance_m = 0.000005
+ratio_to_required_tolerance = 169.16316053246062
+source_observation = "The frozen OptimumK Contact Patch remains on source road z=0 while Motion [Heave] changes; after body re-reference its z coordinate is exactly the opposite of body heave in the selected rows. This behavior is consistent with a solved road-contact output and does not establish a material upright-attached point."
+
+[permitted]
+items = [
+  "Preserve the PR #64 implementation probe and its failed BENCH-VEH-0008 result as negative verification evidence.",
+  "Use the nominal OptimumK Contact Patch coordinates only as historical nominal contact-output observations with exact provenance.",
+  "Evaluate and document replacement contact-model candidates without publishing WUFR road reactions.",
+  "Retain MOD-SUSP-0002 physical wheel-center/upright states, MOD-STEER-0001 centered-rack closure, MOD-VEH-0003 body/road mechanics, MOD-VEH-0004 generic equilibrium kernel, and MOD-VEH-0005 gravity as valid upstream modules within their existing scopes."
+]
+
+[prohibited]
+items = [
+  "Merging or reusing PR #64's ASM-VEH-0004 rigid-contact implementation as a governing WUFR compatibility map.",
+  "Weakening BENCH-VEH-0008's historical reconstruction tolerance merely to make the failed assumption pass.",
+  "Treating the OptimumK Contact Patch output as a material upright-attached point without new evidence.",
+  "Substituting body-roll-times-track, direct left-right wheel travel, scalar motion ratio, hard-coded c_i=1, hard-coded -49.05 N, or hidden crossweight/load-transfer rules.",
+  "Introducing a rigid circular tire, loaded radius, tire envelope, tire vertical compliance, or contact-patch model without a new reviewed assumption/model authorization.",
+  "Publishing WUFR road reactions, crossweight, LLTD, load transfer, roll gradient, or tire loads while the contact compatibility layer is blocked."
+]
+
+[next_gate]
+required_decision = "Review one explicit replacement road-contact model/source assumption and its verification plan. A rigid circular centerline tire built from reviewed wheel center/plane/radius is a candidate, not an authorization. Physical loaded-radius/contact measurements are another candidate."
+implementation_rule = "Source/assumption authorization must merge before a new MOD-VEH-0006 implementation attempt."
