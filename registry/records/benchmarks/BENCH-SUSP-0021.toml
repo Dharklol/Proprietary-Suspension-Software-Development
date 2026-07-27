@@ -1,0 +1,19 @@
+[record]
+id = "BENCH-SUSP-0021"
+type = "benchmark"
+title = "Analytical WUFR Level-1 three-body 18x18 reaction fixture"
+status = "proposed"
+description = "Freeze a fully explicit synthetic three-body carrier/UCA/LCA fixture with one complete carrier wrench and a known nontrivial signed Level-1 reaction solution. The fixture exercises both equivalent revolute supports, both spherical interfaces, the lateral axial link, and arm-mounted actuation simultaneously."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0007", "EQ-SUSP-0023", "EQ-SUSP-0024", "EQ-SUSP-0025", "EQ-SUSP-0026"]
+acceptance_criteria = [
+  "Use carrier reference O_C=[0,0,0] m, UCA reference O_U=[0.2,0.4,0.3] m, and LCA reference O_L=[-0.3,0.4,-0.2] m.",
+  "Use UCA hinge point H_U=[-0.2,0.5,0.5] m with axis proportional to [1,0.2,0.1], and LCA hinge point H_L=[-0.25,0.55,-0.45] m with axis proportional to [1,-0.1,0.2]. Construct each perpendicular hinge-moment basis by the authorized deterministic least-aligned-Cartesian-seed rule.",
+  "Use upper spherical point J_U=[0.45,0.72,0.55] m, lower spherical point J_L=[0.35,0.66,-0.48] m, lateral-link carrier point T=[0.10,0.84,0.02] m with remote point [1.20,1.15,0.25] m, and front-like arm-mounted actuation point P=[0.50,0.30,0.72] m on the UCA with remote rocker point [0.92,-0.18,0.94] m.",
+  "Apply complete carrier wrench [Fx,Fy,Fz,Mx,My,Mz]=[120,-85,-650,20,-35,15] in N/N*m and no other prescribed body wrench.",
+  "With unknown order [U_hinge_Fx,Fy,Fz,M_v1,M_v2,L_hinge_Fx,Fy,Fz,M_v1,M_v2,J_U_carrier_Fx,Fy,Fz,J_L_carrier_Fx,Fy,Fz,N_lateral,N_actuation], solve x=[-486.797726581690,780.251166344441,-54.176236183913,499.766045573140,26.394714235571,-654.215373361056,-524.095610408825,389.319114514492,-214.991224462526,-243.099797295896,-164.692329354707,412.130712370746,114.545638554030,-654.215373361056,-524.095610408825,389.319114514492,740.690663077577,517.427895045907] in the corresponding N / N*m scalar units within 1e-8 absolute tolerance.",
+  "The assembled physical matrix has rank 18. Under EQ-SUSP-0025 body scaling the frozen characteristic lengths are approximately [1.0116323442832382,0.5257375771237967,0.7539893898457722] m and cond_inf of the scaled matrix is approximately 256.1483168750569; implementation must remain far below the 1e10 rejection threshold.",
+  "Reconstructed physical force and moment residual infinity norms for each of the three bodies are <=1e-9 in SI units, and each equivalent hinge reaction moment has zero component along its hinge axis within 1e-12 N*m."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0012.toml"
+implementation_test = "planned: tests/test_wufr_interface_statics.py"
