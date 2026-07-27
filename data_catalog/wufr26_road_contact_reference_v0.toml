@@ -1,0 +1,120 @@
+version = "0.1.0"
+record_id = "WUFR26_ROAD_CONTACT_REFERENCE_V0"
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+status = "reviewed_source_specific_contact_reference"
+authority = "WUFR-26 OptimumK design-source contact-reference evidence carried into unchanged WUFR-27 suspension geometry; R&D only, not loaded-tire or as-built metrology"
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+
+[source]
+setup_filename = "WUFR-26 FINAL 8.21.2025.xlsx"
+setup_box_file_id = "2014803790843"
+setup_sha1 = "15eadfb93369192038888da92ebaa6674db56cfa"
+result_filename = "WUFR-26 8.21 Heaves 1inch.xlsx"
+result_box_file_id = "2014806871001"
+result_version = "2.3.0"
+result_sha1 = "4f2d1202d3bbd4be1b42f6e1c552919572078f67"
+result_sha256_frozen_fixture = "db071b7e696149ec82213e9ed05aa557349d18d19debe7925e7e01058534e4b8"
+source_channels = ["Motion [Heave]", "Wheel Center X/Y/Z", "Contact Patch X/Y/Z", "lower/upper upright points", "front tie-rod upright point"]
+pure_heave_frame_rule = "For this source comparison only, p_body_optk_mm = p_export_optk_mm - [0,0,heave_mm], then p_body_can_m = 0.001*[x,-y,z]."
+
+[contact_reference]
+construction_role = "source-defined nominal upright-attached contact reference; not a generic tire envelope and not a loaded-radius model"
+front_left_source_m = [0.0, 0.61598556, 0.0]
+front_right_source_m = [0.0, -0.61598556, 0.0]
+rear_left_source_m = [-1.5624, 0.60328556, 0.0]
+rear_right_source_m = [-1.5624, -0.60328556, 0.0]
+front_rule = "Transport the nominal contact reference by MOD-SUSP-0002's minimum-twist front upright pose, then apply the front centered-rack tie-rod closure rotation owned by MOD-STEER-0001 about that transported steering axis."
+rear_rule = "Transport the nominal contact reference by MOD-SUSP-0002's rear toe-link-closed upright transform."
+steering_rule = "For WUFR runtime design intent, front steering rotation is solved by MOD-STEER-0001 at centered rack. Historical OptimumK scalar Steer Angle is never used as the rotation input."
+source_correlation_rule = "Historical source-contact correlation may use EQ-SUSP-0008's independently reconstructed source twist to isolate whether the OptimumK Contact Patch channel behaves as an upright-attached reference; this historical twist is verification evidence only and does not drive the WUFR runtime map."
+
+[[historical_heave_checks]]
+corner = "front_left"
+heave_mm = -25.4
+wheel_center_body_m = [0.00186502129764298, 0.602237655899241, 0.257275379608129]
+contact_reference_body_m = [0.001908, 0.617992, 0.0254]
+source_reconstructed_twist_deg = -0.243537954169715
+
+[[historical_heave_checks]]
+corner = "front_left"
+heave_mm = -5.08
+wheel_center_body_m = [0.00038055637177888, 0.606083704811978, 0.237256939988216]
+contact_reference_body_m = [0.000386, 0.616489, 0.00508]
+source_reconstructed_twist_deg = -0.0483616673675384
+
+[[historical_heave_checks]]
+corner = "front_left"
+heave_mm = 0.0
+wheel_center_body_m = [0.0, 0.606861186219435, 0.232230820312706]
+contact_reference_body_m = [0.0, 0.615986, 0.0]
+source_reconstructed_twist_deg = 0.0
+
+[[historical_heave_checks]]
+corner = "front_left"
+heave_mm = 5.08
+wheel_center_body_m = [-0.000384388112583383, 0.607565157631121, 0.227196891927103]
+contact_reference_body_m = [-0.000389, 0.615430, -0.00508]
+source_reconstructed_twist_deg = 0.0484187937063436
+
+[[historical_heave_checks]]
+corner = "front_left"
+heave_mm = 25.4
+wheel_center_body_m = [-0.00196089407135103, 0.60964577929287, 0.206990203366862]
+contact_reference_body_m = [-0.001969, 0.612679, -0.0254]
+source_reconstructed_twist_deg = 0.244891221125559
+
+[[historical_heave_checks]]
+corner = "rear_left"
+heave_mm = -25.4
+wheel_center_body_m = [-1.562623, 0.596779, 0.257660]
+contact_reference_body_m = [-1.562604, 0.605121, 0.0254]
+
+[[historical_heave_checks]]
+corner = "rear_left"
+heave_mm = -5.08
+wheel_center_body_m = [-1.562449, 0.598904, 0.237440]
+contact_reference_body_m = [-1.562446, 0.603748, 0.00508]
+
+[[historical_heave_checks]]
+corner = "rear_left"
+heave_mm = 0.0
+wheel_center_body_m = [-1.562400, 0.599229, 0.232375]
+contact_reference_body_m = [-1.562400, 0.603286, 0.0]
+
+[[historical_heave_checks]]
+corner = "rear_left"
+heave_mm = 5.08
+wheel_center_body_m = [-1.562350, 0.599473, 0.227307]
+contact_reference_body_m = [-1.562352, 0.602775, -0.00508]
+
+[[historical_heave_checks]]
+corner = "rear_left"
+heave_mm = 25.4
+wheel_center_body_m = [-1.562136, 0.599615, 0.207009]
+contact_reference_body_m = [-1.562138, 0.600243, -0.0254]
+
+[map_contract]
+body_coordinate_order = ["z_s_m", "phi_rad", "theta_rad"]
+wheel_coordinate_order = ["front_left_delta_z_wc_body_m", "front_right_delta_z_wc_body_m", "rear_left_delta_z_wc_body_m", "rear_right_delta_z_wc_body_m"]
+road_closure = "For each active corner solve g_i(q_b,z_i)=n_road dot (r_cp_i^road(q_b,z_i)-r_road_ref)=0 on the nominal-continuation suspension branch."
+jacobian = "J_wb = partial(z_w)/partial(q_b), evaluated with declared two-step numerical differentiation and branch-preserving solves."
+contact_coefficient = "c_i = n_road dot partial(r_cp_i^road)/partial(z_i), evaluated from the same contact-reference provider."
+unsprung_gravity_projection = "Q_u_i = F_u_i^road dot partial(r_wc_i^road)/partial(z_i), using the physical wheel-center point load from MOD-VEH-0005."
+
+[authority_boundaries]
+generic_tire_contact_patch_authority = false
+loaded_radius_authority = false
+tire_deflection_authority = false
+installed_as_built_authority = false
+runtime_front_steering_owned_by = "MOD-STEER-0001"
+runtime_suspension_pose_owned_by = "MOD-SUSP-0002"
+body_pose_and_road_owned_by = "MOD-VEH-0003"
+prohibited_substitutions = [
+  "body roll times track or half-track as wheel travel",
+  "direct left-right wheel-travel difference as a whole-vehicle compatibility rule",
+  "scalar spring or ARB motion ratio as the compatibility Jacobian",
+  "OptimumK scalar Steer Angle as the front upright rotation input",
+  "translation-only front contact point that omits centered tie-rod closure",
+  "generic tire-radius/lowest-point inference in place of the source contact reference",
+  "hard-coded unit contact coefficient or hard-coded -49.05 N unsprung generalized force away from a verified nominal level case"
+]
