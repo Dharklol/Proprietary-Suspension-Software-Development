@@ -50,6 +50,9 @@ class WUFRRoadContactAuthorizationTests(unittest.TestCase):
         self.assertEqual(model["authorization_id"], "AUTH-VEH-0008")
         self.assertEqual(model["active_contact_assumption_id"], "ASM-VEH-0005")
         self.assertEqual(model["invalidated_assumption_id"], "ASM-VEH-0004")
+        self.assertEqual(model["maturity"], "M1")
+        self.assertEqual(model["verification_level"], "B")
+        self.assertIn("implemented_in_PR67", model["authorization_state"])
         self.assertEqual(assumption5["status"], "active")
         self.assertEqual(eq14["status"], "proposed")
 
@@ -100,17 +103,29 @@ class WUFRRoadContactAuthorizationTests(unittest.TestCase):
         self.assertIn("not fitted targets", text)
         self.assertIn("nonzero longitudinal offsets", text)
 
-    def test_compatibility_records_are_reopened_only_with_rigid_circle_authority(self) -> None:
+    def test_compatibility_records_preserve_authorization_state_after_implementation(self) -> None:
+        model = _load("registry/records/models/MOD-VEH-0006.toml")["record"]
+        self.assertEqual(model["status"], "proposed")
+        self.assertEqual(model["maturity"], "M1")
+        self.assertEqual(model["verification_level"], "B")
+        self.assertEqual(model["implementation_pr"], 67)
+
         for relative in (
-            "registry/records/models/MOD-VEH-0006.toml",
             "registry/records/equations/EQ-VEH-0011.toml",
             "registry/records/equations/EQ-VEH-0012.toml",
             "registry/records/equations/EQ-VEH-0013.toml",
             "registry/records/equations/EQ-VEH-0014.toml",
+        ):
+            self.assertEqual(_load(relative)["record"]["status"], "proposed")
+
+        for relative in (
             "registry/records/benchmarks/BENCH-VEH-0009.toml",
             "registry/records/benchmarks/BENCH-VEH-0010.toml",
         ):
-            self.assertEqual(_load(relative)["record"]["status"], "proposed")
+            bench = _load(relative)["record"]
+            self.assertEqual(bench["status"], "active")
+            self.assertEqual(bench["implementation_pr"], 67)
+            self.assertIn("benchmarks/vehicle/wufr_road_contact_result_v0.1.0.toml", bench["result_record"])
 
         auth8 = _load("authorizations/vehicle/AUTH-VEH-0008.toml")
         prohibited = "\n".join(auth8["prohibited"]["items"]).lower()
