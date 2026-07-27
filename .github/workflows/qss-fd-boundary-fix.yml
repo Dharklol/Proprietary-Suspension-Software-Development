@@ -1,0 +1,69 @@
+name: Temporary QSS finite-difference boundary fix
+
+on:
+  push:
+    branches: [phase-2-qss-equilibrium-implementation]
+
+permissions:
+  contents: write
+
+jobs:
+  patch-source:
+    if: ${{ !contains(github.event.head_commit.message, '[qss-fd-fix]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: phase-2-qss-equilibrium-implementation
+      - name: Enforce one-sided derivatives only at declared bounds
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("src/pssd_vehicle/quasi_static.py")
+          text = path.read_text(encoding="utf-8")
+
+          replacements = [
+              (
+                  '''            if not minus_eval.ok:\n                minus_eval = None\n''',
+                  '''            if not minus_eval.ok:\n                return _TangentResult(\n                    QuasiStaticStatus.FAILURE,\n                    methods=tuple(methods),\n                    steps=tuple(actual_steps),\n                    failure_code=(\n                        minus_eval.failure_code\n                        or QuasiStaticFailureCode.COMPATIBILITY_PROVIDER_FAILURE\n                    ),\n                    message=(\n                        f"Finite-difference minus perturbation failed for body coordinate {j}: "\n                        f"{minus_eval.message}"\n                    ),\n                )\n''',
+              ),
+              (
+                  '''            if not plus_eval.ok:\n                plus_eval = None\n''',
+                  '''            if not plus_eval.ok:\n                return _TangentResult(\n                    QuasiStaticStatus.FAILURE,\n                    methods=tuple(methods),\n                    steps=tuple(actual_steps),\n                    failure_code=(\n                        plus_eval.failure_code\n                        or QuasiStaticFailureCode.COMPATIBILITY_PROVIDER_FAILURE\n                    ),\n                    message=(\n                        f"Finite-difference plus perturbation failed for body coordinate {j}: "\n                        f"{plus_eval.message}"\n                    ),\n                )\n''',
+              ),
+              (
+                  '''        if minus_eval is not None and plus_eval is not None:\n''',
+                  '''        if minus_allowed and plus_allowed:\n            assert minus_eval is not None and plus_eval is not None\n''',
+              ),
+              (
+                  '''        elif plus_eval is not None:\n''',
+                  '''        elif not minus_allowed and plus_allowed:\n            assert plus_eval is not None\n''',
+              ),
+              (
+                  '''        elif minus_eval is not None:\n''',
+                  '''        elif minus_allowed and not plus_allowed:\n            assert minus_eval is not None\n''',
+              ),
+          ]
+
+          for old, new in replacements:
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f"Expected exactly one source match, found {count}: {old!r}")
+              text = text.replace(old, new, 1)
+
+          path.write_text(text, encoding="utf-8")
+          PY
+          git diff --check
+          git diff -- src/pssd_vehicle/quasi_static.py
+      - name: Commit source fix
+        run: |
+          if git diff --quiet; then
+            echo "Source already patched"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/pssd_vehicle/quasi_static.py
+          git commit -m "[qss-fd-fix] Propagate finite-difference provider failures"
+          git push origin HEAD:phase-2-qss-equilibrium-implementation
