@@ -184,8 +184,8 @@ class WUFRRoadContactSolverConfig:
             q_L_min_rad=-self.q_L_limit_rad,
             q_L_max_rad=self.q_L_limit_rad,
             scan_intervals_per_side=self.physical_scan_intervals_per_side,
-            q_L_tolerance_rad=2.0e-12,
-            displacement_tolerance_m=1.0e-12,
+            q_L_tolerance_rad=2.0e-14,
+            displacement_tolerance_m=1.0e-14,
             monotonic_step_tolerance_m=1.0e-12,
             max_iterations=self.root_max_iterations,
         )
