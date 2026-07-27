@@ -1,0 +1,110 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0010"
+status = "review_ready"
+title = "Provider-neutral determinate suspension linkage statics authorization"
+effective_condition = "Effective only after review and merge of the PR carrying this authorization. This authorization permits implementation of a provider-neutral quasi-static single-rigid-body solver supported by exactly six ideal pin-ended two-force links under ASM-SUSP-0004. It accepts explicit current geometry and a prescribed external wrench, solves signed axial link forces from exact three-force/three-moment equilibrium, and reports scaling/conditioning/residual diagnostics. It does not authorize a WUFR load-case generator, a WUFR corner adapter, beam/member stress, redundant-link force sharing, or structural release."
+review_record = "docs/reviews/phase3_linkage_statics_authorization_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-SUSP-0006"]
+equation_ids = ["EQ-SUSP-0019", "EQ-SUSP-0020", "EQ-SUSP-0021", "EQ-SUSP-0022"]
+benchmark_ids = ["BENCH-SUSP-0018", "BENCH-SUSP-0019", "BENCH-SUSP-0020"]
+assumption_ids = ["ASM-SUSP-0004"]
+upstream_model_ids = ["MOD-VEH-0003"]
+planned_implementation_package = "src/pssd_suspension/linkage_statics.py"
+planned_implementation_tests = ["tests/test_suspension_linkage_statics.py", "tests/test_suspension_linkage_statics_failures.py", "tests/test_suspension_linkage_statics_result_record.py"]
+provider_neutral_only = true
+wufr_corner_adapter_authorized = false
+wufr_load_case_generation_authorized = false
+structural_release_authorized = false
+
+[coordinates]
+frame_rule = "All link endpoints, body attachment points, reference points, forces, and couples must declare and match one Cartesian frame before assembly."
+reference_point_rule = "External couple and link moments are evaluated about one explicit r_O. Changing r_O requires exact wrench translation; wheel center/global origin are never implicit."
+link_axis_rule = "u_j=(r_remote,j-r_body,j)/||r_remote,j-r_body,j||."
+axial_force_sign = "N_j>0 is tension. The force exerted by the link on the body is N_j*u_j; compression is negative."
+link_order_rule = "The caller supplies six stable unique link IDs; matrix columns and returned forces preserve that order exactly."
+wrench_row_order = ["Fx_N", "Fy_N", "Fz_N", "Mx_Nm", "My_Nm", "Mz_Nm"]
+
+[permitted]
+items = [
+  "Construct one ideal link axis only from explicit current endpoints in a common frame and preserve positive-tension sign.",
+  "Assemble exactly six link wrench columns a_j=[u_j; (r_body,j-r_O) cross u_j] for one rigid body.",
+  "Accept one explicit prescribed external force and couple about r_O; the caller owns the physical load-case source and authority.",
+  "Scale moment rows by one explicit geometric characteristic length L_ref=max_j ||r_body,j-r_O|| before evaluating numerical conditioning.",
+  "Solve only a finite, full-rank exactly-6x6 system whose scaled condition number satisfies cond_inf<=1e10.",
+  "Use a deterministic direct linear solve such as partial-pivot Gaussian elimination; calculate/report pivot and condition diagnostics.",
+  "Reconstruct physical SI force/moment equilibrium from the solved signed forces using the original unscaled geometry and report residuals.",
+  "Report equal-and-opposite remote-end forces for each ideal link as a load-path diagnostic.",
+  "Carry frame, reference point, link order, endpoint geometry, external-wrench provenance, assumption ID, and failure state through every result."
+]
+
+[prohibited]
+items = [
+  "Generating tire/contact-patch forces, road reactions, accelerations, aero loads, brake/drive loads, spring force, ARB force, or damper force inside MOD-SUSP-0006.",
+  "Applying this kernel directly to WUFR and calling the result current-car member loads before a separate WUFR load-path/topology source audit and adapter authorization.",
+  "Moving an arm-mounted push/pull pickup to the upright or otherwise changing application-point topology to force a six-link representation.",
+  "Using five, seven, or any non-six link count in the v0.1 solver.",
+  "Using least squares, pseudoinverse, minimum-norm, regularization, arbitrary stiffness weighting, or force clipping to resolve a singular, redundant, or deficient system.",
+  "Taking absolute values of signed axial forces or changing link-axis orientation to make force signs visually convenient.",
+  "Replacing explicit geometry with scalar motion ratios, load percentages, instant-center load splits, or hand-entered distribution factors.",
+  "Beam bending/shear, welded-wishbone internal load sharing, bearing/joint stiffness, compliance, friction, backlash, buckling, fatigue, weld stress, factor of safety, FEA structural release, installed/as-built claims, or production authority."
+]
+
+[numerics]
+characteristic_length_rule = "L_ref=max_j ||r_body,j-r_O||. Require finite L_ref>1e-12 m."
+scaled_system_rule = "S=diag(1,1,1,1/L_ref,1/L_ref,1/L_ref); A_tilde=S*A; b_tilde=S*b."
+condition_measure = "cond_inf(A_tilde)=||A_tilde||_inf*||A_tilde^-1||_inf."
+condition_limit = 1.0e10
+pivot_relative_threshold = 1.0e-12
+analytical_force_tolerance_N = 1.0e-9
+force_residual_tolerance_N = 1.0e-9
+moment_residual_tolerance_Nm = 1.0e-9
+hidden_clipping_allowed = false
+least_squares_allowed = false
+pseudoinverse_allowed = false
+regularization_allowed = false
+force_magnitude_only_output_allowed = false
+
+[source_boundary]
+primary_literature = [
+  "Borg, Lane Thomas (2009), An Approach to Using Finite Element Models to Predict Suspension Member Loads in a Formula SAE Vehicle, Virginia Tech, Chapter 3 Section 3.3.1 Eqs. 3.1-3.9: member unit vectors and six-equation force/moment matrix solution. Used for generic axial-link statics architecture and explicit limitations, not WUFR geometry or loads.",
+  "Guiggiani (2022), The Science of Vehicle Dynamics, Section 3.10.7 Suspension Internal Equilibrium: road/tire loads are transmitted through suspension linkages and elastic elements. Used for subsystem/equilibrium framing, not a WUFR-specific link solver.",
+  "Classical three-dimensional rigid-body statics and two-force-member mechanics."
+]
+repository_mechanics_basis = "MOD-VEH-0003 / EQ-VEH-0005 provides the existing explicit point-force/wrench/reference-point convention. MOD-SUSP-0006 reuses that convention rather than creating an implicit wheel-center origin."
+method_limitation_evidence = "Borg's truss FE model reproduced the hand axial-force solution, but the later beam model changed axial load distribution and introduced meaningful bending; steered geometry also materially changed member loads. These findings are explicit evidence that ASM-SUSP-0004 is a screening/load-path assumption only."
+wufr_topology_gap = "Current WUFR actuation authority states front push/pull attachment is on the upper A-arm and rear attachment is on the lower A-arm. A direct six-links-to-upright adapter is therefore not authorized by this PR; a separate topology audit must preserve the actual application points."
+
+[failure_behavior]
+codes = [
+  "nonfinite_input",
+  "frame_mismatch",
+  "duplicate_link_id",
+  "degenerate_link",
+  "unsupported_topology",
+  "degenerate_characteristic_length",
+  "singular_equilibrium",
+  "ill_conditioned_equilibrium",
+  "linear_solve_failure",
+  "equilibrium_residual_exceeded"
+]
+rule = "Return a structured failure with original geometry/load provenance. Never repair a failed statics problem by moving points, changing link count, using a pseudoinverse/least-squares solution, regularization, force clipping, hidden stiffness weighting, or absolute-value signs."
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-SUSP-0018 reproduces the exact synthetic target N=[100,200,300,40,50,60] N from the frozen simultaneous force/moment wrench and verifies physical-unit residuals.",
+  "BENCH-SUSP-0019 proves exact reference-point and rigid-translation invariance of the solved axial forces under consistent wrench transformation.",
+  "BENCH-SUSP-0020 proves structured rejection of zero-length, wrong-count, singular, ill-conditioned, and nonfinite inputs with no approximate force-sharing fallback.",
+  "Implementation result records report signed force, geometry/application points, frames/reference point, external-wrench provenance, scaling/conditioning, physical residuals, and ASM-SUSP-0004 fidelity boundary."
+]
+
+[promotion_gates]
+items = [
+  "This authorization is reviewed and merged before MOD-SUSP-0006 implementation begins.",
+  "A separate implementation PR passes BENCH-SUSP-0018 through BENCH-SUSP-0020 and freezes a deterministic result record before the kernel is considered implemented.",
+  "Before any WUFR member-force result, perform a source audit of the actual upright/control-arm/tie-rod/actuation topology and authorize an adapter that does not move arm-mounted actuation pickups.",
+  "Before FEA load-case release, define the downstream load-case exchange schema, component/body boundaries, brake reaction path, and exact meaning of each exported reaction.",
+  "Before stress/factor-of-safety claims, authorize beam/compliance/buckling/fatigue/weld/bearing models separately; ideal axial force is not final structural authority."
+]
