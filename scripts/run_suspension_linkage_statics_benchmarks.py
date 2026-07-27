@@ -55,6 +55,10 @@ def _cross(a: tuple[float, float, float], b: tuple[float, float, float]) -> tupl
     )
 
 
+def _finite_or_inf(value: float | None) -> float:
+    return math.inf if value is None else float(value)
+
+
 def _links(translation: tuple[float, float, float] = (0.0, 0.0, 0.0)) -> tuple[IdealTwoForceLink, ...]:
     rows = []
     for index, (body, axis) in enumerate(zip(BODY_POINTS, UNIT_AXES), start=1):
@@ -99,12 +103,15 @@ def analytical_benchmark() -> dict:
     links = _links()
     wrench = _wrench_for_target(links, (0.0, 0.0, 0.0))
     result = solve_linkage_statics(links, wrench)
-    force_error = max(abs(actual - target) for actual, target in zip(result.axial_force_N, TARGET_FORCE_N)) if result.ok else math.inf
+    force_error = (
+        max(abs(actual - target) for actual, target in zip(result.axial_force_N, TARGET_FORCE_N))
+        if result.ok else math.inf
+    )
     passed = (
         result.ok
         and force_error <= 1.0e-9
-        and (result.force_residual_inf_norm_N or math.inf) <= 1.0e-9
-        and (result.moment_residual_inf_norm_Nm or math.inf) <= 1.0e-9
+        and _finite_or_inf(result.force_residual_inf_norm_N) <= 1.0e-9
+        and _finite_or_inf(result.moment_residual_inf_norm_Nm) <= 1.0e-9
         and result.condition_number_inf is not None
         and result.condition_number_inf <= 1.0e10
     )
@@ -157,18 +164,24 @@ def invariance_benchmark() -> dict:
             load_case_id="BENCH-SUSP-0019-translation",
         ),
     )
-    reference_error = max(abs(a - b) for a, b in zip(reference_result.axial_force_N, baseline.axial_force_N)) if baseline.ok and reference_result.ok else math.inf
-    translation_error = max(abs(a - b) for a, b in zip(translated_result.axial_force_N, baseline.axial_force_N)) if baseline.ok and translated_result.ok else math.inf
+    reference_error = (
+        max(abs(a - b) for a, b in zip(reference_result.axial_force_N, baseline.axial_force_N))
+        if baseline.ok and reference_result.ok else math.inf
+    )
+    translation_error = (
+        max(abs(a - b) for a, b in zip(translated_result.axial_force_N, baseline.axial_force_N))
+        if baseline.ok and translated_result.ok else math.inf
+    )
     passed = (
         baseline.ok
         and reference_result.ok
         and translated_result.ok
         and reference_error <= 1.0e-9
         and translation_error <= 1.0e-9
-        and (reference_result.force_residual_inf_norm_N or math.inf) <= 1.0e-9
-        and (reference_result.moment_residual_inf_norm_Nm or math.inf) <= 1.0e-9
-        and (translated_result.force_residual_inf_norm_N or math.inf) <= 1.0e-9
-        and (translated_result.moment_residual_inf_norm_Nm or math.inf) <= 1.0e-9
+        and _finite_or_inf(reference_result.force_residual_inf_norm_N) <= 1.0e-9
+        and _finite_or_inf(reference_result.moment_residual_inf_norm_Nm) <= 1.0e-9
+        and _finite_or_inf(translated_result.force_residual_inf_norm_N) <= 1.0e-9
+        and _finite_or_inf(translated_result.moment_residual_inf_norm_Nm) <= 1.0e-9
     )
     return {
         "pass": passed,
@@ -211,13 +224,15 @@ def failure_benchmark() -> dict:
     near[3] = IdealTwoForceLink("L4", FRAME, (0.0, epsilon, 0.0), (0.0, epsilon, 1.0))
     near_result = solve_linkage_statics(tuple(near), wrench)
 
-    nonfinite_wrench = PrescribedExternalWrench(
-        frame_id=FRAME,
-        reference_point_m=(0.0, 0.0, 0.0),
-        force_N=(math.nan, -260.0, -340.0),
-        moment_Nm=(-40.0, -50.0, -60.0),
+    nonfinite_result = solve_linkage_statics(
+        tuple(links),
+        PrescribedExternalWrench(
+            frame_id=FRAME,
+            reference_point_m=(0.0, 0.0, 0.0),
+            force_N=(math.nan, -260.0, -340.0),
+            moment_Nm=(-40.0, -50.0, -60.0),
+        ),
     )
-    nonfinite_result = solve_linkage_statics(tuple(links), nonfinite_wrench)
 
     expected = {
         "degenerate_link": (degenerate_result, LinkageStaticsFailureCode.DEGENERATE_LINK),
