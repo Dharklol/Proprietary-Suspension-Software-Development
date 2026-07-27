@@ -2,9 +2,9 @@
 id = "ASM-VEH-0004"
 type = "assumption"
 title = "WUFR OptimumK Contact Patch as rigid upright-attached road reference"
-status = "active"
-description = "For the first WUFR rigid-road QSS prototype, interpret the WUFR-26 OptimumK Contact Patch channel as evidence for a nominal upright-attached contact-reference point that moves rigidly with the solved upright/steering pose. This is a source-specific design-reference assumption to be checked against historical heave rows; it is not a generic tire contact-envelope, loaded-radius, carcass-deflection, or footprint model."
+status = "invalidated_by_BENCH-VEH-0008"
+description = "PR #64 tested the proposed interpretation that the nominal WUFR-26 OptimumK Contact Patch could act as a rigid upright-attached material reference. The mandatory historical reconstruction check failed: minimum-twist upright transport plus the independently reconstructed 3D source twist disagreed with the selected OptimumK Contact Patch rows by up to 0.0008458158026623031 m versus a 0.000005 m acceptance tolerance. The channel remains useful as historical nominal/road-contact output evidence, but this assumption is not valid as the governing arbitrary-state WUFR road-compatibility map."
 severity = "high"
-affected_ids = ["MOD-VEH-0006", "AUTH-VEH-0006", "EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013", "BENCH-VEH-0008", "BENCH-VEH-0009"]
-validity = "WUFR-27 rigid design-intent R&D baseline using unchanged WUFR-26 nominal suspension/steering geometry and the frozen OptimumK Contact Patch source channel. Replace or validate with a reviewed tire/contact model before tire-compliance, loaded-radius, footprint, or installed/as-built claims."
-control = "Preserve the source record and assumption ID in every road-map result. Verify the historical front pure-heave Contact Patch rows by rigid transport plus reconstructed source twist. Runtime front steering remains MOD-STEER-0001 centered-rack closure, not the historical source twist."
+affected_ids = ["MOD-VEH-0006", "AUTH-VEH-0006", "AUTH-VEH-0007", "EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013", "BENCH-VEH-0008", "BENCH-VEH-0009"]
+validity = "No active model validity. Preserved as a rejected source interpretation and negative verification record."
+control = "Do not implement or reuse the rigid attached-point map. Preserve PR #64 / WUFR_ROAD_CONTACT_ASSUMPTION_PROBE_V0_1_0 as negative evidence. A replacement contact model or source assumption requires separate review before MOD-VEH-0006 implementation resumes."
