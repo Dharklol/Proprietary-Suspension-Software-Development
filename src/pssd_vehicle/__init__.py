@@ -78,6 +78,15 @@ from .tire_bridge import (
     front_tire_readiness,
     tire_operating_point_from_wheel,
 )
+from .wufr_gravity import (
+    CORNER_ORDER as WUFR_GRAVITY_CORNER_ORDER,
+    GravityPointMass,
+    WUFRGravityError,
+    WUFRGravityFailureCode,
+    WUFRGravityStatus,
+    WUFRStaticGravityAllocation,
+    load_wufr_static_gravity_allocation,
+)
 
 __all__ = [
     "AppliedWrench",
@@ -97,6 +106,7 @@ __all__ = [
     "FrontTireOperatingPair",
     "FrontWheelAssignment",
     "GeneralizedForceResult",
+    "GravityPointMass",
     "LATERAL_TIRE_DEMAND_FIELDS",
     "PlanarKinematicsError",
     "PlanarMotionSample",
@@ -118,7 +128,12 @@ __all__ = [
     "VehicleOperatingStateSet",
     "VehicleStateError",
     "VehicleStateRole",
+    "WUFRGravityError",
+    "WUFRGravityFailureCode",
+    "WUFRGravityStatus",
+    "WUFRStaticGravityAllocation",
     "WUFRWholeVehicleAdapter",
+    "WUFR_GRAVITY_CORNER_ORDER",
     "WheelCenterKinematics",
     "WheelOperatingState",
     "WheelPlanarLocation",
@@ -135,6 +150,7 @@ __all__ = [
     "front_tire_readiness",
     "generalized_force_from_jacobians",
     "load_vehicle_operating_state_set",
+    "load_wufr_static_gravity_allocation",
     "load_wufr_whole_vehicle_adapter",
     "numerical_generalized_force",
     "recover_active_contact_normal_reactions",
