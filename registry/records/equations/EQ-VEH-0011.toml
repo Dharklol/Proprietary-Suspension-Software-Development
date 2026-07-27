@@ -2,32 +2,32 @@
 id = "EQ-VEH-0011"
 type = "equation"
 title = "WUFR road-contact point construction"
-status = "blocked"
+status = "proposed"
 disposition = "accepted_with_restrictions"
 maturity = "M0"
-description = "Architectural contact-point provider for a physical wheel state. PR #64/BENCH-VEH-0008 rejected the original ASM-VEH-0004 rule that rigidly transported the nominal OptimumK Contact Patch as a material upright-attached point. Suspension/upright/steering state ownership remains valid, but the actual road-contact point construction now requires a separately reviewed replacement contact model/source assumption."
-outputs = ["Current road-contact point after replacement model authority exists", "Current physical wheel-center point", "Upstream branch, steering-closure, and contact-model diagnostics"]
-inputs = ["A separately reviewed WUFR contact model/source assumption", "MOD-SUSP-0002 physical wheel state and upright transform", "For front corners only, WUFR27_STEERING_BASELINE_V0 and centered rack displacement"]
+description = "Compose the reviewed WUFR physical wheel state with the explicit ASM-VEH-0005 / EQ-VEH-0014 ideal rigid-circle contact geometry. PR #64/BENCH-VEH-0008 remains negative evidence against the prior ASM-VEH-0004 rigidly transported OptimumK Contact Patch interpretation."
+outputs = ["Current ideal rigid-circle road-contact point", "Current physical wheel-center point", "Current fully solved wheel-plane normal", "Upstream suspension/steering/contact diagnostics"]
+inputs = ["MOD-SUSP-0002 physical wheel state and wheel plane", "EQ-VEH-0014 with R=0.23241 m under ASM-VEH-0005", "For front corners only, WUFR27_STEERING_BASELINE_V0 and centered rack displacement"]
 assumptions = [
-  "The OptimumK Contact Patch channel is historical road-contact output evidence; it is not validated as one material upright-attached point through travel.",
-  "WUFR-27 retains the reviewed WUFR-26 nominal suspension/steering design geometry for this R&D baseline.",
-  "Front steering rotation remains unresolved by MOD-SUSP-0002 and is supplied only by MOD-STEER-0001 tie-rod closure at centered rack.",
+  "The OptimumK Contact Patch channel is historical road-contact output evidence and is not a material point input.",
+  "ASM-VEH-0005 models the tire only as a zero-width rigid circle of fixed source-setup radius.",
+  "Front steering rotation remains owned by MOD-STEER-0001 centered-rack closure and is applied to the wheel plane before EQ-VEH-0014.",
   "Rear toe-link closure remains owned by MOD-SUSP-0001/MOD-SUSP-0002 and is not solved again here."
 ]
 verification_level = "none"
-canonical_equation = "BLOCKED CONTACT SUBFUNCTION: r_cp^B = C_contact(r_wc^B, wheel/upright orientation, reviewed contact parameters). C_contact is not authorized by AUTH-VEH-0007. Front suspension/steering pose composition and rear final upright pose remain upstream inputs rather than duplicated equations."
+canonical_equation = "Solve current r_wc and wheel plane through MOD-SUSP-0002; for front apply MOD-STEER-0001 centered-rack rotation to the wheel-plane orientation; then r_cp = EQ-VEH-0014(r_wc,n_w,n_R,R=0.23241 m)."
 source_basis = [
-  "data_catalog/wufr26_road_contact_reference_v0.toml historical output evidence",
-  "benchmarks/vehicle/wufr_road_contact_assumption_probe_v0.1.0.toml negative verification",
+  "AUTH-VEH-0008 / ASM-VEH-0005 / EQ-VEH-0014",
+  "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml source radius and wheel-reference geometry",
   "AUTH-SUSP-0002 / EQ-SUSP-0005 through EQ-SUSP-0008",
-  "AUTH-STEER-0001 / MOD-STEER-0001 centered tie-rod closure",
-  "AUTH-VEH-0007 implementation hold"
+  "AUTH-STEER-0001 / MOD-STEER-0001 centered-rack closure",
+  "AUTH-VEH-0007 + BENCH-VEH-0008 negative evidence against ASM-VEH-0004"
 ]
-validity = "No active arbitrary-state contact-point validity until replacement contact authority is reviewed. Upstream suspension/steering composition remains valid within its own authorizations."
+validity = "WUFR-27 design-intent flat rigid road, ideal rigid circular tire, all-four-active first compatibility mode. No loaded radius, tire compliance, footprint, finite width, or installed-tire authority."
 failure_behavior = [
-  "Return unavailable/missing-contact-authority rather than rigidly transporting the nominal OptimumK Contact Patch under invalidated ASM-VEH-0004.",
   "Propagate suspension physical-state inversion, upright closure, or branch failures.",
   "For front corners propagate centered-rack steering closure infeasibility/singularity; do not substitute OptimumK scalar Steer Angle.",
-  "Reject missing/mismatched source configuration or replacement contact provenance."
+  "Propagate EQ-VEH-0014 invalid radius/normal/degeneracy failures.",
+  "Do not fall back to invalidated ASM-VEH-0004 or body/track shortcuts."
 ]
-benchmark_ids = ["BENCH-VEH-0008", "BENCH-VEH-0009"]
+benchmark_ids = ["BENCH-VEH-0009", "BENCH-VEH-0010"]
