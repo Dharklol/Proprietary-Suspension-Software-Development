@@ -1,0 +1,49 @@
+[record]
+id = "MOD-VEH-0006"
+type = "model"
+title = "WUFR flat-road physical wheel-coordinate compatibility provider"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "WUFR-specific R&D provider that composes the reviewed whole-body pose/road mechanics, physical suspension wheel-state inversion, source-defined upright-attached contact reference, and centered front steering closure to produce the flat-road all-four-active physical wheel-coordinate map z_w(q_b), its Jacobian, contact coefficients, and physical unsprung-gravity generalized wheel-force projections required by MOD-VEH-0004."
+inputs = [
+  "Body coordinates q_b=[z_s,phi,theta] and MOD-VEH-0003 BodyPose/RoadPlane",
+  "WUFR26_ROAD_CONTACT_REFERENCE_V0 nominal source contact references",
+  "MOD-SUSP-0002 physical wheel-coordinate states and reviewed local domains",
+  "WUFR27_STEERING_BASELINE_V0 centered-rack MOD-STEER-0001 closure for the front pair",
+  "MOD-VEH-0005 per-corner physical unsprung gravity point loads",
+  "Declared root and two-step finite-difference settings"
+]
+outputs = [
+  "Road-compatible wheel coordinates ordered [FL,FR,RL,RR]",
+  "J_wb=partial(z_w)/partial([z_s,phi,theta])",
+  "Current source contact-reference and physical wheel-center points with provenance",
+  "Per-corner work-conjugate road-normal contact coefficient c_i",
+  "Per-corner unsprung-gravity generalized wheel force Q_u_i",
+  "Root, branch, steering, road-gap, derivative, and failure diagnostics"
+]
+assumptions = [
+  "WUFR-27 retains the WUFR-26 nominal rigid suspension and steering design geometry for this baseline.",
+  "The OptimumK Contact Patch channel supplies a source-defined nominal upright-attached contact reference only; it is not generic tire-envelope, loaded-radius, or tire-compliance authority.",
+  "All four source contact references are active on one flat rigid road plane for this first compatibility mode.",
+  "Front rack displacement is zero for the static-gravity baseline; suspension-induced centered-rack toe/steering remains solved by MOD-STEER-0001 rather than suppressed.",
+  "Each corner remains on the reviewed nominal-continuation physical suspension branch over the local map/differentiation domain."
+]
+verification_level = "none"
+equation_ids = ["EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013"]
+benchmark_ids = ["BENCH-VEH-0008", "BENCH-VEH-0009"]
+authorization_id = "AUTH-VEH-0006"
+authorization_state = "proposed_for_review; road_compatibility_and_projection_only; final_WUFR_equilibrium_not_yet_authorized"
+upstream_model_ids = ["MOD-VEH-0003", "MOD-VEH-0004", "MOD-VEH-0005", "MOD-SUSP-0002", "MOD-STEER-0001"]
+downstream_model_ids = []
+source_record = "data_catalog/wufr26_road_contact_reference_v0.toml"
+preimplementation_specification = "docs/models/vehicle/wufr_road_contact_map_function_specification.md"
+planned_implementation_package = "src/pssd_vehicle/wufr_road_contact.py"
+review_record = "docs/reviews/phase2_wufr_road_contact_map_authorization_review.md"
+planned_downstream = [
+  "WUFR spring-plus-Z-bar-plus-gravity static four-corner equilibrium composition",
+  "road-reaction/contact admissibility benchmark using MOD-VEH-0004",
+  "later tire compliance/loaded-radius contact model",
+  "later alternate contact-mode continuation after wheel lift"
+]
+prohibited_scope = "Generic tire contact envelope or loaded radius; tire compliance; body-roll-times-track wheel-travel shortcut; scalar spring/ARB motion ratio; OptimumK scalar Steer Angle as rotation input; hidden crossweight/load-transfer formulas; road-reaction solve or wheel-load publication by this model alone; alternate contact modes; installed/as-built or production authority."
