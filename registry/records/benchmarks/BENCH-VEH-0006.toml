@@ -1,0 +1,24 @@
+[record]
+id = "BENCH-VEH-0006"
+type = "benchmark"
+title = "Quasi-static solver authority and failure-boundary benchmark"
+status = "proposed"
+description = "Verify that the generic MOD-VEH-0004 kernel exposes numerical/authority failures instead of repairing them, and that WUFR-specific road reactions remain unavailable without explicit mass-force allocation."
+verification_level = "B"
+target_ids = ["MOD-VEH-0004", "EQ-VEH-0008", "EQ-VEH-0009", "EQ-VEH-0010"]
+acceptance_criteria = [
+  "A synthetic asymmetric conservative fixture with a known body-coordinate solution converges from at least two declared initial guesses and reports residual, iteration count, coordinate scales, numerical-tangent condition diagnostic, and provider provenance.",
+  "The reduced residual is independently checked against a two-step finite-difference gradient of the supplied conservative potential wherever all participating external loads admit a potential representation.",
+  "A singular or rank-deficient compatibility/tangent fixture returns an explicit singular_or_ill_conditioned_tangent failure rather than accepting an arbitrary body state.",
+  "A bounded fixture whose Newton step would leave the declared coordinate domain returns bound/nonconvergence diagnostics; no hidden clipping is permitted.",
+  "A contact-recovery fixture producing lambda_i<0 retains the negative value and returns wheel_lift/contact_mode_invalid; the load is not clipped or redistributed to other corners.",
+  "Missing or zero contact coefficient, nonfinite force input, coordinate-order mismatch, or upstream provider failure returns a structured failure.",
+  "A WUFR-specific request without reviewed body gravity and per-corner wheel external-force allocation returns missing_mass_force_authority rather than defaulting to 5 kg/corner, historical 10 kg/corner, 207 kg sprung mass, 320 kg total mass, or any other project calculation input.",
+  "No historical crossweight rule, scalar load-transfer formula, body-roll-equals-wheel-travel approximation, scalar spring motion ratio, or scalar ARB roll stiffness is reachable through the generic implementation interface."
+]
+source_configuration = "synthetic_only_with_explicit_WUFR_missing-authority_case"
+implementation = "planned: src/pssd_vehicle/quasi_static.py"
+implementation_method = "Structured reduced-equilibrium failures, two-step energy-gradient verification, and explicit contact-reaction admissibility."
+implementation_tests = ["planned: tests/test_vehicle_quasi_static.py", "planned: tests/test_vehicle_quasi_static_authorization.py"]
+report_script = "planned: scripts/run_vehicle_quasi_static_benchmarks.py"
+result_record = "planned: benchmarks/vehicle/vehicle_quasi_static_result_v0.1.0.toml"
