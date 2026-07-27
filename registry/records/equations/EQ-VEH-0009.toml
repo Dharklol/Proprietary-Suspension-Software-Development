@@ -1,0 +1,30 @@
+[record]
+id = "EQ-VEH-0009"
+type = "equation"
+title = "Reduced quasi-static body equilibrium"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Solve the reduced body coordinates by virtual-work equilibrium after active-contact compatibility has eliminated the wheel coordinates. Conservative suspension generalized wheel forces map to the body coordinates through the signed compatibility Jacobian; explicit body external generalized forces are added directly."
+outputs = ["Body equilibrium residual R_b", "Converged body coordinates q_b", "Residual/tangent/convergence diagnostics"]
+inputs = ["Compatibility Jacobian J_wb", "Conservative suspension wheel generalized force Q_susp_w", "Explicit body external generalized force Q_body_ext"]
+assumptions = [
+  "The solve is quasi-static; damping and inertial transient terms are excluded.",
+  "Q_susp_w is the force work-conjugate to the supplied physical wheel-coordinate vector.",
+  "Q_body_ext contains only explicitly authorized body generalized forces and is not inferred from corner weights inside the kernel.",
+  "Wheel-only external forces whose application points are fixed by the active road constraint are excluded from this reduced body residual to avoid double counting."
+]
+verification_level = "none"
+canonical_equation = "R_b(q_b) = Q_body_ext(q_b) + J_wb(q_b)^T Q_susp_w(z_w(q_b)); solve R_b = 0"
+source_basis = [
+  "Pacejka (2006), Tyre and Vehicle Dynamics, Section 11.3 generalized forces from virtual work.",
+  "Guiggiani (2022), The Science of Vehicle Dynamics, Chapters 9-10 equilibrium and kinematic-congruence separation.",
+  "Repository MOD-SUSP-0004/MOD-SUSP-0005 conservative generalized-force contracts."
+]
+validity = "Declared quasi-static active-contact branch with explicit compatibility and force providers."
+failure_behavior = [
+  "Return structured failure on provider failure, nonfinite residuals, singular/ill-conditioned numerical tangent, bound violation, or nonconvergence.",
+  "Do not clip coordinates/forces or silently switch contact mode.",
+  "Do not manufacture a WUFR gravity vector from total mass/corner weights without separately reviewed mass decomposition."
+]
+benchmark_ids = ["BENCH-VEH-0005", "BENCH-VEH-0006"]
