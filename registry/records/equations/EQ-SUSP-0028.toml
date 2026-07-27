@@ -1,0 +1,27 @@
+[record]
+id = "EQ-SUSP-0028"
+type = "equation"
+title = "Physical direct-coilover spring force vector and rocker torque"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Map the existing conservative spring compression-force magnitude onto the exact current direct-coilover eye-to-eye line, return the equal-and-opposite physical forces at rocker and chassis eyes, and verify the physical rocker torque against the exact rocker-angle length derivative."
+inputs = ["successful MOD-SUSP-0003 current actuation geometry", "successful MOD-SUSP-0004 spring force magnitude F_s>=0", "current chassis eye C", "current rocker eye D", "rocker pivot R", "reviewed rocker axis a", "matching source/configuration/assumption provenance"]
+outputs = ["eye-to-eye unit vector e", "physical spring force on rocker", "physical spring force on chassis", "rocker-axis spring torque", "exact dL_d/dtheta", "action-reaction and virtual-work residuals"]
+assumptions = [
+  "ASM-SUSP-0007: spring contribution is an ideal axial current eye-to-eye force only.",
+  "F_s is the nonnegative compression-force magnitude already supplied by MOD-SUSP-0004; this equation does not duplicate the spring constitutive law.",
+  "The rocker eye is rigidly attached to the reviewed MOD-SUSP-0003 rocker and rotates about its frozen axis."
+]
+verification_level = "A"
+canonical_equation = "e=(D-C)/||D-C||; F_rocker=F_s*e; F_chassis=-F_s*e; dD/dtheta=a cross (D-R); dL_d/dtheta=e dot (a cross (D-R)); tau_s=a dot ((D-R) cross F_rocker)=F_s*dL_d/dtheta."
+source_basis = [
+  "MOD-SUSP-0003 exact rigid rocker point transport and reviewed current chassis/rocker damper-eye geometry.",
+  "MOD-SUSP-0004 conservative spring force magnitude and generalized-force rule Q_s=F_s*dL_d/dq.",
+  "Classical two-force-member/action-reaction statics and virtual work."
+]
+validity = "Finite nondegenerate current eye-to-eye geometry, finite normalized rocker axis, successful source-matched upstream actuation and spring states, and ASM-SUSP-0007 spring-only load-path assumption."
+numerical_method = "Direct vector algebra; no finite difference is required for dL_d/dtheta because rigid rocker point velocity is analytic."
+failure_behavior = ["Reject failed/mismatched upstream states", "Reject nonfinite geometry or negative spring-force magnitude", "Reject degenerate eye line or rocker axis", "Do not clip or insert guessed damper forces", "Report action-reaction or rocker-torque identity failure rather than repairing the result"]
+benchmark_ids = ["BENCH-SUSP-0025"]
+authorization = "authorizations/suspension/AUTH-SUSP-0014.toml"
