@@ -1,0 +1,62 @@
+version = "0.1.0"
+authorization_id = "AUTH-VEH-0008"
+status = "review_ready"
+title = "WUFR ideal rigid circular tire contact and flat-road compatibility authorization"
+effective_condition = "Effective after review/merge. Satisfies AUTH-VEH-0007's replacement-contact gate only for the explicitly low-fidelity ASM-VEH-0005 ideal rigid circular tire. Re-authorizes MOD-VEH-0006 implementation with EQ-VEH-0014 as its contact subfunction; it does not revive invalidated ASM-VEH-0004 and does not authorize WUFR road reactions or final static wheel loads."
+review_record = "docs/reviews/phase2_wufr_rigid_circular_contact_authorization_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-VEH-0006"]
+equation_ids = ["EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013", "EQ-VEH-0014"]
+benchmark_ids = ["BENCH-VEH-0009", "BENCH-VEH-0010"]
+assumption_ids = ["ASM-VEH-0005"]
+prior_hold = "AUTH-VEH-0007"
+failed_prior_assumption = "ASM-VEH-0004"
+
+[source_boundary]
+radius_source = "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml nominal_source.tire_radius_mm = 232.41"
+radius_role = "nominal OptimumK source-setup rigid circle radius; not measured loaded radius or installed effective radius"
+wheel_center_and_plane = "AUTH-SUSP-0002 / MOD-SUSP-0002"
+front_runtime_steering = "AUTH-STEER-0001 / MOD-STEER-0001 centered-rack closure"
+body_and_road = "AUTH-VEH-0003 / MOD-VEH-0003"
+gravity_projection = "AUTH-VEH-0005 / MOD-VEH-0005"
+negative_contact_evidence = "AUTH-VEH-0007 + BENCH-VEH-0008; historical OptimumK Contact Patch is retained as output evidence and may not be reused as a rigid material point"
+
+[permitted]
+items = [
+  "Implement EQ-VEH-0014 as a focused pure geometry function of current wheel center, fully solved wheel-plane normal, road normal, and R=0.23241 m.",
+  "Use v=n_R-(n_R dot n_w)n_w, e=v/||v||, r_cp=r_wc-R e to select the minimum-road-height point on the ideal zero-width circle.",
+  "Compose MOD-SUSP-0002 current wheel center/plane with MOD-STEER-0001 centered-rack front steering before evaluating the circle contact point; rear uses the final toe-link-closed wheel plane from MOD-SUSP-0002.",
+  "Use the resulting contact point inside EQ-VEH-0012 flat-road compatibility roots and evaluate EQ-VEH-0013 J_wb/contact coefficients by the already specified branch-preserving two-step differentiation.",
+  "Retain the physical wheel-center point separately for MOD-VEH-0005 unsprung-gravity virtual work.",
+  "Report the assumption ID, exact source radius, projection magnitude, wheel/road normals, contact point, coordinate order, derivative convergence, and structured failures.",
+  "Use historical OptimumK Contact Patch coordinates only as non-governing comparison context; do not fit the circle model to those coordinates."
+]
+
+[prohibited]
+items = [
+  "Reusing ASM-VEH-0004 or rigidly transporting the historical OptimumK Contact Patch as a material point.",
+  "Changing or fitting R=0.23241 m to make a historical Contact Patch row, measured corner weight, ride height, or future QSS output agree.",
+  "Using loaded radius, vertical tire stiffness, tire width/edge contact, footprint migration, carcass deformation, pressure/load/temperature/speed dependence, or contact pressure under this authorization.",
+  "Replacing the wheel-plane projection with r_wc-R*n_R, body vertical, body-roll-times-track, direct left-right wheel travel, scalar motion ratio, or another geometric shortcut except in a benchmark limiting case where EQ-VEH-0014 independently reduces to it.",
+  "Forcing the circle contact x/y coordinates to the historical OptimumK Contact Patch output; the nominal three-dimensional toe/camber geometry is allowed to produce small longitudinal offsets.",
+  "Publishing WUFR road reactions, crossweight, LLTD, load transfer, roll gradient, or tire loads from MOD-VEH-0006 alone.",
+  "Claiming installed/as-built tire geometry, physical loaded radius, tire vertical compliance, or production fidelity."
+]
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-VEH-0010 verifies exact circle radius, wheel-plane membership, road-normal minimization, wheel-normal sign invariance, nominal WUFR horizontal-road closure, and structured degeneracy failure.",
+  "BENCH-VEH-0010 freezes the nominal ideal-circle contact outputs and explicitly reports rather than repairs the small x/y differences relative to the historical OptimumK Contact Patch output.",
+  "BENCH-VEH-0009 is re-run with EQ-VEH-0014 supplying the contact point and verifies unique road roots, J_wb two-step convergence, contact-coefficient virtual work, unsprung-gravity wheel-center virtual work, and out-of-domain structured failure.",
+  "Implementation contains no second tire-radius constant and no fallback to ASM-VEH-0004 or body/track shortcuts."
+]
+
+[promotion_gates]
+items = [
+  "This authorization merges before the new MOD-VEH-0006 implementation attempt.",
+  "A separate downstream authorization is still required to compose MOD-SUSP-0004 springs, MOD-SUSP-0005 Z-bar, MOD-VEH-0005 gravity, MOD-VEH-0006 compatibility, and MOD-VEH-0004 equilibrium into WUFR road reactions/static wheel loads.",
+  "Static scale/ride-height correlation should follow that first integrated solve before adding maneuver tire-force or load-transfer features.",
+  "Loaded-radius/tire-compliance/contact-patch fidelity requires a later source/model authorization and must supersede or validate ASM-VEH-0005 rather than silently modifying it."
+]
