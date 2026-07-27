@@ -5,7 +5,7 @@ title = "Conservative coil-spring force, energy, generalized-force, and physical
 status = "proposed"
 disposition = "accepted_with_restrictions"
 maturity = "M1"
-description = "Bounded conservative coil-spring provider authorized by AUTH-SUSP-0004 / PR47 and implemented in PR48. It consumes an explicitly authorized spring compression/reference state and conservative constitutive law, returns spring force, stored energy, local tangent stiffness, and maps the elastic action into signed generalized force through exact coordinate Jacobians/virtual work. AUTH-SUSP-0014 additionally authorizes a WUFR-specific spring-only physical force-vector bridge along the exact current direct-coilover eye line, without adding non-spring damper physics or rocker equilibrium. WUFR-27 uses the explicitly labeled ASM-SUSP-0002 zero-preload/full-extension reference and rear affine tangent-rate assumption."
+description = "Bounded conservative coil-spring provider authorized by AUTH-SUSP-0004 / PR47 and implemented in PR48. It consumes an explicitly authorized spring compression/reference state and conservative constitutive law, returns spring force, stored energy, local tangent stiffness, and maps the elastic action into signed generalized force through exact coordinate Jacobians/virtual work. AUTH-SUSP-0014 additionally authorizes and the current implementation provides a WUFR-specific spring-only physical force-vector bridge along the exact current direct-coilover eye line, without adding non-spring damper physics or rocker equilibrium. WUFR-27 uses the explicitly labeled ASM-SUSP-0002 zero-preload/full-extension reference and rear affine tangent-rate assumption."
 inputs = [
   "Successful MOD-SUSP-0003 actuation state or an explicitly supplied spring-seat/compression state with matching source/configuration authority",
   "Spring free length and explicit seat-separation or equivalent reference/preload relation",
@@ -20,7 +20,7 @@ outputs = [
   "Stored elastic energy U_s with declared zero-energy reference",
   "Local tangent stiffness k_t",
   "Signed generalized spring force with coordinate order/units and two-step energy-gradient verification support",
-  "Under AUTH-SUSP-0014 after implementation: spring-only equal-and-opposite physical force vectors at the current rocker/chassis eyes plus rocker-torque identity diagnostics",
+  "Under AUTH-SUSP-0014: spring-only equal-and-opposite physical force vectors at the current rocker/chassis eyes plus exact rocker-torque/length-derivative identity diagnostics",
   "Source/configuration/assumption provenance and structured unavailable/failure state"
 ]
 assumptions = [
@@ -37,7 +37,7 @@ verification_level = "B"
 equation_ids = ["EQ-SUSP-0013", "EQ-SUSP-0014", "EQ-SUSP-0015", "EQ-SUSP-0028"]
 benchmark_ids = ["BENCH-SUSP-0009", "BENCH-SUSP-0010", "BENCH-SUSP-0025"]
 authorization_id = "AUTH-SUSP-0004"
-authorization_state = "prototype_spring_provider_authorized; physical_WUFR_eye_force_extension_review_ready_under_AUTH-SUSP-0014"
+authorization_state = "prototype_spring_provider_authorized; physical_WUFR_eye_force_extension_AUTH-SUSP-0014_implemented"
 authorization_document = "authorizations/suspension/AUTH-SUSP-0004.toml"
 physical_vector_authorization_document = "authorizations/suspension/AUTH-SUSP-0014.toml"
 upstream_model_ids = ["MOD-SUSP-0003"]
@@ -51,10 +51,11 @@ physical_vector_source_record = "data_catalog/wufr27_spring_physical_rocker_forc
 source_audit = "docs/models/suspension/spring_force_source_audit.md"
 preimplementation_specification = "docs/models/suspension/spring_force_function_specification.md"
 implementation_package = "src/pssd_suspension/spring_force.py"
-physical_vector_planned_implementation_package = "src/pssd_suspension/wufr_spring_rocker_force.py"
+physical_vector_implementation_package = "src/pssd_suspension/wufr_spring_rocker_force.py"
 implementation_document = "docs/models/suspension/spring_force_implementation_v0.1.0.md"
-implementation_tests = ["tests/test_suspension_spring_force.py"]
-physical_vector_planned_test = "tests/test_suspension_wufr_spring_rocker_force.py"
+physical_vector_implementation_document = "docs/reviews/phase3_wufr_spring_rocker_force_implementation_review.md"
+implementation_tests = ["tests/test_suspension_spring_force.py", "tests/test_suspension_wufr_spring_rocker_force.py"]
+physical_vector_benchmark_report_script = "scripts/run_wufr_spring_rocker_force_benchmarks.py"
 benchmark_report_script = "scripts/run_suspension_spring_force_benchmarks.py"
 benchmark_result_record = "benchmarks/suspension/suspension_spring_force_result_v0.1.0.toml"
 validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
@@ -62,5 +63,5 @@ authorization_review_record = "docs/reviews/phase2_spring_force_authorization_re
 physical_vector_authorization_review_record = "docs/reviews/phase3_wufr_spring_rocker_force_authorization_review.md"
 implementation_review_record = "docs/reviews/phase2_spring_force_implementation_review.md"
 baseline_configuration = "configurations/suspension/WUFR27_SUSPENSION_BASELINE_V0.toml"
-next_implementation_gate = "After AUTH-SUSP-0014 review/merge, implement only EQ-SUSP-0028 and BENCH-SUSP-0025. Then separately authorize rocker free-body equilibrium. Before calling rocker pivot reactions complete physical hardware loads, explicitly decide the treatment of omitted non-spring damper effects such as gas force/static friction."
+next_implementation_gate = "Separately authorize rocker free-body equilibrium using the now-physical Level-1 push/pull, spring-only eye force, and physical ARB linkage force. Before calling rocker pivot reactions complete physical hardware loads, explicitly decide the treatment of omitted non-spring damper effects such as gas force/static friction."
 prohibited_scope = "Damper force/damping/gas force/hysteresis/friction, bump/top-out stops, tender/helper behavior, ARB coupling inside the spring provider, governing scalar wheel-rate/MR substitution, tire stiffness, vehicle equilibrium/load transfer, rocker pivot reactions, individual linkage/member/bearing loads, stress/FEA, compliance, installed travel/stroke, optimization, installed/as-built or production claims."
