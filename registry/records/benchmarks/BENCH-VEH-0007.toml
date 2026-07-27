@@ -1,0 +1,25 @@
+[record]
+id = "BENCH-VEH-0007"
+type = "benchmark"
+title = "WUFR driver/no-fuel static gravity allocation authority"
+status = "proposed"
+description = "Freeze the reviewed prototype decomposition of the WUFR driver/no-fuel total scale state into a derived sprung body and four 5 kg wheel-center unsprung lumps. This benchmark is arithmetic/source/provenance authority only; it does not solve suspension equilibrium or road reactions."
+verification_level = "B"
+target_ids = ["MOD-VEH-0005", "AUTH-VEH-0005", "ASM-VEH-0003"]
+acceptance_criteria = [
+  "Use LF/RF/LR/RR=178/175/163/159 lb and total=675 lb from WUFR26_WHOLE_VEHICLE_FRAME_V0; with exact 0.45359237 kg/lb conversion total mass is 306.17484975 kg.",
+  "Retain measured unsprung axle totals 10 kg front and 10 kg rear separately from the prototype allocation.",
+  "Under ASM-VEH-0003 the prototype corner order [FL,FR,RL,RR] is [5,5,5,5] kg and total unsprung mass is 20 kg.",
+  "Use nominal wheel-center source points [0,+0.615986,0.2286], [0,-0.615986,0.2286], [-1.5624,+0.603286,0.2286], [-1.5624,-0.603286,0.2286] m from the reviewed axle/track/wheel-center geometry.",
+  "Derived sprung mass is 286.17484975 kg.",
+  "Mass/first-moment subtraction gives sprung CG source position [-0.7428152951513378,+0.006753924590788551,+0.29429108288542044] m and relative-to-total-CG offset [+0.002507371515328871,+0.0004411808870848346,+0.004291082885420461] m.",
+  "Recombining sprung and four unsprung point masses reconstructs total mass and x/y/z first moments of the reviewed total design reference within 1e-12 relative or 1e-12 absolute tolerance as applicable.",
+  "At g=9.81 m/s^2 sprung weight magnitude is 2807.3752760475004 N and each nominal 5 kg unsprung weight magnitude is 49.05 N; these are gravity magnitudes, not solved spring forces or road reactions.",
+  "The implementation/source record carries ASM-VEH-0003, keeps installed_as_built_authority=false, and exposes no fallback to historical 10 kg/corner, 207 kg sprung, or 320 kg total calculation inputs.",
+  "Wheel gravity is represented as a physical point load whose generalized-force projection remains downstream of the reviewed wheel/contact Jacobian; the benchmark does not authorize constant -49.05 N in every nonlevel state."
+]
+source_configuration = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE carried into WUFR27_SUSPENSION_BASELINE_V0 under ASM-VEH-0003"
+implementation = "planned: src/pssd_vehicle/wufr_gravity.py"
+implementation_tests = ["planned: tests/test_wufr_static_gravity.py", "tests/test_wufr_static_gravity_authorization.py"]
+report_script = "planned: scripts/run_wufr_static_gravity_benchmarks.py"
+result_record = "planned: benchmarks/vehicle/wufr_static_gravity_result_v0.1.0.toml"
