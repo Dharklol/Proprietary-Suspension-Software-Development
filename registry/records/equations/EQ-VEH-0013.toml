@@ -2,7 +2,7 @@
 id = "EQ-VEH-0013"
 type = "equation"
 title = "WUFR road-map Jacobian, contact coefficient, and wheel-point force projection"
-status = "proposed_blocked_by_AUTH-VEH-0007"
+status = "blocked"
 disposition = "accepted_with_restrictions"
 maturity = "M0"
 description = "Architectural derivative/projection layer for a re-authorized EQ-VEH-0012 road-compatible map and EQ-VEH-0011 contact-point provider. The original ASM-VEH-0004 contact provider failed BENCH-VEH-0008, so J_wb and contact coefficients are not currently available as WUFR-authoritative outputs. Physical wheel-center gravity projection remains a valid formula but must not be promoted into a road-reaction result while compatibility is blocked."
