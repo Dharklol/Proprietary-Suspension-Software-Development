@@ -1,0 +1,23 @@
+[record]
+id = "EQ-SUSP-0026"
+type = "equation"
+title = "WUFR Level-1 interface reaction reconstruction and physical residuals"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Reconstruct named WUFR Level-1 interface reactions from the solved eighteen scalar unknowns and independently verify physical SI equilibrium on the outboard carrier, upper A-arm, and lower A-arm. Equivalent inboard hinge output is a net reaction wrench only and must have zero couple component about the hinge axis."
+outputs = ["upper/lower arm-to-carrier spherical force vectors", "upper/lower inboard net hinge force vectors", "upper/lower inboard net hinge perpendicular moment vectors", "signed tie/toe axial force", "signed push/pull axial force", "per-body force/moment residuals", "action/reaction checks"]
+inputs = ["EQ-SUSP-0023 reaction bases", "EQ-SUSP-0025 signed solution", "original unscaled geometry and complete external wrench"]
+assumptions = [
+  "Resultants are reconstructed in physical SI units from the original geometry rather than inferred only from the scaled matrix.",
+  "Internal spherical-joint forces are equal and opposite on carrier/arm bodies.",
+  "Equivalent revolute output is a net hinge wrench at the declared reference point; it does not determine the forward/aft rod-end force split.",
+  "Positive axial force remains tension for tie/toe and push/pull rods."
+]
+verification_level = "none"
+canonical_equation = "For each body i, R_Fi=F_prescribed,i+sum reactions_i and R_Mi=M_prescribed,i+sum[(r_j-r_Oi) cross F_j + M_j]. Require ||R_Fi||_inf and ||R_Mi||_inf below frozen tolerances. For each hinge, M_hinge=(m1*v1+m2*v2) and require M_hinge dot u_h=0 within tolerance."
+source_basis = ["Classical rigid-body equilibrium", "WUFR27_LEVEL1_LINKAGE_TOPOLOGY_V0 output boundary", "AUTH-SUSP-0010 physical-residual reconstruction precedent"]
+validity = "Successful EQ-SUSP-0025 solve with matching topology, frames, body references, and original physical geometry."
+numerical_method = "Direct physical-unit reconstruction and explicit named-interface mapping."
+failure_behavior = ["Reject solution/topology order mismatch", "Reject nonfinite reconstruction", "Reject hinge-axis reaction moment violation", "Reject per-body physical residual above tolerance", "Never clip compression to zero or take force magnitudes to hide sign"]
+benchmark_ids = ["BENCH-SUSP-0021", "BENCH-SUSP-0022", "BENCH-SUSP-0023"]
