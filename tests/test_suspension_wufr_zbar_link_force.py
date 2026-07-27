@@ -55,9 +55,12 @@ class WufrZBarPhysicalLinkForceTests(unittest.TestCase):
                     self.assertAlmostEqual(side.physical_rocker_torque_Nm, 0.0, delta=1.0e-9)
                     self.assertAlmostEqual(_norm(side.force_on_rocker_N), 0.0, delta=1.0e-8)
 
-    def test_front_differential_state_recovers_signed_axial_forces_and_torque(self) -> None:
+    def test_front_coupled_state_recovers_signed_axial_forces_and_torque(self) -> None:
         fixture = load_wufr_zbar_fixture(FIXTURE_PATH, "front")
-        state = solve_nominal_zbar_mechanism(fixture, 0.01, -0.01)
+        # Equal signed rocker-coordinate perturbations are used because the opposite-
+        # signed pair can be absorbed by the free housing with zero blade deflection.
+        # This test names only the rocker coordinates; it does not infer wheel roll/heave semantics.
+        state = solve_nominal_zbar_mechanism(fixture, 0.01, 0.01)
         self.assertTrue(state.ok, state.message)
         force = evaluate_two_arm_force(state, setting=3, stiffness_N_per_m=400000.0)
         self.assertTrue(force.ok, force.message)
@@ -76,8 +79,6 @@ class WufrZBarPhysicalLinkForceTests(unittest.TestCase):
             for a, b in zip(side.force_on_rocker_N, side.force_on_blade_N):
                 self.assertAlmostEqual(a, -b, delta=1.0e-12)
             self.assertAlmostEqual(side.rocker_torque_residual_Nm or 0.0, 0.0, delta=1.0e-6)
-        # The free housing may unload one blade/link exactly. Require the physical
-        # differential state to be nontrivial in aggregate, not nonzero on both sides.
         self.assertGreater(abs(result.left.axial_force_N) + abs(result.right.axial_force_N), 1.0e-8)
 
     def test_rear_asymmetric_state_reproduces_existing_generalized_rocker_torque(self) -> None:
@@ -103,7 +104,7 @@ class WufrZBarPhysicalLinkForceTests(unittest.TestCase):
 
     def test_force_vectors_are_collinear_with_current_link_axis(self) -> None:
         fixture = load_wufr_zbar_fixture(FIXTURE_PATH, "front")
-        state = solve_nominal_zbar_mechanism(fixture, 0.01, -0.01)
+        state = solve_nominal_zbar_mechanism(fixture, 0.01, 0.01)
         force = evaluate_two_arm_force(state, setting=3, stiffness_N_per_m=400000.0)
         result = _recover(fixture, state, force)
         self.assertTrue(result.ok, result.message)
@@ -138,7 +139,7 @@ class WufrZBarPhysicalLinkForceTests(unittest.TestCase):
 
     def test_upstream_failure_and_source_mismatch_are_fail_closed(self) -> None:
         fixture = load_wufr_zbar_fixture(FIXTURE_PATH, "front")
-        good_state = solve_nominal_zbar_mechanism(fixture, 0.01, -0.01)
+        good_state = solve_nominal_zbar_mechanism(fixture, 0.01, 0.01)
         good_force = evaluate_two_arm_force(good_state, setting=1, stiffness_N_per_m=280000.0)
         failed_state = ZBarMechanismResult(
             ZBarStatus.FAILURE,
