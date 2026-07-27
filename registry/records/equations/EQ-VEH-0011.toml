@@ -2,7 +2,7 @@
 id = "EQ-VEH-0011"
 type = "equation"
 title = "WUFR road-contact point construction"
-status = "proposed_blocked_by_AUTH-VEH-0007"
+status = "blocked"
 disposition = "accepted_with_restrictions"
 maturity = "M0"
 description = "Architectural contact-point provider for a physical wheel state. PR #64/BENCH-VEH-0008 rejected the original ASM-VEH-0004 rule that rigidly transported the nominal OptimumK Contact Patch as a material upright-attached point. Suspension/upright/steering state ownership remains valid, but the actual road-contact point construction now requires a separately reviewed replacement contact model/source assumption."
