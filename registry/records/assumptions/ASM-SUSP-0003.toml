@@ -1,37 +1,39 @@
 [record]
 id = "ASM-SUSP-0003"
 type = "assumption"
-title = "WUFR-27 zero-preload and discrete blade-stiffness authority boundary"
+title = "WUFR-27 zero-preload, discrete per-arm blade stiffness, and non-installed ARB boundary"
 status = "proposed"
 disposition = "accepted_with_restrictions"
 maturity = "M0"
-description = "Freeze the reviewer-declared WUFR-27 anti-roll-bar design-intent boundary. The nominal setup uses zero intentional ARB preload. The corrected governing constitutive authority is the SolidWorks FEA blade-tip stiffness column from Google Sheet ARB FEA vs Simulink: discrete settings 1..5 = 280/300/400/700/2300 N/mm. Historical MATLAB 2560/2270 N*m/deg, Simulink, and Instron values are comparison-only. AUTH-SUSP-0006 freezes a nominal WUFR Z-bar point/topology fixture, but the single scalar installed two-ended-blade map delta_b(q_L,q_R), its Jacobian, and vehicle-coordinate generalized force remain unauthorized and unimplemented."
+description = "Freeze the reviewer-declared WUFR-27 anti-roll-bar design-intent boundary. The nominal setup uses zero intentional ARB preload. The corrected governing constitutive authority is the SolidWorks FEA single-blade-arm tip stiffness column from Google Sheet ARB FEA vs Simulink: discrete settings 1..5 = 280/300/400/700/2300 N/mm. Historical effective-axle, Simulink, and Instron values are comparison-only. AUTH-SUSP-0006 freezes the nominal Z-bar fixture, AUTH-SUSP-0007 resolves the source stiffness as one-arm transverse tip stiffness with additive two-arm energy, AUTH-SUSP-0008 authorizes the verified rocker-coordinate mechanism map/Jacobian, and AUTH-SUSP-0009 authorizes the signed chain into left/right MOD-SUSP-0002 physical wheel-center vertical coordinates. Whole-vehicle equilibrium, tire/contact loads, and installed/as-built claims remain unauthorized."
 assumptions = [
   "Reviewer/user statement on 2026-07-26: nominal WUFR ARB setup uses zero intentional preload.",
   "Reviewer/user correction on 2026-07-26: use SolidWorks FEA blade-tip stiffness from Google Sheet ARB FEA vs Simulink as governing authority: settings 1..5 = 280, 300, 400, 700, 2300 N/mm.",
-  "The governing stiffness is linear blade-tip force/deflection stiffness. Convert N/mm to SI N/m by multiplying by 1000.",
-  "The sheet beam-theory formulas use k=3EI/L^3 and divide by 1000 from N/m to N/mm, confirming the source units.",
+  "Source-semantics recovery identifies those values as one blade-arm transverse tip stiffnesses. Convert N/mm to SI N/m by multiplying by 1000 and use the same selected k_b on both arms.",
+  "The installed ideal two-arm energy is U=0.5*k_b*(d_L^2+d_R^2); no factor-two, half, sqrt(2), averaging, blending, or duplicate-energy correction is introduced.",
   "Settings are discrete. Interpolation, averaging, blending, or stacking stiffness sources is not authorized.",
-  "MATLAB reduced axle values 2560/2270 N*m/deg are comparison-only and must not be used as the governing WUFR constitutive law.",
+  "Historical 2560/2270 N*m/deg are downstream setting-1 effective axle roll-stiffness comparison values, not an independent or governing blade constitutive source.",
   "Simulink 285/309/400/724/2628 N/mm and Instron 900/980/1320/1970/2630 N/mm are comparison-only and must not be averaged or stacked with SolidWorks FEA stiffness.",
-  "AUTH-SUSP-0006 authorizes only the named nominal WUFR Z-bar point/topology fixture and rigid rocker-ARB-pickup transport. The single scalar map (q_L,q_R)->delta_b and partial(delta_b)/partial(q_L,q_R) remains unauthorized. Body roll, wheel travel/track-width approximations, historical scalar motion ratios, and CAD sketch row ordering are not substitutes.",
-  "The recovered two-ended blade geometry does not authorize doubling, halving, sqrt(2)-rescaling, or duplicating the PR50 k_b/energy law.",
-  "Zero intentional preload means the named zero blade-deflection reference is the zero-energy constitutive reference; it does not authorize hidden offset repair of a future mechanism reconstruction."
+  "AUTH-SUSP-0006 supplies only named nominal mechanism geometry; AUTH-SUSP-0007/0008 subsequently authorize the two-arm elastic coordinates and rocker-coordinate mechanism map without changing the fixture source authority.",
+  "AUTH-SUSP-0009 composes signed rho_rw=d(theta_R)/d(delta_z_wc_body) from the reviewed physical-wheel and rocker solvers into Q_z. Historical motion ratios, body roll, wheel-travel difference, and track width are not substitutes for this chain.",
+  "Zero intentional preload means the named nominal two-arm blade state is the zero-energy constitutive reference; it does not authorize hidden offset repair.",
+  "Q_z is work-conjugate to the two physical wheel-center vertical generalized coordinates only. It is not a maneuver-specific tire normal-force change or whole-vehicle load-transfer result."
 ]
 severity = "high"
-affected_ids = ["MOD-SUSP-0005", "EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018", "BENCH-SUSP-0012", "BENCH-SUSP-0013", "BENCH-SUSP-0014"]
+affected_ids = ["MOD-SUSP-0005", "EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018", "BENCH-SUSP-0012", "BENCH-SUSP-0013", "BENCH-SUSP-0014", "BENCH-SUSP-0015", "BENCH-SUSP-0016", "BENCH-SUSP-0017"]
 source_basis = [
   "Reviewer/user correction in FSAE project conversation, 2026-07-26.",
   "Google Sheet 1rJjQBnSOMEGQmyromb9SjNgOEMwBBOdUpUKPPLOf-3c, tab ARB FEA vs Simulink.",
-  "Historical Weight_transfer_sensitivity.m retained as comparison-only evidence.",
-  "AUTH-SUSP-0006 / WUFR26_ZBAR_MECHANISM_V0 nominal mechanism fixture recovered from populated geometry, Simscape/manual/FDR lineage."
+  "Suspension Structural Design Binder 2025 effective-axle comparison lineage.",
+  "AUTH-SUSP-0006 / WUFR26_ZBAR_MECHANISM_V0 nominal mechanism fixture recovered from populated geometry, Simscape/manual/FDR lineage.",
+  "AUTH-SUSP-0007 two-arm constitutive interpretation, AUTH-SUSP-0008 rocker-coordinate mechanism implementation, and AUTH-SUSP-0009 physical wheel-coordinate chain."
 ]
-replacement_gate = "A new constitutive source may replace the discrete SolidWorks FEA blade law only through separate review. A WUFR vehicle-coordinate force model additionally requires separate authorization of the single scalar delta_b reduction, deformation map, and signed Jacobian."
+replacement_gate = "A new constitutive source may replace the discrete SolidWorks FEA per-arm law only through separate review. A maneuver-specific wheel-load/body-roll/load-transfer model additionally requires a separately reviewed whole-vehicle equilibrium problem with explicit body coordinates, contact constraints, external loads, and residual equations."
 prohibited_inference = [
   "Do not interpolate between blade settings.",
-  "Do not average, blend, or stack SolidWorks FEA, Simulink, Instron, or MATLAB stiffness values.",
-  "Do not present 2560/2270 N*m/deg as governing blade stiffness.",
-  "Do not infer scalar delta_b or its Jacobian from body roll, track width, wheel travel, historical scalar motion ratio, or exporter sketch-point row ordering.",
+  "Do not average, blend, or stack SolidWorks FEA, Simulink, Instron, or historical effective-axle stiffness values.",
+  "Do not present 2560/2270 N*m/deg as governing blade stiffness or use it to back-fit the mechanism map.",
+  "Do not substitute body roll, track width, wheel travel difference, historical scalar motion ratio, or exporter sketch-point row ordering for the reviewed mechanism/coordinate chain.",
   "Do not infer a factor-two, half, sqrt(2), or duplicate-energy correction from the presence of two blade arms/end linkages.",
-  "Do not claim installed/as-built stiffness or geometry from this assumption."
+  "Do not claim installed/as-built stiffness, geometry, travel, load transfer, or tire load from this assumption."
 ]

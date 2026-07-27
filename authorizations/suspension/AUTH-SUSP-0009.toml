@@ -1,0 +1,73 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0009"
+status = "review_ready"
+title = "WUFR Z-bar physical wheel-coordinate Jacobian and generalized-force authorization"
+effective_condition = "Effective after review/merge of AUTH-SUSP-0008 and the implementation PR carrying this authorization. This authorization permits the signed local chain from each MOD-SUSP-0002 physical wheel-center vertical coordinate to its MOD-SUSP-0003 rocker angle, composition with the reviewed WUFR two-arm rocker-coordinate Jacobian, and conservative ARB generalized force in left/right wheel-center vertical coordinates. It does not authorize whole-vehicle equilibrium, tire/contact-patch load, body-roll reduction, or installed/as-built claims."
+review_record = "docs/reviews/phase2_wufr_zbar_wheel_coordinate_review.md"
+
+[scope]
+model_ids = ["MOD-SUSP-0005"]
+equation_ids = ["EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018"]
+benchmark_ids = ["BENCH-SUSP-0016", "BENCH-SUSP-0017"]
+assumption_ids = ["ASM-SUSP-0003"]
+upstream_model_ids = ["MOD-SUSP-0001", "MOD-SUSP-0002", "MOD-SUSP-0003", "MOD-SUSP-0005"]
+implementation_package = "src/pssd_suspension/wufr_zbar_wheel.py"
+implementation_test = "tests/test_suspension_wufr_zbar_wheel.py"
+wheel_coordinate_map_authorized = true
+wheel_coordinate_generalized_force_authorized = true
+vehicle_equilibrium_authorized = false
+body_roll_reduction_authorized = false
+
+[coordinates]
+wheel_coordinate_order = ["delta_z_wc_body_left_m", "delta_z_wc_body_right_m"]
+wheel_coordinate_units = ["m", "m"]
+wheel_coordinate_sign = "positive upward wheel-center motion relative to the body, inherited from MOD-SUSP-0002"
+rocker_coordinate_order = ["theta_RL_rad", "theta_RR_rad"]
+rocker_derivative = "rho_rw_i = d(theta_R_i)/d(delta_z_wc_body_i), signed, rad/m"
+rocker_to_wheel_jacobian = "J_theta_z = diag(rho_rw_left, rho_rw_right) for the reviewed independent-corner rigid suspension actuation map"
+blade_chain = "J_dz = J_dtheta * J_theta_z"
+generalized_force = "Q_z = -J_dz^T*F = J_theta_z^T*Q_rocker; units N and work-conjugate only to the declared wheel-center vertical coordinates"
+
+[permitted]
+items = [
+  "Solve each left/right physical wheel-center vertical state with MOD-SUSP-0002 and its corresponding rigid rocker state with MOD-SUSP-0003 on the nominal continuation branch.",
+  "Evaluate signed rho_rw=d(theta_R)/d(delta_z_wc_body) from centered physical-wheel perturbations, with reviewed one-sided differences only at a reachable-domain boundary.",
+  "Check rho_rw at two physical-wheel perturbation step sizes and fail rather than hide a material disagreement.",
+  "Compose the already-reviewed WUFR J_dtheta with diag(rho_rw_left,rho_rw_right) to obtain J_dz in the declared left/right physical wheel-center vertical coordinates.",
+  "Evaluate Q_z=-J_dz^T*F using the exact discrete AUTH-SUSP-0007 per-arm stiffness and AUTH-SUSP-0008 two-arm mechanism state.",
+  "Verify Q_z independently against centered finite differences of total two-arm elastic energy after re-solving the physical wheel, rocker, and Z-bar states.",
+  "Retain signed left/right forces; do not force common-mode cancellation or take absolute values."
+]
+
+[prohibited]
+items = [
+  "Using OptimumK Motion Ratio Heave, spring motion ratio, a historical scalar motion ratio, or its reciprocal as rho_rw or J_theta_z.",
+  "Using track width, half-track, body roll angle, left-right wheel-travel difference, or reduced axle roll stiffness as a substitute for the solved coordinate chain.",
+  "Taking absolute values of rho_rw, J_dz, Q_z, or rocker coordinates to hide sign conventions.",
+  "Introducing off-diagonal J_theta_z terms from force coupling or compliance; this authorization is for the existing independent-corner rigid kinematic map only.",
+  "Calling Q_z a tire normal-force change, contact-patch load transfer, axle roll moment, LLTD, or body equilibrium result.",
+  "Changing, interpolating, averaging, stacking, or scalar-rescaling the discrete SolidWorks per-arm stiffness values.",
+  "Damper force, tire force, chassis/body equilibrium, structural reactions, compliance, friction/backlash, installed travel/limits, or installed/as-built claims."
+]
+
+[numerics]
+rocker_derivative_primary_step_m = 1.0e-4
+rocker_derivative_second_step_m = 5.0e-5
+rocker_derivative_agreement_tolerance_rad_per_m = 5.0e-2
+rocker_derivative_rule = "Use actual solved delta_z_wc_body coordinates in the denominator. Centered differences are preferred; one-sided differences are allowed only where the reviewed reachable domain prevents one side. Neighbor rocker closures use the center rocker angle as continuation predecessor."
+wheel_force_energy_check_rule = "At a nonzero left/right wheel state, perturb each declared wheel coordinate independently, re-solve the complete physical-wheel/rocker/Z-bar chain without using the analytic wheel Jacobian, and compare -(U_plus-U_minus)/(2h) to Q_z."
+hidden_clipping_allowed = false
+historical_motion_ratio_allowed = false
+absolute_value_ratio_allowed = false
+body_roll_substitution_allowed = false
+track_width_approximation_allowed = false
+
+[promotion_gates]
+items = [
+  "Nominal front and rear states return finite signed left/right rho_rw and zero ARB wheel force because the reviewed two-arm nominal elastic state is zero.",
+  "rho_rw is checked at two physical-wheel steps and reports method, actual step, and disagreement.",
+  "For a nonzero state, Q_z equals the algebraic chain J_theta_z^T*Q_rocker to numerical precision.",
+  "For an independent nonzero rear benchmark state, Q_z agrees with centered finite differences of total ARB energy in each wheel coordinate within the frozen benchmark tolerance.",
+  "The high-level provider selects the exact frozen per-arm stiffness from the discrete setting number rather than accepting an arbitrary caller-provided stiffness.",
+  "Whole-vehicle equilibrium/load-transfer work remains blocked until a separate authorization defines body/chassis DOFs, tire/contact constraints, external loads, and the equilibrium residual."
+]

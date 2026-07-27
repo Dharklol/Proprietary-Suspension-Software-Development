@@ -28,7 +28,7 @@ class SuspensionAntiRollBarAuthorizationTests(unittest.TestCase):
         self.assertEqual(model["equation_ids"], ["EQ-SUSP-0016", "EQ-SUSP-0017", "EQ-SUSP-0018"])
         self.assertEqual(
             model["benchmark_ids"],
-            ["BENCH-SUSP-0011", "BENCH-SUSP-0012", "BENCH-SUSP-0013", "BENCH-SUSP-0014", "BENCH-SUSP-0015", "BENCH-SUSP-0016"],
+            ["BENCH-SUSP-0011", "BENCH-SUSP-0012", "BENCH-SUSP-0013", "BENCH-SUSP-0014", "BENCH-SUSP-0015", "BENCH-SUSP-0016", "BENCH-SUSP-0017"],
         )
         for benchmark_id in model["benchmark_ids"]:
             benchmark = _load(f"registry/records/benchmarks/{benchmark_id}.toml")["record"]
@@ -67,17 +67,18 @@ class SuspensionAntiRollBarAuthorizationTests(unittest.TestCase):
         self.assertAlmostEqual(0.5 * k * d * d, 0.140)
         self.assertAlmostEqual(0.5 * k * (d * d + (-d) * (-d)), 0.280)
 
-    def test_rocker_map_is_promoted_but_wheel_shortcuts_remain_blocked(self) -> None:
+    def test_wheel_coordinate_map_is_promoted_but_vehicle_shortcuts_remain_blocked(self) -> None:
         package = _load("data_catalog/wufr27_anti_roll_bar_package_v0.toml")
         boundaries = package["authority_boundaries"]
         self.assertFalse(boundaries["interpolation_authorized"])
         self.assertTrue(boundaries["z_bar_geometry_map_authorized"])
-        self.assertEqual(
-            boundaries["z_bar_geometry_map_coordinate"],
-            "left/right MOD-SUSP-0003 rocker angles [theta_RL_rad, theta_RR_rad] only",
-        )
+        self.assertIn("physical wheel-center", boundaries["z_bar_geometry_map_coordinate"].lower())
         self.assertTrue(boundaries["rocker_coordinate_generalized_force_authorized"])
-        self.assertFalse(boundaries["wheel_coordinate_generalized_force_authorized"])
+        self.assertTrue(boundaries["wheel_coordinate_generalized_force_authorized"])
+        self.assertEqual(
+            boundaries["wheel_coordinate_order"],
+            ["delta_z_wc_body_left_m", "delta_z_wc_body_right_m"],
+        )
         self.assertFalse(boundaries["vehicle_equilibrium_authorized"])
         self.assertFalse(boundaries["body_roll_substitution_allowed"])
         self.assertFalse(boundaries["track_width_approximation_allowed"])

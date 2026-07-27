@@ -1,4 +1,4 @@
-version = "0.4.0"
+version = "0.5.0"
 record_id = "WUFR27_ANTI_ROLL_BAR_PACKAGE_V0"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
 record_authority = "SolidWorks_FEA_single_blade_arm_linear_tip_stiffness"
@@ -53,10 +53,12 @@ two_arm_vector_constitutive_authorized = true
 scalar_whole_blade_rescaling_authorized = false
 z_bar_geometry_fixture_authorized = true
 z_bar_geometry_map_authorized = true
-z_bar_geometry_map_coordinate = "left/right MOD-SUSP-0003 rocker angles [theta_RL_rad, theta_RR_rad] only"
-z_bar_geometry_map_status = "PR54 implements the AUTH-SUSP-0006/AUTH-SUSP-0007 nominal-continuation two-arm map d=[d_L,d_R](theta_RL,theta_RR), a two-step J_d, and AUTH-SUSP-0008 rocker-coordinate Q=-J_d^T*F. The wheel/body-coordinate chain remains unavailable."
+z_bar_geometry_map_coordinate = "AUTH-SUSP-0008 rocker coordinates plus AUTH-SUSP-0009 left/right MOD-SUSP-0002 physical wheel-center vertical coordinates"
+z_bar_geometry_map_status = "PR54/AUTH-SUSP-0008 implement d=[d_L,d_R](theta_RL,theta_RR) and Q_rocker. AUTH-SUSP-0009 composes signed branch-preserving rho_rw=d(theta_R)/d(delta_z_wc_body) to obtain J_dz and Q_z in left/right physical wheel-center vertical coordinates."
 rocker_coordinate_generalized_force_authorized = true
-wheel_coordinate_generalized_force_authorized = false
+wheel_coordinate_generalized_force_authorized = true
+wheel_coordinate_order = ["delta_z_wc_body_left_m", "delta_z_wc_body_right_m"]
+wheel_coordinate_sign = "positive upward relative to body"
 vehicle_equilibrium_authorized = false
 body_roll_substitution_allowed = false
 track_width_approximation_allowed = false

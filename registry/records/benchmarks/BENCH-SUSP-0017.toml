@@ -1,0 +1,19 @@
+[record]
+id = "BENCH-SUSP-0017"
+type = "benchmark"
+title = "WUFR Z-bar physical wheel-coordinate Jacobian and energy-gradient benchmark"
+status = "proposed"
+description = "Verify the signed chain from MOD-SUSP-0002 physical wheel-center vertical coordinates through MOD-SUSP-0003 rocker angles and the AUTH-SUSP-0008 WUFR two-arm Z-bar mechanism to conservative left/right wheel-coordinate generalized ARB force."
+verification_level = "B"
+target_ids = ["MOD-SUSP-0005", "ASM-SUSP-0003"]
+acceptance_criteria = [
+  "For nominal front and rear states, both signed rho_rw=d(theta_R)/d(delta_z_wc_body) values are finite and two-step checked while Q_z is zero because the two-arm blade state is undeflected.",
+  "The rocker-over-wheel derivative uses physical-wheel coordinates with positive-up sign, actual solved coordinate differences, nominal-branch continuation, and primary/secondary perturbations of 1e-4 m and 5e-5 m.",
+  "At a nonzero front state, Q_z equals diag(rho_rw_left,rho_rw_right)^T*Q_rocker to numerical precision and retains left/right signs.",
+  "At the frozen rear nonzero state z_left=0.0015 m and z_right=-0.0010 m with setting 2, each Q_z component agrees with an independent centered finite-difference gradient of total two-arm elastic energy within 0.5 percent relative or 0.2 N absolute tolerance.",
+  "The high-level provider maps setting 5 to exactly 2300000 N/m per arm and does not expose a caller-supplied arbitrary stiffness override.",
+  "Historical OptimumK/spring motion ratios, body roll, track width, wheel-travel-difference shortcuts, and reduced axle roll stiffness are not used to construct J_theta_z or J_dz.",
+  "The benchmark output is explicitly work-conjugate to [delta_z_wc_body_left_m, delta_z_wc_body_right_m] and is not labelled tire load transfer or body equilibrium."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0009.toml"
+implementation_test = "tests/test_suspension_wufr_zbar_wheel.py"
