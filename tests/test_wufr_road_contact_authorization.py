@@ -31,10 +31,12 @@ class WUFRRoadContactAuthorizationTests(unittest.TestCase):
         self.assertEqual(auth7["scope"]["model_ids"], ["MOD-VEH-0006"])
         self.assertEqual(auth7["scope"]["assumption_ids"], ["ASM-VEH-0004"])
 
+        self.assertEqual(model["status"], "blocked")
         self.assertEqual(model["authorization_id"], "AUTH-VEH-0006")
         self.assertEqual(model["correction_authorization_id"], "AUTH-VEH-0007")
         self.assertIn("implementation_blocked", model["authorization_state"])
-        self.assertIn("invalidated", assumption["status"])
+        self.assertEqual(assumption["status"], "deprecated")
+        self.assertIn("not valid", assumption["description"])
         self.assertIn("0.0008458158026623031", assumption["description"])
 
     def test_failed_bench_veh_0008_probe_is_frozen_without_tolerance_repair(self) -> None:
@@ -46,9 +48,10 @@ class WUFRRoadContactAuthorizationTests(unittest.TestCase):
         self.assertAlmostEqual(probe["required_max_euclidean_error_m"], 5.0e-6, places=15)
         self.assertAlmostEqual(probe["observed_max_euclidean_error_m"], 0.0008458158026623031, places=15)
         self.assertGreater(probe["observed_max_euclidean_error_m"], 100.0 * probe["required_max_euclidean_error_m"])
-        self.assertIn("failed", b8["status"])
+        self.assertEqual(b8["status"], "active")
         self.assertAlmostEqual(b8["required_max_euclidean_error_m"], 5.0e-6, places=15)
         self.assertAlmostEqual(b8["observed_max_euclidean_error_m"], probe["observed_max_euclidean_error_m"], places=15)
+        self.assertIn("failed", b8["outcome"])
         self.assertIn("invalidated", b8["outcome"])
 
     def test_source_nominal_contact_outputs_are_retained_but_rigid_attachment_is_rejected(self) -> None:
@@ -107,6 +110,15 @@ class WUFRRoadContactAuthorizationTests(unittest.TestCase):
         self.assertFalse(source["authority_boundaries"]["loaded_radius_authority"])
         self.assertFalse(source["authority_boundaries"]["tire_deflection_authority"])
         self.assertFalse(source["authority_boundaries"]["installed_as_built_authority"])
+
+    def test_blocked_records_use_registry_valid_statuses(self) -> None:
+        for relative in (
+            "registry/records/equations/EQ-VEH-0011.toml",
+            "registry/records/equations/EQ-VEH-0012.toml",
+            "registry/records/equations/EQ-VEH-0013.toml",
+            "registry/records/benchmarks/BENCH-VEH-0009.toml",
+        ):
+            self.assertEqual(_load(relative)["record"]["status"], "blocked")
 
     def test_next_gate_requires_replacement_contact_review_before_implementation(self) -> None:
         auth7 = _load("authorizations/vehicle/AUTH-VEH-0007.toml")
