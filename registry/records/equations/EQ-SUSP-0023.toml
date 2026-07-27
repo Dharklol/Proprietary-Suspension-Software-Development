@@ -1,0 +1,27 @@
+[record]
+id = "EQ-SUSP-0023"
+type = "equation"
+title = "WUFR Level-1 ideal spherical, revolute, and axial reaction wrench bases"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Define the exact scalar reaction-wrench bases used by the WUFR Level-1 three-body statics graph: three-force-component spherical joints, five-component net revolute supports, and signed axial two-force links. The bases preserve explicit physical application points and prohibit a reaction couple about an ideal revolute axis."
+outputs = ["spherical joint unit-wrench columns", "revolute support unit-wrench columns", "axial link unit-wrench column", "deterministic perpendicular revolute moment basis", "signed action/reaction convention"]
+inputs = ["body reference point r_O", "joint/application point r_J", "unit revolute axis u_h when applicable", "two-force-link body and remote endpoints when applicable", "declared frame and body ownership"]
+assumptions = [
+  "ASM-SUSP-0005 defines which WUFR interfaces may use spherical, equivalent-revolute, and axial idealizations.",
+  "A spherical joint transmits force only and no couple.",
+  "An ideal revolute support transmits arbitrary force and only the two couple components perpendicular to its unit hinge axis; the reaction couple component parallel to the hinge axis is exactly zero.",
+  "An ideal axial link carries signed force only along its current endpoint-to-endpoint axis; positive axial force means tension."
+]
+verification_level = "none"
+canonical_equation = "For force basis e_k at r_J: a_Fk=[e_k; (r_J-r_O) cross e_k]. For revolute axis u_h choose deterministic orthonormal v1,v2 with v_i dot u_h=0; a_M1=[0;v1], a_M2=[0;v2], so M_hinge dot u_h=0. For axial link u=(r_remote-r_body)/||r_remote-r_body||: a_N=[u;(r_body-r_O) cross u], N>0 tension. Internal spherical reactions are equal/opposite on the two connected solved bodies."
+source_basis = [
+  "Classical rigid-body statics and ideal spherical/revolute joint reaction spaces.",
+  "WUFR27_LEVEL1_LINKAGE_TOPOLOGY_V0 reviewer-confirmed hardware/topology mapping.",
+  "AUTH-SUSP-0010 positive-tension two-force-member convention."
+]
+validity = "Finite nondegenerate geometry in one declared Cartesian frame, with revolute axes and axial-link endpoints supplied by the frozen/current WUFR geometry providers."
+numerical_method = "Normalize axes explicitly; construct the perpendicular revolute basis deterministically from the least-aligned Cartesian seed axis, then Gram-Schmidt/cross-product normalize."
+failure_behavior = ["Reject zero/nonfinite hinge axis", "Reject zero-length/nonfinite axial link", "Reject frame/body ownership mismatch", "Never add a hinge-axis reaction moment or hidden stiffness term"]
+benchmark_ids = ["BENCH-SUSP-0021", "BENCH-SUSP-0022", "BENCH-SUSP-0023"]
