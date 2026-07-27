@@ -1,31 +1,33 @@
 [record]
 id = "EQ-VEH-0011"
 type = "equation"
-title = "WUFR source contact-reference transport"
-status = "proposed"
+title = "WUFR road-contact point construction"
+status = "proposed_blocked_by_AUTH-VEH-0007"
 disposition = "accepted_with_restrictions"
 maturity = "M0"
-description = "Construct the WUFR source-defined upright-attached road-contact reference at a physical wheel-center vertical state. Rear contact references use the MOD-SUSP-0002 toe-link-closed upright transform. Front contact references use the MOD-SUSP-0002 minimum-twist zero-steer upright pose followed by centered-rack tie-rod closure from MOD-STEER-0001."
-outputs = ["Current contact-reference point in the suspension source/body frame", "Current physical wheel-center point", "Upstream branch and steering-closure diagnostics"]
-inputs = ["WUFR26_ROAD_CONTACT_REFERENCE_V0 nominal per-corner contact reference", "MOD-SUSP-0002 physical wheel state and upright transform", "For front corners only, WUFR27_STEERING_BASELINE_V0 and centered rack displacement"]
+description = "Architectural contact-point provider for a physical wheel state. PR #64/BENCH-VEH-0008 rejected the original ASM-VEH-0004 rule that rigidly transported the nominal OptimumK Contact Patch as a material upright-attached point. Suspension/upright/steering state ownership remains valid, but the actual road-contact point construction now requires a separately reviewed replacement contact model/source assumption."
+outputs = ["Current road-contact point after replacement model authority exists", "Current physical wheel-center point", "Upstream branch, steering-closure, and contact-model diagnostics"]
+inputs = ["A separately reviewed WUFR contact model/source assumption", "MOD-SUSP-0002 physical wheel state and upright transform", "For front corners only, WUFR27_STEERING_BASELINE_V0 and centered rack displacement"]
 assumptions = [
-  "The OptimumK Contact Patch channel is used only as source evidence for a nominal upright-attached reference; this is not a generic loaded-tire contact-envelope model.",
+  "The OptimumK Contact Patch channel is historical road-contact output evidence; it is not validated as one material upright-attached point through travel.",
   "WUFR-27 retains the reviewed WUFR-26 nominal suspension/steering design geometry for this R&D baseline.",
-  "Front steering rotation is unresolved by MOD-SUSP-0002 and is supplied only by MOD-STEER-0001 tie-rod closure at centered rack.",
+  "Front steering rotation remains unresolved by MOD-SUSP-0002 and is supplied only by MOD-STEER-0001 tie-rod closure at centered rack.",
   "Rear toe-link closure remains owned by MOD-SUSP-0001/MOD-SUSP-0002 and is not solved again here."
 ]
 verification_level = "none"
-canonical_equation = "rear: r_cp^B(z)=T_u(z) r_cp0; front: r_cp,ref^B=T_min(z) r_cp0 then r_cp^B=Rot(axis_current, psi_center(z)) r_cp,ref^B, where psi_center is the MOD-STEER-0001 centered-rack closure rotation"
+canonical_equation = "BLOCKED CONTACT SUBFUNCTION: r_cp^B = C_contact(r_wc^B, wheel/upright orientation, reviewed contact parameters). C_contact is not authorized by AUTH-VEH-0007. Front suspension/steering pose composition and rear final upright pose remain upstream inputs rather than duplicated equations."
 source_basis = [
-  "data_catalog/wufr26_road_contact_reference_v0.toml",
-  "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml",
+  "data_catalog/wufr26_road_contact_reference_v0.toml historical output evidence",
+  "benchmarks/vehicle/wufr_road_contact_assumption_probe_v0.1.0.toml negative verification",
   "AUTH-SUSP-0002 / EQ-SUSP-0005 through EQ-SUSP-0008",
-  "AUTH-STEER-0001 / MOD-STEER-0001 centered tie-rod closure"
+  "AUTH-STEER-0001 / MOD-STEER-0001 centered tie-rod closure",
+  "AUTH-VEH-0007 implementation hold"
 ]
-validity = "WUFR-27 design-intent R&D baseline, rigid suspension/upright/steering mechanism, source-defined contact reference, centered rack, within the reviewed MOD-SUSP-0002 and MOD-STEER-0001 branches."
+validity = "No active arbitrary-state contact-point validity until replacement contact authority is reviewed. Upstream suspension/steering composition remains valid within its own authorizations."
 failure_behavior = [
+  "Return unavailable/missing-contact-authority rather than rigidly transporting the nominal OptimumK Contact Patch under invalidated ASM-VEH-0004.",
   "Propagate suspension physical-state inversion, upright closure, or branch failures.",
   "For front corners propagate centered-rack steering closure infeasibility/singularity; do not substitute OptimumK scalar Steer Angle.",
-  "Reject missing/mismatched source configuration or contact-reference provenance."
+  "Reject missing/mismatched source configuration or replacement contact provenance."
 ]
 benchmark_ids = ["BENCH-VEH-0008", "BENCH-VEH-0009"]
