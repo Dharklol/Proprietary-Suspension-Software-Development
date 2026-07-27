@@ -83,7 +83,10 @@ def _case(axle: str, ql: float, qr: float, setting: int, stiffness: float) -> di
 def build_report() -> dict:
     nominal_front = _case("front", 0.0, 0.0, 1, 280000.0)
     nominal_rear = _case("rear", 0.0, 0.0, 1, 280000.0)
-    front = _case("front", 0.01, -0.01, 3, 400000.0)
+    # Use equal signed front rocker-coordinate perturbations because the opposite-
+    # signed pair is a zero-deflection free-housing mode for this fixture. Do not
+    # assign wheel roll/heave semantics here; this benchmark is in rocker coordinates.
+    front = _case("front", 0.01, 0.01, 3, 400000.0)
     rear = _case("rear", 0.008, -0.006, 2, 300000.0)
     degenerate = recover_single_link_force(
         side="synthetic",
@@ -118,7 +121,7 @@ def build_report() -> dict:
         "authority": "Physical ideal axial ARB linkage force only; no rocker equilibrium, load transfer, stress, or installed/as-built authority",
         "nominal_front": nominal_front,
         "nominal_rear": nominal_rear,
-        "front_differential": front,
+        "front_coupled_rocker_state": front,
         "rear_asymmetric": rear,
         "degenerate_projection_failure": (
             degenerate.failure_code.value if degenerate.failure_code else None
@@ -143,11 +146,11 @@ def main() -> None:
             json.dumps(
                 {
                     "pass": report["pass"],
-                    "front_left_axial_force_N": report["front_differential"]["left"]["axial_force_N"],
-                    "front_right_axial_force_N": report["front_differential"]["right"]["axial_force_N"],
+                    "front_left_axial_force_N": report["front_coupled_rocker_state"]["left"]["axial_force_N"],
+                    "front_right_axial_force_N": report["front_coupled_rocker_state"]["right"]["axial_force_N"],
                     "rear_left_axial_force_N": report["rear_asymmetric"]["left"]["axial_force_N"],
                     "rear_right_axial_force_N": report["rear_asymmetric"]["right"]["axial_force_N"],
-                    "front_max_torque_residual_Nm": report["front_differential"]["maximum_rocker_torque_residual_Nm"],
+                    "front_max_torque_residual_Nm": report["front_coupled_rocker_state"]["maximum_rocker_torque_residual_Nm"],
                     "rear_max_torque_residual_Nm": report["rear_asymmetric"]["maximum_rocker_torque_residual_Nm"],
                     "rocker_torque_oracle_tolerance_Nm": ROCKER_TORQUE_ORACLE_TOLERANCE_NM,
                 },
