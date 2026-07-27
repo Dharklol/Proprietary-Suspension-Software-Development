@@ -46,7 +46,7 @@ wufr_topology_audit_authorization = "authorizations/suspension/AUTH-SUSP-0011.to
 wufr_topology_audit = "docs/models/suspension/wufr_linkage_topology_source_audit.md"
 wufr_topology_source_record = "data_catalog/wufr26_linkage_topology_source_audit_v0.toml"
 planned_downstream = [
-  "resolve AUTH-SUSP-0011 WUFR27 suspension load-path/topology hold before any current-car adapter",
+  "WUFR suspension load-path/topology source audit frozen by AUTH-SUSP-0011; resolve its current-WUFR27 hold before any current-car adapter",
   "multi-body equilibrium graph for arm-mounted actuation and nontrivial WUFR load paths after joint idealizations are reviewed",
   "actuation/rocker/chassis reaction propagation using already-reviewed spring and ARB providers",
   "source-preserving structural load-case exchange for CAD/FEA",
