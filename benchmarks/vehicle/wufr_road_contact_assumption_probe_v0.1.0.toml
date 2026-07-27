@@ -1,0 +1,32 @@
+version = "0.1.0"
+result_id = "WUFR_ROAD_CONTACT_ASSUMPTION_PROBE_V0_1_0"
+benchmark_id = "BENCH-VEH-0008"
+model_id = "MOD-VEH-0006"
+authorization_id_at_probe = "AUTH-VEH-0006"
+correction_authorization_id = "AUTH-VEH-0007"
+source_record_id = "WUFR26_ROAD_CONTACT_REFERENCE_V0"
+assumption_id = "ASM-VEH-0004"
+probe_pr = 64
+status = "failed_required_source_consistency_gate"
+pass = false
+
+[historical_front_left_reconstruction]
+method = "EQ-SUSP-0003 minimum-twist nominal-to-current upright transform followed by EQ-SUSP-0008 independently reconstructed 3D source twist; OptimumK scalar Steer Angle excluded"
+selected_heave_mm = [-25.4, -5.08, 0.0, 5.08, 25.4]
+required_max_euclidean_error_m = 0.000005
+observed_max_euclidean_error_m = 0.0008458158026623031
+ratio_to_tolerance = 169.16316053246062
+outcome = "reject_rigid_upright_attached_interpretation_as_source_validated_governing_map"
+
+[source_semantic_observation]
+statement = "In the frozen selected OptimumK pure-heave rows, Contact Patch source z remains on road z=0; after the reviewed body re-reference, Contact Patch z equals the opposite of Motion [Heave]. This is characteristic of a road-contact output rather than evidence that the contact point is a fixed material point on the upright/wheel."
+
+[unaffected_probe_checks]
+road_root_solver = "The experimental provider could numerically close nominal, pure-heave, and small combined body poses under ASM-VEH-0004, but those numerical successes do not cure the failed source assumption."
+body_to_wheel_jacobian = "Experimental h/h2 differentiation completed, but it is not authoritative because the underlying contact map is not authorized after this failure."
+nominal_contact_and_gravity_projection = "Experimental nominal c_i and 5 kg/corner gravity projections were numerically plausible, but are not promoted."
+
+[disposition]
+pr64 = "closed_unmerged"
+implementation_merge_authorized = false
+next_gate = "replacement contact-model/source assumption review before any new MOD-VEH-0006 implementation"
