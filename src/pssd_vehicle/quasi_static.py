@@ -597,7 +597,19 @@ def _numerical_scaled_tangent(
                 residual_scales=config.residual_scales,
             )
             if not minus_eval.ok:
-                minus_eval = None
+                return _TangentResult(
+                    QuasiStaticStatus.FAILURE,
+                    methods=tuple(methods),
+                    steps=tuple(actual_steps),
+                    failure_code=(
+                        minus_eval.failure_code
+                        or QuasiStaticFailureCode.COMPATIBILITY_PROVIDER_FAILURE
+                    ),
+                    message=(
+                        f"Finite-difference minus perturbation failed for body coordinate {j}: "
+                        f"{minus_eval.message}"
+                    ),
+                )
         if plus_allowed:
             q_plus = list(q_body)
             q_plus[j] += requested
@@ -611,9 +623,22 @@ def _numerical_scaled_tangent(
                 residual_scales=config.residual_scales,
             )
             if not plus_eval.ok:
-                plus_eval = None
+                return _TangentResult(
+                    QuasiStaticStatus.FAILURE,
+                    methods=tuple(methods),
+                    steps=tuple(actual_steps),
+                    failure_code=(
+                        plus_eval.failure_code
+                        or QuasiStaticFailureCode.COMPATIBILITY_PROVIDER_FAILURE
+                    ),
+                    message=(
+                        f"Finite-difference plus perturbation failed for body coordinate {j}: "
+                        f"{plus_eval.message}"
+                    ),
+                )
 
-        if minus_eval is not None and plus_eval is not None:
+        if minus_allowed and plus_allowed:
+            assert minus_eval is not None and plus_eval is not None
             denominator_normalized = 2.0 * requested / config.coordinate_scales[j]
             column = tuple(
                 (plus_eval.scaled_residual[i] - minus_eval.scaled_residual[i])
@@ -622,7 +647,8 @@ def _numerical_scaled_tangent(
             )
             method = "centered_scaled_residual"
             actual = requested
-        elif plus_eval is not None:
+        elif not minus_allowed and plus_allowed:
+            assert plus_eval is not None
             denominator_normalized = requested / config.coordinate_scales[j]
             column = tuple(
                 (plus_eval.scaled_residual[i] - center.scaled_residual[i])
@@ -631,7 +657,8 @@ def _numerical_scaled_tangent(
             )
             method = "forward_one_sided_scaled_residual"
             actual = requested
-        elif minus_eval is not None:
+        elif minus_allowed and not plus_allowed:
+            assert minus_eval is not None
             denominator_normalized = requested / config.coordinate_scales[j]
             column = tuple(
                 (center.scaled_residual[i] - minus_eval.scaled_residual[i])
