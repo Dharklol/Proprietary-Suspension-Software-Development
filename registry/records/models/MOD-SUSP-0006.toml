@@ -1,0 +1,48 @@
+[record]
+id = "MOD-SUSP-0006"
+type = "model"
+title = "Provider-neutral ideal suspension linkage statics kernel"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Provider-neutral single-rigid-body statics kernel for exactly six ideal pin-ended two-force suspension links. Given explicit current endpoint geometry and one prescribed external wrench, it assembles and solves the exact three-force/three-moment equilibrium system for signed axial link forces, with explicit scaling, conditioning, residual reconstruction, and structured failures. It is the first reusable load-path layer toward replacing hand/OptimumK member-force calculations, but it contains no WUFR load-case generator and no stress/FEA release logic."
+inputs = [
+  "One rigid-body identity, explicit frame, and reference point",
+  "Exactly six ideal link body attachment points and remote endpoints in the same frame",
+  "One prescribed external force and couple about the declared reference point",
+  "Positive-tension sign convention and deterministic link ordering",
+  "Conditioning threshold and numerical tolerances"
+]
+outputs = [
+  "Signed axial force for each ideal link",
+  "Per-link body-end and remote-end action/reaction force vectors",
+  "Reconstructed total link force and moment",
+  "Physical force and moment equilibrium residuals",
+  "Scaled equilibrium matrix, characteristic length, condition number/pivot diagnostics, and structured failure state",
+  "Full model/geometry/load-case provenance"
+]
+assumptions = [
+  "ASM-SUSP-0004: retained links are massless ideal two-force members and the connected body is rigid/quasi-static.",
+  "The first solver accepts exactly six axial unknowns and six rigid-body equilibrium equations; redundant or deficient systems are rejected rather than force-shared numerically.",
+  "External loading is prescribed by the caller. The model does not calculate tire loads, road reactions, vehicle acceleration, aero, brake torque, spring force, ARB force, or damper force.",
+  "Positive axial force means tension; compression remains negative and is never converted to magnitude-only output."
+]
+verification_level = "none"
+equation_ids = ["EQ-SUSP-0019", "EQ-SUSP-0020", "EQ-SUSP-0021", "EQ-SUSP-0022"]
+benchmark_ids = ["BENCH-SUSP-0018", "BENCH-SUSP-0019", "BENCH-SUSP-0020"]
+authorization_id = "AUTH-SUSP-0010"
+authorization_state = "review_ready_for_provider_neutral_determinate_linkage_statics_implementation_after_AUTH-SUSP-0010_merge"
+assumption_ids = ["ASM-SUSP-0004"]
+upstream_model_ids = ["MOD-VEH-0003"]
+downstream_model_ids = []
+planned_implementation_package = "src/pssd_suspension/linkage_statics.py"
+preimplementation_specification = "docs/models/suspension/linkage_statics_function_specification.md"
+review_record = "docs/reviews/phase3_linkage_statics_authorization_review.md"
+planned_downstream = [
+  "WUFR suspension load-path/topology source audit before any current-car adapter",
+  "multi-body/massless-joint equilibrium graph for arm-mounted actuation and nontrivial load paths",
+  "actuation/rocker/chassis reaction propagation using already-reviewed spring and ARB providers",
+  "source-preserving structural load-case exchange for CAD/FEA",
+  "later beam/compliance/buckling/fatigue/weld/bearing models under separate authority"
+]
+prohibited_scope = "No WUFR tire/load-case generation; no road-reaction or maneuver prediction; no scalar load distribution; no least-squares/pseudoinverse/minimum-norm/regularized force sharing; no stiffness-weighted redundant-link solution; no moving arm-mounted pickups onto the upright; no spring/ARB/damper constitutive duplication; no beam bending/shear/stress, buckling, fatigue, weld, bearing, compliance, friction/backlash, installed/as-built, factor-of-safety, FEA boundary-condition release, or production structural authority."
