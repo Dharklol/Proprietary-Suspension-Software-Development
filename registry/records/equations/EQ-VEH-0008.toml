@@ -1,0 +1,29 @@
+[record]
+id = "EQ-VEH-0008"
+type = "equation"
+title = "Road-compatible wheel-coordinate reduction"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Represent the active-contact suspension compatibility as explicit physical wheel coordinates z_w(q_b) and their signed Jacobian with respect to the reduced body coordinates. The mapping is an input/provider contract; this equation does not infer WUFR wheel motion from track width, body roll, or a scalar motion ratio."
+outputs = ["Wheel-coordinate vector z_w", "Signed compatibility Jacobian J_wb", "Coordinate order/units and map provenance"]
+inputs = ["Reduced body coordinates q_b", "Explicit road-compatible wheel-coordinate provider"]
+assumptions = [
+  "The supplied map is valid on the declared active contact branch and coordinate domain.",
+  "Every wheel coordinate and body coordinate has explicit units and sign convention.",
+  "The Jacobian is analytical or independently checked by declared finite-difference steps."
+]
+verification_level = "none"
+canonical_equation = "z_w = z_w(q_b); J_wb = partial(z_w)/partial(q_b)"
+source_basis = [
+  "Pacejka (2006), Tyre and Vehicle Dynamics, Section 11.3 virtual-work/generalized-coordinate structure.",
+  "Guiggiani (2022), The Science of Vehicle Dynamics, Chapters 9-10 separation of kinematic congruence, equilibrium, and constitutive equations.",
+  "Repository MOD-SUSP-0002 physical wheel coordinate and MOD-VEH-0003 explicit body/contact coordinate conventions."
+]
+validity = "Declared road-compatible active-contact branch and explicit provider domain only."
+failure_behavior = [
+  "Reject dimension/order/unit mismatches and nonfinite coordinates/Jacobians.",
+  "Reject missing or nonconverged wheel-coordinate Jacobians.",
+  "Do not replace a missing map with track-width, body-roll, historical motion-ratio, or load-transfer approximations."
+]
+benchmark_ids = ["BENCH-VEH-0005", "BENCH-VEH-0006"]

@@ -1,0 +1,55 @@
+[record]
+id = "MOD-VEH-0004"
+type = "model"
+title = "Reduced-coordinate conservative quasi-static equilibrium kernel"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Provider-neutral quasi-static equilibrium kernel for a rigid body supported by conservative suspension forces under an explicitly supplied road-compatible wheel-coordinate map. The model solves body generalized coordinates from virtual-work equilibrium, then recovers road-normal reactions from separate wheel-coordinate equilibrium when all noncontact wheel generalized forces are explicitly supplied. It does not embed WUFR mass assumptions, tire constitutive laws, aero/brake/powertrain models, alternate contact modes, or installed/as-built authority."
+inputs = [
+  "Body generalized coordinates q_b with explicit order, units, initial guess, bounds, and numerical scales",
+  "Road-compatible wheel-coordinate map z_w(q_b) and signed Jacobian J_wb = partial(z_w)/partial(q_b)",
+  "Conservative suspension generalized wheel force Q_susp_w = -partial(U_susp)/partial(z_w) and stored energy from separately authorized providers",
+  "Explicit body external generalized force Q_body_ext for the bounded solve",
+  "Explicit noncontact wheel generalized forces Q_wheel_ext for road-reaction recovery",
+  "Explicit contact normal-to-wheel-coordinate coefficients c_i for the declared active contact mode"
+]
+outputs = [
+  "Converged body generalized coordinates and wheel coordinates",
+  "Quasi-static body equilibrium residual and numerical tangent diagnostics",
+  "Suspension stored energy and optional total-potential energy-gradient verification",
+  "Per-corner road-normal reactions recovered from wheel-coordinate equilibrium",
+  "Explicit four-contact admissibility / negative-reaction failure",
+  "Source, coordinate, solver, and provider provenance"
+]
+assumptions = [
+  "The first solve is quasi-static and excludes inertia/damping; only explicitly supplied conservative suspension forces and explicit static external generalized forces enter.",
+  "The wheel-coordinate map already enforces the declared flat-rigid-road compatibility for the active contact mode; the equilibrium kernel does not invent a track-width/load-transfer relation.",
+  "Suspension internal forces enter body equilibrium through J_wb^T Q_susp_w. Wheel-only external forces such as unsprung gravity are used in wheel/contact reaction recovery and are not double-counted through the reduced body residual.",
+  "Road reactions are Lagrange/contact forces and do no virtual work in the reduced body coordinates when the supplied compatibility map exactly enforces active contact.",
+  "A negative recovered road-normal reaction invalidates the all-four-active mode and is never clipped or redistributed.",
+  "WUFR-specific use remains blocked until a reviewed sprung-body gravity input and per-corner wheel external-force allocation exist."
+]
+verification_level = "none"
+equation_ids = ["EQ-VEH-0008", "EQ-VEH-0009", "EQ-VEH-0010"]
+benchmark_ids = ["BENCH-VEH-0005", "BENCH-VEH-0006"]
+authorization_id = "AUTH-VEH-0004"
+authorization_state = "proposed_for_review; generic_kernel_only; WUFR_mass_adapter_blocked"
+authorization_document = "authorizations/vehicle/AUTH-VEH-0004.toml"
+assumption_ids = ["ASM-VEH-0001", "ASM-VEH-0002"]
+upstream_model_ids = ["MOD-VEH-0003", "MOD-SUSP-0004", "MOD-SUSP-0005"]
+downstream_model_ids = []
+planned_downstream = [
+  "WUFR driver/no-fuel gravity adapter after sprung/unsprung mass allocation review",
+  "WUFR spring-plus-Z-bar four-corner static equilibrium benchmark",
+  "later prescribed aero/brake/powertrain force providers",
+  "later lateral/longitudinal steady-state trim and tire-force demand",
+  "alternate contact-mode continuation after wheel lift"
+]
+source_audit = "docs/models/vehicle/quasi_static_load_state_source_audit.md"
+preimplementation_specification = "docs/models/vehicle/quasi_static_equilibrium_function_specification.md"
+planned_implementation_package = "src/pssd_vehicle/quasi_static.py"
+validation_workflow = ".github/workflows/motion-aware-validation.yml"
+review_record = "docs/reviews/phase2_quasi_static_equilibrium_authorization_review.md"
+next_implementation_gate = "After AUTH-VEH-0004 review/merge, implement only the provider-neutral reduced-coordinate kernel and synthetic BENCH-VEH-0005/0006. Do not create a WUFR mass/gravity adapter until the per-corner unsprung allocation or equivalent sprung-body mass/CG authority is reviewed."
+prohibited_scope = "Hidden WUFR mass defaults; equal-corner unsprung allocation without review; historical 10 kg/corner substitution; hidden crossweight/load-transfer formulas; scalar spring/ARB wheel-rate replacement; tire constitutive forces; aero/brake/powertrain force models; damper/transient forces; alternate contact modes; linkage/member/bearing loads; stress/FEA; compliance; installed/as-built or production claims."

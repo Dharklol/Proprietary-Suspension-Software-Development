@@ -1,0 +1,28 @@
+[record]
+id = "EQ-VEH-0010"
+type = "equation"
+title = "Active-contact road-normal reaction recovery"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Recover the road-normal reaction at each active contact from wheel-coordinate equilibrium after the body state is solved. Suspension and other explicitly supplied noncontact wheel generalized forces are balanced by the contact reaction through an explicit normal-force-to-wheel-coordinate coefficient. Negative recovered reactions invalidate the all-four-active contact mode."
+outputs = ["Per-corner road-normal reaction lambda_i", "Per-corner wheel-coordinate equilibrium residual", "Contact admissibility status"]
+inputs = ["Suspension generalized wheel force Q_susp_i", "Other explicit noncontact wheel generalized force Q_wheel_ext_i", "Contact coefficient c_i = partial(W_contact)/partial(lambda_i partial z_i)"]
+assumptions = [
+  "Each active contact has one explicitly signed scalar road-normal reaction.",
+  "The supplied contact coefficient c_i is finite and nonzero on the declared coordinate/contact branch.",
+  "All noncontact wheel-coordinate forces required by the requested result are explicitly supplied; the kernel does not invent unsprung gravity or tire forces."
+]
+verification_level = "none"
+canonical_equation = "Q_susp_i + Q_wheel_ext_i + c_i lambda_i = 0; lambda_i = -(Q_susp_i + Q_wheel_ext_i)/c_i; require lambda_i >= 0"
+source_basis = [
+  "Guiggiani (2022), The Science of Vehicle Dynamics, Chapters 9-10 road-contact reactions separated from suspension constitutive forces.",
+  "Repository EQ-VEH-0007 flat-road rigid-contact sign/admissibility contract."
+]
+validity = "Declared all-four-active flat-rigid-road contact mode with explicit contact coefficients and complete wheel noncontact generalized-force inputs."
+failure_behavior = [
+  "Reject missing/nonfinite/zero contact coefficients.",
+  "Reject missing wheel external-force authority rather than assuming zero when the requested physical result requires it.",
+  "Any lambda_i < 0 is wheel_lift/contact_mode_invalid and is retained diagnostically rather than clipped or redistributed."
+]
+benchmark_ids = ["BENCH-VEH-0005", "BENCH-VEH-0006"]

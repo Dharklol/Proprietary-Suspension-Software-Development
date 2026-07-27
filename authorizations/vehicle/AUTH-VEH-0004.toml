@@ -1,0 +1,78 @@
+version = "0.1.0"
+authorization_id = "AUTH-VEH-0004"
+status = "review_ready"
+title = "Provider-neutral reduced-coordinate quasi-static equilibrium authorization"
+effective_condition = "Effective only after review and merge of the PR carrying this authorization. This permits a bounded generic quasi-static equilibrium kernel with explicit compatibility, conservative suspension-force, body external-force, wheel external-force, and contact-coefficient inputs. It does not authorize a WUFR mass/gravity adapter or WUFR road-reaction result until the missing sprung/unsprung mass-force allocation is separately reviewed."
+review_record = "docs/reviews/phase2_quasi_static_equilibrium_authorization_review.md"
+
+[scope]
+model_ids = ["MOD-VEH-0004"]
+equation_ids = ["EQ-VEH-0008", "EQ-VEH-0009", "EQ-VEH-0010"]
+benchmark_ids = ["BENCH-VEH-0005", "BENCH-VEH-0006"]
+assumption_ids = ["ASM-VEH-0001", "ASM-VEH-0002"]
+upstream_model_ids = ["MOD-VEH-0003", "MOD-SUSP-0004", "MOD-SUSP-0005"]
+planned_implementation_package = "src/pssd_vehicle/quasi_static.py"
+
+[permitted]
+items = [
+  "Implement a provider-neutral quasi-static reduced-coordinate solver whose body-coordinate order, units, initial guess, numerical scale, bounds, and convergence tolerances are explicit inputs/configuration.",
+  "Consume an explicit road-compatible physical wheel-coordinate map z_w(q_b) and signed Jacobian J_wb=partial(z_w)/partial(q_b); the kernel may not manufacture that map from body roll, track width, wheelbase, or historical motion ratios.",
+  "Consume conservative suspension wheel-coordinate generalized forces and stored energy from separately reviewed providers, including synthetic providers for verification and later MOD-SUSP-0004/MOD-SUSP-0005 composition.",
+  "Assemble reduced quasi-static body equilibrium as R_b=Q_body_ext+J_wb^T Q_susp_w and solve R_b=0 with declared numerical diagnostics.",
+  "Recover active-contact road-normal reactions only after the body solve from explicit wheel-coordinate equilibrium Q_susp_i+Q_wheel_ext_i+c_i*lambda_i=0.",
+  "Require explicit wheel external generalized forces for any physical road-reaction result. Synthetic wheel-side gravity may be used only in clearly labeled synthetic benchmarks.",
+  "Use numerical tangents and finite-difference energy-gradient checks only with declared step sizes/scales, convergence comparison, and structured failures.",
+  "Retain negative road-normal reactions and classify them as wheel_lift/contact_mode_invalid rather than clipping or redistributing them.",
+  "Implement BENCH-VEH-0005 and BENCH-VEH-0006 synthetic cases without any WUFR mass defaults."
+]
+
+[prohibited]
+items = [
+  "Generating a WUFR driver/no-fuel gravity vector, sprung mass, sprung CG, per-corner unsprung gravity, or road reactions from the currently reviewed scale/CG records without a separate mass-allocation authorization.",
+  "Assuming the measured 10 kg front-axle and 10 kg rear-axle unsprung totals are 5 kg per corner, or placing those masses at wheel centers, unless that approximation is separately reviewed and named.",
+  "Reusing the historical 10 kg per-corner WUFR-26 ride-frequency assumption, 207 kg LLTD-calculator sprung mass, 220+100 kg Suspension Calculations total, or any other project calculation input as hidden WUFR mass authority.",
+  "Embedding a crossweight rule, diagonal-load rule, canonical load-transfer spreadsheet equation, scalar wheel-rate equation, or scalar ARB roll-stiffness equation inside the equilibrium kernel.",
+  "Using absolute-value motion ratios or hiding the sign/order of generalized-coordinate Jacobians.",
+  "Tire constitutive forces or radial compliance, aerodynamic force laws, brake/powertrain forces, damper/transient forces, inertial dynamic terms, or chassis compliance in this first authorization.",
+  "Switching contact mode after wheel lift, clipping negative reactions, or silently constraining an invalid four-contact state back into admissibility.",
+  "Suspension linkage/member/bearing reactions, structural stress/FEA, fatigue, installed limits, installed/as-built validation, optimization, or production release."
+]
+
+[numerics]
+body_equilibrium_rule = "R_b(q_b)=Q_body_ext(q_b)+J_wb(q_b)^T*Q_susp_w(z_w(q_b)); solve R_b=0."
+contact_recovery_rule = "Q_susp_i+Q_wheel_ext_i+c_i*lambda_i=0; lambda_i=-(Q_susp_i+Q_wheel_ext_i)/c_i; require lambda_i>=0 for the all-four-active mode."
+solver_method = "Damped Newton or equivalent deterministic local root solve with an explicitly scaled finite-difference/analytic tangent, declared coordinate bounds, residual norm, iteration count, and structured singular/nonconvergence failures."
+finite_difference_rule = "Numerical tangent/Jacobian or energy-gradient checks must declare at least two verification step sizes when used for acceptance and report disagreement/convergence diagnostics."
+hidden_clipping_allowed = false
+negative_contact_reaction_allowed = false
+hidden_mass_default_allowed = false
+hidden_crossweight_rule_allowed = false
+alternate_contact_mode_allowed = false
+wufr_mass_adapter_allowed = false
+
+[source_boundary]
+primary_literature = [
+  "Guiggiani (2022), The Science of Vehicle Dynamics, Chapters 9-10: kinematic congruence, equilibrium, suspension force, and road-contact reaction separation.",
+  "Pacejka (2006), Tyre and Vehicle Dynamics, Section 11.3: generalized forces and virtual-work coordinate mapping.",
+  "Gillespie (1992), Fundamentals of Vehicle Dynamics: independent static/quasi-static vehicle equilibrium consistency only; no legacy spreadsheet equation is imported."
+]
+project_source_audit = "docs/models/vehicle/quasi_static_load_state_source_audit.md"
+current_wufr_mass_boundary = "Driver/no-fuel corner-scale/CG design reference exists, and reviewer-measured unsprung mass is 10 kg front axle plus 10 kg rear axle. No reviewed per-corner unsprung split/application locations or independent sprung-mass/sprung-CG force model is currently frozen."
+legacy_mass_inputs = "Historical/current calculation inputs including 10 kg per corner, 207 kg sprung mass, and 220+100 kg total are comparison/context evidence only and are not WUFR gravity-force authority."
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-VEH-0005 reproduces the analytical symmetric 100 kg sprung / four 10 kN/m spring synthetic state z_s=-0.024525 m and recovers 294.30 N at each corner only after explicit synthetic 5 kg wheel-side gravity is supplied.",
+  "BENCH-VEH-0005 verifies total recovered road reaction 1177.20 N=(100+20)*9.81 N and an independent conservative energy-gradient sign/magnitude check.",
+  "BENCH-VEH-0006 verifies deterministic convergence diagnostics, singular-tangent failure, bound/nonconvergence behavior, negative-reaction wheel-lift behavior, provider/unit/order failures, and explicit missing WUFR mass-force authority.",
+  "The implementation interface contains no WUFR mass default and no path that substitutes historical 10 kg/corner, 207 kg sprung, 320 kg total, crossweight, scalar wheel-rate, or scalar ARB inputs."
+]
+
+[promotion_gates]
+items = [
+  "This authorization is reviewed and merged before generic implementation code begins.",
+  "The implementation PR passes BENCH-VEH-0005 and BENCH-VEH-0006 plus structured numerical/provider failure tests.",
+  "WUFR spring/ARB composition may be wired only after coordinate-order/sign compatibility is tested explicitly; the resulting WUFR road reactions remain unavailable until mass-force authority is separately reviewed.",
+  "A later WUFR mass/gravity authorization must name the physical state, total/sprung/unsprung allocation, force application points, uncertainty/source role, and whether any left/right split is measured or assumed.",
+  "Lateral/longitudinal maneuver QSS requires separate aero/brake/powertrain/tire and unsprung-height/load-transfer authority beyond the first gravity/static slice."
+]
