@@ -1,0 +1,46 @@
+[record]
+id = "EQ-SUSP-0027"
+type = "equation"
+title = "WUFR Z-bar physical linkage axial force from blade transverse virtual work"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Recover the signed physical axial force in each WUFR rod-ended ARB linkage from the current AUTH-SUSP-0008 two-arm mechanism state and AUTH-SUSP-0007 blade transverse elastic action. The equation projects the physical linkage force onto the exact blade transverse deformation direction and is verified independently by reproducing the existing conservative rocker generalized torque."
+outputs = [
+  "signed left/right linkage axial force T_i with T_i>0 tension",
+  "left/right physical force vector on rocker pickup",
+  "equal-and-opposite physical force vector on blade tip",
+  "current link unit axis and blade transverse unit direction",
+  "link/transverse projection denominator",
+  "physical rocker-axis torque from each linkage"
+]
+inputs = [
+  "successful AUTH-SUSP-0008 mechanism state including housing angle, d_i, current blade tips, and current rocker pickups",
+  "source-matched AUTH-SUSP-0007 per-arm stiffness k_b / signed elastic action f_i=k_b*d_i",
+  "WUFR26_ZBAR_MECHANISM_V0 housing and rocker axes/pivots",
+  "ASM-SUSP-0006 ideal signed two-force linkage assumption"
+]
+assumptions = [
+  "ASM-SUSP-0003 supplies the one-arm transverse blade coordinate and conservative force f_i=k_b*d_i.",
+  "ASM-SUSP-0006 treats each rod-ended ARB linkage as a massless ideal signed two-force member.",
+  "The current mechanism state is on the reviewed nominal-continuation branch and satisfies its exact rigid-link closure tolerance."
+]
+verification_level = "A"
+canonical_equation = "For side i, let n_i=R(u_h,theta_h)*normalize(u_h cross normalize(B_nom_i-C)) be the signed transverse blade direction and u_i=normalize(P_i-B_i) point from current blade tip to rocker pickup. With f_i=k_b*d_i and T_i>0 tension, stationarity in d_i gives T_i*(u_i dot n_i)=f_i, so T_i=f_i/(u_i dot n_i). Force on rocker is F_Ri=-T_i*u_i and force on blade is +T_i*u_i. Physical rocker generalized torque is tau_i=u_R dot ((P_i-R_i) cross F_Ri)."
+source_basis = [
+  "AUTH-SUSP-0007 / EQ-SUSP-0017 signed one-arm transverse blade action f_i=k_b*d_i",
+  "AUTH-SUSP-0008 exact rigid-link mechanism and energy-gradient rocker generalized torque",
+  "WUFR27_ARB_PHYSICAL_LINK_FORCE_V0 physical rod-ended linkage evidence",
+  "Classical virtual work for an ideal two-force member and one-dimensional elastic coordinate"
+]
+validity = "Successful finite mechanism/force state with exact source/configuration match, finite current blade-tip and rocker-pickup geometry, and |u_i dot n_i| above the frozen projection threshold."
+numerical_method = "Use the exact solved current points/angles; normalize directions explicitly. Default absolute projection threshold 1e-6. Reconstruct tau_i from the physical force vector and compare directly with the existing AUTH-SUSP-0008 generalized rocker torque."
+failure_behavior = [
+  "Reject unsuccessful or source/configuration-mismatched mechanism/force state.",
+  "Reject missing/nonfinite blade-tip, rocker-pickup, housing-angle, or pivot/axis geometry.",
+  "Reject degenerate current link length.",
+  "Reject |u_i dot n_i|<=projection threshold rather than divide, regularize, or reinterpret Q_rocker as a physical force.",
+  "Reject physical-link rocker torque disagreement with the existing conservative generalized torque above the frozen tolerance.",
+  "Preserve signed tension/compression; do not clip or take absolute values."
+]
+benchmark_ids = ["BENCH-SUSP-0024"]
