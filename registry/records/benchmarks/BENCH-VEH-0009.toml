@@ -2,7 +2,7 @@
 id = "BENCH-VEH-0009"
 type = "benchmark"
 title = "WUFR flat-road compatibility and wheel-force projection"
-status = "planned_blocked_by_failed_BENCH-VEH-0008"
+status = "blocked"
 description = "Future verification for the WUFR flat-road all-four-active compatibility provider, its body-to-wheel Jacobian, contact coefficients, and physical unsprung-gravity wheel projections. Execution is blocked until a replacement contact-point model/source assumption supersedes invalidated ASM-VEH-0004."
 verification_level = "B"
 target_ids = ["MOD-VEH-0006", "EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013"]
