@@ -15,4 +15,5 @@ acceptance_criteria = [
   "No benchmark output includes damper gas/velocity/friction/stop force, rocker pivot reaction, ARB composition, wheel load transfer, member stress, or installed/as-built authority."
 ]
 authorization = "authorizations/suspension/AUTH-SUSP-0014.toml"
-implementation_test = "planned: tests/test_suspension_wufr_spring_rocker_force.py"
+implementation_test = "tests/test_suspension_wufr_spring_rocker_force.py"
+benchmark_report_script = "scripts/run_wufr_spring_rocker_force_benchmarks.py"
