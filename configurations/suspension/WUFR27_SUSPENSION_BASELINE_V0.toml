@@ -1,8 +1,8 @@
-version = "0.1.13"
+version = "0.1.14"
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
 status = "active_design_intent_baseline_not_as_built"
 vehicle_revision = "WUFR-27"
-purpose = "WUFR-27 suspension R&D baseline inheriting the WUFR-26 final OptimumK nominal suspension geometry without a geometry change. This configuration is for source-grounded kinematics development, regression, visualization, force-coordinate composition, conservative spring-force modeling, discrete anti-roll-bar blade-stiffness modeling, nominal Z-bar mechanism-fixture recovery, and later correlation; it is not installed/as-built authority."
+purpose = "WUFR-27 suspension R&D baseline inheriting the WUFR-26 final OptimumK nominal suspension geometry without a geometry change. This configuration is for source-grounded kinematics development, regression, visualization, force-coordinate composition, conservative spring-force modeling, discrete two-arm anti-roll-bar modeling through physical wheel-coordinate generalized force, and later correlation; it is not installed/as-built authority."
 
 [authority]
 model_id = "MOD-SUSP-0001"
@@ -13,7 +13,7 @@ anti_roll_bar_model_id = "MOD-SUSP-0005"
 force_coordinate_model_id = "MOD-VEH-0003"
 actuation_authorization_state = "prototype_authorized_after_AUTH-SUSP-0003_PR43_merge; implementation_merged_in_PR44"
 spring_force_authorization_state = "prototype_authorized_after_AUTH-SUSP-0004_PR47_merge; implementation_merged_in_PR48"
-anti_roll_bar_authorization_state = "AUTH-SUSP-0005 constitutive provider implemented in PR50; AUTH-SUSP-0006 nominal Z-bar mechanism point/topology fixture recovered for review; scalar delta_b map/Jacobian and vehicle-coordinate ARB generalized force remain unauthorized"
+anti_roll_bar_authorization_state = "AUTH-SUSP-0005 generic constitutive provider implemented in PR50; AUTH-SUSP-0006 nominal Z-bar fixture; AUTH-SUSP-0007 two-arm per-blade-arm constitutive semantics; AUTH-SUSP-0008 rocker-coordinate mechanism/Jacobian/Q_rocker; AUTH-SUSP-0009 physical wheel-coordinate chain/J_dz/Q_z; whole-vehicle equilibrium remains unauthorized"
 force_coordinate_authorization_state = "prototype_authorized_after_AUTH-VEH-0003_PR45_merge; implementation_merged_in_PR46"
 source_snapshot = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
 source_snapshot_id = "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0"
@@ -29,7 +29,7 @@ canonical_orientation = "+x forward, +y vehicle left, +z upward; right-handed"
 
 [inheritance]
 rule = "Load the source snapshot through the explicit OptimumK-to-canonical adapter. Do not duplicate, mirror, translate, or revise hardpoints in this configuration. Any future geometry change requires a new configuration ID and provenance."
-reviewed_statement = "Reviewer/user confirmation on 2026-07-25: WUFR-27 will not have different suspension geometry from WUFR-26. Reviewer/user correction on 2026-07-26 selects the SolidWorks FEA blade-tip stiffness values 280/300/400/700/2300 N/mm from the Google Sheet ARB FEA vs Simulink as the governing WUFR ARB constitutive authority. MATLAB, Simulink, and Instron values are comparison-only."
+reviewed_statement = "Reviewer/user confirmation on 2026-07-25: WUFR-27 will not have different suspension geometry from WUFR-26. Reviewer/user correction on 2026-07-26 selects the SolidWorks FEA 280/300/400/700/2300 N/mm setting values from ARB FEA vs Simulink as governing WUFR ARB stiffness authority. Source recovery identifies these as one blade-arm transverse tip stiffnesses; later two-arm mechanism/wheel-coordinate mapping does not replace or rescale that constitutive authority."
 
 [vehicle_context]
 wheelbase_m = 1.5624
@@ -53,7 +53,7 @@ source_profile = "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
 physical_state_coordinate = "delta_z_wc_body_m = current body-frame wheel-center z minus nominal body-frame wheel-center z; positive upward"
 
 [actuation_boundary]
-rule = "AUTH-SUSP-0003 / PR43 authorizes and PR44 implements only ideal rigid front-upper-arm/rear-lower-arm push/pull attachment transport, one-axis rocker closure, ideal coilover eye-to-eye displacement, and the explicitly signed local derivative rho_dw=d(delta_L_d)/d(delta_z_wc_body). Historical OptimumK Motion Ratio Heave remains a separately named source quantity."
+rule = "AUTH-SUSP-0003 / PR43 authorizes and PR44 implements ideal rigid front-upper-arm/rear-lower-arm push/pull attachment transport, one-axis rocker closure, ideal coilover eye-to-eye displacement, and the explicitly signed local derivative rho_dw=d(delta_L_d)/d(delta_z_wc_body). Historical OptimumK Motion Ratio Heave remains a separately named source quantity. AUTH-SUSP-0009 may additionally evaluate the signed local rocker-over-wheel derivative from these already-reviewed states without promoting historical scalar motion ratios."
 source_profile = "benchmarks/suspension/WUFR26_OPTIMUMK_ACTUATION_V0.toml"
 coilover_displacement_coordinate = "delta_L_d_m = current ideal coilover eye-to-eye length minus nominal length; positive extension"
 local_ratio_coordinate = "rho_dw = d(delta_L_d_m)/d(delta_z_wc_body_m); sign retained"
@@ -76,28 +76,28 @@ shockpot_boundary = "Reviewer reported ride-height shock-pot value '44m'; retain
 prohibited_shortcuts = "No constant rear 30/33/36 N/mm substitution, no endpoint averaging, no F_s=k_t*x_s for the progressive law, no negative-compression clipping, no historical Motion Ratio Heave substitution, and no presenting ASM-SUSP-0002 as KW test data or installed travel authority."
 
 [anti_roll_bar_boundary]
-rule = "AUTH-SUSP-0005 / PR49 authorizes and PR50 implements a coupled/source-defined conservative anti-roll-bar provider. The governing generic path is signed elastic coordinate s_ARB and J_s, then U_ARB/action/tangent, then Q_ARB=-J_s^T*a_ARB. The corrected WUFR constitutive adapter uses blade-tip deformation delta_b and blade force F_b; scalar ARB wheel-rate or two independent corner springs are not governing physics. AUTH-SUSP-0006 now also freezes the named nominal WUFR Z-bar point/topology fixture and rocker-pickup transport, but not the scalar two-ended-blade delta_b map."
+rule = "AUTH-SUSP-0005 / PR50 implements the generic conservative ARB mechanics. AUTH-SUSP-0006 freezes the named nominal WUFR Z-bar geometry, AUTH-SUSP-0007 freezes the two per-arm elastic coordinates and additive energy, AUTH-SUSP-0008 implements the nominal-continuation rocker-coordinate mechanism/Jacobian, and AUTH-SUSP-0009 composes the signed physical-wheel-to-rocker derivative to provide Q_z in left/right MOD-SUSP-0002 physical wheel-center vertical coordinates."
 source_profile = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
 mapping_source_profile = "data_catalog/wufr27_zbar_mapping_source_v0.toml"
 mechanism_fixture = "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml"
 assumption_id = "ASM-SUSP-0003"
-architecture = "WUFR Z-bar / adjustable blade concept; PR50 provides generic conservative mechanics and the discrete blade constitutive law; AUTH-SUSP-0006 freezes the nominal point/topology fixture while the scalar elastic-coordinate reduction remains pending"
+architecture = "WUFR Z-bar / two-arm adjustable blade concept; one reviewed transverse tip-deflection coordinate per blade arm; free central housing rotation selected on the nominal continuation branch"
 intentional_preload = "zero"
-constitutive_stiffness_status = "governing SolidWorks FEA linear blade-tip stiffness by discrete setting: 1=280 N/mm, 2=300 N/mm, 3=400 N/mm, 4=700 N/mm, 5=2300 N/mm; SI 280000/300000/400000/700000/2300000 N/m"
-constitutive_semantics = "blade-tip force/deflection stiffness for F_b=k_b*delta_b and U_b=0.5*k_b*delta_b^2; not axle roll stiffness and not N*m/deg"
-mechanism_fixture_status = "Named front/rear blade-housing pivots/axes, opposite blade-link joints, rocker ARB pickups, rocker pivots/axes, nominal linkage geometry, and rear source-frame registration are frozen in WUFR26_ZBAR_MECHANISM_V0. Rocker pickups may be transported only with the reviewed MOD-SUSP-0003 rocker state."
-state_mapping_status = "The final WUFR scalar map (q_L,q_R)->delta_b and partial(delta_b)/partial(q_L,q_R) remains unauthorized. The remaining gap is the exact physical reduction from the recovered two-ended blade mechanism deformation to the single PR50 delta_b coordinate."
-comparison_boundaries = "MATLAB reduced axle 2560/2270 N*m/deg, Simulink 285/309/400/724/2628 N/mm, and Instron 900/980/1320/1970/2630 N/mm are comparison-only. Do not average, interpolate, blend, or stack them with the governing SolidWorks blade stiffness."
-setting_rule = "Settings 1..5 are discrete and must be selected exactly; interpolation is prohibited without separate authorization."
+constitutive_stiffness_status = "governing SolidWorks FEA one-blade-arm linear tip stiffness by discrete setting: 1=280 N/mm, 2=300 N/mm, 3=400 N/mm, 4=700 N/mm, 5=2300 N/mm; SI 280000/300000/400000/700000/2300000 N/m"
+constitutive_semantics = "for selected k_b, F=[k_b*d_L,k_b*d_R] and U=0.5*k_b*(d_L^2+d_R^2); not axle roll stiffness and not N*m/deg"
+mechanism_fixture_status = "Named front/rear blade-housing pivots/axes, opposite blade-link joints, rocker ARB pickups, rocker pivots/axes, nominal linkage geometry, and rear source-frame registration are frozen in WUFR26_ZBAR_MECHANISM_V0. Rocker pickups are transported only with the reviewed MOD-SUSP-0003 rocker states."
+state_mapping_status = "AUTH-SUSP-0008 implements d=[d_L,d_R](theta_RL,theta_RR) and a two-step J_dtheta. AUTH-SUSP-0009 evaluates signed rho_rw=d(theta_R)/d(delta_z_wc_body), forms J_dz=J_dtheta*diag(rho_rw_L,rho_rw_R), and returns Q_z=-J_dz^T*F in physical wheel-center vertical coordinates."
+comparison_boundaries = "Historical setting-1 effective axle 2560/2270 N*m/deg, Simulink 285/309/400/724/2628 N/mm, and Instron 900/980/1320/1970/2630 N/mm are comparison-only. Do not average, interpolate, blend, stack, or back-fit them into the governing SolidWorks per-arm law or reviewed geometry chain."
+setting_rule = "Settings 1..5 are discrete and selected exactly; interpolation is prohibited without separate authorization."
 benchmark_result = "benchmarks/suspension/suspension_anti_roll_bar_result_v0.1.0.toml"
-implementation_boundary = "PR50 implements generic scalar conservative ARB mechanics and the discrete WUFR blade law. AUTH-SUSP-0006 authorizes only the recovered nominal mechanism fixture/rocker-point transport beyond that. Do not double, halve, sqrt(2)-rescale, or duplicate the PR50 k_b/energy law for the two blade arms without explicit authority. Vehicle-coordinate generalized force remains blocked until the scalar delta_b/J_delta_b map is reviewed."
+implementation_boundary = "The conservative WUFR ARB can now return stored energy, per-arm blade forces, rocker-coordinate generalized torque, and physical wheel-center vertical generalized force. It does not yet solve chassis/body equilibrium, tire/contact reactions, body roll, axle load transfer, LLTD, damper force, structural reactions, or installed limits."
 
 [force_coordinate_boundary]
 rule = "AUTH-VEH-0003 / PR45 authorizes and PR46 implements explicit body/road point transport, point-force/free-couple wrench assembly, virtual-work generalized-force mapping, flat-road rigid four-contact classification, and the reviewed WUFR design-intent frame adapter. It does not authorize constitutive force laws or equilibrium."
 generalized_coordinate_order = ["z_s_m", "phi_rad", "theta_rad"]
 first_contact_model = "flat rigid road; vertically rigid tires; all four contacts active; negative normal reaction is wheel_lift/contact_mode_invalid and is never clipped"
 first_linkage_fidelity = "downstream-only ideal pin-jointed two-force members and rigid bodies/nodes; not linkage-force, stress, FEA, or installed authority in this configuration"
-whole_vehicle_use_status = "available_for_reviewed_design_intent_frame/contact composition_only_not_installed_as_built"
+whole_vehicle_use_status = "available_for_reviewed_design_intent_frame/contact_composition_only_not_installed_as_built"
 
 [uses]
 permitted = [
@@ -105,8 +105,7 @@ permitted = [
   "MOD-SUSP-0002 source-bounded wheel-reference and physical-state development and verification",
   "MOD-SUSP-0003 source-bounded ideal actuation development, verification, and downstream R&D state provision within AUTH-SUSP-0003",
   "MOD-SUSP-0004 conservative spring force/energy/tangent/generalized-force prototype under AUTH-SUSP-0004 with explicit ASM-SUSP-0002 provenance",
-  "MOD-SUSP-0005 generic conservative coupled ARB mechanics and WUFR discrete blade force/energy/tangent evaluation under AUTH-SUSP-0005 with explicit ASM-SUSP-0003 provenance",
-  "AUTH-SUSP-0006 nominal WUFR Z-bar point/topology fixture and MOD-SUSP-0003 rocker-ARB-pickup point transport for later map development; no scalar delta_b/J_delta_b yet",
+  "MOD-SUSP-0005 generic conservative coupled ARB mechanics, WUFR discrete per-arm constitutive law, two-arm Z-bar mechanism mapping, and physical wheel-coordinate generalized ARB force under AUTH-SUSP-0005 through AUTH-SUSP-0009 with explicit ASM-SUSP-0003 provenance",
   "MOD-VEH-0003 reviewed design-intent whole-vehicle force-coordinate composition and mechanics benchmarks",
   "source-to-canonical transform regression",
   "suspension kinematics validation against OptimumK",
@@ -121,12 +120,12 @@ prohibited = [
   "generalization of the zero-offset wheel-center construction to nonzero OptimumK wheel offsets",
   "generic physical contact-patch/tire-envelope or tire-deflection inference",
   "unlabeled modification of ASM-SUSP-0002/ASM-SUSP-0003 or promotion of spring/ARB models to installed/production authority",
-  "damper force, wheel damping, gas force, stops, or ARB physics outside the explicitly authorized conservative/blade law",
-  "using MATLAB 2560/2270 N*m/deg, Simulink values, Instron values, spec-sheet suspension roll rates, or other historical literals as governing WUFR blade stiffness",
+  "damper force, wheel damping, gas force, stops, or ARB physics outside the explicitly authorized conservative/two-arm law",
+  "using historical effective-axle 2560/2270 N*m/deg, Simulink values, Instron values, spec-sheet suspension roll rates, or other historical literals as governing WUFR blade stiffness",
   "interpolating between WUFR blade settings or averaging/blending/stacking stiffness sources",
-  "inferring WUFR scalar delta_b or J_delta_b from body roll, wheel travel, track width, historical motion ratio, or exporter sketch order",
-  "doubling, halving, sqrt(2)-rescaling, or duplicating the PR50 blade stiffness/energy law because the installed blade has two arms/end linkages",
-  "vehicle equilibrium, wheel-load generation, load-transfer calculation, or vehicle-coordinate ARB generalized force under the current WUFR ARB authorization without the reviewed scalar deformation map",
+  "replacing the reviewed Z-bar coordinate chain with body roll, wheel-travel difference, track width, historical scalar motion ratio, or exporter sketch order",
+  "doubling, halving, sqrt(2)-rescaling, or duplicating the governing per-arm blade stiffness/energy law because the installed blade has two arms/end linkages",
+  "vehicle equilibrium, maneuver-specific wheel-load generation, tire normal-force change, axle load transfer, LLTD, or body-roll solution merely because physical wheel-coordinate ARB generalized force is now available",
   "negative normal-reaction clipping, negative spring-compression clipping, hidden ARB preload offsets, or hidden contact-mode switching",
   "linkage/member/bearing loads, blade stress/FEA/fatigue release, or structural release under the current force-coordinate/spring/ARB authorizations",
   "treating the source verification heave range or vendor damper travel as installed suspension/wheel travel; the 57 mm value may only bound the explicit ASM-SUSP-0002 rear spring constitutive assumption",
