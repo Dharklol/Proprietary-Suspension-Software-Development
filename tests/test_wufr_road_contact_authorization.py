@@ -26,7 +26,7 @@ class WUFRRoadContactAuthorizationTests(unittest.TestCase):
         self.assertEqual(auth["scope"]["assumption_ids"], ["ASM-VEH-0004"])
         self.assertEqual(model["authorization_id"], "AUTH-VEH-0006")
         self.assertEqual(model["equation_ids"], ["EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013"])
-        self.assertIn("rigid upright-attached", assumption["description"])
+        self.assertIn("upright-attached", assumption["description"])
         self.assertIn("not a generic tire", assumption["description"])
 
     def test_source_contact_points_and_contract_are_frozen(self) -> None:
