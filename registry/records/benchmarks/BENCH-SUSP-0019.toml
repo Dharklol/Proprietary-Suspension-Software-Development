@@ -1,0 +1,17 @@
+[record]
+id = "BENCH-SUSP-0019"
+type = "benchmark"
+title = "Linkage statics reference-point and translation invariance"
+status = "proposed"
+description = "Verify that the same physical six-link statics problem returns the same signed axial forces when the moment reference point is changed consistently and when the entire geometry is translated rigidly in the common frame."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0006", "EQ-SUSP-0020", "EQ-SUSP-0022"]
+acceptance_criteria = [
+  "Start from BENCH-SUSP-0018 and solve its baseline signed axial-force vector.",
+  "Change the equilibrium reference from O to O2=[0.31,-0.17,0.23] m and translate the prescribed external couple exactly as M_ext,O2=M_ext,O+(O-O2) cross F_ext; the solved axial forces must agree with the baseline within 1e-9 N componentwise.",
+  "Rigidly translate O, every body/remote endpoint, and the external force application geometry by t=[1.2,-0.8,0.45] m while preserving the same physical wrench; the solved axial forces must agree with the baseline within 1e-9 N componentwise.",
+  "Physical force and moment residuals remain within the BENCH-SUSP-0018 acceptance tolerances in every equivalent representation.",
+  "The solver reports the changed reference point/frame provenance rather than silently assuming wheel center or global origin."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0010.toml"
+implementation_test = "planned: tests/test_suspension_linkage_statics.py"
