@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-from dataclasses import replace
 from pathlib import Path
 import math
 import tempfile
-import tomllib
 import unittest
 
 from pssd_vehicle.force_coordinates import BodyPose
@@ -36,7 +34,9 @@ class WUFRStaticGravityTests(unittest.TestCase):
     def test_gravity_actions_preserve_point_force_semantics(self) -> None:
         allocation = load_wufr_static_gravity_allocation(SOURCE)
         for item in allocation.unsprung:
-            self.assertEqual(item.force_N(allocation.g_mps2), (0.0, 0.0, -49.05))
+            force = item.force_N(allocation.g_mps2)
+            self.assertEqual(force[:2], (0.0, 0.0))
+            self.assertAlmostEqual(force[2], -49.05, places=12)
             self.assertIsNone(item.body_position_m)
         self.assertAlmostEqual(
             -allocation.sprung.force_N(allocation.g_mps2)[2],
@@ -73,21 +73,44 @@ class WUFRStaticGravityTests(unittest.TestCase):
         text = SOURCE.read_text(encoding="utf-8")
         with tempfile.TemporaryDirectory() as temp:
             bad_source = Path(temp) / "bad_source.toml"
-            bad_source.write_text(text.replace('record_id = "WUFR27_STATIC_GRAVITY_ALLOCATION_V0"', 'record_id = "OTHER"', 1), encoding="utf-8")
+            bad_source.write_text(
+                text.replace(
+                    'record_id = "WUFR27_STATIC_GRAVITY_ALLOCATION_V0"',
+                    'record_id = "OTHER"',
+                    1,
+                ),
+                encoding="utf-8",
+            )
             with self.assertRaises(WUFRGravityError) as mismatch:
                 load_wufr_static_gravity_allocation(bad_source)
             self.assertEqual(mismatch.exception.code, WUFRGravityFailureCode.SOURCE_MISMATCH)
 
             bad_mass = Path(temp) / "bad_mass.toml"
-            bad_mass.write_text(text.replace('corner_mass_kg = [5.0, 5.0, 5.0, 5.0]', 'corner_mass_kg = [6.0, 4.0, 5.0, 5.0]', 1), encoding="utf-8")
-            # Axle sum remains 10 kg; this deliberately demonstrates that the loader
-            # enforces the reviewed source packet through first-moment consistency too.
+            bad_mass.write_text(
+                text.replace(
+                    'corner_mass_kg = [5.0, 5.0, 5.0, 5.0]',
+                    'corner_mass_kg = [6.0, 4.0, 5.0, 5.0]',
+                    1,
+                ),
+                encoding="utf-8",
+            )
+            # Axle sum remains 10 kg; first-moment consistency still rejects the mutation.
             with self.assertRaises(WUFRGravityError) as first_moment:
                 load_wufr_static_gravity_allocation(bad_mass)
-            self.assertEqual(first_moment.exception.code, WUFRGravityFailureCode.FIRST_MOMENT_MISMATCH)
+            self.assertEqual(
+                first_moment.exception.code,
+                WUFRGravityFailureCode.FIRST_MOMENT_MISMATCH,
+            )
 
             bad_axle = Path(temp) / "bad_axle.toml"
-            bad_axle.write_text(text.replace('corner_mass_kg = [5.0, 5.0, 5.0, 5.0]', 'corner_mass_kg = [6.0, 5.0, 5.0, 5.0]', 1), encoding="utf-8")
+            bad_axle.write_text(
+                text.replace(
+                    'corner_mass_kg = [5.0, 5.0, 5.0, 5.0]',
+                    'corner_mass_kg = [6.0, 5.0, 5.0, 5.0]',
+                    1,
+                ),
+                encoding="utf-8",
+            )
             with self.assertRaises(WUFRGravityError) as axle:
                 load_wufr_static_gravity_allocation(bad_axle)
             self.assertEqual(axle.exception.code, WUFRGravityFailureCode.AXLE_ALLOCATION_MISMATCH)
