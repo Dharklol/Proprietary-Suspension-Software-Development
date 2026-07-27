@@ -1,0 +1,18 @@
+[record]
+id = "BENCH-SUSP-0025"
+type = "benchmark"
+title = "WUFR physical spring eye-force and rocker-torque identity"
+status = "proposed"
+description = "Verify the physical spring-only force-vector mapping from the reviewed current direct-coilover geometry and MOD-SUSP-0004 force magnitude without introducing damper or rocker-equilibrium assumptions."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0004", "EQ-SUSP-0028"]
+acceptance_criteria = [
+  "At nominal front and rear design-intent geometry, the current eye-to-eye length matches the frozen WUFR27 spring-package nominal line within 2e-6 m and the spring magnitude matches the existing MOD-SUSP-0004 nominal force source values within 1e-6 N.",
+  "The returned chassis-to-rocker direction is unit length within 1e-12; ||F_rocker||=||F_chassis||=F_s and F_rocker+F_chassis is below 1e-10 N componentwise.",
+  "For front and rear nominal states, tau_s=a dot ((D-R) cross F_rocker) equals F_s*[e dot (a cross (D-R))] within 1e-10 N*m.",
+  "A synthetic arbitrary three-dimensional finite geometry case satisfies the same action-reaction and torque/virtual-work identities without a scalar motion ratio.",
+  "A coincident-eye geometry returns degenerate_eye_line and no physical force vector; failed/mismatched upstream source identity returns the corresponding structured failure.",
+  "No benchmark output includes damper gas/velocity/friction/stop force, rocker pivot reaction, ARB composition, wheel load transfer, member stress, or installed/as-built authority."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0014.toml"
+implementation_test = "planned: tests/test_suspension_wufr_spring_rocker_force.py"
