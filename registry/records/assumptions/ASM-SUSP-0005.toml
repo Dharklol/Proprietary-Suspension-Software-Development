@@ -1,0 +1,10 @@
+[record]
+id = "ASM-SUSP-0005"
+type = "assumption"
+title = "WUFR Level-1 rigid-body and ideal-joint interface statics"
+status = "active"
+description = "For the first WUFR27 suspension-interface statics layer, the outboard carrier/upright, upper A-arm, and lower A-arm are rigid quasi-static bodies. Each upper/lower arm outboard HAB spherical bearing is an ideal spherical joint; each arm's two inboard rod-end pivots are reduced only to their statically equivalent net ideal revolute support about the frozen fore/aft hinge line; front tie rod/rear toe link and front pullrod/rear pushrod are massless ideal signed two-force links. WUFR27 hardware/load-path/geometry carryover from WUFR26 is reviewer-confirmed. This assumption authorizes only Level-1 interface resultants, not the split between the two inboard rod ends or loads/stresses inside welded members."
+severity = "high"
+affected_ids = ["AUTH-SUSP-0012", "MOD-SUSP-0007", "EQ-SUSP-0023", "EQ-SUSP-0024", "EQ-SUSP-0025", "EQ-SUSP-0026", "BENCH-SUSP-0021", "BENCH-SUSP-0022", "BENCH-SUSP-0023"]
+validity = "WUFR27 design-intent linkage topology with unchanged WUFR26 suspension hardware/load paths/geometry per reviewer confirmation dated 2026-07-27. The first solve is exactly the three-body outboard carrier/UCA/LCA graph with one complete prescribed outboard-carrier wrench and no rocker body."
+control = "Preserve physical application-point ownership: front actuation remains on UCA, rear actuation remains on LCA; tie/toe stays attached to the outboard carrier; A-arm outboard joints remain spherical; inboard forward/aft joints may be condensed only to a net revolute support with zero reaction moment about the frozen hinge axis. Do not infer individual forward/aft joint loads, welded-tube forces, or stress from the net hinge wrench. Require a complete externally sourced outboard-carrier wrench; do not synthesize brake/drive/tire loads in this model."

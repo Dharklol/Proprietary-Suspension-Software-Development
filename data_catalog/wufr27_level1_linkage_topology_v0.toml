@@ -1,0 +1,127 @@
+version = "0.1.0"
+record_id = "WUFR27_LEVEL1_LINKAGE_TOPOLOGY_V0"
+status = "reviewer_confirmed_source_bounded"
+authority = "Source/topology authority for the first WUFR27 Level-1 suspension interface-statics model. The project reviewer explicitly confirmed on 2026-07-27 that WUFR27 retains the WUFR26 suspension load paths, geometry, and hardware. This record combines that reviewer decision with the frozen WUFR26 geometry and physical drawing/BOM evidence to authorize only the stated ideal-joint topology. It does not authorize individual chassis-tab loads, welded-tube loads, stress/FEA release, maneuver load generation, brake/drive decomposition, or installed/as-built claims."
+configuration_context = "WUFR27 design intent using unchanged WUFR26 suspension load path, geometry, and hardware per explicit reviewer confirmation"
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+
+[reviewer_confirmation]
+date = "2026-07-27"
+decision = "WUFR27 has the same suspension load paths as WUFR26; geometry is not changing and suspension hardware is not changing. Available source material may be used to infer connection idealizations, with later clarification requested only if a connection becomes genuinely ambiguous. The first authoritative linkage-statics output level is Level 1 interface reactions."
+role = "project reviewer / design authority"
+carryover_authorized = true
+level1_interface_output_authorized = true
+individual_tab_or_member_output_authorized = false
+
+[source.geometry]
+record = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
+contract = "docs/models/suspension/suspension_geometry_contract_v0.1.0.md"
+role = "governing design-intent hardpoints, arm hinge axes, upright joints, tie/toe points, arm-mounted actuation points, rocker pivots, rocker rod pickups, and coilover pickups"
+
+[source.prior_topology_audit]
+record = "data_catalog/wufr26_linkage_topology_source_audit_v0.toml"
+authorization = "AUTH-SUSP-0011"
+role = "governing negative boundary and WUFR26 physical source index; resolved for the Level-1 path by the reviewer confirmation and hardware inference below"
+
+[source.front_corner_assembly]
+box_file_id = "2120119871272"
+box_filename = "SU-A0701-AA FRONT CORNERS.pdf"
+box_sha1 = "a1aedb29a997535435af7b613499448715cac926"
+observations = [
+  "Per corner the physical assembly contains separate welded upper and lower A-arm tube/housing assemblies, one pullrod, two HAB-4TG high-misalignment spherical bearings, and six 0.25-28 rod ends total (five RH, one LH).",
+  "The two HAB-4TG bearings map naturally to the upper/lower upright bearing housings and therefore support ideal spherical upper-arm/upright and lower-arm/upright joints for Level 1.",
+  "The pullrod uses a RH/LH adjustable two-ended rod-end arrangement; after that pair is accounted for, four RH rod ends remain per corner for the four fore/aft A-arm chassis pickups. This endpoint mapping is an explicit reviewed inference, not a claim that the aggregate BOM alone was self-identifying."
+]
+
+[source.front_tie_rod_assembly]
+box_file_id = "2149995344555"
+box_filename = "ST-A0605-AA TIE RODS.pdf"
+box_sha1 = "b9e3efdbbbe192dfb4e429f797ddab4223601a24"
+observations = [
+  "Each front tie rod is a carbon tube with one QA1 XML4 LH rod end and one QA1 XMR4 RH rod end.",
+  "The Level-1 front tie rod is therefore modeled as one ideal signed axial two-force element between its current upright and rack endpoints."
+]
+
+[source.rear_corner_assembly]
+box_file_id = "2142858842201"
+box_filename = "SU-A0702-AA REAR CORNERS.pdf"
+box_sha1 = "ebf896e9924541c63e364ca352c9aee860f089f9"
+observations = [
+  "Per corner the physical assembly contains separate welded upper/lower A-arm tube/housing assemblies, one pushrod, one carbon toe link, two HAB-4TG spherical bearings, and eight 0.25-28 rod ends total (six RH, two LH).",
+  "The two HAB-4TG bearings support ideal spherical upper-arm/upright and lower-arm/upright joints for Level 1.",
+  "The pushrod and toe link each use RH/LH adjustable rod-end pairs; after those four rod ends are accounted for, four RH rod ends remain per corner for the four fore/aft A-arm chassis pickups. This endpoint mapping is an explicit reviewed inference."
+]
+
+[source.front_rocker]
+box_file_id = "2127683470999"
+box_filename = "SU-A0704-AA FRONT ROCKERS.pdf"
+box_sha1 = "0a4c77ebca6a92618e0546f77059120359922c01"
+observations = [
+  "The front rocker assembly uses a radial roller bearing, thrust bearings/washers, and an M10 shoulder screw on the rocker pivot.",
+  "This supports an ideal single-axis revolute rocker pivot for later downstream rocker statics, but the rocker is intentionally outside the first outboard Level-1 solve."
+]
+
+[source.rear_rocker]
+box_file_id = "2050362414404"
+box_filename = "SU-A0706-AA REAR ROCKERS.pdf"
+box_sha1 = "3b44d14d0bd880a0552a4742b002cdffe866c7a1"
+observations = [
+  "The rear rocker assembly uses needle/thrust bearings around the M10 pivot fastener.",
+  "This supports an ideal single-axis revolute rocker pivot for later downstream rocker statics, but the rocker is outside the first outboard Level-1 solve."
+]
+
+[source.front_arb]
+box_file_id = "2135607229280"
+box_filename = "SU-A0703-AA FRONT ANTI-ROLL BAR.pdf"
+box_sha1 = "34823b5b6a2c0a09a8d2441b6d19525c7219e4cb"
+observations = [
+  "The front ARB uses two linkage members with RH/LH rod ends, confirming an axial linkage load path downstream of the rocker.",
+  "ARB structural propagation is deferred from the first outboard Level-1 solve and remains owned by the separately reviewed MOD-SUSP-0005 mechanics until a physical rocker-interface force adapter is authorized."
+]
+
+[joint_model]
+upper_arm_inboard = "Equivalent ideal revolute support whose axis is the frozen line through the upper-arm fore/aft chassis rod-end centers. Reaction space: arbitrary force plus couple perpendicular to the hinge axis; no couple about the hinge axis. Output is only the net hinge wrench at the declared hinge reference point."
+lower_arm_inboard = "Equivalent ideal revolute support whose axis is the frozen line through the lower-arm fore/aft chassis rod-end centers. Reaction space: arbitrary force plus couple perpendicular to the hinge axis; no couple about the hinge axis. Output is only the net hinge wrench at the declared hinge reference point."
+upper_arm_upright = "Ideal spherical joint at the frozen upper upright bearing center; three force components, no transmitted couple."
+lower_arm_upright = "Ideal spherical joint at the frozen lower upright bearing center; three force components, no transmitted couple."
+front_tie_rod = "Ideal signed axial two-force link between current upright tie point and current steering-rack endpoint."
+rear_toe_link = "Ideal signed axial two-force link between current upright toe point and fixed chassis toe-link point."
+front_pullrod = "Ideal signed axial two-force link from the current upper-A-arm actuation pickup to the current rocker rod pickup."
+rear_pushrod = "Ideal signed axial two-force link from the current lower-A-arm actuation pickup to the current rocker rod pickup."
+
+[level1_body_boundary]
+bodies = ["outboard carrier/upright rigid body", "upper A-arm rigid body", "lower A-arm rigid body"]
+outboard_carrier_definition = "For this Level-1 suspension-interface solve, wheel/tire/hub/bearings/brake/upright internal reactions are condensed into one prescribed complete external wrench applied to the outboard carrier/upright body. This body boundary is only for net suspension-interface reactions; it is not an upright bearing/caliper stress model."
+external_wrench_rule = "The caller must provide a complete, explicitly referenced force/couple wrench on the outboard carrier body. The solver may translate a fully defined wrench between reference points, but it may not invent brake-caliper, rotor, hub, bearing, tire, or rear-drive reactions from incomplete inputs."
+
+[determinate_count]
+body_equations = 18
+unknowns = [
+  "upper inboard revolute net reaction: 5",
+  "lower inboard revolute net reaction: 5",
+  "upper arm/upright spherical reaction: 3",
+  "lower arm/upright spherical reaction: 3",
+  "tie rod or toe link axial force: 1",
+  "front pullrod or rear pushrod axial force: 1"
+]
+unknown_count = 18
+summary = "Three rigid bodies provide 18 force/moment equilibrium equations and the authorized Level-1 interface topology provides exactly 18 scalar reaction unknowns. No stiffness-based force-sharing rule is required at this level."
+
+[output_boundary]
+authorized = [
+  "signed tie-rod/toe-link axial force",
+  "signed pullrod/pushrod axial force",
+  "upper and lower arm-to-upright spherical-joint force vectors",
+  "upper and lower equivalent inboard hinge net force plus two perpendicular moment components",
+  "equal-and-opposite body-side reaction vectors/wrenches",
+  "matrix rank/conditioning and per-body physical equilibrium residuals"
+]
+not_authorized = [
+  "forward-versus-aft chassis rod-end/tab load split",
+  "individual welded A-arm tube axial/shear/bending loads",
+  "bearing contact stress, weld stress, buckling, fatigue, compliance, or factor of safety",
+  "rocker pivot/spring/ARB structural reactions in this first outboard solve",
+  "brake/hub/bearing/rear-drive internal reaction decomposition",
+  "maneuver or tire-force generation",
+  "FEA boundary-condition or production structural release"
+]

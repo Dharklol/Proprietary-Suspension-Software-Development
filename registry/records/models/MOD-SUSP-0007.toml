@@ -1,0 +1,48 @@
+[record]
+id = "MOD-SUSP-0007"
+type = "model"
+title = "WUFR Level-1 three-body suspension interface statics"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "WUFR-specific design-intent Level-1 statics adapter for the outboard carrier/upright, upper A-arm, and lower A-arm. It preserves the actual arm-mounted actuation topology, models upper/lower outboard bearings as spherical joints, condenses each rigid A-arm's two inboard rod-end pivots to a net ideal revolute support about the frozen hinge axis, retains front tie rod/rear toe link and front pullrod/rear pushrod as signed axial two-force elements, and solves the resulting exact 18x18 rigid-body equilibrium system from one complete prescribed outboard-carrier wrench. The model returns only interface resultants and axial link forces; rocker/spring/ARB propagation and structural member stresses remain downstream."
+inputs = [
+  "WUFR27_LEVEL1_LINKAGE_TOPOLOGY_V0 reviewer-confirmed WUFR26 hardware/load-path/geometry carryover",
+  "Current MOD-SUSP-0001 upper/lower arm and outboard carrier geometry",
+  "Current front steering tie-rod endpoints from the authoritative steering closure or current rear toe-link geometry",
+  "Current MOD-SUSP-0003 arm-mounted push/pull pickup and rocker rod pickup",
+  "One complete prescribed external force/couple wrench on the outboard carrier body with explicit frame/reference point/provenance",
+  "Explicit body reference points and numerical solver limits"
+]
+outputs = [
+  "Signed front tie-rod or rear toe-link axial force",
+  "Signed front pullrod or rear pushrod axial force",
+  "Upper/lower arm-to-outboard-carrier spherical force vectors",
+  "Upper/lower equivalent inboard hinge net force and perpendicular reaction moment",
+  "Per-interface equal/opposite action-reaction records",
+  "18x18 matrix/scaling/conditioning/pivot diagnostics",
+  "Per-body physical force/moment equilibrium residuals",
+  "Full source/configuration/load-case provenance and structured failure state"
+]
+assumptions = [
+  "ASM-SUSP-0005 governs the reviewer-confirmed carryover and rigid-body/ideal-joint Level-1 reduction.",
+  "The outboard carrier body is a net suspension-interface load-transmission boundary; wheel/hub/bearing/brake/drive internals are not resolved here.",
+  "The caller supplies a complete outboard-carrier wrench. MOD-SUSP-0007 does not calculate tire forces, road reactions, brake torque, drive torque, aero, gravity, spring force, ARB force, or damper force.",
+  "The rocker is not a solved body in v0.1; the push/pull rod remote rocker pickup is used only to define the rod axis.",
+  "Interface-level rigid-body equilibrium does not uniquely determine the forward/aft chassis joint split or welded member internal loads."
+]
+verification_level = "none"
+equation_ids = ["EQ-SUSP-0023", "EQ-SUSP-0024", "EQ-SUSP-0025", "EQ-SUSP-0026"]
+benchmark_ids = ["BENCH-SUSP-0021", "BENCH-SUSP-0022", "BENCH-SUSP-0023"]
+authorization_id = "AUTH-SUSP-0012"
+authorization_state = "review_ready_pending_AUTH-SUSP-0012_merge"
+assumption_ids = ["ASM-SUSP-0005"]
+upstream_model_ids = ["MOD-SUSP-0001", "MOD-SUSP-0003", "MOD-STEER-0001", "MOD-VEH-0003"]
+downstream_model_ids = []
+source_snapshot = "data_catalog/wufr27_level1_linkage_topology_v0.toml"
+source_audit = "docs/models/suspension/wufr_linkage_topology_source_audit.md"
+planned_implementation_package = "src/pssd_suspension/wufr_interface_statics.py"
+planned_implementation_tests = ["tests/test_wufr_interface_statics.py", "tests/test_wufr_interface_statics_failures.py", "tests/test_wufr_interface_statics_authorization.py"]
+validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
+next_implementation_gate = "After AUTH-SUSP-0012 review/merge, implement only the source-bounded 18x18 Level-1 outboard-carrier/UCA/LCA solve and pass BENCH-SUSP-0021 through BENCH-SUSP-0023. A separate downstream authorization is required before propagating the solved push/pull force through the rocker with spring/ARB physical interface forces."
+prohibited_scope = "No six-links-directly-to-upright shortcut; no moving arm-mounted actuation points; no individual forward/aft A-arm chassis-joint split; no welded tube/member load or stress; no bearing/weld/buckling/fatigue/compliance/FOS; no rocker pivot/spring/ARB structural propagation in v0.1; no tire/road/maneuver/brake/drive/aero/gravity load generation; no incomplete-wrench repair; no scalar load distribution or historical negative-force clipping; no FEA boundary-condition or production structural authority."

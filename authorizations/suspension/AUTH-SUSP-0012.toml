@@ -1,0 +1,151 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0012"
+status = "review_ready"
+title = "WUFR27 Level-1 three-body suspension interface statics authorization"
+effective_condition = "Effective only after review and merge of the PR carrying this authorization. The reviewer has explicitly confirmed WUFR27 suspension load-path, geometry, and hardware carryover from WUFR26 and selected Level-1 interface reactions as the first authoritative linkage-statics output. This authorization therefore lifts AUTH-SUSP-0011's WUFR adapter hold only for MOD-SUSP-0007's exact three-body carrier/UCA/LCA interface graph. It does not authorize using MOD-SUSP-0006 as a six-links-directly-to-upright WUFR adapter, structural member stress, rocker/spring/ARB reaction propagation, or maneuver/load-case generation."
+review_record = "docs/reviews/phase3_wufr_level1_interface_statics_authorization_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-SUSP-0007"]
+equation_ids = ["EQ-SUSP-0023", "EQ-SUSP-0024", "EQ-SUSP-0025", "EQ-SUSP-0026"]
+benchmark_ids = ["BENCH-SUSP-0021", "BENCH-SUSP-0022", "BENCH-SUSP-0023"]
+assumption_ids = ["ASM-SUSP-0005"]
+source_record = "data_catalog/wufr27_level1_linkage_topology_v0.toml"
+upstream_model_ids = ["MOD-SUSP-0001", "MOD-SUSP-0003", "MOD-STEER-0001", "MOD-VEH-0003"]
+planned_implementation_package = "src/pssd_suspension/wufr_interface_statics.py"
+planned_implementation_tests = ["tests/test_wufr_interface_statics.py", "tests/test_wufr_interface_statics_failures.py", "tests/test_wufr_interface_statics_authorization.py"]
+wufr27_level1_interface_statics_authorized = true
+wufr27_current_member_interface_outputs_authorized = true
+wufr_load_case_generation_authorized = false
+rocker_reaction_propagation_authorized = false
+spring_arb_structural_interface_authorized = false
+individual_a_arm_joint_split_authorized = false
+beam_member_stress_authorized = false
+structural_release_authorized = false
+
+[reviewer_decisions]
+date = "2026-07-27"
+carryover = "WUFR27 has the same suspension load paths as WUFR26; suspension geometry and hardware are unchanged."
+connection_inference = "Available source/CAD/drawing evidence may be used to infer connection idealizations where the mapping is mechanically well-supported; genuine ambiguity must be surfaced for clarification rather than guessed."
+output_level = "Level 1 interface reactions first; individual tab/bearing splits and welded-member loads remain downstream."
+
+[auth_susp_0011_resolution]
+prior_hold = "AUTH-SUSP-0011"
+resolved_for_this_path = true
+resolution = [
+  "WUFR27 carryover/change status is resolved by explicit reviewer confirmation of unchanged WUFR26 load path, geometry, and hardware.",
+  "Endpoint idealizations needed for Level 1 are resolved by the physical WUFR26 corner/steering/rocker drawings plus reviewer-authorized inference: HAB outboard bearings -> ideal spherical arm/upright joints; four residual A-arm chassis rod ends per corner -> fore/aft ideal pivots condensed to one net revolute support per rigid arm; front tie rod/rear toe link and push/pull rod -> ideal signed axial two-force elements.",
+  "First output fidelity is explicitly Level 1 net interface resultants. Unique forward/aft chassis joint loads and welded member loads remain unauthorized.",
+  "Brake/drive internal decomposition is intentionally not required for this first graph because the outboard carrier is a net load-transmission boundary that requires a complete prescribed external wrench. Incomplete braking/drive/contact inputs remain prohibited.",
+  "Spring/ARB/rocker structural reaction propagation is intentionally downstream. The first graph stops at the solved push/pull-rod force and therefore does not need to duplicate or reinterpret MOD-SUSP-0004/MOD-SUSP-0005 mechanics."
+]
+remaining_hold = "AUTH-SUSP-0011 continues to prohibit any direct WUFR application of the generic MOD-SUSP-0006 six-link-to-one-body kernel and all higher-fidelity outputs not named by AUTH-SUSP-0012."
+
+[topology]
+body_order = ["outboard_carrier", "upper_a_arm", "lower_a_arm"]
+unknown_order = [
+  "upper_hinge_force_x_N", "upper_hinge_force_y_N", "upper_hinge_force_z_N", "upper_hinge_moment_v1_Nm", "upper_hinge_moment_v2_Nm",
+  "lower_hinge_force_x_N", "lower_hinge_force_y_N", "lower_hinge_force_z_N", "lower_hinge_moment_v1_Nm", "lower_hinge_moment_v2_Nm",
+  "upper_spherical_force_on_carrier_x_N", "upper_spherical_force_on_carrier_y_N", "upper_spherical_force_on_carrier_z_N",
+  "lower_spherical_force_on_carrier_x_N", "lower_spherical_force_on_carrier_y_N", "lower_spherical_force_on_carrier_z_N",
+  "lateral_link_axial_force_N", "actuation_rod_axial_force_N"
+]
+scalar_unknown_count = 18
+scalar_equilibrium_count = 18
+front_actuation_owner = "upper_a_arm"
+rear_actuation_owner = "lower_a_arm"
+front_lateral_element = "steering tie rod using current MOD-STEER-0001 closure geometry"
+rear_lateral_element = "chassis-locating toe link using current reviewed suspension geometry"
+rocker_in_first_graph = false
+
+[joints]
+upper_outboard = "ideal spherical joint at the exact current/frozen upper upright bearing center"
+lower_outboard = "ideal spherical joint at the exact current/frozen lower upright bearing center"
+upper_inboard = "net ideal revolute support about exact current/frozen line through upper fore/aft chassis pickups; arbitrary reaction force plus only two moment components perpendicular to hinge axis"
+lower_inboard = "net ideal revolute support about exact current/frozen line through lower fore/aft chassis pickups; arbitrary reaction force plus only two moment components perpendicular to hinge axis"
+lateral_link = "signed axial two-force element; positive tension"
+actuation_rod = "signed axial two-force element; positive tension and physical arm-mounted application point preserved"
+
+[external_wrench_contract]
+required = true
+body = "outboard_carrier"
+rule = "Caller supplies one complete finite external force and couple on the declared outboard-carrier rigid-body boundary, with frame, reference point, source_id, and load_case_id/provenance. A complete wrench may be translated to another reference point exactly; missing physical load contributions may not be manufactured inside MOD-SUSP-0007."
+boundary = "Wheel/tire/hub/bearings/brake/rotor and rear drive internals may be condensed upstream into the complete wrench only when that wrench is physically complete for the chosen carrier boundary. MOD-SUSP-0007 does not resolve those internals."
+
+[permitted]
+items = [
+  "Build the three WUFR rigid bodies from current reviewed geometry and preserve every physical joint/application point named by WUFR27_LEVEL1_LINKAGE_TOPOLOGY_V0.",
+  "Construct equivalent UCA/LCA inboard revolute axes directly from each arm's fore/aft chassis hardpoints and return only the net hinge wrench.",
+  "Use current front steering closure to define the tie-rod axis and current rear suspension geometry to define the toe-link axis.",
+  "Apply the front pullrod only to the upper A-arm source pickup and the rear pushrod only to the lower A-arm source pickup.",
+  "Assemble and solve the exact 18x18 force/moment equilibrium system with explicit moment scaling and deterministic direct linear algebra.",
+  "Report signed axial force, physical interface force/wrench vectors, action/reaction pairs, matrix conditioning/pivots, and independent per-body physical residuals.",
+  "Use the solved Level-1 interface resultants later as inputs to separately authorized rocker/structural models without changing their meaning."
+]
+
+[prohibited]
+items = [
+  "Using MOD-SUSP-0006 directly as a six-links-to-upright WUFR adapter or moving either arm-mounted push/pull pickup onto the upright/carrier to obtain a simpler system.",
+  "Adding a reaction couple about an ideal A-arm revolute hinge axis.",
+  "Reporting a unique forward/aft A-arm chassis rod-end/tab load split from the equivalent net hinge wrench without separately authorized load-sharing/stiffness mechanics.",
+  "Treating individual welded A-arm tubes as two-force members or publishing tube axial/shear/bending, weld/bearing stress, buckling, fatigue, compliance, factor of safety, or FEA release from this model.",
+  "Computing rocker pivot reaction, spring structural force, ARB linkage/blade structural reaction, or damper reaction inside v0.1 MOD-SUSP-0007.",
+  "Generating tire/contact force, road reaction, acceleration, aero load, gravity load, brake/caliper/rotor reaction, or rear-drive/CV/halfshaft reaction inside MOD-SUSP-0007.",
+  "Accepting an incomplete external wrench and filling missing components from a scalar brake force, scalar load-transfer percentage, motion ratio, or legacy OptimumK/hand-load table.",
+  "Using least squares, pseudoinverse, minimum-norm force sharing, regularization, hidden stiffness weighting, force clipping, absolute-value signs, or geometry perturbation to repair a singular/ill-conditioned graph.",
+  "Applying the legacy instruction to treat negative member forces as zero. Compression remains a valid negative axial force.",
+  "Calling Level-1 outputs installed/as-built, structural-release, or production-authority results."
+]
+
+[numerics]
+body_characteristic_length_rule = "For each solved body i, L_i=max_j ||r_ij-r_Oi|| over that body's finite force application points used in equilibrium; require finite L_i>1e-12 m."
+scaled_system_rule = "S=blockdiag(S_C,S_U,S_L), S_i=diag(1,1,1,1/L_i,1/L_i,1/L_i); A_tilde=S*A; b_tilde=S*b."
+condition_measure = "cond_inf(A_tilde)"
+condition_limit = 1.0e10
+pivot_relative_threshold = 1.0e-12
+analytical_reaction_tolerance = 1.0e-8
+force_residual_tolerance_N = 1.0e-9
+moment_residual_tolerance_Nm = 1.0e-9
+hinge_axis_moment_tolerance_Nm = 1.0e-9
+least_squares_allowed = false
+pseudoinverse_allowed = false
+regularization_allowed = false
+stiffness_weighting_allowed = false
+hidden_clipping_allowed = false
+
+[failure_behavior]
+codes = [
+  "nonfinite_input",
+  "frame_mismatch",
+  "source_mismatch",
+  "duplicate_or_missing_identity",
+  "degenerate_hinge_axis",
+  "degenerate_axial_link",
+  "unsupported_topology",
+  "source_ownership_mismatch",
+  "incomplete_external_wrench",
+  "degenerate_characteristic_length",
+  "singular_equilibrium",
+  "ill_conditioned_equilibrium",
+  "linear_solve_failure",
+  "hinge_axis_moment_violation",
+  "equilibrium_residual_exceeded"
+]
+rule = "Return a structured unsolved failure with original geometry/source/load provenance and available conditioning diagnostics. Never repair failure by moving application points, adding/removing reactions, approximate force sharing, clipping signs, or inventing missing external loads."
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-SUSP-0021 exactly reproduces the frozen nontrivial synthetic 18-component reaction solution and physical residuals.",
+  "BENCH-SUSP-0022 proves WUFR front/rear geometry and application-point ownership, including current front steering tie-rod geometry and arm-mounted actuation ownership.",
+  "BENCH-SUSP-0023 proves reference/translation/hinge-axis-sign invariance and fail-closed numerical/topology/external-wrench behavior."
+]
+
+[promotion_gates]
+items = [
+  "This AUTH-SUSP-0012 review/authorization PR is merged before MOD-SUSP-0007 implementation is considered authorized.",
+  "A separate implementation PR passes BENCH-SUSP-0021 through BENCH-SUSP-0023 and freezes a deterministic result record before current WUFR Level-1 reactions are considered implemented.",
+  "Before rocker pivot reaction is calculated, separately authorize the physical push/pull, spring, and ARB force interfaces on the rocker. In particular, do not substitute generalized ARB wheel/rocker force for the missing physical linkage force without a reviewed mapping.",
+  "Before individual A-arm chassis joint or welded-member loads are published, authorize a joint/load-sharing or beam/FE stiffness model separately.",
+  "Before maneuver structural cases, authorize the upstream complete external-wrench source including brake and rear-drive torque paths."
+]

@@ -1,0 +1,21 @@
+[record]
+id = "BENCH-SUSP-0023"
+type = "benchmark"
+title = "WUFR Level-1 invariance, topology, and numerical failure gates"
+status = "proposed"
+description = "Verify coordinate invariance and fail-closed behavior for the WUFR Level-1 multi-body statics layer. A failed or unsupported graph must remain unsolved rather than being repaired by approximate load sharing or hidden structural assumptions."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0007", "EQ-SUSP-0023", "EQ-SUSP-0024", "EQ-SUSP-0025", "EQ-SUSP-0026"]
+acceptance_criteria = [
+  "Rigidly translating every point and all three body reference points by the same vector leaves all physical interface forces, axial forces, and hinge reaction moments unchanged within 1e-9 after consistent wrench/reference translation.",
+  "Changing a body equilibrium reference point while translating that body's prescribed wrench exactly leaves the solved physical interface reactions unchanged within 1e-9.",
+  "Flipping a revolute hinge-axis sign may change the reported perpendicular scalar moment-basis coordinates, but the reconstructed physical net hinge force/moment wrench is invariant and still satisfies M_hinge dot u_h=0.",
+  "A zero/nonfinite hinge axis, zero-length/nonfinite axial link, frame mismatch, duplicate/missing body or joint identity, or wrong body ownership returns a structured failure before publication of reaction results.",
+  "Applying front actuation to the carrier/LCA or rear actuation to the carrier/UCA returns unsupported_topology/source_ownership failure; the application point is never moved automatically.",
+  "A singular 18x18 graph returns singular_equilibrium; a near-dependent graph with scaled cond_inf above 1e10 returns ill_conditioned_equilibrium. Neither case permits pseudoinverse, least-squares, minimum-norm, regularized, stiffness-weighted, clipped, or geometry-perturbed repair.",
+  "A caller that cannot declare a complete finite outboard-carrier force/couple wrench with frame, reference point, and source/load-case provenance returns incomplete_external_wrench; the model does not infer missing brake, drive, tire, aero, gravity, spring, ARB, or damper contributions.",
+  "Compression remains a negative axial force. No result path applies the legacy negative-to-zero rule or absolute-value conversion.",
+  "Failure output retains source/configuration/topology identity and available scaling/conditioning diagnostics."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0012.toml"
+implementation_test = "planned: tests/test_wufr_interface_statics_failures.py"

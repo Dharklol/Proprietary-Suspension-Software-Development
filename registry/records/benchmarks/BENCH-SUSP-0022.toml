@@ -1,0 +1,21 @@
+[record]
+id = "BENCH-SUSP-0022"
+type = "benchmark"
+title = "WUFR27 Level-1 geometry and load-application ownership gate"
+status = "proposed"
+description = "Verify that the WUFR-specific Level-1 graph is constructed from the already-reviewed current suspension geometry without moving application points or collapsing the real arm-mounted actuation topology. This is a geometry/topology benchmark, not a WUFR force-result benchmark."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0007", "EQ-SUSP-0023", "EQ-SUSP-0024"]
+acceptance_criteria = [
+  "Load WUFR27_LEVEL1_LINKAGE_TOPOLOGY_V0 and require the explicit reviewer confirmation that WUFR27 retains WUFR26 suspension load paths, geometry, and hardware for this model.",
+  "For both front and rear, construct UCA/LCA equivalent revolute axes from the exact frozen fore/aft chassis hardpoints; do not translate either axis to the wheel center, upright, arm centroid, or an invented parallel line.",
+  "Use the exact frozen upper/lower upright bearing centers as spherical-joint application points.",
+  "Front: the pullrod force column acts on the UCA at the current source-defined front actuation pickup and its remote endpoint is the current rocker rod pickup. The column must not act on the carrier or LCA.",
+  "Rear: the pushrod force column acts on the LCA at the current source-defined rear actuation pickup and its remote endpoint is the current rocker rod pickup. The column must not act on the carrier or UCA.",
+  "Front: use the current steering-closure tie-rod geometry; do not use OptimumK scalar Steer Angle, a fixed nominal tie-rod axis at a steered state, or a scalar steering load split.",
+  "Rear: use the current chassis-locating toe-link endpoints from the reviewed suspension geometry/closure.",
+  "The assembled Level-1 graph has exactly three solved rigid bodies and exactly 18 scalar unknowns with the AUTH-SUSP-0012 reaction order; no dummy reaction, hidden hinge-axis moment, or extra force-sharing variable is inserted to make the system square.",
+  "The source adapter reports the exact geometry/configuration/source identities used for every joint, hinge axis, and axial element so a force result can be traced back to its physical application point."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0012.toml"
+implementation_test = "planned: tests/test_wufr_interface_statics.py"

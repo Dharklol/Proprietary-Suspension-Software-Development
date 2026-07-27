@@ -1,0 +1,22 @@
+[record]
+id = "EQ-SUSP-0025"
+type = "equation"
+title = "Scaled exact solve for WUFR Level-1 18x18 corner statics"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Solve the deterministic WUFR Level-1 eighteen-unknown/eighteen-equation reaction system after explicit per-body moment-row scaling. The solver is fail-closed: full rank, finite pivots, condition limit, and physical residual gates are required; no pseudoinverse, least-squares, regularization, stiffness weighting, force clipping, or topology perturbation is permitted."
+outputs = ["signed eighteen-component reaction solution", "per-body characteristic lengths", "scaled matrix and rhs", "condition number", "minimum relative pivot", "structured failure state"]
+inputs = ["EQ-SUSP-0024 physical 18x18 matrix and rhs", "body reference/application-point geometry", "conditioning and pivot thresholds"]
+assumptions = [
+  "The authorized Level-1 graph is statically determinate at the interface-resultant level.",
+  "Moment scaling is numerical only and does not alter physical equilibrium or reaction semantics.",
+  "A numerically singular/ill-conditioned graph is rejected rather than repaired with structural stiffness assumptions."
+]
+verification_level = "none"
+canonical_equation = "For each body i define L_i=max_j ||r_ij-r_Oi|| over that body's finite force application points; require L_i>0. Let S_i=diag(1,1,1,1/L_i,1/L_i,1/L_i), S=blockdiag(S_carrier,S_UCA,S_LCA). Solve A_tilde*x=b_tilde with A_tilde=S*A and b_tilde=S*b by deterministic pivoted direct elimination only if rank=18 and cond_inf(A_tilde)<=1e10."
+source_basis = ["AUTH-SUSP-0010 numerical scaling/direct-solve precedent", "Classical direct solution of square linear systems", "EQ-SUSP-0024 determinate WUFR graph"]
+validity = "Finite EQ-SUSP-0024 system with three positive body characteristic lengths and exact 18x18 topology."
+numerical_method = "Partial-pivot Gaussian elimination; independently form/check cond_inf through repeated direct solves or equivalent deterministic inverse-norm evaluation. Default condition limit 1e10 and relative pivot threshold 1e-12."
+failure_behavior = ["Reject nonfinite matrix/rhs", "Reject degenerate body characteristic length", "Reject singular or near-singular pivot", "Reject cond_inf above limit", "Do not use least squares/pseudoinverse/minimum-norm/regularization/stiffness weighting", "Carry unsolved topology/load provenance through failure"]
+benchmark_ids = ["BENCH-SUSP-0021", "BENCH-SUSP-0022", "BENCH-SUSP-0023"]
