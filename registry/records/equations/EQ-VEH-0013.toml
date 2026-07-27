@@ -1,0 +1,30 @@
+[record]
+id = "EQ-VEH-0013"
+type = "equation"
+title = "WUFR road-map Jacobian, contact coefficient, and wheel-point force projection"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Differentiate the exact EQ-VEH-0012 road-compatible map and EQ-VEH-0011 point providers to supply MOD-VEH-0004 with J_wb, work-conjugate road-normal contact coefficients, and the physical unsprung-gravity generalized wheel force."
+outputs = ["J_wb = partial(z_w)/partial(q_b)", "Per-corner contact coefficient c_i", "Per-corner physical wheel-center force projection Q_u_i", "Two-step finite-difference convergence diagnostics"]
+inputs = ["EQ-VEH-0012 road-compatible wheel map", "EQ-VEH-0011 road-frame contact-reference and physical wheel-center points", "Road normal", "MOD-VEH-0005 physical per-corner unsprung gravity point loads", "Declared finite-difference steps at two sizes"]
+assumptions = [
+  "Differentiation remains on the same nominal-continuation suspension/steering/contact branch at both step sizes.",
+  "The contact coefficient is work-conjugate to the same wheel coordinate used by the suspension generalized-force providers.",
+  "The unsprung gravity projection uses physical wheel-center motion, not the contact-reference motion."
+]
+verification_level = "none"
+canonical_equation = "J_wb=partial(z_w)/partial(q_b); c_i=n_R dot partial(r_cp,i^R)/partial(z_i); Q_u_i=F_u,i^R dot partial(r_wc,i^R)/partial(z_i). Evaluate centered finite differences where both directions are inside the reviewed branch/domain, one-sided only at an explicit declared bound, and require two-step convergence."
+source_basis = [
+  "MOD-VEH-0003 / EQ-VEH-0006 virtual-work generalized-force contract",
+  "MOD-VEH-0004 / EQ-VEH-0008 through EQ-VEH-0010 reduced equilibrium and contact recovery",
+  "MOD-VEH-0005 physical point-gravity provider",
+  "EQ-VEH-0011 and EQ-VEH-0012 exact WUFR contact-reference/road compatibility chain"
+]
+validity = "Same bounded WUFR-27 flat-road all-four-active design-intent branch as EQ-VEH-0012."
+failure_behavior = [
+  "Reject branch changes, failed perturbation solves, nonfinite derivatives, or two-step disagreement above declared tolerances.",
+  "Reject zero or near-zero contact coefficients rather than regularizing them.",
+  "Do not hard-code c_i=1 or Q_u_i=-49.05 N except as independently verified nominal limiting values."
+]
+benchmark_ids = ["BENCH-VEH-0009"]
