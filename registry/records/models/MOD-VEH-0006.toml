@@ -2,13 +2,13 @@
 id = "MOD-VEH-0006"
 type = "model"
 title = "WUFR flat-road physical wheel-coordinate compatibility provider"
-status = "blocked"
+status = "proposed"
 disposition = "accepted_with_restrictions"
 maturity = "M0"
-description = "Planned WUFR-specific R&D provider for a flat-road physical wheel-coordinate map. The first source interpretation under ASM-VEH-0004 failed mandatory BENCH-VEH-0008 validation during PR #64 and is not implementation-authorized. The model remains architecturally planned, but its contact-point provider must be replaced by a separately reviewed contact model/source assumption before implementation resumes."
+description = "WUFR-specific R&D provider for a flat-road physical wheel-coordinate map. AUTH-VEH-0008 replaces the failed ASM-VEH-0004 contact interpretation with the explicit ASM-VEH-0005 ideal rigid circular tire contact geometry from EQ-VEH-0014. The historical OptimumK Contact Patch remains negative/comparison evidence only."
 inputs = [
   "Body coordinates q_b=[z_s,phi,theta] and MOD-VEH-0003 BodyPose/RoadPlane",
-  "A separately reviewed WUFR road-contact point/model source replacing invalidated ASM-VEH-0004",
+  "ASM-VEH-0005 / EQ-VEH-0014 fixed-radius rigid circular contact geometry with R=0.23241 m",
   "MOD-SUSP-0002 physical wheel-coordinate states and reviewed local domains",
   "WUFR27_STEERING_BASELINE_V0 centered-rack MOD-STEER-0001 closure for the front pair",
   "MOD-VEH-0005 per-corner physical unsprung gravity point loads",
@@ -17,36 +17,39 @@ inputs = [
 outputs = [
   "Road-compatible wheel coordinates ordered [FL,FR,RL,RR]",
   "J_wb=partial(z_w)/partial([z_s,phi,theta])",
-  "Current road-contact reference and physical wheel-center points with provenance",
+  "Current ideal rigid-circle road-contact and physical wheel-center points with provenance",
   "Per-corner work-conjugate road-normal contact coefficient c_i",
   "Per-corner unsprung-gravity generalized wheel force Q_u_i",
-  "Root, branch, steering, road-gap, derivative, and failure diagnostics"
+  "Root, branch, steering, contact-geometry, derivative, and failure diagnostics"
 ]
 assumptions = [
   "WUFR-27 retains the WUFR-26 nominal rigid suspension and steering design geometry for this baseline.",
-  "The previous assumption that the OptimumK Contact Patch output validates one rigid upright-attached material reference is rejected by BENCH-VEH-0008.",
-  "Any replacement contact geometry/tire model requires its own explicit validity statement before use.",
+  "ASM-VEH-0005 uses the frozen 0.23241 m source-setup radius as a rigid zero-width circle and explicitly excludes loaded radius/tire compliance.",
+  "The previous ASM-VEH-0004 rigid material-point interpretation is rejected by BENCH-VEH-0008 and is not used by this model.",
   "Front rack displacement is zero for the static-gravity baseline; suspension-induced centered-rack toe/steering remains solved by MOD-STEER-0001 rather than suppressed.",
-  "Each corner must remain on a reviewed nominal-continuation physical suspension/steering/contact branch over the local map/differentiation domain."
+  "Each corner remains on a reviewed nominal-continuation physical suspension/steering/contact branch over the local map/differentiation domain."
 ]
 verification_level = "none"
-equation_ids = ["EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013"]
-benchmark_ids = ["BENCH-VEH-0008", "BENCH-VEH-0009"]
-authorization_id = "AUTH-VEH-0006"
-authorization_state = "implementation_blocked_by_failed_BENCH-VEH-0008_and_AUTH-VEH-0007; replacement_contact_authority_required"
-correction_authorization_id = "AUTH-VEH-0007"
+equation_ids = ["EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013", "EQ-VEH-0014"]
+benchmark_ids = ["BENCH-VEH-0009", "BENCH-VEH-0010"]
+authorization_id = "AUTH-VEH-0008"
+authorization_state = "review_ready_for_ideal_rigid_circle_implementation_after_AUTH-VEH-0008_merge; no_WUFR_road_reaction_authority"
+prior_authorization_ids = ["AUTH-VEH-0006", "AUTH-VEH-0007"]
+invalidated_assumption_id = "ASM-VEH-0004"
+active_contact_assumption_id = "ASM-VEH-0005"
 upstream_model_ids = ["MOD-VEH-0003", "MOD-VEH-0004", "MOD-VEH-0005", "MOD-SUSP-0002", "MOD-STEER-0001"]
 downstream_model_ids = []
-source_record = "data_catalog/wufr26_road_contact_reference_v0.toml"
+source_record = "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+negative_source_record = "data_catalog/wufr26_road_contact_reference_v0.toml"
 preimplementation_specification = "docs/models/vehicle/wufr_road_contact_map_function_specification.md"
 failed_assumption_audit = "docs/models/vehicle/wufr_road_contact_assumption_failure_audit.md"
 failed_probe_result = "benchmarks/vehicle/wufr_road_contact_assumption_probe_v0.1.0.toml"
-planned_implementation_package = "src/pssd_vehicle/wufr_road_contact.py"
-review_record = "docs/reviews/phase2_wufr_road_contact_authority_correction_review.md"
+planned_implementation_package = "src/pssd_vehicle/wufr_road_contact.py plus a focused EQ-VEH-0014 contact helper"
+review_record = "docs/reviews/phase2_wufr_rigid_circular_contact_authorization_review.md"
 planned_downstream = [
-  "replacement road-contact model/source assumption authorization",
-  "WUFR spring-plus-Z-bar-plus-gravity static four-corner equilibrium composition only after compatibility is re-authorized",
-  "later tire compliance/loaded-radius contact model",
+  "first WUFR spring-plus-Z-bar-plus-gravity static four-corner equilibrium composition under a separate authorization",
+  "static scale / ride-height / shock-pot correlation before maneuver expansion",
+  "later loaded-radius or tire vertical-compliance contact model",
   "later alternate contact-mode continuation after wheel lift"
 ]
-prohibited_scope = "Implementation under invalidated ASM-VEH-0004; generic tire/contact substitution without review; body-roll-times-track wheel-travel shortcut; scalar spring/ARB motion ratio; OptimumK scalar Steer Angle as rotation input; hidden crossweight/load-transfer formulas; road-reaction solve or wheel-load publication before replacement compatibility authority; alternate contact modes; installed/as-built or production authority."
+prohibited_scope = "ASM-VEH-0004 reuse; fitted radius; loaded radius/tire compliance/finite-width footprint; body-roll-times-track wheel-travel shortcut; scalar spring/ARB motion ratio; OptimumK scalar Steer Angle as rotation input; hidden crossweight/load-transfer formulas; road-reaction or wheel-load publication by this model alone; alternate contact modes; installed/as-built or production authority."
