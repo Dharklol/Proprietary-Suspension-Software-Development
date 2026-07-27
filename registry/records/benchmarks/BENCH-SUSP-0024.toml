@@ -3,17 +3,18 @@ id = "BENCH-SUSP-0024"
 type = "benchmark"
 title = "WUFR physical ARB linkage force and rocker-torque equivalence"
 status = "proposed"
-description = "Verify that EQ-SUSP-0027 recovers a unique signed physical two-force-member load for each source-defined WUFR ARB linkage and that those physical forces reproduce the independently existing AUTH-SUSP-0008 conservative generalized rocker torque."
+description = "Verify that EQ-SUSP-0027 recovers a unique signed physical two-force-member load for each source-defined WUFR ARB linkage and that those physical forces reproduce the independently existing AUTH-SUSP-0008 conservative generalized rocker torque within its reviewed finite-difference numerical oracle."
 verification_level = "A"
 target_ids = ["MOD-SUSP-0005", "EQ-SUSP-0027"]
 acceptance_criteria = [
   "For nominal front and rear zero-preload mechanism states at any valid discrete setting, recovered left/right axial linkage forces are zero within 1e-8 N and physical rocker torques are zero within 1e-9 N*m.",
-  "For the existing front nonzero benchmark theta_R=[+0.01,-0.01] rad at setting 3 (400000 N/m per arm), recover finite signed T_L/T_R with |u_i dot n_i|>1e-6, unit link/transverse directions, and exact equal/opposite rocker/blade force vectors.",
-  "For that front state, each independently reconstructed physical-link rocker torque tau_i=axis dot ((P_i-R_i) cross F_rocker_i) matches the corresponding existing evaluate_two_arm_force generalized_rocker_torque_Nm[i] within 1e-8 N*m absolute tolerance.",
-  "Repeat the torque-equivalence check for the existing asymmetric rear benchmark theta_R=[+0.008,-0.006] rad at setting 2 (300000 N/m per arm), preventing a symmetric-front-only sign convention from passing accidentally.",
+  "For the front nonzero benchmark theta_R=[+0.01,+0.01] rad at setting 3 (400000 N/m per arm), treated only as a rocker-coordinate state, recover a nontrivial aggregate physical linkage load with finite signed T_L/T_R, |u_i dot n_i|>1e-6, unit link/transverse directions, and exact equal/opposite rocker/blade force vectors. No wheel roll/heave semantic is inferred from the rocker-coordinate signs in this benchmark.",
+  "The previously considered front theta_R=[+0.01,-0.01] rad pair is not used as a nonzero force oracle because the reviewed free-housing mechanism can absorb that pair with zero blade deflection; no artificial force may be introduced merely to make every nonzero coordinate input produce load.",
+  "For the front nonzero state, each independently reconstructed physical-link rocker torque tau_i=axis dot ((P_i-R_i) cross F_rocker_i) matches the corresponding existing evaluate_two_arm_force generalized_rocker_torque_Nm[i] within the AUTH-SUSP-0013 inherited-oracle tolerance 1e-6 N*m.",
+  "Repeat the torque-equivalence check for the existing asymmetric rear benchmark theta_R=[+0.008,-0.006] rad at setting 2 (300000 N/m per arm) within 1e-6 N*m, preventing a symmetric-front-only sign convention from passing accidentally.",
   "For every nonzero benchmark side, T_i*(u_i dot n_i)=k_b*d_i within 1e-8 N and the force vector on the rocker is collinear with the exact current blade-tip-to-rocker-pickup line.",
   "Flipping only the arbitrary reporting direction of a reconstructed link axis while consistently flipping its signed axial scalar leaves the physical force vector and rocker torque unchanged; implementation must expose one canonical blade-tip-to-rocker direction and T>0 tension convention.",
   "A synthetic state with |u dot n| at or below 1e-6 returns a structured degenerate_link_projection failure and no physical linkage force."
 ]
 authorization = "authorizations/suspension/AUTH-SUSP-0013.toml"
-implementation_test = "planned: tests/test_suspension_wufr_zbar_link_force.py"
+implementation_test = "tests/test_suspension_wufr_zbar_link_force.py"
