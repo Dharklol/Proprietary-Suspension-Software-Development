@@ -1,0 +1,10 @@
+[record]
+id = "ASM-SUSP-0007"
+type = "assumption"
+title = "Ideal axial direct-coilover spring load path"
+status = "active"
+description = "For the first WUFR structural spring-force bridge, the conservative spring contribution already produced by MOD-SUSP-0004 acts only as an ideal axial force through the current chassis-eye to rocker-eye centerline. A compressed spring pushes the two eyes apart with equal and opposite forces. This assumption intentionally excludes all non-spring damper contributions and all side-loading/compliance."
+severity = "high"
+affected_ids = ["AUTH-SUSP-0014", "MOD-SUSP-0004", "EQ-SUSP-0028", "BENCH-SUSP-0025"]
+validity = "WUFR27 design-intent direct-coilover geometry and the already-authorized conservative spring force only. It is not a complete physical damper/coilover load model or installed/as-built authority."
+control = "Use exact current eye coordinates from MOD-SUSP-0003 and preserve MOD-SUSP-0004 spring-force magnitude/provenance. Do not add or infer damper gas force, velocity force, seal friction, stops, side load, bending, or scalar motion-ratio force conversion."
