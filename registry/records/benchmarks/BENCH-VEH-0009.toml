@@ -2,21 +2,22 @@
 id = "BENCH-VEH-0009"
 type = "benchmark"
 title = "WUFR flat-road compatibility and wheel-force projection"
-status = "proposed"
-description = "Verify the source-specific WUFR flat-road all-four-active compatibility provider, its body-to-wheel Jacobian, contact coefficients, and physical unsprung-gravity wheel projections without using load-transfer or scalar motion-ratio shortcuts."
+status = "planned_blocked_by_failed_BENCH-VEH-0008"
+description = "Future verification for the WUFR flat-road all-four-active compatibility provider, its body-to-wheel Jacobian, contact coefficients, and physical unsprung-gravity wheel projections. Execution is blocked until a replacement contact-point model/source assumption supersedes invalidated ASM-VEH-0004."
 verification_level = "B"
 target_ids = ["MOD-VEH-0006", "EQ-VEH-0011", "EQ-VEH-0012", "EQ-VEH-0013"]
 acceptance_criteria = [
-  "At the nominal zero body pose, the road-compatible solution returns all four physical wheel-center vertical coordinates within 2e-8 m of zero and all four source contact-reference road gaps within 2e-9 m.",
-  "At nominal zero body pose, each work-conjugate contact coefficient c_i is finite, positive, and agrees with an independent two-step contact-point finite-difference projection within 1e-6 relative or 1e-8 absolute tolerance; values near but not hard-coded to unity are expected.",
-  "At nominal zero body pose, each 5 kg unsprung gravity generalized wheel force is computed from physical wheel-center virtual work and agrees with an independent two-step point-potential gradient within 1e-6 N; approximately -49.05 N is a limiting check, not a substitution.",
-  "For at least one nonzero pure-heave body state and one small combined heave/roll/pitch body state inside the reviewed local domain, all four road-gap roots converge uniquely on the nominal-continuation branch without clipping and residuals are <=2e-8 m.",
+  "After replacement contact authority exists, at the nominal zero body pose the road-compatible solution returns all four physical wheel-center vertical coordinates within a frozen tolerance of zero and all four reviewed contact-point road gaps within a frozen residual tolerance.",
+  "At nominal zero body pose, each work-conjugate contact coefficient c_i is finite, correctly signed, and agrees with an independent two-step contact-point finite-difference projection within a separately frozen tolerance. No unit coefficient is hard-coded.",
+  "At nominal zero body pose, each 5 kg unsprung gravity generalized wheel force is computed from physical wheel-center virtual work and agrees with an independent two-step point-potential gradient; approximately -49.05 N is a limiting check, not a substitution.",
+  "For at least one nonzero pure-heave body state and one small combined heave/roll/pitch body state inside the reviewed local domain, all four road-gap roots converge uniquely on the nominal-continuation branch without clipping.",
   "J_wb is reported in row order [FL,FR,RL,RR] and column order [z_s,phi,theta]. Two declared finite-difference step sizes agree within a frozen convergence tolerance at the nominal and combined body states.",
-  "Pure-heave bilateral symmetry is preserved within numerical tolerance for matched left/right design geometry, while front centered-rack suspension-induced steering remains active rather than forcibly set to zero.",
-  "A deliberately out-of-domain body state or failed upstream suspension/steering perturbation returns a structured failure; no coordinate clipping, one-sided derivative away from a declared bound, track-width wheel-travel rule, crossweight repair, or scalar motion-ratio substitution is permitted."
+  "Pure-heave bilateral symmetry is checked only where supported by the reviewed design geometry, while front centered-rack suspension-induced steering remains active rather than forcibly set to zero.",
+  "A deliberately out-of-domain body state or failed upstream suspension/steering/contact perturbation returns a structured failure; no coordinate clipping, one-sided derivative away from a declared bound, track-width wheel-travel rule, crossweight repair, or scalar motion-ratio substitution is permitted."
 ]
-source_configuration = "WUFR27_SUSPENSION_BASELINE_V0 + WUFR27_STEERING_BASELINE_V0 + WUFR26_ROAD_CONTACT_REFERENCE_V0; flat rigid road"
-implementation = "planned: src/pssd_vehicle/wufr_road_contact.py"
-implementation_tests = ["planned: tests/test_wufr_road_contact.py", "planned: tests/test_wufr_road_contact_result_record.py"]
-report_script = "planned: scripts/run_wufr_road_contact_benchmarks.py"
-result_record = "planned: benchmarks/vehicle/wufr_road_contact_result_v0.1.0.toml"
+source_configuration = "WUFR27_SUSPENSION_BASELINE_V0 + WUFR27_STEERING_BASELINE_V0 + replacement contact authority + flat rigid road"
+blocker = "BENCH-VEH-0008 falsified ASM-VEH-0004 during PR #64; see AUTH-VEH-0007"
+implementation = "blocked until replacement contact authorization"
+implementation_tests = ["planned after replacement contact authorization"]
+report_script = "planned after replacement contact authorization"
+result_record = "planned after replacement contact authorization"
