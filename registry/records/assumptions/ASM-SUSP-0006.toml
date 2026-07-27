@@ -1,0 +1,23 @@
+[record]
+id = "ASM-SUSP-0006"
+type = "assumption"
+title = "WUFR ARB rod-ended linkage as an ideal signed two-force member"
+status = "active"
+description = "For first-order structural-interface force recovery only, each physical front/rear WUFR ARB linkage between the rocker pickup and blade-tip joint is a massless ideal pin/rod-ended two-force member. The current linkage centerline is the solved blade-tip-to-rocker-pickup line and the linkage carries only signed axial force. This assumption is source-supported by the front/rear ARB assembly BOMs and reviewer-confirmed WUFR27 hardware carryover. It does not authorize bending, joint friction/backlash, compliance, installed/as-built load, stress, or rocker equilibrium."
+severity = "high"
+affected_ids = ["MOD-SUSP-0005", "EQ-SUSP-0027", "BENCH-SUSP-0024", "AUTH-SUSP-0013"]
+validity = "WUFR27 design-intent front/rear Z-bar linkage geometry on a successful AUTH-SUSP-0008 mechanism branch, with source-matched AUTH-SUSP-0007 blade stiffness and finite nondegenerate link/transverse projection."
+control = "Positive T is tension. Recover T only from exact virtual-work projection of the already-authorized blade transverse elastic force onto the current rigid-link axis. Require exact current blade tip and rocker pickup from the solved mechanism, preserve left/right identity, and fail when the transverse projection is near zero. Do not replace the physical linkage force with Q_rocker, Q_z, effective roll stiffness, a motion ratio, or a force magnitude without sign."
+source_basis = [
+  "WUFR27_ARB_PHYSICAL_LINK_FORCE_V0",
+  "SU-A0703-AA FRONT ANTI-ROLL BAR.pdf, Box 2135607229280",
+  "SU-A0705-AA REAR ANTI-ROLL BAR.pdf, Box 2135614149053",
+  "AUTH-SUSP-0007 per-arm transverse constitutive semantics",
+  "AUTH-SUSP-0008 exact two-arm rigid-link mechanism and rocker-coordinate generalized-force semantics"
+]
+prohibited_inference = [
+  "Do not infer linkage bending/shear, rod-end bending, joint friction/backlash, or installed compliance from the ideal axial force.",
+  "Do not call the recovered linkage force a wheel force, tire force, load transfer, axle roll stiffness, or body-equilibrium result.",
+  "Do not infer rocker pivot reaction until spring and all other physical rocker force interfaces are separately reviewed.",
+  "Do not divide by a near-zero link/transverse projection or silently regularize that geometry."
+]
