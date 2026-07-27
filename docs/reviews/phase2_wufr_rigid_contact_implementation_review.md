@@ -29,7 +29,9 @@ The only runtime tire radius is loaded from `WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0`
 
 Each corner solves the flat-road condition in the physical wheel-center vertical coordinate on the reviewed local suspension/steering branch. The solver samples and brackets without coordinate clipping and rejects missing, multiple, or failed roots.
 
-`J_wb`, contact coefficients, and wheel-center gravity projections use centered two-step finite differences. Provider perturbation failures propagate rather than causing an undeclared one-sided derivative. Contact and gravity scalar projections use second-order two-step extrapolation after the coarse/fine convergence gate. The physical wheel-state inversion tolerance is tightened relative to the reporting derivative scale so upstream root residual does not dominate virtual-work checks.
+`J_wb`, contact coefficients, and wheel-center gravity projections use centered two-step finite differences. Provider perturbation failures propagate rather than causing an undeclared one-sided derivative. Contact and gravity scalar projections use second-order two-step extrapolation after the coarse/fine convergence gate.
+
+The contact/gravity benchmark requires the final physical-point virtual-work result to agree at the `1e-6 N` level. The outer `MOD-SUSP-0002` wheel-coordinate inversion therefore uses `1e-14 m` displacement residual and `2e-14 rad` bracket-angle tolerances in this provider. These are numerical inversion tolerances only: they do not assert physical geometry accuracy or installed measurement precision. Their purpose is to keep the inversion residual well below the finite-difference derivative scale rather than letting root-solver noise determine the virtual-work result.
 
 ## Verification gates
 
