@@ -1,0 +1,154 @@
+version = "0.1.0"
+record_id = "WUFR26_LINKAGE_TOPOLOGY_SOURCE_AUDIT_V0"
+status = "reviewed_source_audit_pending_wufr27_topology_confirmation"
+authority = "WUFR-26 design-source topology evidence and explicit negative legacy-load evidence for planning the next WUFR linkage-statics adapter. This record does not authorize a WUFR-27 statics graph, member-force result, load case, structural reduction, or as-built claim."
+configuration_context = "WUFR26 physical architecture; WUFR27 carryover not yet source-authorized"
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+
+[source.optimumk_geometry]
+record = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
+contract = "docs/models/suspension/suspension_geometry_contract_v0.1.0.md"
+source_role = "authoritative design-intent suspension hardpoints and attachment ownership for the existing WUFR26/WUFR27 kinematic baseline"
+confirmed = [
+  "Each control arm has explicit forward/aft chassis pickups and one upright joint.",
+  "Front lateral link role is steering tie rod; rear lateral link role is chassis-locating toe link.",
+  "Front push/pull actuation attachment is on the upper A-arm.",
+  "Rear push/pull actuation attachment is on the lower A-arm.",
+  "Rocker pivot/axis, rocker rod pickup, and rocker coilover pickup are explicit source points."
+]
+
+[source.wufr26_front_corner_assembly]
+box_file_id = "2120119871272"
+box_filename = "SU-A0701-AA FRONT CORNERS.pdf"
+box_sha1 = "a1aedb29a997535435af7b613499448715cac926"
+source_role = "physical WUFR26 front-corner assembly/BOM evidence"
+observations = [
+  "Assembly BOM contains separate front upper/lower steel A-arm tubes, front upper/lower bearing housings, a pullrod, pullrod tabs, and a pullrod connector.",
+  "Assembly BOM contains four HAB-4TG high-misalignment spherical bearings for the two front corners.",
+  "Assembly BOM contains twelve 0.25-28 rod ends across the two front corners (two LH and ten RH), but this audit does not infer the exact endpoint assignment from BOM counts alone."
+]
+
+[source.wufr26_rear_corner_assembly]
+box_file_id = "2142858842201"
+box_filename = "SU-A0702-AA REAR CORNERS.pdf"
+box_sha1 = "ebf896e9924541c63e364ca352c9aee860f089f9"
+source_role = "physical WUFR26 rear-corner assembly/BOM evidence"
+observations = [
+  "Assembly BOM contains separate rear upper/lower steel A-arm tubes, rear upper/lower bearing housings, a pushrod, pushrod tabs, a pushrod connector, and a carbon toe-link tube.",
+  "Assembly BOM contains four HAB-4TG spherical bearings for the two rear corners.",
+  "Assembly BOM contains sixteen 0.25-28 rod ends across the two rear corners (four LH and twelve RH), but this audit does not infer the exact endpoint assignment from BOM counts alone."
+]
+
+[source.wufr26_inboard]
+drive_document_id = "1_zLUOdFNOuKtiOFQlCcENggb9AWQssjY8x6jlKwF050"
+title = "WUFR-26 In-Board Suspension FDR"
+source_role = "physical rocker/ARB/spring architecture and historical design rationale"
+observations = [
+  "Front and rear rockers transfer push/pull-rod load to the coilovers.",
+  "The inboard package contains rockers, anti-roll bars, springs, and dampers.",
+  "Historical rigid-linkage calculations ignore friction and bearing-surface effects and therefore are not structural fidelity authority."
+]
+
+[source.wufr26_front_rocker]
+box_file_id = "2127683470999"
+box_filename = "SU-A0704-AA FRONT ROCKERS.pdf"
+box_sha1 = "0a4c77ebca6a92618e0546f77059120359922c01"
+source_role = "physical architecture corroboration only; MOD-SUSP-0003 retains kinematic authority"
+
+[source.wufr26_rear_rocker]
+box_file_id = "2050362414404"
+box_filename = "SU-A0706-AA REAR ROCKERS.pdf"
+box_sha1 = "3b44d14d0bd880a0552a4742b002cdffe866c7a1"
+source_role = "physical architecture corroboration only; MOD-SUSP-0003 retains kinematic authority"
+
+[source.wufr26_upright_hub_fdr]
+drive_document_id = "1dyxnKNOUtDxUqQ6HOKDrql5qcbHaQvbnZPWTGyQdf94"
+title = "WUFR-26 Upright/Hub FDR"
+source_role = "corner load-path and brake/hub interface evidence"
+observations = [
+  "The upright is an attachment body for A-arms, tie/toe link, wheel bearings/hub, and brake caliper.",
+  "The hub transmits wheel/brake-rotor and rear-driveshaft torque through the bearing/upright path.",
+  "The document identifies earlier load-analysis errors from omitted brake-caliper bolt forces and omitted tire moments; legacy linkage loads therefore cannot be promoted without re-derivation."
+]
+
+[source.wufr26_linkages_fdr]
+drive_document_id = "1VRVNGEJYCK1TXYTNQ7yD3O7_zlvJ4Z_fz5s3hqWU6iU"
+title = "WUFR-26 Linkages FDR"
+source_role = "physical linkage construction and historical analysis evidence"
+observations = [
+  "WUFR26 A-arms are welded steel-tube assemblies with bearing housings at the upright end.",
+  "Tie/toe links use carbon tubes.",
+  "Historical member sizing used OptimumK-derived member forces over a set of maneuver/bump cases; those force results are comparison evidence only until their load source/sign conventions are reconstructed."
+]
+
+[source.legacy_load_matrix]
+drive_document_id = "1zEUDueYdDvRcimGq8Me7ICJswRREzkVDnExDIg-Wt40"
+title = "Load Case List with Load Matrices"
+source_role = "negative/historical evidence only"
+governing_authority = false
+rejection_reasons = [
+  "The sheet instructs users to treat all negative values as 0 N, which is incompatible with AUTH-SUSP-0010 signed tension/compression mechanics.",
+  "The sheet uses historical vehicle/driver mass assumptions that do not govern the current reviewed vehicle mass package.",
+  "The upright/hub design review documents missing brake-caliper reactions and tire moments in earlier load analysis."
+]
+
+[source.wufr27_linkages_pdr]
+drive_document_id = "1zogjzSuwyGg96bJFc3XR4rFGPdvSZhZ6xkYsqjtAvOc"
+title = "WUFR-27 Linkages & Loads PDR"
+source_role = "current work-in-progress intent only"
+status = "incomplete_not_topology_authority"
+observations = [
+  "The document currently lists redo/confirmation of linkage loads as a WUFR27 goal.",
+  "It records WUFR26 issues including ARB rod ends in bending, push/pull-rod welding, and uncertainty around the 3g bump analysis.",
+  "It does not yet define a final WUFR27 free-body topology, joint idealizations, or completed WUFR27 design comparison."
+]
+
+[source.wufr27_cad_scaffold]
+box_suspension_folder_id = "391771444276"
+front_corner_folder_id = "391771067613"
+front_corner_assembly_file_id = "2297764040492"
+front_corner_assembly_sha1 = "8a5ca3ceaece773cb2d877290f07650d77c55042"
+source_role = "current WUFR27 CAD scaffold observation only"
+status = "not_yet_topology_authority"
+observations = [
+  "WUFR27 suspension folders for front/rear corners, ARBs, rockers, and shocks exist.",
+  "The WUFR27 front-corner PARTS folder contained only an FEA FILES subfolder at audit time; no current front-corner production part set/drawings were present to freeze joint topology.",
+  "The current WUFR27 front-corner assembly file is therefore not used as proof that WUFR26 hardware topology is unchanged."
+]
+
+[confirmed_topology]
+items = [
+  "The next WUFR statics layer must preserve separate upper and lower A-arm bodies/ownership rather than replacing the corner with six links attached directly to the upright.",
+  "The front actuation load enters the upper A-arm at its source-defined attachment point; the rear actuation load enters the lower A-arm.",
+  "The front tie rod and rear toe link remain separate lateral links with different kinematic ownership.",
+  "Rocker/pushrod/spring/ARB reactions are downstream of the arm-mounted actuation path and must not be collapsed into an invented upright force.",
+  "Brake and drive torque paths must be represented by an explicit external-wrench/interface contract rather than inferred from contact-patch force alone."
+]
+
+[unresolved_topology]
+items = [
+  "Explicit WUFR27 confirmation of which WUFR26 front/rear corner parts, joints, and actuation architecture are carried over versus redesigned.",
+  "Endpoint-by-endpoint mapping of rod ends/spherical bearings/clevises/bolts and the first-model ideal joint type/axis at every A-arm, push/pull-rod, tie/toe-link, and rocker connection.",
+  "Whether the two inboard A-arm joints may be reduced to one ideal revolute support about the frozen chassis hinge axis for interface-reaction statics; this is a modeling decision, not established by geometry points alone.",
+  "Exact body ownership and joint idealization of each front pullrod tab/connector and rear pushrod tab/connector in the current hardware assembly.",
+  "Exact brake rotor/caliper/upright/hub reaction contract for braking load cases and rear hub/CV/halfshaft torque contract for drive load cases.",
+  "Exact rocker pivot support idealization and the point-force/reaction interface required to connect MOD-SUSP-0004 spring and MOD-SUSP-0005 ARB mechanics into structural statics.",
+  "Required fidelity for A-arm outputs: net hinge/outboard reactions only versus individual chassis-tab/bearing forces versus tube axial/bending loads."
+]
+
+[candidate_architecture_not_authorized]
+summary = "A promising first interface-level model is a multi-rigid-body equilibrium graph: upright/corner body + rigid UCA + rigid LCA + axial tie/toe link + axial push/pull rod + rigid rocker + chassis ground. Each A-arm would use its frozen inboard hinge line as an equivalent revolute support only after joint/source review. This can preserve arm-mounted actuation without pretending the welded wishbone is two independent axial links."
+important_limit = "Even if an equivalent revolute A-arm support is accepted, rigid-body statics can at most provide the net hinge reaction/wrench. Unique forward-vs-aft chassis bearing/tab load sharing and welded tube axial/bending stress generally require an additional load-sharing or beam/FE stiffness model."
+implementation_authorized = false
+
+[authority_boundaries]
+wufr27_topology_authority = false
+wufr_member_force_authority = false
+legacy_load_matrix_authority = false
+wufr_load_case_generation_authority = false
+wufr_brake_reaction_authority = false
+wufr_drive_torque_reaction_authority = false
+individual_a_arm_leg_force_authority = false
+beam_stress_authority = false
+structural_release_authority = false
+next_authorization = "AUTH-SUSP-0011 source/topology hold must be resolved by explicit WUFR27 topology confirmation and joint/interface review before a WUFR adapter implementation is authorized."
