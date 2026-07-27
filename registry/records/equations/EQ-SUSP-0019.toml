@@ -1,0 +1,25 @@
+[record]
+id = "EQ-SUSP-0019"
+type = "equation"
+title = "Signed ideal two-force link action"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Construct the signed axial-force direction and body-end force for one ASM-SUSP-0004 ideal two-force link from explicit current endpoint geometry. Positive axial force is tension."
+outputs = ["unit link axis u_j", "body-end force F_j=N_j*u_j", "link length and endpoint provenance"]
+inputs = ["body attachment point r_bj", "remote/ground endpoint r_gj", "signed axial force N_j"]
+assumptions = [
+  "Both endpoints are expressed in the same explicit Cartesian frame.",
+  "The link is an ideal two-force member under ASM-SUSP-0004.",
+  "Positive N_j is tension, so the force on the body points from the body attachment toward the remote endpoint."
+]
+verification_level = "none"
+canonical_equation = "l_j=r_gj-r_bj; L_j=||l_j||; u_j=l_j/L_j; F_body,j=N_j*u_j with N_j>0 tension."
+source_basis = [
+  "Borg (2009), An Approach to Using Finite Element Models to Predict Suspension Member Loads in a Formula SAE Vehicle, Chapter 3 Section 3.3.1, Eqs. 3.1-3.6: suspension member vectors/unit vectors and axial-force equilibrium.",
+  "Classical three-dimensional statics definition of a pin-ended two-force member."
+]
+validity = "ASM-SUSP-0004 only; finite noncoincident endpoints with a declared common frame."
+numerical_method = "Direct endpoint subtraction, Euclidean norm, normalization, and signed scalar multiplication."
+failure_behavior = ["Reject coincident/near-coincident endpoints", "Reject nonfinite endpoint or force values", "Never replace a missing axis with a nominal/scalar force direction"]
+benchmark_ids = ["BENCH-SUSP-0018", "BENCH-SUSP-0019", "BENCH-SUSP-0020"]
