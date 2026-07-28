@@ -41,11 +41,12 @@ implementation_document = "docs/models/suspension/rocker_included_load_implement
 implementation_tests = [
   "tests/test_suspension_rocker_included_load.py",
   "tests/test_suspension_rocker_included_load_failures.py",
-  "tests/test_wufr_rocker_included_load_adapter.py"
+  "tests/test_wufr_rocker_included_load_adapter.py",
+  "tests/test_suspension_rocker_included_load_result_record.py"
 ]
 benchmark_report_script = "scripts/run_rocker_included_load_benchmarks.py"
 benchmark_result_record = "benchmarks/suspension/rocker_included_load_result_v0.1.0.toml"
-validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
+validation_workflow = ".github/workflows/registry-validation.yml"
 authorization_review_record = "docs/reviews/phase3_rocker_included_load_authorization_review.md"
 implementation_review_record = "docs/reviews/phase3_rocker_included_load_implementation_review.md"
 next_implementation_gate = "Complete WUFR rocker equilibrium/pivot reaction requires source-specific KW V5 non-spring static force under a later authorization and a physically consistent complete load state; bearing split and structural release remain separate."
