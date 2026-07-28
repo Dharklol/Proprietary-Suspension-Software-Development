@@ -1,0 +1,46 @@
+version = "0.1.0"
+record_id = "WUFR27_ROCKER_INCLUDED_LOAD_AUTHORITY_V0"
+title = "WUFR-27 rocker included-load authority boundary"
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+status = "review_ready"
+
+[decision]
+summary = "The current reviewed stack supplies the exact current rocker geometry, Level-1 push/pull-rod axial reaction, spring-only physical force at the rocker eye, and physical ARB-link force at the rocker pickup. These contributions may be composed into an explicitly incomplete rocker free body. The omitted KW V5 damper gas/static-friction contribution prevents the resulting support reaction from being called the complete physical rocker pivot load."
+result_label = "partial_design_intent_included_load_reaction"
+complete_hardware_load = false
+installed_as_built_authority = false
+
+[authoritative_inputs]
+items = [
+  "MOD-SUSP-0003 exact current rocker pivot, axis, and application-point geometry",
+  "AUTH-SUSP-0012 successful Level-1 actuation axial reaction and force on the arm/remote end",
+  "AUTH-SUSP-0014 successful spring-only physical force on the rocker eye",
+  "AUTH-SUSP-0013 successful physical ARB-link force on the rocker pickup"
+]
+
+[composition]
+force_balance = "R_pivot,included = -(F_actuation + F_spring + F_arb)"
+axis_moment_check = "a dot sum((P_i-R) cross F_i) = 0"
+transverse_support_couple = "M_pivot,perp = -project_perp_a(sum((P_i-R) cross F_i))"
+ideal_joint_boundary = "No pivot reaction couple about the reviewed rocker axis is permitted."
+
+[explicit_omissions]
+items = [
+  "KW V5 damper gas/static extension force",
+  "damper seal friction and hysteresis",
+  "velocity-dependent damping",
+  "bump/top-out stop force",
+  "rocker self-weight",
+  "bearing friction, preload, stiffness, and load split",
+  "side load, compliance, stress, buckling, fatigue, and chassis-tab distribution"
+]
+
+[source_findings]
+items = [
+  "AUTH-SUSP-0015 establishes that zero damper gas force is unsupported and complete rocker reaction remains blocked.",
+  "The available WUFR26 dyno export cannot uniquely recover static gas force: its metadata simultaneously reports gas force not removed, zero gas force/pressure, an inconsistent rod diameter, and invalid temperatures.",
+  "The KW Formula Student sheet identifies the purchased V5 piggyback family and dimensions but does not provide the source-specific pressure-area or quasi-static force-position data needed for a damper static-force provider."
+]
+
+[failure_policy]
+rule = "Any upstream failure, source/configuration mismatch, nonfinite geometry/force, degenerate rocker axis, application-point mismatch, or nonzero rocker-axis moment residual returns unavailable. No clipping, least-squares repair, guessed damper force, or hidden balancing torque is permitted."
