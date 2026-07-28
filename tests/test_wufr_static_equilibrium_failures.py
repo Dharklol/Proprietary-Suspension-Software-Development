@@ -69,27 +69,27 @@ class WUFRStaticEquilibriumFailureTests(unittest.TestCase):
         self.assertEqual(result.failure_code, WUFRStaticEquilibriumFailureCode.NONFINITE_INPUT)
         self.assertEqual(result.generalized_suspension_force_N, ())
 
-    def test_unreachable_body_bounds_propagate_kernel_failure_without_clipping(self) -> None:
+    def test_outside_initial_bounds_propagate_without_clipping(self) -> None:
         solver = replace(
             self.provider.quasi_static_config,
             lower_bounds=(-1.0e-5, -1.0e-5, -1.0e-5),
             upper_bounds=(1.0e-5, 1.0e-5, 1.0e-5),
-            max_iterations=4,
         )
         bounded = replace(self.provider, quasi_static_config=solver)
+        requested = (2.0e-5, 0.0, 0.0)
         result = solve_wufr_static_equilibrium(
             bounded,
             front_arb_setting=1,
             rear_arb_setting=1,
+            initial_q_body=requested,
         )
         self.assertFalse(result.ok)
         self.assertEqual(result.failure_code, WUFRStaticEquilibriumFailureCode.EQUILIBRIUM_FAILURE)
         self.assertIsNotNone(result.solve)
         assert result.solve is not None
-        for value, lower, upper in zip(result.solve.q_body, solver.lower_bounds, solver.upper_bounds):
-            assert lower is not None and upper is not None
-            self.assertGreaterEqual(value, lower)
-            self.assertLessEqual(value, upper)
+        self.assertEqual(result.solve.q_body, requested)
+        self.assertEqual(result.solve.iterations, 0)
+        self.assertEqual(result.solve.failure_code.value, "coordinate_bound_exceeded")
 
     def test_result_boundary_never_promotes_structural_or_installed_authority(self) -> None:
         source = self.provider.source
