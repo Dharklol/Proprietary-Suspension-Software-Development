@@ -1,0 +1,11 @@
+[record]
+id = "ASM-SUSP-0008"
+type = "assumption"
+title = "Ideal revolute rocker and incomplete included-load reaction contribution"
+status = "active"
+description = "For the first rocker free-body diagnostic, the rocker is rigid and its chassis support is an ideal revolute joint: it may supply three force components and two moment components perpendicular to the reviewed rocker axis, but no reaction couple about that free axis. Only explicitly named push/pull, conservative spring, and physical ARB-link forces are included. Missing non-spring damper static force and any other omitted hardware effects remain an explicit missing-force set."
+severity = "high"
+affected_ids = ["MOD-SUSP-0008", "EQ-SUSP-0029", "EQ-SUSP-0030", "EQ-SUSP-0031"]
+control = "Every result must report included and missing force sets, the free-axis moment residual, and complete_hardware_reaction=false. No hidden balancing torque, force offset, absolute-value repair, or zero damper-force assumption is allowed."
+replacement_gate = "Replace or promote only after source-specific KW V5 damper static-force authority and any other omitted rocker loads are available, then separately review complete rocker equilibrium and bearing/pivot reaction claims."
+authorization_id = "AUTH-SUSP-0016"

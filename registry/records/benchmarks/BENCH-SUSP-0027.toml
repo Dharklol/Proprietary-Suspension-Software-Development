@@ -1,0 +1,17 @@
+[record]
+id = "BENCH-SUSP-0027"
+type = "benchmark"
+title = "Rocker free-axis moment diagnostic and no-hidden-repair behavior"
+status = "proposed"
+description = "Verify that the ideal revolute support leaves the exact rocker-axis moment residual and never invents a balancing torque."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0008", "EQ-SUSP-0030", "EQ-SUSP-0031"]
+acceptance_criteria = [
+  "A case with zero included rocker-axis moment returns tau_axis=0 and exact full force/moment balance under the ideal support contribution.",
+  "A case with a prescribed nonzero rocker-axis moment returns that signed tau_axis and M_res=tau_axis*a without failure, clipping, absolute value, or balancing couple.",
+  "Reversing all included forces reverses F_inc, M_inc, F_p, M_p, and tau_axis exactly.",
+  "Scaling all included forces by a finite scalar scales every resultant/reaction/residual by the same scalar.",
+  "Degenerate/nonfinite axes, nonfinite forces/points, duplicate load IDs, and empty included sets fail closed."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0016.toml"
+implementation_test = "planned: tests/test_suspension_rocker_included_load_failures.py"
