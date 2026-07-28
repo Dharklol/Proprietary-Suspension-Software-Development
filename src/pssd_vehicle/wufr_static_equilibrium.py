@@ -2,12 +2,12 @@
 
 Implements ``AUTH-VEH-0009`` / ``MOD-VEH-0007`` by composing the already
 reviewed road-compatibility, gravity, spring, Z-bar, force-coordinate, and
-provider-neutral quasi-static modules.  The implementation adds no component
+provider-neutral quasi-static modules. The implementation adds no component
 force law and no alternate equilibrium solver.
 
-Every successful result is explicitly labelled
-``uncorrelated_design_intent_static_gravity``.  It is not an installed/as-built
-corner-weight prediction, a setup recommendation, a maneuver load case, or a
+Every successful result is labelled
+``uncorrelated_design_intent_static_gravity``. It is not an installed/as-built
+corner-weight prediction, setup recommendation, maneuver load case, or
 structural boundary-condition packet.
 """
 from __future__ import annotations
@@ -19,17 +19,23 @@ from pathlib import Path
 import tomllib
 from typing import Sequence
 
-from pssd_suspension import (
-    PhysicalStateSolverConfig,
-    RockerWheelDerivativeConfig,
+from pssd_suspension.actuation import ActuationStateResult
+from pssd_suspension.geometry import SuspensionCornerGeometry
+from pssd_suspension.spring_force import (
     SpringStateResult,
     WufrSpringPackage,
-    ZBarAxleFixture,
-    ZBarWheelStateResult,
-    build_nominal_wheel_reference,
     evaluate_spring_from_actuation,
     load_wufr27_spring_package,
-    load_wufr_zbar_fixture,
+)
+from pssd_suspension.wheel_reference import (
+    PhysicalStateSolverConfig,
+    build_nominal_wheel_reference,
+)
+from pssd_suspension.wufr_zbar import ZBarAxleFixture, load_wufr_zbar_fixture
+from pssd_suspension.wufr_zbar_wheel import (
+    RockerWheelDerivativeConfig,
+    RockerWheelMapResult,
+    ZBarWheelStateResult,
     solve_wufr_zbar_wheel_state,
 )
 
@@ -60,7 +66,6 @@ from .wufr_road_contact import (
     CORNER_ORDER,
     WUFRRoadContactEvaluation,
     WUFRRoadContactProvider,
-    WUFRRoadContactStatus,
     evaluate_body_to_wheel_jacobian,
     evaluate_wufr_road_contact,
     load_wufr_road_contact_provider,
@@ -131,6 +136,9 @@ class WUFRStaticEquilibriumConfig:
     wheel_equilibrium_residual_tolerance_N: float = 1.0e-8
     energy_gradient_absolute_tolerance: float = 2.0
     energy_gradient_step_multipliers: tuple[float, float] = (1.0e-5, 5.0e-6)
+    derivative_axis_tolerance_m: float = 1.0e-12
+    derivative_length_tolerance_m: float = 1.0e-12
+    reciprocal_conditioning_threshold: float = 1.0e-6
 
     def __post_init__(self) -> None:
         values = (
@@ -139,11 +147,14 @@ class WUFRStaticEquilibriumConfig:
             self.wheel_equilibrium_residual_tolerance_N,
             self.energy_gradient_absolute_tolerance,
             *self.energy_gradient_step_multipliers,
+            self.derivative_axis_tolerance_m,
+            self.derivative_length_tolerance_m,
+            self.reciprocal_conditioning_threshold,
         )
         if not all(math.isfinite(value) and value > 0.0 for value in values):
             raise WUFRStaticEquilibriumError(
                 WUFRStaticEquilibriumFailureCode.NONFINITE_INPUT,
-                "Static-equilibrium tolerances and energy steps must be finite and positive",
+                "Static-equilibrium tolerances and verification steps must be finite and positive",
             )
         if len(self.energy_gradient_step_multipliers) < 2:
             raise WUFRStaticEquilibriumError(
@@ -172,16 +183,17 @@ class WUFRStaticEquilibriumProvider:
 @dataclass(frozen=True)
 class WUFRSuspensionCompositionResult:
     status: WUFRStaticEquilibriumStatus
-    wheel_coordinates_m: Vector4
+    wheel_coordinates_m: tuple[float, ...]
     front_arb_setting: int
     rear_arb_setting: int
-    generalized_spring_force_N: Vector4 = ()  # type: ignore[assignment]
-    generalized_arb_force_N: Vector4 = ()  # type: ignore[assignment]
-    generalized_suspension_force_N: Vector4 = ()  # type: ignore[assignment]
+    generalized_spring_force_N: tuple[float, ...] = ()
+    generalized_arb_force_N: tuple[float, ...] = ()
+    generalized_suspension_force_N: tuple[float, ...] = ()
     spring_energy_J: float | None = None
     arb_energy_J: float | None = None
     stored_energy_J: float | None = None
     spring_states: tuple[SpringStateResult, ...] = ()
+    spring_actuation_states: tuple[ActuationStateResult, ...] = ()
     front_arb_state: ZBarWheelStateResult | None = None
     rear_arb_state: ZBarWheelStateResult | None = None
     failure_code: WUFRStaticEquilibriumFailureCode | None = None
@@ -229,15 +241,46 @@ class WUFRStaticEquilibriumResult:
         return self.status is WUFRStaticEquilibriumStatus.SUCCESS
 
 
-
 def _finite(values: Sequence[float]) -> bool:
     return all(math.isfinite(float(value)) for value in values)
-
 
 
 def _valid_setting(value: int) -> bool:
     return isinstance(value, int) and not isinstance(value, bool) and 1 <= value <= 5
 
+
+def _sub(a: Vector3, b: Vector3) -> Vector3:
+    return (a[0] - b[0], a[1] - b[1], a[2] - b[2])
+
+
+def _scale(a: Vector3, scalar: float) -> Vector3:
+    return (a[0] * scalar, a[1] * scalar, a[2] * scalar)
+
+
+def _dot(a: Vector3, b: Vector3) -> float:
+    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
+
+
+def _cross(a: Vector3, b: Vector3) -> Vector3:
+    return (
+        a[1] * b[2] - a[2] * b[1],
+        a[2] * b[0] - a[0] * b[2],
+        a[0] * b[1] - a[1] * b[0],
+    )
+
+
+def _norm(a: Vector3) -> float:
+    return math.sqrt(_dot(a, a))
+
+
+def _unit(a: Vector3, tolerance: float, label: str) -> Vector3:
+    magnitude = _norm(a)
+    if not math.isfinite(magnitude) or magnitude <= tolerance:
+        raise WUFRStaticEquilibriumError(
+            WUFRStaticEquilibriumFailureCode.SUSPENSION_FAILURE,
+            f"{label} is degenerate",
+        )
+    return _scale(a, 1.0 / magnitude)
 
 
 def _pose_from_q(provider: WUFRStaticEquilibriumProvider, q_body: Sequence[float]) -> BodyPose:
@@ -248,7 +291,6 @@ def _pose_from_q(provider: WUFRStaticEquilibriumProvider, q_body: Sequence[float
             "Body state must contain finite [z_s, phi, theta] coordinates",
         )
     return replace(provider.nominal_body_pose(), z_s_m=q[0], phi_rad=q[1], theta_rad=q[2])
-
 
 
 def load_wufr_static_equilibrium_source(path: str | Path) -> WUFRStaticEquilibriumSource:
@@ -283,6 +325,7 @@ def load_wufr_static_equilibrium_source(path: str | Path) -> WUFRStaticEquilibri
         or source.result_label != RESULT_LABEL
         or source.body_order != BODY_ORDER
         or source.wheel_order != CORNER_ORDER
+        or not source.static_state_id
         or not source.explicit_front_setting_required
         or not source.explicit_rear_setting_required
         or source.default_setting_authorized
@@ -299,13 +342,15 @@ def load_wufr_static_equilibrium_source(path: str | Path) -> WUFRStaticEquilibri
     return source
 
 
-
 def default_wufr_quasi_static_config(
     road_contact: WUFRRoadContactProvider,
     gravity: WUFRStaticGravityAllocation,
 ) -> QuasiStaticSolverConfig:
     total_weight = gravity.total_mass_kg * gravity.g_mps2
-    roll_scale = total_weight * max(road_contact.whole_vehicle.front_track_m, road_contact.whole_vehicle.rear_track_m) * 0.5
+    roll_scale = total_weight * max(
+        road_contact.whole_vehicle.front_track_m,
+        road_contact.whole_vehicle.rear_track_m,
+    ) * 0.5
     pitch_scale = total_weight * road_contact.whole_vehicle.wheelbase_m * 0.5
     cfg = road_contact.config
     return QuasiStaticSolverConfig(
@@ -323,7 +368,6 @@ def default_wufr_quasi_static_config(
         minimum_reciprocal_pivot_ratio=1.0e-11,
         pivot_absolute_tolerance=1.0e-14,
     )
-
 
 
 def load_wufr_static_equilibrium_provider(
@@ -367,6 +411,11 @@ def load_wufr_static_equilibrium_provider(
             WUFRStaticEquilibriumFailureCode.SOURCE_MISMATCH,
             "Road contact, gravity, spring, Z-bar, and composition configuration IDs must match",
         )
+    if source.static_state_id != gravity.state_id:
+        raise WUFRStaticEquilibriumError(
+            WUFRStaticEquilibriumFailureCode.SOURCE_MISMATCH,
+            "Composition static-state identity must exactly match the governing gravity record",
+        )
     derivative = rocker_derivative or RockerWheelDerivativeConfig(
         step_m=1.0e-4,
         second_step_m=5.0e-5,
@@ -386,7 +435,6 @@ def load_wufr_static_equilibrium_provider(
         quasi_static_config=solver,
         config=config or WUFRStaticEquilibriumConfig(),
     )
-
 
 
 def _solve_axle(
@@ -417,6 +465,66 @@ def _solve_axle(
     )
 
 
+def _spring_actuation_from_map(
+    provider: WUFRStaticEquilibriumProvider,
+    corner: SuspensionCornerGeometry,
+    mapping: RockerWheelMapResult,
+) -> ActuationStateResult:
+    state = mapping.actuation_state
+    if (
+        state is None
+        or not state.ok
+        or state.rocker_coilover_point_m is None
+        or state.current_coilover_length_m is None
+        or mapping.dtheta_R_dz_wc_body_rad_per_m is None
+    ):
+        raise WUFRStaticEquilibriumError(
+            WUFRStaticEquilibriumFailureCode.SUSPENSION_FAILURE,
+            "Spring composition requires the successful source-owned Z-bar actuation state and rocker derivative",
+        )
+    actuation = corner.actuation
+    pivot = actuation.rocker_pivot.position_m
+    axis = _unit(
+        _sub(actuation.rocker_axis_reference.position_m, pivot),
+        provider.config.derivative_axis_tolerance_m,
+        "Rocker axis",
+    )
+    moving_eye = state.rocker_coilover_point_m
+    chassis_eye = actuation.chassis_attachment.position_m
+    eye_vector = _sub(moving_eye, chassis_eye)
+    length = _norm(eye_vector)
+    if (
+        not math.isfinite(length)
+        or length <= provider.config.derivative_length_tolerance_m
+        or not math.isclose(
+            length,
+            state.current_coilover_length_m,
+            rel_tol=0.0,
+            abs_tol=1.0e-10,
+        )
+    ):
+        raise WUFRStaticEquilibriumError(
+            WUFRStaticEquilibriumFailureCode.SUSPENSION_FAILURE,
+            "Current coilover eye geometry is degenerate or inconsistent with the source-owned actuation state",
+        )
+    dpoint_dtheta = _cross(axis, _sub(moving_eye, pivot))
+    dlength_dtheta = _dot(_scale(eye_vector, 1.0 / length), dpoint_dtheta)
+    rho_dw = dlength_dtheta * mapping.dtheta_R_dz_wc_body_rad_per_m
+    if not math.isfinite(rho_dw):
+        raise WUFRStaticEquilibriumError(
+            WUFRStaticEquilibriumFailureCode.SUSPENSION_FAILURE,
+            "Analytic coilover-over-wheel derivative is nonfinite",
+        )
+    reciprocal_available = abs(rho_dw) > provider.config.reciprocal_conditioning_threshold
+    return replace(
+        state,
+        rho_dw=rho_dw,
+        rho_wd=(1.0 / rho_dw if reciprocal_available else None),
+        derivative_method="analytic_dL_dtheta_times_branch_preserving_dtheta_dz",
+        derivative_step_m=mapping.derivative_second_step_m,
+        reciprocal_available=reciprocal_available,
+    )
+
 
 def evaluate_wufr_suspension_composition(
     provider: WUFRStaticEquilibriumProvider,
@@ -429,7 +537,7 @@ def evaluate_wufr_suspension_composition(
     if len(z) != 4 or not _finite(z):
         return WUFRSuspensionCompositionResult(
             WUFRStaticEquilibriumStatus.FAILURE,
-            z,  # type: ignore[arg-type]
+            z,
             front_arb_setting,
             rear_arb_setting,
             failure_code=WUFRStaticEquilibriumFailureCode.NONFINITE_INPUT,
@@ -438,7 +546,7 @@ def evaluate_wufr_suspension_composition(
     if not _valid_setting(front_arb_setting) or not _valid_setting(rear_arb_setting):
         return WUFRSuspensionCompositionResult(
             WUFRStaticEquilibriumStatus.FAILURE,
-            z,  # type: ignore[arg-type]
+            z,
             front_arb_setting,
             rear_arb_setting,
             failure_code=WUFRStaticEquilibriumFailureCode.INVALID_ARB_SETTING,
@@ -450,7 +558,7 @@ def evaluate_wufr_suspension_composition(
         failed = front if not front.ok else rear
         return WUFRSuspensionCompositionResult(
             WUFRStaticEquilibriumStatus.FAILURE,
-            z,  # type: ignore[arg-type]
+            z,
             front_arb_setting,
             rear_arb_setting,
             front_arb_state=front,
@@ -458,48 +566,57 @@ def evaluate_wufr_suspension_composition(
             failure_code=WUFRStaticEquilibriumFailureCode.SUSPENSION_FAILURE,
             message=failed.message or "WUFR Z-bar physical-wheel-coordinate provider failed",
         )
-
     maps = (front.left_map, front.right_map, rear.left_map, rear.right_map)
-    if any(item is None or item.actuation_state is None for item in maps):
+    if any(item is None for item in maps):
         return WUFRSuspensionCompositionResult(
             WUFRStaticEquilibriumStatus.FAILURE,
-            z,  # type: ignore[arg-type]
+            z,
             front_arb_setting,
             rear_arb_setting,
             front_arb_state=front,
             rear_arb_state=rear,
             failure_code=WUFRStaticEquilibriumFailureCode.SUSPENSION_FAILURE,
-            message="Successful Z-bar states must retain all four source-owned actuation states",
+            message="Successful Z-bar states must retain all four source-owned actuation maps",
         )
-
+    geometry = provider.road_contact.suspension_geometry
+    corners = (
+        geometry.corner("front", "left"),
+        geometry.corner("front", "right"),
+        geometry.corner("rear", "left"),
+        geometry.corner("rear", "right"),
+    )
     definitions = (
         provider.spring_package.front,
         provider.spring_package.front,
         provider.spring_package.rear,
         provider.spring_package.rear,
     )
+    try:
+        spring_actuation = tuple(
+            _spring_actuation_from_map(provider, corner, mapping)  # type: ignore[arg-type]
+            for corner, mapping in zip(corners, maps)
+        )
+    except WUFRStaticEquilibriumError as exc:
+        return WUFRSuspensionCompositionResult(
+            WUFRStaticEquilibriumStatus.FAILURE,
+            z,
+            front_arb_setting,
+            rear_arb_setting,
+            front_arb_state=front,
+            rear_arb_state=rear,
+            failure_code=exc.code,
+            message=str(exc),
+        )
     spring_states = tuple(
         evaluate_spring_from_actuation(
             definition,
             provider.spring_package.reference,
-            mapping.actuation_state,  # type: ignore[union-attr]
+            state,
         )
-        for definition, mapping in zip(definitions, maps)
+        for definition, state in zip(definitions, spring_actuation)
     )
     failed_spring = next((item for item in spring_states if not item.ok), None)
-    if failed_spring is not None:
-        return WUFRSuspensionCompositionResult(
-            WUFRStaticEquilibriumStatus.FAILURE,
-            z,  # type: ignore[arg-type]
-            front_arb_setting,
-            rear_arb_setting,
-            spring_states=spring_states,
-            front_arb_state=front,
-            rear_arb_state=rear,
-            failure_code=WUFRStaticEquilibriumFailureCode.SUSPENSION_FAILURE,
-            message=failed_spring.message or "WUFR spring provider failed",
-        )
-    if any(
+    if failed_spring is not None or any(
         not item.generalized_force_available
         or len(item.generalized_force) != 1
         or item.stored_energy_J is None
@@ -507,14 +624,19 @@ def evaluate_wufr_suspension_composition(
     ):
         return WUFRSuspensionCompositionResult(
             WUFRStaticEquilibriumStatus.FAILURE,
-            z,  # type: ignore[arg-type]
+            z,
             front_arb_setting,
             rear_arb_setting,
             spring_states=spring_states,
+            spring_actuation_states=spring_actuation,
             front_arb_state=front,
             rear_arb_state=rear,
             failure_code=WUFRStaticEquilibriumFailureCode.SUSPENSION_FAILURE,
-            message="Each spring state must provide one signed physical-wheel generalized force and energy",
+            message=(
+                failed_spring.message
+                if failed_spring is not None
+                else "Each spring state must provide one signed physical-wheel generalized force and energy"
+            ),
         )
     if (
         len(front.generalized_wheel_force_N) != 2
@@ -526,28 +648,29 @@ def evaluate_wufr_suspension_composition(
     ):
         return WUFRSuspensionCompositionResult(
             WUFRStaticEquilibriumStatus.FAILURE,
-            z,  # type: ignore[arg-type]
+            z,
             front_arb_setting,
             rear_arb_setting,
             spring_states=spring_states,
+            spring_actuation_states=spring_actuation,
             front_arb_state=front,
             rear_arb_state=rear,
             failure_code=WUFRStaticEquilibriumFailureCode.SUSPENSION_FAILURE,
             message="Front/rear Z-bar states must provide two generalized forces and stored energy",
         )
-
     q_spring = tuple(float(item.generalized_force[0]) for item in spring_states)
     q_arb = tuple((*front.generalized_wheel_force_N, *rear.generalized_wheel_force_N))
-    q_total = tuple(q_spring[i] + q_arb[i] for i in range(4))
+    q_total = tuple(q_spring[index] + q_arb[index] for index in range(4))
     spring_energy = sum(float(item.stored_energy_J) for item in spring_states)
     arb_energy = float(front.force.stored_energy_J) + float(rear.force.stored_energy_J)
     if not _finite((*q_spring, *q_arb, *q_total, spring_energy, arb_energy)):
         return WUFRSuspensionCompositionResult(
             WUFRStaticEquilibriumStatus.FAILURE,
-            z,  # type: ignore[arg-type]
+            z,
             front_arb_setting,
             rear_arb_setting,
             spring_states=spring_states,
+            spring_actuation_states=spring_actuation,
             front_arb_state=front,
             rear_arb_state=rear,
             failure_code=WUFRStaticEquilibriumFailureCode.NONFINITE_INPUT,
@@ -555,20 +678,20 @@ def evaluate_wufr_suspension_composition(
         )
     return WUFRSuspensionCompositionResult(
         WUFRStaticEquilibriumStatus.SUCCESS,
-        z,  # type: ignore[arg-type]
+        z,
         front_arb_setting,
         rear_arb_setting,
-        generalized_spring_force_N=q_spring,  # type: ignore[arg-type]
-        generalized_arb_force_N=q_arb,  # type: ignore[arg-type]
-        generalized_suspension_force_N=q_total,  # type: ignore[arg-type]
+        generalized_spring_force_N=q_spring,
+        generalized_arb_force_N=q_arb,
+        generalized_suspension_force_N=q_total,
         spring_energy_J=spring_energy,
         arb_energy_J=arb_energy,
         stored_energy_J=spring_energy + arb_energy,
         spring_states=spring_states,
+        spring_actuation_states=spring_actuation,
         front_arb_state=front,
         rear_arb_state=rear,
     )
-
 
 
 def _compatibility_state(
@@ -614,7 +737,6 @@ def _compatibility_state(
         )
 
 
-
 def _suspension_state(
     provider: WUFRStaticEquilibriumProvider,
     wheel_coordinates_m: Sequence[float],
@@ -648,7 +770,6 @@ def _suspension_state(
     )
 
 
-
 def _body_external_state(
     provider: WUFRStaticEquilibriumProvider,
     q_body: Sequence[float],
@@ -661,7 +782,11 @@ def _body_external_state(
             body_origin_id=pose.body_origin_id,
         )
         point_road = transport_body_fixed_point(point_body, pose)
-        potential = provider.gravity.sprung.mass_kg * provider.gravity.g_mps2 * point_road.position_m[2]
+        potential = (
+            provider.gravity.sprung.mass_kg
+            * provider.gravity.g_mps2
+            * point_road.position_m[2]
+        )
         return BodyExternalGeneralizedForceState(
             QuasiStaticStatus.SUCCESS,
             generalized_force=generalized.generalized_force,
@@ -681,7 +806,6 @@ def _body_external_state(
             failure_code=QuasiStaticFailureCode.BODY_EXTERNAL_PROVIDER_FAILURE,
             message=f"WUFR sprung-gravity adapter raised {type(exc).__name__}: {exc}",
         )
-
 
 
 def evaluate_wufr_physical_closure(
@@ -795,7 +919,6 @@ def evaluate_wufr_physical_closure(
     )
 
 
-
 def solve_wufr_static_equilibrium(
     provider: WUFRStaticEquilibriumProvider,
     *,
@@ -820,9 +943,13 @@ def solve_wufr_static_equilibrium(
             failure_code=WUFRStaticEquilibriumFailureCode.NONFINITE_INPUT,
             message="Initial body state must contain three finite coordinates",
         )
-
     compatibility_provider = lambda q: _compatibility_state(provider, q)
-    suspension_provider = lambda z: _suspension_state(provider, z, front_arb_setting, rear_arb_setting)
+    suspension_provider = lambda z: _suspension_state(
+        provider,
+        z,
+        front_arb_setting,
+        rear_arb_setting,
+    )
     body_external_provider = lambda q: _body_external_state(provider, q)
     solve = solve_quasi_static_equilibrium(
         q0,
@@ -842,7 +969,6 @@ def solve_wufr_static_equilibrium(
             failure_code=WUFRStaticEquilibriumFailureCode.EQUILIBRIUM_FAILURE,
             message=solve.message or "WUFR reduced quasi-static equilibrium failed",
         )
-
     pose = _pose_from_q(provider, solve.q_body)
     road_contact = evaluate_wufr_road_contact(provider.road_contact, pose, provider.gravity)
     if (
@@ -891,7 +1017,9 @@ def solve_wufr_static_equilibrium(
         wheel_external_generalized_force=tuple(
             float(item.value) for item in road_contact.unsprung_gravity_forces
         ),
-        contact_coefficients=tuple(float(item.value) for item in road_contact.contact_coefficients),
+        contact_coefficients=tuple(
+            float(item.value) for item in road_contact.contact_coefficients
+        ),
     )
     if not contact.ok or any(
         abs(value) > provider.config.wheel_equilibrium_residual_tolerance_N
@@ -908,7 +1036,6 @@ def solve_wufr_static_equilibrium(
             failure_code=WUFRStaticEquilibriumFailureCode.CONTACT_RECOVERY_FAILURE,
             message=contact.message or "Wheel/contact equilibrium residual exceeds tolerance",
         )
-
     energy = check_total_potential_gradient(
         solve.q_body,
         body_coordinate_order=BODY_ORDER,
@@ -933,7 +1060,6 @@ def solve_wufr_static_equilibrium(
             failure_code=WUFRStaticEquilibriumFailureCode.ENERGY_GRADIENT_FAILURE,
             message=energy.message,
         )
-
     closure = evaluate_wufr_physical_closure(provider, pose, road_contact, contact)
     if not closure.ok:
         return WUFRStaticEquilibriumResult(
