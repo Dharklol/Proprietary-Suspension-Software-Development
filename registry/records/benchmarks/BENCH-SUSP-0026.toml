@@ -1,0 +1,17 @@
+[record]
+id = "BENCH-SUSP-0026"
+type = "benchmark"
+title = "Analytical ideal-revolute rocker included-load contribution"
+status = "proposed"
+description = "Verify EQ-SUSP-0029 through EQ-SUSP-0031 on synthetic three-dimensional point-force cases with exact hand results."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0008", "EQ-SUSP-0029", "EQ-SUSP-0030", "EQ-SUSP-0031"]
+acceptance_criteria = [
+  "For a finite synthetic 3D rocker and three non-collinear point forces, F_inc and M_inc match direct hand summation within 1e-12 in SI units.",
+  "F_p=-F_inc and M_p=-(M_inc-(a dot M_inc)*a) within 1e-12.",
+  "The final force residual and perpendicular moment residual are below 1e-12, while the full moment residual equals tau_axis*a within 1e-12.",
+  "The support moment is perpendicular to the rocker axis within 1e-12 and no support-axis couple is created.",
+  "Shifting every position and the pivot by the same translation leaves all forces, moments about the pivot, and tau_axis unchanged."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0016.toml"
+implementation_test = "planned: tests/test_suspension_rocker_included_load.py"
