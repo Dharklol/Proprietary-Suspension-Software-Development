@@ -1,0 +1,114 @@
+version = "0.1.0"
+authorization_id = "AUTH-VEH-0009"
+status = "review_ready"
+title = "WUFR spring, Z-bar, and gravity static-equilibrium composition"
+effective_condition = "Effective after review and merge. Authorizes MOD-VEH-0007 as the first source-preserving WUFR driver/no-fuel, flat-road, all-four-contact static-gravity composition through the already implemented MOD-VEH-0004 kernel. Every result remains uncorrelated design-intent R&D output. Installed/as-built prediction, historical corner-weight reconstruction, maneuver load transfer, tire-force modeling, and structural load-case generation remain outside scope."
+review_record = "docs/reviews/phase2_wufr_static_equilibrium_authorization_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-VEH-0007"]
+equation_ids = ["EQ-VEH-0015", "EQ-VEH-0016", "EQ-VEH-0017"]
+benchmark_ids = ["BENCH-VEH-0011", "BENCH-VEH-0012", "BENCH-VEH-0013"]
+assumption_ids = ["ASM-VEH-0002", "ASM-VEH-0003", "ASM-VEH-0005", "ASM-SUSP-0002", "ASM-SUSP-0003"]
+source_record = "data_catalog/wufr27_static_equilibrium_composition_v0.toml"
+provider_composition_authorized = true
+nwufr_static_road_reaction_authorized = false
+uncorrelated_design_intent_result_authorized = true
+historical_scale_reconstruction_authorized = false
+carrier_wrench_generation_authorized = false
+maneuver_equilibrium_authorized = false
+installed_as_built_authority = false
+production_authority = false
+
+[coordinates]
+body_coordinate_order = ["z_s_m", "phi_rad", "theta_rad"]
+body_coordinate_units = ["m", "rad", "rad"]
+wheel_coordinate_order = ["front_left", "front_right", "rear_left", "rear_right"]
+wheel_coordinate_units = ["m", "m", "m", "m"]
+wheel_coordinate_definition = "MOD-SUSP-0002 delta_z_wc_body_m, positive upward."
+road_reaction_sign = "lambda_i is positive along the MOD-VEH-0006 road normal."
+frame_rule = "Retain the explicit MOD-VEH-0003 body/road frame and origin identities; no consumer may reconstruct placement from wheelbase, track, or symmetry."
+
+[source_boundary]
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+static_state_id = "WUFR26_DRIVER_NO_FUEL_STATIC_DESIGN_REFERENCE"
+compatibility_source = "AUTH-VEH-0008 / MOD-VEH-0006 / ASM-VEH-0005 ideal rigid circular flat-road map"
+gravity_source = "AUTH-VEH-0005 / MOD-VEH-0005 / ASM-VEH-0003 driver-no-fuel sprung and prototype unsprung gravity allocation"
+spring_source = "AUTH-SUSP-0004 / MOD-SUSP-0004 / ASM-SUSP-0002 conservative spring provider"
+arb_source = "AUTH-SUSP-0005 through AUTH-SUSP-0009 / MOD-SUSP-0005 / ASM-SUSP-0003 conservative physical-wheel-coordinate Z-bar provider"
+equilibrium_kernel = "AUTH-VEH-0004 / MOD-VEH-0004 provider-neutral reduced quasi-static equilibrium and contact recovery"
+whole_vehicle_mechanics = "AUTH-VEH-0003 / MOD-VEH-0003 point transport, generalized-force mapping, and wrench assembly"
+
+[runtime_configuration]
+front_arb_setting_required = true
+rear_arb_setting_required = true
+allowed_arb_settings = [1, 2, 3, 4, 5]
+arb_default_authorized = false
+arb_interpolation_authorized = false
+centered_rack_required = true
+static_state = "driver present; no fuel; no aero, brake, drive, lateral tire, or longitudinal tire force"
+initial_body_state = [0.0, 0.0, 0.0]
+initial_state_role = "deterministic numerical seed only; not a measured ride-height or attitude state"
+
+[mechanics]
+spring_composition = "Q_spring=[Q_FL,Q_FR,Q_RL,Q_RR] from four successful MOD-SUSP-0004 physical-wheel-coordinate spring states; U_spring=sum_i U_s,i."
+arb_composition = "Q_ARB=[Q_ARB,FL,Q_ARB,FR,Q_ARB,RL,Q_ARB,RR] from successful front and rear MOD-SUSP-0005 axle states at explicit discrete settings; U_ARB=U_ARB,front+U_ARB,rear."
+suspension_composition = "Q_susp=Q_spring+Q_ARB; U_susp=U_spring+U_ARB."
+body_equilibrium = "R_b=Q_sprung_gravity+J_wb^T Q_susp=0, solved only by MOD-VEH-0004."
+contact_recovery = "lambda_i=-(Q_susp,i+Q_unsprung_gravity,i)/c_i using MOD-VEH-0004 after the body solve."
+physical_closure = "Independently sum the four road-normal reactions, sprung gravity, and four unsprung gravity point loads as physical wrenches in the road frame; report force and moment residuals without repair."
+energy_check = "Where every provider supplies stored/potential energy, verify R_b=-partial(U_susp+V_sprung_gravity)/partial(q_b) at two declared step sizes."
+
+[numerics]
+solver_owner = "MOD-VEH-0004 QuasiStaticSolverConfig and deterministic damped-Newton implementation"
+body_domain_owner = "MOD-VEH-0006 WUFRRoadContactSolverConfig local z_s/phi/theta domain"
+wheel_state_consistency_tolerance_m = 1.0e-9
+physical_force_residual_tolerance_N = 1.0e-6
+physical_moment_residual_tolerance_Nm = 1.0e-6
+wheel_equilibrium_residual_tolerance_N = 1.0e-8
+hidden_clipping_allowed = false
+negative_reaction_clipping_allowed = false
+hidden_crossweight_rule_allowed = false
+scalar_motion_ratio_allowed = false
+scalar_wheel_rate_allowed = false
+least_squares_repair_allowed = false
+hidden_arb_setting_default_allowed = false
+
+[permitted]
+items = [
+  "Implement a WUFR adapter that exposes MOD-VEH-0006 as the exact CompatibilityState contract consumed by MOD-VEH-0004.",
+  "Use the successful left/right actuation states already produced inside the front/rear MOD-SUSP-0005 wheel-coordinate chain to evaluate the four MOD-SUSP-0004 spring states, avoiding a second independent actuation interpretation.",
+  "Compose conservative spring and Z-bar generalized forces and stored energies only by vector and scalar addition in the reviewed physical wheel-coordinate order.",
+  "Map the reviewed sprung gravity point through MOD-VEH-0003 and pass that generalized force to MOD-VEH-0004.",
+  "Recover four active-contact road-normal reactions only from the explicit unsprung-gravity projections and contact coefficients returned by MOD-VEH-0006.",
+  "Publish deterministic source-rich solver, provider, contact, energy, and physical-wrench closure diagnostics under the label uncorrelated_design_intent_static_gravity."
+]
+
+[prohibited]
+items = [
+  "Calling the result an installed/as-built corner-weight prediction, setup recommendation, validated crossweight, LLTD, load-transfer distribution, roll gradient, or production result.",
+  "Fitting spring preload, body ride height, CG, unsprung allocation, contact radius, ARB setting, or another parameter to reproduce the historical scale state.",
+  "Choosing a front or rear ARB setting implicitly, interpolating settings, averaging settings, or back-solving settings from a target reaction distribution.",
+  "Embedding crossweight, diagonal-load, track-width-times-roll, scalar wheel-rate, scalar motion-ratio, or historical load-transfer equations in the adapter.",
+  "Adding damper gas, seal friction, damping, stops, tire vertical compliance, tire force, aero, brake, drive, inertial, or chassis-compliance terms.",
+  "Clipping or redistributing a negative road reaction, leaving the all-four-active mode, or repairing a failed/nonconverged state with least squares or fitted offsets.",
+  "Generating carrier/upright external wrenches, linkage reactions, rocker hardware loads, structural packets, stress, fatigue, factor of safety, or FEA boundary conditions under this authorization."
+]
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-VEH-0011 verifies exact source/order/configuration ownership, spring-plus-ARB force and energy addition, explicit ARB settings, and no duplicated actuation semantics.",
+  "BENCH-VEH-0012 produces at least one deterministic converged WUFR driver/no-fuel four-contact static-gravity fixture result using explicitly named front/rear settings, positive unmodified road reactions, MOD-VEH-0004 residual convergence, independent two-step energy-gradient agreement, and independent road-frame physical force/moment closure.",
+  "BENCH-VEH-0012 repeats the same fixture from at least two declared bounded initial guesses and requires the same continuation solution within stated tolerances; any alternate root is reported rather than silently selected.",
+  "BENCH-VEH-0013 verifies missing/invalid ARB settings, provider/source/order mismatch, road-map failure, spring domain failure, Z-bar failure, solver nonconvergence, negative reaction, and physical-closure disagreement as structured failures without fallback."
+]
+
+[promotion_gates]
+items = [
+  "Merge this reviewed authorization before implementing MOD-VEH-0007.",
+  "Implementation must freeze a machine-readable uncorrelated result record with every source, assumption, explicit ARB setting, solver setting, residual, and exclusion.",
+  "Static scale, ride-height, shock-pot, spring/perch, ARB zero-preload, alignment, pressure, and loaded-radius measurements are required before correlation or installed/as-built claims.",
+  "A separate authorization is required to convert recovered road reactions and exact contact points into complete per-corner carrier wrenches for MOD-SUSP-0007.",
+  "Maneuver QSS requires separately reviewed tire, aero, brake/powertrain, unsprung inertia/CG, and alternate-contact-mode authority."
+]
