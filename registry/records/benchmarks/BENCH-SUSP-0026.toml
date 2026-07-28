@@ -14,4 +14,6 @@ acceptance_criteria = [
   "Shifting every position and the pivot by the same translation leaves all forces, moments about the pivot, and tau_axis unchanged."
 ]
 authorization = "authorizations/suspension/AUTH-SUSP-0016.toml"
-implementation_test = "planned: tests/test_suspension_rocker_included_load.py"
+implementation_test = "tests/test_suspension_rocker_included_load.py"
+report_script = "scripts/run_rocker_included_load_benchmarks.py"
+result_record = "benchmarks/suspension/rocker_included_load_result_v0.1.0.toml"
