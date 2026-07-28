@@ -1,0 +1,16 @@
+name: WUFR static equilibrium diagnostic
+
+on:
+  pull_request:
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          show-progress: false
+      - name: Run focused upstream test
+        env:
+          PYTHONPATH: src
+        run: python3 -m unittest tests.test_wufr_road_contact -v
