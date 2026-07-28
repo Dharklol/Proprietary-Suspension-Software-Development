@@ -1,0 +1,44 @@
+[record]
+id = "EQ-VEH-0017"
+type = "equation"
+title = "WUFR active-contact reaction recovery and physical wrench closure"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "After a successful EQ-VEH-0016 body solve, recover four physical road-normal reactions from the explicit wheel-coordinate suspension force, unsprung-gravity projection, and contact coefficient, then independently verify total physical force and moment equilibrium in the reviewed road frame."
+outputs = [
+  "Signed lambda=[lambda_FL,lambda_FR,lambda_RL,lambda_RR]",
+  "Per-wheel generalized-force residuals",
+  "Road-frame resultant force and moment residuals",
+  "Exact contact and gravity application points and complete source provenance",
+  "All-four-active validity classification"
+]
+inputs = [
+  "Successful final EQ-VEH-0015 suspension state",
+  "MOD-VEH-0006 contact coefficients, contact points, wheel-center points, and unsprung-gravity generalized forces at the converged state",
+  "MOD-VEH-0005 physical sprung and unsprung gravity point loads",
+  "MOD-VEH-0003 road-frame point transport and wrench assembly"
+]
+assumptions = [
+  "Road reactions act only along the flat-road normal in the first active-contact mode.",
+  "The unsprung prototype masses act at the current physical wheel-center points as authorized by ASM-VEH-0003.",
+  "A negative reaction invalidates the all-four-active mode and is not a candidate to redistribute."
+]
+verification_level = "A"
+canonical_equation = "lambda_i=-(Q_susp,i+Q_unsprung_gravity,i)/c_i; verify Q_susp,i+Q_unsprung_gravity,i+c_i*lambda_i=0 and sum physical road/gravity wrenches=(0,0)."
+source_basis = [
+  "AUTH-VEH-0004 / EQ-VEH-0010 contact recovery",
+  "AUTH-VEH-0005 / MOD-VEH-0005 physical gravity point loads",
+  "AUTH-VEH-0008 / MOD-VEH-0006 contact and wheel-center geometry",
+  "AUTH-VEH-0003 / MOD-VEH-0003 wrench assembly",
+  "AUTH-VEH-0009 / EQ-VEH-0015 through EQ-VEH-0016"
+]
+validity = "Only the flat rigid road, all-four-active, gravity-only, centered-rack WUFR design-intent state after a successful reduced body solve."
+failure_behavior = [
+  "Retain and report any negative lambda, return wheel_lift/contact_mode_invalid, and never clip or redistribute.",
+  "Fail for missing/nonfinite/zero contact coefficients, unavailable unsprung generalized force, point/frame/source mismatch, or wheel-equilibrium residual violation.",
+  "Fail and report physical force/moment closure disagreement; do not repair it with a hidden balancing wrench.",
+  "Do not convert this result into a carrier wrench or structural load case under AUTH-VEH-0009."
+]
+benchmark_ids = ["BENCH-VEH-0012", "BENCH-VEH-0013"]
+authorization_id = "AUTH-VEH-0009"
