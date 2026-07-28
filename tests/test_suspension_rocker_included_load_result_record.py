@@ -18,9 +18,9 @@ class RockerIncludedLoadResultRecordTests(unittest.TestCase):
         hand = record["hand_case"]
         self.assertEqual(report["status"], record["status"])
         self.assertEqual(report["complete_hardware_reaction"], record["complete_hardware_reaction"])
+        for key in ("included_load_ids", "missing_load_ids"):
+            self.assertEqual(report[key], hand[key])
         for key in (
-            "included_load_ids",
-            "missing_load_ids",
             "included_resultant_force_N",
             "included_resultant_moment_Nm",
             "pivot_force_contribution_N",
@@ -29,7 +29,9 @@ class RockerIncludedLoadResultRecordTests(unittest.TestCase):
             "final_moment_residual_Nm",
             "perpendicular_moment_residual_Nm",
         ):
-            self.assertEqual(report[key], hand[key])
+            self.assertEqual(len(report[key]), len(hand[key]))
+            for actual, expected in zip(report[key], hand[key]):
+                self.assertAlmostEqual(actual, expected, places=12)
         for key in (
             "free_axis_moment_residual_Nm",
             "support_axis_moment_component_Nm",
