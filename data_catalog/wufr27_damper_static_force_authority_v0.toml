@@ -1,0 +1,100 @@
+version = "0.1.0"
+record_id = "WUFR27_DAMPER_STATIC_FORCE_AUTHORITY_V0"
+status = "reviewed_source_boundary"
+authority = "Source record for the currently available WUFR KW V5 FSAE damper identity and the exact missing data required before damper gas/static-friction force or complete rocker pivot reactions are authorized. No numerical damper static force is supplied by this record."
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+authorization_id = "AUTH-SUSP-0015"
+
+[source.kw_correspondence]
+source_title = "KWEmail.pdf"
+google_drive_file_id = "1cDhTaHooP-rcgzk7qzpHWB9j0Dw5DW7n"
+date = "2023-10-16"
+sender_role = "KW Racing Program Manager, North America"
+observations = [
+  "The prior 3-way FSAE damper was replaced by the V5 FSAE damper as of March 2023.",
+  "The V5 FSAE is described as a four-way adjustable solid-piston damper using technology scaled from GT racing.",
+  "The correspondence does not provide rod/displacement area, charge pressure, gas volume, static force, friction, or force-versus-position data."
+]
+
+[source.purchase_invoice]
+source_title = "KW Dampers Invoice 4.10.24.pdf"
+google_drive_file_id = "1nY-0TIIf3o0BNlsoYUozE_02Y3LLQdhH"
+invoice_date = "2024-04-10"
+quantity = 4
+item_number = "3980599103"
+description = "V5 FSAE DAMPER-PIGGY BACK"
+observations = [
+  "This freezes the exact purchased hardware family and item identity for future manufacturer inquiries and physical testing.",
+  "The invoice is identity/procurement evidence only and contains no static-force parameters."
+]
+
+[source.kw_formula_student_attachment]
+source_role = "vendor geometry/interface evidence already frozen in data_catalog/wufr27_spring_package_v0.toml"
+sha256 = "647b7b451612174852293b0bd65d193452991c6a3c697a242c07b04860cea36c"
+full_extension_eye_to_eye_m = 0.1857
+travel_m = 0.057
+spring_inner_diameter_compatibility_m = 0.036
+static_force_curve_available = false
+charge_pressure_available = false
+effective_area_available = false
+gas_volume_available = false
+friction_curve_available = false
+
+[source.wufr26_shock_assembly]
+source_title = "SU-A0707-AA SHOCKS.pdf"
+box_file_id = "2027193944590"
+source_role = "hardware-family and spring/damper assembly corroboration"
+observations = [
+  "The BOM identifies the KW V5 Racing Formula Student piggyback damper family.",
+  "The assembly source does not expose the internal gas-force parameters or a quasi-static damper test."
+]
+
+[source.generic_mechanics]
+reference = "John C. Dixon, The Shock Absorber Handbook, Second Edition, Section 7.4 Static Forces"
+source_role = "generic mechanics and measurement-method authority only; not KW V5 numerical authority"
+observations = [
+  "At very low speed a pressurized damper can exhibit pressure-area force, pressure-rise stiffness with position, and Coulomb-like friction.",
+  "For a slow bidirectional force loop, the mean of compression/extension creep forces identifies the gas-force bias under the stated symmetry assumptions, while half the difference identifies friction.",
+  "Analytic gas-force prediction requires effective area and pressure; position dependence additionally requires gas volume/geometry and a thermodynamic assumption."
+]
+
+[current_software_boundary]
+spring_model_id = "MOD-SUSP-0004"
+spring_authorization_id = "AUTH-SUSP-0004"
+spring_physical_vector_authorization_id = "AUTH-SUSP-0014"
+spring_physical_vector_implementation = "src/pssd_suspension/wufr_spring_rocker_force.py"
+non_spring_damper_force_included = false
+arb_physical_link_authorization_id = "AUTH-SUSP-0013"
+complete_rocker_reaction_authorized = false
+
+[required_measurement_packet]
+minimum_fields = [
+  "damper item/serial identity and service history",
+  "nitrogen charge/service state and whether pressure was changed before test",
+  "damper body/reservoir temperature",
+  "compression and rebound adjuster positions",
+  "eye-to-eye position or shaft displacement with sign and zero reference",
+  "very-low constant speed and dwell protocol",
+  "force in both travel directions at the same positions",
+  "load-cell zero, fixture tare, and uncertainty",
+  "repeatability over at least three cycles after conditioning"
+]
+preferred_outputs = [
+  "F_in(x) and F_out(x) quasi-static force curves",
+  "F_G(x)=0.5*(F_in(x)+F_out(x)) where the loop assumptions are valid",
+  "F_F(x)=0.5*(F_in(x)-F_out(x)) with direction/sign retained",
+  "reviewed interpolation domain covering the installed operating region"
+]
+
+[boundaries]
+wufr_damper_gas_force_authorized = false
+wufr_damper_static_friction_authorized = false
+wufr_damper_gas_stiffness_authorized = false
+complete_rocker_equilibrium_authorized = false
+complete_rocker_pivot_reaction_authorized = false
+partial_included_load_contribution_may_be_authorized_separately = true
+zero_force_assumption_authorized = false
+installed_as_built_authority = false
+structural_release_authorized = false
+next_gate = "Acquire source-specific KW data or perform the reviewed quasi-static bidirectional damper test before implementing a WUFR V5 static-force provider or publishing complete rocker pivot reactions."
