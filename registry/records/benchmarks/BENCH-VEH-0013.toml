@@ -1,0 +1,20 @@
+[record]
+id = "BENCH-VEH-0013"
+type = "benchmark"
+title = "WUFR static-equilibrium source and failure gates"
+status = "proposed"
+description = "Verify that the WUFR static composition fails closed for missing authority, invalid setup inputs, failed upstream mechanics, invalid contact mode, numerical failure, and physical-closure disagreement."
+verification_level = "A"
+target_ids = ["MOD-VEH-0007", "EQ-VEH-0015", "EQ-VEH-0016", "EQ-VEH-0017"]
+acceptance_criteria = [
+  "Missing front or rear ARB setting, bool setting, noninteger setting, setting outside 1..5, or any attempt to request a default/interpolated setting returns a structured configuration failure.",
+  "Configuration, source, assumption, coordinate-order, coordinate-unit, corner-order, and axle/side mismatch fail before the body solve.",
+  "Road-root/J_wb/contact-coefficient/unsprung-projection failure, spring-unseated/domain failure, actuation failure, Z-bar mechanism/Jacobian failure, and nonfinite upstream values propagate with their source diagnostics.",
+  "A singular/ill-conditioned tangent, body bound violation, line-search failure, and nonconvergence remain the unchanged structured MOD-VEH-0004 outcomes; no least-squares, state clipping, or fitted retry is added.",
+  "A synthetic negative recovered road reaction remains negative and returns wheel_lift/contact_mode_invalid without clipping or redistribution.",
+  "A deliberately altered contact point, gravity point, reaction, frame, or origin causes the independent physical force/moment closure gate to fail; no hidden balancing wrench is added.",
+  "The implementation contains no literals or fallback paths for historical crossweight, historical corner loads, 10 kg per corner, 207 kg sprung mass, 320 kg total mass, scalar motion ratio, scalar wheel rate, or body-roll-times-track load transfer.",
+  "No failure result is labeled installed/as-built, correlated, setup-authoritative, structural, or production-ready."
+]
+authorization = "authorizations/vehicle/AUTH-VEH-0009.toml"
+implementation_test = "planned: tests/test_wufr_static_equilibrium_failures.py"
