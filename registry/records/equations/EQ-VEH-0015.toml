@@ -1,0 +1,39 @@
+[record]
+id = "EQ-VEH-0015"
+type = "equation"
+title = "WUFR conservative spring and Z-bar wheel-force composition"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Compose the four source-owned MOD-SUSP-0004 spring generalized forces and the front/rear MOD-SUSP-0005 Z-bar generalized forces in the exact MOD-SUSP-0002 physical wheel-coordinate order, together with their separately owned stored energies."
+outputs = [
+  "Q_spring and Q_ARB in [FL,FR,RL,RR] physical wheel coordinates",
+  "Q_susp=Q_spring+Q_ARB",
+  "U_spring, U_ARB, and U_susp",
+  "Four spring states, two axle Z-bar states, explicit settings, and complete provenance"
+]
+inputs = [
+  "Road-compatible z_w=[z_FL,z_FR,z_RL,z_RR] from MOD-VEH-0006",
+  "Four successful MOD-SUSP-0004 spring states evaluated from the exact actuation states returned by the axle MOD-SUSP-0005 wheel-coordinate solves",
+  "Successful front and rear MOD-SUSP-0005 ZBarWheelStateResult values",
+  "Explicit front and rear discrete ARB settings in 1..5"
+]
+assumptions = [
+  "All component force laws and zero-reference assumptions remain owned by their upstream providers.",
+  "Spring and ARB generalized forces are work-conjugate to the same signed physical wheel coordinates.",
+  "The benchmark setting pair is a fixture only and is not setup-selection authority."
+]
+verification_level = "A"
+canonical_equation = "Q_spring=(Q_s,FL,Q_s,FR,Q_s,RL,Q_s,RR); Q_ARB=(Q_a,FL,Q_a,FR,Q_a,RL,Q_a,RR); Q_susp=Q_spring+Q_ARB; U_susp=sum_i U_s,i+U_ARB,F+U_ARB,R."
+source_basis = [
+  "AUTH-SUSP-0004 / MOD-SUSP-0004 / ASM-SUSP-0002",
+  "AUTH-SUSP-0005 through AUTH-SUSP-0009 / MOD-SUSP-0005 / ASM-SUSP-0003",
+  "data_catalog/wufr27_static_equilibrium_composition_v0.toml"
+]
+validity = "WUFR27_SUSPENSION_BASELINE_V0, reviewed local physical-wheel domains, seated spring constitutive domains, successful nominal-continuation actuation/Z-bar branches, and explicit discrete front/rear settings."
+failure_behavior = [
+  "Fail for missing/invalid settings, upstream spring/Z-bar/actuation failure, configuration or coordinate-order mismatch, nonfinite values, or unavailable energy.",
+  "Do not select or fit an ARB setting, interpolate stiffness, duplicate actuation geometry, clip signs, or replace physical-wheel generalized forces with scalar wheel-rate/motion-ratio formulas."
+]
+benchmark_ids = ["BENCH-VEH-0011", "BENCH-VEH-0012", "BENCH-VEH-0013"]
+authorization_id = "AUTH-VEH-0009"
