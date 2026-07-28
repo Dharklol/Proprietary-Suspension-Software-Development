@@ -1,8 +1,9 @@
 """Public AUTH-VEH-0009 WUFR static-equilibrium API.
 
 Source contracts and force composition live in ``wufr_static_equilibrium_core``.
-The solve entry point uses the local, equation-preserving cache implemented in
-``wufr_static_equilibrium_runtime``.
+The public solve entry point uses the equation-preserving cached runtime plus the
+explicit physical-provider numerical settings declared in
+``wufr_static_equilibrium_settings``.
 """
 
 from .wufr_static_equilibrium_core import (
@@ -24,7 +25,7 @@ from .wufr_static_equilibrium_core import (
     evaluate_wufr_suspension_composition,
     load_wufr_static_equilibrium_source,
 )
-from .wufr_static_equilibrium_runtime import (
+from .wufr_static_equilibrium_settings import (
     default_wufr_quasi_static_config,
     load_wufr_static_equilibrium_provider,
     solve_wufr_static_equilibrium,
