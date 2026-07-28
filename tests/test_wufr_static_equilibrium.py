@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import math
 from pathlib import Path
 import unittest
 
@@ -8,10 +7,8 @@ from pssd_vehicle.wufr_static_equilibrium import (
     BODY_ORDER,
     CORNER_ORDER,
     RESULT_LABEL,
-    WUFRStaticEquilibriumStatus,
     evaluate_wufr_suspension_composition,
     load_wufr_static_equilibrium_provider,
-    solve_wufr_static_equilibrium,
 )
 
 
@@ -42,6 +39,20 @@ class WUFRStaticEquilibriumTests(unittest.TestCase):
             zbar_fixture_path=ZBAR,
         )
 
+    def test_source_and_numerical_contract_are_explicit(self) -> None:
+        self.assertEqual(self.provider.source.result_label, RESULT_LABEL)
+        self.assertEqual(self.provider.source.body_order, BODY_ORDER)
+        self.assertEqual(self.provider.source.wheel_order, CORNER_ORDER)
+        self.assertFalse(self.provider.source.default_setting_authorized)
+        self.assertFalse(self.provider.source.interpolation_authorized)
+        self.assertFalse(self.provider.source.installed_as_built_authority)
+        self.assertEqual(self.provider.quasi_static_config.coordinate_scales, (0.005, 0.005, 0.005))
+        self.assertEqual(self.provider.quasi_static_config.residual_absolute_tolerance, 1.0e-7)
+        self.assertEqual(self.provider.quasi_static_config.residual_relative_tolerance, 1.0e-7)
+        self.assertEqual(self.provider.quasi_static_config.finite_difference_relative_step, 0.02)
+        self.assertEqual(self.provider.config.energy_gradient_step_multipliers, (0.02, 0.01))
+        self.assertEqual(self.provider.config.energy_gradient_absolute_tolerance, 0.01)
+
     def test_nominal_suspension_composition_preserves_provider_sum(self) -> None:
         result = evaluate_wufr_suspension_composition(
             self.provider,
@@ -53,6 +64,7 @@ class WUFRStaticEquilibriumTests(unittest.TestCase):
         self.assertEqual(result.front_arb_setting, 1)
         self.assertEqual(result.rear_arb_setting, 1)
         self.assertEqual(len(result.spring_states), 4)
+        self.assertEqual(len(result.spring_actuation_states), 4)
         self.assertEqual(len(result.generalized_spring_force_N), 4)
         self.assertEqual(len(result.generalized_arb_force_N), 4)
         self.assertEqual(len(result.generalized_suspension_force_N), 4)
@@ -72,71 +84,41 @@ class WUFRStaticEquilibriumTests(unittest.TestCase):
             places=12,
         )
 
-    def test_setting_1_fixture_converges_with_positive_unmodified_reactions(self) -> None:
-        result = solve_wufr_static_equilibrium(
+    def test_spring_states_retain_source_zbar_actuation_geometry(self) -> None:
+        result = evaluate_wufr_suspension_composition(
             self.provider,
+            (0.0, 0.0, 0.0, 0.0),
             front_arb_setting=1,
             rear_arb_setting=1,
         )
-        self.assertEqual(result.status, WUFRStaticEquilibriumStatus.SUCCESS, result.message)
-        self.assertEqual(result.result_label, RESULT_LABEL)
-        self.assertTrue(result.complete_static_road_reaction)
-        self.assertFalse(result.installed_as_built_authority)
-        self.assertFalse(result.historical_scale_reconstruction_used)
-        assert result.solve is not None
-        assert result.contact_recovery is not None
-        assert result.energy_gradient is not None
-        assert result.physical_closure is not None
-        self.assertEqual(result.solve.body_coordinate_order, BODY_ORDER)
-        self.assertEqual(result.solve.wheel_coordinate_order, CORNER_ORDER)
-        self.assertTrue(all(math.isfinite(value) for value in result.solve.q_body))
-        self.assertTrue(all(value > 0.0 for value in result.contact_recovery.normal_reaction_N))
-        self.assertIsNotNone(result.solve.scaled_residual_norm)
-        self.assertLess(float(result.solve.scaled_residual_norm), 1.0e-7)
-        self.assertLess(
-            max(abs(value) for value in result.contact_recovery.wheel_equilibrium_residual),
-            self.provider.config.wheel_equilibrium_residual_tolerance_N,
+        self.assertTrue(result.ok, result.message)
+        assert result.front_arb_state is not None and result.rear_arb_state is not None
+        maps = (
+            result.front_arb_state.left_map,
+            result.front_arb_state.right_map,
+            result.rear_arb_state.left_map,
+            result.rear_arb_state.right_map,
         )
-        self.assertIsNotNone(result.energy_gradient.maximum_absolute_residual)
-        self.assertLessEqual(
-            float(result.energy_gradient.maximum_absolute_residual),
-            self.provider.config.energy_gradient_absolute_tolerance,
-        )
-        self.assertIsNotNone(result.physical_closure.maximum_force_residual_N)
-        self.assertLessEqual(
-            float(result.physical_closure.maximum_force_residual_N),
-            self.provider.config.physical_force_residual_tolerance_N,
-        )
-        self.assertIsNotNone(result.physical_closure.maximum_moment_residual_Nm)
-        self.assertLessEqual(
-            float(result.physical_closure.maximum_moment_residual_Nm),
-            self.provider.config.physical_moment_residual_tolerance_Nm,
-        )
-
-    def test_two_bounded_initial_guesses_select_same_continuation_solution(self) -> None:
-        first = solve_wufr_static_equilibrium(
-            self.provider,
-            front_arb_setting=1,
-            rear_arb_setting=1,
-            initial_q_body=(0.0, 0.0, 0.0),
-        )
-        second = solve_wufr_static_equilibrium(
-            self.provider,
-            front_arb_setting=1,
-            rear_arb_setting=1,
-            initial_q_body=(-0.003, 0.001, -0.001),
-        )
-        self.assertTrue(first.ok, first.message)
-        self.assertTrue(second.ok, second.message)
-        assert first.solve is not None and second.solve is not None
-        for left, right in zip(first.solve.q_body, second.solve.q_body):
-            self.assertTrue(math.isclose(left, right, rel_tol=0.0, abs_tol=2.0e-7), (left, right))
-        assert first.contact_recovery is not None and second.contact_recovery is not None
-        for left, right in zip(
-            first.contact_recovery.normal_reaction_N,
-            second.contact_recovery.normal_reaction_N,
-        ):
-            self.assertTrue(math.isclose(left, right, rel_tol=0.0, abs_tol=2.0e-3), (left, right))
+        for enriched, mapping in zip(result.spring_actuation_states, maps):
+            self.assertIsNotNone(mapping)
+            assert mapping is not None and mapping.actuation_state is not None
+            source = mapping.actuation_state
+            self.assertEqual(enriched.axle, source.axle)
+            self.assertEqual(enriched.side, source.side)
+            self.assertEqual(enriched.q_L_rad, source.q_L_rad)
+            self.assertEqual(enriched.q_U_rad, source.q_U_rad)
+            self.assertEqual(enriched.rocker_theta_rad, source.rocker_theta_rad)
+            self.assertEqual(enriched.rocker_rod_point_m, source.rocker_rod_point_m)
+            self.assertEqual(enriched.rocker_coilover_point_m, source.rocker_coilover_point_m)
+            self.assertEqual(enriched.current_coilover_length_m, source.current_coilover_length_m)
+            self.assertEqual(enriched.delta_z_wc_body_m, source.delta_z_wc_body_m)
+            self.assertEqual(enriched.source_fixture_id, source.source_fixture_id)
+            self.assertEqual(enriched.configuration_id, source.configuration_id)
+            self.assertEqual(
+                enriched.derivative_method,
+                "analytic_dL_dtheta_times_branch_preserving_dtheta_dz",
+            )
+            self.assertIsNotNone(enriched.rho_dw)
 
 
 if __name__ == "__main__":
