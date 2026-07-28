@@ -66,4 +66,5 @@ rocker_pivot_reaction_authorized = false
 arb_structural_composition_authorized = false
 installed_as_built_authority = false
 structural_release_authorized = false
-next_gate = "Implement EQ-SUSP-0028 under AUTH-SUSP-0014. Before complete WUFR rocker pivot reactions are published, separately review the rocker free body and explicitly decide the treatment of omitted non-spring damper forces."
+damper_static_force_hold_authorization = "AUTH-SUSP-0015"
+next_gate = "AUTH-SUSP-0015 freezes the missing KW V5 static gas/friction authority. A separately authorized included-load rocker contribution may proceed only if explicitly incomplete; complete rocker pivot reactions require source-specific damper static-force evidence."
