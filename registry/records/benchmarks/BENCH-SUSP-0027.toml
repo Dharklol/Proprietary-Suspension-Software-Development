@@ -14,4 +14,6 @@ acceptance_criteria = [
   "Degenerate/nonfinite axes, nonfinite forces/points, duplicate load IDs, and empty included sets fail closed."
 ]
 authorization = "authorizations/suspension/AUTH-SUSP-0016.toml"
-implementation_test = "planned: tests/test_suspension_rocker_included_load_failures.py"
+implementation_test = "tests/test_suspension_rocker_included_load_failures.py"
+report_script = "scripts/run_rocker_included_load_benchmarks.py"
+result_record = "benchmarks/suspension/rocker_included_load_result_v0.1.0.toml"
