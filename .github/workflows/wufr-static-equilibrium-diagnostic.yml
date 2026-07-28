@@ -7,10 +7,11 @@ jobs:
   diagnostic:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          show-progress: false
-      - name: Run focused upstream test
+      - name: Clone and run focused upstream test
         env:
-          PYTHONPATH: src
-        run: python3 -m unittest tests.test_wufr_road_contact -v
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          git clone --quiet --depth 1 --branch "$BRANCH" \
+            https://github.com/${{ github.repository }}.git repo
+          cd repo
+          PYTHONPATH=src python3 -m unittest tests.test_wufr_road_contact -v
