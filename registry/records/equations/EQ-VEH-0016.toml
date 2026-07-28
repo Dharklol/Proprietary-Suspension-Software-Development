@@ -1,0 +1,42 @@
+[record]
+id = "EQ-VEH-0016"
+type = "equation"
+title = "WUFR driver-no-fuel reduced static body equilibrium"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Bind the reviewed WUFR road-compatible wheel map, conservative suspension-force composition, and sprung-body gravity to the existing MOD-VEH-0004 reduced-coordinate quasi-static kernel without changing any upstream force law or the kernel numerics."
+outputs = [
+  "Converged q_b=[z_s,phi,theta] and road-compatible z_w",
+  "Reduced body residual and scaled convergence diagnostics",
+  "Final spring, ARB, compatibility, and sprung-gravity provider states",
+  "Source/configuration/assumption/solver provenance and uncorrelated result label"
+]
+inputs = [
+  "MOD-VEH-0006 CompatibilityState adapter for z_w(q_b) and J_wb",
+  "EQ-VEH-0015 Q_susp(z_w) and U_susp(z_w)",
+  "MOD-VEH-0005 sprung-body gravity mapped by MOD-VEH-0003",
+  "Explicit MOD-VEH-0004 solver configuration, bounds, coordinate scales, residual scales, and initial state"
+]
+assumptions = [
+  "Quasi-static gravity-only state: no inertia, damping, aero, brake, drive, lateral/longitudinal tire force, or tire compliance.",
+  "Centered rack and the MOD-VEH-0006 flat rigid all-four-active contact assumption remain fixed.",
+  "The zero initial body state is a deterministic numerical seed only."
+]
+verification_level = "A"
+canonical_equation = "R_b(q_b)=Q_sprung_gravity(q_b)+J_wb(q_b)^T Q_susp(z_w(q_b)); solve R_b=0 only with MOD-VEH-0004."
+source_basis = [
+  "AUTH-VEH-0003 / MOD-VEH-0003",
+  "AUTH-VEH-0004 / MOD-VEH-0004",
+  "AUTH-VEH-0005 / MOD-VEH-0005",
+  "AUTH-VEH-0008 / MOD-VEH-0006",
+  "EQ-VEH-0015 / AUTH-VEH-0009"
+]
+validity = "WUFR driver/no-fuel design-intent static state, centered rack, flat rigid road, all four contacts active, local MOD-VEH-0006 body domain, and all upstream provider domains."
+failure_behavior = [
+  "Propagate every compatibility, spring, Z-bar, gravity, coordinate-contract, tangent, bound, line-search, and nonconvergence failure from the owning provider/kernel.",
+  "Do not fit preload, CG, ride height, radius, unsprung allocation, or settings to obtain convergence or historical scale agreement.",
+  "Do not use an alternate solver, least-squares repair, crossweight rule, diagonal-load rule, or clipped state as an authorized result."
+]
+benchmark_ids = ["BENCH-VEH-0011", "BENCH-VEH-0012", "BENCH-VEH-0013"]
+authorization_id = "AUTH-VEH-0009"
