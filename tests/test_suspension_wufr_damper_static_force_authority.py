@@ -50,11 +50,22 @@ class WufrDamperStaticForceAuthorityTests(unittest.TestCase):
     def test_missing_authority_and_prohibited_shortcuts_are_explicit(self) -> None:
         auth = _load("authorizations/suspension/AUTH-SUSP-0015.toml")
         missing = "\n".join(auth["missing_authority"]["items"]).lower()
-        for phrase in ("effective rod/displacement area", "nitrogen charge pressure", "gas volume", "bidirectional", "friction"):
+        for phrase in (
+            "effective rod/displacement area",
+            "nitrogen charge pressure",
+            "gas volume",
+            "both directions",
+            "friction",
+        ):
             self.assertIn(phrase, missing)
 
         prohibited = "\n".join(auth["prohibited"]["items"]).lower()
-        for phrase in ("setting damper gas force", "generic motorsport nitrogen pressure", "complete rocker equilibrium", "hidden balancing torque"):
+        for phrase in (
+            "setting damper gas force",
+            "generic motorsport nitrogen pressure",
+            "complete rocker equilibrium",
+            "hidden balancing torque",
+        ):
             self.assertIn(phrase, prohibited)
 
     def test_complete_reaction_is_blocked_but_included_load_diagnostic_is_permitted(self) -> None:
