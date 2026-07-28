@@ -7,11 +7,14 @@ jobs:
   diagnostic:
     runs-on: ubuntu-latest
     steps:
-      - name: Clone and run focused upstream test
+      - name: Clone and run focused static-equilibrium test
         env:
           BRANCH: ${{ github.head_ref }}
         run: |
           git clone --quiet --depth 1 --branch "$BRANCH" \
             https://github.com/${{ github.repository }}.git repo
           cd repo
-          PYTHONPATH=src python3 -m unittest tests.test_wufr_road_contact -v
+          python3 -m pip install -q -e .
+          python3 -m unittest \
+            tests.test_wufr_static_equilibrium.WUFRStaticEquilibriumTests.test_nominal_suspension_composition_preserves_provider_sum \
+            -v
