@@ -3,6 +3,8 @@ id = "EQ-SUSP-0031"
 type = "equation"
 title = "Rocker included-load residual and completeness contract"
 status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M1"
 description = "Verify the exact residual left after adding the ideal revolute support contribution and preserve the distinction between an included-load diagnostic and a complete hardware reaction."
 canonical_equation = "F_res=F_inc+F_p=0; M_res=M_inc+M_p=tau_axis*a; M_perp_res=M_res-(a dot M_res)*a=0. complete_hardware_reaction is false whenever missing_force_set is nonempty or complete load ownership is not separately authorized."
 inputs = ["EQ-SUSP-0029 resultants", "EQ-SUSP-0030 support contribution", "explicit included_force_set", "explicit missing_force_set"]
