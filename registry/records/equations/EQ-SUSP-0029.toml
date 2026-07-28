@@ -1,0 +1,14 @@
+[record]
+id = "EQ-SUSP-0029"
+type = "equation"
+title = "Rocker included-load force and moment resultants"
+status = "proposed"
+description = "Assemble the force and moment resultants of an explicitly named set of physical point forces acting on one rigid rocker about its reviewed pivot."
+canonical_equation = "For rocker pivot R and included point-force set {(r_i,F_i)}, F_inc=sum_i F_i and M_inc=sum_i[(r_i-R) cross F_i]. Optional applied couples are prohibited in v0.1 unless separately source-authorized."
+inputs = ["rocker pivot R", "finite point/force pairs with identities and provenance"]
+outputs = ["included resultant force F_inc", "included resultant moment M_inc about R"]
+assumptions = ["ASM-SUSP-0008"]
+verification_level = "none"
+benchmark_ids = ["BENCH-SUSP-0026", "BENCH-SUSP-0027"]
+authorization_id = "AUTH-SUSP-0016"
+failure_behavior = ["Reject nonfinite or empty input sets, duplicate/missing load identities, frame/configuration mismatch, or unproven physical force ownership."]
