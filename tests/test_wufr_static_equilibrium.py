@@ -62,10 +62,13 @@ class WUFRStaticEquilibriumTests(unittest.TestCase):
             result.generalized_suspension_force_N,
         ):
             self.assertAlmostEqual(total, spring + arb, places=10)
-        self.assertAlmostEqual(result.arb_energy_J or 1.0, 0.0, places=9)
+        self.assertIsNotNone(result.arb_energy_J)
+        self.assertAlmostEqual(float(result.arb_energy_J), 0.0, places=9)
+        self.assertIsNotNone(result.stored_energy_J)
+        self.assertIsNotNone(result.spring_energy_J)
         self.assertAlmostEqual(
-            result.stored_energy_J or 0.0,
-            (result.spring_energy_J or 0.0) + (result.arb_energy_J or 0.0),
+            float(result.stored_energy_J),
+            float(result.spring_energy_J) + float(result.arb_energy_J),
             places=12,
         )
 
@@ -88,21 +91,25 @@ class WUFRStaticEquilibriumTests(unittest.TestCase):
         self.assertEqual(result.solve.wheel_coordinate_order, CORNER_ORDER)
         self.assertTrue(all(math.isfinite(value) for value in result.solve.q_body))
         self.assertTrue(all(value > 0.0 for value in result.contact_recovery.normal_reaction_N))
-        self.assertLess(result.solve.scaled_residual_norm or math.inf, 1.0e-7)
+        self.assertIsNotNone(result.solve.scaled_residual_norm)
+        self.assertLess(float(result.solve.scaled_residual_norm), 1.0e-7)
         self.assertLess(
             max(abs(value) for value in result.contact_recovery.wheel_equilibrium_residual),
             self.provider.config.wheel_equilibrium_residual_tolerance_N,
         )
+        self.assertIsNotNone(result.energy_gradient.maximum_absolute_residual)
         self.assertLessEqual(
-            result.energy_gradient.maximum_absolute_residual or math.inf,
+            float(result.energy_gradient.maximum_absolute_residual),
             self.provider.config.energy_gradient_absolute_tolerance,
         )
+        self.assertIsNotNone(result.physical_closure.maximum_force_residual_N)
         self.assertLessEqual(
-            result.physical_closure.maximum_force_residual_N or math.inf,
+            float(result.physical_closure.maximum_force_residual_N),
             self.provider.config.physical_force_residual_tolerance_N,
         )
+        self.assertIsNotNone(result.physical_closure.maximum_moment_residual_Nm)
         self.assertLessEqual(
-            result.physical_closure.maximum_moment_residual_Nm or math.inf,
+            float(result.physical_closure.maximum_moment_residual_Nm),
             self.provider.config.physical_moment_residual_tolerance_Nm,
         )
 
