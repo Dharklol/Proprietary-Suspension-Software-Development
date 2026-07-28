@@ -1,0 +1,48 @@
+[record]
+id = "MOD-SUSP-0008"
+type = "model"
+title = "Ideal revolute rocker included-load reaction contribution"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M1"
+description = "Provider-neutral rigid-rocker statics diagnostic plus a WUFR source-preserving adapter. For an explicitly named set of physical point forces, it assembles the included force/moment resultants about the rocker pivot, returns the force and perpendicular-moment contribution supplied by an ideal revolute support, and preserves the signed free-axis moment residual. The WUFR v0.1 adapter composes only the existing physical push/pull, conservative spring, and physical ARB-link force records. Under AUTH-SUSP-0015 it always identifies the unavailable KW V5 non-spring static force and marks the result incomplete."
+inputs = [
+  "Rigid rocker pivot and reviewed axis with explicit frame/configuration identity",
+  "Finite physical point forces with unique load IDs, exact current application points, source ownership, and load-case provenance",
+  "For WUFR: successful MOD-SUSP-0007 actuation axial reaction, AUTH-SUSP-0014 spring physical-force result, AUTH-SUSP-0013 ARB physical-link result, and matching current mechanism pickup",
+  "Explicit included_force_set and missing_force_set"
+]
+outputs = [
+  "Included resultant force and moment about the rocker pivot",
+  "Ideal-revolute pivot-force contribution",
+  "Ideal-revolute pivot-moment contribution perpendicular to the rocker axis",
+  "Signed free-axis moment residual tau_axis and exact residual diagnostics",
+  "Included/missing force identities and complete_hardware_reaction=false for WUFR v0.1",
+  "Structured source/frame/configuration/failure provenance"
+]
+assumptions = [
+  "ASM-SUSP-0008 models the rocker as rigid and the chassis support as an ideal revolute joint with no reaction couple about the free axis.",
+  "The result is a linear contribution associated only with the included load set; it is not a total hardware reaction.",
+  "WUFR v0.1 omits KW V5 non-spring static force under AUTH-SUSP-0015 and does not assume it is zero.",
+  "Rocker inertia, friction, compliance, bearing load sharing, and dynamic acceleration are outside v0.1."
+]
+verification_level = "A"
+equation_ids = ["EQ-SUSP-0029", "EQ-SUSP-0030", "EQ-SUSP-0031"]
+benchmark_ids = ["BENCH-SUSP-0026", "BENCH-SUSP-0027", "BENCH-SUSP-0028"]
+authorization_id = "AUTH-SUSP-0016"
+authorization_state = "review_ready; implementation_authorized_after_AUTH-SUSP-0016_review_and_merge; complete_hardware_reaction_prohibited"
+assumption_ids = ["ASM-SUSP-0008"]
+upstream_model_ids = ["MOD-SUSP-0003", "MOD-SUSP-0004", "MOD-SUSP-0005", "MOD-SUSP-0007"]
+downstream_model_ids = []
+source_snapshot = "data_catalog/wufr27_rocker_included_load_statics_v0.toml"
+source_audit = "docs/models/suspension/rocker_included_load_function_specification.md"
+planned_implementation_package = "src/pssd_suspension/rocker_included_load.py; src/pssd_suspension/wufr_rocker_included_load.py"
+planned_implementation_tests = [
+  "tests/test_suspension_rocker_included_load.py",
+  "tests/test_suspension_rocker_included_load_failures.py",
+  "tests/test_wufr_rocker_included_load_adapter.py"
+]
+validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
+review_record = "docs/reviews/phase3_rocker_included_load_authorization_review.md"
+next_implementation_gate = "Implement only the included-load support contribution and WUFR source adapter. A complete WUFR rocker equilibrium/pivot reaction requires source-specific KW V5 non-spring static force under a later authorization and a physically consistent complete load state; bearing split and structural release remain separate."
+prohibited_scope = "No complete rocker equilibrium or total pivot reaction; no zero damper-force assumption; no hidden balancing force/couple; no scalar motion-ratio/generalized-force substitution for physical point forces; no tire/maneuver load generation; no rocker inertia/dynamics; no bearing load split, stress, FEA boundary-condition release, factor of safety, compliance, fatigue, or installed/as-built claims."
