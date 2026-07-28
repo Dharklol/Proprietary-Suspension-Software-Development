@@ -1,0 +1,75 @@
+version = "0.1.0"
+record_id = "WUFR27_ROCKER_INCLUDED_LOAD_STATICS_V0"
+status = "reviewed_source_boundary"
+authority = "Design-intent source record for composing already-reviewed physical push/pull, conservative spring, and physical ARB-link forces on one WUFR rocker into an explicitly incomplete ideal-revolute support reaction contribution and free-axis moment diagnostic. It does not authorize a complete rocker pivot reaction, damper static force, maneuver load generation, or structural release."
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+authorization_id = "AUTH-SUSP-0016"
+assumption_id = "ASM-SUSP-0008"
+
+[source.level1_interface]
+model_id = "MOD-SUSP-0007"
+authorization_id = "AUTH-SUSP-0012"
+implementation = "src/pssd_suspension/wufr_interface_statics.py"
+force_role = "Consume AxialReaction.force_on_remote_N at AxialReaction.remote_point_m from the successful actuation result; the remote endpoint is the rocker rod pickup."
+prohibitions = [
+  "Do not use force_on_body_N, which acts on the A-arm endpoint.",
+  "Do not regenerate the push/pull force from wheel load, motion ratio, spring force, or a scalar balance.",
+  "Do not generate a carrier external wrench inside the rocker adapter."
+]
+
+[source.spring_force]
+model_id = "MOD-SUSP-0004"
+physical_vector_authorization_id = "AUTH-SUSP-0014"
+implementation = "src/pssd_suspension/wufr_spring_rocker_force.py"
+force_role = "Consume WufrSpringRockerForceResult.force_on_rocker_N at rocker_eye_m, with rocker_pivot_m and rocker_axis_unit as the primary support geometry identity."
+prohibitions = [
+  "Do not substitute generalized spring force or scalar motion ratio.",
+  "Do not add gas, velocity, friction, or stop force to the spring vector."
+]
+
+[source.arb_link_force]
+model_id = "MOD-SUSP-0005"
+physical_vector_authorization_id = "AUTH-SUSP-0013"
+implementation = "src/pssd_suspension/wufr_zbar_link_force.py"
+force_role = "Consume the selected side ZBarLinkSideForce.force_on_rocker_N at the matching current ZBarMechanismResult.rocker_pickup_left_m or rocker_pickup_right_m."
+prohibitions = [
+  "Do not use wheel-coordinate Q_z, generalized rocker torque, blade transverse force, or a scalar ARB motion ratio as a physical rocker point force.",
+  "Do not move the current mechanism rocker pickup to the spring eye or push/pull pickup."
+]
+
+[source.rocker_geometry]
+primary = "Successful WufrSpringRockerForceResult rocker_pivot_m and rocker_axis_unit, checked against the matching MOD-SUSP-0003/Z-bar fixture identity."
+axis_rule = "Normalize the reviewed rocker axis only after verifying it is finite and nondegenerate; axis sign is retained because tau_axis is signed."
+point_rule = "Every force is attached to its exact current source-owned application point before moment assembly."
+
+[source.damper_static_force_hold]
+authorization_id = "AUTH-SUSP-0015"
+source_record = "data_catalog/wufr27_damper_static_force_authority_v0.toml"
+missing_force_id = "KW_V5_non_spring_static_force"
+status = "unavailable"
+zero_assumption_authorized = false
+consequence = "All v0.1 WUFR rocker included-load results must set complete_hardware_reaction=false and retain this missing-force identity."
+
+[ideal_revolute_support]
+force_reaction_rule = "F_p=-sum(F_i)."
+moment_reaction_rule = "M_p=-(M_inc-(a dot M_inc)*a)."
+free_axis_residual_rule = "tau_axis=a dot M_inc; M_res=tau_axis*a."
+interpretation = "F_p and M_p are the contribution required from the ideal revolute support for the explicitly included load set. They are not the total hardware bearing/pivot reaction."
+
+[included_force_set]
+required_ids = ["push_pull", "conservative_spring", "physical_arb_link"]
+missing_ids = ["KW_V5_non_spring_static_force"]
+complete_hardware_reaction = false
+
+[boundaries]
+implementation_authorized_after_merge = true
+complete_rocker_equilibrium_authorized = false
+complete_rocker_pivot_reaction_authorized = false
+damper_static_force_authorized = false
+maneuver_load_generation_authorized = false
+rocker_inertia_authorized = false
+individual_bearing_load_split_authorized = false
+stress_or_fea_release_authorized = false
+installed_as_built_authority = false
+next_gate = "Implement the included-load diagnostic and WUFR source adapter only. Complete rocker hardware reactions remain blocked by AUTH-SUSP-0015 and by the need for a source-complete physically consistent load state."
