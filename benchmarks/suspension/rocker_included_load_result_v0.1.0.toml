@@ -1,0 +1,38 @@
+version = "0.1.0"
+status = "pass"
+authorization_id = "AUTH-SUSP-0016"
+model_id = "MOD-SUSP-0008"
+benchmark_ids = ["BENCH-SUSP-0026", "BENCH-SUSP-0027"]
+implementation = "src/pssd_suspension/rocker_included_load.py"
+report_script = "scripts/run_rocker_included_load_benchmarks.py"
+complete_hardware_reaction = false
+
+[hand_case]
+frame_id = "BENCH-SUSP-0026_FRAME"
+configuration_id = "BENCH-SUSP-0026_CONFIG"
+load_case_id = "BENCH-SUSP-0026_CASE"
+rocker_pivot_m = [0.1, -0.2, 0.3]
+rocker_axis_input = [0.0, 0.0, 2.0]
+rocker_axis_unit = [0.0, 0.0, 1.0]
+included_load_ids = ["one", "two", "three"]
+missing_load_ids = ["not_modeled"]
+included_resultant_force_N = [8.0, 17.0, 4.0]
+included_resultant_moment_Nm = [6.2, 2.5, 7.6]
+pivot_force_contribution_N = [-8.0, -17.0, -4.0]
+pivot_moment_contribution_Nm = [-6.2, -2.5, 0.0]
+free_axis_moment_residual_Nm = 7.6
+final_force_residual_N = [0.0, 0.0, 0.0]
+final_moment_residual_Nm = [0.0, 0.0, 7.6]
+perpendicular_moment_residual_Nm = [0.0, 0.0, 0.0]
+support_axis_moment_component_Nm = 0.0
+force_residual_inf_norm_N = 0.0
+perpendicular_moment_residual_inf_norm_Nm = 0.0
+
+[verification]
+translation_invariance = "pass"
+force_reversal = "pass"
+homogeneous_scaling = "pass"
+zero_free_axis_case = "pass"
+nonzero_free_axis_unrepaired = "pass"
+structured_failures = "pass"
+wufr_source_adapter = "covered by tests/test_wufr_rocker_included_load_adapter.py; no current-car load result published"
