@@ -16,5 +16,5 @@ jobs:
           cd repo
           python3 -m pip install -q -e .
           python3 -m unittest \
-            tests.test_wufr_static_equilibrium.WUFRStaticEquilibriumTests.test_nominal_suspension_composition_preserves_provider_sum \
+            tests.test_wufr_static_equilibrium.WUFRStaticEquilibriumTests.test_setting_1_fixture_converges_with_positive_unmodified_reactions \
             -v
