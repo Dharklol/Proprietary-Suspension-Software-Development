@@ -1,4 +1,4 @@
-name: WUFR static equilibrium diagnostic
+name: WUFR static equilibrium iteration probe
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ jobs:
   diagnostic:
     runs-on: ubuntu-latest
     steps:
-      - name: Clone and run focused static-equilibrium test
+      - name: Clone and probe one equilibrium iteration
         env:
           BRANCH: ${{ github.head_ref }}
         run: |
@@ -15,6 +15,38 @@ jobs:
             https://github.com/${{ github.repository }}.git repo
           cd repo
           python3 -m pip install -q -e .
-          python3 -m unittest \
-            tests.test_wufr_static_equilibrium.WUFRStaticEquilibriumTests.test_setting_1_fixture_converges_with_positive_unmodified_reactions \
-            -v
+          python3 - <<'PY'
+          from dataclasses import replace
+          import json
+          from pathlib import Path
+          from pssd_vehicle.wufr_static_equilibrium import load_wufr_static_equilibrium_provider, solve_wufr_static_equilibrium
+          root = Path.cwd()
+          provider = load_wufr_static_equilibrium_provider(
+              source_path=root/'data_catalog/wufr27_static_equilibrium_composition_v0.toml',
+              road_contact_source_path=root/'data_catalog/wufr26_road_contact_reference_v0.toml',
+              suspension_geometry_path=root/'data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml',
+              wheel_profile_path=root/'benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml',
+              steering_geometry_path=root/'configurations/steering/WUFR27_STEERING_BASELINE_V0.toml',
+              whole_vehicle_path=root/'data_catalog/wufr26_whole_vehicle_frame_v0.toml',
+              gravity_path=root/'data_catalog/wufr27_static_gravity_allocation_v0.toml',
+              spring_package_path=root/'data_catalog/wufr27_spring_package_v0.toml',
+              zbar_fixture_path=root/'benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml',
+          )
+          provider = replace(provider, quasi_static_config=replace(provider.quasi_static_config, max_iterations=1))
+          result = solve_wufr_static_equilibrium(provider, front_arb_setting=1, rear_arb_setting=1)
+          solve = result.solve
+          print(json.dumps({
+              'status': result.status.value,
+              'failure_code': result.failure_code.value if result.failure_code else None,
+              'message': result.message,
+              'q_body': list(solve.q_body) if solve else None,
+              'residual': list(solve.residual) if solve else None,
+              'scaled_residual': list(solve.scaled_residual) if solve else None,
+              'scaled_residual_norm': solve.scaled_residual_norm if solve else None,
+              'iterations': solve.iterations if solve else None,
+              'line_search_scale': solve.line_search_scale if solve else None,
+              'reciprocal_pivot_ratio': solve.reciprocal_pivot_ratio if solve else None,
+              'solve_failure': solve.failure_code.value if solve and solve.failure_code else None,
+              'solve_message': solve.message if solve else None,
+          }, indent=2, sort_keys=True))
+          PY
