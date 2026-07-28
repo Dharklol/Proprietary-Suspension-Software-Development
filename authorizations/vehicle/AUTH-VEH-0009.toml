@@ -13,7 +13,7 @@ benchmark_ids = ["BENCH-VEH-0011", "BENCH-VEH-0012", "BENCH-VEH-0013"]
 assumption_ids = ["ASM-VEH-0002", "ASM-VEH-0003", "ASM-VEH-0005", "ASM-SUSP-0002", "ASM-SUSP-0003"]
 source_record = "data_catalog/wufr27_static_equilibrium_composition_v0.toml"
 provider_composition_authorized = true
-nwufr_static_road_reaction_authorized = false
+wufr_static_road_reaction_authorized = true
 uncorrelated_design_intent_result_authorized = true
 historical_scale_reconstruction_authorized = false
 carrier_wrench_generation_authorized = false
@@ -32,7 +32,7 @@ frame_rule = "Retain the explicit MOD-VEH-0003 body/road frame and origin identi
 
 [source_boundary]
 configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
-static_state_id = "WUFR26_DRIVER_NO_FUEL_STATIC_DESIGN_REFERENCE"
+static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
 compatibility_source = "AUTH-VEH-0008 / MOD-VEH-0006 / ASM-VEH-0005 ideal rigid circular flat-road map"
 gravity_source = "AUTH-VEH-0005 / MOD-VEH-0005 / ASM-VEH-0003 driver-no-fuel sprung and prototype unsprung gravity allocation"
 spring_source = "AUTH-SUSP-0004 / MOD-SUSP-0004 / ASM-SUSP-0002 conservative spring provider"
