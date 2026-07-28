@@ -1,0 +1,81 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0016"
+status = "review_ready"
+title = "Ideal revolute rocker included-load reaction contribution"
+effective_condition = "Effective after review and merge. Authorizes MOD-SUSP-0008 only as an explicitly incomplete statics contribution and rocker-axis residual diagnostic. Complete rocker equilibrium, total pivot reaction, damper static contribution, structural analysis, and installed claims remain outside scope."
+review_record = "docs/reviews/phase3_rocker_included_load_authorization_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-SUSP-0008"]
+equation_ids = ["EQ-SUSP-0029", "EQ-SUSP-0030", "EQ-SUSP-0031"]
+benchmark_ids = ["BENCH-SUSP-0026", "BENCH-SUSP-0027", "BENCH-SUSP-0028"]
+assumption_ids = ["ASM-SUSP-0008"]
+source_record = "data_catalog/wufr27_rocker_included_load_statics_v0.toml"
+provider_neutral_kernel_authorized = true
+wufr_adapter_authorized = true
+complete_rocker_equilibrium_authorized = false
+complete_pivot_reaction_authorized = false
+damper_static_contribution_authorized = false
+structural_release_authorized = false
+installed_as_built_authority = false
+
+[coordinates]
+canonical_frame = "+x forward, +y vehicle left, +z upward; right-handed"
+axis_rule = "Use the finite reviewed rocker axis a and retain its sign."
+reference_rule = "Form every moment about the exact current rocker pivot R."
+application_point_rule = "Keep every source-owned vector at its exact current application point."
+
+[mechanics]
+included_resultants = "F_inc=sum_i F_i; M_inc=sum_i[(r_i-R) cross F_i]"
+support_force_contribution = "F_p=-F_inc"
+support_moment_contribution = "M_p=-(M_inc-(a dot M_inc)*a)"
+free_axis_residual = "tau_axis=a dot M_inc; M_res=tau_axis*a"
+interpretation = "The support contribution belongs only to the named included set. Nonzero tau_axis is reported without repair."
+
+[wufr_inputs]
+required_load_ids = ["push_pull", "conservative_spring", "physical_arb_link"]
+push_pull_source = "MOD-SUSP-0007 actuation force_on_remote_N at remote_point_m"
+spring_source = "AUTH-SUSP-0014 force_on_rocker_N at rocker_eye_m"
+arb_source = "AUTH-SUSP-0013 force_on_rocker_N at the matching current mechanism rocker pickup"
+missing_load_ids = ["KW_V5_non_spring_static_force"]
+missing_load_authority = "AUTH-SUSP-0015"
+complete_hardware_reaction = false
+
+[numerics]
+axis_norm_absolute_threshold = 1.0e-12
+force_residual_tolerance_N = 1.0e-10
+perpendicular_moment_residual_tolerance_Nm = 1.0e-10
+support_axis_moment_tolerance_Nm = 1.0e-10
+point_consistency_tolerance_m = 1.0e-9
+hidden_clipping_allowed = false
+absolute_value_sign_repair_allowed = false
+hidden_balancing_allowed = false
+least_squares_repair_allowed = false
+
+[permitted]
+items = [
+  "Implement exact resultant and ideal-support projection for finite physical point loads on one rigid rocker.",
+  "Return a signed free-axis residual as a diagnostic result.",
+  "Compose the three reviewed WUFR physical rocker inputs while retaining source and load-case provenance.",
+  "Report explicit included and missing load identities and complete_hardware_reaction=false."
+]
+
+[prohibited]
+items = [
+  "Calling the result complete rocker equilibrium, total pivot reaction, bearing load, chassis pickup load, or complete hardware load.",
+  "Assuming the missing KW V5 non-spring static contribution is zero.",
+  "Adding an unreported balancing term or modifying supplied values to remove tau_axis.",
+  "Using clipping, absolute values, fitted offsets, least-squares repair, scalar motion ratios, or generalized-coordinate shortcuts in place of the physical point inputs.",
+  "Moving an input to a different application point.",
+  "Generating a vehicle operating load case inside this model.",
+  "Publishing bearing split, stress, fatigue, compliance, factor of safety, FEA release, or installed results."
+]
+
+[promotion_gates]
+items = [
+  "Implement and verify BENCH-SUSP-0026 through BENCH-SUSP-0028.",
+  "Before complete rocker results, authorize the KW V5 non-spring static contribution under AUTH-SUSP-0015.",
+  "Before current-car structural results, provide a source-complete consistent upstream load case and verify full free-axis balance.",
+  "Before bearing or structural outputs, separately review pivot hardware load sharing and structural fidelity."
+]
