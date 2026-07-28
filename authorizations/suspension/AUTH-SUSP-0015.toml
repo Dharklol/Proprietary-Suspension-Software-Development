@@ -1,0 +1,91 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0015"
+status = "review_ready"
+title = "WUFR V5 damper static-force source audit and complete-rocker-reaction hold"
+effective_condition = "Effective after review and merge. This authorization freezes the available KW V5 FSAE damper identity evidence and the generic pressurized-damper static-force mechanics, but explicitly blocks a WUFR damper gas/static-friction model and any complete rocker pivot reaction until source-specific parameters or a reviewed quasi-static measurement are available. Existing spring-only and ARB-link physical-force providers remain authorized within their current boundaries."
+review_record = "docs/reviews/phase3_wufr_damper_static_force_authority_audit_review.md"
+implementation_authorized = false
+
+[scope]
+source_record = "data_catalog/wufr27_damper_static_force_authority_v0.toml"
+source_audit = "docs/models/suspension/wufr_damper_static_force_source_audit.md"
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+damper_hardware_identity_frozen = true
+generic_static_force_mechanics_frozen = true
+wufr_damper_gas_force_model_authorized = false
+wufr_damper_static_friction_model_authorized = false
+wufr_damper_gas_spring_stiffness_model_authorized = false
+complete_rocker_equilibrium_authorized = false
+complete_rocker_pivot_reaction_authorized = false
+partial_included_load_contribution_may_be_authorized_separately = true
+structural_release_authorized = false
+installed_as_built_authority = false
+
+[finding]
+summary = "The reviewed project sources identify four purchased KW V5 FSAE piggyback dampers, part 3980599103, and vendor correspondence identifies the V5 as a four-way adjustable solid-piston damper. The available project/vendor material does not provide the effective rod/displacement area, nitrogen charge pressure, gas volume, pressure-versus-position law, seal friction, or a quasi-static force loop. Therefore zero gas force is not a supported assumption and a complete rocker pivot reaction cannot yet be published."
+source_specific_static_force_available = false
+source_specific_static_friction_available = false
+source_specific_gas_stiffness_available = false
+zero_force_assumption_supported = false
+
+[generic_mechanics]
+reference = "John C. Dixon, The Shock Absorber Handbook, 2nd ed., Section 7.4 Static Forces"
+pressurized_damper_effects = [
+  "a static extension/compression bias produced by internal pressure acting on an effective displacement area",
+  "a position-dependent gas-spring stiffness caused by pressure rise as the rod displaces fluid/gas volume",
+  "a Coulomb-like very-low-speed friction contribution from rod and piston seals/bearings"
+]
+creep_loop_relations = [
+  "F_in = F_G + F_F,in",
+  "F_out = F_G - F_F,out",
+  "for an approximately symmetric quasi-static loop, F_G = 0.5*(F_in + F_out)",
+  "for an approximately symmetric quasi-static loop, F_F = 0.5*(F_in - F_out)"
+]
+analytic_relation_boundary = "The textbook relation F_G approximately equals pressure times effective rod/displacement area is generic mechanics only. Applying it to the KW V5 requires source-specific internal geometry, pressure reference, gas volume, and thermodynamic/position assumptions or a direct test."
+
+[confirmed]
+items = [
+  "KW correspondence dated 2023-10-16 identifies the V5 FSAE as a four-way adjustable solid-piston damper and states that it replaced the earlier 3-way FSAE damper.",
+  "The 2024-04-10 invoice records four KW V5 FSAE DAMPER-PIGGY BACK units, item/part 3980599103.",
+  "The reviewed KW Formula Student attachment supplies 185.7 mm full-extension eye-to-eye length and 57 mm travel, but no governing static gas-force or friction data.",
+  "MOD-SUSP-0004/AUTH-SUSP-0014 currently provide the conservative coil-spring contribution only and explicitly exclude damper gas, friction, velocity force, and stops.",
+  "A pressurized damper can exert nonzero force at zero shaft velocity, so omitting the damper static contribution cannot be silently interpreted as proving it is zero."
+]
+
+[missing_authority]
+items = [
+  "KW V5 FSAE effective rod/displacement area or sufficient internal dimensions to derive it.",
+  "Nitrogen charge pressure with a defined temperature, damper position, service condition, and pressure reference.",
+  "Gas volume and separator/reservoir geometry sufficient to model pressure change through the 57 mm stroke.",
+  "A manufacturer static-force/position curve or a team quasi-static creep test in both directions at defined temperature and adjuster settings.",
+  "Per-damper or representative seal/static-friction data, including breakaway versus steady creep behavior.",
+  "Installed/as-built damper identity, service/charge state, orientation, and position for any final hardware-load claim."
+]
+
+[permitted]
+items = [
+  "Retain the existing spring-only physical force vector and ARB physical linkage force exactly as labeled.",
+  "Develop a separately authorized rocker included-load contribution using only explicitly supplied push/pull, spring, and ARB forces, provided the result is marked incomplete and is not called the total hardware pivot reaction.",
+  "Create a measurement schema and test procedure for slow bidirectional damper force-versus-position characterization.",
+  "Request source-specific data from KW using the exact purchased item/part identity 3980599103.",
+  "Use generic pressurized-damper mechanics to define required data fields and consistency checks, but not to select hidden numerical values."
+]
+
+[prohibited]
+items = [
+  "Setting damper gas force, static friction, or gas-spring stiffness to zero merely because the spring-only provider excludes them.",
+  "Using a generic motorsport nitrogen pressure, guessed rod diameter, catalog value from another damper, or visual CAD estimate as governing WUFR V5 authority.",
+  "Treating the 185.7 mm full-extension length or 57 mm travel as sufficient to infer gas force.",
+  "Treating velocity-dependent dyno curves as the zero-speed static force without separating gas bias and friction.",
+  "Calling a push/pull + spring + ARB force sum the complete rocker equilibrium or complete pivot reaction while the non-spring damper contribution is unavailable.",
+  "Using absolute values, clipping, fitted offsets, or a hidden balancing torque to repair an unbalanced rocker-axis moment.",
+  "Publishing installed/as-built rocker bearing, chassis pickup, stress, factor-of-safety, or FEA-release loads from this audit."
+]
+
+[next_gate]
+required_evidence = [
+  "Preferred: a slow bidirectional force-versus-position test of at least one representative KW V5 FSAE damper at documented temperature, adjuster settings, charge/service state, and multiple positions spanning the installed region.",
+  "Alternative: manufacturer-provided static gas-force curve or the effective area, charge pressure reference, gas volume/geometry, and pressure law needed to reconstruct it, plus a defensible friction model.",
+  "Installed correlation later requires the actual damper serial/condition, installed eye-to-eye position, temperature, and service/charge state."
+]
+implementation_rule = "A later authorization must name the damper static-force coordinate/sign convention, source values or measured dataset, interpolation/domain policy, temperature/position treatment, friction treatment, failure behavior, and benchmarks before a WUFR V5 damper static-force provider or complete rocker pivot reaction is implemented."
