@@ -1,0 +1,14 @@
+[record]
+id = "EQ-SUSP-0030"
+type = "equation"
+title = "Ideal revolute rocker support reaction contribution"
+status = "proposed"
+description = "Resolve the support force and the support moment components available from an ideal revolute rocker pivot for an explicitly incomplete included-load set."
+canonical_equation = "For unit rocker axis a, tau_axis=a dot M_inc; F_p=-F_inc; M_p=-(M_inc-tau_axis*a). The ideal pivot therefore cancels net force and only the moment component perpendicular to a; it supplies no couple about a."
+inputs = ["included resultants from EQ-SUSP-0029", "finite unit rocker axis a"]
+outputs = ["included-load pivot-force contribution F_p", "included-load perpendicular pivot-moment contribution M_p", "free-axis moment residual tau_axis"]
+assumptions = ["ASM-SUSP-0008"]
+verification_level = "none"
+benchmark_ids = ["BENCH-SUSP-0026", "BENCH-SUSP-0027"]
+authorization_id = "AUTH-SUSP-0016"
+failure_behavior = ["Reject a degenerate/nonfinite axis. Never add an axial balancing couple or modify the supplied loads to force tau_axis to zero."]
