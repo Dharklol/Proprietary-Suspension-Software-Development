@@ -1,0 +1,87 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0016"
+status = "review_ready"
+title = "WUFR partial rocker included-load free-body authorization"
+effective_condition = "Effective only after review and merge. This authorization permits an explicitly incomplete WUFR rocker free body composed from the reviewed Level-1 push/pull-rod force, spring-only physical rocker-eye force, and physical ARB-link force. The recovered support resultant must be labeled partial design-intent included-load reaction. It is not the complete physical rocker pivot or hardware load because KW V5 damper gas/static-friction force and other listed effects remain unavailable."
+review_record = "docs/reviews/phase3_wufr_rocker_included_load_authorization_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-SUSP-0009"]
+equation_ids = ["EQ-SUSP-0029"]
+benchmark_ids = ["BENCH-SUSP-0026"]
+assumption_ids = ["ASM-SUSP-0007", "ASM-SUSP-0008"]
+source_record = "data_catalog/wufr27_rocker_included_load_authority_v0.toml"
+upstream_authorizations = ["AUTH-SUSP-0012", "AUTH-SUSP-0013", "AUTH-SUSP-0014", "AUTH-SUSP-0015"]
+planned_implementation_package = "src/pssd_suspension/wufr_rocker_included_load.py"
+planned_implementation_test = "tests/test_suspension_wufr_rocker_included_load.py"
+rocker_included_load_free_body_authorized = true
+partial_support_reaction_authorized = true
+complete_rocker_equilibrium_authorized = false
+complete_hardware_pivot_reaction_authorized = false
+damper_static_force_authorized = false
+structural_release_authorized = false
+installed_as_built_authority = false
+
+[coordinates]
+reference_point = "Use the exact current reviewed rocker pivot R."
+rocker_axis = "Use the exact current reviewed unit rocker axis a."
+force_balance = "For included forces F_act, F_s, and F_arb on the rocker, R_pivot,included = -(F_act + F_s + F_arb)."
+axis_moment = "tau_axis = a dot (((P_act-R) cross F_act) + ((P_s-R) cross F_s) + ((P_arb-R) cross F_arb)). An ideal revolute support supplies no reaction couple about a, so tau_axis must be zero within tolerance."
+transverse_support_couple = "The equivalent support couple perpendicular to a may be reported as the negative perpendicular projection of the applied-force moment sum. It remains an equivalent support resultant, not an individual bearing/tab load."
+
+[permitted]
+items = [
+  "Consume a successful source/configuration-matched Level-1 actuation axial reaction and map the equal-and-opposite remote-end force onto the exact rocker actuation pickup.",
+  "Consume a successful AUTH-SUSP-0014 spring-only physical force on the exact rocker eye.",
+  "Consume the correct-side successful AUTH-SUSP-0013 physical ARB-link force on the exact rocker pickup.",
+  "Require matching axle, side, configuration, geometry source, application points, and current rocker pivot/axis authority.",
+  "Assemble exact three-dimensional force and moment balance about the reviewed pivot.",
+  "Fail closed when the included loads do not balance about the ideal rocker axis; no hidden pivot-axis torque may be added.",
+  "Recover the included-load pivot force and optional equivalent transverse support couple.",
+  "Label every successful output partial_design_intent_included_load_reaction, damper_static_force_omitted, and not_complete_hardware_load."
+]
+
+[prohibited]
+items = [
+  "Adding or assuming zero KW V5 gas force, seal friction, hysteresis, velocity damping, stop force, side load, rocker weight, or bearing friction.",
+  "Using the WUFR26 dyno zero-velocity intercept, seal-drag field, or internally inconsistent gas metadata as a unique static damper-force authority.",
+  "Calling the included-load resultant the complete rocker equilibrium, total pivot reaction, rocker-bearing load, chassis-tab load, installed/as-built load, or structural release load.",
+  "Splitting the equivalent support reaction between bearings, tabs, bolts, or frame members.",
+  "Using absolute values, clipping, least-squares adjustment, guessed application points, scalar motion ratios, or a hidden balancing torque to repair an inconsistent free body.",
+  "Inferring member stress, buckling, fatigue, factor of safety, or FEA boundary-condition release."
+]
+
+[numerics]
+unit_axis_tolerance = 1.0e-12
+application_point_tolerance_m = 1.0e-9
+force_equilibrium_residual_tolerance_N = 1.0e-9
+axis_moment_residual_tolerance_Nm = 1.0e-9
+transverse_projection_residual_tolerance_Nm = 1.0e-9
+hidden_clipping_allowed = false
+least_squares_repair_allowed = false
+
+[failure_behavior]
+codes = [
+  "upstream_interface_statics_failure",
+  "upstream_spring_force_failure",
+  "upstream_arb_link_force_failure",
+  "source_mismatch",
+  "configuration_mismatch",
+  "side_or_axle_mismatch",
+  "nonfinite_geometry_or_force",
+  "degenerate_rocker_axis",
+  "application_point_mismatch",
+  "axis_moment_residual_exceeded",
+  "force_equilibrium_residual_exceeded"
+]
+rule = "Return a structured unavailable rocker-included-load result with all upstream provenance. Do not substitute a zero or guessed damper contribution, move an application point, or add a reaction torque about the ideal rocker axis."
+
+[promotion_gates]
+items = [
+  "BENCH-SUSP-0026 verifies nominal front/rear and bilateral current-car included-load force balance and rocker-axis moment closure.",
+  "BENCH-SUSP-0026 verifies action/reaction mapping for the Level-1 actuation rod, exact spring and ARB application points, and independent moment reconstruction.",
+  "BENCH-SUSP-0026 includes an arbitrary three-dimensional analytical case and structured source/application-point/axis-moment failures.",
+  "Implementation and reports preserve the partial/incomplete labels from this authorization.",
+  "A separate later authorization with source-specific or measured KW V5 static-force data is required before complete rocker equilibrium or complete physical pivot reaction is implemented."
+]
