@@ -16,4 +16,4 @@ acceptance_criteria = [
   "Changing only the wrench reference point preserves force and follows exact moment transport; changing a physical application point changes the resultant and is not silently accepted."
 ]
 authorization = "authorizations/vehicle/AUTH-VEH-0011.toml"
-implementation_test = "planned: tests/test_wufr_static_carrier_wrench.py"
+implementation_test = "tests/test_wufr_static_carrier_wrench.py"

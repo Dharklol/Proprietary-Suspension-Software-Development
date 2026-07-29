@@ -1,0 +1,46 @@
+version = "0.1.0"
+model_id = "MOD-VEH-0008"
+authorization_id = "AUTH-VEH-0011"
+source_record_id = "WUFR27_STATIC_CARRIER_WRENCH_V0"
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+result_label = "uncorrelated_design_intent_static_carrier_wrench"
+status = "pass"
+full_result_sha256 = "2daa3d2084c49c3d0abe10937c5f829f12b5461c295520cd39b2d7108819ca2f"
+
+[BENCH-VEH-0015]
+pass = true
+maximum_direct_composition_error = 0
+maximum_accepted_point_record_error_m = 0
+maximum_round_trip_force_residual_N = 1.1368683772161603e-13
+maximum_round_trip_moment_residual_Nm = 7.1054273576010019e-15
+synthetic_force_round_trip_residual_N = 1.1368683772161603e-13
+synthetic_moment_round_trip_residual_Nm = 1.7763568394002505e-15
+synthetic_component_rotation_magnitude_N = 9.7975974587885588
+
+[BENCH-VEH-0016]
+pass = true
+corner_count = 4
+complete_for_authorized_static_gravity_case = true
+maximum_force_residual_N = 5.189258445170708e-08
+maximum_moment_residual_Nm = 4.6145622656368346e-08
+accepted_force_match_residual_N = 2.1316282072803006e-13
+accepted_moment_match_residual_Nm = 1.7541523789077473e-14
+
+[BENCH-VEH-0017]
+pass = true
+unsuccessful_upstream_failure = "upstream_result_failure"
+negative_reaction_failure = "negative_reaction"
+physical_point_mismatch_failure = "physical_point_mismatch"
+reconstruction_disagreement_failure = "reconstruction_failure"
+
+[boundaries]
+complete_for_authorized_static_gravity_case = true
+complete_physical_hardware_wrench = false
+maneuver_complete = false
+installed_as_built_authority = false
+integrated_level1_linkage_result_authority = false
+historical_scale_reconstruction_used = false
+hidden_balancing_wrench_used = false
+structural_load_case_authority = false
+rocker_reaction_authority = false

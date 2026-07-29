@@ -25,6 +25,11 @@ jobs:
         run: python -m unittest tests.test_wufr_road_contact_authorization -v
       - name: Validate WUFR static carrier wrench authorization
         run: python -m unittest tests.test_wufr_static_carrier_wrench_authorization -v
+      - name: Validate WUFR static carrier wrench implementation
+        run: |
+          python -m unittest tests.test_wufr_static_carrier_wrench -v
+          python -m unittest tests.test_wufr_static_carrier_wrench_failures -v
+          python -m unittest tests.test_wufr_static_carrier_wrench_result_record -v
       - name: Validate WUFR rigid-contact implementation
         run: |
           python -m unittest tests.test_wufr_road_contact -v
@@ -70,6 +75,12 @@ jobs:
           python scripts/run_wufr_road_contact_benchmarks.py \
             --summary \
             --output wufr_road_contact_summary.json
+      - name: Generate WUFR static carrier wrench reports
+        run: |
+          python scripts/run_wufr_static_carrier_wrench_benchmarks.py \
+            --output wufr_static_carrier_wrench_report.json \
+            --summary-output wufr_static_carrier_wrench_summary.toml \
+            --summary
       - name: Generate planar slip-kinematics reports
         run: |
           python scripts/run_planar_slip_kinematics_benchmarks.py \
@@ -97,6 +108,8 @@ jobs:
             wufr_static_gravity_summary.json
             wufr_road_contact_report.json
             wufr_road_contact_summary.json
+            wufr_static_carrier_wrench_report.json
+            wufr_static_carrier_wrench_summary.toml
             planar_slip_kinematics_report.json
             planar_slip_kinematics_summary.json
             motion_aware_force_demand_report.json
