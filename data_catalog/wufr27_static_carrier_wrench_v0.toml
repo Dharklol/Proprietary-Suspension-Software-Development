@@ -1,0 +1,116 @@
+version = "0.1.0"
+record_id = "WUFR27_STATIC_CARRIER_WRENCH_V0"
+status = "reviewed_source_boundary"
+authority = "Design-intent source-composition record for four complete outboard-carrier external wrenches in the exact AUTH-VEH-0010 static-gravity model. It authorizes no new force law, no maneuver load, and no installed component-weight distribution."
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+authorization_id = "AUTH-VEH-0011"
+model_id = "MOD-VEH-0008"
+result_label = "uncorrelated_design_intent_static_carrier_wrench"
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+
+[upstream.static_equilibrium]
+model_id = "MOD-VEH-0007"
+authorization_id = "AUTH-VEH-0010"
+source_record = "data_catalog/wufr27_static_equilibrium_composition_v1.toml"
+frozen_result = "benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json"
+required_result_label = "uncorrelated_design_intent_static_gravity"
+role = "Provide one successful bounded body state, exact road-compatible wheel state, four nonnegative road reactions, current physical points, road frame/normal, and accepted physical closure."
+
+[upstream.force_coordinates]
+model_id = "MOD-VEH-0003"
+authorization_id = "AUTH-VEH-0003"
+source_record = "data_catalog/wufr26_whole_vehicle_frame_v0.toml"
+implementation = "src/pssd_vehicle/force_coordinates.py"
+role = "Own PointReference, AppliedWrench, exact wrench translation/assembly, source-to-body placement, BodyPose rotation/translation, and frame/origin failure behavior."
+
+[upstream.gravity]
+model_id = "MOD-VEH-0005"
+authorization_id = "AUTH-VEH-0005"
+assumption_ids = ["ASM-VEH-0002", "ASM-VEH-0003"]
+source_record = "data_catalog/wufr27_static_gravity_allocation_v0.toml"
+role = "Provide the exact 5 kg-per-corner prototype unsprung gravity point force at each current physical wheel center and the matching sprung gravity wrench for four-corner reconstruction."
+
+[upstream.contact]
+model_id = "MOD-VEH-0006"
+authorization_id = "AUTH-VEH-0008"
+assumption_id = "ASM-VEH-0005"
+source_record = "data_catalog/wufr26_road_contact_reference_v0.toml"
+role = "Provide the exact current road-frame rigid-circle contact points, physical wheel-center points, road normal, and frame/origin identities already retained in MOD-VEH-0007."
+
+[downstream.level1]
+model_id = "MOD-SUSP-0007"
+authorization_id = "AUTH-SUSP-0012"
+assumption_id = "ASM-SUSP-0005"
+source_record = "data_catalog/wufr27_level1_linkage_topology_v0.toml"
+geometry_adapter = "src/pssd_suspension/wufr_interface_adapter.py"
+role = "Define the outboard-carrier net suspension-interface boundary, exact current carrier reference point, Level-1 frame, and complete prescribed external wrench contract."
+
+[corner_contract]
+order = ["front_left", "front_right", "rear_left", "rear_right"]
+axle_order = ["front", "front", "rear", "rear"]
+side_order = ["left", "right", "left", "right"]
+road_reaction_sign = "lambda_i is nonnegative and acts along the exact MOD-VEH-0006 road normal."
+gravity_sign = "F_u,i=m_u,i*[0,0,-g] in the road frame."
+reaction_reordering_authorized = false
+negative_reaction_authorized = false
+
+[frame_contract]
+road_frame_id = "WUFR27_NOMINAL_ROAD"
+road_origin_id = "WUFR27_NOMINAL_ROAD_ORIGIN"
+body_frame_id = "WUFR27_BODY_DRIVER_NO_FUEL_REFERENCE"
+body_origin_id = "WUFR27_CG_DRIVER_NO_FUEL_REFERENCE"
+source_frame_id = "WUFR26_SUSPENSION_CAD"
+source_origin_id = "WUFR26_SUSPENSION_CAD_ORIGIN"
+level1_frame_id = "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL"
+source_to_body_rotation = [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+axle_local_to_source_rule = "r_source=r_level1+[x_axle_source,0,0], with x_axle_source owned by MOD-VEH-0003; preserve local y and z exactly."
+source_to_body_rule = "r_body=r_source-r_CG_reference_source using MOD-VEH-0003."
+body_to_road_rule = "r_road=r_body_origin_road+[0,0,z_s]+Rz(psi)Ry(theta)Rx(phi) r_body, with the exact converged MOD-VEH-0007 BodyPose and psi=0."
+force_rotation_rule = "F_road=R_body_to_road F_body and F_level1=R_body_to_road^T F_road because source/body/Level-1 canonical axis rotations are identity before body pose."
+implicit_identity_authorized = false
+
+[reference_contract]
+carrier_reference_source = "MOD-SUSP-0007 current Level1CornerGeometry.carrier_reference_m"
+carrier_reference_definition = "midpoint of the exact current upper and lower outboard spherical-joint centers"
+canonical_output_reference = "current carrier reference point"
+alternate_reference_authorized = true
+alternate_reference_rule = "Use exact rigid-wrench transport only and retain both old and new point IDs/positions."
+
+[equations]
+road_point_force = "F_road,i=lambda_i*n_road"
+unsprung_point_force = "F_u,i=m_u,i*g_vector"
+resultant_force = "F_C,i=F_road,i+F_u,i"
+resultant_moment = "M_C,O_i=(r_contact,i-r_O_i) cross F_road,i+(r_wc,i-r_O_i) cross F_u,i"
+frame_pullback = "F_L=R_LR F_R; M_L=R_LR M_R at the same physical carrier reference, or include the exact reference-point transport term when references differ."
+reconstruction = "sum_i W_C,i transported to the current body-origin road point + W_sprung_gravity = the accepted MOD-VEH-0007 physical-closure resultant"
+
+[completeness]
+complete_for_authorized_static_gravity_case = true
+complete_physical_hardware_wrench = false
+complete_maneuver_wrench = false
+installed_as_built_authority = false
+prototype_unsprung_allocation = "The full ASM-VEH-0003 5 kg corner lump remains a point load at the physical wheel center and is assigned to the outboard boundary only because that is the exact upstream model representation. It is not component-level mass distribution authority."
+internal_suspension_forces_excluded = ["upper_spherical_reaction", "lower_spherical_reaction", "tie_rod", "toe_link", "pushrod", "pullrod", "spring", "anti_roll_bar", "rocker", "chassis_hinge"]
+external_loads_not_present = ["tire_Fx", "tire_Fy", "tire_Mz", "tire_vertical_compliance", "brake", "drive", "aero", "inertia", "gyroscopic", "damper_velocity", "bump_stop", "alternate_contact_mode"]
+
+[verification_fixture]
+source_result = "benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json"
+front_arb_setting = 1
+rear_arb_setting = 1
+setting_role = "Deterministic verification fixture only; not current setup authority or recommendation."
+expected_corner_count = 4
+required_labels = ["driver_no_fuel", "centered_rack", "flat_rigid_road", "all_four_active", "uncorrelated_design_intent"]
+
+[boundaries]
+implementation_authorized_after_merge = true
+static_carrier_wrench_authority = true
+mod_susp_0007_input_contract_targeted = true
+integrated_level1_linkage_result_authority = false
+rocker_reaction_authority = false
+structural_load_case_authority = false
+maneuver_wrench_authority = false
+physical_correlation_authority = false
+installed_as_built_authority = false
+production_authority = false
+next_gate = "Implement and freeze the four static carrier wrenches under AUTH-VEH-0011. After review of that result, separately authorize the synchronized four-corner MOD-SUSP-0007 interface-statics composition."
