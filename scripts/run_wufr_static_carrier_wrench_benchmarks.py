@@ -392,7 +392,7 @@ def build_report() -> dict[str, Any]:
         "upstream": {
             "model_id": provider.accepted_result.model_id,
             "authorization_id": provider.accepted_result.authorization_id,
-            "result_path": provider.accepted_result.source_path,
+            "result_path": Path(provider.accepted_result.source_path).resolve().relative_to(ROOT.resolve()).as_posix(),
             "result_label": provider.accepted_result.result_label,
             "front_arb_setting": provider.accepted_result.front_arb_setting,
             "rear_arb_setting": provider.accepted_result.rear_arb_setting,

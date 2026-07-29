@@ -2117,7 +2117,7 @@
     ],
     "rear_arb_setting": 1,
     "result_label": "uncorrelated_design_intent_static_gravity",
-    "result_path": "/tmp/pssd/benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json",
+    "result_path": "benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json",
     "road_reactions_N": [
       790.98310153789,
       779.5956261025401,

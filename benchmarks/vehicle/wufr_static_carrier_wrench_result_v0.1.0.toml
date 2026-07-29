@@ -6,7 +6,7 @@ configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
 static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
 result_label = "uncorrelated_design_intent_static_carrier_wrench"
 status = "pass"
-full_result_sha256 = "90f3f929758e560d512415a2364d55f4f99ea4a0d03feec89a2f37fa7d4c492f"
+full_result_sha256 = "2daa3d2084c49c3d0abe10937c5f829f12b5461c295520cd39b2d7108819ca2f"
 
 [BENCH-VEH-0015]
 pass = true
