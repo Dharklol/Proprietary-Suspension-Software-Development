@@ -7,10 +7,10 @@ disposition = "accepted_with_restrictions"
 maturity = "M1"
 description = "Source-preserving WUFR adapter that composes the implemented rigid-circle road compatibility, sprung/unsprung gravity allocation, conservative four-corner spring forces, and front/rear conservative Z-bar forces through the existing provider-neutral MOD-VEH-0004 quasi-static kernel. It returns the first driver/no-fuel, centered-rack, flat-road, all-four-active design-intent static state and road-normal reactions with independent energy and physical-wrench closure checks. It introduces no new force law and is not correlated or installed/as-built authority."
 inputs = [
-  "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V0 and WUFR27_SUSPENSION_BASELINE_V0 identities",
+  "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1 and WUFR27_SUSPENSION_BASELINE_V0 identities",
   "Explicit front and rear discrete ARB settings in 1..5 with no default",
   "MOD-VEH-0006 road-compatible wheel-coordinate/contact evaluation including J_wb, c_i, contact points, wheel-center points, and unsprung-gravity projections",
-  "MOD-VEH-0005 sprung and unsprung physical gravity point loads",
+  "MOD-VEH-0005 sprung and unsprung physical gravity point loads, including the exact EQ-VEH-0018 direct-plus-mapped compatible unsprung reduction",
   "MOD-SUSP-0004 spring package and four successful actuation-derived physical-wheel spring states",
   "MOD-SUSP-0005 front/rear physical-wheel Z-bar states",
   "Explicit MOD-VEH-0004 solver configuration and bounded initial body state"
@@ -19,7 +19,7 @@ outputs = [
   "Converged q_b=[z_s,phi,theta] and z_w=[FL,FR,RL,RR]",
   "Four spring states, two axle Z-bar states, Q_spring, Q_ARB, Q_susp, and conservative energies",
   "Four signed road-normal reactions and wheel-equilibrium residuals",
-  "Reduced-equilibrium residuals, tangent/conditioning/line-search diagnostics, and two-step energy-gradient check",
+  "Reduced-equilibrium residuals with sprung, direct-unsprung, mapped-unsprung, spring, and ARB terms retained separately; tangent/conditioning/line-search diagnostics; and two-step energy-gradient checks",
   "Independent road-frame physical force and moment residuals",
   "Exact source/configuration/assumption/setting provenance and result_label=uncorrelated_design_intent_static_gravity"
 ]
@@ -30,24 +30,25 @@ assumptions = [
   "No damping, tire compliance/force, aero, brake/drive, inertia, chassis compliance, or alternate contact mode is present."
 ]
 verification_level = "A"
-equation_ids = ["EQ-VEH-0015", "EQ-VEH-0016", "EQ-VEH-0017"]
-benchmark_ids = ["BENCH-VEH-0011", "BENCH-VEH-0012", "BENCH-VEH-0013"]
-authorization_id = "AUTH-VEH-0009"
-authorization_state = "review_ready; implementation_authorized_after_AUTH-VEH-0009_review_and_merge; uncorrelated_design_intent_only"
+equation_ids = ["EQ-VEH-0015", "EQ-VEH-0017", "EQ-VEH-0018", "EQ-VEH-0019"]
+benchmark_ids = ["BENCH-VEH-0011", "BENCH-VEH-0012", "BENCH-VEH-0013", "BENCH-VEH-0014"]
+authorization_id = "AUTH-VEH-0010"
+authorization_state = "corrected_and_reauthorized_under_AUTH-VEH-0010; EQ-VEH-0016_fallback_prohibited; uncorrelated_design_intent_only"
 assumption_ids = ["ASM-VEH-0002", "ASM-VEH-0003", "ASM-VEH-0005", "ASM-SUSP-0002", "ASM-SUSP-0003"]
 upstream_model_ids = ["MOD-VEH-0003", "MOD-VEH-0004", "MOD-VEH-0005", "MOD-VEH-0006", "MOD-SUSP-0004", "MOD-SUSP-0005"]
 downstream_model_ids = ["MOD-SUSP-0007"]
-source_snapshot = "data_catalog/wufr27_static_equilibrium_composition_v0.toml"
+source_snapshot = "data_catalog/wufr27_static_equilibrium_composition_v1.toml"
 source_audit = "docs/models/vehicle/wufr_static_equilibrium_function_specification.md"
 planned_implementation_package = "src/pssd_vehicle/wufr_static_equilibrium.py"
 planned_implementation_tests = [
   "tests/test_wufr_static_equilibrium.py",
   "tests/test_wufr_static_equilibrium_failures.py",
+  "tests/test_wufr_unsprung_gravity_reduction.py",
   "tests/test_wufr_static_equilibrium_result_record.py"
 ]
 planned_benchmark_report_script = "scripts/run_wufr_static_equilibrium_benchmarks.py"
 planned_benchmark_result_record = "benchmarks/vehicle/wufr_static_equilibrium_result_v0.1.0.toml"
 validation_workflow = ".github/workflows/motion-aware-validation.yml"
-review_record = "docs/reviews/phase2_wufr_static_equilibrium_authorization_review.md"
-next_implementation_gate = "Implement only the source-preserving gravity/static composition and frozen uncorrelated result. After review of that result, separately authorize the exact road-reaction/contact-point to complete carrier-wrench adapter before structural propagation through MOD-SUSP-0007."
+review_record = "docs/reviews/phase2_wufr_unsprung_gravity_reduction_correction_review.md"
+next_implementation_gate = "Implement only the corrected source-preserving gravity/static composition and frozen uncorrelated result. After review of that result, separately authorize the exact road-reaction/contact-point to complete carrier-wrench adapter before structural propagation through MOD-SUSP-0007."
 prohibited_scope = "No historical scale fitting or validation; no implicit ARB setup; no crossweight/diagonal/load-transfer shortcut; no damper/tire/aero/brake/drive/inertia force; no alternate contact mode; no carrier wrench, linkage/rocker structural reaction, load-case packet, stress, FEA, fatigue, factor of safety, setup recommendation, installed/as-built, or production claim."

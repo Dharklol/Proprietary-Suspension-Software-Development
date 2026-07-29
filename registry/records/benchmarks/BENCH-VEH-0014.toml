@@ -1,0 +1,17 @@
+[record]
+id = "BENCH-VEH-0014"
+type = "benchmark"
+title = "WUFR compatible unsprung-gravity reduction and omitted-term negative evidence"
+status = "proposed"
+description = "Verify the complete EQ-VEH-0018 chain rule independently of the corrected whole-vehicle solve and preserve the failed EQ-VEH-0016 physical-closure probe as negative evidence."
+verification_level = "A"
+target_ids = ["MOD-VEH-0007", "EQ-VEH-0018", "EQ-VEH-0019"]
+acceptance_criteria = [
+  "At nominal q_b=[0,0,0] and one bounded nonzero WUFR body state, Q_u,b,direct is the exact sum of four MOD-VEH-0003 analytical generalized point forces at the current MOD-VEH-0006 wheel-center body points.",
+  "At both states, Q_u,red equals Q_u,b,direct+J_wb^T Q_u,z componentwise within 1e-12 in [N,N*m,N*m].",
+  "At both states, Q_u,red agrees within 1e-5 in the corresponding generalized-force units with centered two-step finite differences of the total road-compatible unsprung gravitational potential; both step results and their convergence difference are retained.",
+  "The retained EQ-VEH-0016 probe reports a materially nonzero omitted Q_u,red and reproduces physical force/moment closure failure above the AUTH-VEH-0009 1e-6 gates without a balancing wrench.",
+  "Missing/mismatched wheel-center body points, J_wb, Q_u,z, masses, frames, configuration, or nonfinite values fail structurally; no scalar total-weight or hard-coded 49.05 N fallback is reachable."
+]
+authorization = "authorizations/vehicle/AUTH-VEH-0010.toml"
+implementation_test = "planned: tests/test_wufr_unsprung_gravity_reduction.py and tests/test_wufr_static_equilibrium_result_record.py"

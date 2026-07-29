@@ -1,0 +1,41 @@
+[record]
+id = "EQ-VEH-0018"
+type = "equation"
+title = "WUFR compatible unsprung-gravity reduced generalized force"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Reduce the four source-owned MOD-VEH-0005 unsprung gravity point loads through the exact MOD-VEH-0006 road-compatible wheel coordinates without treating the wheel centers as road-fixed. The reduction preserves the direct body motion at fixed physical wheel coordinate and the mapped wheel-coordinate contribution as separate terms."
+outputs = [
+  "Q_u,b,direct in [z_s,phi,theta] from fixed-wheel-coordinate body motion",
+  "Q_u,z in [FL,FR,RL,RR] from the existing MOD-VEH-0006 wheel-center projection",
+  "J_wb^T Q_u,z mapped contribution",
+  "Q_u,red=Q_u,b,direct+J_wb^T Q_u,z",
+  "Exact point/source/configuration and numerical verification provenance"
+]
+inputs = [
+  "Four MOD-VEH-0005 unsprung masses and inertial gravity point forces",
+  "Exact current MOD-VEH-0006 physical wheel-center body points at z_w(q_b)",
+  "Exact MOD-VEH-0006 J_wb and unsprung-gravity wheel generalized forces",
+  "MOD-VEH-0003 analytical point-force generalized-force mapping"
+]
+assumptions = [
+  "Each wheel center is body-fixed only for the direct partial derivative at fixed physical wheel coordinate.",
+  "The complete road-compatible derivative then follows the stated chain rule through z_w(q_b).",
+  "The prototype unsprung allocation and rigid-circle contact assumptions remain ASM-VEH-0003 and ASM-VEH-0005; no installed fidelity is added."
+]
+verification_level = "A"
+canonical_equation = "Q_u,b,direct=sum_i J_r,wc_i^T F_u,i; Q_u,red=Q_u,b,direct+J_wb^T Q_u,z=-d/dq_b sum_i m_u,i*g*z_wc,i^road(q_b,z_w(q_b))."
+source_basis = [
+  "AUTH-VEH-0003 / MOD-VEH-0003 analytical body-point virtual work",
+  "AUTH-VEH-0005 / MOD-VEH-0005 / ASM-VEH-0003 unsprung gravity point loads",
+  "AUTH-VEH-0008 / MOD-VEH-0006 / ASM-VEH-0005 compatible wheel-center points, J_wb, and Q_u,z",
+  "AUTH-VEH-0010 correction review"
+]
+validity = "WUFR27_SUSPENSION_BASELINE_V0, driver/no-fuel prototype mass allocation, centered rack, flat rigid-circle road contact, all four compatible roots active, and all upstream point/Jacobian projections successful."
+failure_behavior = [
+  "Fail for missing wheel-center body points, mass/corner/configuration mismatch, unavailable J_wb or Q_u,z, frame/origin mismatch, nonfinite force, or potential-gradient disagreement.",
+  "Do not assume Q_u,red=0, replace it with total unsprung weight, or repair disagreement with a fitted/generalized balancing term."
+]
+benchmark_ids = ["BENCH-VEH-0011", "BENCH-VEH-0012", "BENCH-VEH-0014"]
+authorization_id = "AUTH-VEH-0010"

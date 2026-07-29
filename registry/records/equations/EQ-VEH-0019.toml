@@ -1,0 +1,45 @@
+[record]
+id = "EQ-VEH-0019"
+type = "equation"
+title = "Corrected WUFR driver-no-fuel reduced static body equilibrium"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Supersede the incomplete EQ-VEH-0016 body residual by composing sprung gravity, the complete EQ-VEH-0018 compatible unsprung-gravity reduction, and conservative suspension force through the unchanged MOD-VEH-0004 quasi-static kernel."
+outputs = [
+  "Converged q_b=[z_s,phi,theta] and road-compatible z_w",
+  "Reduced body residual with sprung, direct-unsprung, mapped-unsprung, spring, and ARB contributions retained separately",
+  "Scaled solver/tangent/conditioning/line-search diagnostics",
+  "Complete source/configuration/assumption/solver provenance and uncorrelated result label"
+]
+inputs = [
+  "MOD-VEH-0006 CompatibilityState for z_w(q_b) and J_wb",
+  "EQ-VEH-0015 Q_susp(z_w) and U_susp(z_w)",
+  "MOD-VEH-0005 sprung-body gravity mapped by MOD-VEH-0003",
+  "EQ-VEH-0018 compatible unsprung-gravity reduced generalized force and potential",
+  "Explicit unchanged MOD-VEH-0004 solver configuration, bounds, scales, and initial state"
+]
+assumptions = [
+  "Quasi-static gravity-only state: no inertia, damping, aero, brake, drive, lateral/longitudinal tire force, or tire compliance.",
+  "Centered rack and the MOD-VEH-0006 flat rigid all-four-active contact assumption remain fixed.",
+  "Declared initial body states are deterministic numerical seeds only."
+]
+verification_level = "A"
+canonical_equation = "R_b(q_b)=Q_sprung_gravity(q_b)+Q_u,red(q_b)+J_wb(q_b)^T Q_susp(z_w(q_b)); solve R_b=0 only with MOD-VEH-0004."
+source_basis = [
+  "AUTH-VEH-0003 / MOD-VEH-0003",
+  "AUTH-VEH-0004 / MOD-VEH-0004",
+  "AUTH-VEH-0005 / MOD-VEH-0005",
+  "AUTH-VEH-0008 / MOD-VEH-0006",
+  "EQ-VEH-0015 / AUTH-VEH-0009",
+  "EQ-VEH-0018 / AUTH-VEH-0010"
+]
+validity = "WUFR driver/no-fuel design-intent static state, centered rack, flat rigid road, all four contacts active, local MOD-VEH-0006 body domain, and all upstream provider domains."
+failure_behavior = [
+  "Propagate every compatibility, spring, Z-bar, gravity-reduction, coordinate-contract, tangent, bound, line-search, and nonconvergence failure from the owning provider/kernel.",
+  "Do not fall back to EQ-VEH-0016, fit preload/CG/ride height/radius/unsprung allocation/settings, or weaken closure to obtain convergence.",
+  "Do not use an alternate solver, least-squares repair, crossweight rule, diagonal-load rule, hidden balancing wrench, or clipped state."
+]
+benchmark_ids = ["BENCH-VEH-0011", "BENCH-VEH-0012", "BENCH-VEH-0013", "BENCH-VEH-0014"]
+authorization_id = "AUTH-VEH-0010"
+supersedes_equation_id = "EQ-VEH-0016"

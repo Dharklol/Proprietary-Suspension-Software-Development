@@ -5,14 +5,15 @@ title = "WUFR static provider composition and coordinate ownership"
 status = "proposed"
 description = "Verify the exact source/order/sign composition that binds MOD-VEH-0005, MOD-VEH-0006, MOD-SUSP-0004, and MOD-SUSP-0005 to the generic MOD-VEH-0004 interfaces before solving body equilibrium."
 verification_level = "A"
-target_ids = ["MOD-VEH-0007", "EQ-VEH-0015", "EQ-VEH-0016"]
+target_ids = ["MOD-VEH-0007", "EQ-VEH-0015", "EQ-VEH-0018", "EQ-VEH-0019"]
 acceptance_criteria = [
   "At the nominal body pose and at one bounded nonzero synthetic body pose, the compatibility adapter returns wheel order [front_left,front_right,rear_left,rear_right], units [m,m,m,m], the exact MOD-VEH-0006 wheel coordinates, and the exact 4x3 J_wb without reordering or sign repair.",
   "For explicit front_setting=1 and rear_setting=1 fixture inputs, Q_spring equals the four source spring generalized forces in FL/FR/RL/RR order; Q_ARB equals the front and rear source axle generalized forces in the same order; Q_susp equals their componentwise sum within 1e-12 N.",
   "U_susp equals the sum of four spring stored energies and two axle Z-bar stored energies within 1e-12 J.",
   "Each spring state consumes the exact corresponding actuation state returned by the source axle Z-bar wheel-coordinate solve, and its requested/returned physical wheel coordinate matches the MOD-VEH-0006 coordinate within 1e-9 m.",
-  "The body external adapter exactly preserves the MOD-VEH-0005/MOD-VEH-0003 sprung gravity generalized force and body coordinate order/units.",
+  "The body external adapter exactly preserves the MOD-VEH-0005/MOD-VEH-0003 sprung gravity term and separately records the EQ-VEH-0018 direct, mapped-wheel, and total compatible unsprung-gravity contributions in body coordinate order/units.",
+  "At nominal and bounded nonzero body states, EQ-VEH-0018 agrees with BENCH-VEH-0014 independent compatible-potential differentiation.",
   "Missing front/rear settings, bool settings, values outside 1..5, source/configuration mismatch, and coordinate reordering fail without a default or interpolation."
 ]
-authorization = "authorizations/vehicle/AUTH-VEH-0009.toml"
+authorization = "authorizations/vehicle/AUTH-VEH-0010.toml"
 implementation_test = "planned: tests/test_wufr_static_equilibrium.py"
