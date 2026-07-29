@@ -111,9 +111,9 @@ class WufrStaticEquilibriumAuthorizationTests(unittest.TestCase):
 
     def test_model_equation_and_benchmark_registry_links_are_consistent(self) -> None:
         model = _load("registry/records/models/MOD-VEH-0007.toml")["record"]
-        self.assertEqual(model["authorization_id"], "AUTH-VEH-0009")
-        self.assertEqual(model["equation_ids"], ["EQ-VEH-0015", "EQ-VEH-0016", "EQ-VEH-0017"])
-        self.assertEqual(model["benchmark_ids"], ["BENCH-VEH-0011", "BENCH-VEH-0012", "BENCH-VEH-0013"])
+        self.assertEqual(model["authorization_id"], "AUTH-VEH-0010")
+        self.assertEqual(model["equation_ids"], ["EQ-VEH-0015", "EQ-VEH-0017", "EQ-VEH-0018", "EQ-VEH-0019"])
+        self.assertEqual(model["benchmark_ids"], ["BENCH-VEH-0011", "BENCH-VEH-0012", "BENCH-VEH-0013", "BENCH-VEH-0014"])
         self.assertEqual(
             model["upstream_model_ids"],
             [
@@ -129,7 +129,8 @@ class WufrStaticEquilibriumAuthorizationTests(unittest.TestCase):
 
         for equation_id in model["equation_ids"]:
             equation = _load(f"registry/records/equations/{equation_id}.toml")["record"]
-            self.assertEqual(equation["authorization_id"], "AUTH-VEH-0009")
+            expected_auth = "AUTH-VEH-0009" if equation_id == "EQ-VEH-0015" else "AUTH-VEH-0010"
+            self.assertEqual(equation["authorization_id"], expected_auth)
             self.assertIn("MOD-VEH-0007", equation.get("target_ids", ["MOD-VEH-0007"]))
 
         for benchmark_id in model["benchmark_ids"]:
@@ -137,7 +138,7 @@ class WufrStaticEquilibriumAuthorizationTests(unittest.TestCase):
             self.assertIn("MOD-VEH-0007", benchmark["target_ids"])
             self.assertEqual(
                 benchmark["authorization"],
-                "authorizations/vehicle/AUTH-VEH-0009.toml",
+                "authorizations/vehicle/AUTH-VEH-0010.toml",
             )
 
     def test_no_historical_fitting_or_structural_scope_is_authorized(self) -> None:

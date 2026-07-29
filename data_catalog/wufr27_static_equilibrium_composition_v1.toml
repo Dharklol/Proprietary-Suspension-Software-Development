@@ -1,0 +1,130 @@
+version = "0.2.0"
+record_id = "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1"
+status = "reviewed_source_boundary"
+authority = "Design-intent source-composition record for the first WUFR driver/no-fuel, centered-rack, flat-road, all-four-contact spring-plus-Z-bar-plus-gravity quasi-static equilibrium. It authorizes no new component force law and supplies no installed setup values."
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+authorization_id = "AUTH-VEH-0010"
+model_id = "MOD-VEH-0007"
+result_label = "uncorrelated_design_intent_static_gravity"
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+
+
+[correction]
+prior_record_id = "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V0"
+prior_authorization_id = "AUTH-VEH-0009"
+prior_equilibrium_equation_id = "EQ-VEH-0016"
+corrected_equilibrium_equation_id = "EQ-VEH-0019"
+compatible_unsprung_gravity_equation_id = "EQ-VEH-0018"
+reason = "The prior reduced residual omitted the nonzero compatible generalized force of the four unsprung gravity point loads and therefore could approach numerical convergence while failing independent physical wrench closure."
+old_equation_fallback_authorized = false
+
+[coordinate_contract]
+body_order = ["z_s_m", "phi_rad", "theta_rad"]
+body_units = ["m", "rad", "rad"]
+wheel_order = ["front_left", "front_right", "rear_left", "rear_right"]
+wheel_units = ["m", "m", "m", "m"]
+wheel_coordinate = "MOD-SUSP-0002 delta_z_wc_body_m, positive upward."
+road_reaction = "Positive lambda acts along the MOD-VEH-0006 road normal."
+
+[source.whole_vehicle]
+model_id = "MOD-VEH-0003"
+authorization_id = "AUTH-VEH-0003"
+source_record = "data_catalog/wufr26_whole_vehicle_frame_v0.toml"
+role = "Own the body/road frames, origins, explicit source-to-body transform, body-point transport, generalized-force mapping, and physical wrench assembly."
+
+[source.gravity]
+model_id = "MOD-VEH-0005"
+authorization_id = "AUTH-VEH-0005"
+assumption_ids = ["ASM-VEH-0002", "ASM-VEH-0003"]
+source_record = "data_catalog/wufr27_static_gravity_allocation_v0.toml"
+state = "driver present; no fuel"
+sprung_role = "Use WUFRStaticGravityAllocation.sprung_body_generalized_gravity(pose) and the same sprung physical point force for the independent wrench closure."
+unsprung_role = "Use the four source-owned unsprung point masses, exact current physical wheel-center body points, MOD-VEH-0003 direct body-point virtual work, and MOD-VEH-0006 wheel-coordinate projections/J_wb to form the complete compatible reduced generalized force."
+prohibitions = [
+  "Do not replace the reviewed prototype 5 kg-per-corner allocation with historical 10 kg-per-corner values.",
+  "Do not call the allocation measured per-corner or installed/as-built.",
+  "Do not add maneuver unsprung inertia or independent unsprung CG heights."
+]
+
+[source.compatibility]
+model_id = "MOD-VEH-0006"
+authorization_id = "AUTH-VEH-0008"
+assumption_id = "ASM-VEH-0005"
+source_record = "data_catalog/wufr26_road_contact_reference_v0.toml"
+implementation = "src/pssd_vehicle/wufr_road_contact.py"
+role = "Provide road-compatible wheel coordinates, J_wb, exact current rigid-circle contact points, physical wheel-center points, signed contact coefficients, and unsprung-gravity wheel generalized forces."
+prohibitions = [
+  "Do not reuse invalidated ASM-VEH-0004 historical Contact Patch material-point semantics.",
+  "Do not fit or change the 0.23241 m source-setup rigid-circle radius.",
+  "Do not substitute body roll times track, wheelbase, or scalar suspension maps."
+]
+
+[source.spring]
+model_id = "MOD-SUSP-0004"
+authorization_id = "AUTH-SUSP-0004"
+assumption_id = "ASM-SUSP-0002"
+source_record = "data_catalog/wufr27_spring_package_v0.toml"
+implementation = "src/pssd_suspension/spring_force.py"
+role = "Evaluate one conservative spring state per corner from the exact successful actuation states returned inside the MOD-SUSP-0005 physical-wheel-coordinate axle solve."
+force_rule = "Use each SpringStateResult.generalized_force in its one physical wheel coordinate; retain signed dL_dq."
+energy_rule = "Sum each successful SpringStateResult.stored_energy_J."
+prohibitions = [
+  "Do not solve a second geometrically independent actuation chain for spring composition.",
+  "Do not substitute scalar motion ratio, wheel rate, or F=k_t*x for the rear progressive law.",
+  "Do not add damper force."
+]
+
+[source.anti_roll_bar]
+model_id = "MOD-SUSP-0005"
+authorization_ids = ["AUTH-SUSP-0005", "AUTH-SUSP-0006", "AUTH-SUSP-0007", "AUTH-SUSP-0008", "AUTH-SUSP-0009"]
+assumption_id = "ASM-SUSP-0003"
+package_source = "data_catalog/wufr27_anti_roll_bar_package_v0.toml"
+mapping_source = "data_catalog/wufr27_zbar_mapping_source_v0.toml"
+mechanism_fixture = "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml"
+implementation = "src/pssd_suspension/wufr_zbar_wheel.py"
+role = "Evaluate one front and one rear ZBarWheelStateResult at the road-compatible wheel coordinates and explicit discrete settings."
+force_rule = "Place front generalized_wheel_force_N in FL/FR and rear generalized_wheel_force_N in RL/RR."
+energy_rule = "Sum the front and rear ZBarForceResult.stored_energy_J values."
+settings = [1, 2, 3, 4, 5]
+explicit_front_setting_required = true
+explicit_rear_setting_required = true
+default_setting_authorized = false
+interpolation_authorized = false
+
+[source.equilibrium]
+model_id = "MOD-VEH-0004"
+authorization_id = "AUTH-VEH-0004"
+implementation = "src/pssd_vehicle/quasi_static.py"
+body_rule = "R_b=Q_sprung_gravity+Q_unsprung_body_direct+J_wb^T*(Q_unsprung_gravity+Q_spring+Q_ARB)=0."
+contact_rule = "lambda_i=-(Q_spring_i+Q_ARB_i+Q_unsprung_gravity_i)/c_i."
+negative_reaction_rule = "Return the signed negative value and fail the all-four-active mode; never clip or redistribute."
+
+[composition]
+required_provider_ids = ["MOD-VEH-0003", "MOD-VEH-0004", "MOD-VEH-0005", "MOD-VEH-0006", "MOD-SUSP-0004", "MOD-SUSP-0005"]
+suspension_force = "Q_susp=Q_spring+Q_ARB"
+suspension_energy = "U_susp=sum(U_spring_i)+U_ARB_front+U_ARB_rear"
+body_external_force = "Q_body_ext=Q_sprung_gravity+Q_unsprung_body_direct+J_wb^T*Q_unsprung_gravity"
+wheel_external_force = "Q_wheel_ext=Q_unsprung_gravity; it remains separately available for contact recovery and is also mapped once into the corrected reduced body residual."
+excluded_force_ids = ["damper_gas", "damper_friction", "damper_velocity", "bump_stop", "tire_vertical_compliance", "tire_Fx", "tire_Fy", "tire_Mz", "aero", "brake", "drive", "inertia"]
+
+[verification_fixture]
+front_arb_setting = 1
+rear_arb_setting = 1
+setting_role = "Deterministic benchmark fixture only; not current setup authority or a recommended setting."
+initial_body_state = [0.0, 0.0, 0.0]
+initial_state_role = "Numerical seed only."
+required_labels = ["driver_no_fuel", "centered_rack", "flat_rigid_road", "all_four_active", "uncorrelated_design_intent"]
+
+[boundaries]
+implementation_authorized_after_merge = true
+wufr_static_road_reaction_authorized = true
+historical_corner_weight_reconstruction_authorized = false
+installed_as_built_authority = false
+physical_correlation_authority = false
+arb_setup_selection_authority = false
+carrier_wrench_authority = false
+structural_load_case_authority = false
+maneuver_qss_authority = false
+production_authority = false
+next_gate = "Implement and verify the corrected bounded static composition under AUTH-VEH-0010. After an accepted corrected static result, separately authorize a road-reaction/contact-point to complete carrier-wrench adapter before feeding MOD-SUSP-0007 structural statics."

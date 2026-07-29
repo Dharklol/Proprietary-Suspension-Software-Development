@@ -5,16 +5,16 @@ title = "Integrated WUFR driver-no-fuel static-gravity equilibrium"
 status = "proposed"
 description = "Produce and freeze the first deterministic uncorrelated WUFR spring-plus-Z-bar-plus-gravity all-four-contact equilibrium fixture using explicit ARB settings and the reviewed provider chain."
 verification_level = "A"
-target_ids = ["MOD-VEH-0007", "EQ-VEH-0015", "EQ-VEH-0016", "EQ-VEH-0017"]
+target_ids = ["MOD-VEH-0007", "EQ-VEH-0015", "EQ-VEH-0017", "EQ-VEH-0018", "EQ-VEH-0019"]
 acceptance_criteria = [
   "Use the reviewed driver/no-fuel gravity state, centered rack, flat rigid-circle contact, front_setting=1, and rear_setting=1; label both settings verification_fixture_only_not_setup_authority.",
-  "MOD-VEH-0004 converges within the declared body bounds from q0=[0,0,0] and at least one second declared bounded initial guess; both runs reach the same continuation state within 1e-8 m/rad or an alternate root is explicitly returned for review rather than silently selected.",
+  "EQ-VEH-0019 through unchanged MOD-VEH-0004 converges within the declared body bounds from q0=[0,0,0] and at least one second declared bounded initial guess; both runs reach the same continuation state within 1e-8 m/rad or an alternate root is explicitly returned for review rather than silently selected.",
   "The final scaled body residual satisfies the unchanged MOD-VEH-0004 convergence threshold and every final provider state is successful, finite, source-matched, and within its reviewed domain.",
   "All four recovered road-normal reactions are retained exactly, are nonnegative, and each wheel-coordinate equilibrium residual is at most 1e-8 N.",
   "The sum of the four physical road-normal reactions, sprung gravity, and four unsprung gravity point forces closes in the road frame to at most 1e-6 N resultant force and 1e-6 N*m resultant moment about the named body-origin reference.",
   "A two-step total-potential gradient check agrees with the assembled body residual within a declared tolerance no weaker than 1e-5 times the corresponding residual scale.",
-  "The frozen result records q_body, z_w, spring/ARB states and energies, road reactions, exact contact/wheel/gravity points, all source/assumption/setting IDs, solver settings, derivative diagnostics, residuals, and every prohibited-use label.",
+  "The frozen result records q_body, the EQ-VEH-0018 direct/mapped/total unsprung-gravity reduction, z_w, spring/ARB states and energies, road reactions, exact contact/wheel/gravity points, all source/assumption/setting IDs, solver settings, derivative diagnostics, residuals, and every prohibited-use label.",
   "The result is not compared to the historical corner-scale distribution as independent validation because that design reference participates in the gravity source chain."
 ]
-authorization = "authorizations/vehicle/AUTH-VEH-0009.toml"
+authorization = "authorizations/vehicle/AUTH-VEH-0010.toml"
 implementation_test = "planned: tests/test_wufr_static_equilibrium.py and tests/test_wufr_static_equilibrium_result_record.py"

@@ -1,0 +1,74 @@
+version = "0.1.0"
+authorization_id = "AUTH-VEH-0010"
+status = "review_ready"
+title = "WUFR compatible unsprung-gravity reduction correction and static-equilibrium reauthorization"
+effective_condition = "Effective after review/merge. Supersedes AUTH-VEH-0009 only for the incomplete EQ-VEH-0016 reduced body residual. Retains EQ-VEH-0015 conservative suspension composition and EQ-VEH-0017 active-contact recovery, and reauthorizes MOD-VEH-0007 using the source-preserving compatible unsprung-gravity reduction in EQ-VEH-0018 and corrected body equilibrium in EQ-VEH-0019."
+review_record = "docs/reviews/phase2_wufr_unsprung_gravity_reduction_correction_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-VEH-0007"]
+equation_ids = ["EQ-VEH-0015", "EQ-VEH-0017", "EQ-VEH-0018", "EQ-VEH-0019"]
+benchmark_ids = ["BENCH-VEH-0011", "BENCH-VEH-0012", "BENCH-VEH-0013", "BENCH-VEH-0014"]
+assumption_ids = ["ASM-VEH-0002", "ASM-VEH-0003", "ASM-VEH-0005", "ASM-SUSP-0002", "ASM-SUSP-0003"]
+supersedes_equilibrium_equation = "EQ-VEH-0016"
+prior_authorization = "AUTH-VEH-0009"
+corrected_source_record = "data_catalog/wufr27_static_equilibrium_composition_v1.toml"
+
+[finding]
+probe_branch = "phase-2-wufr-static-equilibrium-implementation"
+probe_pr = 82
+probe_status = "closed_draft_after_required_physical_closure_gate_exposed_incomplete_reduced_residual"
+probe_body_state = [-0.0026807702741682574, -0.00008013635009263544, 0.0026941883103072345]
+old_reduced_residual_N_Nm = [0.00003632870630099205, 0.000008863720509788564, -0.00000893393380341223]
+old_scaled_residual_norm = 0.000000012095154261889567
+physical_resultant_force_N = [0.0, 0.0, -1.3778569402013403]
+physical_resultant_moment_Nm = [0.007362280416703726, 0.5962048927027155, 0.0]
+required_force_tolerance_N = 0.000001
+required_moment_tolerance_Nm = 0.000001
+source_observation = "EQ-VEH-0016 included sprung gravity and J_wb^T Q_susp but omitted the total compatible generalized force of the four nonzero MOD-VEH-0005 unsprung gravity point loads. Because the rigid-circle wheel centers move under the eliminated road-compatible coordinates, that omitted term is not zero. Tighter road-root tolerances reduced numerical residual noise but did not remove the physical force/moment mismatch."
+
+[mechanics]
+wheel_generalized_unsprung_gravity = "Q_u,z is the existing MOD-VEH-0006 wheel-coordinate projection of each MOD-VEH-0005 unsprung gravity point force."
+direct_body_unsprung_gravity = "Q_u,b,direct=sum_i J_r,wc_i(q_b,z_i)^T F_u,i, evaluated with MOD-VEH-0003 analytical point-force virtual work while holding each physical wheel coordinate fixed."
+compatible_reduced_unsprung_gravity = "Q_u,red=Q_u,b,direct+J_wb^T Q_u,z."
+corrected_body_residual = "R_b=Q_sprung_gravity+Q_u,red+J_wb^T Q_susp; solve R_b=0 only with MOD-VEH-0004."
+independent_potential_check = "Q_u,red=-d/dq_b sum_i(m_u,i*g*z_wc,i^road(q_b,z_w(q_b)))."
+contact_recovery = "lambda_i=-(Q_susp,i+Q_u,z,i)/c_i remains unchanged."
+
+[permitted]
+items = [
+  "Use the exact current MOD-VEH-0006 physical wheel-center body points, canonical J_wb, and unsprung wheel generalized forces with the exact MOD-VEH-0005 point masses and gravity.",
+  "Use MOD-VEH-0003 analytical local point-force generalized-force mapping for the fixed-wheel-coordinate direct body term.",
+  "Add the direct and mapped wheel-coordinate terms by the stated chain rule and retain each contribution separately in the result record.",
+  "Verify the assembled chain independently against two-step finite differences of the total compatible unsprung gravitational potential.",
+  "Continue to use the unchanged MOD-VEH-0004 deterministic bounded damped-Newton solver, EQ-VEH-0015 suspension forces, and EQ-VEH-0017 contact recovery/physical closure.",
+  "Preserve the failed EQ-VEH-0016 probe as negative verification evidence rather than fitting or weakening the closure gate."
+]
+
+[prohibited]
+items = [
+  "Treating the four unsprung masses as zero, sprung, road-fixed, or already included in Q_sprung_gravity.",
+  "Dropping the direct body term, dropping J_wb^T Q_u,z, or adding the unsprung wheel term twice.",
+  "Replacing the chain rule with a scalar unsprung-weight correction, fixed 49.05 N value, track/wheelbase shortcut, balancing wrench, historical corner-load fit, or crossweight rule.",
+  "Changing the MOD-VEH-0005 mass allocation, MOD-VEH-0006 contact geometry, spring/ARB laws, ARB settings, or solver merely to make physical closure pass.",
+  "Weakening the 1e-6 N / 1e-6 N*m physical closure tolerances or suppressing the independent potential-gradient check.",
+  "Publishing installed/as-built corner weights, setup recommendations, carrier wrenches, structural load cases, maneuver QSS, or production claims."
+]
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-VEH-0014 verifies Q_u,red=Q_u,b,direct+J_wb^T Q_u,z at nominal and bounded nonzero body states and independently matches the compatible unsprung potential gradient at two declared body perturbation scales.",
+  "BENCH-VEH-0014 demonstrates that omitting Q_u,red reproduces the retained physical-closure failure and that the term is materially nonzero for the WUFR probe state.",
+  "BENCH-VEH-0011 verifies exact coordinate/source ownership and separately records direct, mapped, and total unsprung-gravity contributions.",
+  "BENCH-VEH-0012 solves the corrected EQ-VEH-0019 residual from both declared initial states, recovers nonnegative reactions, and satisfies the unchanged energy and physical closure gates.",
+  "BENCH-VEH-0013 retains structured setting/source/domain/solver failures and proves no fallback to EQ-VEH-0016."
+]
+
+[promotion_gates]
+items = [
+  "Merge this correction authorization before reopening a MOD-VEH-0007 implementation PR.",
+  "Freeze a new v1 static-equilibrium result record; the failed v0 implementation probe is not promoted or relabeled.",
+  "Physical correlation still requires the Program D installed-state packet; this correction supplies mechanics consistency only.",
+  "Carrier-wrench and structural propagation remain separate downstream authorizations after an accepted corrected static result."
+]

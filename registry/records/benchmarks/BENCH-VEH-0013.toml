@@ -5,7 +5,7 @@ title = "WUFR static-equilibrium source and failure gates"
 status = "proposed"
 description = "Verify that the WUFR static composition fails closed for missing authority, invalid setup inputs, failed upstream mechanics, invalid contact mode, numerical failure, and physical-closure disagreement."
 verification_level = "A"
-target_ids = ["MOD-VEH-0007", "EQ-VEH-0015", "EQ-VEH-0016", "EQ-VEH-0017"]
+target_ids = ["MOD-VEH-0007", "EQ-VEH-0015", "EQ-VEH-0017", "EQ-VEH-0018", "EQ-VEH-0019"]
 acceptance_criteria = [
   "Missing front or rear ARB setting, bool setting, noninteger setting, setting outside 1..5, or any attempt to request a default/interpolated setting returns a structured configuration failure.",
   "Configuration, source, assumption, coordinate-order, coordinate-unit, corner-order, and axle/side mismatch fail before the body solve.",
@@ -16,5 +16,5 @@ acceptance_criteria = [
   "The implementation contains no literals or fallback paths for historical crossweight, historical corner loads, 10 kg per corner, 207 kg sprung mass, 320 kg total mass, scalar motion ratio, scalar wheel rate, or body-roll-times-track load transfer.",
   "No failure result is labeled installed/as-built, correlated, setup-authoritative, structural, or production-ready."
 ]
-authorization = "authorizations/vehicle/AUTH-VEH-0009.toml"
+authorization = "authorizations/vehicle/AUTH-VEH-0010.toml"
 implementation_test = "planned: tests/test_wufr_static_equilibrium_failures.py"
