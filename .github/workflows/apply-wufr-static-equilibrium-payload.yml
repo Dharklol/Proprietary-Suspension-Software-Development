@@ -43,6 +43,7 @@ jobs:
           echo "e51710aeb57a80557a32ebff3a9c0bc42020ed330a4315ab8ae2f32af657b718  /tmp/wufr-static-equilibrium-payload.tar.gz" | sha256sum -c -
           tar -xzf /tmp/wufr-static-equilibrium-payload.tar.gz
           python -m pip install -e .
+          python -m pip install pytest
           python -m pytest -q \
             tests/test_suspension_wufr_zbar_wheel.py \
             tests/test_wufr_static_equilibrium.py \
