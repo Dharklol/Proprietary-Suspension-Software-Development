@@ -22,7 +22,7 @@ The project begins with **Phase 0: Model Assurance and Migration**. No physical 
 4. Separate sensor calibration, parameter identification, and model validation datasets.
 5. Treat numerical convergence and physical correctness as separate acceptance criteria.
 
-Run the Phase 0 registry checks with:
+Run the Phase registry checks with:
 
 ```bash
 python scripts/validate_registry.py
