@@ -17,4 +17,7 @@ acceptance_criteria = [
   "The result is not compared to the historical corner-scale distribution as independent validation because that design reference participates in the gravity source chain."
 ]
 authorization = "authorizations/vehicle/AUTH-VEH-0010.toml"
-implementation_test = "planned: tests/test_wufr_static_equilibrium.py and tests/test_wufr_static_equilibrium_result_record.py"
+implementation_test = "tests/test_wufr_static_equilibrium.py and tests/test_wufr_static_equilibrium_result_record.py"
+report_script = "scripts/run_wufr_static_equilibrium_benchmarks.py"
+result_record = "benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.toml"
+full_result_record = "benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json"
