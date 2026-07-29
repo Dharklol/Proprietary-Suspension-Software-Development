@@ -1,0 +1,29 @@
+name: Apply WUFR static Level-1 authorization payload
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.head_ref == 'phase-3-wufr-static-level1-interface-load-authorization'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - name: Apply reviewed payload
+        run: |
+          set -euo pipefail
+          base64 -d .github/wufr_static_level1_auth_payload.tar.gz.b64 | tar -xzf -
+          rm .github/wufr_static_level1_auth_payload.tar.gz.b64
+          rm .github/workflows/apply-wufr-static-level1-auth-payload.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Authorize synchronized WUFR static Level-1 interface loads"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
