@@ -14,4 +14,7 @@ acceptance_criteria = [
   "Missing/mismatched wheel-center body points, J_wb, Q_u,z, masses, frames, configuration, or nonfinite values fail structurally; no scalar total-weight or hard-coded 49.05 N fallback is reachable."
 ]
 authorization = "authorizations/vehicle/AUTH-VEH-0010.toml"
-implementation_test = "planned: tests/test_wufr_unsprung_gravity_reduction.py and tests/test_wufr_static_equilibrium_result_record.py"
+implementation_test = "tests/test_wufr_unsprung_gravity_reduction.py and tests/test_wufr_static_equilibrium_result_record.py"
+report_script = "scripts/run_wufr_static_equilibrium_benchmarks.py"
+result_record = "benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.toml"
+full_result_record = "benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json"

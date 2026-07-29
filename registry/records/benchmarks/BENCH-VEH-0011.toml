@@ -16,4 +16,6 @@ acceptance_criteria = [
   "Missing front/rear settings, bool settings, values outside 1..5, source/configuration mismatch, and coordinate reordering fail without a default or interpolation."
 ]
 authorization = "authorizations/vehicle/AUTH-VEH-0010.toml"
-implementation_test = "planned: tests/test_wufr_static_equilibrium.py"
+implementation_test = "tests/test_wufr_static_equilibrium.py"
+report_script = "scripts/run_wufr_static_equilibrium_benchmarks.py"
+result_record = "benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.toml"

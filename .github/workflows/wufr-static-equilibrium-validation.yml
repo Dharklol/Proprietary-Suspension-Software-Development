@@ -1,0 +1,98 @@
+name: WUFR static equilibrium validation
+
+on:
+  pull_request:
+    paths:
+      - "src/pssd_vehicle/wufr_static_equilibrium*.py"
+      - "src/pssd_vehicle/wufr_road_contact.py"
+      - "src/pssd_suspension/wufr_zbar_wheel.py"
+      - "scripts/run_wufr_static_equilibrium_benchmarks.py"
+      - "tests/test_wufr_static_equilibrium*.py"
+      - "tests/test_wufr_unsprung_gravity_reduction.py"
+      - "tests/test_suspension_wufr_zbar_wheel.py"
+      - "benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json"
+      - "benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.toml"
+      - ".github/workflows/wufr-static-equilibrium-validation.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: wufr-static-equilibrium-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package and test runner
+        run: python -m pip install -e . pytest
+      - name: Run focused tests
+        run: |
+          python -m pytest -q \
+            tests/test_suspension_wufr_zbar_wheel.py \
+            tests/test_wufr_static_equilibrium.py \
+            tests/test_wufr_static_equilibrium_failures.py \
+            tests/test_wufr_unsprung_gravity_reduction.py \
+            tests/test_wufr_static_equilibrium_result_record.py
+      - name: Generate corrected static-equilibrium result
+        run: |
+          mkdir -p generated
+          python scripts/run_wufr_static_equilibrium_benchmarks.py \
+            --output generated/wufr_static_equilibrium_result_v0.2.0.json \
+            --summary-output generated/wufr_static_equilibrium_summary_v0.2.0.json \
+            --summary
+      - name: Verify frozen full result
+        run: |
+          python - <<'PY'
+          import json
+          import math
+          from pathlib import Path
+
+          frozen = json.loads(
+              Path("benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json")
+              .read_text(encoding="utf-8")
+          )
+          generated = json.loads(
+              Path("generated/wufr_static_equilibrium_result_v0.2.0.json")
+              .read_text(encoding="utf-8")
+          )
+
+          def compare(expected, actual, path="$"):
+              if isinstance(expected, dict):
+                  if not isinstance(actual, dict) or expected.keys() != actual.keys():
+                      raise AssertionError(f"{path}: object keys differ")
+                  for key in expected:
+                      compare(expected[key], actual[key], f"{path}.{key}")
+                  return
+              if isinstance(expected, list):
+                  if not isinstance(actual, list) or len(expected) != len(actual):
+                      raise AssertionError(f"{path}: list shape differs")
+                  for index, (left, right) in enumerate(zip(expected, actual)):
+                      compare(left, right, f"{path}[{index}]")
+                  return
+              if (
+                  isinstance(expected, (int, float))
+                  and not isinstance(expected, bool)
+                  and isinstance(actual, (int, float))
+                  and not isinstance(actual, bool)
+              ):
+                  if not math.isclose(float(expected), float(actual), rel_tol=1.0e-12, abs_tol=1.0e-12):
+                      raise AssertionError(f"{path}: {expected!r} != {actual!r}")
+                  return
+              if expected != actual:
+                  raise AssertionError(f"{path}: {expected!r} != {actual!r}")
+
+          compare(frozen, generated)
+          print("Frozen result matches regenerated result within 1e-12 numeric tolerance")
+          PY
+      - name: Upload generated diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wufr-static-equilibrium-v0.2.0
+          path: generated/
+          if-no-files-found: warn
