@@ -28,6 +28,7 @@ jobs:
           python-version: "3.11"
       - name: Apply and validate payload
         run: |
+          sha256sum tools/wufr-static-equilibrium-payload/part-*
           cat <<'CHECKSUMS' | sha256sum -c -
           b23b2ddcd714576882f4fb83d16a8a728c5f65a6584cd7cfefd522ebd8762b67  tools/wufr-static-equilibrium-payload/part-00
           8c4386b658dbd6c891ea8708079e29cfed0b24b01dcc95cdc23c493ff6632be1  tools/wufr-static-equilibrium-payload/part-01
