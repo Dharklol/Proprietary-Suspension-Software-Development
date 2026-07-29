@@ -10,7 +10,7 @@ concurrency:
 jobs:
   develop:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -31,9 +31,10 @@ jobs:
               provider.quasi_static_config,
               residual_absolute_tolerance=1.0e-10,
               residual_relative_tolerance=1.0e-10,
+              max_iterations=3,
               finite_difference_relative_step=0.002,
               finite_difference_min_step=1.0e-8,
-              line_search_max_trials=20,
+              line_search_max_trials=12,
           )
           provider = replace(provider, quasi_static_config=refined_config)
           result = solve_wufr_static_equilibrium(
