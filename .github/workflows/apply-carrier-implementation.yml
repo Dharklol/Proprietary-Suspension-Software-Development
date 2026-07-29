@@ -18,6 +18,7 @@ jobs:
       - name: Apply reviewed local implementation payload
         shell: bash
         run: |
+          sha256sum .carrier_payload/chunk*
           cat .carrier_payload/chunk* > /tmp/carrier-implementation.b64
           base64 --decode /tmp/carrier-implementation.b64 > /tmp/carrier-implementation.tar.gz
           echo 'aff9e523eb1629091183f60fef6c2fdf9be7cee1b66b99d2c82d3a68b5755da0  /tmp/carrier-implementation.tar.gz' | sha256sum --check
