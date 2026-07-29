@@ -1,0 +1,16 @@
+[record]
+id = "EQ-SUSP-0033"
+type = "equation"
+title = "Four-corner Level-1 atomic result contract"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Define the four-corner result as an ordered atomic collection: every corner must solve under the unchanged MOD-SUSP-0007 numerical and physical residual gates before any integrated packet is successful."
+canonical_equation = "OK_collection = AND_i[OK_i and ||F_res,b,i||<=eps_F and ||M_res,b,i||<=eps_M for b in {carrier,UCA,LCA} and |M_hinge_axis,i|<=eps_h]; publish iff OK_collection=true."
+inputs = ["Four EQ-SUSP-0032 corner results", "MOD-SUSP-0007 force, moment, hinge-axis, conditioning, and pivot gates"]
+outputs = ["Atomic collection success", "Maximum residual and conditioning diagnostics", "Exact failed corner/stage when unsuccessful"]
+assumptions = ["ASM-SUSP-0005"]
+verification_level = "none"
+benchmark_ids = ["BENCH-SUSP-0030", "BENCH-SUSP-0031"]
+authorization_id = "AUTH-SUSP-0017"
+failure_behavior = ["One failed or missing corner fails the complete collection. No successful subset is published as a WUFR four-corner result."]

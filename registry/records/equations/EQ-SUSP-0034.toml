@@ -1,0 +1,16 @@
+[record]
+id = "EQ-SUSP-0034"
+type = "equation"
+title = "Static Level-1 interface provenance and downstream handoff"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Preserve signed action-reaction interfaces, exact application points, and complete provenance through the four-corner packet, including the only permitted later rocker handoff."
+canonical_equation = "For each interface j at corner i: F_remote,i,j=-F_body,i,j at the source-owned endpoint pair; for actuation only, rocker_input_i=(force_on_remote_N, remote_point_m, load_case_id, source_id) copied exactly from the successful MOD-SUSP-0007 result."
+inputs = ["Successful MOD-SUSP-0007 action-reaction records", "Exact interface endpoints", "State/source/load-case identities"]
+outputs = ["Signed interface records with equal/opposite partners", "Exact actuation remote-end handoff packet", "Completeness and prohibited-use labels"]
+assumptions = ["ASM-SUSP-0005"]
+verification_level = "none"
+benchmark_ids = ["BENCH-SUSP-0029", "BENCH-SUSP-0030", "BENCH-SUSP-0031"]
+authorization_id = "AUTH-SUSP-0017"
+failure_behavior = ["Reject a sign, endpoint, source, state, or load-case mismatch. Do not infer a rocker reaction and do not assume the missing KW V5 non-spring static force is zero."]

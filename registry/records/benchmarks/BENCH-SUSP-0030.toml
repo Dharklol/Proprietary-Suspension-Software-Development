@@ -1,0 +1,19 @@
+[record]
+id = "BENCH-SUSP-0030"
+type = "benchmark"
+title = "Frozen WUFR setting-1/1 four-corner Level-1 interface loads"
+status = "proposed"
+description = "Freeze and independently verify the first synchronized four-corner MOD-SUSP-0007 result driven by the accepted MOD-VEH-0008 setting-1/1 static carrier wrenches."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0009", "EQ-SUSP-0032", "EQ-SUSP-0033", "EQ-SUSP-0034"]
+acceptance_criteria = [
+  "All four corner solves succeed under the unchanged MOD-SUSP-0007 direct 18x18 numerical policy, condition limit, pivot threshold, and physical residual gates.",
+  "The frozen record retains signed front tie-rod/rear toe-link and front pullrod/rear pushrod axial forces; compression is not clipped or converted to an absolute value.",
+  "Upper/lower spherical action-reaction forces and equivalent upper/lower hinge forces/moments are retained with exact application points and no hinge-axis reaction moment.",
+  "Carrier, UCA, and LCA independent force residuals are <=1e-9 N and moment residuals are <=1e-9 N*m for every corner; hinge-axis moment residual is <=1e-9 N*m.",
+  "The prescribed carrier wrench in each solve matches the corresponding frozen MOD-VEH-0008 Level-1 wrench component-for-component and reference-for-reference without repair.",
+  "The result is one atomic FL/FR/RL/RR packet labelled uncorrelated_design_intent_static_level1_interface_loads with no rocker, structural, maneuver, installed, or setup authority."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0017.toml"
+planned_result_record = "benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.json"
+planned_implementation_test = "tests/test_wufr_static_level1_interface_loads_result_record.py"

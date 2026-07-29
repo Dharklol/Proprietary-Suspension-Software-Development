@@ -1,0 +1,18 @@
+[record]
+id = "BENCH-SUSP-0029"
+type = "benchmark"
+title = "WUFR static Level-1 source and state synchronization"
+status = "proposed"
+description = "Verify exact one-to-one synchronization of the four MOD-VEH-0008 carrier wrenches with current MOD-SUSP-0007 geometry, including explicit centered-rack steering ownership at the front."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0009", "EQ-SUSP-0032", "EQ-SUSP-0034"]
+acceptance_criteria = [
+  "The input contains exactly front_left, front_right, rear_left, rear_right in that order and every carrier wrench is successful, complete for the authorized static-gravity case, and expressed in the exact Level-1 frame at the exact current carrier reference.",
+  "Configuration, static-state, load-case, axle, side, corner, frame, carrier-reference, geometry-source, suspension-state, and actuation-state identities match exactly for each corner.",
+  "Both front corners use explicit current centered-rack MOD-STEER-0001 tie-rod endpoints at the matching suspension state; nominal suspension toe points are not substituted.",
+  "Both rear corners use current MOD-SUSP-0001 rear toe-link closure and reject injected front-steering packets.",
+  "Front actuation remains on the UCA and rear actuation remains on the LCA at exact current arm and rocker endpoints.",
+  "Changing body/wheel state, reordering corners, mirroring a side, moving the carrier reference, or changing any source identity fails before solve."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0017.toml"
+planned_implementation_test = "tests/test_wufr_static_level1_interface_loads.py"

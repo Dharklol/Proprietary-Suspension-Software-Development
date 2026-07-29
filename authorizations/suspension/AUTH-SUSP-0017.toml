@@ -1,0 +1,148 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0017"
+status = "review_ready"
+title = "WUFR synchronized four-corner static Level-1 interface-load composition"
+effective_condition = "Effective after review and merge. Authorizes MOD-SUSP-0009 to consume one successful MOD-VEH-0008 four-corner static carrier-wrench result and the exact matching current MOD-SUSP-0007 geometry states, solve all four corners without changing either provider, and publish one atomic uncorrelated design-intent static Level-1 interface-load packet. It introduces no new external load, constitutive law, joint idealization, load sharing, rocker completion, maneuver case, structural release, or installed/as-built authority."
+review_record = "docs/reviews/phase3_wufr_static_level1_interface_load_authorization_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-SUSP-0009"]
+equation_ids = ["EQ-SUSP-0032", "EQ-SUSP-0033", "EQ-SUSP-0034"]
+benchmark_ids = ["BENCH-SUSP-0029", "BENCH-SUSP-0030", "BENCH-SUSP-0031"]
+assumption_ids = ["ASM-SUSP-0005", "ASM-VEH-0002", "ASM-VEH-0003", "ASM-VEH-0005"]
+source_record = "data_catalog/wufr27_static_level1_interface_loads_v0.toml"
+static_four_corner_level1_publication_authorized = true
+source_preserving_composition_authorized = true
+new_force_law_authorized = false
+new_joint_idealization_authorized = false
+individual_a_arm_joint_split_authorized = false
+rocker_result_publication_authorized = false
+structural_load_case_packet_authorized = false
+maneuver_load_generation_authorized = false
+installed_as_built_authority = false
+production_authority = false
+
+[input_contract]
+required_carrier_model = "MOD-VEH-0008"
+required_carrier_authorization = "AUTH-VEH-0011"
+required_carrier_result_label = "uncorrelated_design_intent_static_carrier_wrench"
+required_carrier_result_record = "benchmarks/vehicle/wufr_static_carrier_wrench_result_v0.1.0.json"
+required_level1_model = "MOD-SUSP-0007"
+required_level1_authorization = "AUTH-SUSP-0012"
+required_configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+required_static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+required_corner_order = ["front_left", "front_right", "rear_left", "rear_right"]
+required_axle_side_order = ["front:left", "front:right", "rear:left", "rear:right"]
+required_carrier_wrench_frame = "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL"
+required_carrier_reference_rule = "Use the exact current upper/lower-spherical midpoint already frozen by MOD-VEH-0008 and required by MOD-SUSP-0007."
+required_front_steering_state = "Successful centered-rack MOD-STEER-0001 current tie-rod closure for each front corner, evaluated at the same suspension state and retaining exact endpoint/source provenance."
+required_rear_toe_state = "Current MOD-SUSP-0001 rear toe-link closure from the matching suspension state."
+required_actuation_state = "Successful MOD-SUSP-0003 current actuation state at the same corner wheel coordinate, preserving front UCA pullrod and rear LCA pushrod ownership."
+
+[synchronization]
+atomic_collection = true
+identity_tuple = ["configuration_id", "static_state_id", "load_case_id", "corner_id", "axle", "side", "frame_id", "carrier_reference_point", "geometry_source_id"]
+state_rule = "For each corner, the carrier wrench, suspension state, actuation state, steering/toe state, and Level-1 geometry must describe the same exact converged body/wheel state."
+corner_rule = "No permutation, mirroring, axle substitution, side substitution, or reuse of another corner result is allowed."
+frame_rule = "The MOD-VEH-0008 Level-1 wrench and MOD-SUSP-0007 geometry must share the exact Level-1 frame and exact physical carrier reference before solve."
+all_or_nothing_rule = "Publish no four-corner packet unless all four corner solves succeed and every identity, source, frame, conditioning, and physical residual gate passes."
+
+[mechanics]
+per_corner_composition = "x_i = MOD-SUSP-0007(G_i, W_carrier,i), where G_i is the exact synchronized current Level-1 geometry and W_carrier,i is the exact MOD-VEH-0008 complete static-gravity carrier wrench."
+external_load_rule = "No external force or couple is created, removed, redistributed, fitted, clipped, or balanced inside MOD-SUSP-0009."
+output_rule = "Retain the complete MOD-SUSP-0007 result per corner: signed lateral-link and actuation-rod axial forces, upper/lower spherical action-reaction forces, equivalent upper/lower inboard hinge force and perpendicular moment, matrix diagnostics, and independent carrier/UCA/LCA physical residuals."
+carrier_boundary_check = "For each corner, the prescribed carrier wrench plus the solved upper/lower spherical forces and lateral-link force on the carrier must reconstruct carrier force and moment equilibrium at the declared carrier reference."
+action_reaction_rule = "Every published interface force retains its exact equal-and-opposite partner and exact source-owned application points."
+rocker_handoff_rule = "After a successful MOD-SUSP-0009 implementation is reviewed, its signed actuation AxialReaction.force_on_remote_N at remote_point_m may be consumed unchanged by the already-authorized incomplete MOD-SUSP-0008 rocker adapter; this authorization does not itself publish rocker results."
+
+[outputs]
+result_label = "uncorrelated_design_intent_static_level1_interface_loads"
+corner_outputs = [
+  "front tie-rod or rear toe-link signed axial force",
+  "front pullrod or rear pushrod signed axial force",
+  "upper and lower spherical action-reaction forces",
+  "upper and lower equivalent inboard hinge force and perpendicular reaction moment",
+  "18x18 scaled condition number, pivots, characteristic lengths, and solve status",
+  "carrier, UCA, and LCA force/moment residuals",
+  "exact application points, frames, state/source identities, and load-case provenance"
+]
+collection_outputs = [
+  "fixed FL/FR/RL/RR order",
+  "all-corner success and maximum residual/conditioning diagnostics",
+  "upstream carrier-wrench result identity and frozen source hashes",
+  "explicit fidelity and prohibited-use labels"
+]
+
+[numerics]
+condition_limit = 1.0e10
+pivot_relative_threshold = 1.0e-12
+per_body_force_residual_tolerance_N = 1.0e-9
+per_body_moment_residual_tolerance_Nm = 1.0e-9
+hinge_axis_moment_tolerance_Nm = 1.0e-9
+carrier_reference_match_tolerance_m = 1.0e-12
+identity_numeric_match_tolerance = 0.0
+wrench_component_match_tolerance = 0.0
+least_squares_allowed = false
+pseudoinverse_allowed = false
+regularization_allowed = false
+stiffness_weighting_allowed = false
+hidden_balancing_wrench_allowed = false
+force_or_moment_clipping_allowed = false
+absolute_value_sign_repair_allowed = false
+historical_load_fallback_allowed = false
+
+[permitted]
+items = [
+  "Implement a thin orchestration adapter that validates one MOD-VEH-0008 result, builds exact matching current Level-1 geometry, and invokes the unchanged MOD-SUSP-0007 solver once per corner.",
+  "Publish signed four-corner Level-1 interface loads only for the exact authorized static-gravity fixture and preserve all upstream assumptions and exclusions.",
+  "Freeze a deterministic full result record with all four complete carrier wrenches, current geometry identities, solver outputs, action-reaction pairs, residuals, and conditioning diagnostics.",
+  "Use the frozen setting-1/1 state as a verification fixture, not setup-selection or installed-car authority.",
+  "Expose the successful signed push/pull remote-end force and point later to the existing incomplete rocker adapter without changing sign, point, or load-case identity."
+]
+
+[prohibited]
+items = [
+  "Recomputing road reactions, unsprung gravity, tire forces, or carrier wrenches inside MOD-SUSP-0009.",
+  "Substituting nominal front tie-rod points for the required current centered-rack MOD-STEER-0001 closure or moving an arm-mounted push/pull pickup to the carrier.",
+  "Permuting corners, mirroring one side, using left/right symmetry as data, mixing configuration or load-case identities, or accepting only a successful subset of corners.",
+  "Using historical OptimumK force tables, corner scales, scalar load-transfer distribution, motion ratios, negative-to-zero clipping, absolute values, fitted offsets, or balancing forces/couples.",
+  "Publishing unique forward/aft A-arm rod-end/tab loads, welded tube loads, bearing load split, stress, buckling, fatigue, compliance, factor of safety, or FEA boundary conditions.",
+  "Calling the result a maneuver, braking, acceleration, aero, endurance, curb, impact, installed/as-built, correlated, setup-selection, structural-release, or production load case.",
+  "Calling any downstream rocker result complete while the KW V5 non-spring static force remains unavailable under AUTH-SUSP-0015."
+]
+
+[failure_behavior]
+codes = [
+  "upstream_carrier_result_failure",
+  "corner_count_or_order_mismatch",
+  "state_identity_mismatch",
+  "configuration_mismatch",
+  "load_case_mismatch",
+  "frame_or_reference_mismatch",
+  "geometry_source_mismatch",
+  "front_steering_state_unavailable",
+  "current_geometry_failure",
+  "corner_solve_failure",
+  "corner_residual_failure",
+  "collection_incomplete",
+  "nonfinite_output"
+]
+rule = "Return one structured failed collection with the exact failed corner/stage and all available provenance. Never publish a partial four-corner packet or repair a failure by substituting geometry, loads, signs, frames, references, or solver methods."
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-SUSP-0029 verifies exact source/state/corner/frame/reference synchronization from MOD-VEH-0008 into the current MOD-SUSP-0007 geometry adapter, including explicit centered-rack front steering ownership.",
+  "BENCH-SUSP-0030 freezes the setting-1/1 four-corner Level-1 interface-load result and verifies every MOD-SUSP-0007 solve, action-reaction pair, carrier/UCA/LCA physical residual, sign, point, and conditioning gate.",
+  "BENCH-SUSP-0031 verifies rigid-reference invariance where authorized and fail-closed behavior for reordered/missing corners, stale or mismatched geometry, front steering substitution, incomplete carrier result, frame/reference disagreement, singular/ill-conditioned solve, and partial-collection failure."
+]
+
+[promotion_gates]
+items = [
+  "Merge this reviewed authorization before implementing MOD-SUSP-0009.",
+  "Implementation must freeze machine-readable full and summary four-corner result records and regenerate them in CI.",
+  "After implementation review, the resulting push/pull remote-end forces may feed MOD-SUSP-0008 only as the already-authorized incomplete rocker included-load input.",
+  "Before publishing rocker included-load results for this fixture, separately review the synchronized four-corner rocker composition and retain AUTH-SUSP-0015's missing-damper-force boundary.",
+  "Before structural exchange packets, separately authorize fidelity, application-point, sign, load-combination, and prohibited-use contracts.",
+  "Before maneuver cases, separately authorize tire, brake, drive, aero, inertial, gyroscopic, compliance, loaded-radius, and contact-mode providers."
+]
