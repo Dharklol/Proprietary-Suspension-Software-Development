@@ -1,0 +1,126 @@
+version = "0.1.0"
+authorization_id = "AUTH-VEH-0011"
+status = "review_ready"
+title = "WUFR static-gravity carrier external wrench adapter"
+effective_condition = "Effective after review and merge. Authorizes MOD-VEH-0008 to convert one successful MOD-VEH-0007 uncorrelated static-gravity result into four source-preserving complete outboard-carrier external wrenches for that exact restricted load case. The adapter may compose only the recovered road-normal force and the source-owned prototype unsprung gravity point load, preserve exact physical application points, and transport the resultant through the reviewed whole-vehicle and Level-1 frame placement. It does not authorize maneuver loads, installed/as-built prediction, integrated linkage-load publication, rocker completion, structural release, or component-level unsprung mass distribution claims."
+review_record = "docs/reviews/phase3_wufr_static_carrier_wrench_authorization_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-VEH-0008"]
+equation_ids = ["EQ-VEH-0020", "EQ-VEH-0021", "EQ-VEH-0022"]
+benchmark_ids = ["BENCH-VEH-0015", "BENCH-VEH-0016", "BENCH-VEH-0017"]
+assumption_ids = ["ASM-VEH-0002", "ASM-VEH-0003", "ASM-VEH-0005", "ASM-SUSP-0005"]
+source_record = "data_catalog/wufr27_static_carrier_wrench_v0.toml"
+static_carrier_wrench_generation_authorized = true
+complete_for_authorized_static_gravity_case = true
+mod_susp_0007_input_contract_targeted = true
+integrated_level1_linkage_result_publication_authorized = false
+rocker_reaction_publication_authorized = false
+structural_load_case_packet_authorized = false
+maneuver_wrench_generation_authorized = false
+installed_as_built_authority = false
+production_authority = false
+
+[input_contract]
+required_upstream_model = "MOD-VEH-0007"
+required_authorization = "AUTH-VEH-0010"
+required_result_label = "uncorrelated_design_intent_static_gravity"
+required_configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+required_static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+required_corner_order = ["front_left", "front_right", "rear_left", "rear_right"]
+required_contact_mode = "flat rigid road; all four contacts active"
+required_success_fields = [
+  "q_body and road-compatible wheel coordinates",
+  "four nonnegative road-normal reactions",
+  "exact current road-frame contact points",
+  "exact current road-frame physical wheel-center points",
+  "road normal and road frame/origin identities",
+  "source-owned unsprung gravity allocation and physical point-force identity",
+  "physical force/moment closure within AUTH-VEH-0010 gates"
+]
+
+[carrier_boundary]
+consumer_model = "MOD-SUSP-0007"
+consumer_authorization = "AUTH-SUSP-0012"
+consumer_assumption = "ASM-SUSP-0005"
+boundary_role = "outboard_carrier net suspension-interface load-transmission boundary"
+reference_point_rule = "Use the exact current MOD-SUSP-0007 carrier reference: midpoint of the current upper and lower outboard spherical-joint centers."
+reference_point_may_be_changed = true
+reference_change_rule = "Only exact rigid-wrench transport is allowed; force is invariant and moment changes by (r_old-r_new) cross F."
+wheel_hub_tire_internal_resolution = false
+
+[frames]
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+input_frame = "WUFR27_NOMINAL_ROAD"
+input_origin = "WUFR27_NOMINAL_ROAD_ORIGIN"
+body_frame = "WUFR27_BODY_DRIVER_NO_FUEL_REFERENCE"
+body_origin = "WUFR27_CG_DRIVER_NO_FUEL_REFERENCE"
+source_frame = "WUFR26_SUSPENSION_CAD"
+level1_frame = "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL"
+placement_rule = "For each corner, place current Level-1 axle-local points using the same reviewed MOD-VEH-0006 rule: add front or rear axle source x-position, apply the MOD-VEH-0003 source-to-body translation, then apply the converged BodyPose rotation/translation into the road frame."
+rotation_rule = "Use the exact MOD-VEH-0003 Rz(psi) Ry(theta) Rx(phi) convention with psi=0 for this state; do not assume the converged road and body axes are identical."
+local_pullback_rule = "An optional MOD-SUSP-0007 input wrench in the Level-1 frame must be the exact inverse rigid transform of the road-frame resultant at the same physical carrier reference point."
+
+[mechanics]
+road_force = "F_road,i=lambda_i*n_road at the exact current rigid-circle contact point."
+unsprung_gravity = "F_u,i=m_u,i*g_vector at the exact current physical wheel-center point, using MOD-VEH-0005 and ASM-VEH-0003 without changing the 5 kg-per-corner prototype allocation."
+carrier_resultant_force = "F_carrier,i=F_road,i+F_u,i."
+carrier_resultant_moment = "M_carrier,O_i=(r_contact,i-r_O_i) cross F_road,i+(r_wc,i-r_O_i) cross F_u,i; no free couple is added."
+wrench_transport = "F_B=R_BA F_A; M_B=R_BA[M_A+(r_Aref-r_Bref) cross F_A] for the exact reviewed rigid transform and named reference points."
+four_corner_reconstruction = "Transport the four road-frame carrier resultants to the named body-origin reference and add the source-owned sprung gravity wrench; the result must reproduce the accepted MOD-VEH-0007 physical closure without repair."
+
+[completeness]
+complete_statement = "The wrench is complete only for the exact AUTH-VEH-0010 spring-plus-Z-bar-plus-gravity, centered-rack, flat-rigid-road, all-four-active model state because it contains every external load represented on the outboard boundary by that model."
+prototype_unsprung_allocation_statement = "ASM-VEH-0003 places the entire prototype 5 kg corner unsprung lump at the physical wheel center. Carrying that point load onto the outboard-carrier boundary is source preserving but is not a measured distribution of wheel, upright, brake, link, damper, or half-shaft component weights."
+excluded_external_loads = ["tire_Fx", "tire_Fy", "tire_Mz", "tire_vertical_compliance", "brake", "drive", "aero", "inertia", "gyroscopic", "damper_velocity", "bump_stop", "alternate_contact_mode"]
+complete_physical_hardware_wrench = false
+maneuver_complete = false
+installed_as_built_complete = false
+
+[numerics]
+component_composition_tolerance = 1.0e-12
+wrench_transport_tolerance_N = 1.0e-10
+wrench_transport_tolerance_Nm = 1.0e-10
+four_corner_force_reconstruction_tolerance_N = 1.0e-6
+four_corner_moment_reconstruction_tolerance_Nm = 1.0e-6
+hidden_balancing_wrench_allowed = false
+force_or_moment_clipping_allowed = false
+historical_corner_load_fallback_allowed = false
+implicit_frame_origin_allowed = false
+
+[permitted]
+items = [
+  "Implement a source-preserving adapter that consumes a successful MOD-VEH-0007 result and the exact matching MOD-VEH-0005/MOD-VEH-0006 physical points and identities.",
+  "Create one road-normal AppliedWrench and one prototype-unsprung-gravity AppliedWrench per corner, then assemble them only with MOD-VEH-0003 wrench primitives.",
+  "Translate each resultant to the exact current MOD-SUSP-0007 carrier reference point and optionally pull it back into the exact Level-1 axle-local frame using the reviewed placement transform.",
+  "Label each result complete_for_authorized_static_gravity_case=true while retaining complete_physical_hardware_wrench=false and every upstream assumption/exclusion.",
+  "Use the setting-1/1 frozen MOD-VEH-0007 result only as a deterministic verification fixture, not current setup authority.",
+  "Verify four-corner wrench reconstruction against the independently accepted whole-vehicle physical closure."
+]
+
+[prohibited]
+items = [
+  "Adding spring, anti-roll-bar, push/pull-rod, tie/toe-link, ball-joint, or chassis reactions to the prescribed carrier external wrench; those are internal suspension-interface forces solved downstream.",
+  "Adding or inferring lateral/longitudinal tire force, aligning moment, brake torque, drive torque, aero, inertia, gyroscopic force, tire compliance, or alternate-contact reactions.",
+  "Treating the ASM-VEH-0003 5 kg wheel-center lump as measured component-level gravity distribution or moving some of it to arms, rocker, damper, chassis, or half-shaft without new authority.",
+  "Using historical corner-scale values, crossweight, diagonal rules, scalar load transfer, balancing forces/couples, clipping, fitted offsets, or absolute values to construct or repair a wrench.",
+  "Assuming road, body, source, and Level-1 frames are identical at the converged rolled/pitched pose or reconstructing placement from wheelbase/track alone.",
+  "Publishing MOD-SUSP-0007 linkage forces, rocker reactions, structural packets, stress, fatigue, factor of safety, FEA boundary conditions, installed/as-built results, or production claims under this authorization."
+]
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-VEH-0015 verifies exact corner/source/order/frame/reference ownership, road-force and unsprung-gravity composition, exact application points, and invariant rigid-wrench transport at nominal and bounded nonzero poses.",
+  "BENCH-VEH-0016 generates four deterministic setting-1/1 static carrier wrenches from the frozen MOD-VEH-0007 result, verifies road-frame and Level-1 representations are physically identical, and reconstructs the accepted whole-vehicle force/moment closure within 1e-6.",
+  "BENCH-VEH-0017 verifies structured failure for unsuccessful/incomplete upstream state, negative or reordered reaction, source/configuration/frame/origin/corner mismatch, missing physical point, nonfinite data, transform disagreement, and reconstruction disagreement without fallback."
+]
+
+[promotion_gates]
+items = [
+  "Merge this reviewed authorization before implementing MOD-VEH-0008.",
+  "Implementation must freeze a machine-readable four-corner carrier-wrench record with both road-frame and Level-1 representations, exact points, transforms, contributions, reconstruction residuals, and all authority labels.",
+  "A separate downstream authorization is required before publishing the integrated four-corner MOD-SUSP-0007 interface-force result.",
+  "Rocker propagation may use later integrated push/pull forces only under its existing incomplete-load boundary until KW V5 non-spring static force is measured or otherwise authorized.",
+  "Maneuver carrier wrenches require separately reviewed tire, brake, drive, aero, inertial, loaded-radius/compliance, and alternate-contact-mode providers."
+]

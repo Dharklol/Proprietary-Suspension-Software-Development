@@ -1,0 +1,42 @@
+[record]
+id = "EQ-VEH-0022"
+type = "equation"
+title = "Four-corner carrier wrench reconstruction of static whole-vehicle closure"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Independently transport the four EQ-VEH-0020 carrier resultants to the current body-origin road reference, add the source-owned sprung gravity wrench, and require the same physical resultant closure accepted for MOD-VEH-0007."
+outputs = [
+  "Four-corner resultant force residual",
+  "Four-corner resultant moment residual about the named current body-origin road point",
+  "Per-corner transported contribution records",
+  "Comparison residual against the accepted MOD-VEH-0007 physical closure"
+]
+inputs = [
+  "Four successful EQ-VEH-0020 road-frame carrier resultants",
+  "Exact current carrier references and current body-origin road reference",
+  "Matching MOD-VEH-0005 sprung gravity point force/wrench",
+  "Accepted MOD-VEH-0007 physical closure record"
+]
+assumptions = [
+  "The four carrier wrenches contain only the road and prototype unsprung gravity external loads represented upstream.",
+  "The sprung gravity load remains external to the carrier boundaries and is added once at the whole-vehicle reconstruction level.",
+  "All contributions share the exact same successful body pose, static state, configuration, and corner order."
+]
+verification_level = "A"
+canonical_equation = "W_reconstructed,O_body=sum_i Transport(W_C,i,O_carrier_i -> O_body)+W_sprung_gravity,O_body; require W_reconstructed to match the accepted MOD-VEH-0007 physical resultant and satisfy 1e-6 N / 1e-6 N*m closure."
+source_basis = [
+  "AUTH-VEH-0003 / MOD-VEH-0003 wrench transport/assembly",
+  "AUTH-VEH-0005 / MOD-VEH-0005 sprung gravity",
+  "AUTH-VEH-0010 / MOD-VEH-0007 accepted physical closure",
+  "EQ-VEH-0020 / AUTH-VEH-0011 carrier resultants"
+]
+validity = "Exactly four matching WUFR static carrier wrenches from one successful AUTH-VEH-0010 state, transported to the named current body-origin road reference."
+failure_behavior = [
+  "Reject missing/duplicate/reordered corner, mixed state, source/configuration/frame/origin mismatch, nonfinite result, or closure disagreement.",
+  "Do not add a balancing wrench, redistribute a residual, adjust a reaction, or weaken the accepted 1e-6 closure gates.",
+  "Do not treat reconstruction agreement as installed/as-built validation because the same design-intent source chain generated both representations."
+]
+benchmark_ids = ["BENCH-VEH-0016", "BENCH-VEH-0017"]
+authorization_id = "AUTH-VEH-0011"
+target_ids = ["MOD-VEH-0008"]

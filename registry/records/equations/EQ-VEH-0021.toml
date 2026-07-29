@@ -1,0 +1,42 @@
+[record]
+id = "EQ-VEH-0021"
+type = "equation"
+title = "WUFR carrier wrench placement and Level-1 frame pullback"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Place the current MOD-SUSP-0007 carrier reference in the MOD-VEH-0007 road frame using the reviewed axle-local-to-source, source-to-body, and BodyPose transforms, then express the EQ-VEH-0020 resultant as an exactly equivalent prescribed wrench in the Level-1 axle-local frame."
+outputs = [
+  "Current carrier reference point in Level-1, source, body, and road coordinates",
+  "Road-frame and Level-1-frame representations of one physically identical carrier wrench",
+  "Rigid-wrench transport and round-trip residuals",
+  "Exact transform/source/frame/origin provenance"
+]
+inputs = [
+  "Current MOD-SUSP-0007 Level1CornerGeometry carrier reference and axle identity",
+  "MOD-VEH-0003 front/rear axle source positions and source-to-body translation",
+  "Converged MOD-VEH-0007 BodyPose using the MOD-VEH-0003 rotation convention",
+  "EQ-VEH-0020 road-frame carrier resultant"
+]
+assumptions = [
+  "The suspension Level-1 canonical axes share the reviewed source/body canonical orientation before the body pose; only the axle x-placement and named origin translations differ.",
+  "The converged body pose may contain nonzero roll and pitch, so road/body/Level-1 vector components are not treated as numerically identical.",
+  "The current carrier reference is the midpoint of the exact current upper/lower outboard spherical-joint centers."
+]
+verification_level = "A"
+canonical_equation = "r_source=r_L+[x_axle_source,0,0]; r_body=r_source-r_CG_source; r_road=t_pose+R_RB*r_body; F_L=R_RB^T*F_R; M_L=R_RB^T*M_R for the same physical reference, with exact (r_old-r_new) cross F transport whenever references differ."
+source_basis = [
+  "AUTH-VEH-0003 / MOD-VEH-0003 / WUFR26_WHOLE_VEHICLE_FRAME_V0",
+  "AUTH-VEH-0008 / MOD-VEH-0006 reviewed axle placement usage",
+  "AUTH-VEH-0010 / MOD-VEH-0007 converged BodyPose",
+  "AUTH-SUSP-0012 / MOD-SUSP-0007 current Level-1 geometry"
+]
+validity = "Exact matching WUFR configuration/corner/current state and the reviewed canonical axle-local placement rule; no arbitrary external frame transform."
+failure_behavior = [
+  "Reject missing axle identity, carrier reference, body pose, frame/origin identity, transform authority, or nonfinite transform data.",
+  "Reject road-to-Level-1 round-trip disagreement above the authorized force/moment tolerances.",
+  "Do not infer an origin from wheelbase/track alone, suppress body roll/pitch, mirror a side, or silently relabel vector components between frames."
+]
+benchmark_ids = ["BENCH-VEH-0015", "BENCH-VEH-0016", "BENCH-VEH-0017"]
+authorization_id = "AUTH-VEH-0011"
+target_ids = ["MOD-VEH-0008"]

@@ -1,0 +1,42 @@
+[record]
+id = "EQ-VEH-0020"
+type = "equation"
+title = "WUFR per-corner static external carrier wrench composition"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Compose the exact road-normal point force and source-owned prototype unsprung gravity point force into one physical road-frame resultant wrench at the current outboard-carrier reference for each corner of a successful MOD-VEH-0007 static-gravity state."
+outputs = [
+  "Per-corner resultant force at the current carrier reference",
+  "Per-corner resultant moment about the current carrier reference",
+  "Separate translated road-force and unsprung-gravity contributions",
+  "Exact point/frame/origin/source/configuration provenance"
+]
+inputs = [
+  "MOD-VEH-0007 nonnegative road reaction lambda_i and exact MOD-VEH-0006 road normal/contact point",
+  "MOD-VEH-0005 prototype unsprung mass/gravity vector and exact current physical wheel-center point",
+  "Current MOD-SUSP-0007 carrier reference point placed in the road frame through MOD-VEH-0003"
+]
+assumptions = [
+  "The input state is the exact successful AUTH-VEH-0010 gravity-only all-four-active result.",
+  "The full ASM-VEH-0003 corner unsprung lump remains at the physical wheel center and is carried on the outboard boundary only as the source model represents it.",
+  "Suspension interface forces are internal and are not included in the prescribed carrier external wrench."
+]
+verification_level = "A"
+canonical_equation = "F_C,i=lambda_i*n_road+m_u,i*g_vector; M_C,O_i=(r_contact,i-r_O_i) cross (lambda_i*n_road)+(r_wc,i-r_O_i) cross (m_u,i*g_vector)."
+source_basis = [
+  "AUTH-VEH-0003 / MOD-VEH-0003",
+  "AUTH-VEH-0005 / MOD-VEH-0005 / ASM-VEH-0003",
+  "AUTH-VEH-0008 / MOD-VEH-0006 / ASM-VEH-0005",
+  "AUTH-VEH-0010 / MOD-VEH-0007",
+  "AUTH-SUSP-0012 / MOD-SUSP-0007 / ASM-SUSP-0005"
+]
+validity = "Exact WUFR driver/no-fuel uncorrelated static-gravity state, centered rack, flat rigid road, all four contacts active, and matching reviewed source/configuration/frame identities."
+failure_behavior = [
+  "Reject unsuccessful/incomplete upstream state, negative reaction, missing or reordered corner, missing point, nonfinite value, frame/origin mismatch, source/configuration mismatch, or carrier-reference mismatch.",
+  "Do not add a free couple, balancing force, historical load, spring/ARB force, or another external load.",
+  "Do not move the prototype unsprung gravity point away from the exact current wheel center."
+]
+benchmark_ids = ["BENCH-VEH-0015", "BENCH-VEH-0016", "BENCH-VEH-0017"]
+authorization_id = "AUTH-VEH-0011"
+target_ids = ["MOD-VEH-0008"]

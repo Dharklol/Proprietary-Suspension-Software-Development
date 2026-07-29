@@ -1,0 +1,19 @@
+[record]
+id = "BENCH-VEH-0016"
+type = "benchmark"
+title = "Integrated four-corner WUFR static carrier wrench fixture"
+status = "proposed"
+description = "Produce and freeze the four deterministic carrier external wrenches generated from the accepted MOD-VEH-0007 setting-1/1 static-gravity fixture and verify exact whole-vehicle physical reconstruction."
+verification_level = "A"
+target_ids = ["MOD-VEH-0008", "EQ-VEH-0020", "EQ-VEH-0021", "EQ-VEH-0022"]
+acceptance_criteria = [
+  "Consume benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json exactly, require front_setting=1 and rear_setting=1 with role verification_fixture_only_not_setup_authority, and reject any altered or incomplete upstream success boundary.",
+  "Return exactly four successful carrier wrenches in FL/FR/RL/RR order with separate road and prototype-unsprung-gravity contribution records, exact contact/wheel-center/carrier-reference points, and complete source/assumption/configuration provenance.",
+  "Each result is labeled uncorrelated_design_intent_static_carrier_wrench, complete_for_authorized_static_gravity_case=true, complete_physical_hardware_wrench=false, maneuver_complete=false, and installed_as_built_authority=false.",
+  "Road-frame and Level-1 representations are exact rigid transforms of the same physical wrench and satisfy 1e-10 N / 1e-10 N*m round-trip gates.",
+  "Transport the four road-frame carrier resultants to the named current body-origin road reference, add the matching MOD-VEH-0005 sprung gravity wrench once, and satisfy at most 1e-6 N resultant force and 1e-6 N*m resultant moment.",
+  "The reconstructed resultant matches the accepted MOD-VEH-0007 physical-closure vector componentwise within 1e-10 in corresponding SI units; no balancing wrench, reaction redistribution, or residual suppression is used.",
+  "Freeze a machine-readable result containing force/moment values, all physical points, transforms, contribution records, reconstruction residuals, source IDs, excluded loads, and downstream-prohibited-use labels."
+]
+authorization = "authorizations/vehicle/AUTH-VEH-0011.toml"
+implementation_test = "planned: tests/test_wufr_static_carrier_wrench.py and tests/test_wufr_static_carrier_wrench_result_record.py"
