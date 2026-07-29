@@ -18,7 +18,7 @@ jobs:
           python-version: "3.11"
       - name: Install package
         run: python -m pip install -e .
-      - name: Probe fine-step equilibrium refinement
+      - name: Probe tighter road-root equilibrium
         run: |
           python - <<'PY'
           from dataclasses import replace
@@ -27,16 +27,26 @@ jobs:
           from pssd_vehicle.wufr_static_equilibrium import solve_wufr_static_equilibrium
 
           provider = _provider()
-          refined_config = replace(
+          road_config = replace(
+              provider.road_contact.config,
+              road_gap_tolerance_m=1.0e-13,
+              wheel_coordinate_tolerance_m=1.0e-13,
+              root_max_iterations=120,
+          )
+          road_contact = replace(provider.road_contact, config=road_config)
+          solver_config = replace(
               provider.quasi_static_config,
               residual_absolute_tolerance=1.0e-10,
               residual_relative_tolerance=1.0e-10,
               max_iterations=3,
-              finite_difference_relative_step=0.002,
-              finite_difference_min_step=1.0e-8,
-              line_search_max_trials=12,
+              line_search_max_trials=16,
           )
-          provider = replace(provider, quasi_static_config=refined_config)
+          provider = replace(
+              provider,
+              road_contact=road_contact,
+              physical_solver=road_config.physical_state_solver,
+              quasi_static_config=solver_config,
+          )
           result = solve_wufr_static_equilibrium(
               provider,
               front_arb_setting=1,
