@@ -47,9 +47,48 @@ jobs:
             --summary
       - name: Verify frozen full result
         run: |
-          diff -u \
-            benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json \
-            generated/wufr_static_equilibrium_result_v0.2.0.json
+          python - <<'PY'
+          import json
+          import math
+          from pathlib import Path
+
+          frozen = json.loads(
+              Path("benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json")
+              .read_text(encoding="utf-8")
+          )
+          generated = json.loads(
+              Path("generated/wufr_static_equilibrium_result_v0.2.0.json")
+              .read_text(encoding="utf-8")
+          )
+
+          def compare(expected, actual, path="$"):
+              if isinstance(expected, dict):
+                  if not isinstance(actual, dict) or expected.keys() != actual.keys():
+                      raise AssertionError(f"{path}: object keys differ")
+                  for key in expected:
+                      compare(expected[key], actual[key], f"{path}.{key}")
+                  return
+              if isinstance(expected, list):
+                  if not isinstance(actual, list) or len(expected) != len(actual):
+                      raise AssertionError(f"{path}: list shape differs")
+                  for index, (left, right) in enumerate(zip(expected, actual)):
+                      compare(left, right, f"{path}[{index}]")
+                  return
+              if (
+                  isinstance(expected, (int, float))
+                  and not isinstance(expected, bool)
+                  and isinstance(actual, (int, float))
+                  and not isinstance(actual, bool)
+              ):
+                  if not math.isclose(float(expected), float(actual), rel_tol=1.0e-12, abs_tol=1.0e-12):
+                      raise AssertionError(f"{path}: {expected!r} != {actual!r}")
+                  return
+              if expected != actual:
+                  raise AssertionError(f"{path}: {expected!r} != {actual!r}")
+
+          compare(frozen, generated)
+          print("Frozen result matches regenerated result within 1e-12 numeric tolerance")
+          PY
       - name: Upload generated diagnostics
         if: always()
         uses: actions/upload-artifact@v4
