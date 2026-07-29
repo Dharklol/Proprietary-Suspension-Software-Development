@@ -36,7 +36,8 @@ jobs:
             tests/test_suspension_wufr_zbar_wheel.py \
             tests/test_wufr_static_equilibrium.py \
             tests/test_wufr_static_equilibrium_failures.py \
-            tests/test_wufr_unsprung_gravity_reduction.py
+            tests/test_wufr_unsprung_gravity_reduction.py \
+            tests/test_wufr_static_equilibrium_result_record.py
       - name: Generate corrected static-equilibrium result
         run: |
           mkdir -p generated
@@ -45,7 +46,6 @@ jobs:
             --summary-output generated/wufr_static_equilibrium_summary_v0.2.0.json \
             --summary
       - name: Verify frozen full result
-        if: hashFiles('benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json') != ''
         run: |
           diff -u \
             benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json \
