@@ -1,0 +1,19 @@
+[record]
+id = "BENCH-VEH-0015"
+type = "benchmark"
+title = "WUFR static carrier wrench source, point, and frame ownership"
+status = "proposed"
+description = "Verify exact source/corner/frame/reference ownership and the per-corner road-force plus prototype-unsprung-gravity wrench composition before using the result as a Level-1 prescribed carrier input."
+verification_level = "A"
+target_ids = ["MOD-VEH-0008", "EQ-VEH-0020", "EQ-VEH-0021"]
+acceptance_criteria = [
+  "At the frozen setting-1/1 static state and one bounded synthetic nonzero body pose using the same reviewed providers, preserve corner order [front_left,front_right,rear_left,rear_right], configuration/static-state identity, exact road frame/origin, and exact current contact/wheel-center point IDs without permutation, mirroring, or sign repair.",
+  "For every corner, road contribution force equals lambda_i times the exact unit road normal within 1e-12 N and is applied at the exact MOD-VEH-0006 current contact point.",
+  "For every corner, unsprung contribution equals the exact MOD-VEH-0005 ASM-VEH-0003 point force within 1e-12 N and is applied at the exact current physical wheel-center point; no component-level redistribution is reachable.",
+  "EQ-VEH-0020 resultant force and moment equal independent direct vector/cross-product assembly within 1e-12 in corresponding SI units and contain no free couple.",
+  "The current carrier reference is the midpoint of the exact current MOD-SUSP-0007 upper/lower spherical-joint centers after reviewed axle/source/body/road placement.",
+  "EQ-VEH-0021 road-frame to Level-1 pullback and round-trip reproduce force within 1e-10 N and moment within 1e-10 N*m, including nonzero body roll/pitch.",
+  "Changing only the wrench reference point preserves force and follows exact moment transport; changing a physical application point changes the resultant and is not silently accepted."
+]
+authorization = "authorizations/vehicle/AUTH-VEH-0011.toml"
+implementation_test = "planned: tests/test_wufr_static_carrier_wrench.py"
