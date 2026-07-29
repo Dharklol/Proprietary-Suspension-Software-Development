@@ -10,6 +10,7 @@ concurrency:
 jobs:
   develop:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -17,22 +18,31 @@ jobs:
           python-version: "3.11"
       - name: Install package
         run: python -m pip install -e .
-      - name: Validate source composition
+      - name: Probe fine-step equilibrium refinement
         run: |
-          python -m unittest tests.test_wufr_static_equilibrium_authorization -v
-          python -m unittest tests.test_wufr_static_equilibrium -v
-          python -m unittest tests.test_wufr_static_equilibrium_failures -v
-      - name: Generate integrated benchmark
-        run: |
-          python scripts/run_wufr_static_equilibrium_benchmarks.py \
-            --output wufr_static_equilibrium_report.json \
-            --summary-output wufr_static_equilibrium_summary.json \
-            --summary
-      - name: Upload development report
-        uses: actions/upload-artifact@v4
-        with:
-          name: wufr-static-equilibrium-isolated-report
-          path: |
-            wufr_static_equilibrium_report.json
-            wufr_static_equilibrium_summary.json
-          if-no-files-found: error
+          python - <<'PY'
+          from dataclasses import replace
+          import json
+          from scripts.run_wufr_static_equilibrium_benchmarks import _provider, _result_record
+          from pssd_vehicle.wufr_static_equilibrium import solve_wufr_static_equilibrium
+
+          provider = _provider()
+          refined_config = replace(
+              provider.quasi_static_config,
+              residual_absolute_tolerance=1.0e-10,
+              residual_relative_tolerance=1.0e-10,
+              finite_difference_relative_step=0.002,
+              finite_difference_min_step=1.0e-8,
+              line_search_max_trials=20,
+          )
+          provider = replace(provider, quasi_static_config=refined_config)
+          result = solve_wufr_static_equilibrium(
+              provider,
+              front_arb_setting=1,
+              rear_arb_setting=1,
+              initial_q_body=(-0.002680778331, -0.000080147145, 0.002694184074),
+          )
+          print(json.dumps(_result_record(result), indent=2, sort_keys=True))
+          if not result.ok:
+              raise SystemExit(1)
+          PY
