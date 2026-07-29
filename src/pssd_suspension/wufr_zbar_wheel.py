@@ -9,7 +9,7 @@ This module composes only reviewed geometry/state providers:
 
 The local chain is evaluated rather than replaced by a historical scalar motion
 ratio.  For each side, ``rho_rw = d(theta_R)/d(delta_z_wc_body)`` is obtained from
-branch-preserving physical-wheel perturbations.  The axle Jacobian then follows
+branch-preserving perturbations. The default public provider perturbs the physical-wheel coordinate directly; source-specific compositions may instead perturb the reviewed internal lower-arm coordinate and divide by the resulting physical-wheel displacement to avoid nested inversion noise. The axle Jacobian then follows
 from the chain rule
 
     J_dz = J_dtheta @ diag(rho_rw_left, rho_rw_right)
@@ -28,7 +28,12 @@ from dataclasses import dataclass
 from enum import Enum
 import math
 
-from .actuation import ActuationSolverConfig, ActuationStateResult, solve_actuation_from_wheel_state
+from .actuation import (
+    ActuationSolverConfig,
+    ActuationStateResult,
+    solve_actuation_from_wheel_state,
+    solve_actuation_q_L_state,
+)
 from .geometry import SuspensionCornerGeometry
 from .kinematics import KinematicsSolverConfig
 from .wheel_reference import (
@@ -69,6 +74,7 @@ class RockerWheelDerivativeConfig:
     step_m: float = 1.0e-4
     second_step_m: float = 5.0e-5
     agreement_tolerance_rad_per_m: float = 5.0e-2
+    coordinate_mode: str = "physical_wheel_inversion"
 
     def __post_init__(self) -> None:
         values = (self.step_m, self.second_step_m, self.agreement_tolerance_rad_per_m)
@@ -76,6 +82,8 @@ class RockerWheelDerivativeConfig:
             raise ValueError("Rocker/wheel derivative steps and tolerance must be finite and positive")
         if self.second_step_m >= self.step_m:
             raise ValueError("Second rocker/wheel derivative step must be smaller than the first")
+        if self.coordinate_mode not in {"physical_wheel_inversion", "internal_qL"}:
+            raise ValueError("Rocker/wheel derivative coordinate_mode is unsupported")
 
 
 @dataclass(frozen=True)
@@ -238,6 +246,181 @@ def _derivative_at_step(
     return derivative, method, actual_step
 
 
+def _actuation_at_q_L(
+    corner: SuspensionCornerGeometry,
+    nominal: NominalWheelReference,
+    center: ActuationStateResult,
+    q_L_rad: float,
+    *,
+    actuation_config: ActuationSolverConfig | None,
+    kinematics_config: KinematicsSolverConfig | None,
+    geometry_id: str,
+    configuration_id: str,
+    source_authority: str,
+    source_fixture_id: str,
+) -> ActuationStateResult | None:
+    neighbor = solve_actuation_q_L_state(
+        corner,
+        nominal,
+        q_L_rad,
+        predecessor=center,
+        actuation_config=actuation_config,
+        kinematics_config=kinematics_config,
+        geometry_id=geometry_id,
+        configuration_id=configuration_id,
+        source_authority=source_authority,
+        source_fixture_id=source_fixture_id,
+    )
+    if (
+        not neighbor.ok
+        or neighbor.rocker_theta_rad is None
+        or neighbor.delta_z_wc_body_m is None
+    ):
+        return None
+    return neighbor
+
+
+def _q_L_step_for_physical_step(
+    corner: SuspensionCornerGeometry,
+    nominal: NominalWheelReference,
+    center: ActuationStateResult,
+    physical_solver: PhysicalStateSolverConfig,
+    requested_step_m: float,
+    *,
+    actuation_config: ActuationSolverConfig | None,
+    kinematics_config: KinematicsSolverConfig | None,
+    geometry_id: str,
+    configuration_id: str,
+    source_authority: str,
+    source_fixture_id: str,
+) -> float | None:
+    if center.q_L_rad is None or center.delta_z_wc_body_m is None:
+        return None
+    q_center = float(center.q_L_rad)
+    probe_step_rad = min(
+        1.0e-4,
+        0.05 * (physical_solver.q_L_max_rad - physical_solver.q_L_min_rad),
+    )
+    q_minus = max(physical_solver.q_L_min_rad, q_center - probe_step_rad)
+    q_plus = min(physical_solver.q_L_max_rad, q_center + probe_step_rad)
+    if q_plus - q_minus <= physical_solver.q_L_tolerance_rad:
+        return None
+    minus = _actuation_at_q_L(
+        corner,
+        nominal,
+        center,
+        q_minus,
+        actuation_config=actuation_config,
+        kinematics_config=kinematics_config,
+        geometry_id=geometry_id,
+        configuration_id=configuration_id,
+        source_authority=source_authority,
+        source_fixture_id=source_fixture_id,
+    )
+    plus = _actuation_at_q_L(
+        corner,
+        nominal,
+        center,
+        q_plus,
+        actuation_config=actuation_config,
+        kinematics_config=kinematics_config,
+        geometry_id=geometry_id,
+        configuration_id=configuration_id,
+        source_authority=source_authority,
+        source_fixture_id=source_fixture_id,
+    )
+    if minus is None or plus is None:
+        return None
+    dz_dq_L = (
+        float(plus.delta_z_wc_body_m) - float(minus.delta_z_wc_body_m)
+    ) / (q_plus - q_minus)
+    if not math.isfinite(dz_dq_L) or abs(dz_dq_L) <= physical_solver.displacement_tolerance_m:
+        return None
+    q_step = requested_step_m / abs(dz_dq_L)
+    if not math.isfinite(q_step) or q_step <= physical_solver.q_L_tolerance_rad:
+        return None
+    return q_step
+
+
+def _derivative_at_internal_q_L_step(
+    corner: SuspensionCornerGeometry,
+    nominal: NominalWheelReference,
+    center_actuation: ActuationStateResult,
+    physical_solver: PhysicalStateSolverConfig,
+    step_m: float,
+    *,
+    actuation_config: ActuationSolverConfig | None,
+    kinematics_config: KinematicsSolverConfig | None,
+    geometry_id: str,
+    configuration_id: str,
+    source_authority: str,
+    source_fixture_id: str,
+) -> tuple[float, str, float] | None:
+    if (
+        center_actuation.q_L_rad is None
+        or center_actuation.rocker_theta_rad is None
+        or center_actuation.delta_z_wc_body_m is None
+    ):
+        return None
+    q_step = _q_L_step_for_physical_step(
+        corner,
+        nominal,
+        center_actuation,
+        physical_solver,
+        step_m,
+        actuation_config=actuation_config,
+        kinematics_config=kinematics_config,
+        geometry_id=geometry_id,
+        configuration_id=configuration_id,
+        source_authority=source_authority,
+        source_fixture_id=source_fixture_id,
+    )
+    if q_step is None:
+        return None
+    q_center = float(center_actuation.q_L_rad)
+    minus = None
+    plus = None
+    if q_center - q_step >= physical_solver.q_L_min_rad - physical_solver.q_L_tolerance_rad:
+        minus = _actuation_at_q_L(
+            corner, nominal, center_actuation, max(q_center - q_step, physical_solver.q_L_min_rad),
+            actuation_config=actuation_config, kinematics_config=kinematics_config,
+            geometry_id=geometry_id, configuration_id=configuration_id,
+            source_authority=source_authority, source_fixture_id=source_fixture_id,
+        )
+    if q_center + q_step <= physical_solver.q_L_max_rad + physical_solver.q_L_tolerance_rad:
+        plus = _actuation_at_q_L(
+            corner, nominal, center_actuation, min(q_center + q_step, physical_solver.q_L_max_rad),
+            actuation_config=actuation_config, kinematics_config=kinematics_config,
+            geometry_id=geometry_id, configuration_id=configuration_id,
+            source_authority=source_authority, source_fixture_id=source_fixture_id,
+        )
+
+    if minus is not None and plus is not None:
+        denominator = float(plus.delta_z_wc_body_m) - float(minus.delta_z_wc_body_m)
+        numerator = float(plus.rocker_theta_rad) - float(minus.rocker_theta_rad)
+        method = "centered_internal_qL_physical_wheel_coordinate"
+        actual_step = 0.5 * abs(denominator)
+    elif minus is not None:
+        denominator = float(center_actuation.delta_z_wc_body_m) - float(minus.delta_z_wc_body_m)
+        numerator = float(center_actuation.rocker_theta_rad) - float(minus.rocker_theta_rad)
+        method = "backward_internal_qL_physical_wheel_coordinate"
+        actual_step = abs(denominator)
+    elif plus is not None:
+        denominator = float(plus.delta_z_wc_body_m) - float(center_actuation.delta_z_wc_body_m)
+        numerator = float(plus.rocker_theta_rad) - float(center_actuation.rocker_theta_rad)
+        method = "forward_internal_qL_physical_wheel_coordinate"
+        actual_step = abs(denominator)
+    else:
+        return None
+
+    if abs(denominator) <= physical_solver.displacement_tolerance_m:
+        return None
+    derivative = numerator / denominator
+    if not math.isfinite(derivative):
+        return None
+    return derivative, method, actual_step
+
+
 def solve_rocker_wheel_map(
     corner: SuspensionCornerGeometry,
     nominal: NominalWheelReference,
@@ -318,34 +501,67 @@ def solve_rocker_wheel_map(
         )
 
     cfg = derivative_config or RockerWheelDerivativeConfig()
-    first = _derivative_at_step(
-        corner,
-        nominal,
-        center_physical,
-        center,
-        physical_solver,
-        cfg.step_m,
-        actuation_config=actuation_config,
-        kinematics_config=kinematics_config,
-        geometry_id=geometry_id,
-        configuration_id=configuration_id,
-        source_authority=source_authority,
-        source_fixture_id=source_fixture_id,
+    derivative_evaluator = (
+        _derivative_at_internal_q_L_step
+        if cfg.coordinate_mode == "internal_qL"
+        else None
     )
-    second = _derivative_at_step(
-        corner,
-        nominal,
-        center_physical,
-        center,
-        physical_solver,
-        cfg.second_step_m,
-        actuation_config=actuation_config,
-        kinematics_config=kinematics_config,
-        geometry_id=geometry_id,
-        configuration_id=configuration_id,
-        source_authority=source_authority,
-        source_fixture_id=source_fixture_id,
-    )
+    if derivative_evaluator is None:
+        first = _derivative_at_step(
+            corner,
+            nominal,
+            center_physical,
+            center,
+            physical_solver,
+            cfg.step_m,
+            actuation_config=actuation_config,
+            kinematics_config=kinematics_config,
+            geometry_id=geometry_id,
+            configuration_id=configuration_id,
+            source_authority=source_authority,
+            source_fixture_id=source_fixture_id,
+        )
+        second = _derivative_at_step(
+            corner,
+            nominal,
+            center_physical,
+            center,
+            physical_solver,
+            cfg.second_step_m,
+            actuation_config=actuation_config,
+            kinematics_config=kinematics_config,
+            geometry_id=geometry_id,
+            configuration_id=configuration_id,
+            source_authority=source_authority,
+            source_fixture_id=source_fixture_id,
+        )
+    else:
+        first = derivative_evaluator(
+            corner,
+            nominal,
+            center,
+            physical_solver,
+            cfg.step_m,
+            actuation_config=actuation_config,
+            kinematics_config=kinematics_config,
+            geometry_id=geometry_id,
+            configuration_id=configuration_id,
+            source_authority=source_authority,
+            source_fixture_id=source_fixture_id,
+        )
+        second = derivative_evaluator(
+            corner,
+            nominal,
+            center,
+            physical_solver,
+            cfg.second_step_m,
+            actuation_config=actuation_config,
+            kinematics_config=kinematics_config,
+            geometry_id=geometry_id,
+            configuration_id=configuration_id,
+            source_authority=source_authority,
+            source_fixture_id=source_fixture_id,
+        )
     if first is None or second is None:
         return RockerWheelMapResult(
             ZBarWheelStatus.FAILURE,

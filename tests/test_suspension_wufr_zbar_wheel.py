@@ -104,6 +104,31 @@ class WufrZBarWheelCoordinateTests(unittest.TestCase):
         self.assertIsNotNone(result.derivative_second_step_m)
         self.assertLess(result.derivative_second_step_m or math.inf, result.derivative_step_m or 0.0)
 
+    def test_internal_qL_derivative_retains_physical_wheel_coordinate(self) -> None:
+        _, left_corner, _, left_nominal, _ = self._axle_inputs("front")
+        config = RockerWheelDerivativeConfig(
+            step_m=1.0e-4,
+            second_step_m=5.0e-5,
+            agreement_tolerance_rad_per_m=5.0e-2,
+            coordinate_mode="internal_qL",
+        )
+        result = solve_rocker_wheel_map(
+            left_corner,
+            left_nominal,
+            0.001,
+            self.physical_solver,
+            derivative_config=config,
+            geometry_id=self.geometry.geometry_id,
+            source_authority=self.geometry.authority,
+        )
+        self.assertTrue(result.ok, result.message)
+        self.assertEqual(
+            result.derivative_method,
+            "centered_internal_qL_physical_wheel_coordinate",
+        )
+        self.assertIsNotNone(result.dtheta_R_dz_wc_body_rad_per_m)
+        self.assertLess(result.derivative_disagreement_rad_per_m or math.inf, 5.0e-2)
+
     def test_chain_rule_matches_rocker_torque_times_local_rocker_derivative(self) -> None:
         result = self._solve("front", 0.002, -0.0015, setting=3)
         self.assertTrue(result.ok, result.message)

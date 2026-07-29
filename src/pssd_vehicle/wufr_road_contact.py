@@ -19,6 +19,7 @@ from typing import Sequence
 
 from pssd_suspension import (
     Axle,
+    KinematicsSolverConfig,
     PhysicalStateSolverConfig,
     Side,
     SuspensionGeometrySet,
@@ -133,6 +134,11 @@ class WUFRRoadContactSolverConfig:
     contact_coefficient_min_abs: float = 1.0e-3
     unit_normal_tolerance: float = 1.0e-10
     contact_projection_min: float = 1.0e-10
+    physical_q_L_tolerance_rad: float = 2.0e-12
+    physical_displacement_tolerance_m: float = 1.0e-12
+    kinematics_root_angle_tolerance_rad: float = 1.0e-12
+    kinematics_length_residual_tolerance_m: float = 1.0e-10
+    kinematics_max_iterations: int = 120
 
     def __post_init__(self) -> None:
         finite = (
@@ -151,6 +157,10 @@ class WUFRRoadContactSolverConfig:
             self.contact_coefficient_min_abs,
             self.unit_normal_tolerance,
             self.contact_projection_min,
+            self.physical_q_L_tolerance_rad,
+            self.physical_displacement_tolerance_m,
+            self.kinematics_root_angle_tolerance_rad,
+            self.kinematics_length_residual_tolerance_m,
         )
         if not all(math.isfinite(v) for v in finite):
             raise WUFRRoadContactError(
@@ -162,7 +172,12 @@ class WUFRRoadContactSolverConfig:
                 WUFRRoadContactFailureCode.NONFINITE_INPUT,
                 "Reviewed domains must bracket nominal zero",
             )
-        if self.physical_scan_intervals_per_side < 2 or self.road_scan_intervals < 4 or self.root_max_iterations < 1:
+        if (
+            self.physical_scan_intervals_per_side < 2
+            or self.road_scan_intervals < 4
+            or self.root_max_iterations < 1
+            or self.kinematics_max_iterations < 1
+        ):
             raise WUFRRoadContactError(
                 WUFRRoadContactFailureCode.NONFINITE_INPUT,
                 "Road-contact scan/iteration settings are invalid",
@@ -177,6 +192,16 @@ class WUFRRoadContactSolverConfig:
                 WUFRRoadContactFailureCode.NONFINITE_INPUT,
                 "Contact geometry tolerances must be positive",
             )
+        if min(
+            self.physical_q_L_tolerance_rad,
+            self.physical_displacement_tolerance_m,
+            self.kinematics_root_angle_tolerance_rad,
+            self.kinematics_length_residual_tolerance_m,
+        ) <= 0.0:
+            raise WUFRRoadContactError(
+                WUFRRoadContactFailureCode.NONFINITE_INPUT,
+                "Nested physical/kinematics root tolerances must be positive",
+            )
 
     @property
     def physical_state_solver(self) -> PhysicalStateSolverConfig:
@@ -184,10 +209,18 @@ class WUFRRoadContactSolverConfig:
             q_L_min_rad=-self.q_L_limit_rad,
             q_L_max_rad=self.q_L_limit_rad,
             scan_intervals_per_side=self.physical_scan_intervals_per_side,
-            q_L_tolerance_rad=2.0e-12,
-            displacement_tolerance_m=1.0e-12,
+            q_L_tolerance_rad=self.physical_q_L_tolerance_rad,
+            displacement_tolerance_m=self.physical_displacement_tolerance_m,
             monotonic_step_tolerance_m=1.0e-12,
             max_iterations=self.root_max_iterations,
+        )
+
+    @property
+    def kinematics_solver(self) -> KinematicsSolverConfig:
+        return KinematicsSolverConfig(
+            root_angle_tolerance_rad=self.kinematics_root_angle_tolerance_rad,
+            length_residual_tolerance_m=self.kinematics_length_residual_tolerance_m,
+            max_iterations=self.kinematics_max_iterations,
         )
 
 
@@ -631,6 +664,7 @@ def evaluate_corner_point_state(
         nominal,
         wheel_coordinate_m,
         provider.config.physical_state_solver,
+        kinematics_config=provider.config.kinematics_solver,
         geometry_id=provider.suspension_geometry.geometry_id,
         configuration_id=provider.source.configuration_id,
         source_authority=provider.suspension_geometry.authority,
