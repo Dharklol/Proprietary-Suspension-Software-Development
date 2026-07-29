@@ -1,0 +1,19 @@
+[record]
+id = "BENCH-VEH-0017"
+type = "benchmark"
+title = "WUFR static carrier wrench failure and authority gates"
+status = "proposed"
+description = "Verify that MOD-VEH-0008 fails closed for incomplete or mismatched static-equilibrium data, physical-point/frame errors, invalid transforms, and reconstruction disagreement without inventing missing loads or repairing the wrench."
+verification_level = "A"
+target_ids = ["MOD-VEH-0008", "EQ-VEH-0020", "EQ-VEH-0021", "EQ-VEH-0022"]
+acceptance_criteria = [
+  "Unsuccessful MOD-VEH-0007 status, wrong result label, incomplete_static_road_reaction, missing physical closure, negative/nonfinite reaction, missing/duplicate/reordered corner, or mixed upstream states return structured failure.",
+  "Configuration, static-state, assumption, source, frame, origin, road-normal, axle, side, contact-point, wheel-center-point, carrier-reference, or current-state mismatch fails before a wrench is published.",
+  "Missing/nonfinite point force, non-unit road normal, altered prototype unsprung mass/gravity, altered physical application point, or injected free couple returns structured failure.",
+  "Missing axle placement, source-to-body translation, body pose, current Level-1 geometry, or a road/Level-1 round-trip residual above 1e-10 fails without assuming frame identity.",
+  "A deliberately altered carrier wrench, missing corner, duplicated sprung gravity load, or altered reconstruction reference fails the 1e-6 whole-vehicle reconstruction gate; no balancing force/couple or redistribution is added.",
+  "The implementation contains no fallback literals or paths for historical corner-scale loads, crossweight, diagonal rules, scalar load transfer, lateral/longitudinal tire loads, brake/drive/aero/inertia loads, or component-level unsprung mass splits.",
+  "No failure or success result is labeled integrated Level-1 linkage authority, complete physical hardware wrench, maneuver complete, structural, correlated, installed/as-built, setup-authoritative, or production-ready."
+]
+authorization = "authorizations/vehicle/AUTH-VEH-0011.toml"
+implementation_test = "planned: tests/test_wufr_static_carrier_wrench_failures.py"
