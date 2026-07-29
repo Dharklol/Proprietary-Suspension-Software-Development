@@ -1,0 +1,2135 @@
+{
+  "BENCH-VEH-0015": {
+    "bounded_nonzero_transform_probe": {
+      "component_rotation_magnitude_N": 9.797597458788559,
+      "force_level1_N": [
+        117.0,
+        -43.0,
+        612.0
+      ],
+      "force_road_N": [
+        107.20240254121144,
+        -50.34072778242086,
+        613.2336063978622
+      ],
+      "force_round_trip_residual_N": 1.1368683772161603e-13,
+      "moment_level1_Nm": [
+        8.2,
+        -3.1,
+        1.7
+      ],
+      "moment_road_Nm": [
+        8.172348701523735,
+        -3.1201763130819122,
+        1.7936600781602665
+      ],
+      "moment_round_trip_residual_Nm": 1.7763568394002505e-15,
+      "point_level1_m": [
+        0.031,
+        0.544,
+        0.207
+      ],
+      "point_road_m": [
+        0.7774479181428207,
+        0.5386445193745747,
+        -0.060111501986859855
+      ],
+      "q_body": [
+        0.004,
+        0.012,
+        -0.016
+      ]
+    },
+    "maximum_accepted_point_record_error_m": 0.0,
+    "maximum_direct_composition_error": 0.0,
+    "maximum_round_trip_force_residual_N": 1.1368683772161603e-13,
+    "maximum_round_trip_moment_residual_Nm": 7.105427357601002e-15,
+    "pass": true
+  },
+  "BENCH-VEH-0016": {
+    "accepted_force_match_residual_N": 2.1316282072803006e-13,
+    "accepted_moment_match_residual_Nm": 1.7541523789077473e-14,
+    "complete_for_authorized_static_gravity_case": true,
+    "corner_count": 4,
+    "maximum_force_residual_N": 5.189258445170708e-08,
+    "maximum_moment_residual_Nm": 4.6145622656368346e-08,
+    "pass": true
+  },
+  "BENCH-VEH-0017": {
+    "expected_failure_cases": {
+      "negative_reaction": "negative_reaction",
+      "physical_point_mismatch": "physical_point_mismatch",
+      "reconstruction_disagreement": "reconstruction_failure",
+      "unsuccessful_upstream": "upstream_result_failure"
+    },
+    "failure_cases": {
+      "negative_reaction": "negative_reaction",
+      "physical_point_mismatch": "physical_point_mismatch",
+      "reconstruction_disagreement": "reconstruction_failure",
+      "unsuccessful_upstream": "upstream_result_failure"
+    },
+    "pass": true
+  },
+  "authorization_id": "AUTH-VEH-0011",
+  "boundaries": {
+    "complete_for_authorized_static_gravity_case": true,
+    "complete_physical_hardware_wrench": false,
+    "hidden_balancing_wrench_used": false,
+    "historical_scale_reconstruction_used": false,
+    "installed_as_built_authority": false,
+    "integrated_level1_linkage_result_authority": false,
+    "maneuver_complete": false,
+    "rocker_reaction_authority": false,
+    "structural_load_case_authority": false
+  },
+  "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+  "corners": [
+    {
+      "axle": "front",
+      "carrier_reference_body_m": [
+        0.742420521828314,
+        0.5688474753927026,
+        -0.05436010789597259
+      ],
+      "carrier_reference_level1_m": [
+        -0.002902144838352688,
+        0.5751602190964064,
+        0.2356398921040274
+      ],
+      "carrier_reference_road": {
+        "authority": "AUTH-VEH-0011 / AUTH-SUSP-0012 exact current carrier reference",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "fixed_role": "road_expressed_body_fixed",
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "point_id": "front_left_current_carrier_reference",
+        "position_m": [
+          0.7422705816751087,
+          0.5688431169488914,
+          -0.05910919815102659
+        ],
+        "provenance": [
+          [
+            "corner",
+            "front_left"
+          ],
+          [
+            "assumption",
+            "ASM-SUSP-0005"
+          ],
+          [
+            "transport",
+            "EQ-VEH-0004"
+          ]
+        ],
+        "role": "MOD-SUSP-0007 current outboard-carrier reference",
+        "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0"
+      },
+      "carrier_reference_source_m": [
+        -0.002902144838352688,
+        0.5751602190964064,
+        0.2356398921040274
+      ],
+      "complete_for_authorized_static_gravity_case": true,
+      "complete_physical_hardware_wrench": false,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "contact_point_road": {
+        "authority": "AUTH-VEH-0008 / ASM-VEH-0005 / EQ-VEH-0014",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "fixed_role": "road_contact_migrating",
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "point_id": "front_left_ideal_rigid_circle_contact",
+        "position_m": [
+          0.7457026388091457,
+          0.6101194341691998,
+          -0.2900000000000413
+        ],
+        "provenance": [
+          [
+            "authorization",
+            "AUTH-VEH-0008"
+          ],
+          [
+            "assumption",
+            "ASM-VEH-0005"
+          ],
+          [
+            "equation",
+            "EQ-VEH-0014"
+          ],
+          [
+            "radius_source",
+            "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+          ],
+          [
+            "corner",
+            "front_left"
+          ]
+        ],
+        "role": "ideal_rigid_circle_road_contact_reference",
+        "source_id": "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+      },
+      "corner_id": "front_left",
+      "failure_code": null,
+      "frame_transform": {
+        "authority": "AUTH-VEH-0011",
+        "axle_source_x_m": 0.0,
+        "body_pose": {
+          "phi_rad": -8.014364080508218e-05,
+          "psi_rad": 0.0,
+          "theta_rad": 0.002706006283034105,
+          "z_s_m": -0.0026947079689397502
+        },
+        "rotation_target_from_source": [
+          [
+            0.9999963387672322,
+            -2.168689306620229e-07,
+            0.0027060029719033415
+          ],
+          [
+            0.0,
+            0.9999999967884984,
+            8.014364071928837e-05
+          ],
+          [
+            -0.0027060029805936743,
+            -8.014334729476484e-05,
+            0.9999963355557423
+          ]
+        ],
+        "source_frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+        "target_frame_id": "WUFR27_NOMINAL_ROAD",
+        "target_origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "translation_target_of_source_origin_m": [
+          0.7445351983740829,
+          -0.006335985339238923,
+          -0.294709984713198
+        ]
+      },
+      "installed_as_built_authority": false,
+      "level1_wrench": {
+        "complete": true,
+        "force_N": [
+          -2.0076731841626394,
+          -0.05946100222603315,
+          741.9303827653965
+        ],
+        "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+        "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:front_left",
+        "moment_Nm": [
+          31.129334099352494,
+          -2.5558749440767237,
+          0.08403154241236208
+        ],
+        "reference_point_m": [
+          -0.002902144838352688,
+          0.5751602190964064,
+          0.2356398921040274
+        ],
+        "source_id": "WUFR27_STATIC_CARRIER_WRENCH_V0"
+      },
+      "lower_spherical_level1_m": [
+        0.00029809866116495276,
+        0.5867587967388159,
+        0.16172737794223951
+      ],
+      "maneuver_complete": false,
+      "message": "Complete external carrier wrench for the authorized static-gravity model only",
+      "ok": true,
+      "road_force_wrench": {
+        "application_point": {
+          "authority": "AUTH-VEH-0008 / ASM-VEH-0005 / EQ-VEH-0014",
+          "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+          "fixed_role": "road_contact_migrating",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "point_id": "front_left_ideal_rigid_circle_contact",
+          "position_m": [
+            0.7457026388091457,
+            0.6101194341691998,
+            -0.2900000000000413
+          ],
+          "provenance": [
+            [
+              "authorization",
+              "AUTH-VEH-0008"
+            ],
+            [
+              "assumption",
+              "ASM-VEH-0005"
+            ],
+            [
+              "equation",
+              "EQ-VEH-0014"
+            ],
+            [
+              "radius_source",
+              "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+            ],
+            [
+              "corner",
+              "front_left"
+            ]
+          ],
+          "role": "ideal_rigid_circle_road_contact_reference",
+          "source_id": "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+        },
+        "authority": "AUTH-VEH-0011 recovered road-normal external load",
+        "force_N": [
+          0.0,
+          0.0,
+          790.98310153789
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "free_couple_Nm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "source_id": "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1",
+        "wrench_id": "front_left_road_normal_reaction"
+      },
+      "road_normal": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "road_reaction_N": 790.98310153789,
+      "road_representation": {
+        "force_N": [
+          0.0,
+          0.0,
+          741.93310153789
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "moment_Nm": [
+          31.12944807150782,
+          -2.5558682012747833,
+          0.0
+        ],
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "reference_point_id": "front_left_current_carrier_reference",
+        "reference_point_m": [
+          0.7422705816751087,
+          0.5688431169488914,
+          -0.05910919815102659
+        ]
+      },
+      "road_resultant": {
+        "contributions": [
+          {
+            "authority": "AUTH-VEH-0011 recovered road-normal external load",
+            "force_N": [
+              0.0,
+              0.0,
+              790.98310153789
+            ],
+            "force_moment_Nm": [
+              32.648869414981306,
+              -2.714699196535778,
+              0.0
+            ],
+            "free_couple_Nm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "moment_Nm": [
+              32.648869414981306,
+              -2.714699196535778,
+              0.0
+            ],
+            "moment_arm_m": [
+              0.0034320571340369366,
+              0.041276317220308334,
+              -0.2308908018490147
+            ],
+            "reference_point_id": "front_left_current_carrier_reference",
+            "source_id": "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1",
+            "wrench_id": "front_left_road_normal_reaction"
+          },
+          {
+            "authority": "AUTH-VEH-0011 / ASM-VEH-0003 prototype wheel-center gravity",
+            "force_N": [
+              0.0,
+              0.0,
+              -49.050000000000004
+            ],
+            "force_moment_Nm": [
+              -1.5194213434734856,
+              0.15883099526099445,
+              0.0
+            ],
+            "free_couple_Nm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "moment_Nm": [
+              -1.5194213434734856,
+              0.15883099526099445,
+              0.0
+            ],
+            "moment_arm_m": [
+              0.00323814465363903,
+              0.03097698967326168,
+              0.001290795936056549
+            ],
+            "reference_point_id": "front_left_current_carrier_reference",
+            "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+            "wrench_id": "front_left_prototype_unsprung_gravity"
+          }
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "reference_point_id": "front_left_current_carrier_reference",
+        "resultant_force_N": [
+          0.0,
+          0.0,
+          741.93310153789
+        ],
+        "resultant_moment_Nm": [
+          31.12944807150782,
+          -2.5558682012747833,
+          0.0
+        ]
+      },
+      "round_trip_force_residual_N": 1.1368683772161603e-13,
+      "round_trip_moment_residual_Nm": 3.552713678800501e-15,
+      "side": "left",
+      "static_state_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE",
+      "status": "success",
+      "unsprung_gravity_wrench": {
+        "application_point": {
+          "authority": "AUTH-VEH-0008 / ASM-VEH-0005 design-intent R&D",
+          "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+          "fixed_role": "road_expressed_body_fixed",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "point_id": "front_left_physical_wheel_center",
+          "position_m": [
+            0.7455087263287478,
+            0.5998201066221531,
+            -0.05781840221497004
+          ],
+          "provenance": [
+            [
+              "authorization",
+              "AUTH-VEH-0008"
+            ],
+            [
+              "assumption",
+              "ASM-VEH-0005"
+            ],
+            [
+              "equation",
+              "EQ-VEH-0011"
+            ],
+            [
+              "corner",
+              "front_left"
+            ],
+            [
+              "transport",
+              "EQ-VEH-0004"
+            ]
+          ],
+          "role": "physical_wheel_center",
+          "source_id": "WUFR26_ROAD_CONTACT_REFERENCE_V0"
+        },
+        "authority": "AUTH-VEH-0011 / ASM-VEH-0003 prototype wheel-center gravity",
+        "force_N": [
+          0.0,
+          0.0,
+          -49.050000000000004
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "free_couple_Nm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+        "wrench_id": "front_left_prototype_unsprung_gravity"
+      },
+      "upper_spherical_level1_m": [
+        -0.006102388337870329,
+        0.5635616414539968,
+        0.30955240626581526
+      ],
+      "wheel_center_road": {
+        "authority": "AUTH-VEH-0008 / ASM-VEH-0005 design-intent R&D",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "fixed_role": "road_expressed_body_fixed",
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "point_id": "front_left_physical_wheel_center",
+        "position_m": [
+          0.7455087263287478,
+          0.5998201066221531,
+          -0.05781840221497004
+        ],
+        "provenance": [
+          [
+            "authorization",
+            "AUTH-VEH-0008"
+          ],
+          [
+            "assumption",
+            "ASM-VEH-0005"
+          ],
+          [
+            "equation",
+            "EQ-VEH-0011"
+          ],
+          [
+            "corner",
+            "front_left"
+          ],
+          [
+            "transport",
+            "EQ-VEH-0004"
+          ]
+        ],
+        "role": "physical_wheel_center",
+        "source_id": "WUFR26_ROAD_CONTACT_REFERENCE_V0"
+      }
+    },
+    {
+      "axle": "front",
+      "carrier_reference_body_m": [
+        0.7424134707419929,
+        -0.5814885282866024,
+        -0.05445451585532379
+      ],
+      "carrier_reference_level1_m": [
+        -0.0029091959246737437,
+        -0.5751757845828986,
+        0.2355454841446762
+      ],
+      "carrier_reference_road": {
+        "authority": "AUTH-VEH-0011 / AUTH-SUSP-0012 exact current carrier reference",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "fixed_role": "road_expressed_body_fixed",
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "point_id": "front_right_current_carrier_reference",
+        "position_m": [
+          0.7422635246185239,
+          -0.5814928906023054,
+          -0.059111394906315944
+        ],
+        "provenance": [
+          [
+            "corner",
+            "front_right"
+          ],
+          [
+            "assumption",
+            "ASM-SUSP-0005"
+          ],
+          [
+            "transport",
+            "EQ-VEH-0004"
+          ]
+        ],
+        "role": "MOD-SUSP-0007 current outboard-carrier reference",
+        "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0"
+      },
+      "carrier_reference_source_m": [
+        -0.0029091959246737437,
+        -0.5751757845828986,
+        0.2355454841446762
+      ],
+      "complete_for_authorized_static_gravity_case": true,
+      "complete_physical_hardware_wrench": false,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "contact_point_road": {
+        "authority": "AUTH-VEH-0008 / ASM-VEH-0005 / EQ-VEH-0014",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "fixed_role": "road_contact_migrating",
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "point_id": "front_right_ideal_rigid_circle_contact",
+        "position_m": [
+          0.7456957312057624,
+          -0.622781100354322,
+          -0.2899999999999252
+        ],
+        "provenance": [
+          [
+            "authorization",
+            "AUTH-VEH-0008"
+          ],
+          [
+            "assumption",
+            "ASM-VEH-0005"
+          ],
+          [
+            "equation",
+            "EQ-VEH-0014"
+          ],
+          [
+            "radius_source",
+            "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+          ],
+          [
+            "corner",
+            "front_right"
+          ]
+        ],
+        "role": "ideal_rigid_circle_road_contact_reference",
+        "source_id": "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+      },
+      "corner_id": "front_right",
+      "failure_code": null,
+      "frame_transform": {
+        "authority": "AUTH-VEH-0011",
+        "axle_source_x_m": 0.0,
+        "body_pose": {
+          "phi_rad": -8.014364080508218e-05,
+          "psi_rad": 0.0,
+          "theta_rad": 0.002706006283034105,
+          "z_s_m": -0.0026947079689397502
+        },
+        "rotation_target_from_source": [
+          [
+            0.9999963387672322,
+            -2.168689306620229e-07,
+            0.0027060029719033415
+          ],
+          [
+            0.0,
+            0.9999999967884984,
+            8.014364071928837e-05
+          ],
+          [
+            -0.0027060029805936743,
+            -8.014334729476484e-05,
+            0.9999963355557423
+          ]
+        ],
+        "source_frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+        "target_frame_id": "WUFR27_NOMINAL_ROAD",
+        "target_origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "translation_target_of_source_origin_m": [
+          0.7445351983740829,
+          -0.006335985339238923,
+          -0.294709984713198
+        ]
+      },
+      "installed_as_built_authority": false,
+      "level1_wrench": {
+        "complete": true,
+        "force_N": [
+          -1.9768586416931455,
+          -0.0585483718274073,
+          730.5429490588156
+        ],
+        "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+        "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:front_right",
+        "moment_Nm": [
+          -30.66857847683114,
+          -2.516886328969257,
+          -0.0831912813138532
+        ],
+        "reference_point_m": [
+          -0.0029091959246737437,
+          -0.5751757845828986,
+          0.2355454841446762
+        ],
+        "source_id": "WUFR27_STATIC_CARRIER_WRENCH_V0"
+      },
+      "lower_spherical_level1_m": [
+        0.00029194893918957354,
+        -0.5867663819650809,
+        0.16163175716934272
+      ],
+      "maneuver_complete": false,
+      "message": "Complete external carrier wrench for the authorized static-gravity model only",
+      "ok": true,
+      "road_force_wrench": {
+        "application_point": {
+          "authority": "AUTH-VEH-0008 / ASM-VEH-0005 / EQ-VEH-0014",
+          "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+          "fixed_role": "road_contact_migrating",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "point_id": "front_right_ideal_rigid_circle_contact",
+          "position_m": [
+            0.7456957312057624,
+            -0.622781100354322,
+            -0.2899999999999252
+          ],
+          "provenance": [
+            [
+              "authorization",
+              "AUTH-VEH-0008"
+            ],
+            [
+              "assumption",
+              "ASM-VEH-0005"
+            ],
+            [
+              "equation",
+              "EQ-VEH-0014"
+            ],
+            [
+              "radius_source",
+              "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+            ],
+            [
+              "corner",
+              "front_right"
+            ]
+          ],
+          "role": "ideal_rigid_circle_road_contact_reference",
+          "source_id": "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+        },
+        "authority": "AUTH-VEH-0011 recovered road-normal external load",
+        "force_N": [
+          0.0,
+          0.0,
+          779.5956261025401
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "free_couple_Nm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "source_id": "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1",
+        "wrench_id": "front_right_road_normal_reaction"
+      },
+      "road_normal": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "road_reaction_N": 779.5956261025401,
+      "road_representation": {
+        "force_N": [
+          0.0,
+          0.0,
+          730.5456261025402
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "moment_Nm": [
+          -30.668690762046705,
+          -2.516892988138433,
+          0.0
+        ],
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "reference_point_id": "front_right_current_carrier_reference",
+        "reference_point_m": [
+          0.7422635246185239,
+          -0.5814928906023054,
+          -0.059111394906315944
+        ]
+      },
+      "road_resultant": {
+        "contributions": [
+          {
+            "authority": "AUTH-VEH-0011 recovered road-normal external load",
+            "force_N": [
+              0.0,
+              0.0,
+              779.5956261025401
+            ],
+            "force_moment_Nm": [
+              -32.188107732276414,
+              -2.675733243291483,
+              0.0
+            ],
+            "free_couple_Nm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "moment_Nm": [
+              -32.188107732276414,
+              -2.675733243291483,
+              0.0
+            ],
+            "moment_arm_m": [
+              0.003432206587238529,
+              -0.041288209752016636,
+              -0.23088860509360926
+            ],
+            "reference_point_id": "front_right_current_carrier_reference",
+            "source_id": "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1",
+            "wrench_id": "front_right_road_normal_reaction"
+          },
+          {
+            "authority": "AUTH-VEH-0011 / ASM-VEH-0003 prototype wheel-center gravity",
+            "force_N": [
+              0.0,
+              0.0,
+              -49.050000000000004
+            ],
+            "force_moment_Nm": [
+              1.5194169702297107,
+              0.15884025515304998,
+              0.0
+            ],
+            "free_couple_Nm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "moment_Nm": [
+              1.5194169702297107,
+              0.15884025515304998,
+              0.0
+            ],
+            "moment_arm_m": [
+              0.003238333438390417,
+              -0.03097690051436719,
+              0.0012924609195515274
+            ],
+            "reference_point_id": "front_right_current_carrier_reference",
+            "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+            "wrench_id": "front_right_prototype_unsprung_gravity"
+          }
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "reference_point_id": "front_right_current_carrier_reference",
+        "resultant_force_N": [
+          0.0,
+          0.0,
+          730.5456261025402
+        ],
+        "resultant_moment_Nm": [
+          -30.668690762046705,
+          -2.516892988138433,
+          0.0
+        ]
+      },
+      "round_trip_force_residual_N": 1.1368683772161603e-13,
+      "round_trip_moment_residual_Nm": 3.552713678800501e-15,
+      "side": "right",
+      "static_state_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE",
+      "status": "success",
+      "unsprung_gravity_wrench": {
+        "application_point": {
+          "authority": "AUTH-VEH-0008 / ASM-VEH-0005 design-intent R&D",
+          "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+          "fixed_role": "road_expressed_body_fixed",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "point_id": "front_right_physical_wheel_center",
+          "position_m": [
+            0.7455018580569143,
+            -0.6124697911166725,
+            -0.057818933986764416
+          ],
+          "provenance": [
+            [
+              "authorization",
+              "AUTH-VEH-0008"
+            ],
+            [
+              "assumption",
+              "ASM-VEH-0005"
+            ],
+            [
+              "equation",
+              "EQ-VEH-0011"
+            ],
+            [
+              "corner",
+              "front_right"
+            ],
+            [
+              "transport",
+              "EQ-VEH-0004"
+            ]
+          ],
+          "role": "physical_wheel_center",
+          "source_id": "WUFR26_ROAD_CONTACT_REFERENCE_V0"
+        },
+        "authority": "AUTH-VEH-0011 / ASM-VEH-0003 prototype wheel-center gravity",
+        "force_N": [
+          0.0,
+          0.0,
+          -49.050000000000004
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "free_couple_Nm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+        "wrench_id": "front_right_prototype_unsprung_gravity"
+      },
+      "upper_spherical_level1_m": [
+        -0.006110340788537061,
+        -0.5635851872007163,
+        0.3094592111200097
+      ],
+      "wheel_center_road": {
+        "authority": "AUTH-VEH-0008 / ASM-VEH-0005 design-intent R&D",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "fixed_role": "road_expressed_body_fixed",
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "point_id": "front_right_physical_wheel_center",
+        "position_m": [
+          0.7455018580569143,
+          -0.6124697911166725,
+          -0.057818933986764416
+        ],
+        "provenance": [
+          [
+            "authorization",
+            "AUTH-VEH-0008"
+          ],
+          [
+            "assumption",
+            "ASM-VEH-0005"
+          ],
+          [
+            "equation",
+            "EQ-VEH-0011"
+          ],
+          [
+            "corner",
+            "front_right"
+          ],
+          [
+            "transport",
+            "EQ-VEH-0004"
+          ]
+        ],
+        "role": "physical_wheel_center",
+        "source_id": "WUFR26_ROAD_CONTACT_REFERENCE_V0"
+      }
+    },
+    {
+      "axle": "rear",
+      "carrier_reference_body_m": [
+        -0.8170872808356288,
+        0.5377689627051802,
+        -0.07276381511385516
+      ],
+      "carrier_reference_level1_m": [
+        -9.947502295465371e-06,
+        0.5440817064088839,
+        0.21723618488614482
+      ],
+      "carrier_reference_road": {
+        "authority": "AUTH-VEH-0011 / AUTH-SUSP-0012 exact current carrier reference",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "fixed_role": "road_expressed_body_fixed",
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "point_id": "rear_left_current_carrier_reference",
+        "position_m": [
+          -0.817281305014227,
+          0.5377631294210785,
+          -0.07329031443124648
+        ],
+        "provenance": [
+          [
+            "corner",
+            "rear_left"
+          ],
+          [
+            "assumption",
+            "ASM-SUSP-0005"
+          ],
+          [
+            "transport",
+            "EQ-VEH-0004"
+          ]
+        ],
+        "role": "MOD-SUSP-0007 current outboard-carrier reference",
+        "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0"
+      },
+      "carrier_reference_source_m": [
+        -1.5624099475022954,
+        0.5440817064088839,
+        0.21723618488614482
+      ],
+      "complete_for_authorized_static_gravity_case": true,
+      "complete_physical_hardware_wrench": false,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "contact_point_road": {
+        "authority": "AUTH-VEH-0008 / ASM-VEH-0005 / EQ-VEH-0014",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "fixed_role": "road_contact_migrating",
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "point_id": "rear_left_ideal_rigid_circle_contact",
+        "position_m": [
+          -0.8172697013710414,
+          0.5970055179553434,
+          -0.2900000000000612
+        ],
+        "provenance": [
+          [
+            "authorization",
+            "AUTH-VEH-0008"
+          ],
+          [
+            "assumption",
+            "ASM-VEH-0005"
+          ],
+          [
+            "equation",
+            "EQ-VEH-0014"
+          ],
+          [
+            "radius_source",
+            "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+          ],
+          [
+            "corner",
+            "rear_left"
+          ]
+        ],
+        "role": "ideal_rigid_circle_road_contact_reference",
+        "source_id": "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+      },
+      "corner_id": "rear_left",
+      "failure_code": null,
+      "frame_transform": {
+        "authority": "AUTH-VEH-0011",
+        "axle_source_x_m": -1.5624,
+        "body_pose": {
+          "phi_rad": -8.014364080508218e-05,
+          "psi_rad": 0.0,
+          "theta_rad": 0.002706006283034105,
+          "z_s_m": -0.0026947079689397502
+        },
+        "rotation_target_from_source": [
+          [
+            0.9999963387672322,
+            -2.168689306620229e-07,
+            0.0027060029719033415
+          ],
+          [
+            0.0,
+            0.9999999967884984,
+            8.014364071928837e-05
+          ],
+          [
+            -0.0027060029805936743,
+            -8.014334729476484e-05,
+            0.9999963355557423
+          ]
+        ],
+        "source_frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+        "target_frame_id": "WUFR27_NOMINAL_ROAD",
+        "target_origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "translation_target_of_source_origin_m": [
+          -0.8178590813158406,
+          -0.006335985339238923,
+          -0.2904821256563184
+        ]
+      },
+      "installed_as_built_authority": false,
+      "level1_wrench": {
+        "complete": true,
+        "force_N": [
+          -1.8330164758852665,
+          -0.05428821663443598,
+          677.3864522855848
+        ],
+        "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+        "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:rear_left",
+        "moment_Nm": [
+          40.33225415590239,
+          -0.006123864090095769,
+          0.10913910910714858
+        ],
+        "reference_point_m": [
+          -9.947502295465371e-06,
+          0.5440817064088839,
+          0.21723618488614482
+        ],
+        "source_id": "WUFR27_STATIC_CARRIER_WRENCH_V0"
+      },
+      "lower_spherical_level1_m": [
+        -2.0199041480123414e-05,
+        0.5651293604280849,
+        0.13315697830274065
+      ],
+      "maneuver_complete": false,
+      "message": "Complete external carrier wrench for the authorized static-gravity model only",
+      "ok": true,
+      "road_force_wrench": {
+        "application_point": {
+          "authority": "AUTH-VEH-0008 / ASM-VEH-0005 / EQ-VEH-0014",
+          "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+          "fixed_role": "road_contact_migrating",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "point_id": "rear_left_ideal_rigid_circle_contact",
+          "position_m": [
+            -0.8172697013710414,
+            0.5970055179553434,
+            -0.2900000000000612
+          ],
+          "provenance": [
+            [
+              "authorization",
+              "AUTH-VEH-0008"
+            ],
+            [
+              "assumption",
+              "ASM-VEH-0005"
+            ],
+            [
+              "equation",
+              "EQ-VEH-0014"
+            ],
+            [
+              "radius_source",
+              "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+            ],
+            [
+              "corner",
+              "rear_left"
+            ]
+          ],
+          "role": "ideal_rigid_circle_road_contact_reference",
+          "source_id": "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+        },
+        "authority": "AUTH-VEH-0011 recovered road-normal external load",
+        "force_N": [
+          0.0,
+          0.0,
+          726.4389345395762
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "free_couple_Nm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "source_id": "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1",
+        "wrench_id": "rear_left_road_normal_reaction"
+      },
+      "road_normal": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "road_reaction_N": 726.4389345395762,
+      "road_representation": {
+        "force_N": [
+          0.0,
+          0.0,
+          677.3889345395762
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "moment_Nm": [
+          40.33240182221355,
+          -0.006115117264880263,
+          0.0
+        ],
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "reference_point_id": "rear_left_current_carrier_reference",
+        "reference_point_m": [
+          -0.817281305014227,
+          0.5377631294210785,
+          -0.07329031443124648
+        ]
+      },
+      "road_resultant": {
+        "contributions": [
+          {
+            "authority": "AUTH-VEH-0011 recovered road-normal external load",
+            "force_N": [
+              0.0,
+              0.0,
+              726.4389345395762
+            ],
+            "force_moment_Nm": [
+              43.03597760641099,
+              -0.00842933819255559,
+              0.0
+            ],
+            "free_couple_Nm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "moment_Nm": [
+              43.03597760641099,
+              -0.00842933819255559,
+              0.0
+            ],
+            "moment_arm_m": [
+              1.1603643185642554e-05,
+              0.05924238853426489,
+              -0.21670968556881473
+            ],
+            "reference_point_id": "rear_left_current_carrier_reference",
+            "source_id": "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1",
+            "wrench_id": "rear_left_road_normal_reaction"
+          },
+          {
+            "authority": "AUTH-VEH-0011 / ASM-VEH-0003 prototype wheel-center gravity",
+            "force_N": [
+              0.0,
+              0.0,
+              -49.050000000000004
+            ],
+            "force_moment_Nm": [
+              -2.7035757841974424,
+              0.002314220927675326,
+              0.0
+            ],
+            "free_couple_Nm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "moment_Nm": [
+              -2.7035757841974424,
+              0.002314220927675326,
+              0.0
+            ],
+            "moment_arm_m": [
+              4.718085479460399e-05,
+              0.05511877235876539,
+              0.01566372647287987
+            ],
+            "reference_point_id": "rear_left_current_carrier_reference",
+            "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+            "wrench_id": "rear_left_prototype_unsprung_gravity"
+          }
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "reference_point_id": "rear_left_current_carrier_reference",
+        "resultant_force_N": [
+          0.0,
+          0.0,
+          677.3889345395762
+        ],
+        "resultant_moment_Nm": [
+          40.33240182221355,
+          -0.006115117264880263,
+          0.0
+        ]
+      },
+      "round_trip_force_residual_N": 1.1368683772161603e-13,
+      "round_trip_moment_residual_Nm": 7.105427357601002e-15,
+      "side": "left",
+      "static_state_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE",
+      "status": "success",
+      "unsprung_gravity_wrench": {
+        "application_point": {
+          "authority": "AUTH-VEH-0008 / ASM-VEH-0005 design-intent R&D",
+          "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+          "fixed_role": "road_expressed_body_fixed",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "point_id": "rear_left_physical_wheel_center",
+          "position_m": [
+            -0.8172341241594324,
+            0.5928819017798439,
+            -0.05762658795836661
+          ],
+          "provenance": [
+            [
+              "authorization",
+              "AUTH-VEH-0008"
+            ],
+            [
+              "assumption",
+              "ASM-VEH-0005"
+            ],
+            [
+              "equation",
+              "EQ-VEH-0011"
+            ],
+            [
+              "corner",
+              "rear_left"
+            ],
+            [
+              "transport",
+              "EQ-VEH-0004"
+            ]
+          ],
+          "role": "physical_wheel_center",
+          "source_id": "WUFR26_ROAD_CONTACT_REFERENCE_V0"
+        },
+        "authority": "AUTH-VEH-0011 / ASM-VEH-0003 prototype wheel-center gravity",
+        "force_N": [
+          0.0,
+          0.0,
+          -49.050000000000004
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "free_couple_Nm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+        "wrench_id": "rear_left_prototype_unsprung_gravity"
+      },
+      "upper_spherical_level1_m": [
+        3.0403688919267147e-07,
+        0.5230340523896827,
+        0.301315391469549
+      ],
+      "wheel_center_road": {
+        "authority": "AUTH-VEH-0008 / ASM-VEH-0005 design-intent R&D",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "fixed_role": "road_expressed_body_fixed",
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "point_id": "rear_left_physical_wheel_center",
+        "position_m": [
+          -0.8172341241594324,
+          0.5928819017798439,
+          -0.05762658795836661
+        ],
+        "provenance": [
+          [
+            "authorization",
+            "AUTH-VEH-0008"
+          ],
+          [
+            "assumption",
+            "ASM-VEH-0005"
+          ],
+          [
+            "equation",
+            "EQ-VEH-0011"
+          ],
+          [
+            "corner",
+            "rear_left"
+          ],
+          [
+            "transport",
+            "EQ-VEH-0004"
+          ]
+        ],
+        "role": "physical_wheel_center",
+        "source_id": "WUFR26_ROAD_CONTACT_REFERENCE_V0"
+      }
+    },
+    {
+      "axle": "rear",
+      "carrier_reference_body_m": [
+        -0.8170854725378652,
+        -0.5503990282967711,
+        -0.07285677202092697
+      ],
+      "carrier_reference_level1_m": [
+        -8.13920453195116e-06,
+        -0.5440862845930674,
+        0.217143227979073
+      ],
+      "carrier_reference_road": {
+        "authority": "AUTH-VEH-0011 / AUTH-SUSP-0012 exact current carrier reference",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "fixed_role": "road_expressed_body_fixed",
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "point_id": "rear_right_current_carrier_reference",
+        "position_m": [
+          -0.8172795122749222,
+          -0.5504048655361246,
+          -0.07329606646572412
+        ],
+        "provenance": [
+          [
+            "corner",
+            "rear_right"
+          ],
+          [
+            "assumption",
+            "ASM-SUSP-0005"
+          ],
+          [
+            "transport",
+            "EQ-VEH-0004"
+          ]
+        ],
+        "role": "MOD-SUSP-0007 current outboard-carrier reference",
+        "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0"
+      },
+      "carrier_reference_source_m": [
+        -1.562408139204532,
+        -0.5440862845930674,
+        0.217143227979073
+      ],
+      "complete_for_authorized_static_gravity_case": true,
+      "complete_physical_hardware_wrench": false,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "contact_point_road": {
+        "authority": "AUTH-VEH-0008 / ASM-VEH-0005 / EQ-VEH-0014",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "fixed_role": "road_contact_migrating",
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "point_id": "rear_right_ideal_rigid_circle_contact",
+        "position_m": [
+          -0.817268997510028,
+          -0.6096682396019443,
+          -0.29000000000001297
+        ],
+        "provenance": [
+          [
+            "authorization",
+            "AUTH-VEH-0008"
+          ],
+          [
+            "assumption",
+            "ASM-VEH-0005"
+          ],
+          [
+            "equation",
+            "EQ-VEH-0014"
+          ],
+          [
+            "radius_source",
+            "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+          ],
+          [
+            "corner",
+            "rear_right"
+          ]
+        ],
+        "role": "ideal_rigid_circle_road_contact_reference",
+        "source_id": "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+      },
+      "corner_id": "rear_right",
+      "failure_code": null,
+      "frame_transform": {
+        "authority": "AUTH-VEH-0011",
+        "axle_source_x_m": -1.5624,
+        "body_pose": {
+          "phi_rad": -8.014364080508218e-05,
+          "psi_rad": 0.0,
+          "theta_rad": 0.002706006283034105,
+          "z_s_m": -0.0026947079689397502
+        },
+        "rotation_target_from_source": [
+          [
+            0.9999963387672322,
+            -2.168689306620229e-07,
+            0.0027060029719033415
+          ],
+          [
+            0.0,
+            0.9999999967884984,
+            8.014364071928837e-05
+          ],
+          [
+            -0.0027060029805936743,
+            -8.014334729476484e-05,
+            0.9999963355557423
+          ]
+        ],
+        "source_frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+        "target_frame_id": "WUFR27_NOMINAL_ROAD",
+        "target_origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "translation_target_of_source_origin_m": [
+          -0.8178590813158406,
+          -0.006335985339238923,
+          -0.2904821256563184
+        ]
+      },
+      "installed_as_built_authority": false,
+      "level1_wrench": {
+        "complete": true,
+        "force_N": [
+          -1.7792175630288949,
+          -0.052694861051293555,
+          657.5052045193863
+        ],
+        "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+        "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:rear_right",
+        "moment_Nm": [
+          -39.169343553506216,
+          -0.005148612765286087,
+          -0.10599316143677814
+        ],
+        "reference_point_m": [
+          -8.13920453195116e-06,
+          -0.5440862845930674,
+          0.217143227979073
+        ],
+        "source_id": "WUFR27_STATIC_CARRIER_WRENCH_V0"
+      },
+      "lower_spherical_level1_m": [
+        -1.6527046378056465e-05,
+        -0.5651286213621274,
+        0.1330626902938205
+      ],
+      "maneuver_complete": false,
+      "message": "Complete external carrier wrench for the authorized static-gravity model only",
+      "ok": true,
+      "road_force_wrench": {
+        "application_point": {
+          "authority": "AUTH-VEH-0008 / ASM-VEH-0005 / EQ-VEH-0014",
+          "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+          "fixed_role": "road_contact_migrating",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "point_id": "rear_right_ideal_rigid_circle_contact",
+          "position_m": [
+            -0.817268997510028,
+            -0.6096682396019443,
+            -0.29000000000001297
+          ],
+          "provenance": [
+            [
+              "authorization",
+              "AUTH-VEH-0008"
+            ],
+            [
+              "assumption",
+              "ASM-VEH-0005"
+            ],
+            [
+              "equation",
+              "EQ-VEH-0014"
+            ],
+            [
+              "radius_source",
+              "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+            ],
+            [
+              "corner",
+              "rear_right"
+            ]
+          ],
+          "role": "ideal_rigid_circle_road_contact_reference",
+          "source_id": "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+        },
+        "authority": "AUTH-VEH-0011 recovered road-normal external load",
+        "force_N": [
+          0.0,
+          0.0,
+          706.5576139193865
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "free_couple_Nm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "source_id": "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1",
+        "wrench_id": "rear_right_road_normal_reaction"
+      },
+      "road_normal": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "road_reaction_N": 706.5576139193865,
+      "road_representation": {
+        "force_N": [
+          0.0,
+          0.0,
+          657.5076139193866
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "moment_Nm": [
+          -39.16948696211538,
+          -0.005157107426600201,
+          0.0
+        ],
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "reference_point_id": "rear_right_current_carrier_reference",
+        "reference_point_m": [
+          -0.8172795122749222,
+          -0.5504048655361246,
+          -0.07329606646572412
+        ]
+      },
+      "road_resultant": {
+        "contributions": [
+          {
+            "authority": "AUTH-VEH-0011 recovered road-normal external load",
+            "force_N": [
+              0.0,
+              0.0,
+              706.5576139193865
+            ],
+            "force_moment_Nm": [
+              -41.87298817275764,
+              -0.007429287194583796,
+              0.0
+            ],
+            "free_couple_Nm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "moment_Nm": [
+              -41.87298817275764,
+              -0.007429287194583796,
+              0.0
+            ],
+            "moment_arm_m": [
+              1.051476489422054e-05,
+              -0.05926337406581972,
+              -0.21670393353428885
+            ],
+            "reference_point_id": "rear_right_current_carrier_reference",
+            "source_id": "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1",
+            "wrench_id": "rear_right_road_normal_reaction"
+          },
+          {
+            "authority": "AUTH-VEH-0011 / ASM-VEH-0003 prototype wheel-center gravity",
+            "force_N": [
+              0.0,
+              0.0,
+              -49.050000000000004
+            ],
+            "force_moment_Nm": [
+              2.703501210642256,
+              0.0022721797679835956,
+              0.0
+            ],
+            "free_couple_Nm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "moment_Nm": [
+              2.703501210642256,
+              0.0022721797679835956,
+              0.0
+            ],
+            "moment_arm_m": [
+              4.632374654400806e-05,
+              -0.05511725200086148,
+              0.015669078000052857
+            ],
+            "reference_point_id": "rear_right_current_carrier_reference",
+            "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+            "wrench_id": "rear_right_prototype_unsprung_gravity"
+          }
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "reference_point_id": "rear_right_current_carrier_reference",
+        "resultant_force_N": [
+          0.0,
+          0.0,
+          657.5076139193866
+        ],
+        "resultant_moment_Nm": [
+          -39.16948696211538,
+          -0.005157107426600201,
+          0.0
+        ]
+      },
+      "round_trip_force_residual_N": 1.1368683772161603e-13,
+      "round_trip_moment_residual_Nm": 1.2316494327787968e-17,
+      "side": "right",
+      "static_state_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE",
+      "status": "success",
+      "unsprung_gravity_wrench": {
+        "application_point": {
+          "authority": "AUTH-VEH-0008 / ASM-VEH-0005 design-intent R&D",
+          "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+          "fixed_role": "road_expressed_body_fixed",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "point_id": "rear_right_physical_wheel_center",
+          "position_m": [
+            -0.8172331885283782,
+            -0.605522117536986,
+            -0.05762698846567126
+          ],
+          "provenance": [
+            [
+              "authorization",
+              "AUTH-VEH-0008"
+            ],
+            [
+              "assumption",
+              "ASM-VEH-0005"
+            ],
+            [
+              "equation",
+              "EQ-VEH-0011"
+            ],
+            [
+              "corner",
+              "rear_right"
+            ],
+            [
+              "transport",
+              "EQ-VEH-0004"
+            ]
+          ],
+          "role": "physical_wheel_center",
+          "source_id": "WUFR26_ROAD_CONTACT_REFERENCE_V0"
+        },
+        "authority": "AUTH-VEH-0011 / ASM-VEH-0003 prototype wheel-center gravity",
+        "force_N": [
+          0.0,
+          0.0,
+          -49.050000000000004
+        ],
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "free_couple_Nm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+        "wrench_id": "rear_right_prototype_unsprung_gravity"
+      },
+      "upper_spherical_level1_m": [
+        2.4863731415414314e-07,
+        -0.5230439478240074,
+        0.3012237656643255
+      ],
+      "wheel_center_road": {
+        "authority": "AUTH-VEH-0008 / ASM-VEH-0005 design-intent R&D",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "fixed_role": "road_expressed_body_fixed",
+        "frame_id": "WUFR27_NOMINAL_ROAD",
+        "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+        "point_id": "rear_right_physical_wheel_center",
+        "position_m": [
+          -0.8172331885283782,
+          -0.605522117536986,
+          -0.05762698846567126
+        ],
+        "provenance": [
+          [
+            "authorization",
+            "AUTH-VEH-0008"
+          ],
+          [
+            "assumption",
+            "ASM-VEH-0005"
+          ],
+          [
+            "equation",
+            "EQ-VEH-0011"
+          ],
+          [
+            "corner",
+            "rear_right"
+          ],
+          [
+            "transport",
+            "EQ-VEH-0004"
+          ]
+        ],
+        "role": "physical_wheel_center",
+        "source_id": "WUFR26_ROAD_CONTACT_REFERENCE_V0"
+      }
+    }
+  ],
+  "model_id": "MOD-VEH-0008",
+  "reconstruction": {
+    "accepted_closure_force_N": [
+      0.0,
+      0.0,
+      5.189237128888635e-08
+    ],
+    "accepted_closure_moment_Nm": [
+      4.6145640197892135e-08,
+      -2.701109735880891e-08,
+      0.0
+    ],
+    "accepted_force_match_residual_N": 2.1316282072803006e-13,
+    "accepted_moment_match_residual_Nm": 1.7541523789077473e-14,
+    "at_body_origin": {
+      "contributions": [
+        {
+          "authority": "AUTH-VEH-0011 reconstructed carrier-boundary external load",
+          "force_N": [
+            0.0,
+            0.0,
+            741.93310153789
+          ],
+          "force_moment_Nm": [
+            422.04353804637174,
+            -550.7151148425471,
+            0.0
+          ],
+          "free_couple_Nm": [
+            31.12944807150782,
+            -2.5558682012747833,
+            0.0
+          ],
+          "moment_Nm": [
+            453.17298611787953,
+            -553.2709830438218,
+            0.0
+          ],
+          "moment_arm_m": [
+            0.7422705816751087,
+            0.5688431169488914,
+            -0.056414490182086836
+          ],
+          "reference_point_id": "wufr_static_carrier_reconstruction_body_origin",
+          "source_id": "WUFR27_STATIC_CARRIER_WRENCH_V0",
+          "wrench_id": "front_left_carrier_external_resultant"
+        },
+        {
+          "authority": "AUTH-VEH-0011 reconstructed carrier-boundary external load",
+          "force_N": [
+            0.0,
+            0.0,
+            730.5456261025402
+          ],
+          "force_moment_Nm": [
+            -424.80708783923706,
+            -542.2573713255177,
+            0.0
+          ],
+          "free_couple_Nm": [
+            -30.668690762046705,
+            -2.516892988138433,
+            0.0
+          ],
+          "moment_Nm": [
+            -455.47577860128376,
+            -544.7742643136562,
+            0.0
+          ],
+          "moment_arm_m": [
+            0.7422635246185239,
+            -0.5814928906023054,
+            -0.05641668693737619
+          ],
+          "reference_point_id": "wufr_static_carrier_reconstruction_body_origin",
+          "source_id": "WUFR27_STATIC_CARRIER_WRENCH_V0",
+          "wrench_id": "front_right_carrier_external_resultant"
+        },
+        {
+          "authority": "AUTH-VEH-0011 reconstructed carrier-boundary external load",
+          "force_N": [
+            0.0,
+            0.0,
+            677.3889345395762
+          ],
+          "force_moment_Nm": [
+            364.2747932732126,
+            553.6173124227016,
+            -0.0
+          ],
+          "free_couple_Nm": [
+            40.33240182221355,
+            -0.006115117264880263,
+            0.0
+          ],
+          "moment_Nm": [
+            404.60719509542616,
+            553.6111973054367,
+            0.0
+          ],
+          "moment_arm_m": [
+            -0.817281305014227,
+            0.5377631294210785,
+            -0.07059560646230673
+          ],
+          "reference_point_id": "wufr_static_carrier_reconstruction_body_origin",
+          "source_id": "WUFR27_STATIC_CARRIER_WRENCH_V0",
+          "wrench_id": "rear_left_carrier_external_resultant"
+        },
+        {
+          "authority": "AUTH-VEH-0011 reconstructed carrier-boundary external load",
+          "force_N": [
+            0.0,
+            0.0,
+            657.5076139193866
+          ],
+          "force_moment_Nm": [
+            -361.8953898282781,
+            537.3675020210842,
+            0.0
+          ],
+          "free_couple_Nm": [
+            -39.16948696211538,
+            -0.005157107426600201,
+            0.0
+          ],
+          "moment_Nm": [
+            -401.0648767903935,
+            537.3623449136576,
+            0.0
+          ],
+          "moment_arm_m": [
+            -0.8172795122749222,
+            -0.5504048655361246,
+            -0.07060135849678437
+          ],
+          "reference_point_id": "wufr_static_carrier_reconstruction_body_origin",
+          "source_id": "WUFR27_STATIC_CARRIER_WRENCH_V0",
+          "wrench_id": "rear_right_carrier_external_resultant"
+        },
+        {
+          "authority": "AUTH-VEH-0005 sprung gravity",
+          "force_N": [
+            0.0,
+            0.0,
+            -2807.3752760475004
+          ],
+          "force_moment_Nm": [
+            -1.2395257754828106,
+            7.071705111372681,
+            0.0
+          ],
+          "free_couple_Nm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "moment_Nm": [
+            -1.2395257754828106,
+            7.071705111372681,
+            0.0
+          ],
+          "moment_arm_m": [
+            0.002518973922620322,
+            0.00044152478867304733,
+            0.004284246848479433
+          ],
+          "reference_point_id": "wufr_static_carrier_reconstruction_body_origin",
+          "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+          "wrench_id": "sprung_body_gravity"
+        }
+      ],
+      "frame_id": "WUFR27_NOMINAL_ROAD",
+      "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+      "reference_point_id": "wufr_static_carrier_reconstruction_body_origin",
+      "resultant_force_N": [
+        0.0,
+        0.0,
+        5.189258445170708e-08
+      ],
+      "resultant_moment_Nm": [
+        4.6145622656368346e-08,
+        -2.701109558245207e-08,
+        0.0
+      ]
+    },
+    "at_road_origin": {
+      "contributions": [
+        {
+          "authority": "AUTH-VEH-0011 reconstructed carrier-boundary external load",
+          "force_N": [
+            0.0,
+            0.0,
+            741.93310153789
+          ],
+          "force_moment_Nm": [
+            422.04353804637174,
+            -550.7151148425471,
+            0.0
+          ],
+          "free_couple_Nm": [
+            31.12944807150782,
+            -2.5558682012747833,
+            0.0
+          ],
+          "moment_Nm": [
+            453.17298611787953,
+            -553.2709830438218,
+            0.0
+          ],
+          "moment_arm_m": [
+            0.7422705816751087,
+            0.5688431169488914,
+            -0.05910919815102659
+          ],
+          "reference_point_id": "wufr_static_carrier_reconstruction_road_origin",
+          "source_id": "WUFR27_STATIC_CARRIER_WRENCH_V0",
+          "wrench_id": "front_left_carrier_external_resultant"
+        },
+        {
+          "authority": "AUTH-VEH-0011 reconstructed carrier-boundary external load",
+          "force_N": [
+            0.0,
+            0.0,
+            730.5456261025402
+          ],
+          "force_moment_Nm": [
+            -424.80708783923706,
+            -542.2573713255177,
+            0.0
+          ],
+          "free_couple_Nm": [
+            -30.668690762046705,
+            -2.516892988138433,
+            0.0
+          ],
+          "moment_Nm": [
+            -455.47577860128376,
+            -544.7742643136562,
+            0.0
+          ],
+          "moment_arm_m": [
+            0.7422635246185239,
+            -0.5814928906023054,
+            -0.059111394906315944
+          ],
+          "reference_point_id": "wufr_static_carrier_reconstruction_road_origin",
+          "source_id": "WUFR27_STATIC_CARRIER_WRENCH_V0",
+          "wrench_id": "front_right_carrier_external_resultant"
+        },
+        {
+          "authority": "AUTH-VEH-0011 reconstructed carrier-boundary external load",
+          "force_N": [
+            0.0,
+            0.0,
+            677.3889345395762
+          ],
+          "force_moment_Nm": [
+            364.2747932732126,
+            553.6173124227016,
+            -0.0
+          ],
+          "free_couple_Nm": [
+            40.33240182221355,
+            -0.006115117264880263,
+            0.0
+          ],
+          "moment_Nm": [
+            404.60719509542616,
+            553.6111973054367,
+            0.0
+          ],
+          "moment_arm_m": [
+            -0.817281305014227,
+            0.5377631294210785,
+            -0.07329031443124648
+          ],
+          "reference_point_id": "wufr_static_carrier_reconstruction_road_origin",
+          "source_id": "WUFR27_STATIC_CARRIER_WRENCH_V0",
+          "wrench_id": "rear_left_carrier_external_resultant"
+        },
+        {
+          "authority": "AUTH-VEH-0011 reconstructed carrier-boundary external load",
+          "force_N": [
+            0.0,
+            0.0,
+            657.5076139193866
+          ],
+          "force_moment_Nm": [
+            -361.8953898282781,
+            537.3675020210842,
+            0.0
+          ],
+          "free_couple_Nm": [
+            -39.16948696211538,
+            -0.005157107426600201,
+            0.0
+          ],
+          "moment_Nm": [
+            -401.0648767903935,
+            537.3623449136576,
+            0.0
+          ],
+          "moment_arm_m": [
+            -0.8172795122749222,
+            -0.5504048655361246,
+            -0.07329606646572412
+          ],
+          "reference_point_id": "wufr_static_carrier_reconstruction_road_origin",
+          "source_id": "WUFR27_STATIC_CARRIER_WRENCH_V0",
+          "wrench_id": "rear_right_carrier_external_resultant"
+        },
+        {
+          "authority": "AUTH-VEH-0005 sprung gravity",
+          "force_N": [
+            0.0,
+            0.0,
+            -2807.3752760475004
+          ],
+          "force_moment_Nm": [
+            -1.2395257754828106,
+            7.071705111372681,
+            0.0
+          ],
+          "free_couple_Nm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "moment_Nm": [
+            -1.2395257754828106,
+            7.071705111372681,
+            0.0
+          ],
+          "moment_arm_m": [
+            0.002518973922620322,
+            0.00044152478867304733,
+            0.0015895388795396826
+          ],
+          "reference_point_id": "wufr_static_carrier_reconstruction_road_origin",
+          "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+          "wrench_id": "sprung_body_gravity"
+        }
+      ],
+      "frame_id": "WUFR27_NOMINAL_ROAD",
+      "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+      "reference_point_id": "wufr_static_carrier_reconstruction_road_origin",
+      "resultant_force_N": [
+        0.0,
+        0.0,
+        5.189258445170708e-08
+      ],
+      "resultant_moment_Nm": [
+        4.6145622656368346e-08,
+        -2.701109558245207e-08,
+        0.0
+      ]
+    },
+    "maximum_force_residual_N": 5.189258445170708e-08,
+    "maximum_moment_residual_Nm": 4.6145622656368346e-08
+  },
+  "result_label": "uncorrelated_design_intent_static_carrier_wrench",
+  "source_record_id": "WUFR27_STATIC_CARRIER_WRENCH_V0",
+  "static_state_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE",
+  "status": "pass",
+  "upstream": {
+    "authorization_id": "AUTH-VEH-0010",
+    "front_arb_setting": 1,
+    "model_id": "MOD-VEH-0007",
+    "q_body": [
+      -0.0026947079689397502,
+      -8.014364080508218e-05,
+      0.002706006283034105
+    ],
+    "rear_arb_setting": 1,
+    "result_label": "uncorrelated_design_intent_static_gravity",
+    "result_path": "/tmp/pssd/benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json",
+    "road_reactions_N": [
+      790.98310153789,
+      779.5956261025401,
+      726.4389345395762,
+      706.5576139193865
+    ],
+    "wheel_coordinates_m": [
+      0.004711108035116922,
+      0.004613400353700854,
+      0.0005297962194890716,
+      0.0004333537843194791
+    ]
+  },
+  "version": "0.1.0"
+}

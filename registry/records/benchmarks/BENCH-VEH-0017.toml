@@ -16,4 +16,4 @@ acceptance_criteria = [
   "No failure or success result is labeled integrated Level-1 linkage authority, complete physical hardware wrench, maneuver complete, structural, correlated, installed/as-built, setup-authoritative, or production-ready."
 ]
 authorization = "authorizations/vehicle/AUTH-VEH-0011.toml"
-implementation_test = "planned: tests/test_wufr_static_carrier_wrench_failures.py"
+implementation_test = "tests/test_wufr_static_carrier_wrench_failures.py"

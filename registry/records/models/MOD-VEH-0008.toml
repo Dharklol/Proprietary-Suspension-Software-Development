@@ -4,7 +4,7 @@ type = "model"
 title = "WUFR static-gravity carrier external wrench adapter"
 status = "proposed"
 disposition = "accepted_with_restrictions"
-maturity = "M0"
+maturity = "M1"
 description = "Source-preserving adapter that converts one successful MOD-VEH-0007 uncorrelated static-gravity state into four complete prescribed outboard-carrier external wrenches for that exact restricted model. Per corner it assembles the recovered road-normal point force and the ASM-VEH-0003 prototype unsprung gravity point force at their exact current physical points, transports the resultant to the current MOD-SUSP-0007 carrier reference, and may express the same physical wrench in the reviewed Level-1 axle-local frame. It introduces no new force law and is not maneuver, installed/as-built, linkage-load, rocker, structural, or production authority."
 inputs = [
   "One successful MOD-VEH-0007 / AUTH-VEH-0010 result with exact configuration, static-state, corner order, body pose, wheel state, nonnegative road reactions, road normal, contact points, wheel-center points, and physical closure",
@@ -30,22 +30,25 @@ verification_level = "A"
 equation_ids = ["EQ-VEH-0020", "EQ-VEH-0021", "EQ-VEH-0022"]
 benchmark_ids = ["BENCH-VEH-0015", "BENCH-VEH-0016", "BENCH-VEH-0017"]
 authorization_id = "AUTH-VEH-0011"
-authorization_state = "implementation_authorized_after_AUTH-VEH-0011_merge; static_gravity_case_only; integrated_linkage_publication_prohibited"
+authorization_state = "implemented_under_AUTH-VEH-0011; static_gravity_case_only; integrated_linkage_publication_prohibited"
 assumption_ids = ["ASM-VEH-0002", "ASM-VEH-0003", "ASM-VEH-0005", "ASM-SUSP-0005"]
 upstream_model_ids = ["MOD-VEH-0003", "MOD-VEH-0005", "MOD-VEH-0006", "MOD-VEH-0007", "MOD-SUSP-0007"]
 downstream_model_ids = ["MOD-SUSP-0007"]
 source_snapshot = "data_catalog/wufr27_static_carrier_wrench_v0.toml"
 source_audit = "docs/models/vehicle/wufr_static_carrier_wrench_function_specification.md"
-planned_implementation_package = "src/pssd_vehicle/wufr_static_carrier_wrench.py"
-planned_implementation_tests = [
+implementation_package = "src/pssd_vehicle/wufr_static_carrier_wrench.py"
+implementation_document = "docs/models/vehicle/wufr_static_carrier_wrench_implementation_v0.1.0.md"
+implementation_tests = [
   "tests/test_wufr_static_carrier_wrench_authorization.py",
   "tests/test_wufr_static_carrier_wrench.py",
   "tests/test_wufr_static_carrier_wrench_failures.py",
   "tests/test_wufr_static_carrier_wrench_result_record.py"
 ]
-planned_benchmark_report_script = "scripts/run_wufr_static_carrier_wrench_benchmarks.py"
-planned_benchmark_result_record = "benchmarks/vehicle/wufr_static_carrier_wrench_result_v0.1.0.toml"
+benchmark_report_script = "scripts/run_wufr_static_carrier_wrench_benchmarks.py"
+benchmark_result_record = "benchmarks/vehicle/wufr_static_carrier_wrench_result_v0.1.0.toml"
+full_benchmark_result_record = "benchmarks/vehicle/wufr_static_carrier_wrench_result_v0.1.0.json"
 validation_workflow = ".github/workflows/motion-aware-validation.yml"
-review_record = "docs/reviews/phase3_wufr_static_carrier_wrench_authorization_review.md"
-next_implementation_gate = "Implement and freeze the four source-preserving static carrier wrenches. After review of that result, separately authorize synchronized four-corner MOD-SUSP-0007 interface-force publication and only then propagate the resulting push/pull forces into the existing incomplete rocker reaction model."
+authorization_review_record = "docs/reviews/phase3_wufr_static_carrier_wrench_authorization_review.md"
+implementation_review_record = "docs/reviews/phase3_wufr_static_carrier_wrench_implementation_review.md"
+next_implementation_gate = "After review of the frozen carrier-wrench result, separately authorize synchronized four-corner MOD-SUSP-0007 interface-force publication. Only after that composition is reviewed may its push/pull outputs be propagated into the existing incomplete rocker reaction model."
 prohibited_scope = "No spring/ARB/internal suspension reaction added to the prescribed external wrench; no maneuver tire/brake/drive/aero/inertia/gyroscopic/tire-compliance/alternate-contact loads; no component-level unsprung gravity redistribution; no hidden balancing wrench, clipping, fitting, historical corner-load reconstruction, frame identity assumption, integrated linkage result, rocker completion, structural packet, stress, FEA, fatigue, factor of safety, setup recommendation, installed/as-built, or production claim."
