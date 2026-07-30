@@ -35,6 +35,13 @@ physical_vector_authorization_id = "AUTH-SUSP-0013"
 implementation = "src/pssd_suspension/wufr_zbar_link_force.py"
 required_output = "matching-side force_on_rocker_N at the exact current Z-bar mechanism rocker pickup"
 
+# Explicit implementation-facing alias of the same reviewed physical ARB source.
+[source.arb_link_force]
+model_id = "MOD-SUSP-0005"
+physical_vector_authorization_id = "AUTH-SUSP-0013"
+implementation = "src/pssd_suspension/wufr_zbar_link_force.py"
+required_output = "matching-side force_on_rocker_N at the exact current Z-bar mechanism rocker pickup"
+
 [source.damper_hold]
 authorization_id = "AUTH-SUSP-0015"
 source_record = "data_catalog/wufr27_damper_static_force_authority_v0.toml"
@@ -60,8 +67,10 @@ complete_hardware_reaction = false
 complete_rocker_equilibrium = false
 damper_static_force_model_authorized = false
 damper_force_magnitude_assumed = false
+actual_damper_force_authorized = false
 maneuver_complete = false
 structural_load_case_authority = false
+structural_release_authority = false
 bearing_split_authorized = false
 installed_as_built_authority = false
 production_authority = false
