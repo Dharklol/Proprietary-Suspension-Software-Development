@@ -1,0 +1,941 @@
+{
+  "BENCH-SUSP-0032": {
+    "maximum_push_pull_force_handoff_error_N": 0.0,
+    "maximum_push_pull_point_handoff_error_m": 0.0,
+    "pass": true
+  },
+  "BENCH-SUSP-0033": {
+    "free_axis_moment_residual_Nm": [
+      0.014072193395812227,
+      -0.013863379129423148,
+      1.4076184744471476e-06,
+      -1.3628233717088989e-06
+    ],
+    "included_load_ids": [
+      [
+        "push_pull",
+        "conservative_spring",
+        "physical_arb_link"
+      ],
+      [
+        "push_pull",
+        "conservative_spring",
+        "physical_arb_link"
+      ],
+      [
+        "push_pull",
+        "conservative_spring",
+        "physical_arb_link"
+      ],
+      [
+        "push_pull",
+        "conservative_spring",
+        "physical_arb_link"
+      ]
+    ],
+    "missing_load_ids": [
+      [
+        "KW_V5_non_spring_static_force"
+      ],
+      [
+        "KW_V5_non_spring_static_force"
+      ],
+      [
+        "KW_V5_non_spring_static_force"
+      ],
+      [
+        "KW_V5_non_spring_static_force"
+      ]
+    ],
+    "pass": true,
+    "pivot_force_contribution_N": [
+      [
+        -1.296592859635746,
+        -3128.378270826485,
+        -1481.1998588380864
+      ],
+      [
+        -1.1966689709411504,
+        3106.168402455575,
+        -1459.128260576018
+      ],
+      [
+        2.2152787616111764,
+        147.43620321061292,
+        -812.9978215036615
+      ],
+      [
+        2.224795942139276,
+        -146.94133659060694,
+        -791.4381015478646
+      ]
+    ],
+    "pivot_moment_contribution_Nm": [
+      [
+        -0.0,
+        -0.03403857951040875,
+        -0.1787121894960621
+      ],
+      [
+        -0.0,
+        -0.035332627985667796,
+        0.1808283148797513
+      ],
+      [
+        -0.0,
+        0.21932847404256828,
+        -0.2611974029392206
+      ],
+      [
+        -0.0,
+        0.21991462284690602,
+        0.2618908800665753
+      ]
+    ]
+  },
+  "BENCH-SUSP-0034": {
+    "expected_failure_codes": {
+      "configuration_mismatch": "configuration_mismatch",
+      "moved_push_pull_point": "state_identity_mismatch",
+      "reordered_corners": "corner_count_or_order_mismatch",
+      "upstream_failure": "upstream_level1_result_failure"
+    },
+    "failure_codes": {
+      "configuration_mismatch": "configuration_mismatch",
+      "moved_push_pull_point": "state_identity_mismatch",
+      "reordered_corners": "corner_count_or_order_mismatch",
+      "upstream_failure": "upstream_level1_result_failure"
+    },
+    "maximum_unit_force_identity_error": 0.0,
+    "maximum_unit_support_axis_component_m": 0.0,
+    "partial_publication_observed": false,
+    "pass": true
+  },
+  "authorization_id": "AUTH-SUSP-0018",
+  "boundaries": {
+    "actual_damper_force_applied": false,
+    "complete_for_named_included_load_set": true,
+    "complete_hardware_reaction": false,
+    "complete_rocker_equilibrium": false,
+    "installed_as_built_authority": false,
+    "production_authority": false,
+    "structural_release_authority": false
+  },
+  "collection": {
+    "maximum_absolute_free_axis_moment_residual_Nm": 0.014072193395812227,
+    "maximum_force_residual_N": 0.0,
+    "maximum_perpendicular_moment_residual_Nm": 0.0,
+    "maximum_support_axis_moment_component_Nm": 0.0
+  },
+  "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+  "corner_order": [
+    "front_left",
+    "front_right",
+    "rear_left",
+    "rear_right"
+  ],
+  "corners": [
+    {
+      "arb": {
+        "fixture_id": "WUFR26_ZBAR_MECHANISM_V0",
+        "physical_link_force_N": 7.897737548762173,
+        "rocker_pickup_m": [
+          -0.02803525,
+          0.24126487491239976,
+          0.08605564387571418
+        ],
+        "setting": 1,
+        "stiffness_N_per_m": 280000.0
+      },
+      "axle": "front",
+      "corner_id": "front_left",
+      "damper_unit_influence": {
+        "actual_force_authorized": false,
+        "actual_force_magnitude_assumed": false,
+        "application_point_m": [
+          0.0,
+          0.20544776046435986,
+          0.194594128344579
+        ],
+        "d_free_axis_moment_d_damper_force_m": -0.0649298170300806,
+        "d_pivot_force_d_damper_force": [
+          -0.0,
+          -0.989574300632365,
+          -0.14402327425789935
+        ],
+        "d_pivot_moment_d_damper_force_m": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "positive_direction_chassis_to_rocker": [
+          0.0,
+          0.989574300632365,
+          0.14402327425789935
+        ],
+        "rocker_axis_unit": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "rocker_pivot_m": [
+          0.0,
+          0.226746,
+          0.13208
+        ],
+        "unit_force_N": 1.0
+      },
+      "included": {
+        "complete_hardware_reaction": false,
+        "final_force_residual_N": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "final_moment_residual_Nm": [
+          0.014072193395812227,
+          0.0,
+          0.0
+        ],
+        "force_residual_inf_norm_N": 0.0,
+        "free_axis_moment_residual_Nm": 0.014072193395812227,
+        "included_load_ids": [
+          "push_pull",
+          "conservative_spring",
+          "physical_arb_link"
+        ],
+        "included_resultant_force_N": [
+          1.296592859635746,
+          3128.378270826485,
+          1481.1998588380864
+        ],
+        "included_resultant_moment_Nm": [
+          0.014072193395812227,
+          0.03403857951040875,
+          0.1787121894960621
+        ],
+        "missing_load_ids": [
+          "KW_V5_non_spring_static_force"
+        ],
+        "perpendicular_moment_residual_Nm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "perpendicular_moment_residual_inf_norm_Nm": 0.0,
+        "pivot_force_contribution_N": [
+          -1.296592859635746,
+          -3128.378270826485,
+          -1481.1998588380864
+        ],
+        "pivot_moment_contribution_Nm": [
+          -0.0,
+          -0.03403857951040875,
+          -0.1787121894960621
+        ],
+        "point_loads": [
+          {
+            "application_point_m": [
+              0.0,
+              0.248497625129786,
+              0.11897924302899783
+            ],
+            "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+            "force_N": [
+              2.765166116293216,
+              2245.4189435146677,
+              1351.4686987519233
+            ],
+            "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+            "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:front_left",
+            "load_id": "push_pull",
+            "source_id": "MOD-SUSP-0003:current_push_pull_geometry"
+          },
+          {
+            "application_point_m": [
+              0.0,
+              0.20544776046435986,
+              0.194594128344579
+            ],
+            "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+            "force_N": [
+              0.0,
+              890.7187378705296,
+              129.63577266406386
+            ],
+            "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+            "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:front_left",
+            "load_id": "conservative_spring",
+            "source_id": "WUFR27_SPRING_PACKAGE_V0"
+          },
+          {
+            "application_point_m": [
+              -0.02803525,
+              0.24126487491239976,
+              0.08605564387571418
+            ],
+            "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+            "force_N": [
+              -1.46857325665747,
+              -7.759410558712798,
+              0.09538742209933941
+            ],
+            "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+            "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:front_left",
+            "load_id": "physical_arb_link",
+            "source_id": "WUFR26_ZBAR_MECHANISM_V0"
+          }
+        ],
+        "support_axis_moment_component_Nm": -0.0
+      },
+      "level1_actuation": {
+        "axial_force_N": 2620.7597222455165,
+        "force_on_remote_N": [
+          2.765166116293216,
+          2245.4189435146677,
+          1351.4686987519233
+        ],
+        "remote_point_m": [
+          0.0,
+          0.248497625129786,
+          0.11897924302899783
+        ],
+        "source_id": "MOD-SUSP-0003:current_push_pull_geometry"
+      },
+      "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:front_left",
+      "side": "left",
+      "spring": {
+        "chassis_eye_m": [
+          0.0,
+          0.046426,
+          0.17145
+        ],
+        "force_on_rocker_N": [
+          0.0,
+          890.7187378705296,
+          129.63577266406386
+        ],
+        "rocker_axis_unit": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "rocker_eye_m": [
+          0.0,
+          0.20544776046435986,
+          0.194594128344579
+        ],
+        "rocker_pivot_m": [
+          0.0,
+          0.226746,
+          0.13208
+        ],
+        "spring_force_magnitude_N": 900.1029405284032
+      }
+    },
+    {
+      "arb": {
+        "fixture_id": "WUFR26_ZBAR_MECHANISM_V0",
+        "physical_link_force_N": -7.897339311996632,
+        "rocker_pickup_m": [
+          0.02803525,
+          -0.2412074461675197,
+          0.08603756674413346
+        ],
+        "setting": 1,
+        "stiffness_N_per_m": 280000.0
+      },
+      "axle": "front",
+      "corner_id": "front_right",
+      "damper_unit_influence": {
+        "actual_force_authorized": false,
+        "actual_force_magnitude_assumed": false,
+        "application_point_m": [
+          0.0,
+          -0.20552576621455185,
+          0.19462065020521394
+        ],
+        "d_free_axis_moment_d_damper_force_m": 0.06494594703352077,
+        "d_pivot_force_d_damper_force": [
+          -0.0,
+          0.9895608498947899,
+          -0.1441156631164757
+        ],
+        "d_pivot_moment_d_damper_force_m": [
+          -0.0,
+          -0.0,
+          0.0
+        ],
+        "positive_direction_chassis_to_rocker": [
+          0.0,
+          -0.9895608498947899,
+          0.1441156631164757
+        ],
+        "rocker_axis_unit": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "rocker_pivot_m": [
+          0.0,
+          -0.226746,
+          0.13208
+        ],
+        "unit_force_N": 1.0
+      },
+      "included": {
+        "complete_hardware_reaction": false,
+        "final_force_residual_N": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "final_moment_residual_Nm": [
+          -0.013863379129423148,
+          0.0,
+          0.0
+        ],
+        "force_residual_inf_norm_N": 0.0,
+        "free_axis_moment_residual_Nm": -0.013863379129423148,
+        "included_load_ids": [
+          "push_pull",
+          "conservative_spring",
+          "physical_arb_link"
+        ],
+        "included_resultant_force_N": [
+          1.1966689709411504,
+          -3106.168402455575,
+          1459.128260576018
+        ],
+        "included_resultant_moment_Nm": [
+          -0.013863379129423148,
+          0.035332627985667796,
+          -0.1808283148797513
+        ],
+        "missing_load_ids": [
+          "KW_V5_non_spring_static_force"
+        ],
+        "perpendicular_moment_residual_Nm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "perpendicular_moment_residual_inf_norm_Nm": 0.0,
+        "pivot_force_contribution_N": [
+          -1.1966689709411504,
+          3106.168402455575,
+          -1459.128260576018
+        ],
+        "pivot_moment_contribution_Nm": [
+          -0.0,
+          -0.035332627985667796,
+          0.1808283148797513
+        ],
+        "point_loads": [
+          {
+            "application_point_m": [
+              0.0,
+              -0.24848126442167368,
+              0.11895211709680782
+            ],
+            "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+            "force_N": [
+              2.665645179476885,
+              -2210.588871199422,
+              1329.9256469821657
+            ],
+            "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+            "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:front_right",
+            "load_id": "push_pull",
+            "source_id": "MOD-SUSP-0003:current_push_pull_geometry"
+          },
+          {
+            "application_point_m": [
+              0.0,
+              -0.20552576621455185,
+              0.19462065020521394
+            ],
+            "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+            "force_N": [
+              0.0,
+              -887.820609992781,
+              129.29862367856114
+            ],
+            "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+            "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:front_right",
+            "load_id": "conservative_spring",
+            "source_id": "WUFR27_SPRING_PACKAGE_V0"
+          },
+          {
+            "application_point_m": [
+              0.02803525,
+              -0.2412074461675197,
+              0.08603756674413346
+            ],
+            "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+            "force_N": [
+              -1.4689762085357345,
+              -7.758921263371448,
+              -0.09601008470895
+            ],
+            "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+            "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:front_right",
+            "load_id": "physical_arb_link",
+            "source_id": "WUFR26_ZBAR_MECHANISM_V0"
+          }
+        ],
+        "support_axis_moment_component_Nm": 0.0
+      },
+      "level1_actuation": {
+        "axial_force_N": 2579.8086149239616,
+        "force_on_remote_N": [
+          2.665645179476885,
+          -2210.588871199422,
+          1329.9256469821657
+        ],
+        "remote_point_m": [
+          0.0,
+          -0.24848126442167368,
+          0.11895211709680782
+        ],
+        "source_id": "MOD-SUSP-0003:current_push_pull_geometry"
+      },
+      "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:front_right",
+      "side": "right",
+      "spring": {
+        "chassis_eye_m": [
+          0.0,
+          -0.046426,
+          0.17145
+        ],
+        "force_on_rocker_N": [
+          0.0,
+          -887.820609992781,
+          129.29862367856114
+        ],
+        "rocker_axis_unit": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "rocker_eye_m": [
+          0.0,
+          -0.20552576621455185,
+          0.19462065020521394
+        ],
+        "rocker_pivot_m": [
+          0.0,
+          -0.226746,
+          0.13208
+        ],
+        "spring_force_magnitude_N": 897.1864742700504
+      }
+    },
+    {
+      "arb": {
+        "fixture_id": "WUFR26_ZBAR_MECHANISM_V0",
+        "physical_link_force_N": -10.668123518443991,
+        "rocker_pickup_m": [
+          0.005708702999999999,
+          0.21242952331465398,
+          0.4155537013842901
+        ],
+        "setting": 1,
+        "stiffness_N_per_m": 280000.0
+      },
+      "axle": "rear",
+      "corner_id": "rear_left",
+      "damper_unit_influence": {
+        "actual_force_authorized": false,
+        "actual_force_magnitude_assumed": false,
+        "application_point_m": [
+          -0.022225,
+          0.2093042465279361,
+          0.43859575907901754
+        ],
+        "d_free_axis_moment_d_damper_force_m": -0.12697874711285398,
+        "d_pivot_force_d_damper_force": [
+          -0.0,
+          -0.99696321087208,
+          -0.07787397618994889
+        ],
+        "d_pivot_moment_d_damper_force_m": [
+          -0.0,
+          -0.0,
+          -0.0
+        ],
+        "positive_direction_chassis_to_rocker": [
+          0.0,
+          0.99696321087208,
+          0.07787397618994889
+        ],
+        "rocker_axis_unit": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "rocker_pivot_m": [
+          -0.022225,
+          0.224536,
+          0.31242000000000003
+        ],
+        "unit_force_N": 1.0
+      },
+      "included": {
+        "complete_hardware_reaction": false,
+        "final_force_residual_N": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "final_moment_residual_Nm": [
+          1.4076184744471476e-06,
+          0.0,
+          0.0
+        ],
+        "force_residual_inf_norm_N": 0.0,
+        "free_axis_moment_residual_Nm": 1.4076184744471476e-06,
+        "included_load_ids": [
+          "push_pull",
+          "conservative_spring",
+          "physical_arb_link"
+        ],
+        "included_resultant_force_N": [
+          -2.2152787616111764,
+          -147.43620321061292,
+          812.9978215036615
+        ],
+        "included_resultant_moment_Nm": [
+          1.4076184744471476e-06,
+          -0.21932847404256828,
+          0.2611974029392206
+        ],
+        "missing_load_ids": [
+          "KW_V5_non_spring_static_force"
+        ],
+        "perpendicular_moment_residual_Nm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "perpendicular_moment_residual_inf_norm_Nm": 0.0,
+        "pivot_force_contribution_N": [
+          2.2152787616111764,
+          147.43620321061292,
+          -812.9978215036615
+        ],
+        "pivot_moment_contribution_Nm": [
+          -0.0,
+          0.21932847404256828,
+          -0.2611974029392206
+        ],
+        "point_loads": [
+          {
+            "application_point_m": [
+              -0.022225,
+              0.2707607543987831,
+              0.37438573193122293
+            ],
+            "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+            "force_N": [
+              0.05084637612288829,
+              -828.9285879439798,
+              760.9815115214575
+            ],
+            "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+            "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:rear_left",
+            "load_id": "push_pull",
+            "source_id": "MOD-SUSP-0003:current_push_pull_geometry"
+          },
+          {
+            "application_point_m": [
+              -0.022225,
+              0.2093042465279361,
+              0.43859575907901754
+            ],
+            "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+            "force_N": [
+              0.0,
+              671.0754860023385,
+              52.41850035057097
+            ],
+            "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+            "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:rear_left",
+            "load_id": "conservative_spring",
+            "source_id": "WUFR27_SPRING_PACKAGE_V0"
+          },
+          {
+            "application_point_m": [
+              0.005708702999999999,
+              0.21242952331465398,
+              0.4155537013842901
+            ],
+            "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+            "force_N": [
+              -2.2661251377340648,
+              10.416898731028366,
+              -0.4021903683670201
+            ],
+            "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+            "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:rear_left",
+            "load_id": "physical_arb_link",
+            "source_id": "WUFR26_ZBAR_MECHANISM_V0"
+          }
+        ],
+        "support_axis_moment_component_Nm": 0.0
+      },
+      "level1_actuation": {
+        "axial_force_N": -1125.2623993423208,
+        "force_on_remote_N": [
+          0.05084637612288829,
+          -828.9285879439798,
+          760.9815115214575
+        ],
+        "remote_point_m": [
+          -0.022225,
+          0.2707607543987831,
+          0.37438573193122293
+        ],
+        "source_id": "MOD-SUSP-0003:current_push_pull_geometry"
+      },
+      "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:rear_left",
+      "side": "left",
+      "spring": {
+        "chassis_eye_m": [
+          -0.022225,
+          0.04572,
+          0.425818
+        ],
+        "force_on_rocker_N": [
+          0.0,
+          671.0754860023385,
+          52.41850035057097
+        ],
+        "rocker_axis_unit": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "rocker_eye_m": [
+          -0.022225,
+          0.2093042465279361,
+          0.43859575907901754
+        ],
+        "rocker_pivot_m": [
+          -0.022225,
+          0.224536,
+          0.31242000000000003
+        ],
+        "spring_force_magnitude_N": 673.1196083106461
+      }
+    },
+    {
+      "arb": {
+        "fixture_id": "WUFR26_ZBAR_MECHANISM_V0",
+        "physical_link_force_N": 10.668730510723595,
+        "rocker_pickup_m": [
+          -0.050158703,
+          -0.21250760571051017,
+          0.4155628372199123
+        ],
+        "setting": 1,
+        "stiffness_N_per_m": 280000.0
+      },
+      "axle": "rear",
+      "corner_id": "rear_right",
+      "damper_unit_influence": {
+        "actual_force_authorized": false,
+        "actual_force_magnitude_assumed": false,
+        "application_point_m": [
+          -0.022225,
+          -0.20939977415724048,
+          0.4386072543493874
+        ],
+        "d_free_axis_moment_d_damper_force_m": 0.12698289724095152,
+        "d_pivot_force_d_damper_force": [
+          -0.0,
+          0.9969613031975174,
+          -0.07789839489172946
+        ],
+        "d_pivot_moment_d_damper_force_m": [
+          -0.0,
+          -0.0,
+          0.0
+        ],
+        "positive_direction_chassis_to_rocker": [
+          0.0,
+          -0.9969613031975174,
+          0.07789839489172946
+        ],
+        "rocker_axis_unit": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "rocker_pivot_m": [
+          -0.022225,
+          -0.224536,
+          0.31242000000000003
+        ],
+        "unit_force_N": 1.0
+      },
+      "included": {
+        "complete_hardware_reaction": false,
+        "final_force_residual_N": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "final_moment_residual_Nm": [
+          -1.3628233717088989e-06,
+          0.0,
+          0.0
+        ],
+        "force_residual_inf_norm_N": 0.0,
+        "free_axis_moment_residual_Nm": -1.3628233717088989e-06,
+        "included_load_ids": [
+          "push_pull",
+          "conservative_spring",
+          "physical_arb_link"
+        ],
+        "included_resultant_force_N": [
+          -2.224795942139276,
+          146.94133659060694,
+          791.4381015478646
+        ],
+        "included_resultant_moment_Nm": [
+          -1.3628233717088989e-06,
+          -0.21991462284690602,
+          -0.2618908800665753
+        ],
+        "missing_load_ids": [
+          "KW_V5_non_spring_static_force"
+        ],
+        "perpendicular_moment_residual_Nm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "perpendicular_moment_residual_inf_norm_Nm": 0.0,
+        "pivot_force_contribution_N": [
+          2.224795942139276,
+          -146.94133659060694,
+          -791.4381015478646
+        ],
+        "pivot_moment_contribution_Nm": [
+          -0.0,
+          0.21991462284690602,
+          0.2618908800665753
+        ],
+        "point_loads": [
+          {
+            "application_point_m": [
+              -0.022225,
+              -0.2708076532453228,
+              0.3743507190249282
+            ],
+            "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+            "force_N": [
+              0.040386724963738706,
+              804.5049730251548,
+              738.8431033288991
+            ],
+            "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+            "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:rear_right",
+            "load_id": "push_pull",
+            "source_id": "MOD-SUSP-0003:current_push_pull_geometry"
+          },
+          {
+            "application_point_m": [
+              -0.022225,
+              -0.20939977415724048,
+              0.4386072543493874
+            ],
+            "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+            "force_N": [
+              0.0,
+              -667.9813798628876,
+              52.19327685236392
+            ],
+            "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+            "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:rear_right",
+            "load_id": "conservative_spring",
+            "source_id": "WUFR27_SPRING_PACKAGE_V0"
+          },
+          {
+            "application_point_m": [
+              -0.050158703,
+              -0.21250760571051017,
+              0.4155628372199123
+            ],
+            "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+            "force_N": [
+              -2.2651826671030144,
+              10.417743428339769,
+              0.4017213666015026
+            ],
+            "frame_id": "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL",
+            "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:rear_right",
+            "load_id": "physical_arb_link",
+            "source_id": "WUFR26_ZBAR_MECHANISM_V0"
+          }
+        ],
+        "support_axis_moment_component_Nm": 0.0
+      },
+      "level1_actuation": {
+        "axial_force_N": -1092.2991277987778,
+        "force_on_remote_N": [
+          0.040386724963738706,
+          804.5049730251548,
+          738.8431033288991
+        ],
+        "remote_point_m": [
+          -0.022225,
+          -0.2708076532453228,
+          0.3743507190249282
+        ],
+        "source_id": "MOD-SUSP-0003:current_push_pull_geometry"
+      },
+      "load_case_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE:ARB_1_1:rear_right",
+      "side": "right",
+      "spring": {
+        "chassis_eye_m": [
+          -0.022225,
+          -0.04572,
+          0.425818
+        ],
+        "force_on_rocker_N": [
+          0.0,
+          -667.9813798628876,
+          52.19327685236392
+        ],
+        "rocker_axis_unit": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "rocker_eye_m": [
+          -0.022225,
+          -0.20939977415724048,
+          0.4386072543493874
+        ],
+        "rocker_pivot_m": [
+          -0.022225,
+          -0.224536,
+          0.31242000000000003
+        ],
+        "spring_force_magnitude_N": 670.017359470719
+      }
+    }
+  ],
+  "model_id": "MOD-SUSP-0010",
+  "result_label": "uncorrelated_design_intent_static_rocker_included_loads",
+  "static_state_id": "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE",
+  "status": "accepted",
+  "upstream": {
+    "authorization_id": "AUTH-SUSP-0017",
+    "model_id": "MOD-SUSP-0009",
+    "result_label": "uncorrelated_design_intent_static_level1_interface_loads"
+  },
+  "version": "0.1.0"
+}
