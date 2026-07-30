@@ -1,11 +1,11 @@
 """Synchronized four-corner WUFR static rocker included-load composition.
 
-Implements ``AUTH-SUSP-0018`` / ``MOD-SUSP-0010``.  The adapter consumes the
+Implements ``AUTH-SUSP-0018`` / ``MOD-SUSP-0010``. The adapter consumes the
 accepted ``MOD-SUSP-0009`` four-corner Level-1 result, regenerates the exact
 matching conservative spring and physical Z-bar linkage states, and invokes the
 unchanged incomplete ``MOD-SUSP-0008`` rocker adapter once per corner.
 
-The result is deliberately incomplete.  The KW V5 non-spring static force
+The result is deliberately incomplete. The KW V5 non-spring static force
 remains unavailable under ``AUTH-SUSP-0015`` and is never assumed zero.
 """
 from __future__ import annotations
@@ -16,6 +16,8 @@ import math
 from pathlib import Path
 import tomllib
 from typing import Sequence
+
+from pssd_vehicle.wufr_static_equilibrium import evaluate_wufr_suspension_composition
 
 from .rocker_included_load import RockerIncludedLoadResult
 from .wufr_rocker_included_load import (
@@ -28,6 +30,7 @@ from .wufr_spring_rocker_force import (
 )
 from .wufr_static_level1_interface_loads import (
     CORNER_ORDER,
+    WUFRStaticLevel1CornerResult,
     WUFRStaticLevel1Provider,
     WUFRStaticLevel1Result,
     evaluate_wufr_static_level1_interface_loads,
@@ -40,8 +43,6 @@ from .wufr_zbar_link_force import (
     recover_wufr_zbar_physical_link_forces,
 )
 
-from pssd_vehicle.wufr_static_equilibrium import evaluate_wufr_suspension_composition
-
 Point3 = tuple[float, float, float]
 RESULT_LABEL = "uncorrelated_design_intent_static_rocker_included_loads"
 REQUIRED_RECORD_ID = "WUFR27_STATIC_ROCKER_INCLUDED_LOADS_V0"
@@ -53,6 +54,7 @@ REQUIRED_LEVEL1_RESULT_LABEL = "uncorrelated_design_intent_static_level1_interfa
 REQUIRED_LEVEL1_AUTHORIZATION_ID = "AUTH-SUSP-0017"
 REQUIRED_LEVEL1_MODEL_ID = "MOD-SUSP-0009"
 MISSING_LOAD_ID = "KW_V5_non_spring_static_force"
+REQUIRED_INCLUDED_LOAD_IDS = ("push_pull", "conservative_spring", "physical_arb_link")
 
 
 class WUFRStaticRockerStatus(str, Enum):
@@ -115,7 +117,7 @@ class WUFRStaticRockerConfig:
     arb_torque_agreement_tolerance_Nm: float = 1.0e-6
 
     def __post_init__(self) -> None:
-        if not all(math.isfinite(v) and v > 0.0 for v in self.__dict__.values()):
+        if not all(math.isfinite(value) and value > 0.0 for value in self.__dict__.values()):
             raise ValueError("Static rocker composition tolerances must be finite and positive")
 
 
@@ -139,7 +141,7 @@ class WUFRStaticRockerCornerResult:
     axle: str
     side: str
     load_case_id: str
-    interface_result: object
+    interface_result: WUFRStaticLevel1CornerResult
     spring_result: WufrSpringRockerForceResult
     arb_link_result: ZBarPhysicalLinkForceResult
     arb_mechanism_result: ZBarMechanismResult
@@ -196,12 +198,18 @@ class WUFRStaticRockerProvider:
     config: WUFRStaticRockerConfig
 
 
-def _p(values: Sequence[float]) -> Point3:
+def _p(values: Sequence[float], label: str = "vector") -> Point3:
     if len(values) != 3:
-        raise WUFRStaticRockerError(WUFRStaticRockerFailureCode.NONFINITE_OUTPUT, "Expected three components")
+        raise WUFRStaticRockerError(
+            WUFRStaticRockerFailureCode.NONFINITE_OUTPUT,
+            f"{label} must contain three components",
+        )
     result = (float(values[0]), float(values[1]), float(values[2]))
-    if not all(math.isfinite(v) for v in result):
-        raise WUFRStaticRockerError(WUFRStaticRockerFailureCode.NONFINITE_OUTPUT, "Vector must be finite")
+    if not all(math.isfinite(value) for value in result):
+        raise WUFRStaticRockerError(
+            WUFRStaticRockerFailureCode.NONFINITE_OUTPUT,
+            f"{label} must be finite",
+        )
     return result
 
 
@@ -209,8 +217,8 @@ def _sub(a: Point3, b: Point3) -> Point3:
     return (a[0] - b[0], a[1] - b[1], a[2] - b[2])
 
 
-def _scale(s: float, a: Point3) -> Point3:
-    return (s * a[0], s * a[1], s * a[2])
+def _scale(scalar: float, vector: Point3) -> Point3:
+    return (scalar * vector[0], scalar * vector[1], scalar * vector[2])
 
 
 def _dot(a: Point3, b: Point3) -> float:
@@ -225,19 +233,24 @@ def _cross(a: Point3, b: Point3) -> Point3:
     )
 
 
-def _norm(a: Point3) -> float:
-    return math.sqrt(_dot(a, a))
+def _norm(vector: Point3) -> float:
+    return math.sqrt(_dot(vector, vector))
 
 
-def _unit(a: Point3) -> Point3:
-    magnitude = _norm(a)
+def _unit(vector: Point3, label: str = "vector") -> Point3:
+    magnitude = _norm(vector)
     if not math.isfinite(magnitude) or magnitude <= 1.0e-12:
-        raise WUFRStaticRockerError(WUFRStaticRockerFailureCode.UNIT_INFLUENCE_FAILURE, "Damper eye line or rocker axis is degenerate")
-    return _scale(1.0 / magnitude, a)
+        raise WUFRStaticRockerError(
+            WUFRStaticRockerFailureCode.UNIT_INFLUENCE_FAILURE,
+            f"{label} is degenerate",
+        )
+    return _scale(1.0 / magnitude, vector)
 
 
-def _max_difference(a: Sequence[float], b: Sequence[float]) -> float:
-    return max(abs(float(x) - float(y)) for x, y in zip(a, b))
+def _max_difference(left: Sequence[float], right: Sequence[float]) -> float:
+    if len(left) != len(right):
+        return math.inf
+    return max(abs(float(a) - float(b)) for a, b in zip(left, right))
 
 
 def _failure(
@@ -270,11 +283,12 @@ def _failure(
 def load_wufr_static_rocker_source(path: str | Path) -> WUFRStaticRockerSource:
     with Path(path).open("rb") as stream:
         document = tomllib.load(stream)
-    level1 = document.get("source", {}).get("static_level1", {})
-    rocker = document.get("source", {}).get("rocker_kernel", {})
-    spring = document.get("source", {}).get("spring", {})
-    arb = document.get("source", {}).get("arb_link_force", {})
-    damper = document.get("source", {}).get("damper_hold", {})
+    source_tables = document.get("source", {})
+    level1 = source_tables.get("static_level1", {})
+    rocker = source_tables.get("rocker_kernel", {})
+    spring = source_tables.get("spring", {})
+    arb = source_tables.get("arb", source_tables.get("arb_link_force", {}))
+    damper = source_tables.get("damper_hold", {})
     boundaries = document.get("boundaries", {})
     source = WUFRStaticRockerSource(
         record_id=str(document.get("record_id", "")),
@@ -283,7 +297,7 @@ def load_wufr_static_rocker_source(path: str | Path) -> WUFRStaticRockerSource:
         result_label=str(document.get("result_label", "")),
         authorization_id=str(document.get("authorization_id", "")),
         model_id=str(document.get("model_id", "")),
-        corner_order=tuple(str(v) for v in document.get("corner_order", ())),  # type: ignore[arg-type]
+        corner_order=tuple(str(value) for value in document.get("corner_order", ())),  # type: ignore[arg-type]
         level1_model_id=str(level1.get("model_id", "")),
         level1_authorization_id=str(level1.get("authorization_id", "")),
         level1_result_label=str(level1.get("required_result_label", "")),
@@ -294,9 +308,13 @@ def load_wufr_static_rocker_source(path: str | Path) -> WUFRStaticRockerSource:
         damper_hold_authorization_id=str(damper.get("authorization_id", "")),
         complete_hardware_reaction=bool(boundaries.get("complete_hardware_reaction", True)),
         complete_rocker_equilibrium=bool(boundaries.get("complete_rocker_equilibrium", True)),
-        actual_damper_force_authorized=bool(boundaries.get("actual_damper_force_authorized", True)),
+        actual_damper_force_authorized=bool(
+            boundaries.get("actual_damper_force_authorized", boundaries.get("damper_static_force_model_authorized", True))
+        ),
         installed_as_built_authority=bool(boundaries.get("installed_as_built_authority", True)),
-        structural_release_authority=bool(boundaries.get("structural_release_authority", True)),
+        structural_release_authority=bool(
+            boundaries.get("structural_release_authority", boundaries.get("structural_load_case_authority", True))
+        ),
     )
     valid = (
         source.record_id == REQUIRED_RECORD_ID
@@ -321,7 +339,10 @@ def load_wufr_static_rocker_source(path: str | Path) -> WUFRStaticRockerSource:
         and not source.structural_release_authority
     )
     if not valid:
-        raise WUFRStaticRockerError(WUFRStaticRockerFailureCode.SOURCE_MISMATCH, "Static rocker source identity/boundary does not match AUTH-SUSP-0018")
+        raise WUFRStaticRockerError(
+            WUFRStaticRockerFailureCode.SOURCE_MISMATCH,
+            "Static rocker source identity/boundary does not match AUTH-SUSP-0018",
+        )
     return source
 
 
@@ -362,22 +383,80 @@ def load_wufr_static_rocker_provider(
     )
 
 
+def _validate_level1_handoff(
+    corner_id: str,
+    level1_corner: WUFRStaticLevel1CornerResult,
+    config: WUFRStaticRockerConfig,
+) -> None:
+    solved = level1_corner.solve
+    axial = solved.actuation
+    current = level1_corner.actuation_state
+    if not solved.ok or axial is None:
+        raise WUFRStaticRockerError(
+            WUFRStaticRockerFailureCode.UPSTREAM_LEVEL1_RESULT_FAILURE,
+            f"{corner_id} successful Level-1 actuation reaction is unavailable",
+        )
+    if current.arm_attachment_m is None or current.rocker_rod_point_m is None:
+        raise WUFRStaticRockerError(
+            WUFRStaticRockerFailureCode.STATE_IDENTITY_MISMATCH,
+            f"{corner_id} current actuation endpoints are unavailable",
+        )
+    if solved.frame_id != level1_corner.geometry.frame_id:
+        raise WUFRStaticRockerError(
+            WUFRStaticRockerFailureCode.FRAME_MISMATCH,
+            f"{corner_id} Level-1 solve and geometry frame mismatch",
+        )
+    if solved.configuration_id != current.configuration_id:
+        raise WUFRStaticRockerError(
+            WUFRStaticRockerFailureCode.CONFIGURATION_MISMATCH,
+            f"{corner_id} Level-1 solve and actuation configuration mismatch",
+        )
+    if _max_difference(axial.body_point_m, current.arm_attachment_m) > config.point_match_tolerance_m:
+        raise WUFRStaticRockerError(
+            WUFRStaticRockerFailureCode.STATE_IDENTITY_MISMATCH,
+            f"{corner_id} Level-1 actuation body point differs from the current arm attachment",
+        )
+    if _max_difference(axial.remote_point_m, current.rocker_rod_point_m) > config.point_match_tolerance_m:
+        raise WUFRStaticRockerError(
+            WUFRStaticRockerFailureCode.STATE_IDENTITY_MISMATCH,
+            f"{corner_id} Level-1 actuation remote point differs from the current rocker pickup",
+        )
+    expected_axis = _unit(
+        _sub(_p(current.rocker_rod_point_m), _p(current.arm_attachment_m)),
+        f"{corner_id} actuation link axis",
+    )
+    if _max_difference(axial.unit_axis_body_to_remote, expected_axis) > config.axis_match_tolerance:
+        raise WUFRStaticRockerError(
+            WUFRStaticRockerFailureCode.STATE_IDENTITY_MISMATCH,
+            f"{corner_id} Level-1 actuation axis differs from the current physical link axis",
+        )
+    if not solved.load_case_id or not solved.load_case_id.endswith(f":{corner_id}"):
+        raise WUFRStaticRockerError(
+            WUFRStaticRockerFailureCode.LOAD_CASE_MISMATCH,
+            f"{corner_id} Level-1 load-case identity mismatch",
+        )
+
+
 def _damper_unit_influence(spring: WufrSpringRockerForceResult) -> DamperUnitInfluence:
-    if any(value is None for value in (
+    required = (
         spring.chassis_eye_m,
         spring.rocker_eye_m,
         spring.rocker_pivot_m,
         spring.rocker_axis_unit,
         spring.chassis_to_rocker_unit,
-    )):
-        raise WUFRStaticRockerError(WUFRStaticRockerFailureCode.UNIT_INFLUENCE_FAILURE, "Spring result lacks exact current eye/pivot/axis geometry")
-    direction = _unit(_p(spring.chassis_to_rocker_unit or ()))
-    pivot = _p(spring.rocker_pivot_m or ())
-    eye = _p(spring.rocker_eye_m or ())
-    axis = _unit(_p(spring.rocker_axis_unit or ()))
+    )
+    if any(value is None for value in required):
+        raise WUFRStaticRockerError(
+            WUFRStaticRockerFailureCode.UNIT_INFLUENCE_FAILURE,
+            "Spring result lacks exact current eye/pivot/axis geometry",
+        )
+    direction = _unit(_p(spring.chassis_to_rocker_unit or (), "damper unit direction"), "damper eye line")
+    pivot = _p(spring.rocker_pivot_m or (), "rocker pivot")
+    eye = _p(spring.rocker_eye_m or (), "rocker eye")
+    axis = _unit(_p(spring.rocker_axis_unit or (), "rocker axis"), "rocker axis")
     applied_moment_per_N = _cross(_sub(eye, pivot), direction)
-    axis_component = _dot(axis, applied_moment_per_N)
-    perpendicular = _sub(applied_moment_per_N, _scale(axis_component, axis))
+    free_axis_coefficient = _dot(axis, applied_moment_per_N)
+    perpendicular = _sub(applied_moment_per_N, _scale(free_axis_coefficient, axis))
     return DamperUnitInfluence(
         unit_force_N=1.0,
         positive_direction_chassis_to_rocker=direction,
@@ -386,7 +465,7 @@ def _damper_unit_influence(spring: WufrSpringRockerForceResult) -> DamperUnitInf
         rocker_axis_unit=axis,
         d_pivot_force_d_damper_force=_scale(-1.0, direction),
         d_pivot_moment_d_damper_force_m=_scale(-1.0, perpendicular),
-        d_free_axis_moment_d_damper_force_m=axis_component,
+        d_free_axis_moment_d_damper_force_m=free_axis_coefficient,
         actual_force_magnitude_assumed=False,
         actual_force_authorized=False,
     )
@@ -400,19 +479,44 @@ def evaluate_wufr_static_rocker_included_loads(
     source = provider.source
     level1 = level1_result or evaluate_wufr_static_level1_interface_loads(provider.level1_provider)
     if not level1.ok:
-        return _failure(provider, WUFRStaticRockerFailureCode.UPSTREAM_LEVEL1_RESULT_FAILURE, level1.message or "MOD-SUSP-0009 result is unsuccessful", stage="level1")
+        return _failure(
+            provider,
+            WUFRStaticRockerFailureCode.UPSTREAM_LEVEL1_RESULT_FAILURE,
+            level1.message or "MOD-SUSP-0009 result is unsuccessful",
+            stage="level1",
+        )
     if (
         level1.result_label != source.level1_result_label
         or level1.authorization_id != source.level1_authorization_id
         or level1.model_id != source.level1_model_id
     ):
-        return _failure(provider, WUFRStaticRockerFailureCode.SOURCE_MISMATCH, "MOD-SUSP-0009 result identity mismatch", stage="level1")
+        return _failure(
+            provider,
+            WUFRStaticRockerFailureCode.SOURCE_MISMATCH,
+            "MOD-SUSP-0009 result identity mismatch",
+            stage="level1",
+        )
     if level1.configuration_id != source.configuration_id:
-        return _failure(provider, WUFRStaticRockerFailureCode.CONFIGURATION_MISMATCH, "MOD-SUSP-0009 configuration mismatch", stage="level1")
+        return _failure(
+            provider,
+            WUFRStaticRockerFailureCode.CONFIGURATION_MISMATCH,
+            "MOD-SUSP-0009 configuration mismatch",
+            stage="level1",
+        )
     if level1.static_state_id != source.static_state_id:
-        return _failure(provider, WUFRStaticRockerFailureCode.STATE_IDENTITY_MISMATCH, "MOD-SUSP-0009 static-state mismatch", stage="level1")
-    if tuple(c.corner_id for c in level1.corners) != source.corner_order:
-        return _failure(provider, WUFRStaticRockerFailureCode.CORNER_COUNT_OR_ORDER_MISMATCH, "Level-1 corners must be fixed FL/FR/RL/RR", stage="level1")
+        return _failure(
+            provider,
+            WUFRStaticRockerFailureCode.STATE_IDENTITY_MISMATCH,
+            "MOD-SUSP-0009 static-state mismatch",
+            stage="level1",
+        )
+    if tuple(corner.corner_id for corner in level1.corners) != source.corner_order:
+        return _failure(
+            provider,
+            WUFRStaticRockerFailureCode.CORNER_COUNT_OR_ORDER_MISMATCH,
+            "Level-1 corners must be fixed FL/FR/RL/RR",
+            stage="level1",
+        )
 
     carrier_provider = provider.level1_provider.carrier_provider
     accepted = carrier_provider.accepted_result
@@ -424,37 +528,54 @@ def evaluate_wufr_static_rocker_included_loads(
         rear_arb_setting=accepted.rear_arb_setting,
     )
     if not composition.ok or len(composition.spring_states) != 4 or len(composition.spring_actuation_states) != 4:
-        return _failure(provider, WUFRStaticRockerFailureCode.SPRING_STATE_FAILURE, composition.message or "Current spring/actuation composition failed", stage="suspension_composition")
+        return _failure(
+            provider,
+            WUFRStaticRockerFailureCode.SPRING_STATE_FAILURE,
+            composition.message or "Current spring/actuation composition failed",
+            stage="suspension_composition",
+        )
+    front_arb = composition.front_arb_state
+    rear_arb = composition.rear_arb_state
     if (
-        composition.front_arb_state is None
-        or composition.rear_arb_state is None
-        or composition.front_arb_state.mechanism is None
-        or composition.rear_arb_state.mechanism is None
-        or composition.front_arb_state.force is None
-        or composition.rear_arb_state.force is None
+        front_arb is None
+        or rear_arb is None
+        or front_arb.mechanism is None
+        or rear_arb.mechanism is None
+        or front_arb.force is None
+        or rear_arb.force is None
     ):
-        return _failure(provider, WUFRStaticRockerFailureCode.ARB_STATE_FAILURE, "Current front/rear Z-bar states are incomplete", stage="suspension_composition")
+        return _failure(
+            provider,
+            WUFRStaticRockerFailureCode.ARB_STATE_FAILURE,
+            "Current front/rear Z-bar states are incomplete",
+            stage="suspension_composition",
+        )
 
-    link_cfg = ZBarLinkForceConfig(
+    link_config = ZBarLinkForceConfig(
         rocker_torque_agreement_tolerance_Nm=provider.config.arb_torque_agreement_tolerance_Nm
     )
     front_fixture = equilibrium_provider.front_zbar_fixture
     rear_fixture = equilibrium_provider.rear_zbar_fixture
     front_link = recover_wufr_zbar_physical_link_forces(
         front_fixture,
-        composition.front_arb_state.mechanism,
-        composition.front_arb_state.force,
-        config=link_cfg,
+        front_arb.mechanism,
+        front_arb.force,
+        config=link_config,
     )
     rear_link = recover_wufr_zbar_physical_link_forces(
         rear_fixture,
-        composition.rear_arb_state.mechanism,
-        composition.rear_arb_state.force,
-        config=link_cfg,
+        rear_arb.mechanism,
+        rear_arb.force,
+        config=link_config,
     )
     if not front_link.ok or not rear_link.ok:
         failed = front_link if not front_link.ok else rear_link
-        return _failure(provider, WUFRStaticRockerFailureCode.ARB_STATE_FAILURE, failed.message or "Physical Z-bar linkage force recovery failed", stage="arb_physical_force")
+        return _failure(
+            provider,
+            WUFRStaticRockerFailureCode.ARB_STATE_FAILURE,
+            failed.message or "Physical Z-bar linkage force recovery failed",
+            stage="arb_physical_force",
+        )
 
     geometry = equilibrium_provider.road_contact.suspension_geometry
     results: list[WUFRStaticRockerCornerResult] = []
@@ -463,28 +584,42 @@ def evaluate_wufr_static_rocker_included_loads(
         axle = "front" if index < 2 else "rear"
         side = "left" if index % 2 == 0 else "right"
         try:
-            if level1_corner.axle != axle or level1_corner.side != side or not level1_corner.solve.ok:
-                raise WUFRStaticRockerError(WUFRStaticRockerFailureCode.STATE_IDENTITY_MISMATCH, f"{corner_id} Level-1 corner identity/solve mismatch")
+            if level1_corner.axle != axle or level1_corner.side != side:
+                raise WUFRStaticRockerError(
+                    WUFRStaticRockerFailureCode.STATE_IDENTITY_MISMATCH,
+                    f"{corner_id} Level-1 corner identity mismatch",
+                )
+            _validate_level1_handoff(corner_id, level1_corner, provider.config)
             spring_actuation = composition.spring_actuation_states[index]
             spring_state = composition.spring_states[index]
             if (
                 level1_corner.actuation_state.q_L_rad is None
                 or spring_actuation.q_L_rad is None
-                or abs(level1_corner.actuation_state.q_L_rad - spring_actuation.q_L_rad) > provider.config.state_match_tolerance
+                or abs(level1_corner.actuation_state.q_L_rad - spring_actuation.q_L_rad)
+                > provider.config.state_match_tolerance
                 or level1_corner.actuation_state.rocker_theta_rad is None
                 or spring_actuation.rocker_theta_rad is None
-                or abs(level1_corner.actuation_state.rocker_theta_rad - spring_actuation.rocker_theta_rad) > provider.config.state_match_tolerance
+                or abs(level1_corner.actuation_state.rocker_theta_rad - spring_actuation.rocker_theta_rad)
+                > provider.config.state_match_tolerance
             ):
-                raise WUFRStaticRockerError(WUFRStaticRockerFailureCode.STATE_IDENTITY_MISMATCH, f"{corner_id} Level-1 and spring/Z-bar actuation states differ")
+                raise WUFRStaticRockerError(
+                    WUFRStaticRockerFailureCode.STATE_IDENTITY_MISMATCH,
+                    f"{corner_id} Level-1 and spring/Z-bar actuation states differ",
+                )
             corner_geometry = geometry.corner(axle, side)
-            spring = recover_wufr_spring_rocker_force(corner_geometry, spring_actuation, spring_state)
+            spring = recover_wufr_spring_rocker_force(
+                corner_geometry,
+                spring_actuation,
+                spring_state,
+            )
             if not spring.ok:
-                raise WUFRStaticRockerError(WUFRStaticRockerFailureCode.SPRING_STATE_FAILURE, spring.message or f"{corner_id} physical spring force failed")
+                raise WUFRStaticRockerError(
+                    WUFRStaticRockerFailureCode.SPRING_STATE_FAILURE,
+                    spring.message or f"{corner_id} physical spring force failed",
+                )
             fixture = front_fixture if axle == "front" else rear_fixture
-            mechanism = composition.front_arb_state.mechanism if axle == "front" else composition.rear_arb_state.mechanism
+            mechanism = front_arb.mechanism if axle == "front" else rear_arb.mechanism
             link = front_link if axle == "front" else rear_link
-            if mechanism is None:
-                raise WUFRStaticRockerError(WUFRStaticRockerFailureCode.ARB_STATE_FAILURE, f"{corner_id} mechanism is unavailable")
             composed = compose_wufr_rocker_included_load(
                 interface_result=level1_corner.solve,
                 spring_result=spring,
@@ -493,55 +628,95 @@ def evaluate_wufr_static_rocker_included_loads(
                 arb_fixture=fixture,
             )
             if not composed.ok or composed.included_result is None:
-                raise WUFRStaticRockerError(WUFRStaticRockerFailureCode.CORNER_COMPOSITION_FAILURE, composed.message or f"{corner_id} incomplete rocker composition failed")
+                raise WUFRStaticRockerError(
+                    WUFRStaticRockerFailureCode.CORNER_COMPOSITION_FAILURE,
+                    composed.message or f"{corner_id} incomplete rocker composition failed",
+                )
             included = composed.included_result
             if (
-                included.included_load_ids != ("push_pull", "conservative_spring", "physical_arb_link")
+                included.included_load_ids != REQUIRED_INCLUDED_LOAD_IDS
                 or included.missing_load_ids != (MISSING_LOAD_ID,)
                 or included.complete_hardware_reaction
                 or composed.complete_hardware_reaction
             ):
-                raise WUFRStaticRockerError(WUFRStaticRockerFailureCode.CORNER_COMPOSITION_FAILURE, f"{corner_id} included/missing load boundary mismatch")
+                raise WUFRStaticRockerError(
+                    WUFRStaticRockerFailureCode.CORNER_COMPOSITION_FAILURE,
+                    f"{corner_id} included/missing load boundary mismatch",
+                )
             push_pull = included.included_loads[0]
-            actuation = level1_corner.solve.actuation
+            axial = level1_corner.solve.actuation
             if (
-                actuation is None
-                or push_pull.force_N != actuation.force_on_remote_N
-                or push_pull.application_point_m != actuation.remote_point_m
-                or push_pull.source_id != actuation.source_id
+                axial is None
+                or push_pull.force_N != axial.force_on_remote_N
+                or push_pull.application_point_m != axial.remote_point_m
+                or push_pull.source_id != axial.source_id
             ):
-                raise WUFRStaticRockerError(WUFRStaticRockerFailureCode.LOAD_CASE_MISMATCH, f"{corner_id} push/pull handoff changed sign, point, or source")
-            influence = _damper_unit_influence(spring)
-            results.append(WUFRStaticRockerCornerResult(
-                corner_id=corner_id,
-                axle=axle,
-                side=side,
-                load_case_id=level1_corner.solve.load_case_id,
-                interface_result=level1_corner,
-                spring_result=spring,
-                arb_link_result=link,
-                arb_mechanism_result=mechanism,
-                arb_fixture=fixture,
-                rocker_result=composed,
-                damper_unit_influence=influence,
-            ))
+                raise WUFRStaticRockerError(
+                    WUFRStaticRockerFailureCode.LOAD_CASE_MISMATCH,
+                    f"{corner_id} push/pull handoff changed sign, point, or source",
+                )
+            results.append(
+                WUFRStaticRockerCornerResult(
+                    corner_id=corner_id,
+                    axle=axle,
+                    side=side,
+                    load_case_id=level1_corner.solve.load_case_id,
+                    interface_result=level1_corner,
+                    spring_result=spring,
+                    arb_link_result=link,
+                    arb_mechanism_result=mechanism,
+                    arb_fixture=fixture,
+                    rocker_result=composed,
+                    damper_unit_influence=_damper_unit_influence(spring),
+                )
+            )
         except WUFRStaticRockerError as exc:
-            return _failure(provider, exc.code, str(exc), corner_id=corner_id, stage="corner_composition")
+            return _failure(
+                provider,
+                exc.code,
+                str(exc),
+                corner_id=corner_id,
+                stage="corner_composition",
+            )
         except Exception as exc:
-            return _failure(provider, WUFRStaticRockerFailureCode.CORNER_COMPOSITION_FAILURE, f"{corner_id} unexpected composition failure: {exc}", corner_id=corner_id, stage="corner_composition")
+            return _failure(
+                provider,
+                WUFRStaticRockerFailureCode.CORNER_COMPOSITION_FAILURE,
+                f"{corner_id} unexpected composition failure: {exc}",
+                corner_id=corner_id,
+                stage="corner_composition",
+            )
 
-    if tuple(c.corner_id for c in results) != CORNER_ORDER:
-        return _failure(provider, WUFRStaticRockerFailureCode.COLLECTION_INCOMPLETE, "Four-corner rocker collection is incomplete or reordered", stage="collection")
-    included_results = [c.included_result for c in results]
-    if any(r is None for r in included_results):
-        return _failure(provider, WUFRStaticRockerFailureCode.COLLECTION_INCOMPLETE, "A corner lacks included-load diagnostics", stage="collection")
-    values = [r for r in included_results if r is not None]
-    max_force = max(float(r.force_residual_inf_norm_N or 0.0) for r in values)
-    max_moment = max(float(r.perpendicular_moment_residual_inf_norm_Nm or 0.0) for r in values)
-    max_axis_support = max(abs(float(r.support_axis_moment_component_Nm or 0.0)) for r in values)
-    max_free_axis = max(abs(float(r.free_axis_moment_residual_Nm or 0.0)) for r in values)
-    scalars = (max_force, max_moment, max_axis_support, max_free_axis)
-    vectors = tuple(
+    if tuple(corner.corner_id for corner in results) != CORNER_ORDER:
+        return _failure(
+            provider,
+            WUFRStaticRockerFailureCode.COLLECTION_INCOMPLETE,
+            "Four-corner rocker collection is incomplete or reordered",
+            stage="collection",
+        )
+    included_results = [corner.included_result for corner in results]
+    if any(result is None for result in included_results):
+        return _failure(
+            provider,
+            WUFRStaticRockerFailureCode.COLLECTION_INCOMPLETE,
+            "A corner lacks included-load diagnostics",
+            stage="collection",
+        )
+    values = [result for result in included_results if result is not None]
+    maximum_force = max(float(result.force_residual_inf_norm_N or 0.0) for result in values)
+    maximum_moment = max(
+        float(result.perpendicular_moment_residual_inf_norm_Nm or 0.0)
+        for result in values
+    )
+    maximum_support_axis = max(
+        abs(float(result.support_axis_moment_component_Nm or 0.0))
+        for result in values
+    )
+    maximum_free_axis = max(
+        abs(float(result.free_axis_moment_residual_Nm or 0.0))
+        for result in values
+    )
+    coefficient_values = tuple(
         value
         for corner in results
         for value in (
@@ -550,8 +725,22 @@ def evaluate_wufr_static_rocker_included_loads(
             corner.damper_unit_influence.d_free_axis_moment_d_damper_force_m,
         )
     )
-    if not all(math.isfinite(v) for v in (*scalars, *vectors)):
-        return _failure(provider, WUFRStaticRockerFailureCode.NONFINITE_OUTPUT, "Static rocker collection contains nonfinite output", stage="collection")
+    if not all(
+        math.isfinite(value)
+        for value in (
+            maximum_force,
+            maximum_moment,
+            maximum_support_axis,
+            maximum_free_axis,
+            *coefficient_values,
+        )
+    ):
+        return _failure(
+            provider,
+            WUFRStaticRockerFailureCode.NONFINITE_OUTPUT,
+            "Static rocker collection contains nonfinite output",
+            stage="collection",
+        )
     return WUFRStaticRockerResult(
         status=WUFRStaticRockerStatus.SUCCESS,
         result_label=source.result_label,
@@ -563,10 +752,10 @@ def evaluate_wufr_static_rocker_included_loads(
         upstream_level1_authorization_id=source.level1_authorization_id,
         upstream_level1_model_id=source.level1_model_id,
         corners=tuple(results),
-        maximum_force_residual_N=max_force,
-        maximum_perpendicular_moment_residual_Nm=max_moment,
-        maximum_support_axis_moment_component_Nm=max_axis_support,
-        maximum_absolute_free_axis_moment_residual_Nm=max_free_axis,
+        maximum_force_residual_N=maximum_force,
+        maximum_perpendicular_moment_residual_Nm=maximum_moment,
+        maximum_support_axis_moment_component_Nm=maximum_support_axis,
+        maximum_absolute_free_axis_moment_residual_Nm=maximum_free_axis,
         complete_for_named_included_load_set=True,
         complete_hardware_reaction=False,
         complete_rocker_equilibrium=False,
