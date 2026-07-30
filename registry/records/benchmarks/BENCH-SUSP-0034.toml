@@ -8,10 +8,12 @@ verification_level = "A"
 target_ids = ["MOD-SUSP-0010", "EQ-SUSP-0035", "EQ-SUSP-0036", "EQ-SUSP-0037"]
 acceptance_criteria = [
   "For every corner, the +1 N damper coordinate uses the exact current chassis-to-rocker eye line and current rocker pivot/axis.",
-  "Analytic per-unit support-force, support-moment, and free-axis residual coefficients agree with an independent finite perturbation of the MOD-SUSP-0008 kernel within 1e-10 in corresponding SI units.",
+  "Analytic per-unit support-force, support-moment, and free-axis residual coefficients agree with an independent evaluation of the MOD-SUSP-0008 kernel within 1e-10 in corresponding SI units.",
   "The unit coefficient is explicitly labelled as geometric sensitivity only; no actual KW V5 force magnitude or zero-force assumption appears in the result.",
   "Reordered/missing corners, stale or mismatched states, moved points, axis/source disagreement, unsuccessful upstream providers, nonfinite values, and one failed corner reject the complete collection.",
   "No hidden balancing torque, clipping, absolute-value repair, least-squares repair, historical fallback, or partial publication is used."
 ]
 authorization = "authorizations/suspension/AUTH-SUSP-0018.toml"
-planned_implementation_test = "tests/test_wufr_static_rocker_included_loads_failures.py"
+implementation_test = "tests/test_wufr_static_rocker_included_loads_failures.py"
+benchmark_report_script = "scripts/run_wufr_static_rocker_included_load_benchmarks.py"
+result_record = "benchmarks/suspension/wufr_static_rocker_included_loads_result_v0.1.0.json"
