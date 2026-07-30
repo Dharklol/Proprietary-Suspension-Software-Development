@@ -1,0 +1,18 @@
+[record]
+id = "BENCH-SUSP-0037"
+type = "benchmark"
+title = "WUFR static load-path exchange fail-closed and fidelity boundaries"
+status = "proposed"
+description = "Verify that MOD-SUSP-0011 rejects incomplete, altered, mismatched, nonfinite, or over-promoted source data and preserves every structural-screening limitation."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0011"]
+acceptance_criteria = [
+  "Missing, failed, stale, hash-mismatched, reordered, or cross-configuration source records reject the entire packet.",
+  "Altered signs, values, source-field paths, frames, application/reference points, body identities, or source hashes reject the entire packet.",
+  "Nonfinite values, duplicate record IDs, omitted required sections, omitted missing/deferred declarations, or partial corner collections reject the entire packet.",
+  "The accepted packet always retains complete_physical_hardware_load_case=false, complete_rocker_equilibrium=false, complete_chassis_pickup_load_set=false, structural_load_case_authority=false, fea_boundary_condition_authority=false, and structural_release_authority=false.",
+  "The KW V5 unit influence remains a geometric sensitivity with actual_force_applied=false and is never multiplied by an assumed force.",
+  "No hidden balancing, clipping, absolute-value repair, frame transform, point relocation, load distribution, action/reaction invention, historical fallback, or partial publication is used."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0019.toml"
+planned_implementation_test = "tests/test_wufr_static_load_path_exchange_failures.py"

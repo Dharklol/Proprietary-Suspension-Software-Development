@@ -1,0 +1,215 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0019"
+status = "review_ready"
+title = "WUFR source-preserving static load-path screening exchange"
+effective_condition = "Effective after review and merge. Authorizes MOD-SUSP-0011 to assemble one deterministic, atomic, source-preserving machine-readable packet from the accepted MOD-VEH-0007, MOD-VEH-0008, MOD-SUSP-0009, and MOD-SUSP-0010 static result records. The packet is complete only as an exchange of those named upstream records and is authorized for load-path review and interface screening, not as a complete hardware load case, FEA boundary-condition set, stress result, or structural release."
+review_record = "docs/reviews/phase3_wufr_static_load_path_exchange_authorization_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-SUSP-0011"]
+equation_ids = []
+benchmark_ids = ["BENCH-SUSP-0035", "BENCH-SUSP-0036", "BENCH-SUSP-0037"]
+assumption_ids = ["ASM-SUSP-0005", "ASM-SUSP-0007", "ASM-SUSP-0008", "ASM-VEH-0002", "ASM-VEH-0003", "ASM-VEH-0005"]
+source_record = "data_catalog/wufr27_static_load_path_exchange_v0.toml"
+source_preserving_exchange_authorized = true
+static_load_path_screening_authorized = true
+canonical_machine_readable_packet_authorized = true
+structural_load_case_authority = false
+fea_boundary_condition_authority = false
+complete_hardware_load_case_authorized = false
+complete_rocker_reaction_authorized = false
+bearing_load_split_authorized = false
+individual_a_arm_joint_split_authorized = false
+member_internal_load_authorized = false
+stress_or_factor_of_safety_authorized = false
+maneuver_load_generation_authorized = false
+installed_as_built_authority = false
+production_authority = false
+
+[input_contract]
+required_configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+required_static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+required_corner_order = ["front_left", "front_right", "rear_left", "rear_right"]
+required_vehicle_equilibrium_model = "MOD-VEH-0007"
+required_vehicle_equilibrium_authorization = "AUTH-VEH-0010"
+required_vehicle_equilibrium_label = "uncorrelated_design_intent_static_gravity"
+required_vehicle_equilibrium_record = "benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json"
+required_carrier_wrench_model = "MOD-VEH-0008"
+required_carrier_wrench_authorization = "AUTH-VEH-0011"
+required_carrier_wrench_label = "uncorrelated_design_intent_static_carrier_wrench"
+required_carrier_wrench_record = "benchmarks/vehicle/wufr_static_carrier_wrench_result_v0.1.0.json"
+required_level1_model = "MOD-SUSP-0009"
+required_level1_authorization = "AUTH-SUSP-0017"
+required_level1_label = "uncorrelated_design_intent_static_level1_interface_loads"
+required_level1_record = "benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.json"
+required_rocker_model = "MOD-SUSP-0010"
+required_rocker_authorization = "AUTH-SUSP-0018"
+required_rocker_label = "uncorrelated_design_intent_static_rocker_included_loads"
+required_rocker_record = "benchmarks/suspension/wufr_static_rocker_included_loads_result_v0.1.0.json"
+required_missing_force_id = "KW_V5_non_spring_static_force"
+
+[identity_and_atomicity]
+identity_tuple = ["configuration_id", "static_state_id", "corner_order", "front_arb_setting", "rear_arb_setting"]
+atomic_packet = true
+source_hashes_required = true
+source_path_and_field_path_required = true
+all_or_nothing_rule = "Publish no exchange packet unless all four governing result records are successful, their configuration/state/corner identities agree exactly, every required corner and section is present, every source hash is recorded, and every prohibited-authority flag remains false."
+no_reconstruction_rule = "MOD-SUSP-0011 may copy, classify, index, hash, and serialize accepted upstream values. It may not rerun physics, infer missing values, recompute forces from scalar summaries, rebuild values from historical tables, or substitute another state."
+
+[canonical_schema]
+format = "JSON"
+schema_version = "0.1.0"
+result_label = "uncorrelated_design_intent_static_load_path_screening_exchange"
+canonical_units = "SI"
+corner_order = ["front_left", "front_right", "rear_left", "rear_right"]
+required_sections = [
+  "packet_identity",
+  "source_manifest",
+  "vehicle_static_state",
+  "carrier_external_wrenches",
+  "level1_interface_loads",
+  "rocker_included_loads",
+  "missing_and_deferred_loads",
+  "diagnostics",
+  "fidelity_and_use_boundaries"
+]
+optional_flat_table_views_authorized = false
+
+[load_record_contract]
+required_fields = [
+  "record_id",
+  "corner_id",
+  "load_role",
+  "acting_on_body_id",
+  "counterparty_body_id",
+  "frame_id",
+  "point_or_reference_id",
+  "application_or_reference_point_m",
+  "force_N",
+  "moment_Nm",
+  "source_model_id",
+  "source_authorization_id",
+  "source_result_path",
+  "source_field_path",
+  "sign_convention",
+  "fidelity_label",
+  "complete_for_named_source_record"
+]
+force_sign_rule = "Copy signed force vectors and signed axial scalars exactly as stored by the governing upstream result. Do not apply absolute values, compression/tension relabeling repairs, side mirroring, or recipient-dependent sign changes."
+point_rule = "Retain each source-owned application point or wrench reference point exactly. Distinct upper/lower spherical points, lateral-link points, actuation points, hinge references, spring eyes, ARB pickups, carrier references, and rocker pivots may not be merged or relocated."
+frame_rule = "Retain the exact source frame and reference identity for each value. MOD-SUSP-0011 does not transform loads to CAD, global FEA, or solver-specific frames."
+action_reaction_rule = "Publish only action/reaction counterparts already explicit in the upstream result. Do not invent chassis-side nodal loads, bearing shares, or forward/aft joint splits by negating a resultant without a separately authorized interface mapping."
+
+[required_payload]
+vehicle_static_state = [
+  "body coordinates and wheel coordinates",
+  "road reactions and contact points",
+  "vehicle physical-closure residuals and accepted static settings"
+]
+carrier_external_wrenches = [
+  "per-corner carrier wrench force and moment about the exact source reference",
+  "road-contact and unsprung-gravity component provenance",
+  "wrench transport and four-corner reconstruction diagnostics"
+]
+level1_interface_loads = [
+  "front tie-rod or rear toe-link signed axial force and exact endpoints",
+  "front pullrod or rear pushrod signed axial force and exact endpoints",
+  "upper/lower carrier spherical force vectors and equal/opposite interface records",
+  "upper/lower equivalent inboard hinge net force and perpendicular moment",
+  "body residuals, matrix conditioning, and pivot diagnostics"
+]
+rocker_included_loads = [
+  "distinct push/pull, conservative-spring, and physical-ARB point loads",
+  "included resultant and ideal-revolute partial support contribution",
+  "signed unrepaired free-axis residual",
+  "KW V5 non-spring static-force missing identity",
+  "per-unit hypothetical damper-force influence with actual_force_applied=false"
+]
+
+[fidelity_and_use]
+complete_for_named_upstream_record_exchange = true
+complete_physical_hardware_load_case = false
+complete_rocker_equilibrium = false
+complete_chassis_pickup_load_set = false
+structural_release_authority = false
+permitted_uses = [
+  "load-path sign and source review",
+  "four-corner interface-force comparison",
+  "CAD point/frame/interface audit",
+  "preliminary structural model planning",
+  "identifying missing measurement or fidelity requirements"
+]
+prohibited_uses = [
+  "direct application as an FEA boundary-condition set",
+  "stress, buckling, fatigue, weld, bearing, compliance, or factor-of-safety calculation presented as authorized output",
+  "individual forward/aft A-arm chassis-joint loading",
+  "rocker bearing split or complete pivot reaction",
+  "maneuver, braking, cornering, acceleration, aero, curb, impact, or durability loading",
+  "setup recommendation, correlated prediction, installed/as-built claim, design release, or production decision"
+]
+
+[missing_and_deferred]
+required_missing_items = [
+  "KW_V5_non_spring_static_force",
+  "complete rocker equilibrium and total pivot/bearing reaction",
+  "rocker bearing load split",
+  "individual forward/aft A-arm inboard joint split",
+  "welded wishbone member-force distribution and bending",
+  "bearing, joint, chassis, and member compliance",
+  "brake, drive, aero, lateral/longitudinal tire, inertial maneuver, gyroscopic, curb, and impact loads",
+  "as-built geometry, mass, setup, tire, and damper correlation"
+]
+unit_damper_influence_rule = "The AUTH-SUSP-0018 unit influence may be copied as a geometric sensitivity only. It must remain separated from actual loads and may not be multiplied by an assumed force inside MOD-SUSP-0011."
+
+[numerics]
+identity_numeric_match_tolerance = 0.0
+copied_scalar_match_tolerance = 0.0
+copied_vector_match_tolerance = 0.0
+frozen_record_numeric_comparison_tolerance = 1.0e-12
+source_hash_algorithm = "sha256"
+least_squares_allowed = false
+pseudoinverse_allowed = false
+regularization_allowed = false
+hidden_balancing_force_or_couple_allowed = false
+force_or_moment_clipping_allowed = false
+absolute_value_sign_repair_allowed = false
+frame_or_point_relocation_allowed = false
+historical_load_fallback_allowed = false
+zero_damper_force_assumption_allowed = false
+
+[failure_behavior]
+codes = [
+  "source_record_unavailable",
+  "source_record_failure",
+  "source_hash_mismatch",
+  "configuration_mismatch",
+  "static_state_mismatch",
+  "corner_count_or_order_mismatch",
+  "setting_mismatch",
+  "required_section_missing",
+  "source_field_missing",
+  "frame_or_point_identity_missing",
+  "nonfinite_source_value",
+  "prohibited_authority_flag",
+  "missing_boundary_not_declared",
+  "packet_incomplete"
+]
+rule = "Return one structured failed packet manifest with the exact failed source/section/field and no load records. Never publish a partial packet or repair a mismatch by substituting sources, corners, frames, points, signs, loads, or fidelity labels."
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-SUSP-0035 verifies exact source identity, hash, field-path, frame, point, sign, and value preservation from all four accepted upstream records.",
+  "BENCH-SUSP-0036 freezes one deterministic canonical JSON packet and verifies section completeness, fixed corner order, record uniqueness, source-to-packet traceability, and byte-stable regeneration after canonical serialization.",
+  "BENCH-SUSP-0037 verifies fail-closed behavior and every fidelity/prohibited-use boundary, including missing/reordered corners, source mismatch, omitted missing-load declarations, nonfinite values, altered points/frames/signs, and attempted promotion to FEA or structural-release authority."
+]
+
+[promotion_gates]
+items = [
+  "Merge this reviewed authorization before implementing MOD-SUSP-0011.",
+  "Implementation must freeze the canonical packet and a compact manifest/summary and regenerate both in CI.",
+  "Before any solver-specific export or FEA boundary-condition file, separately authorize frame transforms, nodal/application mappings, load distribution, constraint strategy, and fidelity-specific use limits.",
+  "Before complete rocker or bearing loads, satisfy AUTH-SUSP-0015 and separately authorize upstream damper-force integration and the re-solved complete rocker composition.",
+  "Before individual wishbone pickup or member loads, separately authorize joint/member topology and force distribution beyond the current equivalent hinge resultant.",
+  "Before maneuver structural cases, separately authorize tire, brake, drive, aero, inertial, gyroscopic, compliance, loaded-radius, and contact-mode providers and re-solve the synchronized vehicle state."
+]
