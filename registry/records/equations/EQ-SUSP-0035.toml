@@ -1,0 +1,16 @@
+[record]
+id = "EQ-SUSP-0035"
+type = "equation"
+title = "Synchronized static Level-1 to rocker included-load composition"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "For each named WUFR corner, compose the exact MOD-SUSP-0009 actuation remote-end reaction with the exact matching spring and physical Z-bar linkage forces and invoke the unchanged MOD-SUSP-0008 adapter."
+canonical_equation = "For i in [FL,FR,RL,RR]: require I(A_i)=I(S_i)=I(B_i)=I(Z_i)=I_state,i and y_i=Compose_MOD-SUSP-0008(A_i,S_i,B_i,Z_i), where A_i is solve.actuation.force_on_remote_N at remote_point_m."
+inputs = ["Accepted MOD-SUSP-0009 four-corner result", "Matching AUTH-SUSP-0014 spring physical-force states", "Matching AUTH-SUSP-0013 Z-bar physical-force/mechanism states", "Exact rocker pivots, axes, points, and source identities"]
+outputs = ["Four MOD-SUSP-0008 included-load results in fixed corner order", "Structured identity, source, geometry, or composition failure"]
+assumptions = ["ASM-SUSP-0008", "ASM-SUSP-0007", "ASM-SUSP-0005", "ASM-VEH-0002", "ASM-VEH-0003", "ASM-VEH-0005"]
+verification_level = "none"
+benchmark_ids = ["BENCH-SUSP-0032", "BENCH-SUSP-0033", "BENCH-SUSP-0034"]
+authorization_id = "AUTH-SUSP-0018"
+failure_behavior = ["Reject any state, corner, frame, point, axis, configuration, load-case, or source mismatch. Do not substitute another corner or publish a partial collection."]
