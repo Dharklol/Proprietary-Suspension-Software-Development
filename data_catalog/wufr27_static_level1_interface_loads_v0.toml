@@ -1,0 +1,83 @@
+version = "0.1.0"
+record_id = "WUFR27_STATIC_LEVEL1_INTERFACE_LOADS_V0"
+status = "reviewed_source_boundary"
+authority = "Design-intent source-composition record for applying the four exact MOD-VEH-0008 static-gravity carrier wrenches to four exact synchronized MOD-SUSP-0007 Level-1 corner geometries. It authorizes no new force law, load generation, joint idealization, structural fidelity, rocker completion, or installed/as-built claim."
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+authorization_id = "AUTH-SUSP-0017"
+model_id = "MOD-SUSP-0009"
+result_label = "uncorrelated_design_intent_static_level1_interface_loads"
+canonical_axes = "+x forward, +y vehicle left, +z upward; right-handed"
+corner_order = ["front_left", "front_right", "rear_left", "rear_right"]
+
+[source.carrier_wrench]
+model_id = "MOD-VEH-0008"
+authorization_id = "AUTH-VEH-0011"
+source_record = "data_catalog/wufr27_static_carrier_wrench_v0.toml"
+frozen_result = "benchmarks/vehicle/wufr_static_carrier_wrench_result_v0.1.0.json"
+required_result_label = "uncorrelated_design_intent_static_carrier_wrench"
+required_frame = "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL"
+required_complete_flag = "complete_for_authorized_static_gravity_case=true"
+role = "Provide one exact complete prescribed Level-1 outboard-carrier external wrench at the exact current carrier reference for each corner."
+
+[source.level1_solver]
+model_id = "MOD-SUSP-0007"
+authorization_id = "AUTH-SUSP-0012"
+source_record = "data_catalog/wufr27_level1_linkage_topology_v0.toml"
+implementation = "src/pssd_suspension/wufr_interface_statics.py"
+adapter = "src/pssd_suspension/wufr_interface_adapter.py"
+role = "Solve the exact current three-body carrier/UCA/LCA 18x18 interface statics problem without changing topology or numerical policy."
+
+[source.suspension_state]
+model_id = "MOD-SUSP-0001"
+role = "Provide the exact current upper/lower spherical centers, rear toe-link closure, and upright transform at the matching wheel coordinate."
+
+[source.actuation_state]
+model_id = "MOD-SUSP-0003"
+role = "Provide the exact current arm-mounted actuation point, rocker rod point, and ownership: front pullrod on UCA, rear pushrod on LCA."
+
+[source.front_steering_state]
+model_id = "MOD-STEER-0001"
+role = "Provide explicit current centered-rack front tie-rod endpoints at the matching suspension state."
+nominal_point_substitution_authorized = false
+
+[synchronization]
+identity_tuple = ["configuration_id", "static_state_id", "load_case_id", "corner_id", "axle", "side", "frame_id", "carrier_reference_point", "geometry_source_id"]
+state_rule = "Every input for corner i describes the same converged body pose, compatible wheel coordinate, centered-rack steering state, and source configuration."
+collection_rule = "All four ordered corners must pass; no partial result is authoritative."
+
+[output_contract]
+per_corner = [
+  "signed lateral-link axial force",
+  "signed actuation-rod axial force",
+  "upper/lower spherical action-reaction forces",
+  "upper/lower equivalent hinge force and perpendicular moment",
+  "matrix, scaling, conditioning, pivot, and physical residual diagnostics",
+  "exact points, frames, identities, source provenance, and failure state"
+]
+collection = [
+  "fixed FL/FR/RL/RR ordering",
+  "all-corner success flag",
+  "maximum force/moment/hinge-axis residuals",
+  "maximum scaled condition number and minimum relative pivot",
+  "upstream frozen result and source identities",
+  "explicit uncorrelated/fidelity/prohibited-use labels"
+]
+
+[downstream.rocker]
+model_id = "MOD-SUSP-0008"
+authorization_id = "AUTH-SUSP-0016"
+handoff = "Use successful MOD-SUSP-0007 actuation AxialReaction.force_on_remote_N at remote_point_m unchanged."
+complete_rocker_reaction = false
+missing_force_authorization = "AUTH-SUSP-0015"
+missing_force_id = "KW_V5_non_spring_static_force"
+
+[boundaries]
+complete_for_authorized_static_gravity_case = true
+complete_physical_vehicle_load_case = false
+maneuver_complete = false
+individual_a_arm_joint_split_authorized = false
+structural_packet_authorized = false
+rocker_result_publication_authorized = false
+installed_as_built_authority = false
+production_authority = false

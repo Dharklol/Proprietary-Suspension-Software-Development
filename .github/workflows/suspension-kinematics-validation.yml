@@ -73,6 +73,15 @@ jobs:
           name: wufr-interface-statics-implementation-test-log
           path: wufr_interface_statics_implementation_test.log
           if-no-files-found: error
+      - name: Validate WUFR static four-corner Level-1 load authorization
+        run: python -m unittest tests.test_wufr_static_level1_interface_loads_authorization -v > wufr_static_level1_interface_loads_authorization_test.log 2>&1
+      - name: Upload WUFR static four-corner Level-1 authorization diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wufr-static-level1-interface-loads-authorization-test-log
+          path: wufr_static_level1_interface_loads_authorization_test.log
+          if-no-files-found: error
       - name: Validate anti-roll-bar authorization
         run: python -m unittest tests.test_suspension_anti_roll_bar_authorization -v > anti_roll_bar_authorization_test.log 2>&1
       - name: Upload anti-roll-bar authorization diagnostics

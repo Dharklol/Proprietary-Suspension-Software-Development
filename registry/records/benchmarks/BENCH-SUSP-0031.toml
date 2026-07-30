@@ -1,0 +1,18 @@
+[record]
+id = "BENCH-SUSP-0031"
+type = "benchmark"
+title = "WUFR static Level-1 invariance and fail-closed behavior"
+status = "proposed"
+description = "Verify that the synchronized four-corner composition preserves authorized rigid-wrench invariance and fails closed for every stale, incomplete, mismatched, or numerically invalid state."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0009", "EQ-SUSP-0032", "EQ-SUSP-0033", "EQ-SUSP-0034"]
+acceptance_criteria = [
+  "Exact rigid translation of a carrier wrench and carrier reference, followed by the matching inverse translation before MOD-SUSP-0007, preserves every physical interface result within the existing solver tolerances.",
+  "Reordered, duplicated, missing, mirrored, or extra corners fail the atomic collection contract.",
+  "Configuration, static-state, load-case, frame, reference-point, geometry-source, suspension-state, actuation-state, or front-steering-source mismatch fails before solve.",
+  "A failed/incomplete MOD-VEH-0008 result, nominal front tie-rod substitution, stale current geometry, degenerate geometry, singular/ill-conditioned MOD-SUSP-0007 solve, nonfinite result, or per-body residual failure produces a structured failed collection.",
+  "No failure path uses pseudoinverse, least squares, regularization, stiffness weighting, clipping, absolute values, negative-to-zero repair, balancing wrench, historical force table, scalar load transfer, or partial-corner publication.",
+  "The actuation remote-end handoff preserves exact sign, point, source, and load-case identity and does not create or publish a complete rocker reaction."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0017.toml"
+planned_implementation_test = "tests/test_wufr_static_level1_interface_loads_failures.py"
