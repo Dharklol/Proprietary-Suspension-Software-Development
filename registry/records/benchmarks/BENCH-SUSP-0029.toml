@@ -15,4 +15,5 @@ acceptance_criteria = [
   "Changing body/wheel state, reordering corners, mirroring a side, moving the carrier reference, or changing any source identity fails before solve."
 ]
 authorization = "authorizations/suspension/AUTH-SUSP-0017.toml"
-planned_implementation_test = "tests/test_wufr_static_level1_interface_loads.py"
+implementation_test = "tests/test_wufr_static_level1_interface_loads.py"
+benchmark_report_script = "scripts/run_wufr_static_level1_interface_load_benchmarks.py"

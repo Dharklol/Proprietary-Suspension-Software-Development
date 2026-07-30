@@ -4,7 +4,7 @@ type = "model"
 title = "WUFR synchronized four-corner static Level-1 interface-load composition"
 status = "proposed"
 disposition = "accepted_with_restrictions"
-maturity = "M0"
+maturity = "M1"
 description = "Authorized source-preserving orchestration layer that pairs each successful MOD-VEH-0008 static-gravity Level-1 carrier wrench with the exact matching current MOD-SUSP-0007 corner geometry and publishes one atomic four-corner interface-load packet. It adds no physical load, constitutive law, joint idealization, force sharing, or numerical repair. The result remains an uncorrelated design-intent static-gravity fixture and is not maneuver, rocker-complete, structural-release, installed/as-built, or production authority."
 inputs = [
   "One successful MOD-VEH-0008 four-corner carrier-wrench result in fixed FL/FR/RL/RR order",
@@ -27,27 +27,29 @@ assumptions = [
   "Every corner geometry and wrench describes the same exact converged static state; symmetry is not used as data.",
   "The model does not uniquely resolve individual A-arm chassis joints, welded members, rocker bearings, or component stress."
 ]
-verification_level = "none"
+verification_level = "A"
 equation_ids = ["EQ-SUSP-0032", "EQ-SUSP-0033", "EQ-SUSP-0034"]
 benchmark_ids = ["BENCH-SUSP-0029", "BENCH-SUSP-0030", "BENCH-SUSP-0031"]
 authorization_id = "AUTH-SUSP-0017"
-authorization_state = "implementation_authorized_after_AUTH-SUSP-0017_review_merge; static_gravity_four_corner_Level1_only"
+authorization_state = "implemented_under_AUTH-SUSP-0017; static_gravity_four_corner_Level1_only; rocker_and_structural_publication_prohibited"
 assumption_ids = ["ASM-SUSP-0005", "ASM-VEH-0002", "ASM-VEH-0003", "ASM-VEH-0005"]
 upstream_model_ids = ["MOD-VEH-0008", "MOD-SUSP-0001", "MOD-SUSP-0003", "MOD-SUSP-0007", "MOD-STEER-0001"]
 downstream_model_ids = ["MOD-SUSP-0008"]
 source_snapshot = "data_catalog/wufr27_static_level1_interface_loads_v0.toml"
 source_audit = "docs/models/suspension/wufr_static_level1_interface_loads_function_specification.md"
-planned_implementation_package = "src/pssd_suspension/wufr_static_level1_interface_loads.py"
-planned_implementation_tests = [
+implementation_package = "src/pssd_suspension/wufr_static_level1_interface_loads.py"
+implementation_tests = [
   "tests/test_wufr_static_level1_interface_loads_authorization.py",
   "tests/test_wufr_static_level1_interface_loads.py",
   "tests/test_wufr_static_level1_interface_loads_failures.py",
   "tests/test_wufr_static_level1_interface_loads_result_record.py"
 ]
-planned_benchmark_report_script = "scripts/run_wufr_static_level1_interface_load_benchmarks.py"
-planned_benchmark_result_record = "benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.toml"
-planned_full_benchmark_result_record = "benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.json"
+benchmark_report_script = "scripts/run_wufr_static_level1_interface_load_benchmarks.py"
+benchmark_result_record = "benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.toml"
+full_benchmark_result_record = "benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.json"
 validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
 authorization_review_record = "docs/reviews/phase3_wufr_static_level1_interface_load_authorization_review.md"
-next_implementation_gate = "Implement and freeze the synchronized four-corner result. After implementation review, propagate the signed actuation remote-end loads into the existing incomplete MOD-SUSP-0008 rocker adapter under a separate synchronized composition review while retaining AUTH-SUSP-0015."
+implementation_document = "docs/models/suspension/wufr_static_level1_interface_loads_implementation_v0.1.0.md"
+implementation_review_record = "docs/reviews/phase3_wufr_static_level1_interface_load_implementation_review.md"
+next_implementation_gate = "After implementation review, separately authorize synchronized propagation of the exact signed actuation remote-end loads into the existing incomplete MOD-SUSP-0008 rocker adapter while retaining AUTH-SUSP-0015 and prohibiting complete rocker claims."
 prohibited_scope = "No load generation or modification; no nominal front tie-rod substitution; no corner mirroring/permutation/partial publication; no individual A-arm chassis-joint or welded-member loads; no complete rocker reaction; no structural packet, stress, FEA, fatigue, factor of safety, maneuver, setup selection, installed/as-built, correlation, or production claim."

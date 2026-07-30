@@ -15,4 +15,5 @@ acceptance_criteria = [
   "The actuation remote-end handoff preserves exact sign, point, source, and load-case identity and does not create or publish a complete rocker reaction."
 ]
 authorization = "authorizations/suspension/AUTH-SUSP-0017.toml"
-planned_implementation_test = "tests/test_wufr_static_level1_interface_loads_failures.py"
+implementation_test = "tests/test_wufr_static_level1_interface_loads_failures.py"
+benchmark_report_script = "scripts/run_wufr_static_level1_interface_load_benchmarks.py"
