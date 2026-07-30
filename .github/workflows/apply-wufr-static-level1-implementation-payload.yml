@@ -1,0 +1,49 @@
+name: Apply WUFR static Level-1 implementation payload
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.head_ref == 'phase-3-wufr-static-level1-interface-load-implementation'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - name: Apply implementation payload
+        run: |
+          set -euo pipefail
+          cat .github/wufr_static_level1_impl_payload.part00 \
+              .github/wufr_static_level1_impl_payload.part01 \
+              .github/wufr_static_level1_impl_payload.part02 \
+              .github/wufr_static_level1_impl_payload.part03 \
+              .github/wufr_static_level1_impl_payload.part04 \
+            | base64 -d | tar -xzf -
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            src/pssd_suspension/wufr_static_level1_interface_loads.py \
+            scripts/run_wufr_static_level1_interface_load_benchmarks.py \
+            benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.json \
+            benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.toml \
+            tests/test_wufr_static_level1_interface_loads.py \
+            tests/test_wufr_static_level1_interface_loads_failures.py \
+            tests/test_wufr_static_level1_interface_loads_result_record.py \
+            docs/models/suspension/wufr_static_level1_interface_loads_implementation_v0.1.0.md \
+            docs/reviews/phase3_wufr_static_level1_interface_load_implementation_review.md \
+            registry/records/models/MOD-SUSP-0009.toml \
+            registry/records/benchmarks/BENCH-SUSP-0029.toml \
+            registry/records/benchmarks/BENCH-SUSP-0030.toml \
+            registry/records/benchmarks/BENCH-SUSP-0031.toml
+          if git diff --cached --quiet; then
+            echo "Implementation payload already applied"
+            exit 0
+          fi
+          git commit -m "Implement synchronized WUFR static Level-1 interface loads"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
