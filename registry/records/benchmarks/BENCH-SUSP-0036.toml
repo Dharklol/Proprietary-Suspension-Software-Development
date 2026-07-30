@@ -2,7 +2,7 @@
 id = "BENCH-SUSP-0036"
 type = "benchmark"
 title = "Frozen WUFR static load-path screening exchange packet"
-status = "accepted"
+status = "active"
 description = "Freeze and verify the deterministic canonical MOD-SUSP-0011 JSON packet and compact manifest for the accepted setting-1/1 WUFR static load-path records."
 verification_level = "A"
 target_ids = ["MOD-SUSP-0011"]
