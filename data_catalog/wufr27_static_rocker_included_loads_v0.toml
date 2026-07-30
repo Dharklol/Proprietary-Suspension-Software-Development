@@ -1,0 +1,66 @@
+version = "0.1.0"
+record_id = "WUFR27_STATIC_ROCKER_INCLUDED_LOADS_V0"
+status = "reviewed_source_boundary"
+authority = "Source-preserving composition record for four explicitly incomplete rocker included-load reaction contributions in the exact accepted static-gravity fixture. It authorizes no damper static-force value, complete pivot reaction, bearing load, structural packet, maneuver load, or installed claim."
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+authorization_id = "AUTH-SUSP-0018"
+model_id = "MOD-SUSP-0010"
+result_label = "uncorrelated_design_intent_static_rocker_included_loads"
+corner_order = ["front_left", "front_right", "rear_left", "rear_right"]
+canonical_frame = "WUFR26_OPTIMUMK_SUSPENSION_CANONICAL_AXLE_LOCAL"
+
+[upstream.level1]
+model_id = "MOD-SUSP-0009"
+authorization_id = "AUTH-SUSP-0017"
+result_record = "benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.json"
+required_result_label = "uncorrelated_design_intent_static_level1_interface_loads"
+role = "Provide one atomic successful four-corner packet with exact current q_L, geometry, signed actuation force_on_remote_N, remote_point_m, frame, source, and load-case identity."
+
+[upstream.rocker_kernel]
+model_id = "MOD-SUSP-0008"
+authorization_id = "AUTH-SUSP-0016"
+implementation = "src/pssd_suspension/wufr_rocker_included_load.py"
+role = "Compose push/pull, conservative spring, and physical ARB-link point loads and return only their ideal-revolute support contribution plus signed free-axis residual."
+
+[upstream.spring]
+model_id = "MOD-SUSP-0004"
+authorization_id = "AUTH-SUSP-0014"
+source_record = "data_catalog/wufr27_spring_package_v0.toml"
+role = "Provide the source-owned conservative coil-spring physical force vector at the exact current rocker eye; excludes damper gas, friction, velocity force, and stops."
+
+[upstream.arb]
+model_id = "MOD-SUSP-0005"
+authorization_id = "AUTH-SUSP-0013"
+fixture_record = "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml"
+static_equilibrium_source = "data_catalog/wufr27_static_equilibrium_composition_v1.toml"
+role = "Provide exact current axle mechanism pickups and physical ideal axial Z-bar linkage force vectors using the same left/right q_L pair, setting, and stiffness as the accepted static fixture."
+
+[missing.damper_static]
+authorization_id = "AUTH-SUSP-0015"
+load_id = "KW_V5_non_spring_static_force"
+source_specific_value_available = false
+zero_force_assumption_supported = false
+complete_rocker_equilibrium = false
+role = "Remain explicit and missing in every result. No value may be inferred from the free-axis residual or generic damper mechanics."
+
+[composition]
+included_load_ids = ["push_pull", "conservative_spring", "physical_arb_link"]
+missing_load_ids = ["KW_V5_non_spring_static_force"]
+actuation_handoff = "Copy MOD-SUSP-0009 actuation.force_on_remote_N and remote_point_m unchanged."
+spring_handoff = "Evaluate the conservative spring provider at the same current corner state and copy force_on_rocker_N at rocker_eye_m."
+arb_handoff = "Evaluate one mechanism/physical-force result per axle from the exact left/right q_L pair and select the matching side force_on_rocker_N at the current mechanism rocker pickup."
+rocker_handoff = "Call MOD-SUSP-0008 without modifying its pivot, axis, point tolerances, missing-load set, or residual policy."
+atomic_rule = "All four corners succeed or no collection is published."
+
+[boundaries]
+complete_for_authorized_included_load_set = true
+complete_hardware_reaction = false
+complete_rocker_equilibrium = false
+complete_pivot_reaction = false
+damper_static_force_authority = false
+bearing_load_authority = false
+structural_load_case_authority = false
+maneuver_authority = false
+installed_as_built_authority = false
+production_authority = false
