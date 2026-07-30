@@ -1,0 +1,54 @@
+[record]
+id = "MOD-SUSP-0011"
+type = "model"
+title = "WUFR source-preserving static load-path screening exchange"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Authorized packaging/orchestration model that will consume the accepted MOD-VEH-0007 static-equilibrium, MOD-VEH-0008 carrier-wrench, MOD-SUSP-0009 Level-1 interface-load, and MOD-SUSP-0010 incomplete rocker included-load records and publish one deterministic atomic machine-readable load-path screening packet. It may copy, classify, index, hash, and serialize exact upstream values only. It does not generate, transform, redistribute, complete, or structurally release any load."
+inputs = [
+  "Accepted MOD-VEH-0007 setting-1/1 static-equilibrium result record",
+  "Accepted MOD-VEH-0008 four-corner carrier-wrench result record",
+  "Accepted MOD-SUSP-0009 four-corner Level-1 interface-load result record",
+  "Accepted MOD-SUSP-0010 four-corner incomplete rocker included-load result record",
+  "WUFR27_STATIC_LOAD_PATH_EXCHANGE_V0 canonical schema and fidelity contract"
+]
+outputs = [
+  "Canonical JSON packet with fixed packet identity and source manifest",
+  "Exact vehicle static state and carrier external-wrench records",
+  "Exact Level-1 signed axial/interface/reaction records and diagnostics",
+  "Exact incomplete rocker point loads, partial support contributions, free-axis residuals, missing-force identity, and unit damper influence",
+  "Source paths, field paths, SHA-256 hashes, frames, points, sign conventions, and fidelity labels",
+  "Explicit missing/deferred items and prohibited-use boundaries",
+  "Compact deterministic manifest/summary"
+]
+assumptions = [
+  "Every input record is the accepted uncorrelated setting-1/1 design-intent static result for the same configuration, static state, and fixed corner order.",
+  "No physics is rerun and no value is reconstructed from summaries or historical data.",
+  "Exact source frames, reference/application points, signs, and acting-on/counterparty identities remain authoritative.",
+  "The exchange is complete only for the named upstream records and is not a complete physical hardware or structural load case."
+]
+verification_level = "none"
+equation_ids = []
+benchmark_ids = ["BENCH-SUSP-0035", "BENCH-SUSP-0036", "BENCH-SUSP-0037"]
+authorization_id = "AUTH-SUSP-0019"
+authorization_state = "implementation_authorized_after_AUTH-SUSP-0019_review_merge; source_preserving_screening_exchange_only; no_FEA_or_structural_release_authority"
+assumption_ids = ["ASM-SUSP-0005", "ASM-SUSP-0007", "ASM-SUSP-0008", "ASM-VEH-0002", "ASM-VEH-0003", "ASM-VEH-0005"]
+upstream_model_ids = ["MOD-VEH-0007", "MOD-VEH-0008", "MOD-SUSP-0009", "MOD-SUSP-0010"]
+downstream_model_ids = []
+source_snapshot = "data_catalog/wufr27_static_load_path_exchange_v0.toml"
+source_audit = "docs/models/suspension/wufr_static_load_path_exchange_function_specification.md"
+planned_implementation_package = "src/pssd_suspension/wufr_static_load_path_exchange.py"
+planned_implementation_tests = [
+  "tests/test_wufr_static_load_path_exchange_authorization.py",
+  "tests/test_wufr_static_load_path_exchange.py",
+  "tests/test_wufr_static_load_path_exchange_failures.py",
+  "tests/test_wufr_static_load_path_exchange_result_record.py"
+]
+planned_benchmark_report_script = "scripts/run_wufr_static_load_path_exchange_benchmarks.py"
+planned_benchmark_result_record = "benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.json"
+planned_benchmark_summary_record = "benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.toml"
+planned_validation_workflow = ".github/workflows/wufr-static-load-path-exchange-implementation.yml"
+authorization_review_record = "docs/reviews/phase3_wufr_static_load_path_exchange_authorization_review.md"
+next_implementation_gate = "After AUTH-SUSP-0019 review and merge, implement the canonical exact-copy serializer, freeze the packet and manifest, and verify source-to-packet traceability and fail-closed boundaries. Solver-specific or FEA exports require a later separate authorization."
+prohibited_scope = "No force generation, recomputation, fitting, balancing, clipping, absolute-value repair, frame transform, point relocation, load redistribution, action/reaction invention, chassis nodal-load derivation, individual A-arm joint split, rocker bearing split, complete rocker reaction, welded-member load, stress/FOS, FEA boundary-condition file, maneuver load, setup recommendation, correlation, installed/as-built, design-release, or production authority."
