@@ -1,0 +1,40 @@
+name: Apply WUFR static Level-1 core payload
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.head_ref == 'phase-3-wufr-static-level1-interface-load-implementation'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - name: Apply core implementation payload
+        run: |
+          set -euo pipefail
+          cat .github/wufr_static_level1_core.part00 \
+              .github/wufr_static_level1_core.part01 \
+              .github/wufr_static_level1_core.part02 \
+              .github/wufr_static_level1_core.part03 \
+              .github/wufr_static_level1_core.part04 \
+              .github/wufr_static_level1_core.part05 \
+              .github/wufr_static_level1_core.part06 \
+            | base64 -d | tar -xzf -
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            src/pssd_suspension/wufr_static_level1_interface_loads.py \
+            scripts/run_wufr_static_level1_interface_load_benchmarks.py
+          if git diff --cached --quiet; then
+            echo "Core payload already applied"
+            exit 0
+          fi
+          git commit -m "Implement synchronized WUFR static Level-1 core"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
