@@ -15,5 +15,6 @@ acceptance_criteria = [
   "The result is one atomic FL/FR/RL/RR packet labelled uncorrelated_design_intent_static_level1_interface_loads with no rocker, structural, maneuver, installed, or setup authority."
 ]
 authorization = "authorizations/suspension/AUTH-SUSP-0017.toml"
-planned_result_record = "benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.json"
-planned_implementation_test = "tests/test_wufr_static_level1_interface_loads_result_record.py"
+result_record = "benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.json"
+implementation_test = "tests/test_wufr_static_level1_interface_loads_result_record.py"
+benchmark_report_script = "scripts/run_wufr_static_level1_interface_load_benchmarks.py"
