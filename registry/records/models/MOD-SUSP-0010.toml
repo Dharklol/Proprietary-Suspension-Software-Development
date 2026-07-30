@@ -1,0 +1,52 @@
+[record]
+id = "MOD-SUSP-0010"
+type = "model"
+title = "WUFR synchronized four-corner static rocker included-load composition"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Authorized source-preserving orchestration layer that combines the accepted MOD-SUSP-0009 four-corner static Level-1 interface-load result with exact matching current spring and Z-bar physical-force states and invokes MOD-SUSP-0008 once per corner. It publishes one atomic incomplete rocker included-load packet plus per-unit hypothetical non-spring damper-force influence coefficients. It introduces no actual damper-force magnitude, complete rocker reaction, structural release, maneuver case, or installed authority."
+inputs = [
+  "One successful MOD-SUSP-0009 four-corner result in fixed FL/FR/RL/RR order",
+  "Exact matching AUTH-SUSP-0014 current spring physical-force state for each corner",
+  "Exact matching AUTH-SUSP-0013 current Z-bar mechanism and physical-link force state for each corner",
+  "Existing MOD-SUSP-0008 included-load kernel and WUFR adapter",
+  "AUTH-SUSP-0015 missing KW V5 non-spring static-force identity"
+]
+outputs = [
+  "Four synchronized MOD-SUSP-0008 included-load results in fixed corner order",
+  "Included resultant force/moment and ideal-revolute support contribution per corner",
+  "Signed free-axis moment residual per corner",
+  "Explicit included and missing force identities with complete_hardware_reaction=false",
+  "Per-unit hypothetical damper-force support and free-axis influence coefficients",
+  "Atomic collection diagnostics and exact source/state provenance"
+]
+assumptions = [
+  "ASM-SUSP-0008 rigid rocker and ideal revolute support abstraction remains unchanged.",
+  "Every upstream provider describes the same exact accepted static state; symmetry is not used as data.",
+  "The KW V5 non-spring static force remains unavailable and is not assumed zero.",
+  "The unit damper influence is a geometric linear sensitivity only and is not a constitutive model or force estimate."
+]
+verification_level = "none"
+equation_ids = ["EQ-SUSP-0035", "EQ-SUSP-0036", "EQ-SUSP-0037"]
+benchmark_ids = ["BENCH-SUSP-0032", "BENCH-SUSP-0033", "BENCH-SUSP-0034"]
+authorization_id = "AUTH-SUSP-0018"
+authorization_state = "implementation_authorized_after_AUTH-SUSP-0018_review_merge; incomplete_static_included_loads_only"
+assumption_ids = ["ASM-SUSP-0008", "ASM-SUSP-0007", "ASM-SUSP-0005", "ASM-VEH-0002", "ASM-VEH-0003", "ASM-VEH-0005"]
+upstream_model_ids = ["MOD-SUSP-0004", "MOD-SUSP-0005", "MOD-SUSP-0008", "MOD-SUSP-0009"]
+downstream_model_ids = []
+source_snapshot = "data_catalog/wufr27_static_rocker_included_loads_v0.toml"
+source_audit = "docs/models/suspension/wufr_static_rocker_included_loads_function_specification.md"
+planned_implementation_package = "src/pssd_suspension/wufr_static_rocker_included_loads.py"
+planned_implementation_tests = [
+  "tests/test_wufr_static_rocker_included_loads_authorization.py",
+  "tests/test_wufr_static_rocker_included_loads.py",
+  "tests/test_wufr_static_rocker_included_loads_failures.py",
+  "tests/test_wufr_static_rocker_included_loads_result_record.py"
+]
+planned_benchmark_report_script = "scripts/run_wufr_static_rocker_included_load_benchmarks.py"
+planned_benchmark_result_record = "benchmarks/suspension/wufr_static_rocker_included_loads_result_v0.1.0.json"
+validation_workflow = ".github/workflows/suspension-kinematics-validation.yml"
+authorization_review_record = "docs/reviews/phase3_wufr_static_rocker_included_load_authorization_review.md"
+next_implementation_gate = "After AUTH-SUSP-0018 review/merge, implement and freeze the atomic four-corner incomplete rocker included-load result. Actual damper force and complete rocker reactions remain blocked by AUTH-SUSP-0015."
+prohibited_scope = "No actual damper-force magnitude or zero-force assumption; no complete rocker equilibrium or total pivot/bearing reaction; no hidden balancing torque; no corner mirroring or partial publication; no structural/FEA release, stress, fatigue, setup, maneuver, correlation, installed/as-built, or production claims."

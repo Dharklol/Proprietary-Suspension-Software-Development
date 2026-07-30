@@ -1,0 +1,17 @@
+[record]
+id = "BENCH-SUSP-0032"
+type = "benchmark"
+title = "WUFR static rocker source and state synchronization"
+status = "proposed"
+description = "Verify exact source/state/corner/frame/point/axis synchronization from the accepted MOD-SUSP-0009 result into the current spring, Z-bar, and MOD-SUSP-0008 rocker providers."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0010", "EQ-SUSP-0035", "EQ-SUSP-0036", "EQ-SUSP-0037"]
+acceptance_criteria = [
+  "The collection contains exactly front_left, front_right, rear_left, and rear_right in fixed order.",
+  "Each push/pull input is copied from the matching successful MOD-SUSP-0009 solve.actuation.force_on_remote_N at remote_point_m without sign or point changes.",
+  "Each spring and Z-bar physical force describes the same accepted corner state, configuration, load case, frame, axle, side, rocker pivot, and rocker axis.",
+  "Every distinct source-owned application point is retained and no corner is mirrored or reused.",
+  "Any mismatch fails before MOD-SUSP-0008 publication and rejects the complete collection."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0018.toml"
+planned_implementation_test = "tests/test_wufr_static_rocker_included_loads.py"

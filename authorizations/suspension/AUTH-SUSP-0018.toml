@@ -1,0 +1,159 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0018"
+status = "review_ready"
+title = "WUFR synchronized four-corner static rocker included-load composition"
+effective_condition = "Effective after review and merge. Authorizes MOD-SUSP-0010 to consume one successful MOD-SUSP-0009 four-corner static Level-1 result and exact matching current spring/Z-bar physical-force states, invoke the unchanged MOD-SUSP-0008 incomplete rocker adapter once per corner, and publish one atomic uncorrelated design-intent four-corner included-load packet. It also authorizes a per-unit hypothetical non-spring damper axial-force influence coefficient at the same current eye line, but no actual damper force magnitude or complete rocker reaction."
+review_record = "docs/reviews/phase3_wufr_static_rocker_included_load_authorization_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-SUSP-0010"]
+equation_ids = ["EQ-SUSP-0035", "EQ-SUSP-0036", "EQ-SUSP-0037"]
+benchmark_ids = ["BENCH-SUSP-0032", "BENCH-SUSP-0033", "BENCH-SUSP-0034"]
+assumption_ids = ["ASM-SUSP-0008", "ASM-SUSP-0007", "ASM-SUSP-0005", "ASM-VEH-0002", "ASM-VEH-0003", "ASM-VEH-0005"]
+source_record = "data_catalog/wufr27_static_rocker_included_loads_v0.toml"
+static_four_corner_rocker_included_load_publication_authorized = true
+source_preserving_composition_authorized = true
+unit_damper_force_influence_authorized = true
+actual_damper_static_force_model_authorized = false
+actual_damper_force_magnitude_authorized = false
+complete_rocker_equilibrium_authorized = false
+complete_hardware_reaction_authorized = false
+bearing_load_split_authorized = false
+structural_load_case_packet_authorized = false
+maneuver_load_generation_authorized = false
+installed_as_built_authority = false
+production_authority = false
+
+[input_contract]
+required_level1_model = "MOD-SUSP-0009"
+required_level1_authorization = "AUTH-SUSP-0017"
+required_level1_result_label = "uncorrelated_design_intent_static_level1_interface_loads"
+required_level1_result_record = "benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.json"
+required_rocker_model = "MOD-SUSP-0008"
+required_rocker_authorization = "AUTH-SUSP-0016"
+required_spring_authorization = "AUTH-SUSP-0014"
+required_arb_force_authorization = "AUTH-SUSP-0013"
+required_damper_hold_authorization = "AUTH-SUSP-0015"
+required_configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+required_static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+required_corner_order = ["front_left", "front_right", "rear_left", "rear_right"]
+required_load_ids = ["push_pull", "conservative_spring", "physical_arb_link"]
+required_missing_load_ids = ["KW_V5_non_spring_static_force"]
+required_push_pull_handoff = "Copy successful MOD-SUSP-0009 solve.actuation.force_on_remote_N at solve.actuation.remote_point_m unchanged, including sign, source, frame, and load-case identity."
+required_spring_handoff = "Use AUTH-SUSP-0014 force_on_rocker_N at rocker_eye_m with the exact current rocker pivot and axis."
+required_arb_handoff = "Use AUTH-SUSP-0013 matching-side force_on_rocker_N at the exact current Z-bar mechanism rocker pickup."
+
+[synchronization]
+atomic_collection = true
+identity_tuple = ["configuration_id", "static_state_id", "load_case_id", "corner_id", "axle", "side", "frame_id", "rocker_pivot_m", "rocker_axis_unit", "spring_source_id", "arb_fixture_id"]
+state_rule = "For each corner, the Level-1 actuation result, physical spring force, Z-bar mechanism, Z-bar physical link force, and rocker geometry must describe the same exact accepted static state."
+corner_rule = "No permutation, mirroring, axle substitution, side substitution, nominal-state substitution, or reuse of another corner result is allowed."
+point_rule = "Every force remains at its exact source-owned current application point; the push/pull remote point, spring rocker eye, and ARB rocker pickup are not merged or relocated."
+axis_rule = "The reviewed rocker axis sign is retained. Spring and Z-bar fixture pivots/axes must match within the authorized tolerances before composition."
+all_or_nothing_rule = "Publish no four-corner packet unless all four corner compositions succeed and every identity, source, point, axis, kernel residual, and completeness-boundary gate passes."
+
+[mechanics]
+per_corner_composition = "y_i = MOD-SUSP-0008(A_i,S_i,B_i,Z_i), where A_i is the exact MOD-SUSP-0009 actuation remote-end reaction, S_i is the exact AUTH-SUSP-0014 spring rocker force, B_i is the exact AUTH-SUSP-0013 physical ARB-link force, and Z_i is the matching current mechanism/rocker geometry."
+included_resultants = "F_inc,i=sum_j F_ij; M_inc,i=sum_j[(r_ij-R_i) cross F_ij] for j in [push_pull,conservative_spring,physical_arb_link]."
+support_contribution = "F_p,i=-F_inc,i; M_p,i=-(M_inc,i-(a_i dot M_inc,i)*a_i)."
+free_axis_residual = "tau_axis,i=a_i dot M_inc,i; retain signed tau_axis and M_res=tau_axis,i*a_i without repair."
+external_load_rule = "No force, couple, constitutive law, damper magnitude, or balancing term is created, removed, redistributed, fitted, clipped, or inferred inside MOD-SUSP-0010."
+completeness_rule = "The result is complete only for the named included load set. complete_hardware_reaction and complete_rocker_equilibrium remain false for every corner and for the collection."
+
+[damper_unit_influence]
+positive_coordinate = "A +1 N hypothetical non-spring damper force on the rocker acts from the current chassis eye toward the current rocker eye, along the exact chassis-to-rocker unit line already frozen by AUTH-SUSP-0014."
+unit_force_N = 1.0
+coefficient_rule = "Evaluate the same ideal-revolute support projection for one additional unit point force at the current rocker eye and report dF_p/dF_d, dM_p/dF_d, and dtau_axis/dF_d."
+affine_reconstruction_rule = "A future reviewed signed scalar F_d may be applied as known_result + F_d*unit_influence only when its source, state, position, temperature, service condition, and sign convention match exactly."
+interpretation_rule = "The unit influence is a geometric linear sensitivity, not a prediction or assumption of the KW V5 force and not permission to call the result complete."
+
+[numerics]
+point_consistency_tolerance_m = 1.0e-9
+axis_consistency_tolerance = 1.0e-10
+force_residual_tolerance_N = 1.0e-10
+perpendicular_moment_residual_tolerance_Nm = 1.0e-10
+support_axis_moment_tolerance_Nm = 1.0e-10
+identity_numeric_match_tolerance = 0.0
+least_squares_allowed = false
+pseudoinverse_allowed = false
+regularization_allowed = false
+hidden_balancing_force_or_couple_allowed = false
+force_or_moment_clipping_allowed = false
+absolute_value_sign_repair_allowed = false
+historical_load_fallback_allowed = false
+zero_damper_force_assumption_allowed = false
+
+[outputs]
+result_label = "uncorrelated_design_intent_static_rocker_included_loads"
+corner_outputs = [
+  "exact push/pull, conservative-spring, and physical-ARB point-load records",
+  "included resultant force and moment about the exact current rocker pivot",
+  "ideal-revolute support force and perpendicular-moment contribution for the named included load set",
+  "signed free-axis moment residual and exact residual diagnostics",
+  "explicit included and missing load identities with complete_hardware_reaction=false",
+  "per-unit hypothetical damper-force support and free-axis influence coefficients",
+  "exact points, axis, frame, configuration, state, load-case, and source provenance"
+]
+collection_outputs = [
+  "fixed FL/FR/RL/RR order",
+  "all-corner success and maximum residual diagnostics",
+  "upstream MOD-SUSP-0009 result identity and frozen source hashes",
+  "explicit fidelity and prohibited-use labels"
+]
+
+[permitted]
+items = [
+  "Implement a thin orchestration adapter that validates one accepted MOD-SUSP-0009 result, regenerates exact matching spring and Z-bar physical-force states, and invokes the unchanged MOD-SUSP-0008 adapter once per corner.",
+  "Publish signed four-corner rocker included-load contributions only for the exact authorized static-gravity fixture and preserve every upstream assumption and exclusion.",
+  "Freeze deterministic full and summary records retaining every point load, support contribution, free-axis residual, missing-force identity, and source/state identity.",
+  "Publish a per-unit geometric sensitivity to a future signed non-spring damper force at the exact current eye line without selecting or implying its magnitude.",
+  "Prepare a later Instron measurement contract under AUTH-SUSP-0015; measurement data are not required for this incomplete result."
+]
+
+[prohibited]
+items = [
+  "Recomputing carrier wrenches, Level-1 interface forces, spring forces, Z-bar forces, or rocker geometry from scalar motion ratios, wheel loads, or historical tables inside MOD-SUSP-0010.",
+  "Using actuation.force_on_body_N instead of the required force_on_remote_N, changing its sign, moving its point, or replacing rear compression with an absolute value.",
+  "Permuting corners, mirroring one side, using left/right symmetry as data, mixing configuration or load-case identities, or publishing only a successful subset of corners.",
+  "Moving the push/pull force to the spring eye, moving the ARB force to another pickup, or merging distinct application points.",
+  "Setting the unavailable KW V5 gas/static-friction force to zero, selecting a generic force, or treating the unit influence coefficient as an actual force estimate.",
+  "Adding a hidden balancing torque or altering supplied loads to remove a nonzero free-axis residual.",
+  "Calling the result complete rocker equilibrium, total pivot/bearing reaction, chassis pickup load, structural load case, maneuver result, correlated result, installed/as-built result, or production result.",
+  "Publishing bearing load split, stress, buckling, fatigue, compliance, factor of safety, or FEA boundary conditions."
+]
+
+[failure_behavior]
+codes = [
+  "upstream_level1_result_failure",
+  "corner_count_or_order_mismatch",
+  "state_identity_mismatch",
+  "configuration_mismatch",
+  "load_case_mismatch",
+  "frame_mismatch",
+  "spring_state_failure",
+  "arb_state_failure",
+  "source_mismatch",
+  "rocker_geometry_mismatch",
+  "corner_composition_failure",
+  "unit_influence_failure",
+  "collection_incomplete",
+  "nonfinite_output"
+]
+rule = "Return one structured failed collection with the exact failed corner/stage and all available provenance. Never publish a partial four-corner packet or repair a failure by substituting states, points, axes, signs, sources, loads, or solver methods."
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-SUSP-0032 verifies exact four-corner synchronization from MOD-SUSP-0009 into the current spring/Z-bar/rocker providers, including unchanged actuation remote-end sign and point.",
+  "BENCH-SUSP-0033 freezes the setting-1/1 four-corner included-load result and verifies every point load, support contribution, free-axis residual, explicit missing damper force, and residual gate.",
+  "BENCH-SUSP-0034 verifies the unit damper-force influence coefficients and fail-closed behavior for reordered/missing corners, stale or mismatched states, moved points, axis sign/source disagreement, upstream failure, nonfinite values, and partial-collection failure."
+]
+
+[promotion_gates]
+items = [
+  "Merge this reviewed authorization before implementing MOD-SUSP-0010.",
+  "Implementation must freeze machine-readable full and summary four-corner result records and regenerate them in CI.",
+  "Before applying a nonzero actual damper contribution or calling any result complete, satisfy AUTH-SUSP-0015 with source-specific or measured KW V5 static-force evidence and separately authorize the complete composition.",
+  "Before structural exchange packets, separately authorize fidelity, application-point, sign, load-combination, bearing, and prohibited-use contracts.",
+  "Before maneuver cases, separately authorize tire, brake, drive, aero, inertial, gyroscopic, compliance, loaded-radius, and contact-mode providers."
+]
