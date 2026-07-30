@@ -2,7 +2,7 @@
 id = "BENCH-SUSP-0035"
 type = "benchmark"
 title = "WUFR static load-path source and value preservation"
-status = "proposed"
+status = "accepted"
 description = "Verify exact identity, source-hash, source-field, frame, point/reference, sign, acting-on/counterparty, and numeric-value preservation from the accepted vehicle-equilibrium, carrier-wrench, Level-1 interface-load, and incomplete rocker result records into MOD-SUSP-0011."
 verification_level = "A"
 target_ids = ["MOD-SUSP-0011"]
@@ -14,4 +14,10 @@ acceptance_criteria = [
   "No point relocation, frame transform, sign rewrite, action/reaction invention, load redistribution, or missing-value substitution occurs."
 ]
 authorization = "authorizations/suspension/AUTH-SUSP-0019.toml"
-planned_implementation_test = "tests/test_wufr_static_load_path_exchange.py"
+implementation_test = "tests/test_wufr_static_load_path_exchange.py"
+result_record = "benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.json"
+result = "pass"
+source_hash_error = 0
+load_record_count = 60
+all_records_traceable_to_source_field = true
+missing_required_load_record_fields = []
