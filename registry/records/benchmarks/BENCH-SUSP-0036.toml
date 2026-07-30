@@ -1,0 +1,20 @@
+[record]
+id = "BENCH-SUSP-0036"
+type = "benchmark"
+title = "Frozen WUFR static load-path screening exchange packet"
+status = "proposed"
+description = "Freeze and verify the deterministic canonical MOD-SUSP-0011 JSON packet and compact manifest for the accepted setting-1/1 WUFR static load-path records."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0011"]
+acceptance_criteria = [
+  "The packet contains every required section and exactly four corners in fixed front_left, front_right, rear_left, rear_right order.",
+  "Every load record ID is unique and every record traces to exactly one accepted source file and source-field path.",
+  "Vehicle-state, carrier-wrench, Level-1 interface, and rocker-included sections are all present; no successful subset may be published.",
+  "The source manifest freezes file paths, model/authorization/result identities, and SHA-256 hashes.",
+  "Canonical serialization regenerates byte-identically and its frozen SHA-256 matches the compact manifest.",
+  "The packet retains the exact missing/deferred list and all completeness, fidelity, and prohibited-use flags."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0019.toml"
+planned_result_record = "benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.json"
+planned_summary_record = "benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.toml"
+planned_implementation_test = "tests/test_wufr_static_load_path_exchange_result_record.py"
