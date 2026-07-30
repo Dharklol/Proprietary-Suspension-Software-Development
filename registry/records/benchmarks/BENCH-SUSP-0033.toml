@@ -1,0 +1,19 @@
+[record]
+id = "BENCH-SUSP-0033"
+type = "benchmark"
+title = "Frozen WUFR setting-1/1 four-corner rocker included loads"
+status = "proposed"
+description = "Freeze and independently verify the first synchronized four-corner MOD-SUSP-0008 included-load result driven by the accepted setting-1/1 static Level-1 interface-load fixture."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0010", "EQ-SUSP-0035", "EQ-SUSP-0036", "EQ-SUSP-0037"]
+acceptance_criteria = [
+  "All four corner compositions succeed using the unchanged MOD-SUSP-0008 kernel and WUFR adapter.",
+  "The frozen record retains every signed push/pull, conservative-spring, and physical-ARB point load with exact application point and source identity.",
+  "Included resultant force/moment, ideal-revolute support contribution, signed free-axis residual, and residual diagnostics are retained for every corner.",
+  "Force residual, perpendicular moment residual, and support-axis moment component satisfy the existing 1e-10 gates.",
+  "Every corner and the collection explicitly retain missing_load_ids=[KW_V5_non_spring_static_force], complete_hardware_reaction=false, and complete_rocker_equilibrium=false.",
+  "The packet is labelled uncorrelated_design_intent_static_rocker_included_loads and carries no structural, maneuver, installed, setup, correlation, or production authority."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0018.toml"
+planned_result_record = "benchmarks/suspension/wufr_static_rocker_included_loads_result_v0.1.0.json"
+planned_implementation_test = "tests/test_wufr_static_rocker_included_loads_result_record.py"
