@@ -1,0 +1,16 @@
+[record]
+id = "EQ-SUSP-0037"
+type = "equation"
+title = "Per-unit non-spring damper force influence at the rocker"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Evaluate the linear geometric sensitivity of the incomplete rocker support contribution to a hypothetical +1 N non-spring damper axial force at the exact current rocker eye. No actual KW V5 force magnitude is selected or implied."
+canonical_equation = "Let e_d=(D-C)/||D-C|| and f_unit=1 N*e_d at D. Then dF_p/dF_d=-e_d; dM_p/dF_d=-([(D-R) cross e_d]-[a dot ((D-R) cross e_d)]a); dtau_axis/dF_d=a dot ((D-R) cross e_d)."
+inputs = ["Exact current chassis eye C, rocker eye D, rocker pivot R, and signed rocker axis a", "Unit hypothetical force coordinate +1 N from chassis eye toward rocker eye"]
+outputs = ["Support-force influence vector per N", "Perpendicular support-moment influence vector per N", "Free-axis residual influence per N", "Explicit no-force-estimate boundary"]
+assumptions = ["ASM-SUSP-0008", "ASM-SUSP-0007"]
+verification_level = "none"
+benchmark_ids = ["BENCH-SUSP-0032", "BENCH-SUSP-0033", "BENCH-SUSP-0034"]
+authorization_id = "AUTH-SUSP-0018"
+failure_behavior = ["Reject degenerate eye lines, pivot/axis mismatch, nonfinite geometry, or a state identity mismatch.", "Do not apply a nonzero scalar F_d until AUTH-SUSP-0015 is satisfied by reviewed source-specific or measured evidence."]
