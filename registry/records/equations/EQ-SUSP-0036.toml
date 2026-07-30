@@ -1,0 +1,16 @@
+[record]
+id = "EQ-SUSP-0036"
+type = "equation"
+title = "Incomplete ideal-revolute rocker support contribution"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Assemble the named physical point-load resultants about the exact current rocker pivot and project the support moment perpendicular to the reviewed rocker axis while retaining the signed free-axis residual."
+canonical_equation = "F_inc=sum_j F_j; M_inc=sum_j[(r_j-R) cross F_j]; F_p=-F_inc; M_p=-(M_inc-(a dot M_inc)a); tau_axis=a dot M_inc, for j in [push_pull,conservative_spring,physical_arb_link]."
+inputs = ["Exact current rocker pivot R and signed unit axis a", "Push/pull, conservative-spring, and physical-ARB point loads at exact source-owned points"]
+outputs = ["Included resultant force and moment", "Ideal-revolute support force and perpendicular-moment contribution", "Signed free-axis residual tau_axis", "Explicit missing KW V5 non-spring static-force identity"]
+assumptions = ["ASM-SUSP-0008"]
+verification_level = "none"
+benchmark_ids = ["BENCH-SUSP-0032", "BENCH-SUSP-0033", "BENCH-SUSP-0034"]
+authorization_id = "AUTH-SUSP-0018"
+failure_behavior = ["A nonzero free-axis residual is published as a diagnostic and is never repaired by a hidden force or torque.", "complete_hardware_reaction and complete_rocker_equilibrium remain false."]
