@@ -2,7 +2,7 @@
 id = "BENCH-SUSP-0035"
 type = "benchmark"
 title = "WUFR static load-path source and value preservation"
-status = "accepted"
+status = "active"
 description = "Verify exact identity, source-hash, source-field, frame, point/reference, sign, acting-on/counterparty, and numeric-value preservation from the accepted vehicle-equilibrium, carrier-wrench, Level-1 interface-load, and incomplete rocker result records into MOD-SUSP-0011."
 verification_level = "A"
 target_ids = ["MOD-SUSP-0011"]
