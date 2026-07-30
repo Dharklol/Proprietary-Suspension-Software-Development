@@ -1,0 +1,17 @@
+[record]
+id = "BENCH-SUSP-0035"
+type = "benchmark"
+title = "WUFR static load-path source and value preservation"
+status = "proposed"
+description = "Verify exact identity, source-hash, source-field, frame, point/reference, sign, acting-on/counterparty, and numeric-value preservation from the accepted vehicle-equilibrium, carrier-wrench, Level-1 interface-load, and incomplete rocker result records into MOD-SUSP-0011."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0011"]
+acceptance_criteria = [
+  "All four source files match the required model, authorization, result label, configuration, static state, setting, and fixed FL/FR/RL/RR order.",
+  "Every serialized load record contains its exact source path and source-field path plus the governing file SHA-256.",
+  "Every copied scalar/vector equals the source value exactly before JSON serialization; frames, points/references, body identities, sign convention, and load role are retained.",
+  "No value is reconstructed from summary records, scalar motion ratios, historical tables, symmetry, or another corner.",
+  "No point relocation, frame transform, sign rewrite, action/reaction invention, load redistribution, or missing-value substitution occurs."
+]
+authorization = "authorizations/suspension/AUTH-SUSP-0019.toml"
+planned_implementation_test = "tests/test_wufr_static_load_path_exchange.py"
