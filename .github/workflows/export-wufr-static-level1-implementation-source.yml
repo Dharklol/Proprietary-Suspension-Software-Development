@@ -1,0 +1,26 @@
+name: Export WUFR static Level-1 implementation source
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    if: github.head_ref == 'phase-3-wufr-static-level1-interface-load-implementation'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Package repository source
+        run: |
+          tar --exclude=.git -czf repository-source.tar.gz .
+      - name: Upload repository source
+        uses: actions/upload-artifact@v4
+        with:
+          name: wufr-static-level1-implementation-source
+          path: repository-source.tar.gz
+          if-no-files-found: error
