@@ -2,7 +2,7 @@
 id = "BENCH-SUSP-0037"
 type = "benchmark"
 title = "WUFR static load-path exchange fail-closed and fidelity boundaries"
-status = "accepted"
+status = "active"
 description = "Verify that MOD-SUSP-0011 rejects incomplete, altered, mismatched, nonfinite, or over-promoted source data and preserves every structural-screening limitation."
 verification_level = "A"
 target_ids = ["MOD-SUSP-0011"]
