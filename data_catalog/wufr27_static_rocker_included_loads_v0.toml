@@ -1,0 +1,67 @@
+version = "0.1.0"
+record_id = "WUFR27_STATIC_ROCKER_INCLUDED_LOADS_V0"
+status = "reviewed_source_boundary"
+authority = "Source-preserving contract for composing the accepted MOD-SUSP-0009 four-corner static Level-1 interface-load result with the already-reviewed physical spring and Z-bar linkage providers through MOD-SUSP-0008. The result is an explicitly incomplete rocker included-load support contribution, not a complete hardware reaction."
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+result_label = "uncorrelated_design_intent_static_rocker_included_loads"
+corner_order = ["front_left", "front_right", "rear_left", "rear_right"]
+authorization_id = "AUTH-SUSP-0018"
+model_id = "MOD-SUSP-0010"
+
+[source.static_level1]
+model_id = "MOD-SUSP-0009"
+authorization_id = "AUTH-SUSP-0017"
+required_result_label = "uncorrelated_design_intent_static_level1_interface_loads"
+required_result_record = "benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.json"
+handoff = "For each successful corner, copy solve.actuation.force_on_remote_N and solve.actuation.remote_point_m unchanged into MOD-SUSP-0008."
+
+[source.rocker_kernel]
+model_id = "MOD-SUSP-0008"
+authorization_id = "AUTH-SUSP-0016"
+source_record = "data_catalog/wufr27_rocker_included_load_statics_v0.toml"
+required_load_ids = ["push_pull", "conservative_spring", "physical_arb_link"]
+missing_load_ids = ["KW_V5_non_spring_static_force"]
+
+[source.spring]
+model_id = "MOD-SUSP-0004"
+physical_vector_authorization_id = "AUTH-SUSP-0014"
+implementation = "src/pssd_suspension/wufr_spring_rocker_force.py"
+required_output = "force_on_rocker_N at rocker_eye_m with exact rocker_pivot_m and rocker_axis_unit"
+
+[source.arb]
+model_id = "MOD-SUSP-0005"
+physical_vector_authorization_id = "AUTH-SUSP-0013"
+implementation = "src/pssd_suspension/wufr_zbar_link_force.py"
+required_output = "matching-side force_on_rocker_N at the exact current Z-bar mechanism rocker pickup"
+
+[source.damper_hold]
+authorization_id = "AUTH-SUSP-0015"
+source_record = "data_catalog/wufr27_damper_static_force_authority_v0.toml"
+missing_force_id = "KW_V5_non_spring_static_force"
+actual_force_available = false
+zero_force_assumption_authorized = false
+
+[synchronization]
+atomic_collection = true
+identity_tuple = ["configuration_id", "static_state_id", "load_case_id", "corner_id", "axle", "side", "frame_id", "rocker_pivot_m", "rocker_axis_unit", "spring_source_id", "arb_fixture_id"]
+state_rule = "The Level-1 result, spring force, Z-bar mechanism, Z-bar physical link force, and rocker geometry must describe the same exact accepted static corner state."
+all_or_nothing_rule = "Publish no four-corner result unless FL, FR, RL, and RR all succeed and every identity, point, axis, source, and residual gate passes."
+
+[damper_unit_influence]
+positive_coordinate = "Positive unit non-spring damper force on the rocker acts from the chassis eye toward the rocker eye, along the same current chassis-to-rocker unit line used by the spring vector."
+force_magnitude_N = 1.0
+interpretation = "The unit result is a linear support-reaction coefficient per +1 N of hypothetical non-spring damper axial force at the current rocker eye. It is not a damper-force estimate, constitutive model, or complete-reaction publication."
+affine_rule = "R_included(F_d)=R_known+F_d*dR_dFd only after a future reviewed source supplies the signed scalar F_d for the exact same state."
+
+[boundaries]
+complete_for_named_included_load_set = true
+complete_hardware_reaction = false
+complete_rocker_equilibrium = false
+damper_static_force_model_authorized = false
+damper_force_magnitude_assumed = false
+maneuver_complete = false
+structural_load_case_authority = false
+bearing_split_authorized = false
+installed_as_built_authority = false
+production_authority = false
