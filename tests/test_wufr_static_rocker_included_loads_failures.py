@@ -152,6 +152,7 @@ class WufrStaticRockerFailureTests(unittest.TestCase):
             {
                 WUFRStaticRockerFailureCode.STATE_IDENTITY_MISMATCH,
                 WUFRStaticRockerFailureCode.NONFINITE_OUTPUT,
+                WUFRStaticRockerFailureCode.CORNER_COMPOSITION_FAILURE,
             },
         )
 
