@@ -15,5 +15,7 @@ acceptance_criteria = [
   "The packet is labelled uncorrelated_design_intent_static_rocker_included_loads and carries no structural, maneuver, installed, setup, correlation, or production authority."
 ]
 authorization = "authorizations/suspension/AUTH-SUSP-0018.toml"
-planned_result_record = "benchmarks/suspension/wufr_static_rocker_included_loads_result_v0.1.0.json"
-planned_implementation_test = "tests/test_wufr_static_rocker_included_loads_result_record.py"
+result_record = "benchmarks/suspension/wufr_static_rocker_included_loads_result_v0.1.0.json"
+summary_record = "benchmarks/suspension/wufr_static_rocker_included_loads_result_v0.1.0.toml"
+implementation_test = "tests/test_wufr_static_rocker_included_loads_result_record.py"
+benchmark_report_script = "scripts/run_wufr_static_rocker_included_load_benchmarks.py"

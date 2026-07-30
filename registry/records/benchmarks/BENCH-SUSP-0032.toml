@@ -14,4 +14,6 @@ acceptance_criteria = [
   "Any mismatch fails before MOD-SUSP-0008 publication and rejects the complete collection."
 ]
 authorization = "authorizations/suspension/AUTH-SUSP-0018.toml"
-planned_implementation_test = "tests/test_wufr_static_rocker_included_loads.py"
+implementation_test = "tests/test_wufr_static_rocker_included_loads.py"
+benchmark_report_script = "scripts/run_wufr_static_rocker_included_load_benchmarks.py"
+result_record = "benchmarks/suspension/wufr_static_rocker_included_loads_result_v0.1.0.json"

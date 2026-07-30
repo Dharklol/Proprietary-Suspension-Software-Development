@@ -1,0 +1,81 @@
+name: WUFR static rocker included-load implementation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Validate synchronized static rocker implementation
+        run: |
+          set -e
+          {
+            python -m unittest tests.test_wufr_static_rocker_included_loads -v
+            python -m unittest tests.test_wufr_static_rocker_included_loads_failures -v
+            python -m unittest tests.test_wufr_static_rocker_included_loads_result_record -v
+          } > wufr_static_rocker_included_loads_test.log 2>&1
+      - name: Regenerate full and summary reports
+        run: |
+          python scripts/run_wufr_static_rocker_included_load_benchmarks.py \
+            --output wufr_static_rocker_included_loads_report.json \
+            --summary-output wufr_static_rocker_included_loads_summary.toml \
+            --summary
+      - name: Verify regenerated records against frozen records
+        run: |
+          python - <<'PY'
+          import json
+          import math
+          from pathlib import Path
+          import tomllib
+
+          def check(actual, expected, path="root"):
+              if type(actual) is not type(expected):
+                  raise AssertionError(f"{path}: type mismatch {type(actual)} != {type(expected)}")
+              if isinstance(expected, dict):
+                  if set(actual) != set(expected):
+                      raise AssertionError(f"{path}: key mismatch")
+                  for key in expected:
+                      check(actual[key], expected[key], f"{path}.{key}")
+              elif isinstance(expected, list):
+                  if len(actual) != len(expected):
+                      raise AssertionError(f"{path}: length mismatch")
+                  for index, (left, right) in enumerate(zip(actual, expected)):
+                      check(left, right, f"{path}[{index}]")
+              elif isinstance(expected, float):
+                  if not math.isclose(actual, expected, rel_tol=1e-12, abs_tol=1e-12):
+                      raise AssertionError(f"{path}: {actual!r} != {expected!r}")
+              elif actual != expected:
+                  raise AssertionError(f"{path}: {actual!r} != {expected!r}")
+
+          generated_json = json.loads(Path("wufr_static_rocker_included_loads_report.json").read_text())
+          frozen_json = json.loads(Path("benchmarks/suspension/wufr_static_rocker_included_loads_result_v0.1.0.json").read_text())
+          check(generated_json, frozen_json)
+          with Path("wufr_static_rocker_included_loads_summary.toml").open("rb") as stream:
+              generated_toml = tomllib.load(stream)
+          with Path("benchmarks/suspension/wufr_static_rocker_included_loads_result_v0.1.0.toml").open("rb") as stream:
+              frozen_toml = tomllib.load(stream)
+          check(generated_toml, frozen_toml)
+          print("Frozen static rocker records match regeneration within 1e-12 numeric tolerance")
+          PY
+      - name: Upload implementation diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wufr-static-rocker-included-loads-v0.1.0
+          path: |
+            wufr_static_rocker_included_loads_test.log
+            wufr_static_rocker_included_loads_report.json
+            wufr_static_rocker_included_loads_summary.toml
+          if-no-files-found: error
