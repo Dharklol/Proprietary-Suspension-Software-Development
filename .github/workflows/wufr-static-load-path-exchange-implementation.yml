@@ -6,15 +6,13 @@ on:
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -28,26 +26,21 @@ jobs:
             python -m unittest tests.test_wufr_static_load_path_exchange_failures -v
             python -m unittest tests.test_wufr_static_load_path_exchange_result_record -v
           } > wufr_static_load_path_exchange_test.log 2>&1
-      - name: Generate canonical packet and summary
+      - name: Regenerate canonical packet and summary
         run: |
           python scripts/run_wufr_static_load_path_exchange_benchmarks.py \
-            --output benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.json \
-            --summary-output benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.toml \
+            --output wufr_static_load_path_exchange_regenerated.json \
+            --summary-output wufr_static_load_path_exchange_regenerated.toml \
             --summary
-      - name: Freeze generated records on implementation branch
-        if: github.event_name == 'pull_request'
+      - name: Verify regenerated records against frozen records
         run: |
-          if git diff --quiet -- benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.json benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.toml && \
-             git ls-files --error-unmatch benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.json >/dev/null 2>&1 && \
-             git ls-files --error-unmatch benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.toml >/dev/null 2>&1; then
-            echo "Frozen records already match"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.json benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.toml
-          git commit -m "Freeze WUFR static load-path exchange records"
-          git push origin HEAD:${{ github.head_ref }}
+          cmp --silent \
+            wufr_static_load_path_exchange_regenerated.json \
+            benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.json
+          cmp --silent \
+            wufr_static_load_path_exchange_regenerated.toml \
+            benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.toml
+          echo "Frozen MOD-SUSP-0011 records match byte-stable regeneration"
       - name: Upload implementation evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -55,6 +48,6 @@ jobs:
           name: wufr-static-load-path-exchange-v0.1.0
           path: |
             wufr_static_load_path_exchange_test.log
-            benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.json
-            benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.toml
+            wufr_static_load_path_exchange_regenerated.json
+            wufr_static_load_path_exchange_regenerated.toml
           if-no-files-found: error
