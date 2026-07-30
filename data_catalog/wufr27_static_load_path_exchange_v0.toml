@@ -1,0 +1,90 @@
+version = "0.1.0"
+record_id = "WUFR27_STATIC_LOAD_PATH_EXCHANGE_V0"
+status = "reviewed_source_boundary"
+authority = "Canonical source-preserving schema contract for packaging the accepted WUFR setting-1/1 static vehicle, carrier-wrench, Level-1 interface-load, and incomplete rocker included-load records into one atomic load-path screening exchange. The packet is not a complete structural load case or FEA boundary-condition set."
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+result_label = "uncorrelated_design_intent_static_load_path_screening_exchange"
+corner_order = ["front_left", "front_right", "rear_left", "rear_right"]
+authorization_id = "AUTH-SUSP-0019"
+model_id = "MOD-SUSP-0011"
+canonical_format = "JSON"
+canonical_units = "SI"
+schema_version = "0.1.0"
+
+[source.vehicle_equilibrium]
+model_id = "MOD-VEH-0007"
+authorization_id = "AUTH-VEH-0010"
+result_label = "uncorrelated_design_intent_static_gravity"
+result_record = "benchmarks/vehicle/wufr_static_equilibrium_result_v0.2.0.json"
+required_fields = ["primary", "primary.q_body", "primary.wheel_coordinates_m", "primary.road_reactions_N", "primary.physical_closure"]
+
+[source.carrier_wrench]
+model_id = "MOD-VEH-0008"
+authorization_id = "AUTH-VEH-0011"
+result_label = "uncorrelated_design_intent_static_carrier_wrench"
+result_record = "benchmarks/vehicle/wufr_static_carrier_wrench_result_v0.1.0.json"
+required_fields = ["corners", "corners.level1_wrench", "corners.component_wrenches", "four_corner_reconstruction"]
+
+[source.level1_interface]
+model_id = "MOD-SUSP-0009"
+authorization_id = "AUTH-SUSP-0017"
+result_label = "uncorrelated_design_intent_static_level1_interface_loads"
+result_record = "benchmarks/suspension/wufr_static_level1_interface_loads_result_v0.1.0.json"
+required_fields = ["corners", "corners.solve.lateral", "corners.solve.actuation", "corners.solve.upper_spherical", "corners.solve.lower_spherical", "corners.solve.upper_hinge", "corners.solve.lower_hinge", "corners.solve.action_reaction_records", "corners.solve.body_residuals"]
+
+[source.rocker_included]
+model_id = "MOD-SUSP-0010"
+authorization_id = "AUTH-SUSP-0018"
+result_label = "uncorrelated_design_intent_static_rocker_included_loads"
+result_record = "benchmarks/suspension/wufr_static_rocker_included_loads_result_v0.1.0.json"
+required_fields = ["corners", "corners.included_result", "corners.included_result.included_loads", "corners.included_result.pivot_force_contribution_N", "corners.included_result.pivot_moment_contribution_Nm", "corners.included_result.free_axis_moment_residual_Nm", "corners.damper_unit_influence"]
+required_missing_load_ids = ["KW_V5_non_spring_static_force"]
+
+[synchronization]
+identity_tuple = ["configuration_id", "static_state_id", "corner_order", "front_arb_setting", "rear_arb_setting"]
+atomic_packet = true
+exact_value_copy = true
+source_hash_algorithm = "sha256"
+source_field_paths_required = true
+partial_packet_allowed = false
+corner_mirroring_allowed = false
+nominal_state_substitution_allowed = false
+historical_fallback_allowed = false
+
+[packet.sections]
+required = ["packet_identity", "source_manifest", "vehicle_static_state", "carrier_external_wrenches", "level1_interface_loads", "rocker_included_loads", "missing_and_deferred_loads", "diagnostics", "fidelity_and_use_boundaries"]
+
+[packet.load_record]
+required_fields = ["record_id", "corner_id", "load_role", "acting_on_body_id", "counterparty_body_id", "frame_id", "point_or_reference_id", "application_or_reference_point_m", "force_N", "moment_Nm", "source_model_id", "source_authorization_id", "source_result_path", "source_field_path", "sign_convention", "fidelity_label", "complete_for_named_source_record"]
+point_and_frame_policy = "Copy exact source-owned point/reference and frame identities. No coordinate transform or point relocation is part of this model."
+sign_policy = "Copy signed vectors and axial scalars exactly. No absolute-value repair, side mirroring, or compression/tension sign rewrite."
+action_reaction_policy = "Only action/reaction pairs explicit in the upstream result may be serialized as pairs. No derived chassis nodal loads, bearing split, or individual A-arm joint split."
+
+[packet.fidelity]
+label = "ideal_rigid_geometry_static_gravity_load_path_screening"
+complete_for_named_upstream_record_exchange = true
+complete_physical_hardware_load_case = false
+complete_rocker_equilibrium = false
+complete_chassis_pickup_load_set = false
+structural_load_case_authority = false
+fea_boundary_condition_authority = false
+structural_release_authority = false
+installed_as_built_authority = false
+production_authority = false
+
+[packet.missing_and_deferred]
+items = ["KW_V5_non_spring_static_force", "complete rocker equilibrium and total pivot/bearing reaction", "rocker bearing split", "individual forward/aft A-arm inboard joint split", "welded wishbone member-force distribution and bending", "bearing/joint/chassis/member compliance", "maneuver tire/brake/drive/aero/inertial/gyroscopic/curb/impact loads", "as-built configuration and physical correlation"]
+
+[packet.permitted_use]
+items = ["load-path sign/source review", "four-corner interface-force comparison", "CAD point/frame/interface audit", "preliminary structural model planning", "measurement and fidelity gap identification"]
+
+[packet.prohibited_use]
+items = ["direct FEA boundary-condition application", "authorized stress/buckling/fatigue/weld/bearing/compliance/FOS result", "individual pickup or member loading", "complete rocker or bearing load claim", "maneuver or durability load claim", "setup recommendation", "correlated or installed/as-built claim", "design release or production decision"]
+
+[implementation]
+planned_package = "src/pssd_suspension/wufr_static_load_path_exchange.py"
+planned_script = "scripts/run_wufr_static_load_path_exchange_benchmarks.py"
+planned_result_record = "benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.json"
+planned_summary_record = "benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.toml"
+planned_tests = ["tests/test_wufr_static_load_path_exchange_authorization.py", "tests/test_wufr_static_load_path_exchange.py", "tests/test_wufr_static_load_path_exchange_failures.py", "tests/test_wufr_static_load_path_exchange_result_record.py"]
