@@ -13,6 +13,8 @@ It cannot.
 - `src/pssd_tire/r25b_force_demand_adapter.py`
 - `data_catalog/r25b_steering_branch_handoff_v1.toml`
 - `authorizations/steering/AUTH-STEER-0004.toml`
+- `docs/roadmaps/post_steering_rnd_program_v0.1.0.md`
+- `docs/roadmaps/post_rigid_contact_program_v0.1.0.md`
 
 ## Current vehicle evidence
 
@@ -45,9 +47,22 @@ Current counts are:
 
 No nearest-state substitution, clipping, load extrapolation, nominal camber or pressure insertion, force allocation from lateral acceleration, Ackermann-derived motion, or hidden target weighting is permitted.
 
-## Next checkpoint
+## Program disposition
 
-A reviewed synchronized state package is required. For every steering sample used by a target, it must provide:
+This is the planned upstream-evidence stopping point, not an unimplemented steering feature. The steering mechanism, tire branch, force-demand inversion, suspension-pose, vehicle-state, and planar-motion interfaces already exist. Continuing inside the steering or tire packages would require inventing vehicle equilibrium, suspension motion, or operating-state authority in the wrong subsystem.
+
+PR #103 therefore closes the present R25B-to-steering extension and pauses further steering-only or tire-only target work. The immediate program focus returns to:
+
+- PDR claim closeout and figure selection;
+- physical steering decisions and their validation plans;
+- the reviewed zero-steer suspension-pose path;
+- a vehicle/QSS state producer when adequate source inputs are available.
+
+This disposition is consistent with the post-steering and post-rigid-contact roadmaps. The existing R25B runtime and branch handoff remain available as stable consumers of future upstream state packages.
+
+## Next evidence checkpoint
+
+A reviewed synchronized target-state package is required. At the resolution used by the target, it must provide:
 
 - front inside and outside normal load;
 - inclination;
@@ -55,8 +70,8 @@ A reviewed synchronized state package is required. For every steering sample use
 - lateral-force demand;
 - suspension pose;
 - planar `u`, `v`, and `r` motion;
-- explicit nonzero target-state weighting.
+- an explicit nonzero weight for each target state.
 
 Every query must remain inside the authorized R25B source domain. Acceptable evidence could be a reviewed vehicle simulation or QSS export, a reviewed measured or higher-fidelity simulation package, or a separately authorized engineering schedule that is clearly identified as an interpretation rather than a source-stated fact.
 
-Until that evidence exists, source-backed steering target construction and design ranking remain blocked.
+Until that evidence exists, source-backed steering target construction and design ranking remain blocked. Resume this vertical slice only when a reviewed zero-steer suspension-pose series and a synchronized vehicle/tire-demand state package are both available, or when an explicitly authorized engineering schedule is approved for that purpose.
