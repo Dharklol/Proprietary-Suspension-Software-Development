@@ -18,7 +18,7 @@ jobs:
           python-version: "3.11"
       - name: Install package
         run: python -m pip install -e .
-      - name: Run source, runtime, and branch-policy audit tests
+      - name: Run source, runtime, audit, and named-branch tests
         run: |
           python -m unittest \
             tests.test_r25b_runtime_source_activation_preflight \
@@ -27,29 +27,40 @@ jobs:
             tests.test_r25b_complete_signed_source_native \
             tests.test_r25b_runtime_provider \
             tests.test_r25b_branch_classification_audit \
+            tests.test_r25b_branch_classification_authorization \
             -v
-      - name: Verify source-specific runtime provider
+      - name: Verify source-specific classified runtime provider
         run: |
           python - <<'PY'
-          from pssd_tire import (
-              SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED,
-              load_r25b_steady_state_lateral_table,
-              require_r25b_runtime_activation,
+          from pssd_tire.r25b_branch_classification import (
+              CENTRAL_TRANSITION,
+              R25B_BRANCH_CLASSIFICATION_AUTHORIZED,
+              require_r25b_branch_classification_authorization,
           )
-          from pssd_tire.r25b_branch_classification_audit import (
-              build_r25b_branch_classification_result,
+          from pssd_tire.r25b_named_runtime import load_r25b_classified_lateral_table
+          from pssd_tire.r25b_runtime import (
+              SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED,
+              require_r25b_runtime_activation,
           )
           if not SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED:
               raise SystemExit("R25B source-specific runtime activation must be authorized")
+          if not R25B_BRANCH_CLASSIFICATION_AUTHORIZED:
+              raise SystemExit("R25B named-branch classification must be authorized")
           require_r25b_runtime_activation()
-          table = load_r25b_steady_state_lateral_table()
+          require_r25b_branch_classification_authorization()
+          table = load_r25b_classified_lateral_table()
           if len(table.curves) != 60:
-              raise SystemExit("R25B runtime table must contain 60 curves")
+              raise SystemExit("R25B classified table must contain 60 curves")
           if sum(len(curve.slip_angle_rad) for curve in table.curves) != 9630:
-              raise SystemExit("R25B runtime table must retain 9,630 samples")
-          audit = build_r25b_branch_classification_result(table)
-          if audit["status"] != "review_required_no_branch_ids_assigned":
-              raise SystemExit("R25B branch audit must not authorize named branches")
-          if audit["combined"]["reversal_affected_curve_count"] != 12:
-              raise SystemExit("R25B branch audit coverage changed")
+              raise SystemExit("R25B classified table must retain 9,630 samples")
+          if any(
+              len(curve.segment_branch_ids) != len(curve.slip_angle_rad) - 1
+              for curve in table.curves
+          ):
+              raise SystemExit("Every R25B source segment must have one branch ID")
+          if any(
+              curve.segment_branch_ids.count(CENTRAL_TRANSITION) != 1
+              for curve in table.curves
+          ):
+              raise SystemExit("Every R25B curve must retain one center-crossing segment")
           PY
