@@ -1,0 +1,64 @@
+version = "0.1.0"
+result_id = "R25B-RUNTIME-ADAPTER-RESULT-V0.1.0"
+authorization_id = "AUTH-TIRE-0002"
+model_id = "MOD-TIRE-0001"
+status = "pass"
+executed_at = "2026-07-31"
+source_exchange_id = "WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0"
+payload_sha256 = "3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438"
+adapter_id = "ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1"
+pressure_basis = "gauge"
+pressure_basis_authority_type = "reviewer_authorized_engineering_interpretation"
+pressure_basis_is_source_stated_fact = false
+
+[coverage]
+source_curve_count = 60
+canonical_curve_count = 60
+source_sample_count = 9630
+canonical_sample_count = 9630
+unique_state_count = 60
+row_loss_count = 0
+
+[adapter_checks]
+exact_source_tire_identity_retained = true
+exact_intended_tire_identity_retained = true
+sample_slip_unit_transform_pass = true
+sample_force_sign_transform_pass = true
+sample_inclination_unit_transform_pass = true
+sample_pressure_transform_pass = true
+positive_small_slip_slope_state_count = 60
+nonpositive_small_slip_slope_state_count = 0
+minimum_small_slip_slope_n_per_rad = 10586.110265275915
+maximum_small_slip_slope_n_per_rad = 39804.57088335672
+
+[exact_knot_check]
+curve_id = "R25B_FZ_0445_IA_04_P_82p7:CANONICAL_GAUGE_V1"
+sample_index = 43
+slip_angle_rad = -0.06981317007977318
+lateral_force_n = -800.6581795846439
+exact_source_adapted_force_recovered = true
+
+[complete_cell_check]
+normal_load_n = 333.5
+inclination_rad = 0.017453292519943295
+pressure_pa = 62050.0
+slip_angle_rad = 0.0
+participating_curve_count = 8
+state_weight_sum = 1.0
+lateral_force_n = -52.74898644165573
+local_slope_n_per_rad = 21521.24037093573
+finite_response = true
+
+[fail_closed_checks]
+outside_pressure_pa = 40000.0
+outside_pressure_failure_code = "operating_state_out_of_domain"
+tampered_pressure_basis_failure_code = "source_adapter_mismatch"
+missing_or_mismatched_authorization_rejected = true
+named_branch_selection_exposed = false
+
+[remaining_boundaries]
+items = [
+  "Pressure gauge basis is an authorized interpretation, not a TTC/Calspan source statement.",
+  "Named pre-peak/post-peak branch selection remains unauthorized.",
+  "No Mz, Fx, combined-slip, transient, thermal, wear, track-correction, vehicle-equilibrium, steering-ranking, installed-car, or production authority is introduced."
+]
