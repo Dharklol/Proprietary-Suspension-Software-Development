@@ -1,0 +1,112 @@
+version = "0.1.0"
+authorization_id = "AUTH-TIRE-0002"
+status = "reviewed"
+title = "Source-specific R25B canonical runtime adapter"
+effective_condition = "Effective after review and merge. Authorizes the exact hashed Hoosier 43105 R25B processed-Trojan source-native exchange to be adapted into the MOD-TIRE-0001 canonical pure-lateral runtime table using the reviewed sign, unit, inclination, and pressure interpretation below."
+review_record = "docs/reviews/phase4_r25b_runtime_authorization_review.md"
+implementation_authorized = true
+reviewed_at = "2026-07-31"
+reviewer = "Dharklol"
+
+[scope]
+model_ids = ["MOD-TIRE-0001"]
+upstream_authorization_id = "AUTH-TIRE-0001"
+source_specific_r25b_runtime_activation_authorized = true
+exact_processed_trojan_exchange_authorized = true
+canonical_adapter_authorized = true
+bounded_forward_evaluation_authorized = true
+bounded_complete_cell_interpolation_authorized = true
+all_root_signed_inverse_authorized = true
+named_prepeak_or_postpeak_branch_selection_authorized = false
+r25b_to_r20_engineering_proxy_use_authorized = true
+literal_r20_identity_claim_authorized = false
+track_surface_correction_authorized = false
+aligning_moment_authorized = false
+longitudinal_force_authorized = false
+combined_slip_authorized = false
+transient_or_relaxation_authorized = false
+temperature_or_wear_state_authorized = false
+vehicle_equilibrium_authorized = false
+steering_design_ranking_authorized = false
+installed_as_built_authority = false
+production_authority = false
+
+[review_decision]
+pressure_basis = "gauge"
+pressure_basis_source_type = "reviewer_authorized_engineering_interpretation"
+pressure_basis_is_source_stated_fact = false
+source_documentation_found = false
+decision = "Treat the TTC Round 6 P channel values as gauge pressure for this runtime adapter. Preserve that choice as a reviewed engineering interpretation and never represent it as an explicit TTC or Calspan statement."
+decision_context = "The reviewer could not locate authoritative TTC documentation identifying gauge versus absolute pressure and explicitly authorized use of gauge pressure as an interpretation on 2026-07-31."
+change_control = "Changing to absolute pressure or adding ambient-pressure conversion requires a new source-specific authorization revision and benchmark re-freeze."
+
+[source_identity]
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+engineering_proxy_status = "team_authorized_engineering_proxy_not_literal_tire_identity"
+source_binary_sha1 = "475338b18b6cba21b967c7e75bdd12d9a0e3437a"
+generator_sha1 = "c78a66751be956b60ff0f879cd0f733638a71ce3"
+source_exchange_id = "WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0"
+source_exchange_manifest = "benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml"
+source_exchange_payload_sha256 = "3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438"
+curve_count = 60
+sample_count = 9630
+
+[canonical_adapter]
+adapter_id = "ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1"
+source_convention_id = "SAE_J670_TTC_R6_ROAD_ON_TIRE"
+canonical_convention_id = "CANONICAL_TIRE_CONTACT_ISO_LEFT_UP"
+slip_angle_rule = "alpha_rad = deg_to_rad(source_SA_deg)"
+lateral_force_rule = "Fy_canonical_N = -source_FY_N"
+inclination_rule = "inclination_rad = deg_to_rad(source_IA_deg)"
+pressure_rule = "pressure_Pa = 1000 * source_P_kPa"
+pressure_basis = "gauge"
+normal_load_rule = "normal_load_N = source_FZ_N as a positive compressive magnitude"
+force_role = "road_on_tire"
+axis_transform = "source +x unchanged; source +y and +z reversed into canonical +y left and +z up"
+parser_april_route_used = false
+route_mixing_prohibited = true
+
+[curve_and_branch_contract]
+complete_signed_curves_authorized = true
+both_slip_signs_authorized = true
+source_peak_and_postpeak_ranges_authorized = true
+source_nonmonotonicity_retained = true
+segment_branch_ids_authorized = false
+branch_policy = "All source samples are retained as unclassified complete signed curves. Generic inversion returns every root. Named pre-peak/post-peak selection remains unavailable until a separate branch-classification authorization is reviewed."
+no_smoothing = true
+no_refit = true
+no_symmetry_completion = true
+no_extrapolation = true
+no_nearest_neighbor_substitution = true
+no_track_scale = true
+
+[permitted]
+items = [
+  "Load and hash-validate the frozen source-native exchange.",
+  "Convert every exact source SA/FY sample into the canonical frame with the reviewed adapter.",
+  "Represent P as gauge pressure in Pa under the reviewer-authorized interpretation.",
+  "Evaluate and interpolate the resulting table only inside the source-supported slip and operating-state domains.",
+  "Return every signed inverse root without silently choosing a branch.",
+  "Use the source R25B table as an explicitly labeled engineering proxy for the intended R20 tire."
+]
+
+[prohibited]
+items = [
+  "Do not describe gauge pressure as a TTC- or Calspan-stated fact.",
+  "Do not convert gauge values to absolute pressure or add ambient pressure implicitly.",
+  "Do not claim the R25B source is literal R20 test data.",
+  "Do not classify pre-peak or post-peak segments without a separate reviewed rule.",
+  "Do not apply the historical two-thirds track factor or any surface correction.",
+  "Do not add Mz, Fx, combined slip, transient, thermal, wear, vertical-compliance, vehicle-equilibrium, steering-ranking, installed-car, or production authority."
+]
+
+[promotion_gates]
+items = [
+  "Freeze and pass exact source-native payload identity tests.",
+  "Freeze and pass canonical adapter sample, state-lattice, local-slope, and bounded-interpolation tests.",
+  "Keep source and intended tire identities separate in every runtime result.",
+  "Separately authorize branch classification before named pre-peak/post-peak selection.",
+  "Separately authorize Mz before steering effort or rack-load prediction.",
+  "Separately authorize vehicle equilibrium and steering ranking before design recommendations."
+]
