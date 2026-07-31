@@ -79,7 +79,7 @@ class R25bRuntimeSourceAuditTests(unittest.TestCase):
             if fz == 222.0 and ia == 0.0 and pressure == 68.9
         ]
         negative_indices = [index for index in state_indices if mutable["SA"][index] < 0.0]
-        mutable["FY"][negative_indices[-10]] = mutable["FY"][negative_indices[-11]] - 1.0
+        mutable["FY"][negative_indices[-11]] = mutable["FY"][negative_indices[-10]] - 1.0
 
         audit = audit_channels(mutable)
         self.assertEqual(audit.prepeak_rejected_state_count, 1)
