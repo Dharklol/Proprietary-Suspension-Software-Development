@@ -24,6 +24,12 @@ from .lateral import (
     TireOperatingPoint,
     load_lateral_summary_grid,
 )
+from .steady_state_lateral import (
+    SteadyStateLateralCurve,
+    SteadyStateLateralFailure,
+    SteadyStateLateralResponse,
+    evaluate_curve,
+)
 from .toml_exchange import (
     format_lateral_force_branch_set_toml,
     write_lateral_force_branch_set_toml,
@@ -47,6 +53,9 @@ __all__ = [
     "LateralSummaryEstimate",
     "LateralSummarySample",
     "REQUIRED_CORNERING_CHANNELS",
+    "SteadyStateLateralCurve",
+    "SteadyStateLateralFailure",
+    "SteadyStateLateralResponse",
     "TirDocument",
     "TireDataError",
     "TireLateralForceBranchSet",
@@ -58,6 +67,7 @@ __all__ = [
     "TtcCorneringTrojanProfile",
     "WUFR26_APRIL_CORNERING_TROJAN_V0",
     "build_branch_set",
+    "evaluate_curve",
     "export_cornering_trojan_branch",
     "export_cornering_trojan_mat_branch",
     "format_lateral_force_branch_set_toml",
