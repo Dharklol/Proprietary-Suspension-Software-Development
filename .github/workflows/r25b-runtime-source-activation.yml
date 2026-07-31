@@ -29,6 +29,7 @@ jobs:
             tests.test_r25b_branch_classification_audit \
             tests.test_r25b_branch_classification_authorization \
             tests.test_r25b_force_demand_adapter \
+            tests.test_r25b_steering_target_input_readiness \
             -v
       - name: Verify R25B coverage
         run: |
