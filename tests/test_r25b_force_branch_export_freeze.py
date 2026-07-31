@@ -43,16 +43,25 @@ class R25bForceBranchExportFreezeTests(unittest.TestCase):
         self.assertFalse(failures["hidden_source_refit"])
         self.assertFalse(failures["historical_two_thirds_track_scale_applied"])
 
-    def test_real_reference_table_is_frozen_but_quarantined(self) -> None:
+    def test_historical_branch_table_remains_quarantined_after_source_reconciliation(self) -> None:
         status = self.result["real_source_status"]
         self.assertFalse(status["binary_source_committed_to_repository"])
         self.assertTrue(status["binary_source_supplied_for_offline_audit"])
         self.assertTrue(status["binary_identity_verified"])
+        self.assertTrue(status["exact_generator_identity_verified"])
+        self.assertTrue(status["source_profile_generation_match_confirmed"])
+        self.assertTrue(status["raw_input_lineage_reproduced"])
+        self.assertTrue(status["full_signed_source_native_exchange_frozen"])
+        self.assertEqual(status["full_signed_source_native_curve_count"], 60)
+        self.assertEqual(status["full_signed_source_native_sample_count"], 9630)
         self.assertTrue(status["real_reference_branch_table_frozen"])
         self.assertFalse(status["real_reference_branch_table_runtime_authorized"])
-        self.assertFalse(status["frozen_generator_description_matches_binary"])
+        self.assertTrue(status["exact_generator_profile_matches_binary"])
+        self.assertFalse(status["historical_april_generator_description_matches_binary"])
         self.assertEqual(status["binary_total_rows"], 9630)
         self.assertEqual(status["binary_state_count"], 60)
+        self.assertEqual(status["strict_prepeak_monotonic_state_count"], 51)
+        self.assertEqual(status["strict_prepeak_rejected_state_count"], 9)
 
 
 if __name__ == "__main__":
