@@ -1,0 +1,198 @@
+version = "0.1.0"
+authorization_id = "AUTH-TIRE-0001"
+status = "review_ready"
+title = "Provider-neutral steady-state pure-lateral tire response kernel"
+effective_condition = "Effective after review and merge. Authorizes MOD-TIRE-0001 as a source-bounded, provider-neutral steady-state pure-lateral response kernel. It may evaluate signed Fy(alpha) curves, boundedly interpolate complete operating-state cells, report local slopes, and perform branch-aware inverse queries. It does not authorize a source-specific Hoosier R25B/R20 full-curve model until the binary TTC/Trojan source has been exported, reviewed, and adapted into the canonical tire convention."
+review_record = "docs/reviews/phase4_steady_state_lateral_tire_authorization_review.md"
+implementation_authorized = true
+
+[scope]
+model_ids = ["MOD-TIRE-0001"]
+equation_ids = ["EQ-TIRE-0001", "EQ-TIRE-0002", "EQ-TIRE-0003"]
+benchmark_ids = ["BENCH-TIRE-0001", "BENCH-TIRE-0002", "BENCH-TIRE-0003"]
+source_record = "data_catalog/shared_steady_state_lateral_tire_v0.toml"
+provider_neutral_pure_lateral_force_authorized = true
+canonical_signed_response_contract_authorized = true
+exact_operating_point_curve_evaluation_authorized = true
+bounded_operating_state_interpolation_authorized = true
+local_piecewise_slope_authorized = true
+branch_aware_inverse_authorized = true
+synthetic_verification_fixtures_authorized = true
+source_specific_r25b_runtime_activation_authorized = false
+aligning_moment_authorized = false
+longitudinal_force_authorized = false
+combined_slip_authorized = false
+transient_or_relaxation_authorized = false
+temperature_or_wear_state_authorized = false
+vehicle_equilibrium_authorized = false
+steering_design_ranking_authorized = false
+track_surface_correction_authorized = false
+installed_as_built_authority = false
+production_authority = false
+
+[canonical_operating_state]
+required_fields = [
+  "slip_angle_rad",
+  "normal_load_N",
+  "inclination_rad",
+  "pressure_Pa",
+  "state_id",
+  "source_id",
+  "source_convention_id"
+]
+slip_angle_unit = "rad"
+normal_load_unit = "N"
+inclination_unit = "rad"
+pressure_unit = "Pa"
+normal_load_rule = "normal_load_N is the positive compressive road-normal force magnitude acting on the tire and must be finite and greater than zero."
+pressure_rule = "pressure_Pa is finite positive absolute or gauge pressure exactly as declared by the source adapter; pressure basis may not be inferred."
+steady_state_rule = "The queried tire state is steady and pure lateral: longitudinal slip ratio is exactly zero under the provider contract and no relaxation, thermal, wear, or time-history state is represented."
+
+[canonical_tire_frame]
+frame_id = "CANONICAL_TIRE_CONTACT_ISO_LEFT_UP"
+origin = "current tire contact-center reference on the road plane"
+axes = ["+x_t forward in the wheel plane projected onto the road", "+z_t along the road normal upward", "+y_t = +z_t cross +x_t, leftward"]
+handedness = "right_handed"
+slip_angle_definition = "Positive slip_angle_rad is the signed angle about +z_t from the contact-patch velocity direction to +x_t. Equivalently, alpha = -atan2(v_y_t, v_x_t) for positive forward transport."
+lateral_force_definition = "lateral_force_N is road-on-tire force resolved along +y_t. A normal uncoupled tire response has positive Fy for positive alpha under this canonical convention."
+inclination_definition = "inclination_rad is a signed source-adapted wheel-plane inclination about +x_t. Every source adapter must state its original camber/inclination definition and exact transform; no side or inside/outside sign is inferred by MOD-TIRE-0001."
+source_adapter_rule = "Source-native axes, signs, angular units, pressure basis, force direction, and inclination convention remain recorded. Conversion to the canonical frame is an explicit adapter operation with source and adapter revision provenance."
+
+[curve_contract]
+required_curve_fields = [
+  "curve_id",
+  "operating_state",
+  "slip_angle_rad",
+  "lateral_force_N",
+  "source_tire_id",
+  "intended_tire_id",
+  "source_path",
+  "source_hash",
+  "source_convention_id",
+  "adapter_id",
+  "fidelity_label",
+  "domain_and_censor_metadata"
+]
+curve_order_rule = "Slip-angle samples must be finite and strictly increasing. Lateral-force samples must be finite but are not required to be monotonic, permitting source-preserved peak and post-peak behavior when such data are actually supplied."
+minimum_sample_rule = "Each curve requires at least two distinct slip-angle samples. Duplicate slip coordinates or zero-width segments fail."
+source_preservation_rule = "No smoothing, refitting, odd-symmetry completion, sign repair, peak replacement, outlier deletion, envelope construction, or post-peak invention is permitted inside the kernel."
+source_identity_rule = "The Hoosier 43105 R25B source identity and Hoosier 43104 R20 intended identity must remain separate whenever that proxy chain is later activated."
+
+[forward_evaluation]
+method = "Piecewise-linear interpolation in slip angle on each supplied signed curve, followed when requested by bounded multilinear interpolation in normal load, inclination, and pressure."
+exact_knot_rule = "An exact source slip-angle knot returns the exact stored source-adapted force."
+segment_rule = "Between adjacent source knots, use the unique affine segment with no spline, fit, or regularization."
+slip_extrapolation_allowed = false
+operating_state_extrapolation_allowed = false
+hidden_zero_or_odd_symmetry_allowed = false
+clipping_allowed = false
+
+[operating_state_interpolation]
+axes = ["normal_load_N", "inclination_rad", "pressure_Pa"]
+cell_rule = "Interpolation is authorized only inside a complete bracketing Cartesian cell. Every nonzero-weight corner curve must exist, pass identity checks, and contain the queried slip angle within its own supplied slip domain."
+nested_evaluation_rule = "Evaluate Fy at the queried slip angle independently on every participating source curve, then combine those values with ordinary multilinear weights. Curves need not share identical slip grids."
+missing_corner_rule = "A missing, duplicated, failed, cross-source, cross-adapter, or cross-fidelity cell corner rejects the query; no nearest-neighbor substitution is permitted."
+identity_rule = "All participating curves must share source tire, intended tire, source-convention adapter family, response role, and compatible fidelity labels."
+censor_rule = "Source sweep limits, censored peaks, preprocessing limits, and branch restrictions remain attached to the result. Interpolation does not convert a boundary-limited apparent peak into a verified optimum."
+
+[derivative_contract]
+method = "Within an open interpolation segment, dFy/dalpha is the exact affine segment slope. Under operating-state interpolation, slopes are combined with the same state weights."
+knot_rule = "At an interior slip-angle knot, report left and right slopes separately and mark the derivative nonunique unless an explicit side is requested."
+unit = "N/rad"
+cornering_stiffness_rule = "A small-slip cornering stiffness may be reported only from a declared segment or independent source field and must retain its sign convention and operating state. It may not be reconstructed from a peak point."
+
+[inverse_contract]
+method = "Find all source/interpolated affine segments whose signed Fy range contains the requested signed lateral-force demand and return every corresponding slip-angle root."
+multiple_root_rule = "Pre-peak and post-peak roots remain distinct candidates. The kernel does not silently choose the smallest magnitude, pre-peak, post-peak, positive, or negative root."
+branch_selector_rule = "A caller may request an explicitly named branch policy only when that policy and branch identity are supplied and authorized by the source/provider."
+force_extrapolation_allowed = false
+empty_result_rule = "If the signed demand is outside all represented segment ranges, return a structured out-of-domain failure rather than clipping to a peak."
+
+[source_status]
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+engineering_proxy_status = "team_authorized_engineering_proxy_not_literal_tire_identity"
+existing_summary_record = "benchmarks/tires/WUFR26_H43105_R25B_LATERAL_SUMMARY_V0.toml"
+existing_export_profile = "benchmarks/tires/WUFR26_H43105_R25B_CORNERING_TROJAN_EXPORT_PROFILE_V0.toml"
+existing_exporter = "scripts/export_r25b_cornering_force_branches.py"
+current_full_curve_status = "blocked_pending_binary_processed_Trojan_execution_and_review"
+current_summary_limitation = "The 36-point summary contains stiffness, peak force, peak-slip, and censor metadata but not sufficient signed Fy(alpha) samples for a shared full-curve evaluator."
+current_export_limitation = "The source-specific exporter is software-verified with synthetic Trojan-shaped arrays; no reviewed real R25B full-curve exchange is frozen in the repository."
+r25b_activation_rule = "MOD-TIRE-0001 may be implemented and synthetically verified now, but a runtime source-specific R25B provider must remain disabled until a reviewed source export supplies curve samples and an explicit canonical sign/inclination/pressure adapter."
+
+[permitted]
+items = [
+  "Define immutable provider-neutral operating-state, curve, response, derivative, inverse-candidate, provenance, domain, warning, and failure records.",
+  "Evaluate source-supplied signed pure-lateral Fy(alpha) curves at exact or interior slip angles by piecewise-linear interpolation.",
+  "Interpolate Fy and segment slope inside complete reviewed Fz/inclination/pressure cells without requiring common slip grids.",
+  "Return all slip roots for a signed lateral-force demand and retain branch identity and utilization diagnostics.",
+  "Use synthetic signed curves and complete synthetic operating-state cells for exactness, limiting-case, multi-root, and fail-closed software verification.",
+  "Retain existing summary and force-demand providers as upstream evidence/legacy adapters without changing their semantics.",
+  "Expose a stable interface for later Mz, vehicle equilibrium, steering effort, and source-specific fitted or tabulated providers."
+]
+
+[prohibited]
+items = [
+  "Claiming that synthetic benchmark curves are Hoosier, TTC, R25B, R20, fitted-TIR, or track data.",
+  "Activating a real R25B full-curve provider from the summary grid alone or from unreviewed binary-source output.",
+  "Inferring intermediate Fy(alpha) shape from cornering stiffness, one peak point, and/or a sweep-limit point.",
+  "Assuming odd symmetry, mirroring a one-sided branch, or inventing negative/positive slip behavior without explicit source authority.",
+  "Spline, polynomial, neural-network, Gaussian-process, Magic Formula, brush-model, or other fitted response creation in this authorization.",
+  "Extrapolation in slip angle, normal load, inclination, pressure, speed, temperature, or force demand.",
+  "Automatic application of the historical 2/3 sandpaper-to-road scale or any track-correction factor.",
+  "Aligning moment, longitudinal force, combined slip, friction-circle completion, transient relaxation, thermal, wear, pressure evolution, or tire vertical compliance.",
+  "Generating wheel loads, camber, pressure, slip angle, force demand, load transfer, vehicle equilibrium, steering targets, maneuver states, or lap simulation inside the tire kernel.",
+  "Production tire selection, tire-optimal steering, structural release, installed/as-built correlation, or setup recommendation."
+]
+
+[numerics]
+source_knot_match_tolerance_rad = 1.0e-12
+state_axis_match_tolerance = 1.0e-12
+finite_value_required = true
+strictly_increasing_slip_required = true
+minimum_curve_samples = 2
+least_squares_allowed = false
+regularization_allowed = false
+smoothing_allowed = false
+implicit_symmetry_allowed = false
+nearest_neighbor_repair_allowed = false
+force_or_slip_clipping_allowed = false
+
+[failure_behavior]
+codes = [
+  "source_curve_unavailable",
+  "source_curve_invalid",
+  "source_identity_mismatch",
+  "source_adapter_mismatch",
+  "nonfinite_input",
+  "invalid_normal_load",
+  "invalid_pressure",
+  "slip_out_of_domain",
+  "operating_state_out_of_domain",
+  "interpolation_cell_incomplete",
+  "interpolation_identity_mismatch",
+  "derivative_nonunique",
+  "force_demand_out_of_domain",
+  "inverse_branch_ambiguous",
+  "source_specific_activation_blocked"
+]
+rule = "Return a structured failure or explicit multi-candidate result. Never repair, clip, mirror, refit, extrapolate, substitute a nearby state, or promote an unavailable source-specific provider."
+
+[benchmark_gates]
+required_before_implementation_merge = [
+  "BENCH-TIRE-0001 verifies exact knots, affine segment evaluation, local slopes, knot derivative behavior, source metadata, and slip-domain failures.",
+  "BENCH-TIRE-0002 verifies exact-grid recovery and bounded multilinear state interpolation on a complete synthetic cell, including different slip grids, missing-corner rejection, identity mismatch rejection, and no operating-state extrapolation.",
+  "BENCH-TIRE-0003 verifies all-root signed inversion, explicit branch selection, nonmonotonic peak/post-peak behavior, no hidden symmetry, no clipping, and the blocked R25B source-activation boundary."
+]
+
+[promotion_gates]
+items = [
+  "Merge this reviewed authorization before implementing MOD-TIRE-0001.",
+  "Freeze deterministic synthetic benchmark fixtures and result records for BENCH-TIRE-0001 through BENCH-TIRE-0003.",
+  "Execute the hashed processed Cornering Trojan source through the existing exporter and review the resulting real R25B branch exchange before source-specific activation.",
+  "Review an exact source-to-canonical adapter for slip-angle sign, lateral-force direction, inclination sign, pressure basis, angular units, and tire-frame identity.",
+  "Review whether the available source supports both slip signs, post-peak behavior, and a complete Fz/inclination/pressure cell; do not fill unsupported regions by symmetry or interpolation.",
+  "Separately authorize Mz before steering-effort/rack-load use.",
+  "Separately authorize Fx and combined slip before braking, traction, or combined maneuver equilibrium.",
+  "Separately authorize vehicle integration and physical correlation before WUFR maneuver or installed-car claims."
+]

@@ -1,0 +1,19 @@
+[record]
+id = "BENCH-TIRE-0001"
+type = "benchmark"
+title = "Exact signed lateral curve evaluation and local slope"
+status = "proposed"
+description = "Verify exact source-knot recovery, affine interior Fy evaluation, source/adapter provenance, local segment slopes, one-sided knot derivative behavior, and fail-closed slip-domain handling for MOD-TIRE-0001 using synthetic signed curves only."
+verification_level = "A"
+target_ids = ["MOD-TIRE-0001", "EQ-TIRE-0001", "EQ-TIRE-0002"]
+acceptance_criteria = [
+  "Every exact slip-angle knot returns the exact supplied signed lateral force with unchanged curve/source/adapter identity.",
+  "Interior queries reproduce the analytically expected affine force and segment slope to numerical tolerance.",
+  "An interior knot with unequal adjacent slopes reports separate left/right values and derivative_unique=false unless a one-sided query is explicit.",
+  "Slip values outside the supplied curve domain fail; no clipping, endpoint substitution, symmetry, or extrapolation occurs.",
+  "Nonfinite values, duplicate or nonincreasing slip coordinates, fewer than two samples, and zero-width segments reject the complete curve.",
+  "Synthetic fixture metadata explicitly states that the values are not Hoosier, TTC, R25B, R20, track, or WUFR evidence."
+]
+authorization = "authorizations/tire/AUTH-TIRE-0001.toml"
+planned_implementation_test = "tests/test_steady_state_lateral_tire.py"
+planned_result_record = "benchmarks/tires/steady_state_lateral_tire_result_v0.1.0.json"

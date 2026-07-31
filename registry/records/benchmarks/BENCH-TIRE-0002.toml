@@ -1,0 +1,19 @@
+[record]
+id = "BENCH-TIRE-0002"
+type = "benchmark"
+title = "Bounded complete-cell lateral tire state interpolation"
+status = "proposed"
+description = "Verify exact-grid recovery and bounded multilinear interpolation of signed Fy and local slope across a complete synthetic normal-load/inclination/pressure cell, including curves with different slip grids and all fail-closed identity/domain boundaries."
+verification_level = "A"
+target_ids = ["MOD-TIRE-0001", "EQ-TIRE-0001", "EQ-TIRE-0002"]
+acceptance_criteria = [
+  "Queries at every operating-state grid corner reproduce the exact participating curve response and unit weight.",
+  "A synthetic response affine in normal load, inclination, pressure, and slip reproduces the analytic interior value and slope to numerical tolerance.",
+  "Participating curves may have different slip grids, but every curve must bracket the queried slip and must be evaluated independently before state weighting.",
+  "Interpolation weights are nonnegative, sum to one within tolerance, and identify every nonzero-weight source curve.",
+  "A missing or duplicate cell corner, out-of-domain state, unsupported slip on any participating curve, cross-source tire identity, adapter mismatch, or incompatible fidelity rejects the query.",
+  "No nearest-neighbor substitution, cell completion, operating-state extrapolation, smoothing, refitting, or implicit symmetry occurs."
+]
+authorization = "authorizations/tire/AUTH-TIRE-0001.toml"
+planned_implementation_test = "tests/test_steady_state_lateral_tire.py; tests/test_steady_state_lateral_tire_failures.py"
+planned_result_record = "benchmarks/tires/steady_state_lateral_tire_result_v0.1.0.json"

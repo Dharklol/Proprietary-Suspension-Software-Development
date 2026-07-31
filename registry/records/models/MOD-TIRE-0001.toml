@@ -1,0 +1,53 @@
+[record]
+id = "MOD-TIRE-0001"
+type = "model"
+title = "Provider-neutral steady-state pure-lateral tire response kernel"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Source-bounded shared tire kernel for signed steady-state pure-lateral Fy(alpha) evaluation, local piecewise slope reporting, bounded interpolation over complete normal-load/inclination/pressure cells, and branch-aware signed force inversion. The kernel preserves source and intended tire identities, source conventions, adapter provenance, curve domains, censor metadata, and multiple inverse roots. It does not create a tire fit, infer missing curve shape, activate the pending real R25B source, or provide Mz, Fx, combined-slip, transient, thermal, vehicle-equilibrium, or installed-car authority."
+inputs = [
+  "Canonical tire operating state: slip angle [rad], positive normal load [N], signed inclination [rad], pressure [Pa], state/source/convention identity",
+  "At least one signed source-adapted Fy(alpha) curve with strictly increasing slip coordinates, finite force samples, exact operating state, source hash, adapter identity, fidelity, domain, and censor metadata",
+  "Optional complete bracketing Cartesian cell in normal load, inclination, and pressure for bounded multilinear state interpolation",
+  "Optional signed lateral-force demand and explicit authorized branch policy for inverse queries"
+]
+outputs = [
+  "Signed road-on-tire lateral force in the canonical tire contact frame",
+  "Participating source curves, slip segments, state interpolation weights, domain/censor metadata, and full source/adapter provenance",
+  "Left/right local dFy/dalpha segment slopes with derivative uniqueness status",
+  "All signed slip-angle roots for a signed lateral-force demand, with segment/branch identities and optional explicit branch selection",
+  "Structured fail-closed status for invalid source curves, incomplete cells, identity mismatches, nonfinite input, extrapolation requests, derivative ambiguity, unavailable force demand, or blocked source activation"
+]
+assumptions = [
+  "The response is steady-state and pure lateral with longitudinal slip ratio exactly zero under the provider contract.",
+  "All source-to-canonical unit, frame, sign, force-direction, inclination, and pressure-basis conversions are performed by an explicit reviewed adapter and are not inferred by the kernel.",
+  "Piecewise-linear interpolation is an exact exchange-table operation between adjacent supplied samples, not a claim that the physical tire response is intrinsically linear.",
+  "Operating-state interpolation is valid only inside a complete compatible source cell and only where every participating curve supports the queried slip angle.",
+  "Synthetic fixtures verify software mechanics only and carry no Hoosier, TTC, R25B, R20, track, or WUFR physical authority.",
+  "The existing R25B summary and processed-Trojan exporter do not yet constitute a reviewed real full-curve runtime source."
+]
+verification_level = "B"
+equation_ids = ["EQ-TIRE-0001", "EQ-TIRE-0002", "EQ-TIRE-0003"]
+benchmark_ids = ["BENCH-TIRE-0001", "BENCH-TIRE-0002", "BENCH-TIRE-0003"]
+authorization_id = "AUTH-TIRE-0001"
+authorization_state = "implementation_authorized_after_AUTH-TIRE-0001_review_merge; generic_and_synthetic_verification_only; real_R25B_runtime_activation_blocked"
+authorization_document = "authorizations/tire/AUTH-TIRE-0001.toml"
+upstream_model_ids = []
+downstream_model_ids = ["MOD-STEER-0002", "MOD-VEH-0001", "MOD-VEH-0004"]
+source_snapshot = "data_catalog/shared_steady_state_lateral_tire_v0.toml"
+source_audit = "docs/models/tire/steady_state_lateral_tire_source_audit.md"
+preimplementation_specification = "docs/models/tire/steady_state_lateral_tire_function_specification.md"
+planned_implementation_package = "src/pssd_tire/steady_state_lateral.py"
+planned_implementation_tests = [
+  "tests/test_steady_state_lateral_tire.py",
+  "tests/test_steady_state_lateral_tire_failures.py",
+  "tests/test_steady_state_lateral_tire_result_record.py"
+]
+planned_benchmark_report_script = "scripts/run_steady_state_lateral_tire_benchmarks.py"
+planned_benchmark_result_record = "benchmarks/tires/steady_state_lateral_tire_result_v0.1.0.json"
+planned_benchmark_summary_record = "benchmarks/tires/steady_state_lateral_tire_result_v0.1.0.toml"
+planned_validation_workflow = ".github/workflows/steady-state-lateral-tire-implementation.yml"
+authorization_review_record = "docs/reviews/phase4_steady_state_lateral_tire_authorization_review.md"
+next_implementation_gate = "After AUTH-TIRE-0001 review and merge, implement and freeze the provider-neutral kernel using synthetic signed curves and complete synthetic state cells. Keep the real Hoosier R25B provider disabled until source-side binary export and canonical adapter review are complete."
+prohibited_scope = "Real R25B/R20 full-curve activation from summaries; hidden curve reconstruction; source mirroring or odd symmetry; Magic Formula/brush/spline/polynomial/ML fitting; slip or operating-state extrapolation; nearest-neighbor repair; track scaling; Mz; Fx; combined slip; transient relaxation; thermal/wear; tire vertical compliance; vehicle-state generation; QSS; steering ranking; installed/as-built, setup, design-release, or production authority."
