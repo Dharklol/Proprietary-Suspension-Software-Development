@@ -161,7 +161,7 @@ class SteadyStateLateralTireAuthorizationTests(unittest.TestCase):
             self.assertIn(code, codes)
         gates = "\n".join(auth["promotion_gates"]["items"]).lower()
         for phrase in (
-            "binary processed-trojan",
+            "processed cornering trojan",
             "source-to-canonical adapter",
             "separately authorize mz",
             "separately authorize fx and combined slip",
