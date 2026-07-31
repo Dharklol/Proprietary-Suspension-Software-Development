@@ -1,0 +1,116 @@
+version = "0.1.0"
+authorization_id = "AUTH-TIRE-0003"
+status = "reviewed"
+title = "Source-specific R25B named-branch classification"
+effective_condition = "Effective after review and merge. Authorizes a no-repair segment classification of the exact AUTH-TIRE-0002 R25B canonical runtime curves for bounded named pre-peak and demonstrated post-peak inversion."
+review_record = "docs/reviews/phase4_r25b_branch_classification_authorization_review.md"
+implementation_authorized = true
+reviewed_at = "2026-07-31"
+reviewer = "Dharklol"
+upstream_authorization_id = "AUTH-TIRE-0002"
+
+[scope]
+model_ids = ["MOD-TIRE-0001"]
+named_branch_selection_authorized = true
+exact_source_state_named_selection_authorized = true
+interpolated_state_named_selection_authorized = false
+generic_all_root_inverse_remains_authorized = true
+source_sample_or_knot_change_authorized = false
+track_surface_correction_authorized = false
+vehicle_equilibrium_authorized = false
+steering_design_ranking_authorized = false
+installed_as_built_authority = false
+production_authority = false
+
+[source_identity]
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+source_binary_sha1 = "475338b18b6cba21b967c7e75bdd12d9a0e3437a"
+source_exchange_payload_sha256 = "3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438"
+canonical_adapter_id = "ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1"
+curve_count = 60
+sample_count = 9630
+side_count = 120
+exact_zero_slip_knot_curve_count = 0
+
+[branch_policy]
+policy_id = "R25B_STRICT_MONOTONIC_PREFIX_SIGNED_V1"
+pre_peak_semantics = "strict_monotonic_prefix"
+pre_peak_definition = "On each signed slip side, start at the first same-side source knot outward of the existing alpha=0 crossing segment and include source segments only while outward canonical force response increases strictly. Stop before the first outward force reversal."
+center_crossing_role = "central_transition"
+center_crossing_definition = "The one existing source segment that crosses alpha=0 is classified separately. No zero-slip knot is inserted and the segment is not a named pre-peak or post-peak branch."
+indeterminate_approach_definition = "If a force reversal occurs before the first global side extremum, the reversal segment and the remaining approach to that extremum are classified as side-specific indeterminate_peak_approach, not post-peak."
+post_peak_semantics = "segments_outward_of_first_global_side_extremum"
+boundary_peak_post_peak_role = "post_peak_unavailable"
+boundary_peak_definition = "When the first global side extremum is the +/-12 degree source boundary knot, no demonstrated post-peak branch is published for that side."
+multiple_named_roots_behavior = "fail_closed_without_selected_candidate"
+branch_endpoint_behavior = "A root exactly on a shared branch endpoint may retain all adjacent source branch identities. Selection is allowed only when the requested named branch is represented and exactly one root matches."
+operating_state_boundary = "Named selection is authorized only at exact source operating states. Complete-cell interpolated all-root inversion remains available, but interpolated named-branch selection is not authorized because source branch boundaries need not align across participating curves."
+
+[branch_ids]
+positive_pre_peak = "positive_slip_pre_peak"
+negative_pre_peak = "negative_slip_pre_peak"
+positive_post_peak = "positive_slip_post_peak"
+negative_post_peak = "negative_slip_post_peak"
+central_transition = "central_transition"
+positive_indeterminate_peak_approach = "positive_slip_indeterminate_peak_approach"
+negative_indeterminate_peak_approach = "negative_slip_indeterminate_peak_approach"
+
+[audit_basis]
+audit_id = "R25B_BRANCH_CLASSIFICATION_AUDIT_V1"
+audit_result = "benchmarks/tires/r25b_branch_classification_audit_v0.1.0.json"
+positive_reversal_affected_side_count = 4
+negative_reversal_affected_side_count = 9
+combined_reversal_affected_side_count = 13
+combined_reversal_affected_curve_count = 12
+maximum_local_reversal_n = 0.48474469855204916
+maximum_strict_prefix_force_shortfall_n = 6.812387228250657
+maximum_strict_prefix_relative_force_shortfall = 0.013213031258643019
+maximum_strict_prefix_slip_truncation_deg = 1.9622641509433962
+positive_peak_at_source_boundary_count = 13
+negative_peak_at_source_boundary_count = 18
+rejected_global_extremum_maximum_ambiguous_force_span_n = 0.7573035179882481
+rejected_global_extremum_maximum_side_local_root_count = 3
+
+[no_repair_contract]
+source_samples_unchanged = true
+zero_slip_knot_insertion_prohibited = true
+smoothing_prohibited = true
+monotonic_envelope_prohibited = true
+isotonic_repair_prohibited = true
+point_deletion_prohibited = true
+tolerance_repair_prohibited = true
+symmetry_completion_prohibited = true
+extrapolation_prohibited = true
+nearest_neighbor_substitution_prohibited = true
+track_scale_prohibited = true
+
+[permitted]
+items = [
+  "Assign one reviewed branch ID to every existing exact source segment.",
+  "Select positive- or negative-slip strict-prefix pre-peak roots at exact source operating states.",
+  "Select positive- or negative-slip post-peak roots only where the source contains a demonstrated decline beyond an interior side extremum.",
+  "Fail closed when a requested named branch is unavailable or does not identify exactly one root.",
+  "Continue returning all signed roots without named selection at exact or bounded interpolated operating states."
+]
+
+[prohibited]
+items = [
+  "Do not insert a zero-slip knot or split the center-crossing source segment.",
+  "Do not smooth, envelope, delete, reorder, clip, or tolerance-repair source samples.",
+  "Do not call the indeterminate approach region post-peak.",
+  "Do not publish post-peak availability when the side extremum is at the source boundary.",
+  "Do not perform interpolated-state named selection until a separate cross-curve branch-boundary policy is reviewed.",
+  "Do not use force or slip magnitude to guess a side under camber thrust.",
+  "Do not promote this branch authorization into track correction, vehicle equilibrium, steering ranking, installed-car, or production authority."
+]
+
+[promotion_gates]
+items = [
+  "Pass exact 60-curve and 9,630-sample preservation tests.",
+  "Pass one-and-only-one central-transition segment per curve.",
+  "Reproduce all audit reversal, boundary-peak, and strict-prefix loss counts.",
+  "Pass exact-state positive/negative named pre-peak and demonstrated post-peak inversion tests.",
+  "Pass unavailable-branch and multiple-root fail-closed tests.",
+  "Keep generic all-root inversion available and unchanged."
+]
