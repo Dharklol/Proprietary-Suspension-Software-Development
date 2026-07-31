@@ -1,0 +1,116 @@
+version = "0.1.0"
+record_id = "SHARED_STEADY_STATE_LATERAL_TIRE_V0"
+status = "review_ready"
+authorization_id = "AUTH-TIRE-0001"
+model_id = "MOD-TIRE-0001"
+result_label = "provider_neutral_source_bounded_steady_state_pure_lateral_tire_response"
+
+[canonical_contract]
+frame_id = "CANONICAL_TIRE_CONTACT_ISO_LEFT_UP"
+slip_angle_unit = "rad"
+normal_load_unit = "N"
+inclination_unit = "rad"
+pressure_unit = "Pa"
+lateral_force_unit = "N"
+cornering_stiffness_unit = "N/rad"
+force_direction = "road_on_tire_positive_along_tire_frame_plus_y"
+slip_angle_definition = "positive signed angle from contact-patch velocity direction to tire-frame +x about +z"
+pure_lateral_condition = "longitudinal_slip_ratio_equals_zero"
+
+[source_chain]
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+engineering_equivalence_role = "team_authorized_development_proxy_not_literal_identity"
+summary_record = "benchmarks/tires/WUFR26_H43105_R25B_LATERAL_SUMMARY_V0.toml"
+summary_role = "reviewed stiffness_peak_force_peak_slip_and_censor_evidence_only"
+processed_trojan_export_profile = "benchmarks/tires/WUFR26_H43105_R25B_CORNERING_TROJAN_EXPORT_PROFILE_V0.toml"
+processed_trojan_exporter = "scripts/export_r25b_cornering_force_branches.py"
+processed_trojan_export_benchmark = "BENCH-STEER-0022"
+real_curve_exchange_path = "unavailable_pending_source_side_binary_execution"
+real_curve_exchange_status = "blocked"
+
+[source_limitations]
+items = [
+  "The lateral summary does not contain sufficient signed Fy(alpha) samples for arbitrary full-curve evaluation.",
+  "The source-specific processed-Trojan exporter is verified using synthetic Trojan-shaped arrays, but no reviewed real R25B branch table is frozen in the repository.",
+  "The existing force-demand branch contract is one exact operating point at a time and is intentionally pre-peak magnitude-only.",
+  "A canonical source adapter for slip sign, force direction, inclination sign, pressure basis, and angular units has not yet been reviewed for real R25B runtime activation.",
+  "Support for both slip signs and post-peak response must be demonstrated by source data or separately authorized; it may not be inferred by odd symmetry."
+]
+
+[authorized_generic_input]
+curve_identity_fields = [
+  "curve_id",
+  "source_tire_id",
+  "intended_tire_id",
+  "source_path",
+  "source_hash",
+  "source_convention_id",
+  "adapter_id",
+  "fidelity_label"
+]
+operating_state_fields = ["normal_load_N", "inclination_rad", "pressure_Pa"]
+response_sample_fields = ["slip_angle_rad", "lateral_force_N"]
+metadata_fields = ["domain_and_censor_metadata", "source_preprocessing", "source_branch_role"]
+
+[authorized_generic_output]
+response_fields = [
+  "slip_angle_rad",
+  "normal_load_N",
+  "inclination_rad",
+  "pressure_Pa",
+  "lateral_force_N",
+  "left_segment_slope_N_per_rad",
+  "right_segment_slope_N_per_rad",
+  "derivative_unique",
+  "participating_curve_ids",
+  "state_interpolation_weights",
+  "domain_and_censor_metadata",
+  "source_and_adapter_provenance",
+  "fidelity_label"
+]
+inverse_fields = [
+  "requested_lateral_force_N",
+  "candidate_slip_angles_rad",
+  "candidate_segment_ids",
+  "candidate_branch_ids",
+  "branch_selection_applied",
+  "out_of_domain"
+]
+
+[interpolation_contract]
+slip_method = "piecewise_linear_between_adjacent_signed_source_samples"
+state_method = "multilinear_over_complete_normal_load_inclination_pressure_cell"
+common_slip_grid_required = false
+state_interpolation_sequence = "evaluate_each_corner_curve_at_query_slip_then_apply_state_weights"
+slip_extrapolation = false
+state_extrapolation = false
+nearest_neighbor_substitution = false
+missing_cell_corner_repair = false
+implicit_odd_symmetry = false
+
+[implementation_plan]
+package = "src/pssd_tire/steady_state_lateral.py"
+implementation_tests = [
+  "tests/test_steady_state_lateral_tire.py",
+  "tests/test_steady_state_lateral_tire_failures.py",
+  "tests/test_steady_state_lateral_tire_result_record.py"
+]
+benchmark_script = "scripts/run_steady_state_lateral_tire_benchmarks.py"
+benchmark_result = "benchmarks/tires/steady_state_lateral_tire_result_v0.1.0.json"
+benchmark_summary = "benchmarks/tires/steady_state_lateral_tire_result_v0.1.0.toml"
+validation_workflow = ".github/workflows/steady-state-lateral-tire-implementation.yml"
+
+[fidelity]
+complete_for_provider_neutral_piecewise_linear_kernel = true
+real_r25b_curve_provider_active = false
+real_r20_tire_identity = false
+track_correlated = false
+aligning_moment_complete = false
+longitudinal_force_complete = false
+combined_slip_complete = false
+transient_complete = false
+thermal_or_wear_complete = false
+vehicle_equilibrium_authority = false
+installed_as_built_authority = false
+production_authority = false
