@@ -98,7 +98,33 @@ class R25bSteeringTargetInputReadinessTests(unittest.TestCase):
             set(missing["required_for_each_front_wheel"]),
             {"inclination_deg", "pressure_kpa_gauge", "lateral_force_demand_n"},
         )
+        self.assertEqual(
+            set(missing["required_for_each_target_state"]),
+            {
+                "suspension_pose_state_id",
+                "planar_motion_u_v_r_at_target_resolution",
+                "reviewed_state_weight",
+            },
+        )
         self.assertIn("Do not infer", missing["rule"])
+
+    def test_program_disposition_pauses_wrong_subsystem_expansion(self) -> None:
+        disposition = self.readiness["program_disposition"]
+        self.assertTrue(disposition["r25b_steering_extension_paused"])
+        self.assertIn("suspension", disposition["pause_reason"])
+        self.assertIn("vehicle-state", disposition["pause_reason"])
+        self.assertIn(
+            "PDR claim closeout and figure selection",
+            disposition["immediate_focus"],
+        )
+        self.assertIn(
+            "reviewed zero-steer suspension-pose series",
+            disposition["resume_requires"],
+        )
+        self.assertIn(
+            "reviewed synchronized vehicle and tire-demand state package",
+            disposition["resume_requires"],
+        )
 
 
 if __name__ == "__main__":
