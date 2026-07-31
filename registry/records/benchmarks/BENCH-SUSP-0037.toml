@@ -2,7 +2,7 @@
 id = "BENCH-SUSP-0037"
 type = "benchmark"
 title = "WUFR static load-path exchange fail-closed and fidelity boundaries"
-status = "proposed"
+status = "active"
 description = "Verify that MOD-SUSP-0011 rejects incomplete, altered, mismatched, nonfinite, or over-promoted source data and preserves every structural-screening limitation."
 verification_level = "A"
 target_ids = ["MOD-SUSP-0011"]
@@ -15,4 +15,15 @@ acceptance_criteria = [
   "No hidden balancing, clipping, absolute-value repair, frame transform, point relocation, load distribution, action/reaction invention, historical fallback, or partial publication is used."
 ]
 authorization = "authorizations/suspension/AUTH-SUSP-0019.toml"
-planned_implementation_test = "tests/test_wufr_static_load_path_exchange_failures.py"
+implementation_test = "tests/test_wufr_static_load_path_exchange_failures.py"
+result_record = "benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.json"
+result = "pass"
+partial_packet_observed = false
+complete_physical_hardware_load_case = false
+complete_rocker_equilibrium = false
+complete_chassis_pickup_load_set = false
+structural_load_case_authority = false
+fea_boundary_condition_authority = false
+structural_release_authority = false
+installed_as_built_authority = false
+production_authority = false

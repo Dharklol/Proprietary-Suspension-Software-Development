@@ -1,0 +1,53 @@
+name: WUFR static load-path exchange implementation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Validate static load-path exchange
+        run: |
+          set -e
+          {
+            python -m unittest tests.test_wufr_static_load_path_exchange -v
+            python -m unittest tests.test_wufr_static_load_path_exchange_failures -v
+            python -m unittest tests.test_wufr_static_load_path_exchange_result_record -v
+          } > wufr_static_load_path_exchange_test.log 2>&1
+      - name: Regenerate canonical packet and summary
+        run: |
+          python scripts/run_wufr_static_load_path_exchange_benchmarks.py \
+            --output wufr_static_load_path_exchange_regenerated.json \
+            --summary-output wufr_static_load_path_exchange_regenerated.toml \
+            --summary
+      - name: Verify regenerated records against frozen records
+        run: |
+          cmp --silent \
+            wufr_static_load_path_exchange_regenerated.json \
+            benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.json
+          cmp --silent \
+            wufr_static_load_path_exchange_regenerated.toml \
+            benchmarks/suspension/wufr_static_load_path_exchange_result_v0.1.0.toml
+          echo "Frozen MOD-SUSP-0011 records match byte-stable regeneration"
+      - name: Upload implementation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wufr-static-load-path-exchange-v0.1.0
+          path: |
+            wufr_static_load_path_exchange_test.log
+            wufr_static_load_path_exchange_regenerated.json
+            wufr_static_load_path_exchange_regenerated.toml
+          if-no-files-found: error

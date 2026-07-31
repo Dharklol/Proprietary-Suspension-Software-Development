@@ -1,0 +1,34 @@
+version = "0.1.0"
+schema_version = "0.1.0"
+result_label = "uncorrelated_design_intent_static_load_path_screening_exchange"
+authorization_id = "AUTH-SUSP-0019"
+model_id = "MOD-SUSP-0011"
+configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+static_state_id = "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+status = "accepted"
+corner_order = ["front_left", "front_right", "rear_left", "rear_right"]
+front_arb_setting = 1
+rear_arb_setting = 1
+canonical_packet_sha256 = "29cf33d213d89e43189c9d0e993f259ec51b93af437d4a5e437698b178c28a65"
+canonical_packet_byte_count = 177956
+carrier_load_record_count = 4
+level1_load_record_count = 40
+rocker_load_record_count = 16
+complete_for_named_upstream_record_exchange = true
+complete_physical_hardware_load_case = false
+complete_rocker_equilibrium = false
+complete_chassis_pickup_load_set = false
+structural_load_case_authority = false
+fea_boundary_condition_authority = false
+structural_release_authority = false
+installed_as_built_authority = false
+production_authority = false
+bench_susp_0035_pass = true
+bench_susp_0036_pass = true
+bench_susp_0037_pass = true
+
+[source_hashes]
+vehicle_equilibrium = "13ed891980992022c31fe730cbfa328d4eb759bf25beefc6fa8b04fa19b2d9fb"
+carrier_wrench = "2daa3d2084c49c3d0abe10937c5f829f12b5461c295520cd39b2d7108819ca2f"
+level1_interface = "4fa895734419e29408a91c1b3e823ad4a913ab7b4cb084dbd53dc84fd0015fb5"
+rocker_included = "e09a4007106bd3317d70cc450a4e4ea12e4cae9c2abb6174d99854d26eb3a185"
