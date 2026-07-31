@@ -1,0 +1,53 @@
+record_id = "R25B_NAMED_BRANCH_RUNTIME_V1"
+status = "source_specific_named_branch_runtime_authorized"
+model_id = "MOD-TIRE-0001"
+authorization_id = "AUTH-TIRE-0003"
+upstream_authorization_id = "AUTH-TIRE-0002"
+review_record = "docs/reviews/phase4_r25b_branch_classification_authorization_review.md"
+audit_record = "data_catalog/r25b_branch_classification_audit_v1.toml"
+implementation = "src/pssd_tire/r25b_branch_classification.py"
+runtime = "src/pssd_tire/r25b_named_runtime.py"
+test = "tests/test_r25b_branch_classification_authorization.py"
+
+[source]
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+proxy_status = "team_authorized_engineering_proxy_not_literal_tire_identity"
+curve_count = 60
+sample_count = 9630
+side_count = 120
+source_samples_modified = false
+
+[policy]
+policy_id = "R25B_STRICT_MONOTONIC_PREFIX_SIGNED_V1"
+pre_peak = "strict_monotonic_prefix"
+center_crossing = "central_transition"
+interior_peak_outward_segments = "side_specific_post_peak"
+boundary_peak = "post_peak_unavailable"
+multiple_named_roots = "fail_closed_without_selected_candidate"
+exact_source_state_named_selection = true
+interpolated_state_named_selection = false
+all_root_inverse_retained = true
+
+[branch_ids]
+positive_pre_peak = "positive_slip_pre_peak"
+negative_pre_peak = "negative_slip_pre_peak"
+positive_post_peak = "positive_slip_post_peak"
+negative_post_peak = "negative_slip_post_peak"
+central_transition = "central_transition"
+positive_indeterminate = "positive_slip_indeterminate_peak_approach"
+negative_indeterminate = "negative_slip_indeterminate_peak_approach"
+
+[verified_audit]
+reversal_affected_side_count = 13
+reversal_affected_curve_count = 12
+positive_boundary_peak_count = 13
+negative_boundary_peak_count = 18
+maximum_local_reversal_n = 0.48474469855204916
+maximum_force_shortfall_n = 6.812387228250657
+maximum_relative_force_shortfall = 0.013213031258643019
+maximum_slip_truncation_deg = 1.9622641509433962
+
+[next_checkpoint]
+status = "source_backed_steering_force_demand_adapter"
+reason = "The exact signed pre-peak branches can now replace the quarantined legacy magnitude branches at reviewed exact source operating states. Vehicle force schedules, track correction, and steering design ranking remain separate gates."
