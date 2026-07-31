@@ -1,0 +1,67 @@
+record_id = "R25B_STEERING_TARGET_INPUT_READINESS_V1"
+status = "blocked_pending_synchronized_vehicle_tire_demand_source"
+source_vehicle_state_set = "WUFR27_SUSPENSION_CALCULATIONS_OPERATING_STATES_V0"
+source_tire_branch_set = "WUFR26_R25B_EXACT_NEGATIVE_PREPEAK_FORCE_DEMAND_V1"
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+review = "docs/reviews/phase4_r25b_steering_target_input_readiness_review.md"
+test = "tests/test_r25b_steering_target_input_readiness.py"
+
+[r25b_runtime_domain]
+normal_load_n = [222.0, 445.0, 667.0, 890.0, 1112.0]
+inclination_deg = [0.0, 2.0, 4.0]
+pressure_kpa_gauge = [55.2, 68.9, 82.7, 96.5]
+exact_steering_handoff_states = ["222 N / 0 deg / 82.7 kPa", "1112 N / 2 deg / 82.7 kPa"]
+
+[[vehicle_states]]
+id = "SC26_EDGE3_1P2G_RIGHT_AERO_NO_ARB"
+role = "evidence_only"
+state_weight = 0.0
+turn_direction = "right"
+front_inside_position = "front_right"
+front_inside_normal_load_n = 186.2139907
+front_inside_load_domain_status = "below_r25b_minimum"
+front_outside_position = "front_left"
+front_outside_normal_load_n = 1719.575445
+front_outside_load_domain_status = "above_r25b_maximum"
+complete_tire_operating_point = false
+complete_lateral_force_demand = false
+complete_suspension_pose = false
+complete_planar_motion_schedule = false
+
+[[vehicle_states]]
+id = "SC26_EDGE4_1P2G_LEFT_AERO_NO_ARB"
+role = "evidence_only"
+state_weight = 0.0
+turn_direction = "left"
+front_inside_position = "front_left"
+front_inside_normal_load_n = 516.8481725
+front_inside_load_domain_status = "inside_bounded_load_interval_but_not_exact_knot"
+front_outside_position = "front_right"
+front_outside_normal_load_n = 1388.941263
+front_outside_load_domain_status = "above_r25b_maximum"
+complete_tire_operating_point = false
+complete_lateral_force_demand = false
+complete_suspension_pose = false
+complete_planar_motion_schedule = false
+
+[missing_inputs]
+required_for_each_front_wheel = ["inclination_deg", "pressure_kpa_gauge", "lateral_force_demand_n"]
+required_for_each_target_state = ["suspension_pose_state_id", "planar_motion_u_v_r_by_steering_sample", "reviewed_state_weight"]
+rule = "Do not infer a missing quantity from nominal setup, another wheel, lateral acceleration, steering input, tire data, or an unrelated source state."
+
+[readiness]
+current_vehicle_state_count = 2
+states_ready_for_exact_r25b_force_demand_handoff = 0
+states_ready_for_bounded_r25b_runtime_query = 0
+states_ready_for_motion_aware_steering_target = 0
+steering_design_ranking_authorized = false
+track_scale_authorized = false
+
+[next_checkpoint]
+required_evidence = "A reviewed synchronized source must provide per-steering-sample front inside/outside Fz, inclination, gauge pressure, Fy demand, suspension pose, u-v-r motion, and nonzero target weighting within the authorized R25B domain."
+acceptable_routes = [
+  "reviewed vehicle simulation or QSS export with explicit source identity and units",
+  "reviewed measured or higher-fidelity simulation state package",
+  "separately authorized engineering schedule clearly labeled as an interpretation rather than source fact"
+]
