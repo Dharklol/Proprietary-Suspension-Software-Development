@@ -26,7 +26,6 @@ from .lateral import (
 )
 from .steady_state_lateral import (
     R25B_SOURCE_TIRE_ID,
-    SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED,
     SteadyStateLateralCurve,
     SteadyStateLateralFailure,
     SteadyStateLateralInverseCandidate,
@@ -37,6 +36,19 @@ from .steady_state_lateral import (
     evaluate_curve,
     evaluate_table,
     invert_lateral_force,
+)
+from .r25b_runtime import (
+    DEFAULT_R25B_RUNTIME_AUTHORIZATION,
+    DEFAULT_R25B_SOURCE_NATIVE_MANIFEST,
+    R25B_CANONICAL_SOURCE_CONVENTION_ID,
+    R25B_PRESSURE_BASIS,
+    R25B_RUNTIME_ADAPTER_ID,
+    R25B_RUNTIME_AUTHORIZATION_ID,
+    R25B_RUNTIME_TABLE_ID,
+    SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED,
+    evaluate_r25b_steady_state_lateral,
+    invert_r25b_lateral_force,
+    load_r25b_steady_state_lateral_table,
     require_r25b_runtime_activation,
 )
 from .toml_exchange import (
@@ -55,12 +67,19 @@ from .ttc_cornering import (
 )
 
 __all__ = [
+    "DEFAULT_R25B_RUNTIME_AUTHORIZATION",
+    "DEFAULT_R25B_SOURCE_NATIVE_MANIFEST",
     "DEFAULT_TTC_CHANNELS",
     "LateralForceBranch",
     "LateralForceCurveSample",
     "LateralForceDemandResult",
     "LateralSummaryEstimate",
     "LateralSummarySample",
+    "R25B_CANONICAL_SOURCE_CONVENTION_ID",
+    "R25B_PRESSURE_BASIS",
+    "R25B_RUNTIME_ADAPTER_ID",
+    "R25B_RUNTIME_AUTHORIZATION_ID",
+    "R25B_RUNTIME_TABLE_ID",
     "R25B_SOURCE_TIRE_ID",
     "REQUIRED_CORNERING_CHANNELS",
     "SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED",
@@ -83,15 +102,18 @@ __all__ = [
     "WUFR26_APRIL_CORNERING_TROJAN_V0",
     "build_branch_set",
     "evaluate_curve",
+    "evaluate_r25b_steady_state_lateral",
     "evaluate_table",
     "export_cornering_trojan_branch",
     "export_cornering_trojan_mat_branch",
     "format_lateral_force_branch_set_toml",
     "invert_lateral_force",
     "invert_lateral_force_magnitude",
+    "invert_r25b_lateral_force",
     "load_lateral_force_branch_set",
     "load_lateral_summary_grid",
     "load_mat_ttc_channels",
+    "load_r25b_steady_state_lateral_table",
     "load_tir_metadata",
     "parse_tir_text",
     "require_r25b_runtime_activation",
