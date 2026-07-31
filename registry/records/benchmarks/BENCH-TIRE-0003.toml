@@ -1,0 +1,20 @@
+[record]
+id = "BENCH-TIRE-0003"
+type = "benchmark"
+title = "Branch-aware signed lateral-force inversion and source gate"
+status = "proposed"
+description = "Verify all-root signed inversion on synthetic nonmonotonic lateral-force curves, explicit branch-selection behavior, no hidden symmetry or clipping, and the mandatory blocked state of the real Hoosier R25B runtime provider until reviewed binary-source export and canonical adapter evidence exist."
+verification_level = "A"
+target_ids = ["MOD-TIRE-0001", "EQ-TIRE-0003"]
+acceptance_criteria = [
+  "A signed demand intersecting distinct pre-peak and post-peak segments returns every distinct signed slip root with segment and branch identity.",
+  "Exact shared-knot roots are deduplicated numerically without deleting physically distinct branches.",
+  "An explicit recognized branch policy may select a named candidate; absent such a policy, multiple roots remain a multi-candidate result rather than a silent choice.",
+  "Demands outside the represented force range fail; no peak clipping, endpoint substitution, sign change, or force extrapolation occurs.",
+  "A one-sided source curve is never mirrored or completed by odd symmetry unless a separate source authorization explicitly permits it.",
+  "The existing R25B summary and synthetic-verified processed-Trojan exporter cannot activate a real MOD-TIRE-0001 R25B provider; source_specific_r25b_runtime_activation_authorized remains false.",
+  "The historical 2/3 surface scale, Mz, Fx, combined slip, transient, thermal, vehicle-equilibrium, steering-ranking, installed, and production authorities remain absent."
+]
+authorization = "authorizations/tire/AUTH-TIRE-0001.toml"
+planned_implementation_test = "tests/test_steady_state_lateral_tire_failures.py"
+planned_result_record = "benchmarks/tires/steady_state_lateral_tire_result_v0.1.0.json"
