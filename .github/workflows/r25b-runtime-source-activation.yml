@@ -1,0 +1,33 @@
+name: R25B runtime source activation audit
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Run source activation audit tests
+        run: |
+          python -m unittest \
+            tests.test_r25b_runtime_source_activation_preflight \
+            tests.test_r25b_runtime_source_audit \
+            -v
+      - name: Verify runtime activation remains disabled
+        run: |
+          python - <<'PY'
+          from pssd_tire import SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED
+          if SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED:
+              raise SystemExit("R25B runtime activation must remain disabled in PR #100")
+          PY
