@@ -47,7 +47,7 @@ complete_planar_motion_schedule = false
 
 [missing_inputs]
 required_for_each_front_wheel = ["inclination_deg", "pressure_kpa_gauge", "lateral_force_demand_n"]
-required_for_each_target_state = ["suspension_pose_state_id", "planar_motion_u_v_r_by_steering_sample", "reviewed_state_weight"]
+required_for_each_target_state = ["suspension_pose_state_id", "planar_motion_u_v_r_at_target_resolution", "reviewed_state_weight"]
 rule = "Do not infer a missing quantity from nominal setup, another wheel, lateral acceleration, steering input, tire data, or an unrelated source state."
 
 [readiness]
@@ -58,8 +58,23 @@ states_ready_for_motion_aware_steering_target = 0
 steering_design_ranking_authorized = false
 track_scale_authorized = false
 
+[program_disposition]
+r25b_steering_extension_paused = true
+pause_reason = "The remaining missing quantities belong to suspension and vehicle-state providers, not to the steering or tire packages."
+immediate_focus = [
+  "PDR claim closeout and figure selection",
+  "physical steering decisions and validation plans",
+  "reviewed zero-steer suspension-pose path",
+  "vehicle or QSS state producer when adequate source inputs are available"
+]
+resume_requires = [
+  "reviewed zero-steer suspension-pose series",
+  "reviewed synchronized vehicle and tire-demand state package",
+  "or a separately authorized engineering schedule for the same quantities"
+]
+
 [next_checkpoint]
-required_evidence = "A reviewed synchronized source must provide per-steering-sample front inside/outside Fz, inclination, gauge pressure, Fy demand, suspension pose, u-v-r motion, and nonzero target weighting within the authorized R25B domain."
+required_evidence = "A reviewed synchronized source must provide, at the target resolution, front inside/outside Fz, inclination, gauge pressure, Fy demand, suspension pose, u-v-r motion, and a nonzero weight for each target state within the authorized R25B domain."
 acceptable_routes = [
   "reviewed vehicle simulation or QSS export with explicit source identity and units",
   "reviewed measured or higher-fidelity simulation state package",
