@@ -43,10 +43,16 @@ class R25bForceBranchExportFreezeTests(unittest.TestCase):
         self.assertFalse(failures["hidden_source_refit"])
         self.assertFalse(failures["historical_two_thirds_track_scale_applied"])
 
-    def test_real_branch_table_remains_explicitly_pending(self) -> None:
+    def test_real_reference_table_is_frozen_but_quarantined(self) -> None:
         status = self.result["real_source_status"]
         self.assertFalse(status["binary_source_committed_to_repository"])
-        self.assertFalse(status["real_branch_table_frozen"])
+        self.assertTrue(status["binary_source_supplied_for_offline_audit"])
+        self.assertTrue(status["binary_identity_verified"])
+        self.assertTrue(status["real_reference_branch_table_frozen"])
+        self.assertFalse(status["real_reference_branch_table_runtime_authorized"])
+        self.assertFalse(status["frozen_generator_description_matches_binary"])
+        self.assertEqual(status["binary_total_rows"], 9630)
+        self.assertEqual(status["binary_state_count"], 60)
 
 
 if __name__ == "__main__":
