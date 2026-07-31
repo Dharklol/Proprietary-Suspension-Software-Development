@@ -1,0 +1,60 @@
+record_id = "R25B_BRANCH_CLASSIFICATION_AUDIT_V1"
+status = "review_required_no_branch_ids_assigned"
+model_id = "MOD-TIRE-0001"
+upstream_authorization_id = "AUTH-TIRE-0002"
+implementation = "src/pssd_tire/r25b_branch_classification_audit.py"
+test = "tests/test_r25b_branch_classification_audit.py"
+result = "benchmarks/tires/r25b_branch_classification_audit_v0.1.0.json"
+review = "docs/reviews/phase4_r25b_branch_classification_audit.md"
+
+[scope]
+curve_count = 60
+sample_count = 9630
+side_count = 120
+exact_zero_slip_knot_curve_count = 0
+source_sample_values_modified = false
+segment_branch_ids_assigned = false
+named_inverse_authorized = false
+generic_all_root_inverse_remains_authoritative = true
+
+[findings]
+positive_reversal_affected_side_count = 4
+positive_reversal_segment_count = 7
+negative_reversal_affected_side_count = 9
+negative_reversal_segment_count = 13
+combined_reversal_affected_side_count = 13
+combined_reversal_affected_curve_count = 12
+maximum_local_reversal_n = 0.48474469855204916
+positive_peak_at_source_boundary_count = 13
+negative_peak_at_source_boundary_count = 18
+
+[strict_monotonic_prefix]
+source_sample_values_modified = false
+unique_side_local_inverse = true
+maximum_force_shortfall_n = 6.812387228250657
+maximum_relative_force_shortfall = 0.013213031258643019
+maximum_slip_truncation_deg = 1.9622641509433962
+remainder_before_global_peak_role = "indeterminate_peak_approach"
+
+[global_extremum_positional]
+source_sample_values_modified = false
+full_global_peak_reach_retained = true
+multiple_named_prepeak_roots_possible = true
+maximum_ambiguous_force_span_n = 0.7573035179882481
+maximum_side_local_root_count = 3
+required_behavior = "fail_closed_without_selected_candidate"
+
+[tolerance_or_isotonic_repair]
+source_sample_values_modified = true
+compatible_with_auth_tire_0002 = false
+separate_fitted_data_authorization_required = true
+
+[next_checkpoint]
+decision = "Reviewer must choose strict monotonic-prefix or global-extremum positional semantics and approve center-crossing, boundary-peak, and multiple-root behavior."
+recommended_default = "strict_monotonic_prefix_for_unique_steering_force_demand_inversion"
+blocked_until_review = [
+  "segment branch ID publication",
+  "named pre-peak inverse selection",
+  "named post-peak inverse selection",
+  "silent single-root choice from a multi-root named branch"
+]
