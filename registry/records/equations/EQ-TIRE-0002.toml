@@ -1,0 +1,39 @@
+[record]
+id = "EQ-TIRE-0002"
+type = "equation"
+title = "Local piecewise lateral-force slope"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Report the exact local dFy/dalpha slope of the active affine source segment. For operating-state interpolation, combine participating segment slopes with the same multilinear weights used for force. At an interior source knot the left and right slopes remain separate and the derivative is marked nonunique unless an explicit one-sided query is requested."
+outputs = [
+  "Left and right local lateral-force slopes in N/rad",
+  "Derivative uniqueness flag",
+  "Active segment identities and state interpolation weights",
+  "Source and fidelity provenance"
+]
+inputs = [
+  "Adjacent signed Fy(alpha) source samples",
+  "Canonical slip angle and optional one-sided derivative request",
+  "Optional complete compatible operating-state interpolation cell"
+]
+assumptions = [
+  "Every active segment has nonzero slip-angle width.",
+  "The query is inside the supplied source domain.",
+  "No differentiability beyond the piecewise-linear exchange representation is implied.",
+  "A small-slip cornering-stiffness interpretation requires a separately declared near-zero segment and matching sign convention."
+]
+verification_level = "B"
+canonical_equation = "Within segment j, dFy/dalpha = (Fy_j+1-Fy_j)/(alpha_j+1-alpha_j). For a complete state cell, dFy/dalpha = sum_k w_k*dFy_k/dalpha. At a knot, return the adjacent left and right segment slopes."
+source_basis = [
+  "Pacejka (2006), Chapter 1 Sections 1.1-1.2: cornering stiffness as the small-slip slope of the lateral-force characteristic.",
+  "Repository benchmarks/tires/WUFR26_H43105_R25B_LATERAL_SUMMARY_V0.toml: source-owned cornering-stiffness evidence with explicit operating state and units.",
+  "EQ-TIRE-0001 affine interpolation contract."
+]
+validity = "Local slope of the authorized piecewise-linear exchange only; not a smooth fitted-tire derivative."
+failure_behavior = [
+  "Reject zero-width segments, nonfinite source samples, and out-of-domain queries.",
+  "Return derivative_nonunique at an interior knot unless a one-sided derivative is explicitly requested.",
+  "Do not average left and right slopes silently or infer cornering stiffness from peak data."
+]
+benchmark_ids = ["BENCH-TIRE-0001", "BENCH-TIRE-0002"]
