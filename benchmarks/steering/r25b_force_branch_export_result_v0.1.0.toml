@@ -2,7 +2,7 @@ version = "0.1.0"
 result_id = "R25B-FORCE-BRANCH-EXPORT-BENCHMARKS-V0"
 benchmark_id = "BENCH-STEER-0022"
 authorization_id = "AUTH-STEER-0003"
-authority_boundary = "Software exporter behavior and real-source identity/profile are frozen. Synthetic force values are not R25B data. Actual R25B intermediate Fy(alpha) branches remain pending a source-side run of the hashed binary Cornering Trojan MAT file."
+authority_boundary = "Software exporter behavior remains verified. The exact hashed R25B source was audited and two source-derived reference branches were frozen, but they remain quarantined because the binary structure does not match the frozen generator description. This record does not authorize the complete steady-state lateral provider or steering design ranking."
 
 [source_profile]
 profile_id = "WUFR26_H43105_R25B_CORNERING_TROJAN_EXPORT_PROFILE_V0"
@@ -46,11 +46,27 @@ historical_two_thirds_track_scale_applied = false
 
 [real_source_status]
 binary_source_committed_to_repository = false
-real_branch_table_frozen = false
-reason = "The repository and connector metadata expose the source identity/hash, but the binary MAT response values are not committed to the GitHub repository. The offline exporter must be run where the hashed source file is locally accessible."
+binary_source_supplied_for_offline_audit = true
+binary_identity_verified = true
+real_reference_branch_table_frozen = true
+real_reference_branch_table_path = "benchmarks/tires/WUFR26_H43105_R25B_QUARANTINED_REFERENCE_EXPORT_V0.toml"
+real_reference_branch_table_sha256 = "af59ab4a1962c859f269c0374032855df17895a80991d8412da38f1b740c82f1"
+real_reference_branch_table_runtime_authorized = false
+binary_total_rows = 9630
+binary_state_count = 60
+frozen_generator_description_matches_binary = false
+strict_prepeak_monotonic_state_count = 51
+strict_prepeak_rejected_state_count = 9
+reason = "The exact source hash is correct and the two first cross-check states export cleanly, but the binary has a 5x3x4 operating-state lattice with 100/130/160/190-point sweeps. The supplied hash-matched April_Interpolator.m describes a 4x3x3 lattice with 100 points per state. The exact generator revision must be reconciled before source-specific runtime activation."
 first_cross_check_states = ["Fz=222 N; IA=0 deg; P=82.7 kPa", "Fz=1112 N; IA=2 deg; P=82.7 kPa"]
-summary_cross_check_reference = "PR28 Tire Selection Notes summary family labels pressure as 83 kPa and reports approximately 694 N at -9.6 deg for 222 N/0 deg and 2738 N at -10.9 deg for 1112 N/2 deg. Do not force equality by pressure rounding or hidden interpolation."
-next_action = "Run scripts/export_r25b_cornering_force_branches.py on the hashed Cornering Trojan MAT source, review branch monotonicity and peak cross-checks, then freeze accepted real branch tables before vehicle steering ranking."
+inside_reference_prepeak_rows = 64
+inside_reference_peak_fy_n = 694.041896190421
+inside_reference_peak_source_sa_deg = -9.584905660377357
+outside_reference_prepeak_rows = 86
+outside_reference_peak_fy_n = 2737.8937842052433
+outside_reference_peak_source_sa_deg = -10.857142857142856
+summary_cross_check_reference = "The exact processed values agree with the rounded 83 kPa Tire Selection Notes references of approximately 694 N at -9.6 deg and 2738 N at -10.9 deg. This agreement does not resolve the binary-generator structural mismatch."
+next_action = "Locate the exact generator revision or provenance record for the 9630-row binary, then review a complete signed source-native curve exchange and explicit canonical adapter before requesting runtime authorization."
 
 [pr30_closeout]
 status = "merged"
