@@ -43,8 +43,8 @@ def main() -> None:
     verify_source(arguments.source)
     print("R25B source identity verified.")
     print(
-        "Next: execute scripts/export_r25b_cornering_force_branches.py using the "
-        "frozen export profile; this verifier does not authorize runtime activation."
+        "Next: run scripts/audit_r25b_runtime_source.py. Identity verification alone does "
+        "not establish generator provenance or authorize runtime activation."
     )
 
 
