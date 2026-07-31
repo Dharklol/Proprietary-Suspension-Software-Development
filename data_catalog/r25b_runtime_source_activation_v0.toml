@@ -1,0 +1,47 @@
+record_id = "R25B_RUNTIME_SOURCE_ACTIVATION_V0"
+status = "source_binary_located_activation_blocked"
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+model_id = "MOD-TIRE-0001"
+authorization_id = "AUTH-TIRE-0001"
+
+[source_binary]
+provider = "Box"
+folder_id = "325714540497"
+file_id = "1890914118742"
+file_version_id = "2085674725942"
+name = "Hoosier 43105 R25B Cornering Trojan.mat"
+size_bytes = 333286
+sha1 = "475338b18b6cba21b967c7e75bdd12d9a0e3437a"
+content_modified_at = "2025-05-24T05:53:59Z"
+
+[existing_export_profile]
+path = "benchmarks/tires/WUFR26_H43105_R25B_CORNERING_TROJAN_EXPORT_PROFILE_V0.toml"
+export_script = "scripts/export_r25b_cornering_force_branches.py"
+source_hash_validation_required = true
+
+[activation_gate]
+source_binary_bytes_present_in_repository = false
+source_binary_execution_complete = false
+full_signed_curve_exchange_frozen = false
+source_to_canonical_adapter_reviewed = false
+representative_curve_cross_checks_complete = false
+source_specific_runtime_activation_authorized = false
+
+[required_next_actions]
+items = [
+  "Download the exact Box file version and verify the frozen SHA-1 before processing.",
+  "Execute the existing source-side exporter without changing the frozen preprocessing profile.",
+  "Freeze the complete signed Fy(alpha) exchange needed by MOD-TIRE-0001, not only magnitude pre-peak branches.",
+  "Document and review source slip-angle, lateral-force, inclination, pressure-basis, frame, and force-role conversions.",
+  "Cross-check representative curves and operating points against existing source notes and plots.",
+  "Request a separate source-specific authorization before enabling the provider at runtime."
+]
+
+[prohibited]
+items = [
+  "Do not reconstruct curves from the compact lateral-summary grid.",
+  "Do not treat the R25B source tire as literal R20 data.",
+  "Do not apply hidden sign repair, smoothing, fitting, clipping, extrapolation, nearest-neighbor substitution, or track scaling.",
+  "Do not activate the real provider from this preflight record alone."
+]
