@@ -1,0 +1,286 @@
+{
+  "affected_sides": [
+    {
+      "ambiguous_force_intervals": [
+        {
+          "lower_response_N": 661.0943041007346,
+          "maximum_root_count": 3,
+          "upper_response_N": 661.1953144342184
+        }
+      ],
+      "curve_id": "R25B_FZ_0222_IA_00_P_96p5:CANONICAL_GAUGE_V1",
+      "maximum_local_reversal_N": 0.10101033348382771,
+      "peak_at_source_domain_boundary": false,
+      "reversal_segment_count": 1,
+      "side": "negative_slip",
+      "strict_prefix_force_shortfall_N": 0.5325549335951791,
+      "strict_prefix_relative_force_shortfall": 0.0008047944755658535,
+      "strict_prefix_slip_truncation_deg": 0.9056603773584887
+    },
+    {
+      "ambiguous_force_intervals": [
+        {
+          "lower_response_N": 599.0030233510907,
+          "maximum_root_count": 3,
+          "upper_response_N": 599.0140571567673
+        },
+        {
+          "lower_response_N": 599.4067420110068,
+          "maximum_root_count": 3,
+          "upper_response_N": 599.4530739717126
+        }
+      ],
+      "curve_id": "R25B_FZ_0222_IA_02_P_96p5:CANONICAL_GAUGE_V1",
+      "maximum_local_reversal_N": 0.04633196070574286,
+      "peak_at_source_domain_boundary": true,
+      "reversal_segment_count": 2,
+      "side": "negative_slip",
+      "strict_prefix_force_shortfall_N": 0.9640849358750074,
+      "strict_prefix_relative_force_shortfall": 0.001606866764366465,
+      "strict_prefix_slip_truncation_deg": 1.0566037735849059
+    },
+    {
+      "ambiguous_force_intervals": [
+        {
+          "lower_response_N": 508.68098764850095,
+          "maximum_root_count": 3,
+          "upper_response_N": 508.76856425057684
+        }
+      ],
+      "curve_id": "R25B_FZ_0222_IA_04_P_96p5:CANONICAL_GAUGE_V1",
+      "maximum_local_reversal_N": 0.08757660207589879,
+      "peak_at_source_domain_boundary": true,
+      "reversal_segment_count": 1,
+      "side": "negative_slip",
+      "strict_prefix_force_shortfall_N": 6.812387228250657,
+      "strict_prefix_relative_force_shortfall": 0.013213031258643019,
+      "strict_prefix_slip_truncation_deg": 1.6744186046511627
+    },
+    {
+      "ambiguous_force_intervals": [
+        {
+          "lower_response_N": 655.0091084916827,
+          "maximum_root_count": 3,
+          "upper_response_N": 655.0559205843616
+        }
+      ],
+      "curve_id": "R25B_FZ_0222_IA_02_P_82p7:CANONICAL_GAUGE_V1",
+      "maximum_local_reversal_N": 0.046812092678919726,
+      "peak_at_source_domain_boundary": true,
+      "reversal_segment_count": 1,
+      "side": "positive_slip",
+      "strict_prefix_force_shortfall_N": 0.43633667407914345,
+      "strict_prefix_relative_force_shortfall": 0.0006656625905912251,
+      "strict_prefix_slip_truncation_deg": 0.6037735849056607
+    },
+    {
+      "ambiguous_force_intervals": [
+        {
+          "lower_response_N": 616.8355542876935,
+          "maximum_root_count": 3,
+          "upper_response_N": 616.881936715363
+        }
+      ],
+      "curve_id": "R25B_FZ_0222_IA_02_P_82p7:CANONICAL_GAUGE_V1",
+      "maximum_local_reversal_N": 0.046382427669527715,
+      "peak_at_source_domain_boundary": false,
+      "reversal_segment_count": 1,
+      "side": "negative_slip",
+      "strict_prefix_force_shortfall_N": 2.2683704037827965,
+      "strict_prefix_relative_force_shortfall": 0.003663682917864214,
+      "strict_prefix_slip_truncation_deg": 1.0566037735849074
+    },
+    {
+      "ambiguous_force_intervals": [
+        {
+          "lower_response_N": 625.6970677800576,
+          "maximum_root_count": 3,
+          "upper_response_N": 625.8237938307282
+        }
+      ],
+      "curve_id": "R25B_FZ_0222_IA_04_P_82p7:CANONICAL_GAUGE_V1",
+      "maximum_local_reversal_N": 0.126726050670527,
+      "peak_at_source_domain_boundary": true,
+      "reversal_segment_count": 1,
+      "side": "positive_slip",
+      "strict_prefix_force_shortfall_N": 0.2128852320538499,
+      "strict_prefix_relative_force_shortfall": 0.00034005233107515853,
+      "strict_prefix_slip_truncation_deg": 0.37209302325581584
+    },
+    {
+      "ambiguous_force_intervals": [
+        {
+          "lower_response_N": 620.0225417457917,
+          "maximum_root_count": 3,
+          "upper_response_N": 620.419949767627
+        }
+      ],
+      "curve_id": "R25B_FZ_0222_IA_04_P_55p2:CANONICAL_GAUGE_V1",
+      "maximum_local_reversal_N": 0.31721039934291184,
+      "peak_at_source_domain_boundary": false,
+      "reversal_segment_count": 2,
+      "side": "positive_slip",
+      "strict_prefix_force_shortfall_N": 1.8362924419438968,
+      "strict_prefix_relative_force_shortfall": 0.002951022934576602,
+      "strict_prefix_slip_truncation_deg": 1.9393939393939397
+    },
+    {
+      "ambiguous_force_intervals": [
+        {
+          "lower_response_N": 1149.251980685472,
+          "maximum_root_count": 3,
+          "upper_response_N": 1149.9061058200173
+        }
+      ],
+      "curve_id": "R25B_FZ_0445_IA_00_P_96p5:CANONICAL_GAUGE_V1",
+      "maximum_local_reversal_N": 0.31144063654210186,
+      "peak_at_source_domain_boundary": true,
+      "reversal_segment_count": 3,
+      "side": "positive_slip",
+      "strict_prefix_force_shortfall_N": 6.2190837289927,
+      "strict_prefix_relative_force_shortfall": 0.005379247667303822,
+      "strict_prefix_slip_truncation_deg": 1.9622641509433962
+    },
+    {
+      "ambiguous_force_intervals": [
+        {
+          "lower_response_N": 1095.261335605447,
+          "maximum_root_count": 3,
+          "upper_response_N": 1095.2684621882483
+        },
+        {
+          "lower_response_N": 1095.3977695545252,
+          "maximum_root_count": 3,
+          "upper_response_N": 1095.5539204112326
+        }
+      ],
+      "curve_id": "R25B_FZ_0445_IA_02_P_96p5:CANONICAL_GAUGE_V1",
+      "maximum_local_reversal_N": 0.156150856707427,
+      "peak_at_source_domain_boundary": true,
+      "reversal_segment_count": 2,
+      "side": "negative_slip",
+      "strict_prefix_force_shortfall_N": 4.339407893285852,
+      "strict_prefix_relative_force_shortfall": 0.003946323058750109,
+      "strict_prefix_slip_truncation_deg": 1.509433962264151
+    },
+    {
+      "ambiguous_force_intervals": [
+        {
+          "lower_response_N": 1159.410202053343,
+          "maximum_root_count": 3,
+          "upper_response_N": 1160.1675055713313
+        }
+      ],
+      "curve_id": "R25B_FZ_0445_IA_02_P_82p7:CANONICAL_GAUGE_V1",
+      "maximum_local_reversal_N": 0.48474469855204916,
+      "peak_at_source_domain_boundary": false,
+      "reversal_segment_count": 2,
+      "side": "negative_slip",
+      "strict_prefix_force_shortfall_N": 4.308166701430764,
+      "strict_prefix_relative_force_shortfall": 0.003699662263465163,
+      "strict_prefix_slip_truncation_deg": 1.3584905660377353
+    },
+    {
+      "ambiguous_force_intervals": [
+        {
+          "lower_response_N": 1222.8617373715228,
+          "maximum_root_count": 3,
+          "upper_response_N": 1222.8719895997851
+        }
+      ],
+      "curve_id": "R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1",
+      "maximum_local_reversal_N": 0.010252228262288554,
+      "peak_at_source_domain_boundary": true,
+      "reversal_segment_count": 1,
+      "side": "negative_slip",
+      "strict_prefix_force_shortfall_N": 3.0426602767452096,
+      "strict_prefix_relative_force_shortfall": 0.002481951151372288,
+      "strict_prefix_slip_truncation_deg": 1.9622641509433962
+    },
+    {
+      "ambiguous_force_intervals": [
+        {
+          "lower_response_N": 1228.7083080607015,
+          "maximum_root_count": 3,
+          "upper_response_N": 1228.7836435213155
+        }
+      ],
+      "curve_id": "R25B_FZ_0445_IA_02_P_55p2:CANONICAL_GAUGE_V1",
+      "maximum_local_reversal_N": 0.07533546061404195,
+      "peak_at_source_domain_boundary": false,
+      "reversal_segment_count": 1,
+      "side": "negative_slip",
+      "strict_prefix_force_shortfall_N": 0.033488962146748236,
+      "strict_prefix_relative_force_shortfall": 2.7253007189984747e-05,
+      "strict_prefix_slip_truncation_deg": 0.37209302325581584
+    },
+    {
+      "ambiguous_force_intervals": [
+        {
+          "lower_response_N": 2220.2339107850744,
+          "maximum_root_count": 3,
+          "upper_response_N": 2220.617454076704
+        }
+      ],
+      "curve_id": "R25B_FZ_0890_IA_02_P_82p7:CANONICAL_GAUGE_V1",
+      "maximum_local_reversal_N": 0.3527044701545492,
+      "peak_at_source_domain_boundary": false,
+      "reversal_segment_count": 2,
+      "side": "negative_slip",
+      "strict_prefix_force_shortfall_N": 0.8259422453447769,
+      "strict_prefix_relative_force_shortfall": 0.0003718043172795918,
+      "strict_prefix_slip_truncation_deg": 0.5079365079365072
+    }
+  ],
+  "audit_id": "R25B_BRANCH_CLASSIFICATION_AUDIT_V1",
+  "authorization_id": "AUTH-TIRE-0002",
+  "combined": {
+    "maximum_global_extremum_ambiguous_force_span_N": 0.7573035179882481,
+    "maximum_local_reversal_N": 0.48474469855204916,
+    "maximum_side_local_root_count": 3,
+    "maximum_strict_prefix_force_shortfall_N": 6.812387228250657,
+    "maximum_strict_prefix_relative_force_shortfall": 0.013213031258643019,
+    "maximum_strict_prefix_slip_truncation_deg": 1.9622641509433962,
+    "reversal_affected_curve_count": 12,
+    "reversal_affected_side_count": 13
+  },
+  "curve_count": 60,
+  "exact_zero_slip_knot_curve_count": 0,
+  "negative_side": {
+    "peak_at_source_boundary_count": 18,
+    "reversal_affected_curve_count": 9,
+    "reversal_segment_count": 13
+  },
+  "policy_candidates": {
+    "global_extremum_positional": {
+      "full_global_peak_reach_retained": true,
+      "multiple_named_prepeak_roots_possible": true,
+      "required_ambiguity_behavior": "fail_closed_without_selected_candidate",
+      "source_sample_values_modified": false
+    },
+    "strict_monotonic_prefix": {
+      "force_reach_reduced_on_affected_sides": true,
+      "remainder_before_global_peak_role": "indeterminate_peak_approach",
+      "source_sample_values_modified": false,
+      "unique_monotonic_side_inverse": true
+    },
+    "tolerance_or_isotonic_repair": {
+      "compatible_with_current_no_repair_authorization": false,
+      "source_sample_values_modified": true
+    }
+  },
+  "positive_side": {
+    "peak_at_source_boundary_count": 13,
+    "reversal_affected_curve_count": 4,
+    "reversal_segment_count": 7
+  },
+  "sample_count": 9630,
+  "side_count": 120,
+  "status": "review_required_no_branch_ids_assigned",
+  "unresolved_decisions": [
+    "Choose strict monotonic-prefix or global-extremum positional pre-peak semantics.",
+    "Define the branch role of each segment that crosses alpha=0 because no source curve contains an exact zero-slip knot.",
+    "Define post-peak availability when a side extremum occurs at the +/-12 deg source boundary.",
+    "Define fail-closed behavior for multiple roots within a named branch."
+  ]
+}
