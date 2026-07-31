@@ -1,49 +1,37 @@
 #!/usr/bin/env python3
-"""Audit the exact R25B Cornering Trojan before any runtime activation.
+"""Audit the processed R25B Trojan against the exact live-script profile.
 
-The audit is intentionally source-native. It verifies channel integrity, enumerates the
-stored operating-state lattice, checks each slip sweep, and compares the binary structure
-with the frozen description of ``April_Interpolator.m``. It does not repair, resample,
-smooth, sign-convert, or authorize tire behavior.
+This command is source bounded. It validates channel structure, contiguous
+operating-state sweeps, slip grids, and legacy strict-prepeak diagnostics. It
+does not smooth, repair, re-fit, classify full signed branches, or authorize a
+canonical/runtime provider.
 """
 
 from __future__ import annotations
 
 import argparse
-from collections import Counter, defaultdict
+from collections import Counter
 from dataclasses import asdict, dataclass
 import json
-from math import isclose, isfinite
+from math import isfinite
 from pathlib import Path
-from typing import Mapping, Sequence
+from typing import Iterable, Mapping, Sequence
 
-from scripts.verify_r25b_runtime_source import verify_source
-
-REQUIRED_CHANNELS = (
-    "ET",
-    "FX",
-    "FY",
-    "FZ",
-    "IA",
-    "MX",
-    "MZ",
-    "N",
-    "P",
-    "SA",
-    "SL",
-    "V",
-)
-EXPECTED_FZ_N = (222.0, 445.0, 667.0, 1112.0)
+EXPECTED_CHANNELS = ("ET", "FX", "FY", "FZ", "IA", "MX", "MZ", "N", "P", "SA", "SL", "V")
+EXPECTED_FZ_N = (222.0, 445.0, 667.0, 890.0, 1112.0)
 EXPECTED_IA_DEG = (0.0, 2.0, 4.0)
-EXPECTED_P_KPA = (68.9, 82.7, 96.5)
-EXPECTED_ROWS_PER_STATE = 100
-EXPECTED_TOTAL_ROWS = 3600
-STATE_TOLERANCE = 1.0e-9
-MONOTONIC_FORCE_TOLERANCE_N = 1.0e-6
+EXPECTED_P_KPA = (55.2, 68.9, 82.7, 96.5)
+EXPECTED_V_KPH = (40.2,)
+EXPECTED_SL = (0.0,)
+EXPECTED_STATE_COUNT = 60
+EXPECTED_TOTAL_ROWS = 9630
+EXPECTED_ROWS_PER_STATE_HISTOGRAM = ((100, 2), (130, 13), (160, 27), (190, 18))
+SOURCE_TIRE_ID = "HOOSIER_43105_18X7.5-10_R25B"
+INTENDED_TIRE_ID = "HOOSIER_43104_18X7.5-10_R20"
 
 
 @dataclass(frozen=True)
-class R25bSourceStructureAudit:
+class R25bRuntimeSourceAudit:
     total_rows: int
     state_count: int
     normal_load_values_n: tuple[float, ...]
@@ -52,149 +40,159 @@ class R25bSourceStructureAudit:
     speed_values_kph: tuple[float, ...]
     slip_ratio_values: tuple[float, ...]
     rows_per_state_histogram: tuple[tuple[int, int], ...]
-    all_channels_finite: bool
+    all_required_channels_finite: bool
     all_state_slip_grids_strictly_increasing: bool
     all_state_slip_grids_span_minus12_to_plus12_deg: bool
-    frozen_generator_description_matches_binary: bool
+    exact_generator_profile_matches_binary: bool
+    historical_april_profile_matches_binary: bool
     mismatch_reasons: tuple[str, ...]
     prepeak_monotonic_state_count: int
     prepeak_rejected_state_count: int
     prepeak_rejected_states: tuple[str, ...]
 
 
-def _normalized_channels(
-    channels: Mapping[str, Sequence[float]],
-) -> tuple[dict[str, tuple[float, ...]], int]:
-    missing = [name for name in REQUIRED_CHANNELS if name not in channels]
+def _unique(values: Sequence[float]) -> tuple[float, ...]:
+    return tuple(sorted(set(float(value) for value in values)))
+
+
+def _state_label(fz: float, ia: float, pressure: float) -> str:
+    return f"Fz={fz:g}N;IA={ia:g}deg;P={pressure:g}kPa"
+
+
+def _contiguous_states(
+    fz: Sequence[float], ia: Sequence[float], pressure: Sequence[float]
+) -> tuple[tuple[int, int, tuple[float, float, float]], ...]:
+    keys = tuple((float(f), float(i), float(p)) for f, i, p in zip(fz, ia, pressure))
+    states: list[tuple[int, int, tuple[float, float, float]]] = []
+    start = 0
+    for index in range(1, len(keys) + 1):
+        if index == len(keys) or keys[index] != keys[start]:
+            states.append((start, index, keys[start]))
+            start = index
+    return tuple(states)
+
+
+def _strict_prepeak_pass(sa: Sequence[float], fy: Sequence[float]) -> bool:
+    selected = [
+        (abs(float(slip)), float(force))
+        for slip, force in zip(sa, fy)
+        if float(slip) < 0.0 and float(force) > 0.0
+    ]
+    if len(selected) < 2:
+        return False
+    selected.sort(key=lambda item: item[0])
+    forces = [force for _, force in selected]
+    peak_index = max(range(len(forces)), key=forces.__getitem__)
+    prepeak = forces[: peak_index + 1]
+    return len(prepeak) >= 2 and all(right > left for left, right in zip(prepeak, prepeak[1:]))
+
+
+def audit_channels(channels: Mapping[str, Sequence[float]]) -> R25bRuntimeSourceAudit:
+    missing = [name for name in EXPECTED_CHANNELS if name not in channels]
     if missing:
-        raise ValueError(f"missing required channels: {missing}")
-
-    normalized: dict[str, tuple[float, ...]] = {}
-    lengths: set[int] = set()
-    for name in REQUIRED_CHANNELS:
-        values = tuple(float(value) for value in channels[name])
-        if not values:
-            raise ValueError(f"channel {name} is empty")
-        if not all(isfinite(value) for value in values):
-            raise ValueError(f"channel {name} contains nonfinite values")
-        normalized[name] = values
-        lengths.add(len(values))
+        raise ValueError(f"source is missing required channels: {', '.join(missing)}")
+    lengths = {len(channels[name]) for name in EXPECTED_CHANNELS}
     if len(lengths) != 1:
-        raise ValueError("required channels do not share one row count")
-    return normalized, lengths.pop()
+        raise ValueError("required source channels do not share one row count")
+    total_rows = lengths.pop()
+    if total_rows == 0:
+        raise ValueError("source contains no rows")
 
-
-def _state_id(state: tuple[float, float, float, float, float]) -> str:
-    fz, ia, pressure, speed, slip_ratio = state
-    return f"Fz={fz:g}N;IA={ia:g}deg;P={pressure:g}kPa;V={speed:g}kph;SL={slip_ratio:g}"
-
-
-def _prepeak_is_monotonic(
-    rows: tuple[dict[str, float], ...],
-    *,
-    force_tolerance_n: float = MONOTONIC_FORCE_TOLERANCE_N,
-) -> bool:
-    quadrant = sorted(
-        (
-            (abs(row["SA"]), abs(row["FY"]))
-            for row in rows
-            if row["SA"] <= STATE_TOLERANCE and row["FY"] >= -force_tolerance_n
-        ),
-        key=lambda item: item[0],
+    all_finite = all(
+        isfinite(float(value))
+        for name in EXPECTED_CHANNELS
+        for value in channels[name]
     )
-    if len(quadrant) < 2:
-        return False
-    if any(
-        upper[0] <= lower[0] + STATE_TOLERANCE
-        for lower, upper in zip(quadrant, quadrant[1:])
-    ):
-        return False
-    peak_index = max(range(len(quadrant)), key=lambda index: quadrant[index][1])
-    prepeak = quadrant[: peak_index + 1]
-    if len(prepeak) < 2:
-        return False
-    return all(
-        upper[1] > lower[1] + force_tolerance_n
-        for lower, upper in zip(prepeak, prepeak[1:])
-    )
+    if not all_finite:
+        raise ValueError("source contains nonfinite required-channel values")
 
+    fz_values = _unique(channels["FZ"])
+    ia_values = _unique(channels["IA"])
+    pressure_values = _unique(channels["P"])
+    speed_values = _unique(channels["V"])
+    slip_ratio_values = _unique(channels["SL"])
+    states = _contiguous_states(channels["FZ"], channels["IA"], channels["P"])
+    histogram = tuple(sorted(Counter(end - start for start, end, _ in states).items()))
 
-def audit_channels(channels: Mapping[str, Sequence[float]]) -> R25bSourceStructureAudit:
-    rows, total_rows = _normalized_channels(channels)
-    grouped: dict[tuple[float, float, float, float, float], list[dict[str, float]]] = defaultdict(list)
-    for index in range(total_rows):
-        state = (
-            rows["FZ"][index],
-            rows["IA"][index],
-            rows["P"][index],
-            rows["V"][index],
-            rows["SL"][index],
-        )
-        grouped[state].append({name: rows[name][index] for name in REQUIRED_CHANNELS})
-
-    fz_values = tuple(sorted({state[0] for state in grouped}))
-    ia_values = tuple(sorted({state[1] for state in grouped}))
-    pressure_values = tuple(sorted({state[2] for state in grouped}))
-    speed_values = tuple(sorted({state[3] for state in grouped}))
-    slip_ratio_values = tuple(sorted({state[4] for state in grouped}))
-    histogram = tuple(sorted(Counter(len(state_rows) for state_rows in grouped.values()).items()))
-
-    strictly_increasing = True
-    complete_span = True
+    all_increasing = True
+    all_span = True
     rejected: list[str] = []
-    for state, state_rows_list in sorted(grouped.items()):
-        state_rows = tuple(state_rows_list)
-        slip = tuple(row["SA"] for row in state_rows)
+    for start, end, (fz, ia, pressure) in states:
+        slip = tuple(float(value) for value in channels["SA"][start:end])
+        force = tuple(float(value) for value in channels["FY"][start:end])
         if any(right <= left for left, right in zip(slip, slip[1:])):
-            strictly_increasing = False
-        if not (
-            isclose(slip[0], -12.0, rel_tol=0.0, abs_tol=STATE_TOLERANCE)
-            and isclose(slip[-1], 12.0, rel_tol=0.0, abs_tol=STATE_TOLERANCE)
-        ):
-            complete_span = False
-        if not _prepeak_is_monotonic(state_rows):
-            rejected.append(_state_id(state))
+            all_increasing = False
+        if not slip or abs(slip[0] + 12.0) > 1.0e-12 or abs(slip[-1] - 12.0) > 1.0e-12:
+            all_span = False
+        if not _strict_prepeak_pass(slip, force):
+            rejected.append(_state_label(fz, ia, pressure))
 
-    mismatch_reasons: list[str] = []
-    if total_rows != EXPECTED_TOTAL_ROWS:
-        mismatch_reasons.append(
-            f"binary has {total_rows} rows; frozen generator description implies {EXPECTED_TOTAL_ROWS}"
-        )
-    if fz_values != EXPECTED_FZ_N:
-        mismatch_reasons.append(
-            f"binary FZ lattice is {fz_values}; frozen description is {EXPECTED_FZ_N}"
-        )
-    if ia_values != EXPECTED_IA_DEG:
-        mismatch_reasons.append(
-            f"binary IA lattice is {ia_values}; frozen description is {EXPECTED_IA_DEG}"
-        )
-    if pressure_values != EXPECTED_P_KPA:
-        mismatch_reasons.append(
-            f"binary pressure lattice is {pressure_values}; frozen description is {EXPECTED_P_KPA}"
-        )
-    if histogram != ((EXPECTED_ROWS_PER_STATE, len(grouped)),):
-        mismatch_reasons.append(
-            f"binary rows/state histogram is {histogram}; frozen description requires 100 rows/state"
-        )
+    mismatch: list[str] = []
+    checks = (
+        (total_rows == EXPECTED_TOTAL_ROWS, f"row count is {total_rows}, expected {EXPECTED_TOTAL_ROWS}"),
+        (len(states) == EXPECTED_STATE_COUNT, f"state count is {len(states)}, expected {EXPECTED_STATE_COUNT}"),
+        (fz_values == EXPECTED_FZ_N, f"FZ lattice is {fz_values}, expected {EXPECTED_FZ_N}"),
+        (ia_values == EXPECTED_IA_DEG, f"IA lattice is {ia_values}, expected {EXPECTED_IA_DEG}"),
+        (
+            pressure_values == EXPECTED_P_KPA,
+            f"pressure lattice is {pressure_values}, expected {EXPECTED_P_KPA}",
+        ),
+        (speed_values == EXPECTED_V_KPH, f"speed lattice is {speed_values}, expected {EXPECTED_V_KPH}"),
+        (
+            slip_ratio_values == EXPECTED_SL,
+            f"slip-ratio lattice is {slip_ratio_values}, expected {EXPECTED_SL}",
+        ),
+        (
+            histogram == EXPECTED_ROWS_PER_STATE_HISTOGRAM,
+            f"rows/state histogram is {histogram}, expected {EXPECTED_ROWS_PER_STATE_HISTOGRAM}",
+        ),
+        (all_increasing, "at least one state slip grid is not strictly increasing"),
+        (all_span, "at least one state does not span exactly -12 to +12 degrees"),
+    )
+    mismatch.extend(message for passed, message in checks if not passed)
 
-    return R25bSourceStructureAudit(
+    exact_match = not mismatch
+    return R25bRuntimeSourceAudit(
         total_rows=total_rows,
-        state_count=len(grouped),
+        state_count=len(states),
         normal_load_values_n=fz_values,
         inclination_values_deg=ia_values,
         pressure_values_kpa=pressure_values,
         speed_values_kph=speed_values,
         slip_ratio_values=slip_ratio_values,
         rows_per_state_histogram=histogram,
-        all_channels_finite=True,
-        all_state_slip_grids_strictly_increasing=strictly_increasing,
-        all_state_slip_grids_span_minus12_to_plus12_deg=complete_span,
-        frozen_generator_description_matches_binary=not mismatch_reasons,
-        mismatch_reasons=tuple(mismatch_reasons),
-        prepeak_monotonic_state_count=len(grouped) - len(rejected),
+        all_required_channels_finite=all_finite,
+        all_state_slip_grids_strictly_increasing=all_increasing,
+        all_state_slip_grids_span_minus12_to_plus12_deg=all_span,
+        exact_generator_profile_matches_binary=exact_match,
+        historical_april_profile_matches_binary=(
+            total_rows == 3600
+            and len(states) == 36
+            and fz_values == (222.0, 445.0, 667.0, 1112.0)
+            and pressure_values == (68.9, 82.7, 96.5)
+            and histogram == ((100, 36),)
+        ),
+        mismatch_reasons=tuple(mismatch),
+        prepeak_monotonic_state_count=len(states) - len(rejected),
         prepeak_rejected_state_count=len(rejected),
         prepeak_rejected_states=tuple(rejected),
     )
+
+
+def load_mat_channels(path: Path) -> dict[str, tuple[float, ...]]:
+    try:
+        import numpy
+        from scipy.io import loadmat
+    except ImportError as exc:
+        raise SystemExit("NumPy and SciPy are required to audit the binary MAT source") from exc
+    source = loadmat(path, squeeze_me=True)
+    result: dict[str, tuple[float, ...]] = {}
+    for name in EXPECTED_CHANNELS:
+        if name not in source:
+            raise SystemExit(f"MAT source is missing required channel {name}")
+        values = numpy.asarray(source[name], dtype=float).reshape(-1)
+        result[name] = tuple(float(value) for value in values)
+    return result
 
 
 def main() -> int:
@@ -202,22 +200,16 @@ def main() -> int:
     parser.add_argument("source", type=Path)
     parser.add_argument("--json-output", type=Path)
     args = parser.parse_args()
-
-    verify_source(args.source)
-    from pssd_tire.io import load_mat_ttc_channels
-
-    channels = load_mat_ttc_channels(args.source, channels=REQUIRED_CHANNELS)
-    audit = audit_channels(channels)
+    audit = audit_channels(load_mat_channels(args.source))
     rendered = json.dumps(asdict(audit), indent=2, sort_keys=True) + "\n"
     if args.json_output is not None:
         args.json_output.write_text(rendered, encoding="utf-8")
     print(rendered, end="")
-    if not audit.frozen_generator_description_matches_binary:
-        print(
-            "R25B activation remains blocked: the exact binary does not match the frozen "
-            "generator-structure description.",
-        )
+    if not audit.exact_generator_profile_matches_binary:
+        print("Processed R25B binary does not match the exact TTC Spline Fitter profile.")
         return 3
+    print("Processed R25B binary matches the exact 9,630-row TTC Spline Fitter profile.")
+    print("Canonical adapter review and source-specific runtime authorization remain separate gates.")
     return 0
 
 

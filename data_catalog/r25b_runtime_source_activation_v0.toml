@@ -1,5 +1,5 @@
 record_id = "R25B_RUNTIME_SOURCE_ACTIVATION_V0"
-status = "source_verified_reference_export_quarantined_profile_mismatch"
+status = "generator_reconciled_full_signed_exchange_frozen_adapter_pressure_basis_blocked"
 source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
 intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
 model_id = "MOD-TIRE-0001"
@@ -16,6 +16,36 @@ sha1 = "475338b18b6cba21b967c7e75bdd12d9a0e3437a"
 content_modified_at = "2025-05-24T05:53:59Z"
 matlab_header_created_at = "2025-05-24T00:53:59 local source-machine time"
 
+[exact_generator]
+provider = "Box"
+folder_id = "324621167966"
+file_id = "1890916633802"
+file_version_id = "2085677125802"
+name = "TTC_Spline_Fitter.mlx"
+size_bytes = 286864
+sha1 = "c78a66751be956b60ff0f879cd0f733638a71ce3"
+sha256 = "a4e8a0d079d9ba64fbba428885d9c1c2c0699ca80c12f7d5a3c05b88988aa248"
+created_at = "2025-05-14T23:13:19Z"
+modified_at = "2025-05-24T06:12:37Z"
+matlab_release = "R2024b Update 3"
+profile_record = "data_catalog/r25b_ttc_spline_fitter_generator_v0.toml"
+profile_matches_observed_binary = true
+profile_match_summary = "The live script declares the exact 5x3x4 lattice, 9,630-row allocation, 100/130/160/190-point rule, -12 to +12 degree grids, source filters, FZ normalization/rescaling, and p=0.5 smoothing spline used by the processed Trojan."
+
+[raw_input_lineage]
+run21_name = "Round6_Run21.mat"
+run21_sha1 = "fca6c5b5116ae7fb16e2036b757ff294e0f790f6"
+run21_rows = 61357
+run22_name = "Round6_Run22.mat"
+run22_sha1 = "a995a2a89290dc32c5372b22e7bb5f469b6cf949"
+run22_rows = 53703
+concatenated_rows = 115060
+speed_filtered_rows = 102276
+selection_and_scaling_reproduced = true
+processed_trojan_response_reproduced_with_independent_smoothing_spline = true
+reproduction_record = "benchmarks/tires/r25b_raw_reproduction_result_v0.1.0.toml"
+reproduction_record_sha256 = "4a74264a444169762afdbf4a90a11914acbed849ac3b09a0c4844ac7f4a78ea3"
+
 [supplied_supporting_artifacts]
 april_interpolator_sha1 = "e73eb559b1e0be42cc9c135d86be69e168d9e606"
 comparisons_sha1 = "49f0758d61a5724c7b4aed10505c072bb6441725"
@@ -24,11 +54,6 @@ raw_cornering_run_21_sha1 = "fca6c5b5116ae7fb16e2036b757ff294e0f790f6"
 raw_cornering_run_22_sha1 = "a995a2a89290dc32c5372b22e7bb5f469b6cf949"
 fitted_tir_sha1 = "27b100c306ec4f207c9c42506edeeb23c95d4247"
 all_hashes_match_existing_frozen_profile_where_previously_recorded = true
-
-[existing_export_profile]
-path = "benchmarks/tires/WUFR26_H43105_R25B_CORNERING_TROJAN_EXPORT_PROFILE_V0.toml"
-export_script = "scripts/export_r25b_cornering_force_branches.py"
-source_hash_validation_required = true
 
 [observed_binary_structure]
 total_rows = 9630
@@ -45,23 +70,35 @@ rows_per_state_190_count = 18
 all_required_channels_finite = true
 all_state_slip_grids_strictly_increasing = true
 all_state_slip_grids_span_minus12_to_plus12_deg = true
+exact_generator_profile_matches_binary = true
 
-[frozen_generator_description]
+[historical_april_interpolator]
+path = "April_Interpolator.m"
+sha1 = "e73eb559b1e0be42cc9c135d86be69e168d9e606"
 implied_total_rows = 3600
 normal_load_values_n = [222.0, 445.0, 667.0, 1112.0]
 inclination_values_deg = [0.0, 2.0, 4.0]
 pressure_values_kpa = [68.9, 82.7, 96.5]
 rows_per_state = 100
 matches_observed_binary = false
-mismatch = "The exact hashed binary contains 9630 rows, an additional 890 N load plane, an additional 55.2 kPa pressure plane, and 100/130/160/190-point sweeps. The supplied and hash-matched April_Interpolator.m describes 3600 rows on a 4x3x3 lattice with 100 points per state. The exact generator revision for the binary is therefore not established."
+disposition = "historical_non_governing_supporting_script"
+reason = "The exact TTC_Spline_Fitter.mlx live script supersedes this structurally incompatible script as provenance for the 9,630-row processed Trojan."
+
+[raw_reproduction]
+independent_oracle = "SciPy make_smoothing_spline with lambda=1.0, equivalent to the MATLAB p=0.5 objective after stable duplicate-SA aggregation by count-weighted mean"
+exact_structural_channels = ["FZ", "IA", "P", "SL", "N", "V"]
+sa_max_abs_error_deg = 2.6645352591003757e-15
+fx_max_abs_error_n = 1.0726164703100949e-06
+fy_max_abs_error_n = 5.5445863836212084e-05
+mx_max_abs_error_nm = 8.802328252954794e-07
+mz_max_abs_error_nm = 1.1229688112734948e-06
+all_frozen_acceptance_bounds_pass = true
+governing_source_remains_exact_processed_trojan = true
 
 [real_export_diagnostics]
 all_observed_state_count = 60
 strict_prepeak_monotonic_state_count = 51
 strict_prepeak_rejected_state_count = 9
-frozen_4x3x3_state_count = 36
-frozen_4x3x3_strict_prepeak_monotonic_state_count = 29
-frozen_4x3x3_strict_prepeak_rejected_state_count = 7
 rejected_states = [
   "Fz=222 N; IA=0 deg; P=96.5 kPa",
   "Fz=222 N; IA=2 deg; P=82.7 kPa",
@@ -73,7 +110,7 @@ rejected_states = [
   "Fz=445 N; IA=2 deg; P=96.5 kPa",
   "Fz=890 N; IA=2 deg; P=82.7 kPa"
 ]
-rejection_reason = "The frozen exporter correctly rejects small non-increasing source-spline increments before the first maximum rather than smoothing, enveloping, deleting, or changing tolerance authority."
+rejection_reason = "The legacy magnitude-only pre-peak exporter correctly rejects small non-increasing increments before the first maximum. The complete signed source-native exchange retains those exact curves without smoothing, deletion, enveloping, branch repair, or tolerance relaxation."
 
 [quarantined_reference_export]
 path = "benchmarks/tires/WUFR26_H43105_R25B_QUARANTINED_REFERENCE_EXPORT_V0.toml"
@@ -88,35 +125,81 @@ outside_state = "Fz=1112 N; IA=2 deg; P=82.7 kPa"
 outside_prepeak_rows = 86
 outside_peak_source_sa_deg = -10.857142857142856
 outside_peak_source_fy_n = 2737.8937842052433
-summary_cross_check = "The processed values agree with the existing rounded 83 kPa summary references of approximately 694 N at -9.6 deg and 2738 N at -10.9 deg. This cross-check does not resolve the generator-structure mismatch."
+
+[complete_signed_source_native_exchange]
+path = "benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml"
+manifest_sha256 = "4c680acddabaf58f00c25ad01204f805e97f782aeb400177b722e46266edb63b"
+payload_path = "benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/payload_base64"
+payload_sha256 = "3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438"
+payload_size_bytes = 77893
+curve_count = 60
+sample_count = 9630
+both_slip_signs_retained = true
+source_postpeak_ranges_retained = true
+source_nonmonotonicity_retained = true
+branch_segments_classified = false
+runtime_authorized = false
+
+[source_convention_evidence]
+ttc_round6_contents_box_file_id = "1890891123970"
+ttc_round6_contents_sha1 = "d169dafdd29caba816d7a5b4e996649083815361"
+ttc_statement = "All data is reported in SAE sign convention; SI Matlab run files carry SA in degrees, FY in N, IA in degrees, and P in kPa."
+race_car_vehicle_dynamics_reference = "Milliken and Milliken, Race Car Vehicle Dynamics, page 62, Figure 2.33"
+source_frame = "SAE J670 tire axes with +z down"
+source_force_role = "road applies forces and moments to the tire"
+source_positive_slip = "wheel slipping to the right"
+comparisons_route = "negative source SA / positive source FY is the selected leaning-into-turn branch"
+parser_april_route = "separate SAE-to-ISO parser route negates SA, FY, MY, and MZ"
+route_mixing_prohibited = true
+
+[canonical_adapter_candidate]
+status = "axis_and_force_transform_derived_pressure_basis_unresolved_not_reviewed"
+canonical_frame_id = "CANONICAL_TIRE_CONTACT_ISO_LEFT_UP"
+slip_angle_rule = "alpha_rad = deg_to_rad(source_SA_deg)"
+lateral_force_rule = "Fy_canonical_N = -source_FY_N"
+inclination_rule = "inclination_rad = deg_to_rad(source_IA_deg)"
+pressure_value_rule = "pressure_Pa = 1000 * source_P_kPa"
+pressure_basis_resolved = false
+pressure_basis_gap = "The supplied TTC Round 6 contents and run guide call P tire pressure/inflation pressure but do not explicitly state gauge versus absolute. AUTH-TIRE-0001 forbids inferring that basis."
+force_role_preserved = "road_on_tire"
+source_to_canonical_axis_transform = "x unchanged; y and z reversed"
+small_slip_positive_slope_state_count = 60
+small_slip_nonpositive_slope_state_count = 0
+parser_april_direct_sign_route_used = false
+reason_parser_route_not_reused = "PARSER_April.m targets its own ISO convention. The repository canonical alpha definition is not that parser's slip-angle definition, so its sign operations cannot be copied implicitly."
+reviewed = false
 
 [activation_gate]
 source_binary_bytes_present_in_repository = false
 source_binary_identity_verified = true
 supporting_artifact_hashes_verified = true
 source_binary_structure_audited = true
+exact_generator_identity_verified = true
+source_profile_generation_match_confirmed = true
+raw_input_reproduction_cross_check_complete = true
 reference_prepeak_export_complete = true
 reference_prepeak_exchange_frozen = true
 representative_curve_cross_checks_complete = true
-full_signed_curve_exchange_frozen = false
-source_profile_generation_match_confirmed = false
+full_signed_curve_exchange_frozen = true
+source_to_canonical_pressure_basis_resolved = false
 source_to_canonical_adapter_reviewed = false
 source_specific_runtime_activation_authorized = false
 
 [required_next_actions]
 items = [
-  "Locate the exact MATLAB generator revision or other provenance record that produced the 9630-row Cornering Trojan binary.",
-  "Reconcile whether the 890 N and 55.2 kPa planes and variable sweep lengths are intended source authority or an unreviewed later processing revision.",
-  "Decide through review whether the nine strict-prepeak nonmonotonic states remain rejected or receive a separately authorized source-processing policy; do not silently relax the exporter.",
-  "After provenance reconciliation, freeze the complete signed source-native Fy(alpha) exchange and review the explicit source-to-canonical sign, unit, pressure, inclination, frame, and force-role adapter.",
-  "Request a separate source-specific authorization before enabling the provider at runtime."
+  "Obtain an authoritative statement for whether the FSAE TTC Round 6 P channel is gauge or absolute pressure, or explicitly review and authorize a pressure-basis interpretation without presenting it as source fact.",
+  "Review the explicit source-to-canonical adapter candidate, including the distinction from the PARSER_April.m ISO route.",
+  "Create a separate source-specific R25B authorization and executable canonical exchange benchmark before changing the runtime activation constant.",
+  "Keep the R25B source tire identity separate from the intended R20 engineering-proxy identity and preserve all track-correlation, combined-slip, transient, thermal, wear, and production boundaries."
 ]
 
 [prohibited]
 items = [
   "Do not reconstruct curves from the compact lateral-summary grid.",
   "Do not treat the R25B source tire as literal R20 data.",
-  "Do not infer that a hash-matched supporting script generated a structurally incompatible binary.",
-  "Do not apply hidden sign repair, smoothing, fitting, clipping, extrapolation, nearest-neighbor substitution, tolerance relaxation, or track scaling.",
-  "Do not activate the real provider from the quarantined reference export."
+  "Do not treat the historical April_Interpolator.m as the generator for this binary.",
+  "Do not silently choose gauge or absolute pressure.",
+  "Do not copy the PARSER_April.m sign route into the repository canonical convention without explicit review.",
+  "Do not apply hidden sign repair, smoothing, fitting, clipping, extrapolation, nearest-neighbor substitution, tolerance relaxation, symmetry completion, or track scaling.",
+  "Do not activate the real provider from the source-native or quarantined exchange without a separate source-specific authorization."
 ]

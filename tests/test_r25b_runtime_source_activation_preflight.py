@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class R25bRuntimeSourceActivationPreflightTests(unittest.TestCase):
-    def test_catalog_freezes_exact_identity_and_partial_gate_progress(self) -> None:
+    def test_catalog_freezes_exact_identity_and_current_gate_progress(self) -> None:
         with (ROOT / "data_catalog/r25b_runtime_source_activation_v0.toml").open("rb") as stream:
             record = tomllib.load(stream)
 
@@ -29,20 +29,28 @@ class R25bRuntimeSourceActivationPreflightTests(unittest.TestCase):
         self.assertEqual(source["size_bytes"], EXPECTED_SIZE_BYTES)
         self.assertEqual(source["sha1"], EXPECTED_SHA1)
 
+        generator = record["exact_generator"]
+        self.assertEqual(generator["file_id"], "1890916633802")
+        self.assertEqual(generator["sha1"], "c78a66751be956b60ff0f879cd0f733638a71ce3")
+        self.assertTrue(generator["profile_matches_observed_binary"])
+
         gate = record["activation_gate"]
         for key in (
             "source_binary_identity_verified",
             "supporting_artifact_hashes_verified",
             "source_binary_structure_audited",
+            "exact_generator_identity_verified",
+            "source_profile_generation_match_confirmed",
+            "raw_input_reproduction_cross_check_complete",
             "reference_prepeak_export_complete",
             "reference_prepeak_exchange_frozen",
             "representative_curve_cross_checks_complete",
+            "full_signed_curve_exchange_frozen",
         ):
             self.assertTrue(gate[key], key)
         for key in (
             "source_binary_bytes_present_in_repository",
-            "full_signed_curve_exchange_frozen",
-            "source_profile_generation_match_confirmed",
+            "source_to_canonical_pressure_basis_resolved",
             "source_to_canonical_adapter_reviewed",
             "source_specific_runtime_activation_authorized",
         ):
@@ -53,7 +61,8 @@ class R25bRuntimeSourceActivationPreflightTests(unittest.TestCase):
         self.assertEqual(observed["state_count"], 60)
         self.assertEqual(observed["normal_load_values_n"], [222.0, 445.0, 667.0, 890.0, 1112.0])
         self.assertEqual(observed["pressure_values_kpa"], [55.2, 68.9, 82.7, 96.5])
-        self.assertFalse(record["frozen_generator_description"]["matches_observed_binary"])
+        self.assertTrue(record["exact_generator"]["profile_matches_observed_binary"])
+        self.assertFalse(record["historical_april_interpolator"]["matches_observed_binary"])
 
     def test_quarantined_reference_export_is_exact_and_not_authorized(self) -> None:
         path = ROOT / "benchmarks/tires/WUFR26_H43105_R25B_QUARANTINED_REFERENCE_EXPORT_V0.toml"

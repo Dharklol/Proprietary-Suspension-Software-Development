@@ -2,144 +2,163 @@
 
 ## Decision
 
-The exact hashed R25B Cornering Trojan source is now locally verified and audited. Two first-reference pre-peak branches were exported and frozen as quarantined evidence. The complete `MOD-TIRE-0001` R25B provider remains disabled.
+The exact R25B generator provenance gap is closed.
 
-Runtime activation is blocked because the observed binary structure does not match the frozen generator description attributed to the supplied, hash-matched `April_Interpolator.m` revision. The mismatch is material provenance evidence and cannot be repaired by assumption.
+The uploaded `TTC_Spline_Fitter.mlx` matches the Box identity previously recorded for the candidate live script. Its extracted MATLAB code exactly explains the processed Cornering Trojan's 5x3x4 operating-state lattice, 9,630-row allocation, variable 100/130/160/190-point sweeps, source selection, target-load scaling, smoothing parameter, and -12 to +12 degree slip grids.
 
-## Verified source package
+The Round 6 raw input lineage has also been independently reproduced. The complete signed source-native `SA/FY` exchange is now frozen for all 60 states and all 9,630 source points.
 
-The supplied files match the existing frozen source identities where those identities were already recorded:
+The source-specific runtime provider remains disabled. The next gate is no longer generator provenance or curve availability; it is review of the source-to-canonical adapter, with the FSAE TTC pressure-channel gauge-versus-absolute basis still unresolved.
 
-- `Hoosier 43105 R25B Cornering Trojan.mat`: 333,286 bytes, SHA-1 `475338b18b6cba21b967c7e75bdd12d9a0e3437a`;
-- `April_Interpolator.m`: SHA-1 `e73eb559b1e0be42cc9c135d86be69e168d9e606`;
-- `PARSER_April.m`: SHA-1 `32608eef763acacb7b233b82b8690bd3250752cc`;
-- `Round6_Run21.mat`: SHA-1 `fca6c5b5116ae7fb16e2036b757ff294e0f790f6`;
-- `Round6_Run22.mat`: SHA-1 `a995a2a89290dc32c5372b22e7bb5f469b6cf949`;
-- `Hoosier 18 x 7.5 - 10 R25B 43105.tir`: SHA-1 `27b100c306ec4f207c9c42506edeeb23c95d4247`.
+## Exact live-script identity
 
-`Comparisons.m` was also supplied and frozen for this review at SHA-1 `49f0758d61a5724c7b4aed10505c072bb6441725`.
-
-The binary source is not committed to GitHub. Only its identities, structural audit, and quarantined derived reference values are retained.
-
-## Source-native binary audit
-
-The exact Cornering Trojan contains finite channels `ET`, `FX`, `FY`, `FZ`, `IA`, `MX`, `MZ`, `N`, `P`, `SA`, `SL`, and `V` with a common row count of 9,630.
-
-The observed operating-state lattice is:
-
-- normal load: 222, 445, 667, 890, and 1112 N;
-- inclination: 0, 2, and 4 degrees;
-- pressure: 55.2, 68.9, 82.7, and 96.5 kPa;
-- speed: 40.2 km/h;
-- longitudinal slip: zero.
-
-All 60 state sweeps are stored contiguously, have strictly increasing source slip angle, and span -12 to +12 degrees. Their row counts are not uniform:
-
-- 2 states have 100 rows;
-- 13 states have 130 rows;
-- 27 states have 160 rows;
-- 18 states have 190 rows.
-
-## Frozen generator-description mismatch
-
-The supplied and hash-matched `April_Interpolator.m` describes a cornering output with:
-
-- normal-load targets 222, 445, 667, and 1112 N;
-- pressure targets 96.5, 82.7, and 68.9 kPa;
-- inclination targets 0, 2, and 4 degrees;
-- 100 points per state from -12 to +12 degrees;
-- an implied total of 3,600 rows.
-
-The exact binary instead has 9,630 rows, includes an additional 890 N load plane and 55.2 kPa pressure plane, and uses variable point counts. Therefore the currently supplied generator revision cannot be asserted to have produced the binary even though both hashes independently match the previously frozen manifest.
-
-This review does not infer an undocumented loop, later script revision, append operation, or resampling rule. The exact generator revision or equivalent provenance record remains required.
-
-## Candidate provenance artifact discovered in Box
-
-A separate MATLAB live script was found in the same `TIRE SELECTION` Box folder:
+The supplied file is an OOXML MATLAB live script with the following exact identity:
 
 - name: `TTC_Spline_Fitter.mlx`;
 - Box file ID: `1890916633802`;
-- Box file-version ID: `2085677125802`;
+- Box version ID: `2085677125802`;
 - size: 286,864 bytes;
 - SHA-1: `c78a66751be956b60ff0f879cd0f733638a71ce3`;
-- source content-modified time: `2025-05-24T06:12:37Z`.
+- SHA-256: `a4e8a0d079d9ba64fbba428885d9c1c2c0699ca80c12f7d5a3c05b88988aa248`;
+- MATLAB release: R2024b Update 3;
+- title: *Creating Workable Tire Data from FSAE TTC Run Data Using Spline Fits*.
 
-Its name and timing make it a relevant candidate for the missing generation provenance, but its contents have not been inspected. The connector exposed metadata and download permission but not the raw `.mlx` bytes or an extracted representation. This review therefore does not claim that the live script generated the Cornering Trojan. The exact file must be obtained and inspected before the provenance gate can change.
+The code was extracted structurally from `matlab/document.xml`; no OCR was used.
 
-## Real reference export
+## Exact cornering-generator profile
 
-The frozen exporter interpretation was exercised on the two previously identified reference states. No smoothing, envelope, refit, point deletion, pressure rounding, track scale, or hidden operating-state interpolation was applied.
+For a 10-inch rim, the live script declares:
 
-### Inside reference
+- FZ targets: 222, 445, 667, 890, and 1112 N;
+- pressure targets, in source loop order: 96.5, 82.7, 68.9, and 55.2 kPa;
+- inclination targets: 0, 2, and 4 degrees;
+- 60 operating states;
+- 9,630 preallocated rows;
+- source speed filter `abs(V - 40) < 10`;
+- state selection using the source FZ, P, IA, and zero-SL tolerances;
+- source-output normalization by source FZ and rescaling to `-target_FZ`;
+- MATLAB `smoothingspline` fits with smoothing parameter 0.5;
+- simulated slip grids from -12 to +12 degrees.
 
-At 222 N, 0 degrees inclination, and 82.7 kPa:
+The variable point-count rule is:
 
-- 160 exact-state rows were available;
-- 80 rows were in the selected negative-SA/positive-FY source quadrant;
-- 64 rows formed a strictly increasing pre-peak magnitude branch;
-- the source peak was 694.041896190421 N at -9.584905660377357 degrees.
+- start at 100 points;
+- add 30 when FZ is at least 667 N;
+- add 30 when pressure is at least 68.9 kPa;
+- add 30 when inclination is at most 2 degrees.
 
-### Outside reference
+That rule produces exactly:
 
-At 1112 N, 2 degrees inclination, and 82.7 kPa:
+- 2 states with 100 points;
+- 13 states with 130 points;
+- 27 states with 160 points;
+- 18 states with 190 points;
+- 9,630 total points.
 
-- 190 exact-state rows were available;
-- 95 rows were in the selected negative-SA/positive-FY source quadrant;
-- 86 rows formed a strictly increasing pre-peak magnitude branch;
-- the source peak was 2737.8937842052433 N at -10.857142857142856 degrees.
+This is an exact structural match to the processed Trojan. The earlier `April_Interpolator.m` remains frozen as a historical supporting artifact, but its 4x3x3 fixed-100-point description is now explicitly non-governing for this binary.
 
-These values agree with the existing rounded 83 kPa summary references of approximately 694 N at -9.6 degrees and 2738 N at -10.9 degrees. The agreement supports the two curve selections but does not resolve the generator mismatch.
+## Raw-input lineage reproduction
 
-The exact exported arrays are frozen in `benchmarks/tires/WUFR26_H43105_R25B_QUARANTINED_REFERENCE_EXPORT_V0.toml`. The file is explicitly not runtime authorized.
+The exact processed Trojan was independently reproduced from:
 
-## Strict exporter diagnostics across the binary
+- `Round6_Run21.mat`, SHA-1 `fca6c5b5116ae7fb16e2036b757ff294e0f790f6`;
+- `Round6_Run22.mat`, SHA-1 `a995a2a89290dc32c5372b22e7bb5f469b6cf949`.
 
-Using the existing first-maximum and strictly increasing pre-peak rule:
+The two files contain 115,060 rows before the live-script speed filter and 102,276 rows afterward.
 
-- 51 of 60 observed states pass;
-- 9 of 60 observed states are rejected;
-- 29 of the 36 states on the previously documented 4x3x3 lattice pass;
-- 7 of those 36 states are rejected.
+The independent oracle follows the live script's source selection, normalization, target-FZ scaling, operating-state order, point-count rule, and slip grids. It uses SciPy's smoothing-spline implementation with lambda 1.0, equivalent to the MATLAB p=0.5 objective, after stable count-weighted aggregation of duplicate slip coordinates.
 
-The rejected curves contain small non-increasing source-spline increments before their first maximum. The exporter correctly refuses to smooth, envelope, delete points, or silently relax its tolerance. A different policy would be a new source-processing authorization, not a bug fix.
+The independent result matches the exact processed Trojan with:
 
-## Convention boundary
+- exact FZ, IA, P, SL, N, and V arrays;
+- maximum SA difference `2.665e-15 deg`;
+- maximum FX difference `1.073e-6 N`;
+- maximum FY difference `5.545e-5 N`;
+- maximum MX difference `8.802e-7 N-m`;
+- maximum MZ difference `1.123e-6 N-m`.
 
-`Comparisons.m` identifies the comparison data as SI values in an SAE tire coordinate system with z down and documents the negative-SA/positive-FY quadrant as the desired leaning-into-turn branch. `PARSER_April.m` defines a separate TyDex route that negates slip angle, lateral force, overturning moment, and aligning moment while converting units to base SI.
+These differences are numerical implementation cross-checks, not a replacement source fit. The exact hashed processed Trojan remains the governing source.
 
-Those two routes must not be mixed implicitly. The complete steady-state lateral provider needs a separately reviewed adapter that states:
+## Complete signed source-native exchange
 
-- source and canonical axis handedness;
-- source slip-angle definition and sign;
-- lateral-force sign and force-role convention;
-- inclination definition and sign;
-- pressure unit and gauge/absolute basis;
-- source preprocessing identity;
-- whether both slip signs and post-peak ranges are admitted.
+The complete source-native exchange is frozen at:
 
-No canonical adapter is approved in this PR.
+`benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml`
+
+It contains:
+
+- one deterministic gzip-compressed little-endian binary64 payload and a human-readable manifest;
+- exact source channels `SA`, `FY`, `FZ`, `IA`, `P`, `V`, and `SL`;
+- 60 unique contiguous operating-state curves;
+- 9,630 exact source `SA/FY` samples;
+- both source slip signs;
+- source peak and post-peak regions;
+- the nine curves that fail the legacy strictly increasing pre-peak policy;
+- exact source row order and whole-payload compressed/uncompressed SHA-256 identities.
+
+No additional smoothing, refit, point deletion, envelope construction, symmetry completion, branch repair, clipping, extrapolation, or track scaling was applied.
+
+The nine legacy pre-peak rejections no longer block preservation of the full signed source data. They still block the old magnitude-only pre-peak export policy for those states, and no source-specific named pre-peak/post-peak segment classification is authorized by this PR.
+
+## Source convention evidence
+
+The FSAE TTC Round 6 contents document states that all data is reported in SAE sign convention and identifies the SI channels as:
+
+- SA in degrees;
+- FY in N;
+- IA in degrees;
+- P in kPa.
+
+Milliken and Milliken, *Race Car Vehicle Dynamics*, page 62 and Figure 2.33, define the cited SAE J670 tire system with +z down, identify positive slip angle as the wheel slipping to the right, and explicitly state that the road applies the listed forces and moments to the tire.
+
+The source and repository canonical frames therefore differ by reversing y and z while retaining x. Under the repository's explicit alpha definition and road-on-tire force role, the current adapter candidate is:
+
+- `alpha_rad = deg_to_rad(source_SA_deg)`;
+- `Fy_canonical_N = -source_FY_N`;
+- `inclination_rad = deg_to_rad(source_IA_deg)`;
+- `pressure_Pa = 1000 * source_P_kPa`.
+
+This candidate gives positive local canonical `dFy/dalpha` for all 60 source states.
+
+`PARSER_April.m` is not copied directly. It declares a separate SAE-to-ISO route and negates SA and FY under that route's definitions. The repository canonical slip-angle definition is different, so mixing the two routes implicitly would be a sign-convention error.
+
+## Remaining pressure-basis gate
+
+The supplied TTC Round 6 contents and run guide call P “tire pressure” or “inflation pressure” and provide psi/kPa units. They do not explicitly state whether the channel is gauge or absolute pressure.
+
+`AUTH-TIRE-0001` requires the source adapter to declare that basis and prohibits inference. Consequently:
+
+- the source-native pressure values are preserved exactly;
+- the numerical kPa-to-Pa conversion is known;
+- the gauge-versus-absolute metadata is not resolved;
+- the canonical adapter candidate is not reviewed;
+- no executable canonical R25B table is published;
+- `SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED` remains `False`.
 
 ## Activation gates
 
 Completed:
 
-- exact source identity verification;
-- supporting-artifact hash verification;
+- exact processed-source identity verification;
+- exact live-script identity verification;
+- exact generator-profile reconciliation;
+- Round 6 raw-input lineage reproduction;
 - source-channel and state-lattice audit;
-- two source-derived reference branch exports;
+- two source-derived pre-peak reference exports;
+- complete signed source-native exchange;
 - representative peak cross-checks;
-- deterministic quarantined evidence record.
+- source-axis, slip-angle, and road-on-tire force-role evidence;
+- deterministic source-native validation tests.
 
 Still blocked:
 
-- inspection of `TTC_Spline_Fitter.mlx` or equivalent generator evidence;
-- exact generator-revision reconciliation;
-- policy for the nine nonmonotonic pre-peak states;
-- complete signed source-native curve exchange;
-- source-to-canonical adapter review;
-- source-specific runtime authorization.
+- authoritative or explicitly reviewed pressure-basis decision;
+- review of the complete source-to-canonical adapter;
+- separate source-specific R25B authorization;
+- executable canonical-provider benchmark and activation.
 
 ## Stopping point
 
-Further activation work would require inventing provenance or changing source-processing authority. The next valid input is the exact `TTC_Spline_Fitter.mlx` binary, another exact MATLAB generator revision, a dated generation log, or another reviewable record explaining the 9,630-row lattice and variable sweep lengths. Until that evidence is available, `SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED` remains `False`.
+PR #100 now stops at the pressure-basis and source-specific authorization boundary.
+
+The next valid evidence is an authoritative TTC/Calspan statement identifying the P channel as gauge or absolute pressure. A reviewer may instead explicitly authorize a documented engineering interpretation, but it must not be represented as source fact. After that decision, the canonical adapter, executable R25B table, and a separate source-specific authorization can be reviewed before runtime activation.

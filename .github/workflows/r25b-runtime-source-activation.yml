@@ -19,15 +19,11 @@ jobs:
       - name: Install package
         run: python -m pip install -e .
       - name: Run source activation audit tests
-        run: |
-          python -m unittest \
-            tests.test_r25b_runtime_source_activation_preflight \
-            tests.test_r25b_runtime_source_audit \
-            -v
+        run: python -m unittest tests.test_r25b_runtime_source_activation_preflight tests.test_r25b_runtime_source_audit tests.test_r25b_generator_provenance tests.test_r25b_complete_signed_source_native -v
       - name: Verify runtime activation remains disabled
         run: |
           python - <<'PY'
           from pssd_tire import SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED
           if SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED:
-              raise SystemExit("R25B runtime activation must remain disabled in PR #100")
+              raise SystemExit("R25B runtime activation must remain disabled at the PR #100 pressure-basis gate")
           PY

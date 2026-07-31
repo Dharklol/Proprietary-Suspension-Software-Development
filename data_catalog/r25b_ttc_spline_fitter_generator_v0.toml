@@ -1,0 +1,65 @@
+version = "0.1.0"
+record_id = "R25B_TTC_SPLINE_FITTER_GENERATOR_V0"
+status = "exact_generator_identity_and_cornering_profile_verified"
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+
+[generator]
+provider = "Box"
+folder_id = "324621167966"
+file_id = "1890916633802"
+file_version_id = "2085677125802"
+name = "TTC_Spline_Fitter.mlx"
+size_bytes = 286864
+sha1 = "c78a66751be956b60ff0f879cd0f733638a71ce3"
+sha256 = "a4e8a0d079d9ba64fbba428885d9c1c2c0699ca80c12f7d5a3c05b88988aa248"
+created_at = "2025-05-14T23:13:19Z"
+modified_at = "2025-05-24T06:12:37Z"
+matlab_release = "R2024b Update 3"
+title = "Creating Workable Tire Data from FSAE TTC Run Data Using Spline Fits"
+
+[cornering_profile]
+rim_diameter_in = 10
+normal_load_values_n = [222.0, 445.0, 667.0, 890.0, 1112.0]
+pressure_values_kpa_source_order = [96.5, 82.7, 68.9, 55.2]
+inclination_values_deg = [0.0, 2.0, 4.0]
+state_count = 60
+total_rows = 9630
+slip_angle_min_deg = -12.0
+slip_angle_max_deg = 12.0
+base_rows_per_state = 100
+extra_rows_if_normal_load_ge_667_n = 30
+extra_rows_if_pressure_ge_68p9_kpa = 30
+extra_rows_if_inclination_le_2_deg = 30
+rows_per_state_100_count = 2
+rows_per_state_130_count = 13
+rows_per_state_160_count = 27
+rows_per_state_190_count = 18
+normal_load_selection = "abs(fz_src + fz_current) < 100"
+pressure_selection = "abs(p_src - p_current) < 5"
+inclination_selection = "abs(ia_src - ia_current) < 1"
+slip_ratio_selection = "sl_src == 0"
+speed_filter = "abs(v_src - 40) < 10"
+source_normalization = "output/source_FZ"
+target_rescaling = "normalized_output * (-target_FZ)"
+fit_type = "MATLAB smoothingspline"
+smoothing_parameter = 0.5
+simulated_speed_kph = 40.2
+simulated_wheel_speed_rpm = 470.0
+exact_profile_explains_processed_binary = true
+
+[raw_input_lineage]
+uploaded_live_script_example_paths = ["Round9_Run4", "Round9_Run5", "Round9_Run6"]
+example_paths_are_not_r25b_provenance = true
+reproduced_r25b_inputs = ["Round6_Run21.mat", "Round6_Run22.mat"]
+run21_sha1 = "fca6c5b5116ae7fb16e2036b757ff294e0f790f6"
+run22_sha1 = "a995a2a89290dc32c5372b22e7bb5f469b6cf949"
+independent_reproduction_record = "benchmarks/tires/r25b_raw_reproduction_result_v0.1.0.toml"
+
+[historical_script_disposition]
+path = "April_Interpolator.m"
+sha1 = "e73eb559b1e0be42cc9c135d86be69e168d9e606"
+described_rows = 3600
+described_state_count = 36
+role = "historical_non_governing_supporting_script"
+reason = "Its 4x3x3 fixed-100-point profile is structurally incompatible with the exact processed Trojan. TTC_Spline_Fitter.mlx supersedes it as generator provenance for this binary."

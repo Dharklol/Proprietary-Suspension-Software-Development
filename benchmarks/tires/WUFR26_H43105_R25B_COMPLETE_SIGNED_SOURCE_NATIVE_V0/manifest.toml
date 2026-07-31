@@ -1,0 +1,80 @@
+version = "0.1.0"
+exchange_id = "WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0"
+status = "complete_signed_source_native_exchange_frozen_canonical_adapter_blocked"
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+authority = "Exact source-native signed SA/FY curves from the hashed processed R25B Trojan. No canonical sign, pressure-basis, branch, track, or runtime authority is implied."
+runtime_authorized = false
+canonical_adapter_reviewed = false
+curve_count = 60
+sample_count = 9630
+normal_load_values_n = [222.0, 445.0, 667.0, 890.0, 1112.0]
+inclination_values_deg = [0.0, 2.0, 4.0]
+pressure_values_kpa = [55.2, 68.9, 82.7, 96.5]
+speed_values_kph = [40.2]
+slip_ratio_values = [0.0]
+source_slip_angle_min_deg = -12.0
+source_slip_angle_max_deg = 12.0
+rows_per_state_100_count = 2
+rows_per_state_130_count = 13
+rows_per_state_160_count = 27
+rows_per_state_190_count = 18
+
+[source_binary]
+provider = "Box"
+file_id = "1890914118742"
+file_version_id = "2085674725942"
+name = "Hoosier 43105 R25B Cornering Trojan.mat"
+size_bytes = 333286
+sha1 = "475338b18b6cba21b967c7e75bdd12d9a0e3437a"
+
+[generator]
+provider = "Box"
+file_id = "1890916633802"
+file_version_id = "2085677125802"
+name = "TTC_Spline_Fitter.mlx"
+size_bytes = 286864
+sha1 = "c78a66751be956b60ff0f879cd0f733638a71ce3"
+sha256 = "a4e8a0d079d9ba64fbba428885d9c1c2c0699ca80c12f7d5a3c05b88988aa248"
+matlab_release = "R2024b Update 3"
+
+[payload]
+storage = "base64-chunks"
+chunk_directory = "payload_base64"
+chunk_names = ["part-000.txt", "part-001.txt", "part-002.txt", "part-003.txt", "part-004.txt", "part-005.txt", "part-006.txt", "part-007.txt", "part-008.txt"]
+format = "R25B_SOURCE_NATIVE_F64_LE_V0"
+compression = "gzip-mtime-0"
+channel_order = ["SA", "FY", "FZ", "IA", "P", "V", "SL"]
+float_format = "IEEE-754 binary64 little-endian"
+size_bytes = 77893
+sha256 = "3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438"
+encoded_size_bytes = 103860
+base64_sha256 = "ffcbae4a2dfc97a1c51ce8a35ce82fc0783a72e165b93809dcda3c20259aca8a"
+uncompressed_sha256 = "2f7e4e54bc15f7bef890c08f39cedb7b078e6644423f8078640a66bfdfa60447"
+header_and_payload_are_deterministic = true
+
+[source_native_convention]
+frame = "SAE J670 tire axis system: +x wheel heading, +z downward, +y completes the right-handed road-plane basis"
+force_role = "road_on_tire"
+slip_angle = "SAE J670 positive when the wheel slips to the right"
+lateral_force = "FY resolved along source +y"
+inclination = "source IA in degrees under the SAE tire-axis convention"
+pressure = "source P channel in kPa; absolute-versus-gauge basis is not explicitly stated by the supplied TTC documents"
+
+[curve_contract]
+ordering = "FZ ascending, source P target order 96.5/82.7/68.9/55.2 kPa, IA ascending"
+slip_samples = "exact source-native Trojan SA values, strictly increasing within every curve"
+force_samples = "exact source-native Trojan FY values; nonmonotonic and post-peak behavior retained"
+branch_policy = "unclassified; no pre-peak or post-peak selector is authorized by this exchange"
+no_repair = true
+no_smoothing_beyond_source_generator = true
+no_symmetry_completion = true
+no_extrapolation = true
+no_track_scale = true
+
+[activation_boundary]
+full_signed_source_native_exchange_frozen = true
+generator_provenance_reconciled = true
+raw_input_reproduction_cross_check_complete = true
+source_to_canonical_pressure_basis_resolved = false
+source_specific_runtime_authorization_present = false
