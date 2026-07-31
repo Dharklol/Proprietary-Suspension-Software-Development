@@ -1,0 +1,40 @@
+[record]
+id = "EQ-TIRE-0003"
+type = "equation"
+title = "Branch-aware signed lateral-force inversion"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Invert the signed piecewise-linear steady-state lateral-force response by finding every source/interpolated segment whose signed force range contains the requested Fy demand. Return all corresponding slip-angle roots with segment and branch identity; apply a branch selector only when the caller supplies an explicit authorized policy."
+outputs = [
+  "All candidate signed slip angles in rad for the requested signed lateral force",
+  "Candidate segment and branch identities",
+  "Interpolation fractions and source/adapter provenance",
+  "Explicit branch-selection status or structured out-of-domain/ambiguity failure"
+]
+inputs = [
+  "Signed lateral-force demand Fy,demand [N]",
+  "Authorized signed piecewise-linear response from EQ-TIRE-0001",
+  "Optional explicit source-authorized branch policy"
+]
+assumptions = [
+  "The represented response may be nonmonotonic and may contain distinct pre-peak and post-peak roots.",
+  "Each non-horizontal segment contributes at most one interior root; exact force plateaus require explicit ambiguity handling rather than an arbitrary root.",
+  "The caller, not the kernel, owns any physical branch-continuation or stability policy.",
+  "No force-demand extrapolation or peak clipping is permitted."
+]
+verification_level = "B"
+canonical_equation = "For each segment j, solve Fy,demand = Fy_j + t_j*(Fy_j+1-Fy_j), t_j in [0,1]. Return alpha_j + t_j*(alpha_j+1-alpha_j) for every valid segment, deduplicating exact shared-knot roots while retaining all distinct branches."
+source_basis = [
+  "Repository src/pssd_tire/force_demand.py: existing bounded monotonic pre-peak magnitude inversion contract.",
+  "Pacejka (2006), Chapter 1: nonlinear lateral-force characteristics can produce force levels on more than one slip branch.",
+  "EQ-TIRE-0001 source-preserving signed piecewise-linear response."
+]
+validity = "Only within the represented signed force range and supplied source branches."
+failure_behavior = [
+  "Return force_demand_out_of_domain when no represented segment contains the demand.",
+  "Return all distinct roots; do not silently prefer minimum slip, maximum slip, pre-peak, post-peak, or a sign.",
+  "Reject an unrecognized or unauthorized branch selector.",
+  "Report horizontal-segment or coincident-root ambiguity explicitly rather than selecting an arbitrary point."
+]
+benchmark_ids = ["BENCH-TIRE-0003"]
