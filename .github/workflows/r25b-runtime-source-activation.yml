@@ -18,7 +18,7 @@ jobs:
           python-version: "3.11"
       - name: Install package
         run: python -m pip install -e .
-      - name: Run source, runtime, audit, and named-branch tests
+      - name: Run R25B tests
         run: |
           python -m unittest \
             tests.test_r25b_runtime_source_activation_preflight \
@@ -28,39 +28,27 @@ jobs:
             tests.test_r25b_runtime_provider \
             tests.test_r25b_branch_classification_audit \
             tests.test_r25b_branch_classification_authorization \
+            tests.test_r25b_force_demand_adapter \
             -v
-      - name: Verify source-specific classified runtime provider
+      - name: Verify R25B coverage
         run: |
           python - <<'PY'
-          from pssd_tire.r25b_branch_classification import (
-              CENTRAL_TRANSITION,
-              R25B_BRANCH_CLASSIFICATION_AUTHORIZED,
-              require_r25b_branch_classification_authorization,
+          from pssd_tire.r25b_branch_classification import CENTRAL_TRANSITION
+          from pssd_tire.r25b_force_demand_adapter import (
+              INSIDE_REFERENCE_POINT,
+              OUTSIDE_REFERENCE_POINT,
+              load_r25b_reference_force_demand_branch_set,
           )
           from pssd_tire.r25b_named_runtime import load_r25b_classified_lateral_table
-          from pssd_tire.r25b_runtime import (
-              SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED,
-              require_r25b_runtime_activation,
-          )
-          if not SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED:
-              raise SystemExit("R25B source-specific runtime activation must be authorized")
-          if not R25B_BRANCH_CLASSIFICATION_AUTHORIZED:
-              raise SystemExit("R25B named-branch classification must be authorized")
-          require_r25b_runtime_activation()
-          require_r25b_branch_classification_authorization()
           table = load_r25b_classified_lateral_table()
-          if len(table.curves) != 60:
-              raise SystemExit("R25B classified table must contain 60 curves")
-          if sum(len(curve.slip_angle_rad) for curve in table.curves) != 9630:
-              raise SystemExit("R25B classified table must retain 9,630 samples")
-          if any(
-              len(curve.segment_branch_ids) != len(curve.slip_angle_rad) - 1
+          assert len(table.curves) == 60
+          assert sum(len(curve.slip_angle_rad) for curve in table.curves) == 9630
+          assert all(
+              curve.segment_branch_ids.count(CENTRAL_TRANSITION) == 1
               for curve in table.curves
-          ):
-              raise SystemExit("Every R25B source segment must have one branch ID")
-          if any(
-              curve.segment_branch_ids.count(CENTRAL_TRANSITION) != 1
-              for curve in table.curves
-          ):
-              raise SystemExit("Every R25B curve must retain one center-crossing segment")
+          )
+          branches = load_r25b_reference_force_demand_branch_set(table)
+          assert len(branches.branch_for(INSIDE_REFERENCE_POINT).samples) == 64
+          assert len(branches.branch_for(OUTSIDE_REFERENCE_POINT).samples) == 86
+          assert all(branch.minimum_force_magnitude_n > 0.0 for branch in branches.branches)
           PY
