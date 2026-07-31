@@ -54,6 +54,19 @@ The exact binary instead has 9,630 rows, includes an additional 890 N load plane
 
 This review does not infer an undocumented loop, later script revision, append operation, or resampling rule. The exact generator revision or equivalent provenance record remains required.
 
+## Candidate provenance artifact discovered in Box
+
+A separate MATLAB live script was found in the same `TIRE SELECTION` Box folder:
+
+- name: `TTC_Spline_Fitter.mlx`;
+- Box file ID: `1890916633802`;
+- Box file-version ID: `2085677125802`;
+- size: 286,864 bytes;
+- SHA-1: `c78a66751be956b60ff0f879cd0f733638a71ce3`;
+- source content-modified time: `2025-05-24T06:12:37Z`.
+
+Its name and timing make it a relevant candidate for the missing generation provenance, but its contents have not been inspected. The connector exposed metadata and download permission but not the raw `.mlx` bytes or an extracted representation. This review therefore does not claim that the live script generated the Cornering Trojan. The exact file must be obtained and inspected before the provenance gate can change.
+
 ## Real reference export
 
 The frozen exporter interpretation was exercised on the two previously identified reference states. No smoothing, envelope, refit, point deletion, pressure rounding, track scale, or hidden operating-state interpolation was applied.
@@ -120,6 +133,7 @@ Completed:
 
 Still blocked:
 
+- inspection of `TTC_Spline_Fitter.mlx` or equivalent generator evidence;
 - exact generator-revision reconciliation;
 - policy for the nine nonmonotonic pre-peak states;
 - complete signed source-native curve exchange;
@@ -128,4 +142,4 @@ Still blocked:
 
 ## Stopping point
 
-Further activation work would require inventing provenance or changing source-processing authority. The next valid input is the exact MATLAB generator revision, a dated generation log, or another reviewable record explaining the 9,630-row lattice and variable sweep lengths. Until that evidence is available, `SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED` remains `False`.
+Further activation work would require inventing provenance or changing source-processing authority. The next valid input is the exact `TTC_Spline_Fitter.mlx` binary, another exact MATLAB generator revision, a dated generation log, or another reviewable record explaining the 9,630-row lattice and variable sweep lengths. Until that evidence is available, `SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED` remains `False`.
