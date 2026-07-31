@@ -1,0 +1,60 @@
+version = "0.1.0"
+result_id = "R25B-SOURCE-FORCE-DEMAND-ADAPTER-RESULT-V0.1.0"
+status = "pass"
+branch_set_id = "WUFR26_R25B_EXACT_NEGATIVE_PREPEAK_FORCE_DEMAND_V1"
+model_id = "MOD-TIRE-0001"
+authorization_ids = ["AUTH-TIRE-0002", "AUTH-TIRE-0003", "AUTH-STEER-0003"]
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+source_exchange_payload_sha256 = "3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438"
+source_branch_id = "negative_slip_pre_peak"
+magnitude_projection = "slip_angle_magnitude_deg = abs(alpha_rad) converted to degrees; lateral_force_magnitude_n = -Fy_canonical_N"
+track_scale_applied = false
+zero_anchor_inserted = false
+source_samples_modified = false
+
+[inside_reference]
+branch_id = "r25b_inside_222n_0deg_82p7kpa_negative_prepeak"
+normal_load_n = 222.0
+inclination_deg = 0.0
+pressure_kpa = 82.7
+sample_count = 64
+minimum_slip_deg = 0.07547169811320754
+minimum_force_n = 50.97234695655734
+maximum_slip_deg = 9.584905660377357
+maximum_force_n = 694.041896190421
+midpoint_demand_n = 75.90395334602191
+midpoint_required_slip_deg = 0.1509433962264151
+
+[outside_reference]
+branch_id = "r25b_outside_1112n_2deg_82p7kpa_negative_prepeak"
+normal_load_n = 1112.0
+inclination_deg = 2.0
+pressure_kpa = 82.7
+sample_count = 86
+minimum_slip_deg = 0.06349206349206349
+minimum_force_n = 275.83617788180254
+maximum_slip_deg = 10.857142857142856
+maximum_force_n = 2737.8937842052433
+midpoint_demand_n = 316.39913728089266
+midpoint_required_slip_deg = 0.12698412698412698
+
+[fail_closed]
+zero_demand_below_source_branch_rejected = true
+above_peak_demand_rejected = true
+rounded_83kpa_state_rejected = true
+operating_state_interpolation_rejected = true
+force_extrapolation_used = false
+operating_state_interpolation_used = false
+nearest_neighbor_substitution_used = false
+hidden_zero_anchor_used = false
+
+[authority_boundary]
+real_source_branch_handoff_available = true
+physical_force_schedule_available = false
+track_surface_correction_authorized = false
+vehicle_equilibrium_authorized = false
+steering_design_ranking_authorized = false
+installed_car_correlation_available = false
+production_authority = false
+next_checkpoint = "Review a synchronized per-sample inside/outside force-demand schedule and state ownership before this real branch set can become a steering target or ranking input."

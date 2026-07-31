@@ -1,0 +1,35 @@
+record_id = "R25B_STEERING_BRANCH_HANDOFF_V1"
+status = "exact_state_source_branch_available"
+model_id = "MOD-TIRE-0001"
+authorization_ids = ["AUTH-TIRE-0002", "AUTH-TIRE-0003", "AUTH-STEER-0003"]
+implementation = "src/pssd_tire/r25b_force_demand_adapter.py"
+test = "tests/test_r25b_force_demand_adapter.py"
+benchmark_result = "benchmarks/steering/r25b_source_force_demand_adapter_result_v0.1.0.toml"
+review = "docs/reviews/phase4_r25b_force_demand_adapter_review.md"
+
+[source]
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+payload_sha256 = "3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438"
+classified_branch_id = "negative_slip_pre_peak"
+
+[exchange]
+branch_set_id = "WUFR26_R25B_EXACT_NEGATIVE_PREPEAK_FORCE_DEMAND_V1"
+inside_state = "222 N, 0 deg, 82.7 kPa gauge"
+outside_state = "1112 N, 2 deg, 82.7 kPa gauge"
+inside_sample_count = 64
+outside_sample_count = 86
+projection = "absolute slip and response magnitudes from the explicit negative-slip branch"
+
+[limits]
+source_samples_modified = false
+zero_anchor_inserted = false
+extrapolation = false
+state_interpolation = false
+track_scale = false
+reviewed_vehicle_schedule_available = false
+steering_ranking_authorized = false
+
+[next_checkpoint]
+status = "synchronized_vehicle_schedule_required"
+reason = "The exact tire-response handoff is available, but a reviewed per-sample inside/outside schedule synchronized with load, inclination, pressure, pose, and vehicle motion is not."
