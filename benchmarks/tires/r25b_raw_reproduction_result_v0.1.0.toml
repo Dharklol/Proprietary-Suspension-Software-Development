@@ -1,0 +1,63 @@
+version = "0.1.0"
+result_id = "R25B_RAW_REPRODUCTION_V0"
+status = "independent_raw_input_reproduction_within_frozen_numerical_bounds"
+authority = "Provenance cross-check only. Independent SciPy reproduction does not replace the exact processed Trojan, create a new source fit, or authorize runtime use."
+
+[identities]
+generator_sha1 = "c78a66751be956b60ff0f879cd0f733638a71ce3"
+trojan_sha1 = "475338b18b6cba21b967c7e75bdd12d9a0e3437a"
+run21_sha1 = "fca6c5b5116ae7fb16e2036b757ff294e0f790f6"
+run22_sha1 = "a995a2a89290dc32c5372b22e7bb5f469b6cf949"
+
+[method]
+script = "scripts/reproduce_r25b_trojan_from_raw.py"
+matlab_smoothing_parameter = 0.5
+scipy_smoothing_lambda = 1.0
+duplicate_slip_rule = "stable sort; identical SA samples replaced by count-weighted mean"
+raw_selection_and_target_scaling_match_generator = true
+independent_implementation = true
+
+[structure]
+run21_rows = 61357
+run22_rows = 53703
+concatenated_raw_rows = 115060
+speed_filtered_raw_rows = 102276
+state_count = 60
+reproduced_rows = 9630
+exact_FZ_array = true
+exact_IA_array = true
+exact_P_array = true
+exact_SL_array = true
+exact_N_array = true
+exact_V_array = true
+
+[errors.SA]
+max_abs_deg = 2.6645352591003757e-15
+rms_deg = 9.84176776334869e-16
+acceptance_max_abs_deg = 1e-12
+
+[errors.FX]
+max_abs_n = 1.0726164703100949e-06
+rms_n = 4.7374038748615365e-08
+acceptance_max_abs_n = 2e-6
+
+[errors.FY]
+max_abs_n = 5.5445863836212084e-05
+rms_n = 2.783301701335373e-06
+acceptance_max_abs_n = 1e-4
+
+[errors.MX]
+max_abs_nm = 8.802328252954794e-07
+rms_nm = 5.2320171952472184e-08
+acceptance_max_abs_nm = 2e-6
+
+[errors.MZ]
+max_abs_nm = 1.1229688112734948e-06
+rms_nm = 5.08644151829018e-08
+acceptance_max_abs_nm = 2e-6
+
+[decision]
+profile_reproduced = true
+exact_processed_trojan_remains_governing_source = true
+generator_and_raw_input_lineage_reconciled = true
+runtime_authorized = false

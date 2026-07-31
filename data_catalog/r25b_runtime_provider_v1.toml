@@ -1,0 +1,59 @@
+record_id = "R25B_RUNTIME_PROVIDER_V1"
+status = "source_specific_runtime_authorized"
+model_id = "MOD-TIRE-0001"
+authorization_id = "AUTH-TIRE-0002"
+upstream_authorization_id = "AUTH-TIRE-0001"
+review_record = "docs/reviews/phase4_r25b_runtime_authorization_review.md"
+implementation = "src/pssd_tire/r25b_runtime.py"
+test = "tests/test_r25b_runtime_provider.py"
+benchmark_result = "benchmarks/tires/r25b_runtime_adapter_result_v0.1.0.toml"
+
+[source]
+source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
+intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
+proxy_status = "team_authorized_engineering_proxy_not_literal_tire_identity"
+exchange_id = "WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0"
+manifest = "benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml"
+source_binary_sha1 = "475338b18b6cba21b967c7e75bdd12d9a0e3437a"
+generator_sha1 = "c78a66751be956b60ff0f879cd0f733638a71ce3"
+payload_sha256 = "3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438"
+curve_count = 60
+sample_count = 9630
+
+[pressure_basis]
+value = "gauge"
+authority_type = "reviewer_authorized_engineering_interpretation"
+source_documented = false
+source_fact_claimed = false
+reviewer = "Dharklol"
+reviewed_at = "2026-07-31"
+change_control = "Any change to absolute pressure or ambient-pressure treatment requires a new authorization revision and benchmark re-freeze."
+
+[adapter]
+adapter_id = "ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1"
+canonical_convention_id = "CANONICAL_TIRE_CONTACT_ISO_LEFT_UP"
+source_runtime_convention_id = "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1"
+slip_angle_rule = "alpha_rad = deg_to_rad(source_SA_deg)"
+lateral_force_rule = "Fy_canonical_N = -source_FY_N"
+inclination_rule = "inclination_rad = deg_to_rad(source_IA_deg)"
+pressure_rule = "pressure_Pa = 1000 * source_P_kPa"
+normal_load_rule = "normal_load_N = source_FZ_N"
+source_force_role = "road_on_tire"
+
+[runtime]
+activation_authorized = true
+exact_source_samples_retained = true
+bounded_slip_evaluation = true
+bounded_complete_cell_interpolation = true
+all_root_signed_inverse = true
+named_branch_selection = false
+slip_extrapolation = false
+operating_state_extrapolation = false
+implicit_symmetry = false
+runtime_smoothing_or_refit = false
+track_scale = false
+
+[next_checkpoint]
+status = "branch_classification_authorization_required"
+reason = "The source exchange preserves complete signed and post-peak behavior, but no reviewed rule assigns source segments to named pre-peak or post-peak branches across all 60 curves."
+separate_future_gates = ["aligning moment", "combined slip", "vehicle equilibrium", "steering design ranking", "physical correlation"]

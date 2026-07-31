@@ -2,7 +2,7 @@ version = "0.1.0"
 result_id = "R25B-FORCE-BRANCH-EXPORT-BENCHMARKS-V0"
 benchmark_id = "BENCH-STEER-0022"
 authorization_id = "AUTH-STEER-0003"
-authority_boundary = "Software exporter behavior and real-source identity/profile are frozen. Synthetic force values are not R25B data. Actual R25B intermediate Fy(alpha) branches remain pending a source-side run of the hashed binary Cornering Trojan MAT file."
+authority_boundary = "Software exporter behavior remains verified. The exact processed R25B source, exact TTC_Spline_Fitter generator, and Round 6 raw-input lineage are reconciled; the complete signed source-native exchange is frozen. Runtime remains blocked because the source pressure basis and canonical adapter have not been reviewed under a separate source-specific authorization."
 
 [source_profile]
 profile_id = "WUFR26_H43105_R25B_CORNERING_TROJAN_EXPORT_PROFILE_V0"
@@ -10,6 +10,8 @@ source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
 intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
 cornering_trojan_file_id = "1890914118742"
 cornering_trojan_sha1 = "475338b18b6cba21b967c7e75bdd12d9a0e3437a"
+ttc_spline_fitter_file_id = "1890916633802"
+ttc_spline_fitter_sha1 = "c78a66751be956b60ff0f879cd0f733638a71ce3"
 raw_cornering_run_21_sha1 = "fca6c5b5116ae7fb16e2036b757ff294e0f790f6"
 raw_cornering_run_22_sha1 = "a995a2a89290dc32c5372b22e7bb5f469b6cf949"
 april_interpolator_sha1 = "e73eb559b1e0be42cc9c135d86be69e168d9e606"
@@ -46,11 +48,40 @@ historical_two_thirds_track_scale_applied = false
 
 [real_source_status]
 binary_source_committed_to_repository = false
-real_branch_table_frozen = false
-reason = "The repository and connector metadata expose the source identity/hash, but the binary MAT response values are not committed to the GitHub repository. The offline exporter must be run where the hashed source file is locally accessible."
+binary_source_supplied_for_offline_audit = true
+binary_identity_verified = true
+exact_generator_identity_verified = true
+source_profile_generation_match_confirmed = true
+raw_input_lineage_reproduced = true
+full_signed_source_native_exchange_frozen = true
+full_signed_source_native_exchange_path = "benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml"
+full_signed_source_native_exchange_manifest_sha256 = "4c680acddabaf58f00c25ad01204f805e97f782aeb400177b722e46266edb63b"
+full_signed_source_native_exchange_payload_sha256 = "3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438"
+full_signed_source_native_curve_count = 60
+full_signed_source_native_sample_count = 9630
+real_reference_branch_table_frozen = true
+real_reference_branch_table_path = "benchmarks/tires/WUFR26_H43105_R25B_QUARANTINED_REFERENCE_EXPORT_V0.toml"
+real_reference_branch_table_sha256 = "af59ab4a1962c859f269c0374032855df17895a80991d8412da38f1b740c82f1"
+real_reference_branch_table_runtime_authorized = false
+binary_total_rows = 9630
+binary_state_count = 60
+exact_generator_profile_matches_binary = true
+historical_april_generator_description_matches_binary = false
+strict_prepeak_monotonic_state_count = 51
+strict_prepeak_rejected_state_count = 9
+source_pressure_basis_resolved = false
+canonical_adapter_reviewed = false
+source_specific_runtime_authorized = false
+reason = "The exact generator and raw-input lineage are now reconciled, and the complete signed source-native response is frozen. The TTC documents do not explicitly state whether P is gauge or absolute pressure, and AUTH-TIRE-0001 forbids inferring that basis. A separately reviewed canonical adapter and source-specific authorization are still required."
 first_cross_check_states = ["Fz=222 N; IA=0 deg; P=82.7 kPa", "Fz=1112 N; IA=2 deg; P=82.7 kPa"]
-summary_cross_check_reference = "PR28 Tire Selection Notes summary family labels pressure as 83 kPa and reports approximately 694 N at -9.6 deg for 222 N/0 deg and 2738 N at -10.9 deg for 1112 N/2 deg. Do not force equality by pressure rounding or hidden interpolation."
-next_action = "Run scripts/export_r25b_cornering_force_branches.py on the hashed Cornering Trojan MAT source, review branch monotonicity and peak cross-checks, then freeze accepted real branch tables before vehicle steering ranking."
+inside_reference_prepeak_rows = 64
+inside_reference_peak_fy_n = 694.041896190421
+inside_reference_peak_source_sa_deg = -9.584905660377357
+outside_reference_prepeak_rows = 86
+outside_reference_peak_fy_n = 2737.8937842052433
+outside_reference_peak_source_sa_deg = -10.857142857142856
+summary_cross_check_reference = "The exact processed values agree with the rounded 83 kPa Tire Selection Notes references of approximately 694 N at -9.6 deg and 2738 N at -10.9 deg."
+next_action = "Resolve the TTC P-channel pressure basis, review the explicit canonical adapter candidate, and request a separate source-specific authorization before runtime activation."
 
 [pr30_closeout]
 status = "merged"

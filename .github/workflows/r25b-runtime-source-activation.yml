@@ -1,0 +1,46 @@
+name: R25B runtime source activation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Run source audit and runtime provider tests
+        run: |
+          python -m unittest \
+            tests.test_r25b_runtime_source_activation_preflight \
+            tests.test_r25b_runtime_source_audit \
+            tests.test_r25b_generator_provenance \
+            tests.test_r25b_complete_signed_source_native \
+            tests.test_r25b_runtime_provider \
+            -v
+      - name: Verify source-specific runtime provider
+        run: |
+          python - <<'PY'
+          from pssd_tire import (
+              SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED,
+              load_r25b_steady_state_lateral_table,
+              require_r25b_runtime_activation,
+          )
+          if not SOURCE_SPECIFIC_R25B_RUNTIME_ACTIVATION_AUTHORIZED:
+              raise SystemExit("R25B source-specific runtime activation must be authorized")
+          require_r25b_runtime_activation()
+          table = load_r25b_steady_state_lateral_table()
+          if len(table.curves) != 60:
+              raise SystemExit("R25B runtime table must contain 60 curves")
+          if sum(len(curve.slip_angle_rad) for curve in table.curves) != 9630:
+              raise SystemExit("R25B runtime table must retain 9,630 samples")
+          PY
