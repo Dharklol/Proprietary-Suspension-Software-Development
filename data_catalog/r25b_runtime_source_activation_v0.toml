@@ -1,5 +1,5 @@
 record_id = "R25B_RUNTIME_SOURCE_ACTIVATION_V0"
-status = "source_binary_located_activation_blocked"
+status = "source_verified_reference_export_quarantined_profile_mismatch"
 source_tire_id = "HOOSIER_43105_18X7.5-10_R25B"
 intended_tire_id = "HOOSIER_43104_18X7.5-10_R20"
 model_id = "MOD-TIRE-0001"
@@ -14,27 +14,101 @@ name = "Hoosier 43105 R25B Cornering Trojan.mat"
 size_bytes = 333286
 sha1 = "475338b18b6cba21b967c7e75bdd12d9a0e3437a"
 content_modified_at = "2025-05-24T05:53:59Z"
+matlab_header_created_at = "2025-05-24T00:53:59 local source-machine time"
+
+[supplied_supporting_artifacts]
+april_interpolator_sha1 = "e73eb559b1e0be42cc9c135d86be69e168d9e606"
+comparisons_sha1 = "49f0758d61a5724c7b4aed10505c072bb6441725"
+parser_april_sha1 = "32608eef763acacb7b233b82b8690bd3250752cc"
+raw_cornering_run_21_sha1 = "fca6c5b5116ae7fb16e2036b757ff294e0f790f6"
+raw_cornering_run_22_sha1 = "a995a2a89290dc32c5372b22e7bb5f469b6cf949"
+fitted_tir_sha1 = "27b100c306ec4f207c9c42506edeeb23c95d4247"
+all_hashes_match_existing_frozen_profile_where_previously_recorded = true
 
 [existing_export_profile]
 path = "benchmarks/tires/WUFR26_H43105_R25B_CORNERING_TROJAN_EXPORT_PROFILE_V0.toml"
 export_script = "scripts/export_r25b_cornering_force_branches.py"
 source_hash_validation_required = true
 
+[observed_binary_structure]
+total_rows = 9630
+state_count = 60
+normal_load_values_n = [222.0, 445.0, 667.0, 890.0, 1112.0]
+inclination_values_deg = [0.0, 2.0, 4.0]
+pressure_values_kpa = [55.2, 68.9, 82.7, 96.5]
+speed_values_kph = [40.2]
+slip_ratio_values = [0.0]
+rows_per_state_100_count = 2
+rows_per_state_130_count = 13
+rows_per_state_160_count = 27
+rows_per_state_190_count = 18
+all_required_channels_finite = true
+all_state_slip_grids_strictly_increasing = true
+all_state_slip_grids_span_minus12_to_plus12_deg = true
+
+[frozen_generator_description]
+implied_total_rows = 3600
+normal_load_values_n = [222.0, 445.0, 667.0, 1112.0]
+inclination_values_deg = [0.0, 2.0, 4.0]
+pressure_values_kpa = [68.9, 82.7, 96.5]
+rows_per_state = 100
+matches_observed_binary = false
+mismatch = "The exact hashed binary contains 9630 rows, an additional 890 N load plane, an additional 55.2 kPa pressure plane, and 100/130/160/190-point sweeps. The supplied and hash-matched April_Interpolator.m describes 3600 rows on a 4x3x3 lattice with 100 points per state. The exact generator revision for the binary is therefore not established."
+
+[real_export_diagnostics]
+all_observed_state_count = 60
+strict_prepeak_monotonic_state_count = 51
+strict_prepeak_rejected_state_count = 9
+frozen_4x3x3_state_count = 36
+frozen_4x3x3_strict_prepeak_monotonic_state_count = 29
+frozen_4x3x3_strict_prepeak_rejected_state_count = 7
+rejected_states = [
+  "Fz=222 N; IA=0 deg; P=96.5 kPa",
+  "Fz=222 N; IA=2 deg; P=82.7 kPa",
+  "Fz=222 N; IA=2 deg; P=96.5 kPa",
+  "Fz=222 N; IA=4 deg; P=96.5 kPa",
+  "Fz=445 N; IA=2 deg; P=55.2 kPa",
+  "Fz=445 N; IA=2 deg; P=68.9 kPa",
+  "Fz=445 N; IA=2 deg; P=82.7 kPa",
+  "Fz=445 N; IA=2 deg; P=96.5 kPa",
+  "Fz=890 N; IA=2 deg; P=82.7 kPa"
+]
+rejection_reason = "The frozen exporter correctly rejects small non-increasing source-spline increments before the first maximum rather than smoothing, enveloping, deleting, or changing tolerance authority."
+
+[quarantined_reference_export]
+path = "benchmarks/tires/WUFR26_H43105_R25B_QUARANTINED_REFERENCE_EXPORT_V0.toml"
+sha256 = "af59ab4a1962c859f269c0374032855df17895a80991d8412da38f1b740c82f1"
+branch_count = 2
+runtime_authorized = false
+inside_state = "Fz=222 N; IA=0 deg; P=82.7 kPa"
+inside_prepeak_rows = 64
+inside_peak_source_sa_deg = -9.584905660377357
+inside_peak_source_fy_n = 694.041896190421
+outside_state = "Fz=1112 N; IA=2 deg; P=82.7 kPa"
+outside_prepeak_rows = 86
+outside_peak_source_sa_deg = -10.857142857142856
+outside_peak_source_fy_n = 2737.8937842052433
+summary_cross_check = "The processed values agree with the existing rounded 83 kPa summary references of approximately 694 N at -9.6 deg and 2738 N at -10.9 deg. This cross-check does not resolve the generator-structure mismatch."
+
 [activation_gate]
 source_binary_bytes_present_in_repository = false
-source_binary_execution_complete = false
+source_binary_identity_verified = true
+supporting_artifact_hashes_verified = true
+source_binary_structure_audited = true
+reference_prepeak_export_complete = true
+reference_prepeak_exchange_frozen = true
+representative_curve_cross_checks_complete = true
 full_signed_curve_exchange_frozen = false
+source_profile_generation_match_confirmed = false
 source_to_canonical_adapter_reviewed = false
-representative_curve_cross_checks_complete = false
 source_specific_runtime_activation_authorized = false
 
 [required_next_actions]
 items = [
-  "Download the exact Box file version and verify the frozen SHA-1 before processing.",
-  "Execute the existing source-side exporter without changing the frozen preprocessing profile.",
-  "Freeze the complete signed Fy(alpha) exchange needed by MOD-TIRE-0001, not only magnitude pre-peak branches.",
-  "Document and review source slip-angle, lateral-force, inclination, pressure-basis, frame, and force-role conversions.",
-  "Cross-check representative curves and operating points against existing source notes and plots.",
+  "Locate the exact MATLAB generator revision or other provenance record that produced the 9630-row Cornering Trojan binary.",
+  "Reconcile whether the 890 N and 55.2 kPa planes and variable sweep lengths are intended source authority or an unreviewed later processing revision.",
+  "Decide through review whether the nine strict-prepeak nonmonotonic states remain rejected or receive a separately authorized source-processing policy; do not silently relax the exporter.",
+  "After provenance reconciliation, freeze the complete signed source-native Fy(alpha) exchange and review the explicit source-to-canonical sign, unit, pressure, inclination, frame, and force-role adapter.",
   "Request a separate source-specific authorization before enabling the provider at runtime."
 ]
 
@@ -42,6 +116,7 @@ items = [
 items = [
   "Do not reconstruct curves from the compact lateral-summary grid.",
   "Do not treat the R25B source tire as literal R20 data.",
-  "Do not apply hidden sign repair, smoothing, fitting, clipping, extrapolation, nearest-neighbor substitution, or track scaling.",
-  "Do not activate the real provider from this preflight record alone."
+  "Do not infer that a hash-matched supporting script generated a structurally incompatible binary.",
+  "Do not apply hidden sign repair, smoothing, fitting, clipping, extrapolation, nearest-neighbor substitution, tolerance relaxation, or track scaling.",
+  "Do not activate the real provider from the quarantined reference export."
 ]
