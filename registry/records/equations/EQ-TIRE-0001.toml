@@ -1,0 +1,43 @@
+[record]
+id = "EQ-TIRE-0001"
+type = "equation"
+title = "Source-preserving steady-state lateral-force interpolation"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M0"
+description = "Evaluate signed road-on-tire lateral force from signed source-adapted Fy(alpha) curves by affine interpolation between adjacent slip-angle samples. When a complete compatible operating-state cell is supplied, evaluate every participating curve at the requested slip angle and combine the resulting forces with bounded multilinear weights in normal load, inclination, and pressure."
+outputs = [
+  "Signed lateral force Fy in N",
+  "Slip segment identity and interpolation fraction for each participating curve",
+  "Operating-state interpolation weights",
+  "Source, adapter, domain, censor, and fidelity provenance"
+]
+inputs = [
+  "Canonical slip angle alpha [rad]",
+  "Canonical normal load Fz [N], signed inclination gamma [rad], and pressure P [Pa]",
+  "Signed source-adapted Fy(alpha) curves at exact operating states",
+  "Optional complete compatible bracketing state cell"
+]
+assumptions = [
+  "Slip samples on each curve are finite and strictly increasing.",
+  "The query lies inside every participating curve's supplied slip domain.",
+  "State interpolation occurs only inside a complete compatible Cartesian cell with no missing or substituted corner.",
+  "Source-to-canonical conversions are explicit upstream adapter operations.",
+  "Piecewise linearity is an interpolation rule between supplied samples, not a physical tire-law claim."
+]
+verification_level = "B"
+canonical_equation = "For alpha in [alpha_j, alpha_j+1], Fy_k(alpha) = Fy_k,j + ((alpha-alpha_j)/(alpha_j+1-alpha_j))*(Fy_k,j+1-Fy_k,j). For a complete state cell, Fy(alpha,Fz,gamma,P) = sum_k w_k(Fz,gamma,P)*Fy_k(alpha), with w_k >= 0 and sum_k w_k = 1."
+source_basis = [
+  "Pacejka (2006), Tyre and Vehicle Dynamics, Chapter 1 Sections 1.1-1.2: nonlinear Fy(alpha), load dependence, and pure versus combined slip distinctions.",
+  "Pacejka (2006), Chapter 4 Section 4.2.1: pure-slip reference functions and operating-state dependence.",
+  "Guiggiani (2022), The Science of Vehicle Dynamics, Chapter 11 and Section 11.5.2: steady-state tire action-surface framing.",
+  "Repository src/pssd_tire/lateral.py and src/pssd_tire/force_demand.py: existing bounded interpolation and explicit-branch contracts."
+]
+validity = "Steady-state pure-lateral response inside the explicit supplied slip and operating-state domain only."
+failure_behavior = [
+  "Reject nonfinite values, nonincreasing slip coordinates, duplicate curves, and invalid positive-load/pressure states.",
+  "Reject slip extrapolation and operating-state extrapolation.",
+  "Reject incomplete cells, incompatible source/adapter/fidelity identities, and any curve that does not support the query slip.",
+  "Do not smooth, refit, mirror, clip, or substitute another state."
+]
+benchmark_ids = ["BENCH-TIRE-0001", "BENCH-TIRE-0002"]
