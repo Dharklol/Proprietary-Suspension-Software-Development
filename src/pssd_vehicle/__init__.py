@@ -70,6 +70,13 @@ from .quasi_static import (
     recover_active_contact_normal_reactions,
     solve_quasi_static_equilibrium,
 )
+from .reference import (
+    VehicleReference,
+    VehicleReferenceCG,
+    VehicleReferenceError,
+    VehicleReferenceGeometry,
+    load_vehicle_reference,
+)
 from .tire_bridge import (
     FrontTireOperatingPair,
     FrontWheelAssignment,
@@ -126,6 +133,10 @@ __all__ = [
     "TurnDirection",
     "VehicleOperatingState",
     "VehicleOperatingStateSet",
+    "VehicleReference",
+    "VehicleReferenceCG",
+    "VehicleReferenceError",
+    "VehicleReferenceGeometry",
     "VehicleStateError",
     "VehicleStateRole",
     "WUFRGravityError",
@@ -150,6 +161,7 @@ __all__ = [
     "front_tire_readiness",
     "generalized_force_from_jacobians",
     "load_vehicle_operating_state_set",
+    "load_vehicle_reference",
     "load_wufr_static_gravity_allocation",
     "load_wufr_whole_vehicle_adapter",
     "numerical_generalized_force",
