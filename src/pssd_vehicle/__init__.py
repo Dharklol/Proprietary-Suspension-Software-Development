@@ -75,6 +75,7 @@ from .reference import (
     VehicleReferenceCG,
     VehicleReferenceError,
     VehicleReferenceGeometry,
+    VehicleReferenceScaleState,
     load_vehicle_reference,
 )
 from .tire_bridge import (
@@ -137,6 +138,7 @@ __all__ = [
     "VehicleReferenceCG",
     "VehicleReferenceError",
     "VehicleReferenceGeometry",
+    "VehicleReferenceScaleState",
     "VehicleStateError",
     "VehicleStateRole",
     "WUFRGravityError",
