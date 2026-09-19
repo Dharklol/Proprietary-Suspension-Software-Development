@@ -29,6 +29,12 @@ class VehicleReferenceTests(unittest.TestCase):
         self.assertAlmostEqual(vehicle.geometry.front_track_m, 1.231972, places=12)
         self.assertAlmostEqual(vehicle.geometry.rear_track_m, 1.206572, places=12)
         self.assertAlmostEqual(vehicle.cg.height_above_nominal_road_m, 0.290, places=12)
+        self.assertEqual(
+            vehicle.scale_state.corner_order,
+            ("front_left", "front_right", "rear_left", "rear_right"),
+        )
+        self.assertEqual(vehicle.scale_state.corner_load_lb, (178.0, 175.0, 163.0, 159.0))
+        self.assertAlmostEqual(vehicle.scale_state.total_load_lb, 675.0, places=12)
 
     def test_reference_has_basic_physical_invariants(self) -> None:
         vehicle = load_vehicle_reference(SELECTOR)
@@ -48,6 +54,22 @@ class VehicleReferenceTests(unittest.TestCase):
             math.isclose(
                 vehicle.total_weight_N,
                 vehicle.total_mass_kg * vehicle.g_mps2,
+                rel_tol=0.0,
+                abs_tol=1.0e-12,
+            )
+        )
+        self.assertTrue(
+            math.isclose(
+                vehicle.scale_state.front_fraction,
+                vehicle.geometry.cg_to_rear_axle_m / vehicle.geometry.wheelbase_m,
+                rel_tol=0.0,
+                abs_tol=1.0e-12,
+            )
+        )
+        self.assertTrue(
+            math.isclose(
+                vehicle.scale_state.rear_fraction,
+                vehicle.geometry.cg_to_front_axle_m / vehicle.geometry.wheelbase_m,
                 rel_tol=0.0,
                 abs_tol=1.0e-12,
             )
