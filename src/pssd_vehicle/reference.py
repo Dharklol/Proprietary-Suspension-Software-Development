@@ -14,7 +14,11 @@ from pathlib import Path
 import tomllib
 
 from .force_coordinates import WUFRWholeVehicleAdapter, load_wufr_whole_vehicle_adapter
-from .wufr_gravity import WUFRStaticGravityAllocation, load_wufr_static_gravity_allocation
+from .wufr_gravity import (
+    CORNER_ORDER as WUFR_GRAVITY_CORNER_ORDER,
+    WUFRStaticGravityAllocation,
+    load_wufr_static_gravity_allocation,
+)
 
 
 Vector3 = tuple[float, float, float]
@@ -71,6 +75,46 @@ class VehicleReferenceCG:
 
 
 @dataclass(frozen=True)
+class VehicleReferenceScaleState:
+    """Reviewed four-corner scale state used by the education reference."""
+
+    corner_order: tuple[str, str, str, str]
+    corner_load_lb: tuple[float, float, float, float]
+    total_load_lb: float
+
+    def __post_init__(self) -> None:
+        if len(self.corner_order) != 4 or len(self.corner_load_lb) != 4:
+            raise VehicleReferenceError("Scale state requires four ordered corner readings")
+        if not all(math.isfinite(value) and value > 0.0 for value in self.corner_load_lb):
+            raise VehicleReferenceError("Scale readings must be finite and positive")
+        if not math.isfinite(self.total_load_lb) or self.total_load_lb <= 0.0:
+            raise VehicleReferenceError("Total scale reading must be finite and positive")
+        if not math.isclose(
+            sum(self.corner_load_lb),
+            self.total_load_lb,
+            rel_tol=0.0,
+            abs_tol=1.0e-12,
+        ):
+            raise VehicleReferenceError("Corner scale readings must sum to the total")
+
+    @property
+    def front_axle_load_lb(self) -> float:
+        return self.corner_load_lb[0] + self.corner_load_lb[1]
+
+    @property
+    def rear_axle_load_lb(self) -> float:
+        return self.corner_load_lb[2] + self.corner_load_lb[3]
+
+    @property
+    def front_fraction(self) -> float:
+        return self.front_axle_load_lb / self.total_load_lb
+
+    @property
+    def rear_fraction(self) -> float:
+        return self.rear_axle_load_lb / self.total_load_lb
+
+
+@dataclass(frozen=True)
 class VehicleReference:
     """Compact education-facing view over existing reviewed vehicle providers."""
 
@@ -82,6 +126,7 @@ class VehicleReference:
     g_mps2: float
     geometry: VehicleReferenceGeometry
     cg: VehicleReferenceCG
+    scale_state: VehicleReferenceScaleState
     whole_vehicle_adapter_id: str
     gravity_record_id: str
     authority: tuple[str, str]
@@ -216,6 +261,11 @@ def load_vehicle_reference(path: str | Path) -> VehicleReference:
         cg_to_rear_axle_m=whole_vehicle.cg_to_rear_axle_m,
     )
     cg = VehicleReferenceCG(source_position_m=whole_vehicle.cg_source_position_m)
+    scale_state = VehicleReferenceScaleState(
+        corner_order=WUFR_GRAVITY_CORNER_ORDER,
+        corner_load_lb=gravity.reviewed_corner_scale_lb,
+        total_load_lb=gravity.reviewed_total_scale_lb,
+    )
     authority = document["authority"]
     return VehicleReference(
         selector_id=selector_id,
@@ -226,6 +276,7 @@ def load_vehicle_reference(path: str | Path) -> VehicleReference:
         g_mps2=gravity.g_mps2,
         geometry=geometry,
         cg=cg,
+        scale_state=scale_state,
         whole_vehicle_adapter_id=whole_vehicle.adapter_id,
         gravity_record_id=gravity.record_id,
         authority=(whole_vehicle.authority, gravity.source_authority),
