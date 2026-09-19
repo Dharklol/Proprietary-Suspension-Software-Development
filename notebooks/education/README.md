@@ -17,6 +17,8 @@ These notebooks are the teaching/front-end layer for the WashU Racing vehicle-dy
 
 `00_course_setup.ipynb` establishes the environment, reviewed WUFR-27 reference state, coordinate convention, and the derive -> explicit calculation -> shared model -> correlation workflow.
 
+`01_contact_patch.ipynb` applies that workflow to the complete-car free-body diagram, static front/rear axle-load derivation, reviewed scale-state consistency check, limiting cases, and the first lateral-force demand calculation.
+
 Later lesson notebooks should use two-digit ordering and one physical question per file:
 
 ```text
