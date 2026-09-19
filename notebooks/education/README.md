@@ -43,6 +43,8 @@ python -m pip install -e ".[education]"
 jupyter lab
 ```
 
+The notebooks also bootstrap the repository `src/` directory onto `sys.path`, so they can run from a normal repository checkout in an existing Python kernel even if `pssd_vehicle` has not been installed into that environment yet. The editable install above is still the recommended development setup because it also installs the notebook dependencies consistently.
+
 Run the repository checks separately:
 
 ```bash
