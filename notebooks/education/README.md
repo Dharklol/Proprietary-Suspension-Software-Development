@@ -19,6 +19,8 @@ These notebooks are the teaching/front-end layer for the WashU Racing vehicle-dy
 
 `01_contact_patch.ipynb` applies that workflow to the complete-car free-body diagram, static front/rear axle-load derivation, reviewed scale-state consistency check, limiting cases, and the first lateral-force demand calculation.
 
+`02_tire_lateral_force.ipynb` is the first live model-driven teaching notebook: it pulls an exact reviewed R25B `pssd_tire` curve, compares the local cornering-stiffness tangent with the nonlinear response, solves the 800 N teaching demand through the reviewed named pre-peak inverse, and provides one slip-angle operating-point widget for use over the lesson slides.
+
 Later lesson notebooks should use two-digit ordering and one physical question per file:
 
 ```text
