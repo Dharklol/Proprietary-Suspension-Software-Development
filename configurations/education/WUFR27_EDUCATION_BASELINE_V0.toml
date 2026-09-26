@@ -1,0 +1,21 @@
+version = "0.1.0"
+configuration_id = "WUFR27_EDUCATION_BASELINE_V0"
+vehicle_revision = "WUFR-27"
+status = "education_frontend_source_selector"
+purpose = "Minimal source selector for the WUFR-27 vehicle-dynamics education notebooks. It introduces no numerical vehicle authority and only composes existing reviewed providers."
+
+[authority]
+rule = "This file is a notebook-facing source selector only. Numerical values, frame definitions, assumptions, and authority remain owned by the referenced reviewed source records and their provider loaders."
+source_configuration_id = "WUFR27_SUSPENSION_BASELINE_V0"
+coordinate_convention_source = "data_catalog/wufr26_whole_vehicle_frame_v0.toml#frame.canonical_axes"
+
+[sources]
+whole_vehicle_path = "data_catalog/wufr26_whole_vehicle_frame_v0.toml"
+whole_vehicle_adapter_id = "WUFR26_WHOLE_VEHICLE_FRAME_V0"
+static_gravity_path = "data_catalog/wufr27_static_gravity_allocation_v0.toml"
+static_gravity_record_id = "WUFR27_STATIC_GRAVITY_ALLOCATION_V0"
+
+[notebook]
+reference_state_role = "driver_no_fuel_design_intent_reference"
+intended_use = "Education notebooks, whiteboard correlation, first-order hand calculations, and reviewed-model onboarding."
+prohibited_use = "Do not treat this selector or its notebook summaries as installed/as-built authority, independent measurement authority, or a replacement for the underlying provider contracts."

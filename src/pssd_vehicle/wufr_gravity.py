@@ -85,6 +85,8 @@ class WUFRStaticGravityAllocation:
     state_id: str
     assumption_id: str
     total_mass_kg: float
+    reviewed_corner_scale_lb: tuple[float, float, float, float]
+    reviewed_total_scale_lb: float
     total_cg_source_m: Vector3
     sprung: GravityPointMass
     unsprung: tuple[GravityPointMass, GravityPointMass, GravityPointMass, GravityPointMass]
@@ -208,6 +210,19 @@ def load_wufr_static_gravity_allocation(path: str | Path) -> WUFRStaticGravityAl
 
     lb_to_kg = float(source["lb_to_kg"])
     total_lb = float(source["reviewed_total_scale_lb"])
+    corner_scale_lb = tuple(float(v) for v in source["reviewed_corner_scale_lb"])
+    if len(corner_scale_lb) != 4 or not all(
+        math.isfinite(v) and v > 0.0 for v in corner_scale_lb
+    ):
+        raise WUFRGravityError(
+            WUFRGravityFailureCode.INVALID_MASS,
+            "Four positive finite reviewed corner-scale readings are required",
+        )
+    if not math.isclose(sum(corner_scale_lb), total_lb, rel_tol=0.0, abs_tol=1.0e-12):
+        raise WUFRGravityError(
+            WUFRGravityFailureCode.SOURCE_MISMATCH,
+            "Reviewed corner-scale readings must sum to the reviewed total scale reading",
+        )
     total_mass = total_lb * lb_to_kg
     if not all(math.isfinite(v) and v > 0.0 for v in (lb_to_kg, total_lb, total_mass)):
         raise WUFRGravityError(WUFRGravityFailureCode.INVALID_MASS, "Total scale conversion must be finite and positive")
@@ -273,6 +288,8 @@ def load_wufr_static_gravity_allocation(path: str | Path) -> WUFRStaticGravityAl
         state_id=state_id,
         assumption_id=assumption_id,
         total_mass_kg=total_mass,
+        reviewed_corner_scale_lb=corner_scale_lb,  # type: ignore[arg-type]
+        reviewed_total_scale_lb=total_lb,
         total_cg_source_m=total_cg,
         sprung=sprung,
         unsprung=unsprung,  # type: ignore[arg-type]

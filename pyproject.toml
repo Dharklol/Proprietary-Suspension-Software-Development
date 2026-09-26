@@ -11,6 +11,11 @@ dependencies = []
 
 [project.optional-dependencies]
 viz = ["matplotlib>=3.8,<4"]
+education = [
+    "jupyterlab>=4,<5",
+    "ipywidgets>=8,<9",
+    "matplotlib>=3.8,<4",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
