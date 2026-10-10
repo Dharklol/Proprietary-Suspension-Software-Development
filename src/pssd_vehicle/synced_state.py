@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING
 from .operating_states import (
     LATERAL_TIRE_DEMAND_FIELDS, VehicleOperatingState, VehicleStateError, WheelPosition,
 )
-from .planar_kinematics import PlanarMotionSample
+from .planar_kinematics import PlanarMotionSample, PlanarMotionSchedule
 
 if TYPE_CHECKING:
     from pssd_steering.optimization.poses import SteeringPoseState
@@ -108,3 +108,45 @@ def compose_synced_state_sample(
     """Publish only after all synchronization checks pass; retain source objects."""
     return SyncedStateSample(rack_displacement_m, vehicle, pose, motion,
                              vehicle_source, pose_source, motion_source)
+
+
+@dataclass(frozen=True)
+class SyncedStateSweep:
+    """Explicit ordered sampling contract; never sort or resample upstream data."""
+
+    sweep_id: str
+    rack_displacements_m: tuple[float, ...]
+    samples: tuple[SyncedStateSample, ...]
+    authority: str
+
+    def __post_init__(self) -> None:
+        if not self.sweep_id.strip() or not self.authority.strip():
+            raise VehicleStateError("Sweep identity and authority are required")
+        if len(self.samples) < 3 or len(self.samples) != len(self.rack_displacements_m):
+            raise VehicleStateError("Sweep requires at least three aligned samples")
+        racks = tuple(sample.rack_displacement_m for sample in self.samples)
+        if racks != self.rack_displacements_m or len(set(racks)) != len(racks):
+            raise VehicleStateError("Rack sampling must match exactly with no duplicate positions")
+        sources = tuple(sample.vehicle_source for sample in self.samples)
+        if len({source.sample_id for source in sources}) != len(sources):
+            raise VehicleStateError("Sweep contains duplicate sample IDs")
+        def shared_key(source: StateSourceStamp) -> tuple[str, ...]:
+            return (source.configuration_id, source.state_id,
+                    source.synchronization_revision, source.frame)
+        if any(shared_key(source) != shared_key(sources[0]) for source in sources):
+            raise VehicleStateError("Sweep mixes configurations, states, frames, or revisions")
+        first = self.samples[0].vehicle
+        if any((sample.vehicle.role, sample.vehicle.state_weight, sample.vehicle.authority)
+               != (first.role, first.state_weight, first.authority) for sample in self.samples):
+            raise VehicleStateError("Sweep must preserve a single role, weight, and vehicle authority")
+
+    @property
+    def state_id(self) -> str:
+        return self.samples[0].vehicle.state_id
+
+    def motion_schedule(self) -> PlanarMotionSchedule:
+        return PlanarMotionSchedule(
+            self.state_id, tuple(sample.motion for sample in self.samples), self.authority,
+            provenance=tuple((sample.motion_source.sample_id,
+                              repr(sample.motion_source)) for sample in self.samples),
+        )
