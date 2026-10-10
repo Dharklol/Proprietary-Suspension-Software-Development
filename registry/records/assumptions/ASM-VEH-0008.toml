@@ -1,0 +1,10 @@
+[record]
+id = "ASM-VEH-0008"
+type = "assumption"
+title = "Fixed-radius rigid-circle maneuver geometry proposal"
+status = "active"
+description = "Extend the reviewed zero-width fixed-radius circle geometry into an uncorrelated development maneuver with fully steered planes. No load-dependent radius, tire vertical compliance, installed or physical maneuver authority follows from static ASM-VEH-0005."
+severity = "high"
+affected_ids = ["AUTH-VEH-0012", "MOD-VEH-0009"]
+validity = "Owner accepted 2026-10-10 for uncorrelated development only; no predictive, installed/setup or production authority."
+control = "Require explicit acceptance, preserve assumption and source IDs in outputs, reject missing policy; no physical accuracy or production promotion."
