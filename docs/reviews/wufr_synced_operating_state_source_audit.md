@@ -5,6 +5,13 @@ Audit date: 2026-10-10. Repository baseline: `c2e08edd3bcc52afdfea5b43606d365eda
 
 ## Decision
 
+2026-10-10 continuation: the project owner selected the reviewed **306.17484975 kg
+driver/no-fuel** configuration. No synchronized external simulation export is
+available. Native geometry is the selected pose-generation route; a native
+minimum-twist adapter and composition checks now implement that route. This
+selection does not recalculate or authorize the 320 kg workbook loads.
+See `docs/models/steering/native_suspension_pose_adapter_v0.1.0.md`.
+
 The synchronized exchange, tire readiness, and bounded steering consumer now exist.
 The reviewed repository sources do not yet populate a compatible WUFR maneuver
 package. Do not create a target by mixing static results, nominal alignment,
@@ -93,11 +100,11 @@ No WUFR target can be published from the inspected sources. A predictive integra
 maneuver-QSS producer is still gated by static physical correlation and separate
 authorization in `post_rigid_contact_program_v0.1.0.md`.
 
-The independent software increment that can be prepared now is a native zero-steer
-pose bridge specification: map the reviewed minimum-twist upright transforms into
-the existing pose contract, establish exact frame/origin semantics, and define
-nominal/nonzero-travel parity and double-steering rejection checks. This would close
-an adapter gap without claiming to supply maneuver loads or body response.
+The native zero-steer pose bridge is now implemented and checked against nominal
+and nonzero-travel native geometry. The initial provider table above records the
+pre-implementation audit. An external pose export is no longer needed for this
+software composition route. Maneuver loads, body response, setup pressure, and
+force allocation remain separate missing inputs.
 
 To choose the first real operating-state demonstration, the remaining information
 needed is whether a suitable synchronized simulation export exists and which named

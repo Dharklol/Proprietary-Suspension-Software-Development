@@ -5,6 +5,11 @@ repository_baseline = "c2e08edd3bcc52afdfea5b43606d365edacb5c20"
 review = "docs/reviews/wufr_synced_operating_state_source_audit.md"
 scope = "Checked-in source records and providers; not an exhaustive search of external team storage."
 implementation_authorized = false
+native_pose_adapter_implementation_authorized = true
+selected_configuration_mass_kg = 306.17484975
+selected_configuration_role = "reviewed_driver_no_fuel"
+selection_source = "project_owner_instruction_2026_10_10"
+external_synced_simulation_export_available = false
 steering_design_ranking_authorized = false
 installed_as_built_authority = false
 
@@ -33,10 +38,11 @@ transported_wheel_plane_and_center = true
 front_minimum_twist_transform = true
 front_transform_excludes_tie_rod_steering_rotation = true
 native_to_steering_pose_publication_path_found = false
+native_to_steering_pose_publication_path_added = "src/pssd_steering/optimization/native_poses.py"
 integrated_maneuver_force_and_body_motion_producer_found = false
 
 [next_independent_increment]
-proposal = "native_zero_steer_pose_bridge_specification"
+proposal = "native_zero_steer_pose_bridge_implemented_pending_review"
 required_checks = ["frame_origin_mapping", "nominal_and_nonzero_travel_parity", "source_identity_preservation", "double_steering_rejection"]
 supplies_maneuver_loads_or_body_response = false
 

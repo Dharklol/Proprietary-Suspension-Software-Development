@@ -13,6 +13,7 @@ package; effort, manufacturing, robustness, physical-correlation, and production
 models remain outside this implementation.
 """
 
+from .native_poses import NativePoseFrameMap, build_native_front_pose
 from .candidate_comparison import (
     CandidateComparisonError,
     CandidateComparisonResult,
@@ -174,6 +175,8 @@ from .tire_targets import (
 )
 
 __all__ = [
+    "NativePoseFrameMap",
+    "build_native_front_pose",
     "CandidateComparisonError",
     "CandidateComparisonResult",
     "CandidateComparisonRow",
