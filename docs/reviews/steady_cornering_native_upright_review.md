@@ -24,7 +24,7 @@ Road heading uses the existing wheel-plane/road intersection primitive. The
 transported forward vector chooses orientation; simply projecting that vector
 onto the road is not equivalent for an inclined steering axis and camber.
 
-Three native-source tests verify both front sides at a one-degree lower-arm
+Four native-source tests verify both front sides at a one-degree lower-arm
 state and an explicit 3 mm rack fixture, exact center/plane transport, tie-rod
 closure, rigid material-point distances, intersection heading, both rear
 toe-link states, rejection of already-steered input, and rack-domain failures.
@@ -38,12 +38,27 @@ transport, current material-point Jacobians, road compatibility, spring/ARB
 composition and the accepted 306.17484975 kg driver/no-fuel allocation remain
 to be integrated with the coupled kernel.
 
-The active R25B adapter preserves source IA sign (`inclination_rad =
-deg_to_rad(source_IA_deg)`), while native wheel-plane normals point outward
-and source static camber is positive top-outward. The canonical tire contract
-defines axes, slip and force polarity, but does not specify an oriented
-wheel-plane-to-source-IA mapping. No side-local absolute value, mirroring,
-negative-IA extrapolation, or new symmetry rule is introduced here. Establish
-and document that mapping before real native tire queries. The table contains
-only 0, 2 and 4 degree IA source curves; an unsupported signed query must fail.
-Pressures and actual maneuver schedules remain explicit caller inputs.
+## Signed inclination source audit
+
+Milliken and Milliken, *Race Car Vehicle Dynamics*, printed page 62, Figure
+2.33 (page 94 of the supplied PDF), defines positive SAE inclination with
+wheel top leaning toward tire-frame right. The active AUTH-TIRE-0002 adapter
+preserves source IA sign when y/z are reversed into canonical left/up axes.
+Pacejka, *Tyre and Vehicle Dynamics*, second edition, Chapter 1, Section 1.1,
+also defines positive inclination as top-right when looking from behind.
+
+Orient the fully transported plane normal toward contact-frame left, then use
+`gamma = atan2(normal_left dot road_up, normal_left dot contact_left)`.
+This is a right-handed rotation about forward and retains the signed result.
+The normal's outward source orientation is reconciled without reflecting gamma.
+The added test covers both sides, positive/negative static camber, and nonzero
+static toe. Top-outward source camber maps to negative IA on the left and
+positive IA on the right. Body rotation must precede this measurement in the
+final heading-frame adapter.
+
+The table contains only 0, 2 and 4 degree IA source curves. Opposite signed
+inclinations therefore expose a real coverage gap. Unsupported queries must
+fail. A future symmetry extension would need an explicit reviewed assumption
+and simultaneous slip/force/inclination reflection, rather than absolute IA
+alone. No such rule, extrapolation or source-table modification is introduced
+here. Pressures and actual maneuver schedules remain explicit caller inputs.

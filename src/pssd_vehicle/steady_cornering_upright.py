@@ -10,7 +10,7 @@ import math
 from pssd_suspension import Axle
 from pssd_suspension.wheel_reference import WheelReferenceState
 from pssd_steering import AxisLine, SteeringCorner, SteeringGeometry, solve_corner_position
-from pssd_steering.core import rotate_direction_about_axis, rotate_point_about_axis
+from pssd_steering.core import dot, cross, normalize, rotate_direction_about_axis, rotate_point_about_axis
 from pssd_steering.projection import road_intersection_direction
 
 
@@ -53,6 +53,19 @@ class SteeredUpright:
             forward_hint=self.transport_direction(self.wheel_state.nominal.forward_reference),
             road_normal=road_normal,
         )
+
+    def signed_inclination_rad(self, road_normal=(0.0, 0.0, 1.0)):
+        """SAE J670 / reviewed unchanged-IA polarity: top leaning right positive.
+
+        Orient the plane normal toward contact-frame left before measuring its
+        right-handed rotation about forward. This handles outward source normals
+        on both sides without taking an absolute value of inclination.
+        """
+        road = normalize(road_normal)
+        left = cross(road, self.road_heading(road))
+        normal = self.plane_normal
+        polarity = 1.0 if dot(normal, left) > 0 else -1.0
+        return math.atan2(polarity * dot(normal, road), polarity * dot(normal, left))
 
 
 def close_native_upright(wheel_state: WheelReferenceState, steering: SteeringGeometry,

@@ -6,6 +6,8 @@ import unittest
 from pssd_suspension import Axle, Side, build_nominal_wheel_reference
 from pssd_suspension.wheel_reference import solve_wheel_reference_state
 from pssd_steering.core import rotate_point_about_axis, rotate_direction_about_axis, dot
+from pssd_steering.projection import reference_from_static_alignment
+from pssd_vehicle.steady_cornering_upright import SteeredUpright
 from pssd_vehicle.wufr_road_contact import load_wufr_road_contact_provider
 from pssd_vehicle.steady_cornering_upright import close_native_upright
 
@@ -73,6 +75,23 @@ class NativeUprightTests(unittest.TestCase):
         for rack in (float('nan'), 1.0):
             with self.assertRaises(ValueError):
                 close_native_upright(state, self.provider.steering_geometry, rack)
+
+    def test_signed_inclination_preserves_side_and_top_tilt(self):
+        # Source static camber is top-outward positive. SAE positive IA is
+        # top-right, so the two sides have opposite signs, not equal magnitudes.
+        for side in Side:
+            state = self.state(Axle.REAR, side)
+            from pssd_suspension.kinematics import UprightReferenceTransform
+            identity = UprightReferenceTransform(((1., 0., 0.), (0., 1., 0.), (0., 0., 1.)), (0., 0., 0.))
+            upstream = replace(state.upstream_state, upright_transform=identity)
+            for camber in (-.03, .03):
+                plane = reference_from_static_alignment(side.value, toe_out=.02, camber=camber)
+                nominal = replace(state.nominal, plane_normal=plane.normal_at_center,
+                                  forward_reference=plane.forward_at_center)
+                pose = SteeredUpright(replace(state, nominal=nominal, upstream_state=upstream),
+                                       None, 0., None, 'rear_native_toe_link')
+                expected = -camber if side is Side.LEFT else camber
+                self.assertAlmostEqual(pose.signed_inclination_rad(), expected, places=13)
 
 
 if __name__ == '__main__':
