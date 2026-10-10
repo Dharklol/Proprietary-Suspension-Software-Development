@@ -95,11 +95,16 @@ jobs:
           python scripts/run_motion_aware_force_demand_benchmarks.py \
             --summary \
             --output motion_aware_force_demand_summary.json
+      - name: Verify steady-cornering development kernel and generate synthetic reports
+        run: |
+          python scripts/run_steady_cornering_development_benchmarks.py \
+            --output steady_cornering_development_report.json
       - name: Upload motion-aware benchmark reports
         uses: actions/upload-artifact@v4
         with:
           name: motion-aware-vehicle-steering-reports
           path: |
+            steady_cornering_development_report.json
             vehicle_force_coordinate_report.json
             vehicle_force_coordinate_summary.json
             vehicle_quasi_static_report.json

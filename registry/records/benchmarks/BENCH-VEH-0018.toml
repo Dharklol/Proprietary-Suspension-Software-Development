@@ -3,8 +3,11 @@ id = "BENCH-VEH-0018"
 type = "benchmark"
 title = "Motion and contact-force frame verification"
 status = "proposed"
-description = "Required future verification gate; no implementation or pass claimed."
+description = "Provider-neutral synthetic kernel tests/report implemented. Native WUFR composition and complete promotion gate remain unverified; no full benchmark promotion claimed."
 verification_level = "none"
 target_ids = ["MOD-VEH-0009", "EQ-VEH-0023", "EQ-VEH-0024", "EQ-VEH-0025", "EQ-VEH-0026"]
 acceptance_criteria = ["Independent both-turn-sign/nonzero-beta/zero-curvature hand cases recover r,u,v,a and trajectory tangent.", "Verify exact force/frame/CG placement, steered lateral longitudinal component, and published virtual holder power h*V."]
 authorization = "authorizations/vehicle/AUTH-VEH-0012.toml"
+
+implementation_test = "tests/test_steady_cornering.py"
+synthetic_report = "benchmarks/vehicle/steady_cornering_development_synthetic_v0.1.0.json"

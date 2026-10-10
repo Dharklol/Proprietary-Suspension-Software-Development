@@ -8,11 +8,11 @@ AUTH-VEH-0012 permits development implementation. Result verification stays gate
 
 ## Purpose and authority
 
-Proposed `MOD-VEH-0009` produces an internally consistent, uncorrelated steady
+Development `MOD-VEH-0009` produces an internally consistent, uncorrelated steady
 cornering state from the native suspension, steering, conservative spring/ARB,
 road-contact, mass-reference, and signed pure-lateral tire providers. It is a
 development experiment, not an installed setup recommendation or production
-steering ranking. Proposed authorization is `AUTH-VEH-0012`.
+steering ranking. Development authorization is `AUTH-VEH-0012`.
 
 The selected total mass is **306.17484975 kg**, driver/no fuel, loaded from the
 reviewed reference, not entered as an independent runtime constant. No 320 kg
@@ -139,9 +139,17 @@ to the reduced external-force term. Tire lateral forces depend on lambda, so
 reaction recovery and tire evaluation form a coupled system. Use four lambda
 unknowns/residuals rather than a hidden fixed-point load substitution.
 
-For virtual work, hold instantaneous applied-force values fixed when checking
-point Jacobians. Differentiate their state dependence in the nonlinear residual
-tangent. The maneuver residual need not be a conservative potential gradient;
+For virtual work, hold both the instantaneous applied-force values and the
+application **material-point identity** fixed when checking point Jacobians.
+The lowest-point locus of a rotating circle selects a different material point
+at a perturbed pose: its derivative is valid for geometric gap/root calculations,
+but must not be substituted for application-point virtual displacement. Freeze
+the current radial point in the upright frame, then perturb its source-owned
+rigid transform; retain the contact locus separately for gap compatibility.
+The geometric and material normal derivatives must agree at the instantaneous
+contact, with `g_b + c_i J_wb_i = 0` and no cross-wheel gap terms under this
+four-diagonal-contact contract. Differentiate force and current material-point
+selection across trial states in the nonlinear residual tangent. The maneuver residual need not be a conservative potential gradient;
 do not reuse the static total-energy gate as its only verification.
 
 ### EQ-VEH-0026: coupled closure
@@ -220,8 +228,31 @@ AUTH-TIRE-0002, native pose PR 106, and the mass/contact/spring/ARB source recor
 The virtual holder and uniform-acceleration reduction are project model choices,
 not textbook assertions of exact vehicle dynamics.
 
-Review must decide whether ASM-VEH-0006/0007/0008 are acceptable for this experiment
-and accept the proposed pre-correlation development exception. Before a concrete
+The owner accepted ASM-VEH-0006/0007/0008 and the pre-correlation development
+exception on 2026-10-10. Before a concrete
 WUFR case, select four tire pressures, V/kappa range, and setup revisions. A later
 physical/predictive maneuver producer needs richer inertia, longitudinal tire/drive
 and speed control, tire vertical behavior, and correlation evidence as applicable.
+
+
+## Implemented development slice — 2026-10-10
+
+`steady_cornering_motion.py` supplies EQ-VEH-0023, explicit uniform inertia and
+virtual holding force/power. `steady_cornering.py` supplies a separate bounded
+nonconservative coupled kernel, provider contracts, material-point force mapping,
+normal recovery residuals, branch-preserving explicit continuation and independent
+physical closure. No existing conservative static module is changed.
+
+The synthetic fixture uses exact four-wheel rigid-circle roots with steered
+planes, source-bounded signed table interpolation, and conservative guide springs.
+The old geometric-contact-locus derivative is retained only as a negative test:
+at curvature 0.02/m its reduced residual converges but physical moment fails;
+the material-point correction passes without relaxing the 1e-6 limits.
+Pacejka (2nd ed.), Sec. 11.3, printed pp. 535-536, Eqs. 11.82-11.84, supports
+application-point virtual displacement. The frozen-material-point distinction is
+a mechanics derivation verified here, not a claim that this textbook gives the
+project circle/steering model.
+
+Native WUFR geometry/contact/material-point adapter, reviewed mass/spring/ARB
+composition, and real signed tire-domain integration remain unverified. The
+synthetic report does not complete the native producer or authorize real samples.
