@@ -1,6 +1,8 @@
 # Steady-cornering development authorization review packet
 
-Status: proposed; no reviewer decision, implementation, or benchmark pass claimed.
+Status: owner accepted the three assumptions and uncorrelated development scope on
+2026-10-10 ("that sounds good with me"). Implementation is authorized by
+AUTH-VEH-0012; benchmark passes and predictive authority are not implied.
 
 The owner selected the reviewed driver/no-fuel 306.17484975 kg configuration and
 requested a focused specification/authorization change permitting an uncorrelated
@@ -34,4 +36,5 @@ comparison sources and do not supply missing inertial authority.
 
 No concrete pressure or V/kappa schedule is selected by this proposal. Those are
 required before publishing a WUFR sample. No implementation should invent them.
-The focused authorization/assumption review is the current stopping point.
+The next gate is synthetic implementation verification; concrete WUFR samples
+still require the explicit pressure, maneuver and setup inputs above.

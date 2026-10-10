@@ -1,9 +1,9 @@
 version = "0.1.0"
 authorization_id = "AUTH-VEH-0012"
-status = "proposed_pending_review"
+status = "development_authorized"
 title = "Uncorrelated WUFR steady-cornering development producer"
-effective_condition = "Proposal only. Requires explicit review/merge accepting ASM-VEH-0006/0007/0008 and the pre-correlation development exception. This file does not enable runtime implementation or maneuver prediction by its presence."
-implementation_authorized = false
+effective_condition = "Owner explicitly accepted ASM-VEH-0006/0007/0008 and the pre-correlation development scope on 2026-10-10. Synthetic and uncorrelated development implementation is authorized; benchmark and physical/source completeness gates still apply to results."
+implementation_authorized = true
 review_record = "docs/reviews/steady_cornering_development_authorization_review.md"
 function_specification = "docs/models/vehicle/steady_cornering_development_spec_v0.1.0.md"
 
@@ -18,9 +18,9 @@ result_label = "uncorrelated_design_intent_steady_cornering_with_virtual_speed_h
 source_role = "evidence_only"
 state_weight = 0.0
 
-[proposed_permitted]
+[permitted]
 items = [
-  "Implement the bounded coupled ten-unknown residual with explicit point-force virtual work and independent full-wrench closure after review.",
+  "Implement the bounded coupled ten-unknown residual with explicit point-force virtual work and independent full-wrench closure within the accepted development scope.",
   "Extend fully steered rigid-circle contact compatibility without changing static AUTH-VEH-0010 behavior.",
   "Use native suspension/steering, conservative spring/ARB and signed pure-lateral tire response as source-owned providers.",
   "Apply the separately accepted uniform-acceleration lumped inertial approximation and explicit virtual speed-holding policy.",

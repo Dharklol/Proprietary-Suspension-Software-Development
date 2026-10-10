@@ -1,9 +1,10 @@
 # WUFR steady-cornering development producer proposal
 
-Date: 2026-10-10. Status: proposed specification; no runtime implementation or
-completed physics verification. Owner requested this specification/authorization
+Date: 2026-10-10. Status: accepted development specification; coupled producer
+implementation and complete physics verification remain in progress. Owner requested this specification/authorization
 change after selecting the driver/no-fuel reference and native pose production.
-Merge/review must explicitly accept the assumptions below before implementation.
+The owner accepted the assumptions and development scope on 2026-10-10;
+AUTH-VEH-0012 permits development implementation. Result verification stays gated.
 
 ## Purpose and authority
 

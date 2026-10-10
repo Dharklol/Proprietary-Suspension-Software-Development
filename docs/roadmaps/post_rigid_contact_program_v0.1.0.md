@@ -159,16 +159,16 @@ Suspension correlation packet should include selected known bump/rebound states 
 
 ## Program E — integrated maneuver QSS after correlation
 
-### Proposed development exception (not active)
+### Accepted development exception
 
 The 2026-10-10 AUTH-VEH-0012 review packet proposes a separate uncorrelated
 steady-cornering development experiment using the 306.17484975 kg driver/no-fuel
 reference. It requires explicit acceptance of uniform-acceleration lumped inertia,
 a virtual speed-holding force, and maneuver rigid-circle contact assumptions.
-After that focused authorization is reviewed/merged, synthetic implementation and
+The owner accepted this scope on 2026-10-10. Synthetic implementation and
 source-bounded evidence experiments may precede correlation. This proposal does
 not change the physical/predictive, installed/setup, or production gates below.
-Until accepted, the existing Program E boundary remains in force.
+The existing Program E boundary remains in force outside this development scope.
 See `docs/models/vehicle/steady_cornering_development_spec_v0.1.0.md`.
 
 Only after Program A has static physical correlation should the project add maneuver-specific equilibrium inputs such as lateral/longitudinal tire forces, aero, brake/powertrain forces, loaded-radius/tire vertical compliance, and alternate contact modes.
