@@ -1,0 +1,46 @@
+record_id = "WUFR_SYNCED_OPERATING_STATE_SOURCE_AUDIT_V0"
+status = "source_audit_only_blocked_pending_compatible_maneuver_package"
+audit_date = "2026-10-10"
+repository_baseline = "c2e08edd3bcc52afdfea5b43606d365edacb5c20"
+review = "docs/reviews/wufr_synced_operating_state_source_audit.md"
+scope = "Checked-in source records and providers; not an exhaustive search of external team storage."
+implementation_authorized = false
+steering_design_ranking_authorized = false
+installed_as_built_authority = false
+
+[inspected_case]
+state_set_path = "benchmarks/vehicle/WUFR27_SUSPENSION_CALCULATIONS_OPERATING_STATES_V0.toml"
+state_id = "SC26_EDGE4_1P2G_LEFT_AERO_NO_ARB"
+disposition = "evidence_inspection_only_not_selected_design_maneuver"
+role = "evidence_only"
+state_weight = 0.0
+front_inside_load_status = "within_scalar_interval_not_exact_knot_complete_cell_unverified"
+front_outside_load_status = "above_r25b_source_maximum"
+missing = ["inclination", "gauge_pressure", "signed_lateral_demand", "suspension_pose", "planar_u_v_r", "reviewed_design_objective_weight"]
+
+[compatibility]
+workbook_mass_reference_kg = 320.0
+reviewed_driver_no_fuel_mass_kg = 306.17484975
+mass_reference_reconciled = false
+static_results_authorize_maneuver_loads = false
+nominal_alignment_authorizes_maneuver_inclination = false
+source_test_pressure_authorizes_vehicle_setup_pressure = false
+speed_alone_authorizes_planar_motion = false
+
+[available_native_capabilities]
+four_static_road_reactions = true
+transported_wheel_plane_and_center = true
+front_minimum_twist_transform = true
+front_transform_excludes_tie_rod_steering_rotation = true
+native_to_steering_pose_publication_path_found = false
+integrated_maneuver_force_and_body_motion_producer_found = false
+
+[next_independent_increment]
+proposal = "native_zero_steer_pose_bridge_specification"
+required_checks = ["frame_origin_mapping", "nominal_and_nonzero_travel_parity", "source_identity_preservation", "double_steering_rejection"]
+supplies_maneuver_loads_or_body_response = false
+
+[resume_evidence]
+package_routes = ["reviewed_synchronized_simulation_or_measurement_export", "separately_authorized_engineering_schedule"]
+required_package = ["configuration_setup_and_source_revision", "rack_grid_and_sample_ids", "canonical_frames_origins_units", "four_normal_loads", "front_signed_lateral_demands", "front_tire_inclination", "tire_identity_and_gauge_pressure", "zero_steer_pose_or_reviewed_adapter_inputs", "body_u_v_r", "authority_fidelity_intended_use"]
+predictive_maneuver_qss_requires = ["static_physical_correlation", "separate_source_audit_specification_and_authorization"]
