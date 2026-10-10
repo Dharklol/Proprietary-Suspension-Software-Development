@@ -234,3 +234,14 @@ Any authorization-state change requires a focused pull request that lists:
 - whether re-correlation is required for downstream results.
 
 Silence, age, prior competition use, or plausible output never upgrades authorization.
+
+## Proposed steady-cornering development exception — 2026-10-10
+
+AUTH-VEH-0012 proposes MOD-VEH-0009 with EQ-VEH-0023 through EQ-VEH-0026,
+ASM-VEH-0006 through ASM-VEH-0008, and future BENCH-VEH-0018 through
+BENCH-VEH-0020. Status is research/proposed, M0, verification none, implementation
+not authorized. The focused review must accept uniform-acceleration lumped inertia,
+virtual speed holding, rigid-circle maneuver geometry, and the pre-correlation
+development exception before changing this status. Existing static, tire, steering,
+installed/setup, structural, and production permissions remain as recorded.
+See `docs/reviews/steady_cornering_development_authorization_review.md`.

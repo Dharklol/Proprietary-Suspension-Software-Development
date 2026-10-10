@@ -1,0 +1,36 @@
+version = "0.1.0"
+authorization_id = "AUTH-VEH-0012"
+status = "proposed_pending_review"
+title = "Uncorrelated WUFR steady-cornering development producer"
+effective_condition = "Proposal only. Requires explicit review/merge accepting ASM-VEH-0006/0007/0008 and the pre-correlation development exception. This file does not enable runtime implementation or maneuver prediction by its presence."
+implementation_authorized = false
+review_record = "docs/reviews/steady_cornering_development_authorization_review.md"
+function_specification = "docs/models/vehicle/steady_cornering_development_spec_v0.1.0.md"
+
+[scope]
+model_ids = ["MOD-VEH-0009"]
+equation_ids = ["EQ-VEH-0023", "EQ-VEH-0024", "EQ-VEH-0025", "EQ-VEH-0026"]
+assumption_ids = ["ASM-VEH-0006", "ASM-VEH-0007", "ASM-VEH-0008"]
+benchmark_ids = ["BENCH-VEH-0018", "BENCH-VEH-0019", "BENCH-VEH-0020"]
+configuration_mass_source = "reviewed_driver_no_fuel_306.17484975_kg"
+native_pose_dependency = "PR 106"
+result_label = "uncorrelated_design_intent_steady_cornering_with_virtual_speed_hold"
+source_role = "evidence_only"
+state_weight = 0.0
+
+[proposed_permitted]
+items = [
+  "Implement the bounded coupled ten-unknown residual with explicit point-force virtual work and independent full-wrench closure after review.",
+  "Extend fully steered rigid-circle contact compatibility without changing static AUTH-VEH-0010 behavior.",
+  "Use native suspension/steering, conservative spring/ARB and signed pure-lateral tire response as source-owned providers.",
+  "Apply the separately accepted uniform-acceleration lumped inertial approximation and explicit virtual speed-holding policy.",
+  "Verify synthetic cases before attempting complete source-bounded WUFR cases; preserve source failures and multiple branches."
+]
+
+[prohibited]
+items = ["320 kg workbook load scaling", "prescribed LLTD or force-demand allocation", "load or tire-domain clipping", "nominal camber substituted for steered contact inclination", "inferred pressure", "hidden longitudinal force omission", "static mass/radius authority silently promoted to maneuver authority", "installed/as-built or correlated claims", "production steering ranking", "structural or complete carrier-wrench publication", "aero/brake/drivetrain/combined-slip/transient force laws"]
+
+[promotion_gates]
+items = ["explicit assumption and development-exception review", "specification and equation review", "BENCH-VEH-0018 through BENCH-VEH-0020 pass", "independent 1e-6 N and 1e-6 N*m physical closure", "explicit four pressures and compatible maneuver/setup sources for any WUFR sample", "separate review for varying-state steering target consumer"]
+physical_correlation_required_for_predictive_or_setup_authority = true
+physical_correlation_required_for_synthetic_development_implementation = false

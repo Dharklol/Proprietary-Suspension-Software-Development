@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-VEH-0019"
+type = "benchmark"
+title = "Coupled equilibrium and independent physical closure"
+status = "proposed"
+description = "Required future verification gate; no implementation or pass claimed."
+verification_level = "none"
+target_ids = ["MOD-VEH-0009", "EQ-VEH-0023", "EQ-VEH-0024", "EQ-VEH-0025", "EQ-VEH-0026"]
+acceptance_criteria = ["Manufactured synthetic four-wheel equilibrium and off-CG virtual-work cases verify direct plus mapped force terms at two perturbation scales.", "Zero-curvature explicitly zero-force synthetic tire fixture reproduces unchanged static provider; real toe/camber-force straight cases are solved separately; no duplicated normal reaction or gravity.", "Independent complete resultant force <=1e-6 N and moment <=1e-6 N*m; continuation and source-domain provenance retained."]
+authorization = "authorizations/vehicle/AUTH-VEH-0012.toml"

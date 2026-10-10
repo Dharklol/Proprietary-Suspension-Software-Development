@@ -1,0 +1,16 @@
+[record]
+id = "EQ-VEH-0024"
+type = "equation"
+title = "Signed contact lateral force and virtual speed holding"
+status = "proposed"
+disposition = "research"
+maturity = "M0"
+verification_level = "none"
+authorization_id = "AUTH-VEH-0012"
+description = "Proposed governing relationship; exact frame and approximation boundaries are in the function specification."
+canonical_equation = "F_tire_i=lambda_i*n+Fy_i*e_yi; F_hold=h*t_G at current total CG."
+inputs = ["Exact steered contact plane, signed tire query, pressure, explicit holder policy"]
+outputs = ["Four source-bounded tire forces and explicit virtual force"]
+assumptions = ["ASM-VEH-0006", "ASM-VEH-0007", "ASM-VEH-0008"]
+source_basis = ["Existing signed pure-lateral tire provider; Guiggiani Sec. 3.7-3.8; virtual holder is a project assumption"]
+target_ids = ["MOD-VEH-0009"]

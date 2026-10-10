@@ -1,0 +1,10 @@
+[record]
+id = "ASM-VEH-0007"
+type = "assumption"
+title = "Ideal external tangential speed holder"
+status = "proposed"
+description = "A solved scalar force at current total CG along the trajectory tangent maintains constant speed. This is a virtual external actuator, not longitudinal tire, engine, brake or combined-slip physics. Require explicit caller policy and publish force and power."
+severity = "high"
+affected_ids = ["AUTH-VEH-0012", "MOD-VEH-0009"]
+validity = "Proposed development-only assumption pending explicit review; not currently active."
+control = "Require explicit acceptance, preserve assumption and source IDs in outputs, reject missing policy; no physical accuracy or production promotion."

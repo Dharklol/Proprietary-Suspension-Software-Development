@@ -1,0 +1,16 @@
+[record]
+id = "EQ-VEH-0026"
+type = "equation"
+title = "Coupled steady-cornering solve and independent wrench closure"
+status = "proposed"
+disposition = "research"
+maturity = "M0"
+verification_level = "none"
+authorization_id = "AUTH-VEH-0012"
+description = "Proposed governing relationship; exact frame and approximation boundaries are in the function specification."
+canonical_equation = "Solve 3 body, 4 wheel, 2 horizontal force, 1 yaw residuals for q_b,beta,s,h,lambda[4]; require independent full force/moment closure."
+inputs = ["EQ-VEH-0023 through EQ-VEH-0025; ten bounded unknowns; provider domains"]
+outputs = ["Converged branch or structured failure, physical closure"]
+assumptions = ["ASM-VEH-0006", "ASM-VEH-0007", "ASM-VEH-0008"]
+source_basis = ["Guiggiani Sec. 3.6 and 3.8 Eqs. 3.72-3.77, 3.93-3.96; project bounded approximation"]
+target_ids = ["MOD-VEH-0009"]

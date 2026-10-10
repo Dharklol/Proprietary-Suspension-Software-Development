@@ -1,0 +1,10 @@
+[record]
+id = "ASM-VEH-0006"
+type = "assumption"
+title = "Uniform-acceleration maneuver inertia approximation"
+status = "proposed"
+description = "Apply -m_j*a_G at each current reviewed sprung/prototype unsprung lump. Compute current total CG from the same masses/points. Omit angular-momentum-rate, wheel gyroscopic and local yaw-acceleration variation terms explicitly. Static allocation authority alone does not authorize this maneuver use."
+severity = "high"
+affected_ids = ["AUTH-VEH-0012", "MOD-VEH-0009"]
+validity = "Proposed development-only assumption pending explicit review; not currently active."
+control = "Require explicit acceptance, preserve assumption and source IDs in outputs, reject missing policy; no physical accuracy or production promotion."

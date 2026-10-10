@@ -1,0 +1,16 @@
+[record]
+id = "MOD-VEH-0009"
+type = "model"
+title = "Uncorrelated steady-cornering development producer proposal"
+status = "proposed"
+disposition = "research"
+maturity = "M0"
+verification_level = "none"
+authorization_id = "AUTH-VEH-0012"
+description = "Proposed coupled native suspension/steering/contact and signed pure-lateral tire equilibrium with explicit uniform-acceleration inertia and virtual speed holding. No implementation or completed verification."
+inputs = ["Reviewed driver/no-fuel mass/CG source", "Explicit V and signed CG-path curvature", "Four gauge pressures and tire/source identities", "Native geometry and explicit spring/ARB setup", "Accepted proposed assumptions and numerical controls"]
+outputs = ["Converged synchronized native maneuver evidence or structured failure", "Four recovered normal loads and signed lateral demands", "Motion, pose, contact-frame inclination and virtual holding force", "Independent whole-vehicle force/moment residuals and provenance"]
+assumptions = ["ASM-VEH-0006", "ASM-VEH-0007", "ASM-VEH-0008"]
+equation_ids = ["EQ-VEH-0023", "EQ-VEH-0024", "EQ-VEH-0025", "EQ-VEH-0026"]
+benchmark_ids = ["BENCH-VEH-0018", "BENCH-VEH-0019", "BENCH-VEH-0020"]
+function_specification = "docs/models/vehicle/steady_cornering_development_spec_v0.1.0.md"

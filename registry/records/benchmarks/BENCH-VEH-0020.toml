@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-VEH-0020"
+type = "benchmark"
+title = "Maneuver domain, failure and authority gates"
+status = "proposed"
+description = "Required future verification gate; no implementation or pass claimed."
+verification_level = "none"
+target_ids = ["MOD-VEH-0009", "EQ-VEH-0023", "EQ-VEH-0024", "EQ-VEH-0025", "EQ-VEH-0026"]
+acceptance_criteria = ["Reject missing source/config/frame/pressure or assumption policy, failed front/rear/tire/contact providers and double steering.", "Reject negative reaction, singularity, failed convergence and physical closure without clipping or fitting.", "Preserve multiple equilibria/branches; reject installed/setup/structural/ranking promotion and varying-state consumer flattening."]
+authorization = "authorizations/vehicle/AUTH-VEH-0012.toml"

@@ -1,0 +1,16 @@
+[record]
+id = "EQ-VEH-0025"
+type = "equation"
+title = "Maneuver compatible generalized-force reduction"
+status = "proposed"
+disposition = "research"
+maturity = "M0"
+verification_level = "none"
+authorization_id = "AUTH-VEH-0012"
+description = "Proposed governing relationship; exact frame and approximation boundaries are in the function specification."
+canonical_equation = "Q_red=J_point,b^T*F+J_wb^T*J_point,w^T*F; wheel balance Q_susp+Q_wheel_ext+c*lambda=0."
+inputs = ["Current physical force points, steering-dependent road compatibility, Jacobians"]
+outputs = ["Reduced body and constrained-wheel force residuals"]
+assumptions = ["ASM-VEH-0006", "ASM-VEH-0007", "ASM-VEH-0008"]
+source_basis = ["Existing AUTH-VEH-0003 virtual work and AUTH-VEH-0010 direct-plus-mapped chain; proposed maneuver extension"]
+target_ids = ["MOD-VEH-0009"]
