@@ -39,6 +39,16 @@ class SteeredUpright:
                                             self.steering_rotation_rad)
                 if self.steering_axis is not None else direction)
 
+    def material_coordinates(self, current_point):
+        """Invert full transport to freeze the instantaneous material point."""
+        point = (rotate_point_about_axis(current_point, self.steering_axis, -self.steering_rotation_rad)
+                 if self.steering_axis is not None else current_point)
+        upstream = self.wheel_state.upstream_state
+        transform = (upstream.minimum_twist_transform if self.wheel_state.axle is Axle.FRONT
+                     else upstream.upright_transform)
+        translated = tuple(point[i] - transform.translation_m[i] for i in range(3))
+        return tuple(sum(transform.rotation[j][i] * translated[j] for j in range(3)) for i in range(3))
+
     @property
     def center_m(self):
         return self.transport_point(self.wheel_state.nominal.center_m)

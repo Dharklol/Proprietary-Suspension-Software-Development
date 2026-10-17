@@ -10,7 +10,7 @@ function_specification = "docs/models/vehicle/steady_cornering_development_spec_
 [scope]
 model_ids = ["MOD-VEH-0009"]
 equation_ids = ["EQ-VEH-0023", "EQ-VEH-0024", "EQ-VEH-0025", "EQ-VEH-0026"]
-assumption_ids = ["ASM-VEH-0006", "ASM-VEH-0007", "ASM-VEH-0008"]
+assumption_ids = ["ASM-VEH-0006", "ASM-VEH-0007", "ASM-VEH-0008", "ASM-VEH-0009"]
 benchmark_ids = ["BENCH-VEH-0018", "BENCH-VEH-0019", "BENCH-VEH-0020"]
 configuration_mass_source = "reviewed_driver_no_fuel_306.17484975_kg"
 native_pose_dependency = "PR 106"
@@ -20,6 +20,7 @@ state_weight = 0.0
 
 [permitted]
 items = [
+  "Owner accepted 2026-10-10: optional explicitly selected ASM-VEH-0009 negative-IA extension reflecting slip, inclination and lateral force together for uncorrelated development only; preserve source query/domain/provenance and zero-IA boundary.",
   "Implement the bounded coupled ten-unknown residual with explicit point-force virtual work and independent full-wrench closure within the accepted development scope.",
   "Extend fully steered rigid-circle contact compatibility without changing static AUTH-VEH-0010 behavior.",
   "Use native suspension/steering, conservative spring/ARB and signed pure-lateral tire response as source-owned providers.",

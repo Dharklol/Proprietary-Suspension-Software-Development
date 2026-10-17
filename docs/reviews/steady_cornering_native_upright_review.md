@@ -56,9 +56,9 @@ static toe. Top-outward source camber maps to negative IA on the left and
 positive IA on the right. Body rotation must precede this measurement in the
 final heading-frame adapter.
 
-The table contains only 0, 2 and 4 degree IA source curves. Opposite signed
-inclinations therefore expose a real coverage gap. Unsupported queries must
-fail. A future symmetry extension would need an explicit reviewed assumption
-and simultaneous slip/force/inclination reflection, rather than absolute IA
-alone. No such rule, extrapolation or source-table modification is introduced
-here. Pressures and actual maneuver schedules remain explicit caller inputs.
+The table contains only 0, 2 and 4 degree IA source curves. The owner separately
+accepted ASM-VEH-0009 on 2026-10-10: an explicitly selected development-only
+negative-IA extension reflecting slip, force and inclination together. See
+`steady_cornering_native_composition_review.md` for implementation and source
+boundary controls. No extrapolation or source-table modification is introduced.
+Pressures and actual maneuver schedules remain explicit caller inputs.
