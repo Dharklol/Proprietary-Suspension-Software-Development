@@ -3,7 +3,7 @@ id = "BENCH-VEH-0019"
 type = "benchmark"
 title = "Coupled equilibrium and independent physical closure"
 status = "proposed"
-description = "Provider-neutral synthetic kernel tests/report implemented. Bounded native WUFR composition fixtures are implemented, including explicit development-only negative-IA symmetry. Synchronized exchange/consumer and complete promotion gate remain unverified; no full benchmark promotion claimed."
+description = "Provider-neutral synthetic kernel tests/report implemented. Bounded native WUFR composition fixtures are implemented, including explicit development-only negative-IA symmetry. Bounded synchronized export and baseline steering replay have fixture evidence; optimizer target consumption and complete promotion gate remain unverified; no full benchmark promotion claimed."
 verification_level = "none"
 target_ids = ["MOD-VEH-0009", "EQ-VEH-0023", "EQ-VEH-0024", "EQ-VEH-0025", "EQ-VEH-0026"]
 acceptance_criteria = ["Manufactured synthetic four-wheel equilibrium and off-CG virtual-work cases verify direct plus mapped force terms at two perturbation scales.", "Zero-curvature explicitly zero-force synthetic tire fixture reproduces unchanged static provider; real toe/camber-force straight cases are solved separately; no duplicated normal reaction or gravity.", "Independent complete resultant force <=1e-6 N and moment <=1e-6 N*m; continuation and source-domain provenance retained."]
@@ -14,3 +14,5 @@ synthetic_report = "benchmarks/vehicle/steady_cornering_development_synthetic_v0
 
 native_integration_report = "benchmarks/vehicle/wufr_steady_cornering_native_development_v0.1.0.json"
 native_integration_review = "docs/reviews/steady_cornering_native_composition_review.md"
+
+steering_evidence_summary = "benchmarks/steering/varying_state_native_evidence_summary_v0.1.0.json"
