@@ -269,3 +269,10 @@ project circle/steering model.
 Native WUFR geometry/contact/material-point adapter, reviewed mass/spring/ARB
 composition, and real signed tire-domain integration remain unverified. The
 synthetic report does not complete the native producer or authorize real samples.
+
+## Native synchronized evidence export implementation
+
+See `docs/reviews/steady_cornering_synced_export_review.md`. Atomic packets
+retain the unresolved front pose, body-to-heading bridge, current centers,
+full equilibrium and signed tire evidence, with zero objective weight.
+The existing fixed-pose/fixed-tire sweep consumer remains unchanged.

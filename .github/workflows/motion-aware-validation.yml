@@ -131,3 +131,16 @@ jobs:
           path: |
             wufr_steady_cornering_development_report.json
           if-no-files-found: error
+      - name: Verify synchronized native maneuver exports
+        run: |
+          python scripts/run_wufr_synced_cornering_export.py \
+            --output native_synced_cornering_export.json \
+            --summary-output native_synced_cornering_export_summary.json
+      - name: Upload synchronized native maneuver evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-synced-cornering-export
+          path: |
+            native_synced_cornering_export.json
+            native_synced_cornering_export_summary.json
+          if-no-files-found: error
