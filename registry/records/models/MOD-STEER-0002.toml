@@ -193,3 +193,5 @@ literature_basis = [
   "Saltelli et al., Global Sensitivity Analysis: The Primer (2008)",
   "Huang et al., Find Optimal Suspension Kinematics Targets for Vehicle Dynamics Using Reinforcement Learning, SAE 2026"
 ]
+
+varying_state_evidence_review = "docs/reviews/varying_state_steering_evidence_review.md"
