@@ -46,7 +46,16 @@ def _sub(a, b):
 
 
 def _fingerprint(*records):
-    return hashlib.sha256(json.dumps([asdict(r) for r in records], sort_keys=True,
+    def source_identity(value):
+        if isinstance(value, dict):
+            # Loader locations vary by checkout. Numerical content, catalog/hash
+            # identities and versions bind revisions; local paths do not.
+            return {key: source_identity(item) for key, item in value.items()
+                    if key not in ('source_path', 'inherited_source_path')}
+        if isinstance(value, (list, tuple)):
+            return [source_identity(item) for item in value]
+        return value
+    return hashlib.sha256(json.dumps([source_identity(asdict(r)) for r in records], sort_keys=True,
                                      default=str, allow_nan=False).encode()).hexdigest()
 
 

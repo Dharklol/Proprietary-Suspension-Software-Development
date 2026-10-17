@@ -93,7 +93,10 @@ or bias removal is authorized. No successful reported native sample crosses it.
 
 ## Verification fixtures and remaining work
 
-Four upright tests, six tire-extension tests and five native geometry tests pass.
+Four upright tests, six tire-extension tests and six native geometry tests pass.
+Revision identity binds numerical/source content while excluding local loader
+paths. A relocated-checkout regression verifies identical revisions for identical
+sources and a changed revision for changed numerical geometry.
 The native benchmark runner solves eight samples in two continuation branches:
 V=8 m/s, curvature 0 and +/-0.005, +/-0.01, +/-0.02 per metre, four explicitly
 selected source gauge pressures of 68.9 kPa, and discrete front/rear ARB setting 1.

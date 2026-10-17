@@ -5,6 +5,7 @@ import unittest
 from pssd_vehicle.steady_cornering import CORNERS, CorneringFailure, point_generalized_force, evaluate_cornering
 from pssd_vehicle.force_coordinates import rotation_matrix_yaw_pitch_roll
 from pssd_vehicle.wufr_static_equilibrium_core import evaluate_wufr_suspension_composition
+from pssd_vehicle.wufr_steady_cornering_geometry import WUFRCorneringGeometryProvider, _fingerprint
 from tests.wufr_cornering_fixture import providers, case, initial
 
 
@@ -98,6 +99,18 @@ class NativeCorneringGeometryTests(unittest.TestCase):
         for q, rack in (((.011,0.,0.),0.), ((0.,0.,0.),1.), ((0.,float('nan'),0.),0.)):
             with self.assertRaises(CorneringFailure):
                 self.geometry(self.case, q, rack)
+
+    def test_revision_ignores_checkout_location_and_binds_numeric_geometry(self):
+        source = self.geometry.road.steering_geometry
+        relocated = replace(source, metadata={**source.metadata,
+            'source_path':'/another/checkout/configurations/steering/WUFR27_STEERING_BASELINE_V0.toml',
+            'inherited_source_path':'/another/checkout/configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml'})
+        road = replace(self.geometry.road, steering_geometry=relocated)
+        alternate = WUFRCorneringGeometryProvider(replace(self.geometry.components, road_contact=road))
+        self.assertEqual(alternate.geometry_revision, self.geometry.geometry_revision)
+        self.assertEqual(alternate.setup_revision, self.geometry.setup_revision)
+        changed = replace(source, wheelbase=source.wheelbase+.001)
+        self.assertNotEqual(_fingerprint(changed), _fingerprint(source))
 
 
 if __name__ == '__main__':
