@@ -212,3 +212,31 @@ The tabulated figures are rounded results from that screen plus the
 PDR's **provisional** D-profile shear estimates, with each assumption
 explicitly labeled. No model-registry permission or vehicle operation
 claim is activated by this document.
+
+## Archived WUFR-26 drawing trace: component-specific 4130 conditions
+
+Box-hosted prior-season fabrication drawings reveal *different 4130 material
+conditions for different components*, so the earlier PDR wording can be
+reconciled as historical source evidence rather than homogenized:
+
+- [ST-60402-AA Upper Steering Column](https://account.box.com/file/2040528565448):
+  **AISI 4130 Steel, annealed at 865C**. Historical nominal Ø0.750 OD,
+  Ø0.630 ID. **Do not substitute these dimensions** for 2027's user-confirmed
+  Ø0.750/Ø0.625 geometry.
+- [ST-60406-AA Lower Steering Column](https://account.box.com/file/2040524822381):
+  **AISI 4130 Steel, annealed at 865C**, also Ø0.750/Ø0.630 historically.
+- [ST-60404-AA Secondary Shaft](https://account.box.com/file/2040519657477):
+  **AISI 4130 Steel, normalized at 870C**; historical male D across-flats
+  callout 0.472 in with +0.000/-0.001 tolerance.
+- [ST-60408-AA UPSC Adapter](https://account.box.com/file/2068949865468):
+  **4130 STEEL**, condition not further specified on drawing.
+
+Therefore normalized 4130 refers to an archived SHAFT drawing and annealed
+4130 to archived COLUMN drawings; these aren't intrinsically contradictory.
+The PDR cost-table **4140 Steel** line conflicts with these original 4130
+drawings and needs updating to match WUFR-27 *actual stock* evidence.
+
+These are **2026 archival design documents**, not proofs of chemical
+certification/heat-treatment of existing pieces or of new WUFR-27 parts.
+Do not copy 2026 bore tolerances to the 2027 wire-EDM socket drawing, and
+do not assign normalized-shaft yield to annealed column/weld/HAZ.
