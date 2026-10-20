@@ -240,3 +240,44 @@ These are **2026 archival design documents**, not proofs of chemical
 certification/heat-treatment of existing pieces or of new WUFR-27 parts.
 Do not copy 2026 bore tolerances to the 2027 wire-EDM socket drawing, and
 do not assign normalized-shaft yield to annealed column/weld/HAZ.
+
+## E. Shoulder/notch-yield sensitivity — Kt not yet established
+
+The physical shoulder geometry and the double-D/free-circle interface
+cannot be reduced to a reliable stress concentration without section CAD,
+radius/chamfer/groove detail and valid 3D torsion/bending FEA. Nevertheless,
+a **parametric multiplier** illustrates the consequence.
+
+Let `tau_D,peak,prismatic ≈ 81.4 MPa` be the earlier provisional
+straight-constant-D-section screening peak under the **already factored**
+35.547-N m torque, and define a *placeholder* multiplier
+`K_t,incremental >= 1` for the *additional transition effect* not resolved
+by that section model. Neither `K_t` nor `tau_D` is measured or
+source-validated local peak. Define
+`tau_local,sensitivity=K_t,incremental*tau_D,peak,prismatic`;
+the minimum simple-von-Mises base material yield to avoid idealized
+torsional yielding at the factored load is
+`S_y,required=sqrt(3)*tau_local,sensitivity` (no extra FoS):
+
+| Assumed incremental Kt | Local shear estimate (MPa) | Required steel yield (MPa) |
+|---|---:|---:|
+| 1.0 | 81.4 | 141 |
+| 1.25 | 101.8 | 176 |
+| 1.5 | 122.1 | 212 |
+| 2.0 | 162.8 | 282 |
+| 3.0 | 244.2 | 423 |
+
+Under an intentionally pessimistic *assumed* weakest yield 205 MPa,
+the nominal yield/stress ratio at Kt=1.5 is ~0.97. This is **not** an
+assertion that the present 4130 steel shaft yields: actual material
+grade/condition, true local 3D stress and transition Kt are all missing.
+Do not multiply a bulk circular-shaft SCF onto a separately concentrated
+D-profile stress and label it a calculated failure without validating
+that combination in a consistent 3D model. At the weld/HAZ,
+use a different geometry and material strength definition.
+
+The previous SolidWorks result flagged by a reviewer (lower peak von Mises
+simultaneously with ~7x displacement increase) must have its mesh, load,
+units, contact, constraints, output displacement location and revised
+geometry reconciled before becoming an FDR pass/fail result.
+
