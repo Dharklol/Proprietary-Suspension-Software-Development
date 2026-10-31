@@ -15,7 +15,7 @@ from pssd_vehicle.reduced_ride import RideSystem, simulate, cosine_bump, undampe
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def native_stiffness(axle, side):
+def native_stiffness(axle, side, q_center=0.):
     geometry=load_optimumk_geometry_snapshot(ROOT/'data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml')
     wheel=load_wufr26_wheel_reference_profile(ROOT/'benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml')
     package=load_wufr27_spring_package(ROOT/'data_catalog/wufr27_spring_package_v0.toml')
@@ -24,7 +24,7 @@ def native_stiffness(axle, side):
     nominal=build_nominal_wheel_reference(wheel,axle,side)
     config=PhysicalStateSolverConfig(q_L_min_rad=math.radians(-4),q_L_max_rad=math.radians(4),displacement_tolerance_m=1e-12,q_L_tolerance_rad=1e-12)
     def compression(q):
-        state=solve_body_vertical_actuation_state(corner,nominal,q,config,
+        state=solve_body_vertical_actuation_state(corner,nominal,q_center+q,config,
             geometry_id=geometry.geometry_id,source_authority=geometry.authority)
         if not state.ok:
             raise ValueError(state.message)
@@ -49,7 +49,7 @@ def native_stiffness(axle, side):
     checks={key:abs(coarse[key]-fine[key]) <= max(floor,rel*abs(fine[key])) for key,rel,floor in
             (('rho',.002,1e-6),('eta_per_m',.02,1e-3),('total_N_per_m',.002,1.))}
     checks['energy_tangent']=abs(fine['total_N_per_m']-fine['independent_energy_tangent_N_per_m'])<=max(1.,.002*abs(fine['total_N_per_m']))
-    return dict(axle=axle,side=side,compression_m=x0,spring_force_N=law.force_N,
+    return dict(axle=axle,side=side,wheel_coordinate_m=q_center,compression_m=x0,spring_force_N=law.force_N,
                 derivatives=derivatives,checks=checks,ok=all(checks.values()))
 
 

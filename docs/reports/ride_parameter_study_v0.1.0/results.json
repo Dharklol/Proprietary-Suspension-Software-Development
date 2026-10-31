@@ -47,7 +47,7 @@
     "data_catalog/wufr27_spring_package_v0.toml": "24b87ba7103971ffa7ab5c99e03121ec7166dec5ac9bf8fb035b8297fb2f49e5",
     "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
     "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml": "85739e46db63deb581b65385410e72d2247d7cee06ee45b656d4515b17cd3ddf",
-    "scripts/run_ride_parameter_study.py": "d0fbb715e60fe05e922a17c08d6a67c1f217aaf3311f746626ad161810245ff1",
+    "scripts/run_ride_parameter_study.py": "74dae90d13dc9967ae7ecf97bb8b351e746cc40be0b772ddb63f7438184640c5",
     "src/pssd_vehicle/reduced_ride.py": "a152c6963ceb1c2da53487a63ce2055e054d34978ecd2d42eecd53a6cbffbd0e",
     "src/pssd_suspension/actuation.py": "e0db1685d97916dec0344a2d80ed815a9770a918bc751d6271ae0fde42509fcd",
     "src/pssd_suspension/local_stiffness.py": "f180953af1acb8270efcb7beeff1b942a05deffac149a8e5f01a8d6a89270679"
@@ -56,6 +56,7 @@
     {
       "axle": "front",
       "side": "left",
+      "wheel_coordinate_m": 0.0,
       "compression_m": 0.021100652947832088,
       "spring_force_N": 759.6235061219552,
       "derivatives": [
@@ -89,6 +90,7 @@
     {
       "axle": "front",
       "side": "right",
+      "wheel_coordinate_m": 0.0,
       "compression_m": 0.021100652947832088,
       "spring_force_N": 759.6235061219552,
       "derivatives": [
@@ -122,6 +124,7 @@
     {
       "axle": "rear",
       "side": "left",
+      "wheel_coordinate_m": 0.0,
       "compression_m": 0.021089461209192306,
       "spring_force_N": 656.0925401754548,
       "derivatives": [
@@ -155,6 +158,7 @@
     {
       "axle": "rear",
       "side": "right",
+      "wheel_coordinate_m": 0.0,
       "compression_m": 0.021089461209192306,
       "spring_force_N": 656.0925401754548,
       "derivatives": [

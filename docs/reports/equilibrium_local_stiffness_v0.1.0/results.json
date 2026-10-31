@@ -1,0 +1,598 @@
+{
+  "scope": "included-load rigid-contact static equilibrium and spring-only fixed-body wheel tangents; no vehicle modal prediction",
+  "front_arb_setting": 1,
+  "rear_arb_setting": 1,
+  "static_ok": true,
+  "complete_static_road_reaction": true,
+  "failure_code": null,
+  "message": "WUFR uncorrelated design-intent static-gravity equilibrium converged",
+  "physical_closure": {
+    "status": "success",
+    "resultant": {
+      "reference_point_id": "wufr_static_equilibrium_road_origin",
+      "frame_id": "WUFR27_NOMINAL_ROAD",
+      "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+      "resultant_force_N": [
+        0.0,
+        0.0,
+        5.155949622803746e-08
+      ],
+      "resultant_moment_Nm": [
+        4.5631381340172084e-08,
+        -2.6769846783736284e-08,
+        0.0
+      ],
+      "contributions": [
+        {
+          "wrench_id": "front_left_road_normal_reaction",
+          "reference_point_id": "wufr_static_equilibrium_road_origin",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "force_N": [
+            0.0,
+            0.0,
+            790.9831015375646
+          ],
+          "moment_Nm": [
+            482.59416234749773,
+            -589.8381860700042,
+            0.0
+          ],
+          "moment_arm_m": [
+            0.7457026388091454,
+            0.6101194341691999,
+            -0.2900000000000396
+          ],
+          "force_moment_Nm": [
+            482.59416234749773,
+            -589.8381860700042,
+            0.0
+          ],
+          "free_couple_Nm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_id": "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1",
+          "authority": "AUTH-VEH-0010 recovered road reaction"
+        },
+        {
+          "wrench_id": "front_right_road_normal_reaction",
+          "reference_point_id": "wufr_static_equilibrium_road_origin",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "force_N": [
+            0.0,
+            0.0,
+            779.5956261025375
+          ],
+          "moment_Nm": [
+            -485.51742185555474,
+            -581.3411304513457,
+            0.0
+          ],
+          "moment_arm_m": [
+            0.7456957312057623,
+            -0.6227811003543218,
+            -0.28999999999992426
+          ],
+          "force_moment_Nm": [
+            -485.51742185555474,
+            -581.3411304513457,
+            0.0
+          ],
+          "free_couple_Nm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_id": "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1",
+          "authority": "AUTH-VEH-0010 recovered road reaction"
+        },
+        {
+          "wrench_id": "rear_left_road_normal_reaction",
+          "reference_point_id": "wufr_static_equilibrium_road_origin",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "force_N": [
+            0.0,
+            0.0,
+            726.4389345393103
+          ],
+          "moment_Nm": [
+            433.6880523775688,
+            593.6965310952397,
+            0.0
+          ],
+          "moment_arm_m": [
+            -0.8172697013710416,
+            0.5970055179553435,
+            -0.29000000000005355
+          ],
+          "force_moment_Nm": [
+            433.6880523775688,
+            593.6965310952397,
+            -0.0
+          ],
+          "free_couple_Nm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_id": "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1",
+          "authority": "AUTH-VEH-0010 recovered road reaction"
+        },
+        {
+          "wrench_id": "rear_right_road_normal_reaction",
+          "reference_point_id": "wufr_static_equilibrium_road_origin",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "force_N": [
+            0.0,
+            0.0,
+            706.5576139196476
+          ],
+          "moment_Nm": [
+            -430.7657366557416,
+            577.447632811188,
+            0.0
+          ],
+          "moment_arm_m": [
+            -0.8172689975100282,
+            -0.609668239601944,
+            -0.2900000000000061
+          ],
+          "force_moment_Nm": [
+            -430.7657366557416,
+            577.447632811188,
+            0.0
+          ],
+          "free_couple_Nm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_id": "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1",
+          "authority": "AUTH-VEH-0010 recovered road reaction"
+        },
+        {
+          "wrench_id": "sprung_body_gravity",
+          "reference_point_id": "wufr_static_equilibrium_road_origin",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "force_N": [
+            0.0,
+            0.0,
+            -2807.3752760475004
+          ],
+          "moment_Nm": [
+            -1.239525775482803,
+            7.071705111372728,
+            0.0
+          ],
+          "moment_arm_m": [
+            0.0025189739226203385,
+            0.0004415247886730447,
+            0.0015895388795438403
+          ],
+          "force_moment_Nm": [
+            -1.239525775482803,
+            7.071705111372728,
+            0.0
+          ],
+          "free_couple_Nm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+          "authority": "AUTH-VEH-0005 sprung gravity"
+        },
+        {
+          "wrench_id": "front_left_unsprung_gravity",
+          "reference_point_id": "wufr_static_equilibrium_road_origin",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "force_N": [
+            0.0,
+            0.0,
+            -49.050000000000004
+          ],
+          "moment_Nm": [
+            -29.421176229816613,
+            36.56720302642507,
+            0.0
+          ],
+          "moment_arm_m": [
+            0.7455087263287475,
+            0.5998201066221531,
+            -0.057818402214968354
+          ],
+          "force_moment_Nm": [
+            -29.421176229816613,
+            36.56720302642507,
+            0.0
+          ],
+          "free_couple_Nm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+          "authority": "AUTH-VEH-0005 prototype unsprung gravity"
+        },
+        {
+          "wrench_id": "front_right_unsprung_gravity",
+          "reference_point_id": "wufr_static_equilibrium_road_origin",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "force_N": [
+            0.0,
+            0.0,
+            -49.050000000000004
+          ],
+          "moment_Nm": [
+            30.041643254272792,
+            36.56686613769164,
+            0.0
+          ],
+          "moment_arm_m": [
+            0.7455018580569142,
+            -0.6124697911166725,
+            -0.05781893398676348
+          ],
+          "force_moment_Nm": [
+            30.041643254272792,
+            36.56686613769164,
+            0.0
+          ],
+          "free_couple_Nm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+          "authority": "AUTH-VEH-0005 prototype unsprung gravity"
+        },
+        {
+          "wrench_id": "rear_left_unsprung_gravity",
+          "reference_point_id": "wufr_static_equilibrium_road_origin",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "force_N": [
+            0.0,
+            0.0,
+            -49.050000000000004
+          ],
+          "moment_Nm": [
+            -29.080857282301345,
+            -40.08533379002017,
+            0.0
+          ],
+          "moment_arm_m": [
+            -0.8172341241594326,
+            0.5928819017798439,
+            -0.05762658795835895
+          ],
+          "force_moment_Nm": [
+            -29.080857282301345,
+            -40.08533379002017,
+            -0.0
+          ],
+          "free_couple_Nm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+          "authority": "AUTH-VEH-0005 prototype unsprung gravity"
+        },
+        {
+          "wrench_id": "rear_right_unsprung_gravity",
+          "reference_point_id": "wufr_static_equilibrium_road_origin",
+          "frame_id": "WUFR27_NOMINAL_ROAD",
+          "origin_id": "WUFR27_NOMINAL_ROAD_ORIGIN",
+          "force_N": [
+            0.0,
+            0.0,
+            -49.050000000000004
+          ],
+          "moment_Nm": [
+            29.700859865189162,
+            -40.08528789731697,
+            0.0
+          ],
+          "moment_arm_m": [
+            -0.8172331885283785,
+            -0.6055221175369859,
+            -0.05762698846566434
+          ],
+          "force_moment_Nm": [
+            29.700859865189162,
+            -40.08528789731697,
+            0.0
+          ],
+          "free_couple_Nm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+          "authority": "AUTH-VEH-0005 prototype unsprung gravity"
+        }
+      ]
+    },
+    "maximum_force_residual_N": 5.155949622803746e-08,
+    "maximum_moment_residual_Nm": 4.5631381340172084e-08,
+    "failure_code": null,
+    "message": ""
+  },
+  "local_stiffness": [
+    {
+      "axle": "front",
+      "side": "left",
+      "wheel_coordinate_m": 0.004711108035116922,
+      "compression_m": 0.02500285948969222,
+      "spring_force_N": 900.1029416289199,
+      "derivatives": [
+        {
+          "h_m": 0.001,
+          "rho": 0.8291388700422675,
+          "eta_per_m": 0.2673057156177272,
+          "elastic_N_per_m": 24748.965569338852,
+          "geometric_N_per_m": 240.60266094173977,
+          "total_N_per_m": 24989.56823028059,
+          "independent_energy_tangent_N_per_m": 24989.568873349912
+        },
+        {
+          "h_m": 0.0005,
+          "rho": 0.8291466477067522,
+          "eta_per_m": 0.2671150410860079,
+          "elastic_N_per_m": 24749.429882520417,
+          "geometric_N_per_m": 240.43103423484553,
+          "total_N_per_m": 24989.860916755264,
+          "independent_energy_tangent_N_per_m": 24989.8610772874
+        }
+      ],
+      "checks": {
+        "rho": true,
+        "eta_per_m": true,
+        "total_N_per_m": true,
+        "energy_tangent": true
+      },
+      "ok": true
+    },
+    {
+      "axle": "front",
+      "side": "right",
+      "wheel_coordinate_m": 0.004613400353700854,
+      "compression_m": 0.024921846426924132,
+      "spring_force_N": 897.1864713692688,
+      "derivatives": [
+        {
+          "h_m": 0.001,
+          "rho": 0.829112410894256,
+          "eta_per_m": 0.27366360150216096,
+          "elastic_N_per_m": 24747.386036359883,
+          "geometric_N_per_m": 245.52728097392952,
+          "total_N_per_m": 24992.913317333812,
+          "independent_energy_tangent_N_per_m": 24992.913991356505
+        },
+        {
+          "h_m": 0.0005,
+          "rho": 0.8291201274084059,
+          "eta_per_m": 0.27447225592336366,
+          "elastic_N_per_m": 24747.846684254324,
+          "geometric_N_per_m": 246.25279478064553,
+          "total_N_per_m": 24994.09947903497,
+          "independent_energy_tangent_N_per_m": 24994.099648530722
+        }
+      ],
+      "checks": {
+        "rho": true,
+        "eta_per_m": true,
+        "total_N_per_m": true,
+        "energy_tangent": true
+      },
+      "ok": true
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "wheel_coordinate_m": 0.0005297962194890716,
+      "compression_m": 0.021617469428309832,
+      "spring_force_N": 673.1196083484481,
+      "derivatives": [
+        {
+          "h_m": 0.001,
+          "rho": 0.9968193237897549,
+          "eta_per_m": 0.7491115588953434,
+          "elastic_N_per_m": 32070.53364255836,
+          "geometric_N_per_m": 504.24167913292894,
+          "total_N_per_m": 32574.77532169129,
+          "independent_energy_tangent_N_per_m": 32574.819026206293
+        },
+        {
+          "h_m": 0.0005,
+          "rho": 0.9968237623766696,
+          "eta_per_m": 0.7492024484134774,
+          "elastic_N_per_m": 32070.819247310385,
+          "geometric_N_per_m": 504.3028586497783,
+          "total_N_per_m": 32575.122105960163,
+          "independent_energy_tangent_N_per_m": 32575.133033642345
+        }
+      ],
+      "checks": {
+        "rho": true,
+        "eta_per_m": true,
+        "total_N_per_m": true,
+        "energy_tangent": true
+      },
+      "ok": true
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "wheel_coordinate_m": 0.0004333537843194791,
+      "compression_m": 0.021521336661505297,
+      "spring_force_N": 670.0173594082038,
+      "derivatives": [
+        {
+          "h_m": 0.001,
+          "rho": 0.9967469244969718,
+          "eta_per_m": 0.7525295474541949,
+          "elastic_N_per_m": 32055.82171797079,
+          "geometric_N_per_m": 504.20786026191024,
+          "total_N_per_m": 32560.0295782327,
+          "independent_energy_tangent_N_per_m": 32560.07349576251
+        },
+        {
+          "h_m": 0.0005,
+          "rho": 0.9967513417926399,
+          "eta_per_m": 0.7526384254719076,
+          "elastic_N_per_m": 32056.1058429632,
+          "geometric_N_per_m": 504.2808104238357,
+          "total_N_per_m": 32560.386653387035,
+          "independent_energy_tangent_N_per_m": 32560.397634608053
+        }
+      ],
+      "checks": {
+        "rho": true,
+        "eta_per_m": true,
+        "total_N_per_m": true,
+        "energy_tangent": true
+      },
+      "ok": true
+    }
+  ],
+  "source_sha256": {
+    "data_catalog/wufr27_static_equilibrium_composition_v1.toml": "138191d4acef93b4acce58cd0ba2d4da43b8adfd91f5a766447d75d956fa237e",
+    "data_catalog/wufr26_road_contact_reference_v0.toml": "84697749794bb44155154df4caca49a06b43569bb7c601c77f7bfb27de5baf05",
+    "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+    "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml": "85739e46db63deb581b65385410e72d2247d7cee06ee45b656d4515b17cd3ddf",
+    "configurations/steering/WUFR27_STEERING_BASELINE_V0.toml": "cbfa707ca2c0d7c188958ade921027bfe7cb3ae740cf8b8c10d30d64ea7b1317",
+    "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4",
+    "data_catalog/wufr27_static_gravity_allocation_v0.toml": "2f89a18e4d88869ab7602311dfbba75b6dd12a791d6826dd951099de9b23fd41",
+    "data_catalog/wufr27_spring_package_v0.toml": "24b87ba7103971ffa7ab5c99e03121ec7166dec5ac9bf8fb035b8297fb2f49e5",
+    "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml": "f4887a06d1711bd8111df32266473e4b6f7a88912f69931d08bea4a422c39be2",
+    "scripts/run_equilibrium_local_stiffness.py": "34f9df241d79523b5b70d98dadfa22b6b123baf0c113d8c029bdc4d150adf999",
+    "scripts/run_ride_parameter_study.py": "74dae90d13dc9967ae7ecf97bb8b351e746cc40be0b772ddb63f7438184640c5"
+  },
+  "solve": {
+    "status": "success",
+    "q_body": [
+      -0.002694707968935584,
+      -8.014364080446987e-05,
+      0.0027060062830379333
+    ],
+    "body_coordinate_order": [
+      "z_s_m",
+      "phi_rad",
+      "theta_rad"
+    ],
+    "body_coordinate_units": [
+      "m",
+      "rad",
+      "rad"
+    ],
+    "wheel_coordinates": [
+      0.004711108035116922,
+      0.004613400353700854,
+      0.0005297962194890716,
+      0.0004333537843194791
+    ],
+    "wheel_coordinate_order": [
+      "front_left",
+      "front_right",
+      "rear_left",
+      "rear_right"
+    ],
+    "wheel_coordinate_units": [
+      "m",
+      "m",
+      "m",
+      "m"
+    ],
+    "residual": [
+      5.167385097593069e-08,
+      4.582711543577034e-08,
+      -2.7093721044479935e-08
+    ],
+    "scaled_residual": [
+      1.7204113839933436e-11,
+      2.476926725786848e-11,
+      -1.1546966334820774e-11
+    ],
+    "scaled_residual_norm": 2.476926725786848e-11,
+    "iterations": 3,
+    "initial_scaled_residual_norm": 0.08663686248812083,
+    "convergence_threshold": 2.1732737249762418e-10,
+    "tangent_methods": [
+      "centered_scaled_residual",
+      "centered_scaled_residual",
+      "centered_scaled_residual"
+    ],
+    "tangent_steps": [
+      0.0001,
+      0.0001,
+      0.0001
+    ],
+    "reciprocal_pivot_ratio": 0.2254011832505721,
+    "line_search_scale": 1.0,
+    "suspension_stored_energy_J": 36.74232408382969,
+    "total_potential_energy_J": 29.879556970284025,
+    "compatibility_source_id": "WUFR26_ROAD_CONTACT_REFERENCE_V0",
+    "suspension_source_id": "WUFR27_STATIC_EQUILIBRIUM_COMPOSITION_V1",
+    "body_external_source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+    "failure_code": null,
+    "message": "Quasi-static equilibrium converged"
+  },
+  "contact_recovery": {
+    "status": "success",
+    "coordinate_order": [
+      "front_left",
+      "front_right",
+      "rear_left",
+      "rear_right"
+    ],
+    "coordinate_units": [
+      "m",
+      "m",
+      "m",
+      "m"
+    ],
+    "suspension_generalized_force": [
+      -750.8623415500032,
+      -739.3347813523533,
+      -679.3782732685302,
+      -659.4452137140521
+    ],
+    "wheel_external_generalized_force": [
+      -49.04112459579931,
+      -49.039860847305974,
+      -49.05133661250991,
+      -49.05088343539374
+    ],
+    "contact_coefficients": [
+      1.0112775666014835,
+      1.0112609868541862,
+      1.002740320276187,
+      1.0027435600319194
+    ],
+    "normal_reaction_N": [
+      790.9831015375646,
+      779.5956261025375,
+      726.4389345393103,
+      706.5576139196476
+    ],
+    "wheel_equilibrium_residual": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "failure_code": null,
+    "message": ""
+  },
+  "passed": true
+}
