@@ -31,8 +31,9 @@ The initial straight-state source-table audit is implemented; see its
 It resolves the fixture's large opposing forces within the source/model chain,
 not their physical adequacy. The [manufactured low-force reference](../reviews/analytical_low_force_reference_review.md)
 now verifies the zero-alignment straight limit and small-angle steering,
-sideslip and axle force responses. Native computational-envelope mapping is
-the next independent increment.
+sideslip and axle force responses. Initial native envelope and sensitivity
+studies now sit alongside these manufactured references; their scope follows
+below.
 
 Write the expected result and acceptance rule before computing the comparison.
 Do not use solver outputs as both the reference and the quantity under test.
@@ -97,6 +98,15 @@ does not prove physical instability, wheel lift or a grip limit. This study is a
 supported computational envelope, not maximum lateral acceleration prediction.
 
 ## 4. Sensitivity after the baseline explanation
+
+The first [native sensitivity study](../reviews/native_sensitivity_study_review.md)
+now records fourteen physical-case runs, six numerical root evaluations and
+eight nontrivial off-root numerical recoveries. Pressure +/-1/+2 kPa and individual
+front/rear ARB 1-to-2 changes are re-equilibrated in both directions. Wider
+sideslip boxes, halved tangent steps and tighter nested contact roots recover the same local roots to the
+declared comparison criterion. These remain small, explicitly scoped response
+studies; broader input uncertainty and alignment/tire-assumption sensitivity
+are not established by them.
 
 Perturb one explicit supported input at a time: pressure and discrete ARB
 settings first; alignment and spring reference only through reviewed setup

@@ -1,0 +1,9 @@
+physical_curvature_magnitude_per_m = 0.10
+numerical_curvature_magnitude_per_m = 0.125
+pressure_steps_pa = [1000.0, 2000.0]
+numerical_sideslip_bound_rad = 0.10
+wider_sideslip_bound_rad = 0.12
+fd_step_multiplier = 0.5
+front_arb_target = 2
+rear_arb_target = 2
+numerical_coordinate_difference_limit = 0.00001
