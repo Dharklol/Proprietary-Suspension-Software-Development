@@ -60,10 +60,31 @@ this documentation. The consolidation follow-up targets 110 until its ancestors
 are landed; it must not be merged into an intermediate feature branch as a
 substitute for landing the stack on main.
 
-The prescribed PR watcher currently reports `blocked`: GitHub CLI (`gh`) is not
-installed in this workspace. The connected API supplies inspection/publication,
-but the PR Completion helper is the required landing surface. Repository
-auto-merge is also disabled. No merge or verified helper readiness is claimed.
+At the initial checkpoint, the prescribed PR watcher reported `blocked` because
+GitHub CLI (`gh`) was absent and repository auto-merge was disabled. After the
+owner explicitly directed merging this stack, the connected GitHub merge action
+was used with exact expected head SHAs and the normal protected merge path.
+No administrator bypass, forced update or auto-merge setting change was used.
+
+### Landing completion
+
+All six authorized PRs are now merged into main. The original heads were
+unchanged; dependent PRs were retargeted to main in order. PR 116 completed all
+twelve workflows, including the Python 3.11 broad suite, report regeneration and
+the newer FDR evidence workflow, before landing.
+
+| PR | Merge commit |
+|---|---|
+| 106 | `328301acc57cf227fb5fcf2eba81365f010fd886` |
+| 107 | `e9b57219b2eb28a0234b230e09f7b0f242e59480` |
+| 108 | `6c771056887a1c2e5d8087637d6780d6b61a008f` |
+| 109 | `99615034a4757b8e87d931821ab8b5851ef08e37` |
+| 110 | `287b3e7468a97a7a9f9c7e4442c20d94b7f785b6` |
+| 116 | `8bd03e1073d263634b5490bd8687a1ac8f09f392` |
+
+Main's resulting tree is `0097a950862962122124c1aae94072cd58e35f22`, the
+same tree tested for the consolidation follow-up. The earlier table remains a
+historical pre-landing snapshot rather than the current PR status.
 
 ## Existing verification envelope and open analytical questions
 
@@ -95,6 +116,13 @@ Use [the analytical development program](../roadmaps/analytical_development_prog
 Do not add another target/optimization layer during consolidation. No new owner
 input is needed to prepare independent analytical checks using the existing
 explicit fixtures. A physical-correlation dataset is not requested now.
+
+The first analytical increment is recorded in the
+[straight-state tire audit](straight_state_tire_force_audit_review.md): source
+alignment/slip explains most of the large opposing front forces, with explicit
+inclination, bias and nonlinear interaction terms. Their longitudinal
+projections explain the nonzero virtual holder. Conditional table probes remain
+separate from new vehicle equilibria and setup recommendations.
 
 ## Consolidation verification
 
