@@ -1,0 +1,16 @@
+[record]
+id = "EQ-VEH-0023"
+type = "equation"
+title = "Constant-speed signed-curvature motion"
+status = "proposed"
+disposition = "accepted_with_restrictions"
+maturity = "M1"
+verification_level = "none"
+authorization_id = "AUTH-VEH-0012"
+description = "Owner-accepted development relationship with provider-neutral synthetic implementation. Native WUFR composition remains unverified; frame and approximation boundaries are in the function specification."
+canonical_equation = "r=V*kappa; u=V*cos(beta); v=V*sin(beta); a_G=(-r*v,r*u,0)."
+inputs = ["V>0, signed CG path curvature, beta, explicit horizontal heading frame"]
+outputs = ["u/v/r, acceleration and tangent"]
+assumptions = ["ASM-VEH-0006", "ASM-VEH-0007", "ASM-VEH-0008"]
+source_basis = ["Guiggiani 2022 Sec. 3.2.5-3.2.6 Eqs. 3.24, 3.29-3.37, printed pp. 76-78"]
+target_ids = ["MOD-VEH-0009"]
