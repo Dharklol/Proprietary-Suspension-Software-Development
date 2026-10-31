@@ -10,6 +10,27 @@ The current consolidation and dependency status is recorded in [the development 
 
 Every result used for a design decision must be traceable to its definition, derivation, assumptions, evidence, uncertainty, applicable operating range, numerical behavior, dependencies, and verification status.
 
+## Analytical comparison workbench
+
+The first [analytical design workflow](docs/reviews/analytical_design_workflow_review.md)
+defines a provisional source configuration, operating cases, assumption stresses
+and three re-equilibrated rack candidates. Reproduce its offline comparison UI,
+JSON/CSV evidence and static figures with:
+
+```bash
+python -m pip install -e '.[viz]'
+python scripts/run_analytical_design_workflow.py --candidate reference --output candidate_reference.json
+python scripts/run_analytical_design_workflow.py --candidate rack_aft_5mm --output candidate_rack_aft_5mm.json
+python scripts/run_analytical_design_workflow.py --candidate rack_forward_5mm --output candidate_rack_forward_5mm.json
+python scripts/package_analytical_design_workflow.py \
+  --reports candidate_reference.json candidate_rack_aft_5mm.json candidate_rack_forward_5mm.json \
+  --output-dir analytical_comparison --figures
+```
+
+Open `analytical_comparison/index.html` locally. No external JavaScript or web
+service is required. The UI filters solved evidence; configuration/run inputs
+remain explicit CLI controls in this first slice. No preferred design is selected.
+
 ## Source-of-truth boundaries
 
 - **Git** owns machine-readable definitions, schemas, tests, audit records, migration decisions, and release history.
