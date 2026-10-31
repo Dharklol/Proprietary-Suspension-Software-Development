@@ -71,6 +71,15 @@ convention, source or modeling issue before using these states for optimization.
 
 ## 3. Map the supported computational envelope
 
+The first [native computational-envelope study](../reviews/native_computational_envelope_review.md)
+is implemented with retained accepted/failed attempts in both directions.
+Its original-bound search reaches magnitude 0.12 per metre and fails at the
+tested 0.125 endpoint. Separate +/-0.10-rad sideslip-bound controls recover both
+0.125 cases on the original source branch. The original +/-0.08-rad solver box
+therefore excludes those recovered roots; the stopping point is not established
+as a physical grip limit. Further numerical-control and physical-input
+sensitivity remain separate next steps.
+
 Continue in both turn directions from individually accepted states, increasing
 curvature in declared steps at explicit speed/setup/pressure. Retain all failures
 and stop each branch at its first unsupported transition. Refine the bracket

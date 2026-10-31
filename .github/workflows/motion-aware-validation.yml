@@ -185,3 +185,70 @@ jobs:
             varying_state_steering_evidence.json
             varying_state_steering_evidence_summary.json
           if-no-files-found: error
+
+  native-computational-envelope:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        direction: [-1, 1]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Verify envelope orchestration and packaging
+        run: python -m unittest tests.test_native_computational_envelope tests.test_native_envelope_bound_control -v
+      - name: Map native signed computational envelope
+        run: |
+          python scripts/run_native_computational_envelope.py \
+            --directions ${{ matrix.direction }} \
+            --curvatures .02 .06 .10 .14 \
+            --refinement-steps 3 --curvature-resolution .001 \
+            --output native_envelope_${{ matrix.direction }}.json \
+            --summary-output native_envelope_${{ matrix.direction }}_summary.json
+      - name: Check the separate numerical sideslip-bound control
+        run: |
+          python scripts/run_native_envelope_bound_control.py \
+            --report native_envelope_${{ matrix.direction }}.json \
+            --sideslip-bound .10 \
+            --output native_envelope_bound_control_${{ matrix.direction }}.json
+      - name: Upload native branch evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-computational-envelope-${{ matrix.direction }}
+          path: |
+            native_envelope_${{ matrix.direction }}.json
+            native_envelope_${{ matrix.direction }}_summary.json
+            native_envelope_bound_control_${{ matrix.direction }}.json
+          if-no-files-found: error
+  native-computational-envelope-package:
+    needs: native-computational-envelope
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: native-computational-envelope-*
+          merge-multiple: true
+      - name: Validate and package both signed branches
+        run: |
+          python scripts/package_native_computational_envelope.py \
+            --reports native_envelope_-1.json native_envelope_1.json \
+            --bound-controls native_envelope_bound_control_-1.json native_envelope_bound_control_1.json \
+            --output native_envelope_combined_summary.json \
+            --compact-output native_envelope_compact_summary.json
+      - name: Upload combined computational envelope
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-computational-envelope-combined
+          path: |
+            native_envelope_combined_summary.json
+            native_envelope_compact_summary.json
+          if-no-files-found: error
