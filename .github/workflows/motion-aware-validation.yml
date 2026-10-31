@@ -252,3 +252,76 @@ jobs:
             native_envelope_combined_summary.json
             native_envelope_compact_summary.json
           if-no-files-found: error
+
+  native-sensitivity-study:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        direction: [-1, 1]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Verify study, recovery and packaging controls
+        run: |
+          python -m unittest tests.test_native_sensitivity_study \
+            tests.test_native_numerical_recovery tests.test_native_sensitivity_package -v
+      - name: Re-equilibrate physical and numerical sensitivity cases
+        run: |
+          python scripts/run_native_sensitivity_study.py \
+            --seed-report benchmarks/vehicle/native_computational_envelope_summary_v0.1.0.json \
+            --controls benchmarks/vehicle/native_sensitivity_controls_v0.1.0.toml \
+            --directions ${{ matrix.direction }} \
+            --output native_sensitivity_${{ matrix.direction }}.json \
+            --summary-output native_sensitivity_${{ matrix.direction }}_summary.json
+      - name: Recover from a common off-root seed
+        run: |
+          python scripts/run_native_numerical_recovery.py \
+            --study native_sensitivity_${{ matrix.direction }}.json \
+            --controls benchmarks/vehicle/native_numerical_recovery_controls_v0.1.0.toml \
+            --output native_numerical_recovery_${{ matrix.direction }}.json \
+            --summary-output native_numerical_recovery_${{ matrix.direction }}_summary.json
+      - name: Upload signed sensitivity evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-sensitivity-${{ matrix.direction }}
+          path: |
+            native_sensitivity_${{ matrix.direction }}.json
+            native_sensitivity_${{ matrix.direction }}_summary.json
+            native_numerical_recovery_${{ matrix.direction }}.json
+            native_numerical_recovery_${{ matrix.direction }}_summary.json
+          if-no-files-found: error
+  native-sensitivity-package:
+    needs: native-sensitivity-study
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package
+        run: python -m pip install -e .
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: native-sensitivity-*
+          merge-multiple: true
+      - name: Validate and combine signed sensitivity evidence
+        run: |
+          python scripts/package_native_sensitivity_study.py \
+            --studies native_sensitivity_-1.json native_sensitivity_1.json \
+            --recoveries native_numerical_recovery_-1.json native_numerical_recovery_1.json \
+            --output native_sensitivity_combined.json \
+            --summary-output native_sensitivity_combined_summary.json
+      - name: Upload combined sensitivity report
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-sensitivity-combined
+          path: |
+            native_sensitivity_combined.json
+            native_sensitivity_combined_summary.json
+          if-no-files-found: error

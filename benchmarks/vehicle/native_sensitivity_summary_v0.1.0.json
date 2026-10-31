@@ -1,0 +1,2982 @@
+{
+  "status": "pass",
+  "study": {
+    "scope": "explicit_re_equilibrated_native_fixture_response_study_only",
+    "controls": {
+      "physical_curvature_magnitude_per_m": 0.1,
+      "numerical_curvature_magnitude_per_m": 0.125,
+      "pressure_steps_pa": [
+        1000.0,
+        2000.0
+      ],
+      "numerical_sideslip_bound_rad": 0.1,
+      "wider_sideslip_bound_rad": 0.12,
+      "fd_step_multiplier": 0.5,
+      "front_arb_target": 2,
+      "rear_arb_target": 2,
+      "numerical_coordinate_difference_limit": 1e-05
+    },
+    "stored_seed_revisions": {
+      "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+      "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+      "tire_revision": "bf1d24bebb5e0fc0cc3eee65df614bad8d48dd671fd8fa0375e8bb2c49e35633"
+    },
+    "current_provider_revisions": {
+      "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+      "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+      "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a"
+    },
+    "stored_coordinates_are_seeds_only": true,
+    "pressure_knot_note": "Separate left/right finite-step responses; no central or smooth tire derivative claimed",
+    "source_pressure_levels_pa": [
+      55200.0,
+      68900.0,
+      82700.0,
+      96500.0
+    ],
+    "physical_or_ranking_authority": false,
+    "objective_weight": 0.0,
+    "source_hashes": {
+      "src/pssd_vehicle/wufr_steady_cornering_geometry.py": "23923ac1efdaeaac7a2f6d602d5fee0f949e9e2b182ea9c75a52ff0b5ca99c3b",
+      "src/pssd_vehicle/steady_cornering_upright.py": "cbe4cb1d9b96413eff8fca25cc83322d7bf712ce1b33f0618cb3bedbf331e7d7",
+      "src/pssd_vehicle/steady_cornering_tire.py": "b44a8775269983c31baf38ec35618cf9db17a846cce733a6d3d67460c85ecba4",
+      "src/pssd_vehicle/steady_cornering.py": "48d423a33d46f510855b0e96506aa0bfa8a399f78937c37f82d0adc1483c3932",
+      "src/pssd_vehicle/steady_cornering_motion.py": "ec2f781b0d80045616d75a1fa12bed5991868e2473fb62b5cfd8ec4d19e43a5e",
+      "tests/wufr_cornering_fixture.py": "d20ca325e9c83367375d132141f3e12f8d95fd320c65549b75a4a4a5d97062c5",
+      "tests/test_wufr_steady_cornering_geometry.py": "1876859659a29032764d8498614de9c517d269f3569a8ad41b478dc74ac3eeca",
+      "tests/test_steady_cornering_tire.py": "858890c58e2703c71510eea26146b5ff70abcb9eaa75be7747a6358f3a46e307",
+      "tests/test_steady_cornering_upright.py": "38beabf6cdc1057edf76792cd8c71d65e6276aebd0954f31cfe38f810078cd92",
+      "scripts/run_wufr_steady_cornering_benchmarks.py": "5fb375d5742593b3458613328a93fc6a9e311a39ad4c488a6f9f3b71adfbb049",
+      "data_catalog/wufr27_static_equilibrium_composition_v1.toml": "138191d4acef93b4acce58cd0ba2d4da43b8adfd91f5a766447d75d956fa237e",
+      "data_catalog/wufr26_road_contact_reference_v0.toml": "84697749794bb44155154df4caca49a06b43569bb7c601c77f7bfb27de5baf05",
+      "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+      "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml": "85739e46db63deb581b65385410e72d2247d7cee06ee45b656d4515b17cd3ddf",
+      "configurations/steering/WUFR27_STEERING_BASELINE_V0.toml": "cbfa707ca2c0d7c188958ade921027bfe7cb3ae740cf8b8c10d30d64ea7b1317",
+      "configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml": "b06b57cb951421bb4cba8f586c28d8993ae49b7d1ab021952660bbeed87d0f58",
+      "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4",
+      "data_catalog/wufr27_static_gravity_allocation_v0.toml": "2f89a18e4d88869ab7602311dfbba75b6dd12a791d6826dd951099de9b23fd41",
+      "data_catalog/wufr27_spring_package_v0.toml": "24b87ba7103971ffa7ab5c99e03121ec7166dec5ac9bf8fb035b8297fb2f49e5",
+      "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml": "f4887a06d1711bd8111df32266473e4b6f7a88912f69931d08bea4a422c39be2",
+      "authorizations/vehicle/AUTH-VEH-0012.toml": "413e8df06a5bbd8b6f432740641eb2a162471e79f42cdc4e6a016b7a16c38176",
+      "registry/records/assumptions/ASM-VEH-0009.toml": "99fc512e5c712c517a25629c4ac3c2747e1e88313ffdab0792bb8e30213989fa",
+      "scripts/run_native_computational_envelope.py": "c7ad8dbce13294d347a82d9aecee8003264d15cd768177f60915817d7cf53db3",
+      "tests/test_native_computational_envelope.py": "a4448d0c62e3e6fe0b441573e9da981aab464250c5c8cf5c2e0827ff88177788",
+      "tests/varying_state_evidence_fixture.py": "b5223a334ba1357f8f8c82454f35bce8be9cdc433e23378181314d7fc654923b",
+      "scripts/run_native_sensitivity_study.py": "5fffdd079d9ec876e3945078324222ddeac88b8a4268a8683bba201b30428f72",
+      "tests/test_native_sensitivity_study.py": "92bea986cb8b1125c7bdfc4bea850594498bf0828dd5a2f7f0f924ca688351de"
+    },
+    "controls_sha256": "3b66e8d766d2564f232595fade9cfb152a98b5eca09fbc40b32d893ae12e788c",
+    "seed_report_sha256": "3241059b50f31741d04c4ea10a61cc6f1a6cbdd96712efa6835afcc33e294679",
+    "seed_report_path": "benchmarks/vehicle/native_computational_envelope_summary_v0.1.0.json",
+    "status": "pass",
+    "directions": [
+      {
+        "direction_sign": -1,
+        "pressure_responses": {
+          "decreasing_pressure": {
+            "interpretation": "one_sided_finite_step_responses_at_source_pressure_knot",
+            "steps": [
+              {
+                "pressure_increment_pa": -1000.0,
+                "comparison_supported": true,
+                "response": {
+                  "body_heave_m": {
+                    "absolute_change": -3.280343005272225e-06,
+                    "finite_step_slope_per_pa": 3.280343005272225e-09
+                  },
+                  "roll_rad": {
+                    "absolute_change": -6.687882492424635e-08,
+                    "finite_step_slope_per_pa": 6.687882492424635e-11
+                  },
+                  "pitch_rad": {
+                    "absolute_change": 4.6904144884959455e-06,
+                    "finite_step_slope_per_pa": -4.690414488495946e-09
+                  },
+                  "sideslip_rad": {
+                    "absolute_change": 6.0961689501162764e-05,
+                    "finite_step_slope_per_pa": -6.096168950116276e-08
+                  },
+                  "rack_m": {
+                    "absolute_change": 2.3084865029068813e-06,
+                    "finite_step_slope_per_pa": -2.3084865029068813e-09
+                  },
+                  "holder_force_n": {
+                    "absolute_change": 0.10087669282258815,
+                    "finite_step_slope_per_pa": -0.00010087669282258816
+                  },
+                  "Fz_front_left_n": {
+                    "absolute_change": -0.02207725100799962,
+                    "finite_step_slope_per_pa": 2.2077251007999622e-05
+                  },
+                  "Fz_front_right_n": {
+                    "absolute_change": 0.018097641331905834,
+                    "finite_step_slope_per_pa": -1.8097641331905835e-05
+                  },
+                  "Fz_rear_left_n": {
+                    "absolute_change": 0.018624722189201748,
+                    "finite_step_slope_per_pa": -1.8624722189201748e-05
+                  },
+                  "Fz_rear_right_n": {
+                    "absolute_change": -0.014645112509981573,
+                    "finite_step_slope_per_pa": 1.4645112509981572e-05
+                  },
+                  "virtual_holder_power_w": {
+                    "absolute_change": 0.8070135425807052,
+                    "finite_step_slope_per_pa": -0.0008070135425807053
+                  },
+                  "Fy_front_left_n": {
+                    "absolute_change": 1.656953005107198,
+                    "finite_step_slope_per_pa": -0.001656953005107198
+                  },
+                  "slip_front_left_rad": {
+                    "absolute_change": -9.460161397312206e-05,
+                    "finite_step_slope_per_pa": 9.460161397312206e-08
+                  },
+                  "inclination_front_left_rad": {
+                    "absolute_change": 6.947483318101022e-06,
+                    "finite_step_slope_per_pa": -6.9474833181010224e-09
+                  },
+                  "Fy_front_right_n": {
+                    "absolute_change": -1.4963333357237616,
+                    "finite_step_slope_per_pa": 0.0014963333357237616
+                  },
+                  "slip_front_right_rad": {
+                    "absolute_change": -0.00010668354035558991,
+                    "finite_step_slope_per_pa": 1.0668354035558991e-07
+                  },
+                  "inclination_front_right_rad": {
+                    "absolute_change": -5.40401002758345e-06,
+                    "finite_step_slope_per_pa": 5.40401002758345e-09
+                  },
+                  "Fy_rear_left_n": {
+                    "absolute_change": -0.29187107152404224,
+                    "finite_step_slope_per_pa": 0.00029187107152404225
+                  },
+                  "slip_rear_left_rad": {
+                    "absolute_change": -5.752555881199939e-05,
+                    "finite_step_slope_per_pa": 5.7525558811999386e-08
+                  },
+                  "inclination_rear_left_rad": {
+                    "absolute_change": -3.6563018391416735e-07,
+                    "finite_step_slope_per_pa": 3.6563018391416736e-10
+                  },
+                  "Fy_rear_right_n": {
+                    "absolute_change": 0.12603037798942296,
+                    "finite_step_slope_per_pa": -0.00012603037798942295
+                  },
+                  "slip_rear_right_rad": {
+                    "absolute_change": -6.480825096488729e-05,
+                    "finite_step_slope_per_pa": 6.48082509648873e-08
+                  },
+                  "inclination_rear_right_rad": {
+                    "absolute_change": 2.756788741453686e-07,
+                    "finite_step_slope_per_pa": -2.756788741453686e-10
+                  }
+                }
+              },
+              {
+                "pressure_increment_pa": -2000.0,
+                "comparison_supported": true,
+                "response": {
+                  "body_heave_m": {
+                    "absolute_change": -6.573763008622382e-06,
+                    "finite_step_slope_per_pa": 3.286881504311191e-09
+                  },
+                  "roll_rad": {
+                    "absolute_change": -1.337753151265872e-07,
+                    "finite_step_slope_per_pa": 6.68876575632936e-11
+                  },
+                  "pitch_rad": {
+                    "absolute_change": 9.33752668205506e-06,
+                    "finite_step_slope_per_pa": -4.66876334102753e-09
+                  },
+                  "sideslip_rad": {
+                    "absolute_change": 0.0001222906029995502,
+                    "finite_step_slope_per_pa": -6.114530149977509e-08
+                  },
+                  "rack_m": {
+                    "absolute_change": 4.6120285845004105e-06,
+                    "finite_step_slope_per_pa": -2.3060142922502053e-09
+                  },
+                  "holder_force_n": {
+                    "absolute_change": 0.20281255937273102,
+                    "finite_step_slope_per_pa": -0.00010140627968636551
+                  },
+                  "Fz_front_left_n": {
+                    "absolute_change": -0.04408964880565236,
+                    "finite_step_slope_per_pa": 2.204482440282618e-05
+                  },
+                  "Fz_front_right_n": {
+                    "absolute_change": 0.03618960580786279,
+                    "finite_step_slope_per_pa": -1.8094802903931397e-05
+                  },
+                  "Fz_rear_left_n": {
+                    "absolute_change": 0.03716233226066379,
+                    "finite_step_slope_per_pa": -1.8581166130331894e-05
+                  },
+                  "Fz_rear_right_n": {
+                    "absolute_change": -0.029262289259634144,
+                    "finite_step_slope_per_pa": 1.4631144629817072e-05
+                  },
+                  "virtual_holder_power_w": {
+                    "absolute_change": 1.6225004749818481,
+                    "finite_step_slope_per_pa": -0.0008112502374909241
+                  },
+                  "Fy_front_left_n": {
+                    "absolute_change": 3.3094196144961643,
+                    "finite_step_slope_per_pa": -0.001654709807248082
+                  },
+                  "slip_front_left_rad": {
+                    "absolute_change": -0.00018946297860544803,
+                    "finite_step_slope_per_pa": 9.473148930272402e-08
+                  },
+                  "inclination_front_left_rad": {
+                    "absolute_change": 1.3879873397550091e-05,
+                    "finite_step_slope_per_pa": -6.939936698775046e-09
+                  },
+                  "Fy_front_right_n": {
+                    "absolute_change": -2.9885461200611303,
+                    "finite_step_slope_per_pa": 0.0014942730600305651
+                  },
+                  "slip_front_right_rad": {
+                    "absolute_change": -0.00021366697639013665,
+                    "finite_step_slope_per_pa": 1.0683348819506832e-07
+                  },
+                  "inclination_front_right_rad": {
+                    "absolute_change": -1.0786813891619507e-05,
+                    "finite_step_slope_per_pa": 5.393406945809753e-09
+                  },
+                  "Fy_rear_left_n": {
+                    "absolute_change": -0.5668222791557582,
+                    "finite_step_slope_per_pa": 0.0002834111395778791
+                  },
+                  "slip_rear_left_rad": {
+                    "absolute_change": -0.00011540084354333402,
+                    "finite_step_slope_per_pa": 5.770042177166701e-08
+                  },
+                  "inclination_rear_left_rad": {
+                    "absolute_change": -6.996041909297646e-07,
+                    "finite_step_slope_per_pa": 3.498020954648823e-10
+                  },
+                  "Fy_rear_right_n": {
+                    "absolute_change": 0.2354999109092546,
+                    "finite_step_slope_per_pa": -0.0001177499554546273
+                  },
+                  "slip_rear_right_rad": {
+                    "absolute_change": -0.00013000236187155068,
+                    "finite_step_slope_per_pa": 6.500118093577534e-08
+                  },
+                  "inclination_rear_right_rad": {
+                    "absolute_change": 5.203762529527867e-07,
+                    "finite_step_slope_per_pa": -2.6018812647639335e-10
+                  }
+                }
+              }
+            ],
+            "central_derivative_claim": false
+          },
+          "increasing_pressure": {
+            "interpretation": "one_sided_finite_step_responses_at_source_pressure_knot",
+            "steps": [
+              {
+                "pressure_increment_pa": 1000.0,
+                "comparison_supported": true,
+                "response": {
+                  "body_heave_m": {
+                    "absolute_change": -7.720376968745838e-06,
+                    "finite_step_slope_per_pa": -7.720376968745838e-09
+                  },
+                  "roll_rad": {
+                    "absolute_change": -1.1132147393179762e-07,
+                    "finite_step_slope_per_pa": -1.1132147393179762e-10
+                  },
+                  "pitch_rad": {
+                    "absolute_change": 1.1174346217443249e-05,
+                    "finite_step_slope_per_pa": 1.117434621744325e-08
+                  },
+                  "sideslip_rad": {
+                    "absolute_change": 3.393321458033949e-05,
+                    "finite_step_slope_per_pa": 3.393321458033949e-08
+                  },
+                  "rack_m": {
+                    "absolute_change": 1.004036722483323e-06,
+                    "finite_step_slope_per_pa": 1.004036722483323e-09
+                  },
+                  "holder_force_n": {
+                    "absolute_change": -0.06333216580326706,
+                    "finite_step_slope_per_pa": -6.333216580326705e-05
+                  },
+                  "Fz_front_left_n": {
+                    "absolute_change": -0.05603580077206516,
+                    "finite_step_slope_per_pa": -5.603580077206516e-05
+                  },
+                  "Fz_front_right_n": {
+                    "absolute_change": 0.031243891604162854,
+                    "finite_step_slope_per_pa": 3.1243891604162854e-05
+                  },
+                  "Fz_rear_left_n": {
+                    "absolute_change": 0.04800749310129504,
+                    "finite_step_slope_per_pa": 4.800749310129504e-05
+                  },
+                  "Fz_rear_right_n": {
+                    "absolute_change": -0.023215583930095818,
+                    "finite_step_slope_per_pa": -2.321558393009582e-05
+                  },
+                  "virtual_holder_power_w": {
+                    "absolute_change": -0.5066573264261365,
+                    "finite_step_slope_per_pa": -0.0005066573264261364
+                  },
+                  "Fy_front_left_n": {
+                    "absolute_change": 3.9957130149980458,
+                    "finite_step_slope_per_pa": 0.003995713014998046
+                  },
+                  "slip_front_left_rad": {
+                    "absolute_change": -5.124589303662219e-05,
+                    "finite_step_slope_per_pa": -5.1245893036622194e-08
+                  },
+                  "inclination_front_left_rad": {
+                    "absolute_change": 1.537121631185051e-05,
+                    "finite_step_slope_per_pa": 1.537121631185051e-08
+                  },
+                  "Fy_front_right_n": {
+                    "absolute_change": -3.5589004958200974,
+                    "finite_step_slope_per_pa": -0.0035589004958200975
+                  },
+                  "slip_front_right_rad": {
+                    "absolute_change": -4.960726977509822e-05,
+                    "finite_step_slope_per_pa": -4.9607269775098216e-08
+                  },
+                  "inclination_front_right_rad": {
+                    "absolute_change": -1.8169570030417137e-05,
+                    "finite_step_slope_per_pa": -1.8169570030417137e-08
+                  },
+                  "Fy_rear_left_n": {
+                    "absolute_change": -0.8270897556820955,
+                    "finite_step_slope_per_pa": -0.0008270897556820955
+                  },
+                  "slip_rear_left_rad": {
+                    "absolute_change": -3.210623661953349e-05,
+                    "finite_step_slope_per_pa": -3.210623661953349e-08
+                  },
+                  "inclination_rear_left_rad": {
+                    "absolute_change": -9.04557651799226e-07,
+                    "finite_step_slope_per_pa": -9.04557651799226e-10
+                  },
+                  "Fy_rear_right_n": {
+                    "absolute_change": 0.39279388231682333,
+                    "finite_step_slope_per_pa": 0.00039279388231682334
+                  },
+                  "slip_rear_right_rad": {
+                    "absolute_change": -3.608058691595417e-05,
+                    "finite_step_slope_per_pa": -3.608058691595417e-08
+                  },
+                  "inclination_rear_right_rad": {
+                    "absolute_change": 7.470545630092196e-07,
+                    "finite_step_slope_per_pa": 7.470545630092195e-10
+                  }
+                }
+              },
+              {
+                "pressure_increment_pa": 2000.0,
+                "comparison_supported": true,
+                "response": {
+                  "body_heave_m": {
+                    "absolute_change": -1.5452745028507204e-05,
+                    "finite_step_slope_per_pa": -7.726372514253601e-09
+                  },
+                  "roll_rad": {
+                    "absolute_change": -2.2301277962906776e-07,
+                    "finite_step_slope_per_pa": -1.1150638981453389e-10
+                  },
+                  "pitch_rad": {
+                    "absolute_change": 2.2378218466620426e-05,
+                    "finite_step_slope_per_pa": 1.1189109233310213e-08
+                  },
+                  "sideslip_rad": {
+                    "absolute_change": 6.804212874324256e-05,
+                    "finite_step_slope_per_pa": 3.402106437162128e-08
+                  },
+                  "rack_m": {
+                    "absolute_change": 2.0222653259738266e-06,
+                    "finite_step_slope_per_pa": 1.0111326629869133e-09
+                  },
+                  "holder_force_n": {
+                    "absolute_change": -0.12659192247500783,
+                    "finite_step_slope_per_pa": -6.329596123750392e-05
+                  },
+                  "Fz_front_left_n": {
+                    "absolute_change": -0.11222148934814413,
+                    "finite_step_slope_per_pa": -5.6110744674072064e-05
+                  },
+                  "Fz_front_right_n": {
+                    "absolute_change": 0.06258659225625252,
+                    "finite_step_slope_per_pa": 3.129329612812626e-05
+                  },
+                  "Fz_rear_left_n": {
+                    "absolute_change": 0.09615493565559063,
+                    "finite_step_slope_per_pa": 4.8077467827795316e-05
+                  },
+                  "Fz_rear_right_n": {
+                    "absolute_change": -0.04652003856028841,
+                    "finite_step_slope_per_pa": -2.3260019280144207e-05
+                  },
+                  "virtual_holder_power_w": {
+                    "absolute_change": -1.0127353798000627,
+                    "finite_step_slope_per_pa": -0.0005063676899000314
+                  },
+                  "Fy_front_left_n": {
+                    "absolute_change": 8.002461776861765,
+                    "finite_step_slope_per_pa": 0.004001230888430882
+                  },
+                  "slip_front_left_rad": {
+                    "absolute_change": -0.00010288564184879334,
+                    "finite_step_slope_per_pa": -5.144282092439667e-08
+                  },
+                  "inclination_front_left_rad": {
+                    "absolute_change": 3.077730078723112e-05,
+                    "finite_step_slope_per_pa": 1.538865039361556e-08
+                  },
+                  "Fy_front_right_n": {
+                    "absolute_change": -7.127650768670804,
+                    "finite_step_slope_per_pa": -0.003563825384335402
+                  },
+                  "slip_front_right_rad": {
+                    "absolute_change": -9.966307623754389e-05,
+                    "finite_step_slope_per_pa": -4.9831538118771943e-08
+                  },
+                  "inclination_front_right_rad": {
+                    "absolute_change": -3.636518132896227e-05,
+                    "finite_step_slope_per_pa": -1.8182590664481134e-08
+                  },
+                  "Fy_rear_left_n": {
+                    "absolute_change": -1.6591309416442073,
+                    "finite_step_slope_per_pa": -0.0008295654708221036
+                  },
+                  "slip_rear_left_rad": {
+                    "absolute_change": -6.437749333354503e-05,
+                    "finite_step_slope_per_pa": -3.2188746666772514e-08
+                  },
+                  "inclination_rear_left_rad": {
+                    "absolute_change": -1.817102968926232e-06,
+                    "finite_step_slope_per_pa": -9.08551484463116e-10
+                  },
+                  "Fy_rear_right_n": {
+                    "absolute_change": 0.7893460902187144,
+                    "finite_step_slope_per_pa": 0.0003946730451093572
+                  },
+                  "slip_rear_right_rad": {
+                    "absolute_change": -7.234869326833149e-05,
+                    "finite_step_slope_per_pa": -3.617434663416575e-08
+                  },
+                  "inclination_rear_right_rad": {
+                    "absolute_change": 1.5014675858286697e-06,
+                    "finite_step_slope_per_pa": 7.507337929143348e-10
+                  }
+                }
+              }
+            ],
+            "central_derivative_claim": false
+          }
+        },
+        "arb_responses": {
+          "front": {
+            "original_setting": 1,
+            "target_setting": 2,
+            "comparison_supported": true,
+            "absolute_changes": {
+              "body_heave_m": -1.620903172130754e-07,
+              "roll_rad": 3.500397816016661e-05,
+              "pitch_rad": -7.794004838011922e-06,
+              "sideslip_rad": -6.204799287488905e-05,
+              "rack_m": -8.352248954453939e-07,
+              "holder_force_n": -0.06516901226233784,
+              "Fz_front_left_n": 4.236623188825888,
+              "Fz_front_right_n": -4.261412425534218,
+              "Fz_rear_left_n": -4.342588843621797,
+              "Fz_rear_right_n": 4.367378080333253,
+              "virtual_holder_power_w": -0.5213520980987028,
+              "Fy_front_left_n": -1.1581293722567807,
+              "slip_front_left_rad": 7.662852964518407e-05,
+              "inclination_front_left_rad": 7.066232255999172e-06,
+              "Fy_front_right_n": 1.041189434289521,
+              "slip_front_right_rad": 8.683737216541587e-05,
+              "inclination_front_right_rad": 1.688482294801008e-05,
+              "Fy_rear_left_n": 2.2889275243658176,
+              "slip_rear_left_rad": 6.00291947465692e-05,
+              "inclination_rear_left_rad": 2.545057058064154e-05,
+              "Fy_rear_right_n": -2.165736859388403,
+              "slip_rear_right_rad": 6.85383273428819e-05,
+              "inclination_rear_right_rad": 1.7029004649306984e-05
+            },
+            "derivative_claim": false
+          },
+          "rear": {
+            "original_setting": 1,
+            "target_setting": 2,
+            "comparison_supported": true,
+            "absolute_changes": {
+              "body_heave_m": 1.385614464790479e-06,
+              "roll_rad": 7.40272129139091e-05,
+              "pitch_rad": 9.210911884294801e-06,
+              "sideslip_rad": 7.208089285130892e-05,
+              "rack_m": 2.2993451661706965e-06,
+              "holder_force_n": 0.0740006399892863,
+              "Fz_front_left_n": -5.265832926232179,
+              "Fz_front_right_n": 5.296775045082882,
+              "Fz_rear_left_n": 5.333580220327121,
+              "Fz_rear_right_n": -5.364522339174471,
+              "virtual_holder_power_w": 0.5920051199142904,
+              "Fy_front_left_n": 1.4278891125409245,
+              "slip_front_left_rad": -9.626682594277014e-05,
+              "inclination_front_left_rad": 3.0231696259680474e-05,
+              "Fy_front_right_n": -1.2937491541929376,
+              "slip_front_right_rad": -0.0001029091802187132,
+              "inclination_front_right_rad": 1.7698331347716645e-05,
+              "Fy_rear_left_n": -2.8135301515530386,
+              "slip_rear_left_rad": -6.306202416750395e-05,
+              "inclination_rear_left_rad": 3.9027559810066864e-05,
+              "Fy_rear_right_n": 2.670912826543713,
+              "slip_rear_right_rad": -7.30747446509028e-05,
+              "inclination_rear_right_rad": 5.04892920582152e-05
+            },
+            "derivative_claim": false
+          }
+        },
+        "passed": true,
+        "physical": [
+          {
+            "tag": "physical_anchor",
+            "case": {
+              "state_id": "sensitivity_-1:physical_anchor",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": -0.1,
+              "pressures_pa": [
+                68900.0,
+                68900.0,
+                68900.0,
+                68900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0012431359889357794,
+              "roll_rad": -0.0020182559775732507,
+              "pitch_rad": 0.001339881236774934,
+              "sideslip_rad": -0.06571232341206334,
+              "rack_m": 0.009185628375478868,
+              "holder_force_n": 62.08210254559507,
+              "Fz_front_left_n": 988.8358445140691,
+              "Fz_front_right_n": 615.6595010656852,
+              "Fz_rear_left_n": 992.2765211674749,
+              "Fz_rear_right_n": 406.80340930026864,
+              "virtual_holder_power_w": 496.65682036476056,
+              "Fy_front_left_n": -1275.8347491137445,
+              "slip_front_left_rad": -0.035098347594543,
+              "inclination_front_left_rad": 0.04498965397512084,
+              "Fy_front_right_n": 155.94800424164782,
+              "slip_front_right_rad": 0.00027911796515489584,
+              "inclination_front_right_rad": -0.034021806779809066,
+              "Fy_rear_left_n": -365.44337647371265,
+              "slip_rear_left_rad": -0.006608405632320569,
+              "inclination_rear_left_rad": 0.01633566275296179,
+              "Fy_rear_right_n": -482.03171853306765,
+              "slip_rear_right_rad": -0.025928034367543873,
+              "inclination_rear_right_rad": -0.01877941229513767
+            },
+            "ok": true,
+            "physical_force_norm_n": 5.931060964483967e-09,
+            "physical_moment_norm_nm": 1.2073126523361877e-08
+          },
+          {
+            "tag": "pressure_-1000_pa",
+            "case": {
+              "state_id": "sensitivity_-1:physical_anchor:pressure_-1000_pa",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": -0.1,
+              "pressures_pa": [
+                67900.0,
+                67900.0,
+                67900.0,
+                67900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0012464163319410517,
+              "roll_rad": -0.002018322856398175,
+              "pitch_rad": 0.00134457165126343,
+              "sideslip_rad": -0.06565136172256218,
+              "rack_m": 0.009187936861981775,
+              "holder_force_n": 62.18297923841766,
+              "Fz_front_left_n": 988.8137672630611,
+              "Fz_front_right_n": 615.6775987070171,
+              "Fz_rear_left_n": 992.2951458896641,
+              "Fz_rear_right_n": 406.78876418775866,
+              "virtual_holder_power_w": 497.46383390734127,
+              "Fy_front_left_n": -1274.1777961086373,
+              "slip_front_left_rad": -0.03519294920851612,
+              "inclination_front_left_rad": 0.044996601458438944,
+              "Fy_front_right_n": 154.45167090592406,
+              "slip_front_right_rad": 0.00017243442479930593,
+              "inclination_front_right_rad": -0.03402721078983665,
+              "Fy_rear_left_n": -365.7352475452367,
+              "slip_rear_left_rad": -0.006665931191132568,
+              "inclination_rear_left_rad": 0.016335297122777877,
+              "Fy_rear_right_n": -481.9056881550782,
+              "slip_rear_right_rad": -0.02599284261850876,
+              "inclination_rear_right_rad": -0.018779136616263525
+            },
+            "ok": true,
+            "physical_force_norm_n": 3.0051324205739583e-09,
+            "physical_moment_norm_nm": 6.3672840900263455e-09
+          },
+          {
+            "tag": "pressure_-2000_pa",
+            "case": {
+              "state_id": "sensitivity_-1:physical_anchor:pressure_-2000_pa",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": -0.1,
+              "pressures_pa": [
+                66900.0,
+                66900.0,
+                66900.0,
+                66900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0012497097519444018,
+              "roll_rad": -0.0020183897528883773,
+              "pitch_rad": 0.0013492187634569892,
+              "sideslip_rad": -0.0655900328090638,
+              "rack_m": 0.009190240404063368,
+              "holder_force_n": 62.2849151049678,
+              "Fz_front_left_n": 988.7917548652634,
+              "Fz_front_right_n": 615.695690671493,
+              "Fz_rear_left_n": 992.3136834997356,
+              "Fz_rear_right_n": 406.774147011009,
+              "virtual_holder_power_w": 498.2793208397424,
+              "Fy_front_left_n": -1272.5253294992483,
+              "slip_front_left_rad": -0.03528781057314845,
+              "inclination_front_left_rad": 0.04500353384851839,
+              "Fy_front_right_n": 152.9594581215867,
+              "slip_front_right_rad": 6.545098876475919e-05,
+              "inclination_front_right_rad": -0.034032593593700686,
+              "Fy_rear_left_n": -366.0101987528684,
+              "slip_rear_left_rad": -0.006723806475863903,
+              "inclination_rear_left_rad": 0.01633496314877086,
+              "Fy_rear_right_n": -481.7962186221584,
+              "slip_rear_right_rad": -0.026058036729415424,
+              "inclination_rear_right_rad": -0.018778891918884717
+            },
+            "ok": true,
+            "physical_force_norm_n": 3.531592765246202e-09,
+            "physical_moment_norm_nm": 4.19574862411949e-09
+          },
+          {
+            "tag": "pressure_+1000_pa",
+            "case": {
+              "state_id": "sensitivity_-1:physical_anchor:pressure_+1000_pa",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": -0.1,
+              "pressures_pa": [
+                69900.0,
+                69900.0,
+                69900.0,
+                69900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0012508563659045253,
+              "roll_rad": -0.0020183672990471825,
+              "pitch_rad": 0.0013510555829923773,
+              "sideslip_rad": -0.065678390197483,
+              "rack_m": 0.009186632412201351,
+              "holder_force_n": 62.0187703797918,
+              "Fz_front_left_n": 988.779808713297,
+              "Fz_front_right_n": 615.6907449572893,
+              "Fz_rear_left_n": 992.3245286605762,
+              "Fz_rear_right_n": 406.78019371633854,
+              "virtual_holder_power_w": 496.1501630383344,
+              "Fy_front_left_n": -1271.8390360987464,
+              "slip_front_left_rad": -0.03514959348757962,
+              "inclination_front_left_rad": 0.04500502519143269,
+              "Fy_front_right_n": 152.38910374582773,
+              "slip_front_right_rad": 0.00022951069537979762,
+              "inclination_front_right_rad": -0.03403997634983948,
+              "Fy_rear_left_n": -366.27046622939474,
+              "slip_rear_left_rad": -0.006640511868940102,
+              "inclination_rear_left_rad": 0.01633475819530999,
+              "Fy_rear_right_n": -481.6389246507508,
+              "slip_rear_right_rad": -0.025964114954459827,
+              "inclination_rear_right_rad": -0.01877866524057466
+            },
+            "ok": true,
+            "physical_force_norm_n": 3.1168613154125e-09,
+            "physical_moment_norm_nm": 3.367269171748915e-09
+          },
+          {
+            "tag": "pressure_+2000_pa",
+            "case": {
+              "state_id": "sensitivity_-1:physical_anchor:pressure_+2000_pa",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": -0.1,
+              "pressures_pa": [
+                70900.0,
+                70900.0,
+                70900.0,
+                70900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0012585887339642866,
+              "roll_rad": -0.0020184789903528798,
+              "pitch_rad": 0.0013622594552415545,
+              "sideslip_rad": -0.0656442812833201,
+              "rack_m": 0.009187650640804842,
+              "holder_force_n": 61.95551062312006,
+              "Fz_front_left_n": 988.723623024721,
+              "Fz_front_right_n": 615.7220876579414,
+              "Fz_rear_left_n": 992.3726761031305,
+              "Fz_rear_right_n": 406.75688926170835,
+              "virtual_holder_power_w": 495.6440849849605,
+              "Fy_front_left_n": -1267.8322873368827,
+              "slip_front_left_rad": -0.03520123323639179,
+              "inclination_front_left_rad": 0.045020431275908074,
+              "Fy_front_right_n": 148.82035347297702,
+              "slip_front_right_rad": 0.00017945488891735195,
+              "inclination_front_right_rad": -0.03405817196113803,
+              "Fy_rear_left_n": -367.10250741535685,
+              "slip_rear_left_rad": -0.006672783125654114,
+              "inclination_rear_left_rad": 0.016333845649992865,
+              "Fy_rear_right_n": -481.24237244284893,
+              "slip_rear_right_rad": -0.026000383060812204,
+              "inclination_rear_right_rad": -0.01877791082755184
+            },
+            "ok": true,
+            "physical_force_norm_n": 1.5843090646355973e-09,
+            "physical_moment_norm_nm": 2.7966818533630414e-09
+          },
+          {
+            "tag": "front_arb_setting_2",
+            "case": {
+              "state_id": "sensitivity_-1:physical_anchor:front_arb_setting_2",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": -0.1,
+              "pressures_pa": [
+                68900.0,
+                68900.0,
+                68900.0,
+                68900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 2,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0012432980792529925,
+              "roll_rad": -0.001983251999413084,
+              "pitch_rad": 0.0013320872319369222,
+              "sideslip_rad": -0.06577437140493823,
+              "rack_m": 0.009184793150583423,
+              "holder_force_n": 62.01693353333273,
+              "Fz_front_left_n": 993.072467702895,
+              "Fz_front_right_n": 611.398088640151,
+              "Fz_rear_left_n": 987.9339323238531,
+              "Fz_rear_right_n": 411.1707873806019,
+              "virtual_holder_power_w": 496.13546826666186,
+              "Fy_front_left_n": -1276.9928784860012,
+              "slip_front_left_rad": -0.035021719064897816,
+              "inclination_front_left_rad": 0.04499672020737684,
+              "Fy_front_right_n": 156.98919367593734,
+              "slip_front_right_rad": 0.0003659553373203117,
+              "inclination_front_right_rad": -0.034004921956861056,
+              "Fy_rear_left_n": -363.15444894934683,
+              "slip_rear_left_rad": -0.0065483764375739995,
+              "inclination_rear_left_rad": 0.016361113323542432,
+              "Fy_rear_right_n": -484.19745539245605,
+              "slip_rear_right_rad": -0.02585949604020099,
+              "inclination_rear_right_rad": -0.018762383290488363
+            },
+            "ok": true,
+            "physical_force_norm_n": 4.462927572244317e-09,
+            "physical_moment_norm_nm": 3.756257897839138e-09
+          },
+          {
+            "tag": "rear_arb_setting_2",
+            "case": {
+              "state_id": "sensitivity_-1:physical_anchor:rear_arb_setting_2",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": -0.1,
+              "pressures_pa": [
+                68900.0,
+                68900.0,
+                68900.0,
+                68900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 2,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.001241750374470989,
+              "roll_rad": -0.0019442287646593416,
+              "pitch_rad": 0.001349092148659229,
+              "sideslip_rad": -0.06564024251921204,
+              "rack_m": 0.009187927720645039,
+              "holder_force_n": 62.15610318558436,
+              "Fz_front_left_n": 983.5700115878369,
+              "Fz_front_right_n": 620.956276110768,
+              "Fz_rear_left_n": 997.610101387802,
+              "Fz_rear_right_n": 401.43888696109417,
+              "virtual_holder_power_w": 497.24882548467485,
+              "Fy_front_left_n": -1274.4068600012035,
+              "slip_front_left_rad": -0.03519461442048577,
+              "inclination_front_left_rad": 0.04501988567138052,
+              "Fy_front_right_n": 154.65425508745489,
+              "slip_front_right_rad": 0.00017620878493618264,
+              "inclination_front_right_rad": -0.03400410844846135,
+              "Fy_rear_left_n": -368.2569066252657,
+              "slip_rear_left_rad": -0.006671467656488073,
+              "inclination_rear_left_rad": 0.016374690312771858,
+              "Fy_rear_right_n": -479.36080570652393,
+              "slip_rear_right_rad": -0.026001109112194776,
+              "inclination_rear_right_rad": -0.018728923003079455
+            },
+            "ok": true,
+            "physical_force_norm_n": 2.5732910232011678e-09,
+            "physical_moment_norm_nm": 7.52422280748849e-09
+          }
+        ],
+        "numerical": [
+          {
+            "tag": "numerical_anchor",
+            "case": {
+              "state_id": "sensitivity_-1:numerical_anchor",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": -0.125,
+              "pressures_pa": [
+                68900.0,
+                68900.0,
+                68900.0,
+                68900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0011552262688362196,
+              "roll_rad": -0.0024983950283975704,
+              "pitch_rad": 0.001837133872781329,
+              "sideslip_rad": -0.08009906519645511,
+              "rack_m": 0.011300051807252656,
+              "holder_force_n": 82.5261746855372,
+              "Fz_front_left_n": 1041.0278029184535,
+              "Fz_front_right_n": 579.0129402037466,
+              "Fz_rear_left_n": 1055.3838649983365,
+              "Fz_rear_right_n": 328.15066792696484,
+              "virtual_holder_power_w": 660.2093974842976,
+              "Fy_front_left_n": -1405.207497339142,
+              "slip_front_left_rad": -0.03938862975632684,
+              "inclination_front_left_rad": 0.04545770790410133,
+              "Fy_front_right_n": 4.92822152043702,
+              "slip_front_right_rad": -0.004464040799621927,
+              "inclination_front_right_rad": -0.03184062910667878,
+              "Fy_rear_left_n": -560.3945167168604,
+              "slip_rear_left_rad": -0.012079385740192627,
+              "inclination_rear_left_rad": 0.0157225012253627,
+              "Fy_rear_right_n": -502.30390715751946,
+              "slip_rear_right_rad": -0.032897160103591006,
+              "inclination_rear_right_rad": -0.01875648133689557
+            },
+            "ok": true,
+            "physical_force_norm_n": 1.5809570939009468e-08,
+            "physical_moment_norm_nm": 9.509531989162453e-09
+          },
+          {
+            "tag": "wider_sideslip_box",
+            "case": {
+              "state_id": "sensitivity_-1:numerical_anchor:wider_sideslip_box",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": -0.125,
+              "pressures_pa": [
+                68900.0,
+                68900.0,
+                68900.0,
+                68900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0011552262688362196,
+              "roll_rad": -0.0024983950283975704,
+              "pitch_rad": 0.001837133872781329,
+              "sideslip_rad": -0.08009906519645511,
+              "rack_m": 0.011300051807252656,
+              "holder_force_n": 82.5261746855372,
+              "Fz_front_left_n": 1041.0278029184535,
+              "Fz_front_right_n": 579.0129402037466,
+              "Fz_rear_left_n": 1055.3838649983365,
+              "Fz_rear_right_n": 328.15066792696484,
+              "virtual_holder_power_w": 660.2093974842976,
+              "Fy_front_left_n": -1405.207497339142,
+              "slip_front_left_rad": -0.03938862975632684,
+              "inclination_front_left_rad": 0.04545770790410133,
+              "Fy_front_right_n": 4.92822152043702,
+              "slip_front_right_rad": -0.004464040799621927,
+              "inclination_front_right_rad": -0.03184062910667878,
+              "Fy_rear_left_n": -560.3945167168604,
+              "slip_rear_left_rad": -0.012079385740192627,
+              "inclination_rear_left_rad": 0.0157225012253627,
+              "Fy_rear_right_n": -502.30390715751946,
+              "slip_rear_right_rad": -0.032897160103591006,
+              "inclination_rear_right_rad": -0.01875648133689557
+            },
+            "maximum_scaled_coordinate_change": 0.0,
+            "absolute_output_changes": {
+              "body_heave_m": 0.0,
+              "roll_rad": 0.0,
+              "pitch_rad": 0.0,
+              "sideslip_rad": 0.0,
+              "rack_m": 0.0,
+              "holder_force_n": 0.0,
+              "Fz_front_left_n": 0.0,
+              "Fz_front_right_n": 0.0,
+              "Fz_rear_left_n": 0.0,
+              "Fz_rear_right_n": 0.0,
+              "virtual_holder_power_w": 0.0,
+              "Fy_front_left_n": 0.0,
+              "slip_front_left_rad": 0.0,
+              "inclination_front_left_rad": 0.0,
+              "Fy_front_right_n": 0.0,
+              "slip_front_right_rad": 0.0,
+              "inclination_front_right_rad": 0.0,
+              "Fy_rear_left_n": 0.0,
+              "slip_rear_left_rad": 0.0,
+              "inclination_rear_left_rad": 0.0,
+              "Fy_rear_right_n": 0.0,
+              "slip_rear_right_rad": 0.0,
+              "inclination_rear_right_rad": 0.0
+            },
+            "numerical_comparison_passed": true,
+            "ok": true,
+            "physical_force_norm_n": 1.5809570939009468e-08,
+            "physical_moment_norm_nm": 9.509531989162453e-09
+          },
+          {
+            "tag": "half_fd_steps",
+            "case": {
+              "state_id": "sensitivity_-1:numerical_anchor:half_fd_steps",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": -0.125,
+              "pressures_pa": [
+                68900.0,
+                68900.0,
+                68900.0,
+                68900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0011552262688362196,
+              "roll_rad": -0.0024983950283975704,
+              "pitch_rad": 0.001837133872781329,
+              "sideslip_rad": -0.08009906519645511,
+              "rack_m": 0.011300051807252656,
+              "holder_force_n": 82.5261746855372,
+              "Fz_front_left_n": 1041.0278029184535,
+              "Fz_front_right_n": 579.0129402037466,
+              "Fz_rear_left_n": 1055.3838649983365,
+              "Fz_rear_right_n": 328.15066792696484,
+              "virtual_holder_power_w": 660.2093974842976,
+              "Fy_front_left_n": -1405.207497339142,
+              "slip_front_left_rad": -0.03938862975632684,
+              "inclination_front_left_rad": 0.04545770790410133,
+              "Fy_front_right_n": 4.92822152043702,
+              "slip_front_right_rad": -0.004464040799621927,
+              "inclination_front_right_rad": -0.03184062910667878,
+              "Fy_rear_left_n": -560.3945167168604,
+              "slip_rear_left_rad": -0.012079385740192627,
+              "inclination_rear_left_rad": 0.0157225012253627,
+              "Fy_rear_right_n": -502.30390715751946,
+              "slip_rear_right_rad": -0.032897160103591006,
+              "inclination_rear_right_rad": -0.01875648133689557
+            },
+            "maximum_scaled_coordinate_change": 0.0,
+            "absolute_output_changes": {
+              "body_heave_m": 0.0,
+              "roll_rad": 0.0,
+              "pitch_rad": 0.0,
+              "sideslip_rad": 0.0,
+              "rack_m": 0.0,
+              "holder_force_n": 0.0,
+              "Fz_front_left_n": 0.0,
+              "Fz_front_right_n": 0.0,
+              "Fz_rear_left_n": 0.0,
+              "Fz_rear_right_n": 0.0,
+              "virtual_holder_power_w": 0.0,
+              "Fy_front_left_n": 0.0,
+              "slip_front_left_rad": 0.0,
+              "inclination_front_left_rad": 0.0,
+              "Fy_front_right_n": 0.0,
+              "slip_front_right_rad": 0.0,
+              "inclination_front_right_rad": 0.0,
+              "Fy_rear_left_n": 0.0,
+              "slip_rear_left_rad": 0.0,
+              "inclination_rear_left_rad": 0.0,
+              "Fy_rear_right_n": 0.0,
+              "slip_rear_right_rad": 0.0,
+              "inclination_rear_right_rad": 0.0
+            },
+            "numerical_comparison_passed": true,
+            "ok": true,
+            "physical_force_norm_n": 1.5809570939009468e-08,
+            "physical_moment_norm_nm": 9.509531989162453e-09
+          }
+        ]
+      },
+      {
+        "direction_sign": 1,
+        "pressure_responses": {
+          "decreasing_pressure": {
+            "interpretation": "one_sided_finite_step_responses_at_source_pressure_knot",
+            "steps": [
+              {
+                "pressure_increment_pa": -1000.0,
+                "comparison_supported": true,
+                "response": {
+                  "body_heave_m": {
+                    "absolute_change": -2.7720623867596647e-06,
+                    "finite_step_slope_per_pa": 2.772062386759665e-09
+                  },
+                  "roll_rad": {
+                    "absolute_change": 5.7922939237977505e-08,
+                    "finite_step_slope_per_pa": -5.7922939237977506e-11
+                  },
+                  "pitch_rad": {
+                    "absolute_change": 4.252318638970406e-06,
+                    "finite_step_slope_per_pa": -4.252318638970406e-09
+                  },
+                  "sideslip_rad": {
+                    "absolute_change": -5.9069427864238966e-05,
+                    "finite_step_slope_per_pa": 5.9069427864238964e-08
+                  },
+                  "rack_m": {
+                    "absolute_change": -1.974414092756685e-06,
+                    "finite_step_slope_per_pa": 1.974414092756685e-09
+                  },
+                  "holder_force_n": {
+                    "absolute_change": 0.09713423731530213,
+                    "finite_step_slope_per_pa": -9.713423731530213e-05
+                  },
+                  "Fz_front_left_n": {
+                    "absolute_change": 0.01554611295284758,
+                    "finite_step_slope_per_pa": -1.554611295284758e-05
+                  },
+                  "Fz_front_right_n": {
+                    "absolute_change": -0.019406881881991467,
+                    "finite_step_slope_per_pa": 1.9406881881991468e-05
+                  },
+                  "Fz_rear_left_n": {
+                    "absolute_change": -0.012818373604318367,
+                    "finite_step_slope_per_pa": 1.2818373604318367e-05
+                  },
+                  "Fz_rear_right_n": {
+                    "absolute_change": 0.016679142533462255,
+                    "finite_step_slope_per_pa": -1.6679142533462254e-05
+                  },
+                  "virtual_holder_power_w": {
+                    "absolute_change": 0.777073898522417,
+                    "finite_step_slope_per_pa": -0.000777073898522417
+                  },
+                  "Fy_front_left_n": {
+                    "absolute_change": 1.3141209022486748,
+                    "finite_step_slope_per_pa": -0.0013141209022486749
+                  },
+                  "slip_front_left_rad": {
+                    "absolute_change": 9.841267479870908e-05,
+                    "finite_step_slope_per_pa": -9.841267479870907e-08
+                  },
+                  "inclination_front_left_rad": {
+                    "absolute_change": 4.820342587301407e-06,
+                    "finite_step_slope_per_pa": -4.820342587301407e-09
+                  },
+                  "Fy_front_right_n": {
+                    "absolute_change": -1.456141688594471,
+                    "finite_step_slope_per_pa": 0.001456141688594471
+                  },
+                  "slip_front_right_rad": {
+                    "absolute_change": 8.73656843634052e-05,
+                    "finite_step_slope_per_pa": -8.73656843634052e-08
+                  },
+                  "inclination_front_right_rad": {
+                    "absolute_change": -6.05306513267595e-06,
+                    "finite_step_slope_per_pa": 6.05306513267595e-09
+                  },
+                  "Fy_rear_left_n": {
+                    "absolute_change": -0.18566526347376566,
+                    "finite_step_slope_per_pa": 0.00018566526347376565
+                  },
+                  "slip_rear_left_rad": {
+                    "absolute_change": 6.273344446849904e-05,
+                    "finite_step_slope_per_pa": -6.273344446849905e-08
+                  },
+                  "inclination_rear_left_rad": {
+                    "absolute_change": -3.822721572205312e-07,
+                    "finite_step_slope_per_pa": 3.822721572205312e-10
+                  },
+                  "Fy_rear_right_n": {
+                    "absolute_change": 0.33262349492270005,
+                    "finite_step_slope_per_pa": -0.00033262349492270003
+                  },
+                  "slip_rear_right_rad": {
+                    "absolute_change": 5.565199861612413e-05,
+                    "finite_step_slope_per_pa": -5.565199861612413e-08
+                  },
+                  "inclination_rear_right_rad": {
+                    "absolute_change": 4.6250841553158173e-07,
+                    "finite_step_slope_per_pa": -4.6250841553158174e-10
+                  }
+                }
+              },
+              {
+                "pressure_increment_pa": -2000.0,
+                "comparison_supported": true,
+                "response": {
+                  "body_heave_m": {
+                    "absolute_change": -5.553229890385746e-06,
+                    "finite_step_slope_per_pa": 2.776614945192873e-09
+                  },
+                  "roll_rad": {
+                    "absolute_change": 1.158540574443083e-07,
+                    "finite_step_slope_per_pa": -5.792702872215415e-11
+                  },
+                  "pitch_rad": {
+                    "absolute_change": 8.462979028294078e-06,
+                    "finite_step_slope_per_pa": -4.231489514147039e-09
+                  },
+                  "sideslip_rad": {
+                    "absolute_change": -0.00011838959829234275,
+                    "finite_step_slope_per_pa": 5.919479914617137e-08
+                  },
+                  "rack_m": {
+                    "absolute_change": -3.948364516177805e-06,
+                    "finite_step_slope_per_pa": 1.9741822580889022e-09
+                  },
+                  "holder_force_n": {
+                    "absolute_change": 0.19518437381314868,
+                    "finite_step_slope_per_pa": -9.759218690657433e-05
+                  },
+                  "Fz_front_left_n": {
+                    "absolute_change": 0.031088550355775624,
+                    "finite_step_slope_per_pa": -1.5544275177887813e-05
+                  },
+                  "Fz_front_right_n": {
+                    "absolute_change": -0.038735144968541135,
+                    "finite_step_slope_per_pa": 1.9367572484270566e-05
+                  },
+                  "Fz_rear_left_n": {
+                    "absolute_change": -0.025613469057020666,
+                    "finite_step_slope_per_pa": 1.2806734528510333e-05
+                  },
+                  "Fz_rear_right_n": {
+                    "absolute_change": 0.03326006367012724,
+                    "finite_step_slope_per_pa": -1.663003183506362e-05
+                  },
+                  "virtual_holder_power_w": {
+                    "absolute_change": 1.5614749905051895,
+                    "finite_step_slope_per_pa": -0.0007807374952525947
+                  },
+                  "Fy_front_left_n": {
+                    "absolute_change": 2.623438087668717,
+                    "finite_step_slope_per_pa": -0.0013117190438343585
+                  },
+                  "slip_front_left_rad": {
+                    "absolute_change": 0.00019708983854194173,
+                    "finite_step_slope_per_pa": -9.854491927097087e-08
+                  },
+                  "inclination_front_left_rad": {
+                    "absolute_change": 9.611219017040262e-06,
+                    "finite_step_slope_per_pa": -4.805609508520131e-09
+                  },
+                  "Fy_front_right_n": {
+                    "absolute_change": -2.906949403647104,
+                    "finite_step_slope_per_pa": 0.0014534747018235521
+                  },
+                  "slip_front_right_rad": {
+                    "absolute_change": 0.00017495140613776883,
+                    "finite_step_slope_per_pa": -8.747570306888441e-08
+                  },
+                  "inclination_front_right_rad": {
+                    "absolute_change": -1.2089120495752115e-05,
+                    "finite_step_slope_per_pa": 6.0445602478760576e-09
+                  },
+                  "Fy_rear_left_n": {
+                    "absolute_change": -0.356549547682107,
+                    "finite_step_slope_per_pa": 0.00017827477384105351
+                  },
+                  "slip_rear_left_rad": {
+                    "absolute_change": 0.0001257290856546689,
+                    "finite_step_slope_per_pa": -6.286454282733445e-08
+                  },
+                  "inclination_rear_left_rad": {
+                    "absolute_change": -7.36960261288333e-07,
+                    "finite_step_slope_per_pa": 3.684801306441665e-10
+                  },
+                  "Fy_rear_right_n": {
+                    "absolute_change": 0.6499465940309506,
+                    "finite_step_slope_per_pa": -0.0003249732970154753
+                  },
+                  "slip_rear_right_rad": {
+                    "absolute_change": 0.00011154316060224545,
+                    "finite_step_slope_per_pa": -5.5771580301122724e-08
+                  },
+                  "inclination_rear_right_rad": {
+                    "absolute_change": 8.968715761066559e-07,
+                    "finite_step_slope_per_pa": -4.4843578805332795e-10
+                  }
+                }
+              }
+            ],
+            "central_derivative_claim": false
+          },
+          "increasing_pressure": {
+            "interpretation": "one_sided_finite_step_responses_at_source_pressure_knot",
+            "steps": [
+              {
+                "pressure_increment_pa": 1000.0,
+                "comparison_supported": true,
+                "response": {
+                  "body_heave_m": {
+                    "absolute_change": -8.0860030943783e-06,
+                    "finite_step_slope_per_pa": -8.0860030943783e-09
+                  },
+                  "roll_rad": {
+                    "absolute_change": 1.159307431578601e-07,
+                    "finite_step_slope_per_pa": 1.1593074315786011e-10
+                  },
+                  "pitch_rad": {
+                    "absolute_change": 1.1465983773423834e-05,
+                    "finite_step_slope_per_pa": 1.1465983773423835e-08
+                  },
+                  "sideslip_rad": {
+                    "absolute_change": -3.736402772321068e-05,
+                    "finite_step_slope_per_pa": -3.736402772321068e-08
+                  },
+                  "rack_m": {
+                    "absolute_change": -1.030304274672253e-06,
+                    "finite_step_slope_per_pa": -1.030304274672253e-09
+                  },
+                  "holder_force_n": {
+                    "absolute_change": -0.060825614742157086,
+                    "finite_step_slope_per_pa": -6.082561474215708e-05
+                  },
+                  "Fz_front_left_n": {
+                    "absolute_change": 0.03251050918913734,
+                    "finite_step_slope_per_pa": 3.251050918913734e-05
+                  },
+                  "Fz_front_right_n": {
+                    "absolute_change": -0.05811162799886915,
+                    "finite_step_slope_per_pa": -5.8111627998869154e-05
+                  },
+                  "Fz_rear_left_n": {
+                    "absolute_change": -0.024109391430329197,
+                    "finite_step_slope_per_pa": -2.4109391430329196e-05
+                  },
+                  "Fz_rear_right_n": {
+                    "absolute_change": 0.0497105102401747,
+                    "finite_step_slope_per_pa": 4.97105102401747e-05
+                  },
+                  "virtual_holder_power_w": {
+                    "absolute_change": -0.4866049179372567,
+                    "finite_step_slope_per_pa": -0.00048660491793725666
+                  },
+                  "Fy_front_left_n": {
+                    "absolute_change": 3.6891105634244923,
+                    "finite_step_slope_per_pa": 0.003689110563424492
+                  },
+                  "slip_front_left_rad": {
+                    "absolute_change": 5.347799944077636e-05,
+                    "finite_step_slope_per_pa": 5.347799944077636e-08
+                  },
+                  "inclination_front_left_rad": {
+                    "absolute_change": 1.883841982319029e-05,
+                    "finite_step_slope_per_pa": 1.8838419823190288e-08
+                  },
+                  "Fy_front_right_n": {
+                    "absolute_change": -4.14428148567049,
+                    "finite_step_slope_per_pa": -0.00414428148567049
+                  },
+                  "slip_front_right_rad": {
+                    "absolute_change": 5.495614331207932e-05,
+                    "finite_step_slope_per_pa": 5.495614331207932e-08
+                  },
+                  "inclination_front_right_rad": {
+                    "absolute_change": -1.593576002199837e-05,
+                    "finite_step_slope_per_pa": -1.593576002199837e-08
+                  },
+                  "Fy_rear_left_n": {
+                    "absolute_change": -0.34474314570303477,
+                    "finite_step_slope_per_pa": -0.00034474314570303476
+                  },
+                  "slip_rear_left_rad": {
+                    "absolute_change": 3.966042369540901e-05,
+                    "finite_step_slope_per_pa": 3.9660423695409006e-08
+                  },
+                  "inclination_rear_left_rad": {
+                    "absolute_change": -6.594905818356478e-07,
+                    "finite_step_slope_per_pa": -6.594905818356477e-10
+                  },
+                  "Fy_rear_right_n": {
+                    "absolute_change": 0.7973717448448383,
+                    "finite_step_slope_per_pa": 0.0007973717448448383
+                  },
+                  "slip_rear_right_rad": {
+                    "absolute_change": 3.5319837020431066e-05,
+                    "finite_step_slope_per_pa": 3.531983702043107e-08
+                  },
+                  "inclination_rear_right_rad": {
+                    "absolute_change": 8.191423078486582e-07,
+                    "finite_step_slope_per_pa": 8.191423078486582e-10
+                  }
+                }
+              },
+              {
+                "pressure_increment_pa": 2000.0,
+                "comparison_supported": true,
+                "response": {
+                  "body_heave_m": {
+                    "absolute_change": -1.6185411271178295e-05,
+                    "finite_step_slope_per_pa": -8.092705635589147e-09
+                  },
+                  "roll_rad": {
+                    "absolute_change": 2.3225851177683873e-07,
+                    "finite_step_slope_per_pa": 1.1612925588841937e-10
+                  },
+                  "pitch_rad": {
+                    "absolute_change": 2.2964245928252473e-05,
+                    "finite_step_slope_per_pa": 1.1482122964126237e-08
+                  },
+                  "sideslip_rad": {
+                    "absolute_change": -7.493945846361039e-05,
+                    "finite_step_slope_per_pa": -3.746972923180519e-08
+                  },
+                  "rack_m": {
+                    "absolute_change": -2.074797351698035e-06,
+                    "finite_step_slope_per_pa": -1.0373986758490175e-09
+                  },
+                  "holder_force_n": {
+                    "absolute_change": -0.12155779430605662,
+                    "finite_step_slope_per_pa": -6.077889715302831e-05
+                  },
+                  "Fz_front_left_n": {
+                    "absolute_change": 0.06512604218710294,
+                    "finite_step_slope_per_pa": 3.256302109355147e-05
+                  },
+                  "Fz_front_right_n": {
+                    "absolute_change": -0.11638821299982283,
+                    "finite_step_slope_per_pa": -5.8194106499911414e-05
+                  },
+                  "Fz_rear_left_n": {
+                    "absolute_change": -0.04831319022741809,
+                    "finite_step_slope_per_pa": -2.4156595113709045e-05
+                  },
+                  "Fz_rear_right_n": {
+                    "absolute_change": 0.09957536104002429,
+                    "finite_step_slope_per_pa": 4.9787680520012144e-05
+                  },
+                  "virtual_holder_power_w": {
+                    "absolute_change": -0.972462354448453,
+                    "finite_step_slope_per_pa": -0.0004862311772242265
+                  },
+                  "Fy_front_left_n": {
+                    "absolute_change": 7.389019455951001,
+                    "finite_step_slope_per_pa": 0.0036945097279755005
+                  },
+                  "slip_front_left_rad": {
+                    "absolute_change": 0.00010744060626333152,
+                    "finite_step_slope_per_pa": 5.372030313166576e-08
+                  },
+                  "inclination_front_left_rad": {
+                    "absolute_change": 3.770722063279469e-05,
+                    "finite_step_slope_per_pa": 1.8853610316397345e-08
+                  },
+                  "Fy_front_right_n": {
+                    "absolute_change": -8.300679548402513,
+                    "finite_step_slope_per_pa": -0.004150339774201256
+                  },
+                  "slip_front_right_rad": {
+                    "absolute_change": 0.00011034008840216103,
+                    "finite_step_slope_per_pa": 5.517004420108052e-08
+                  },
+                  "inclination_front_right_rad": {
+                    "absolute_change": -3.190960389972547e-05,
+                    "finite_step_slope_per_pa": -1.5954801949862736e-08
+                  },
+                  "Fy_rear_left_n": {
+                    "absolute_change": -0.693516277411959,
+                    "finite_step_slope_per_pa": -0.0003467581387059795
+                  },
+                  "slip_rear_left_rad": {
+                    "absolute_change": 7.954605008730908e-05,
+                    "finite_step_slope_per_pa": 3.977302504365454e-08
+                  },
+                  "inclination_rear_left_rad": {
+                    "absolute_change": -1.3268483229703087e-06,
+                    "finite_step_slope_per_pa": -6.634241614851544e-10
+                  },
+                  "Fy_rear_right_n": {
+                    "absolute_change": 1.6000983912547326,
+                    "finite_step_slope_per_pa": 0.0008000491956273664
+                  },
+                  "slip_rear_right_rad": {
+                    "absolute_change": 7.083808885210985e-05,
+                    "finite_step_slope_per_pa": 3.541904442605493e-08
+                  },
+                  "inclination_rear_right_rad": {
+                    "absolute_change": 1.646811018482519e-06,
+                    "finite_step_slope_per_pa": 8.234055092412596e-10
+                  }
+                }
+              }
+            ],
+            "central_derivative_claim": false
+          }
+        },
+        "arb_responses": {
+          "front": {
+            "original_setting": 1,
+            "target_setting": 2,
+            "comparison_supported": true,
+            "absolute_changes": {
+              "body_heave_m": -3.811377004485188e-07,
+              "roll_rad": -3.1719651113051644e-05,
+              "pitch_rad": -7.061805305569454e-06,
+              "sideslip_rad": 5.504776269125988e-05,
+              "rack_m": 7.902751909330541e-07,
+              "holder_force_n": -0.056985473718690116,
+              "Fz_front_left_n": -3.8612887522144774,
+              "Fz_front_right_n": 3.838709981312604,
+              "Fz_rear_left_n": 3.957628757525356,
+              "Fz_rear_right_n": -3.935049986632748,
+              "virtual_holder_power_w": -0.45588378974952093,
+              "Fy_front_left_n": -0.9778788183687368,
+              "slip_front_left_rad": -7.797601512882224e-05,
+              "inclination_front_left_rad": -1.5438060189970626e-05,
+              "Fy_front_right_n": 1.0886994642112313,
+              "slip_front_right_rad": -6.882888793802167e-05,
+              "inclination_front_right_rad": -6.229876390026479e-06,
+              "Fy_rear_left_n": 1.9005791418519493,
+              "slip_rear_left_rad": -6.075982983189121e-05,
+              "inclination_rear_left_rad": -1.5522289653610577e-05,
+              "Fy_rear_right_n": -2.0169327732771194,
+              "slip_rear_right_rad": -5.324273913487332e-05,
+              "inclination_rear_right_rad": -2.2956776411470897e-05
+            },
+            "derivative_claim": false
+          },
+          "rear": {
+            "original_setting": 1,
+            "target_setting": 2,
+            "comparison_supported": true,
+            "absolute_changes": {
+              "body_heave_m": 1.8367270422019015e-07,
+              "roll_rad": -6.816604784158826e-05,
+              "pitch_rad": 8.490773606805238e-06,
+              "sideslip_rad": -6.492034877582376e-05,
+              "rack_m": -2.162209862283798e-06,
+              "holder_force_n": 0.06561279756672178,
+              "Fz_front_left_n": 4.878265037818778,
+              "Fz_front_right_n": -4.849844484335108,
+              "Fz_rear_left_n": -4.938830104813746,
+              "Fz_rear_right_n": 4.91040955129472,
+              "virtual_holder_power_w": 0.5249023805337742,
+              "Fy_front_left_n": 1.2369470167378722,
+              "slip_front_left_rad": 9.39371100114883e-05,
+              "inclination_front_left_rad": -1.6062275003551896e-05,
+              "Fy_front_right_n": -1.3667842605873375,
+              "slip_front_right_rad": 8.796204349170722e-05,
+              "inclination_front_right_rad": -2.8103749107596943e-05,
+              "Fy_rear_left_n": -2.3793439310016424,
+              "slip_rear_left_rad": 6.563418043326052e-05,
+              "inclination_rear_left_rad": -4.6324738027511e-05,
+              "Fy_rear_right_n": 2.5168212277737894,
+              "slip_rear_right_rad": 5.664762188972716e-05,
+              "inclination_rear_right_rad": -3.610349802078347e-05
+            },
+            "derivative_claim": false
+          }
+        },
+        "passed": true,
+        "physical": [
+          {
+            "tag": "physical_anchor",
+            "case": {
+              "state_id": "sensitivity_1:physical_anchor",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": 0.1,
+              "pressures_pa": [
+                68900.0,
+                68900.0,
+                68900.0,
+                68900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0012407150647291412,
+              "roll_rad": 0.0018584363815947887,
+              "pitch_rad": 0.0013353938526773548,
+              "sideslip_rad": 0.06598655632278458,
+              "rack_m": -0.009206443565781163,
+              "holder_force_n": 62.18532527437875,
+              "Fz_front_left_n": 627.1514153306815,
+              "Fz_front_right_n": 977.5502880760368,
+              "Fz_rear_left_n": 426.61590195519216,
+              "Fz_rear_right_n": 972.2576706855905,
+              "virtual_holder_power_w": 497.48260219503,
+              "Fy_front_left_n": -151.59163385373648,
+              "slip_front_left_rad": -5.578049557808384e-06,
+              "inclination_front_left_rad": 0.03396759441624691,
+              "Fy_front_right_n": 1272.8070551809,
+              "slip_front_right_rad": 0.03530720786019348,
+              "inclination_front_right_rad": -0.04506887916755939,
+              "Fy_rear_left_n": 491.47237624586353,
+              "slip_rear_left_rad": 0.025602216947063106,
+              "inclination_rear_left_rad": 0.018698661583852975,
+              "Fy_rear_right_n": 354.6775089461014,
+              "slip_rear_right_rad": 0.0063252534925575254,
+              "inclination_rear_right_rad": -0.01644876218695188
+            },
+            "ok": true,
+            "physical_force_norm_n": 8.645222152794245e-09,
+            "physical_moment_norm_nm": 8.147987148363381e-09
+          },
+          {
+            "tag": "pressure_-1000_pa",
+            "case": {
+              "state_id": "sensitivity_1:physical_anchor:pressure_-1000_pa",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": 0.1,
+              "pressures_pa": [
+                67900.0,
+                67900.0,
+                67900.0,
+                67900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0012434871271159009,
+              "roll_rad": 0.0018584943045340267,
+              "pitch_rad": 0.0013396461713163252,
+              "sideslip_rad": 0.06592748689492034,
+              "rack_m": -0.00920841797987392,
+              "holder_force_n": 62.28245951169405,
+              "Fz_front_left_n": 627.1669614436344,
+              "Fz_front_right_n": 977.5308811941549,
+              "Fz_rear_left_n": 426.60308358158784,
+              "Fz_rear_right_n": 972.274349828124,
+              "virtual_holder_power_w": 498.2596760935524,
+              "Fy_front_left_n": -150.2775129514878,
+              "slip_front_left_rad": 9.283462524090069e-05,
+              "inclination_front_left_rad": 0.03397241475883421,
+              "Fy_front_right_n": 1271.3509134923056,
+              "slip_front_right_rad": 0.035394573544556884,
+              "inclination_front_right_rad": -0.045074932232692065,
+              "Fy_rear_left_n": 491.28671098238976,
+              "slip_rear_left_rad": 0.025664950391531605,
+              "inclination_rear_left_rad": 0.018698279311695754,
+              "Fy_rear_right_n": 355.0101324410241,
+              "slip_rear_right_rad": 0.00638090549117365,
+              "inclination_rear_right_rad": -0.016448299678536348
+            },
+            "ok": true,
+            "physical_force_norm_n": 8.089571159306642e-09,
+            "physical_moment_norm_nm": 1.1121303823628753e-08
+          },
+          {
+            "tag": "pressure_-2000_pa",
+            "case": {
+              "state_id": "sensitivity_1:physical_anchor:pressure_-2000_pa",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": 0.1,
+              "pressures_pa": [
+                66900.0,
+                66900.0,
+                66900.0,
+                66900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.001246268294619527,
+              "roll_rad": 0.001858552235652233,
+              "pitch_rad": 0.0013438568317056488,
+              "sideslip_rad": 0.06586816672449224,
+              "rack_m": -0.009210391930297341,
+              "holder_force_n": 62.3805096481919,
+              "Fz_front_left_n": 627.1825038810373,
+              "Fz_front_right_n": 977.5115529310683,
+              "Fz_rear_left_n": 426.59028848613514,
+              "Fz_rear_right_n": 972.2909307492606,
+              "virtual_holder_power_w": 499.0440771855352,
+              "Fy_front_left_n": -148.96819576606777,
+              "slip_front_left_rad": 0.00019151178898413335,
+              "inclination_front_left_rad": 0.03397720563526395,
+              "Fy_front_right_n": 1269.900105777253,
+              "slip_front_right_rad": 0.03548215926633125,
+              "inclination_front_right_rad": -0.04508096828805514,
+              "Fy_rear_left_n": 491.1158266981814,
+              "slip_rear_left_rad": 0.025727946032717774,
+              "inclination_rear_left_rad": 0.018697924623591686,
+              "Fy_rear_right_n": 355.32745554013235,
+              "slip_rear_right_rad": 0.006436796653159771,
+              "inclination_rear_right_rad": -0.016447865315375773
+            },
+            "ok": true,
+            "physical_force_norm_n": 9.055193311886206e-09,
+            "physical_moment_norm_nm": 7.169947469024682e-09
+          },
+          {
+            "tag": "pressure_+1000_pa",
+            "case": {
+              "state_id": "sensitivity_1:physical_anchor:pressure_+1000_pa",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": 0.1,
+              "pressures_pa": [
+                69900.0,
+                69900.0,
+                69900.0,
+                69900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0012488010678235195,
+              "roll_rad": 0.0018585523123379466,
+              "pitch_rad": 0.0013468598364507786,
+              "sideslip_rad": 0.06594919229506137,
+              "rack_m": -0.009207473870055835,
+              "holder_force_n": 62.12449965963659,
+              "Fz_front_left_n": 627.1839258398707,
+              "Fz_front_right_n": 977.492176448038,
+              "Fz_rear_left_n": 426.5917925637618,
+              "Fz_rear_right_n": 972.3073811958307,
+              "virtual_holder_power_w": 496.9959972770927,
+              "Fy_front_left_n": -147.902523290312,
+              "slip_front_left_rad": 4.7899949882967974e-05,
+              "inclination_front_left_rad": 0.0339864328360701,
+              "Fy_front_right_n": 1268.6627736952296,
+              "slip_front_right_rad": 0.03536216400350556,
+              "inclination_front_right_rad": -0.04508481492758139,
+              "Fy_rear_left_n": 491.1276331001605,
+              "slip_rear_left_rad": 0.025641877370758515,
+              "inclination_rear_left_rad": 0.01869800209327114,
+              "Fy_rear_right_n": 355.47488069094624,
+              "slip_rear_right_rad": 0.0063605733295779565,
+              "inclination_rear_right_rad": -0.01644794304464403
+            },
+            "ok": true,
+            "physical_force_norm_n": 1.7345290337550002e-08,
+            "physical_moment_norm_nm": 1.4661444316123256e-08
+          },
+          {
+            "tag": "pressure_+2000_pa",
+            "case": {
+              "state_id": "sensitivity_1:physical_anchor:pressure_+2000_pa",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": 0.1,
+              "pressures_pa": [
+                70900.0,
+                70900.0,
+                70900.0,
+                70900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0012569004760003195,
+              "roll_rad": 0.0018586686401065656,
+              "pitch_rad": 0.0013583580986056072,
+              "sideslip_rad": 0.06591161686432097,
+              "rack_m": -0.009208518363132861,
+              "holder_force_n": 62.06376748007269,
+              "Fz_front_left_n": 627.2165413728686,
+              "Fz_front_right_n": 977.433899863037,
+              "Fz_rear_left_n": 426.56758876496474,
+              "Fz_rear_right_n": 972.3572460466305,
+              "virtual_holder_power_w": 496.51013984058153,
+              "Fy_front_left_n": -144.20261439778548,
+              "slip_front_left_rad": 0.00010186255670552313,
+              "inclination_front_left_rad": 0.0340053016368797,
+              "Fy_front_right_n": 1264.5063756324976,
+              "slip_front_right_rad": 0.03541754794859564,
+              "inclination_front_right_rad": -0.045100788771459115,
+              "Fy_rear_left_n": 490.77885996845157,
+              "slip_rear_left_rad": 0.025681762997150415,
+              "inclination_rear_left_rad": 0.018697334735530004,
+              "Fy_rear_right_n": 356.27760733735613,
+              "slip_rear_right_rad": 0.006396091581409635,
+              "inclination_rear_right_rad": -0.016447115375933397
+            },
+            "ok": true,
+            "physical_force_norm_n": 1.01027830627293e-08,
+            "physical_moment_norm_nm": 8.208354801146254e-09
+          },
+          {
+            "tag": "front_arb_setting_2",
+            "case": {
+              "state_id": "sensitivity_1:physical_anchor:front_arb_setting_2",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": 0.1,
+              "pressures_pa": [
+                68900.0,
+                68900.0,
+                68900.0,
+                68900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 2,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0012410962024295897,
+              "roll_rad": 0.001826716730481737,
+              "pitch_rad": 0.0013283320473717853,
+              "sideslip_rad": 0.06604160408547584,
+              "rack_m": -0.00920565329059023,
+              "holder_force_n": 62.12833980066006,
+              "Fz_front_left_n": 623.290126578467,
+              "Fz_front_right_n": 981.3889980573495,
+              "Fz_rear_left_n": 430.5735307127175,
+              "Fz_rear_right_n": 968.3226206989577,
+              "virtual_holder_power_w": 497.02671840528046,
+              "Fy_front_left_n": -152.56951267210522,
+              "slip_front_left_rad": -8.355406468663062e-05,
+              "inclination_front_left_rad": 0.03395215635605694,
+              "Fy_front_right_n": 1273.8957546451113,
+              "slip_front_right_rad": 0.03523837897225546,
+              "inclination_front_right_rad": -0.045075109043949416,
+              "Fy_rear_left_n": 493.3729553877155,
+              "slip_rear_left_rad": 0.025541457117231214,
+              "inclination_rear_left_rad": 0.018683139294199364,
+              "Fy_rear_right_n": 352.6605761728243,
+              "slip_rear_right_rad": 0.006272010753422652,
+              "inclination_rear_right_rad": -0.01647171896336335
+            },
+            "ok": true,
+            "physical_force_norm_n": 2.4169442565839117e-08,
+            "physical_moment_norm_nm": 1.4781566457231049e-08
+          },
+          {
+            "tag": "rear_arb_setting_2",
+            "case": {
+              "state_id": "sensitivity_1:physical_anchor:rear_arb_setting_2",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": 0.1,
+              "pressures_pa": [
+                68900.0,
+                68900.0,
+                68900.0,
+                68900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 2,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.001240531392024921,
+              "roll_rad": 0.0017902703337532005,
+              "pitch_rad": 0.00134388462628416,
+              "sideslip_rad": 0.06592163597400875,
+              "rack_m": -0.009208605775643447,
+              "holder_force_n": 62.25093807194547,
+              "Fz_front_left_n": 632.0296803685003,
+              "Fz_front_right_n": 972.7004435917017,
+              "Fz_rear_left_n": 421.6770718503784,
+              "Fz_rear_right_n": 977.1680802368852,
+              "virtual_holder_power_w": 498.00750457556376,
+              "Fy_front_left_n": -150.3546868369986,
+              "slip_front_left_rad": 8.835906045367992e-05,
+              "inclination_front_left_rad": 0.03395153214124336,
+              "Fy_front_right_n": 1271.4402709203127,
+              "slip_front_right_rad": 0.035395169903685186,
+              "inclination_front_right_rad": -0.045096982916666986,
+              "Fy_rear_left_n": 489.0930323148619,
+              "slip_rear_left_rad": 0.025667851127496366,
+              "inclination_rear_left_rad": 0.018652336845825464,
+              "Fy_rear_right_n": 357.1943301738752,
+              "slip_rear_right_rad": 0.006381901114447253,
+              "inclination_rear_right_rad": -0.016484865684972663
+            },
+            "ok": true,
+            "physical_force_norm_n": 3.4772125093242836e-09,
+            "physical_moment_norm_nm": 5.976431888714038e-09
+          }
+        ],
+        "numerical": [
+          {
+            "tag": "numerical_anchor",
+            "case": {
+              "state_id": "sensitivity_1:numerical_anchor",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": 0.125,
+              "pressures_pa": [
+                68900.0,
+                68900.0,
+                68900.0,
+                68900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0011569959161184691,
+              "roll_rad": 0.0023387654341387237,
+              "pitch_rad": 0.0018291254845765417,
+              "sideslip_rad": 0.08048746619285964,
+              "rack_m": -0.011320961948274352,
+              "holder_force_n": 82.5347226788152,
+              "Fz_front_left_n": 590.5468959033789,
+              "Fz_front_right_n": 1029.777717977486,
+              "Fz_rear_left_n": 347.9504309166379,
+              "Fz_rear_right_n": 1035.3002312499982,
+              "virtual_holder_power_w": 660.2777814305216,
+              "Fy_front_left_n": 1.17338298574718,
+              "slip_front_left_rad": 0.004742762689344815,
+              "inclination_front_left_rad": 0.03179175873902902,
+              "Fy_front_right_n": 1400.8350489061581,
+              "slip_front_right_rad": 0.03957388859959243,
+              "inclination_front_right_rad": -0.04554366556981589,
+              "Fy_rear_left_n": 516.2717169746587,
+              "slip_rear_left_rad": 0.03242462325055895,
+              "inclination_rear_left_rad": 0.018683707431946434,
+              "Fy_rear_right_n": 544.6968247644822,
+              "slip_rear_right_rad": 0.011683163067151447,
+              "inclination_rear_right_rad": -0.015844217666868672
+            },
+            "ok": true,
+            "physical_force_norm_n": 1.1564306292859326e-08,
+            "physical_moment_norm_nm": 1.3307577477750152e-08
+          },
+          {
+            "tag": "wider_sideslip_box",
+            "case": {
+              "state_id": "sensitivity_1:numerical_anchor:wider_sideslip_box",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": 0.125,
+              "pressures_pa": [
+                68900.0,
+                68900.0,
+                68900.0,
+                68900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0011569959161184691,
+              "roll_rad": 0.0023387654341387237,
+              "pitch_rad": 0.0018291254845765417,
+              "sideslip_rad": 0.08048746619285964,
+              "rack_m": -0.011320961948274352,
+              "holder_force_n": 82.5347226788152,
+              "Fz_front_left_n": 590.5468959033789,
+              "Fz_front_right_n": 1029.777717977486,
+              "Fz_rear_left_n": 347.9504309166379,
+              "Fz_rear_right_n": 1035.3002312499982,
+              "virtual_holder_power_w": 660.2777814305216,
+              "Fy_front_left_n": 1.17338298574718,
+              "slip_front_left_rad": 0.004742762689344815,
+              "inclination_front_left_rad": 0.03179175873902902,
+              "Fy_front_right_n": 1400.8350489061581,
+              "slip_front_right_rad": 0.03957388859959243,
+              "inclination_front_right_rad": -0.04554366556981589,
+              "Fy_rear_left_n": 516.2717169746587,
+              "slip_rear_left_rad": 0.03242462325055895,
+              "inclination_rear_left_rad": 0.018683707431946434,
+              "Fy_rear_right_n": 544.6968247644822,
+              "slip_rear_right_rad": 0.011683163067151447,
+              "inclination_rear_right_rad": -0.015844217666868672
+            },
+            "maximum_scaled_coordinate_change": 0.0,
+            "absolute_output_changes": {
+              "body_heave_m": 0.0,
+              "roll_rad": 0.0,
+              "pitch_rad": 0.0,
+              "sideslip_rad": 0.0,
+              "rack_m": 0.0,
+              "holder_force_n": 0.0,
+              "Fz_front_left_n": 0.0,
+              "Fz_front_right_n": 0.0,
+              "Fz_rear_left_n": 0.0,
+              "Fz_rear_right_n": 0.0,
+              "virtual_holder_power_w": 0.0,
+              "Fy_front_left_n": 0.0,
+              "slip_front_left_rad": 0.0,
+              "inclination_front_left_rad": 0.0,
+              "Fy_front_right_n": 0.0,
+              "slip_front_right_rad": 0.0,
+              "inclination_front_right_rad": 0.0,
+              "Fy_rear_left_n": 0.0,
+              "slip_rear_left_rad": 0.0,
+              "inclination_rear_left_rad": 0.0,
+              "Fy_rear_right_n": 0.0,
+              "slip_rear_right_rad": 0.0,
+              "inclination_rear_right_rad": 0.0
+            },
+            "numerical_comparison_passed": true,
+            "ok": true,
+            "physical_force_norm_n": 1.1564306292859326e-08,
+            "physical_moment_norm_nm": 1.3307577477750152e-08
+          },
+          {
+            "tag": "half_fd_steps",
+            "case": {
+              "state_id": "sensitivity_1:numerical_anchor:half_fd_steps",
+              "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+              "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+              "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+              "tire_revision": "674b077c365fe4e198a5650ab3b3b633f675c953113f3ab3cd68e404b7e1543a",
+              "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "speed_m_s": 8.0,
+              "curvature_per_m": 0.125,
+              "pressures_pa": [
+                68900.0,
+                68900.0,
+                68900.0,
+                68900.0
+              ],
+              "gravity_m_s2": 9.81,
+              "front_arb_setting": 1,
+              "rear_arb_setting": 1,
+              "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "accepted_assumptions": [
+                "ASM-VEH-0006",
+                "ASM-VEH-0007",
+                "ASM-VEH-0008"
+              ],
+              "inertia_policy": "uniform_acceleration_current_mass_lumps",
+              "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+              "radius_policy": "fixed_radius_zero_width_rigid_circle",
+              "result_role": "evidence_only",
+              "state_weight": 0.0
+            },
+            "comparison_supported": true,
+            "branch_signature": [
+              "native_reference_connected_unique_contact_roots",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central",
+              "direct_nonnegative_IA:connected_monotone_central",
+              "reflected_negative_IA:connected_monotone_central"
+            ],
+            "failure_code": null,
+            "outputs": {
+              "body_heave_m": -0.0011569959161184691,
+              "roll_rad": 0.0023387654341387237,
+              "pitch_rad": 0.0018291254845765417,
+              "sideslip_rad": 0.08048746619285964,
+              "rack_m": -0.011320961948274352,
+              "holder_force_n": 82.5347226788152,
+              "Fz_front_left_n": 590.5468959033789,
+              "Fz_front_right_n": 1029.777717977486,
+              "Fz_rear_left_n": 347.9504309166379,
+              "Fz_rear_right_n": 1035.3002312499982,
+              "virtual_holder_power_w": 660.2777814305216,
+              "Fy_front_left_n": 1.17338298574718,
+              "slip_front_left_rad": 0.004742762689344815,
+              "inclination_front_left_rad": 0.03179175873902902,
+              "Fy_front_right_n": 1400.8350489061581,
+              "slip_front_right_rad": 0.03957388859959243,
+              "inclination_front_right_rad": -0.04554366556981589,
+              "Fy_rear_left_n": 516.2717169746587,
+              "slip_rear_left_rad": 0.03242462325055895,
+              "inclination_rear_left_rad": 0.018683707431946434,
+              "Fy_rear_right_n": 544.6968247644822,
+              "slip_rear_right_rad": 0.011683163067151447,
+              "inclination_rear_right_rad": -0.015844217666868672
+            },
+            "maximum_scaled_coordinate_change": 0.0,
+            "absolute_output_changes": {
+              "body_heave_m": 0.0,
+              "roll_rad": 0.0,
+              "pitch_rad": 0.0,
+              "sideslip_rad": 0.0,
+              "rack_m": 0.0,
+              "holder_force_n": 0.0,
+              "Fz_front_left_n": 0.0,
+              "Fz_front_right_n": 0.0,
+              "Fz_rear_left_n": 0.0,
+              "Fz_rear_right_n": 0.0,
+              "virtual_holder_power_w": 0.0,
+              "Fy_front_left_n": 0.0,
+              "slip_front_left_rad": 0.0,
+              "inclination_front_left_rad": 0.0,
+              "Fy_front_right_n": 0.0,
+              "slip_front_right_rad": 0.0,
+              "inclination_front_right_rad": 0.0,
+              "Fy_rear_left_n": 0.0,
+              "slip_rear_left_rad": 0.0,
+              "inclination_rear_left_rad": 0.0,
+              "Fy_rear_right_n": 0.0,
+              "slip_rear_right_rad": 0.0,
+              "inclination_rear_right_rad": 0.0
+            },
+            "numerical_comparison_passed": true,
+            "ok": true,
+            "physical_force_norm_n": 1.1564306292859326e-08,
+            "physical_moment_norm_nm": 1.3307577477750152e-08
+          }
+        ]
+      }
+    ]
+  },
+  "off_root_recovery": {
+    "scope": "common_off_root_numerical_recovery_only",
+    "coordinate_order": [
+      "body_heave_m",
+      "roll_rad",
+      "pitch_rad",
+      "sideslip_rad",
+      "rack_m",
+      "holder_force_n",
+      "Fz_front_left_n",
+      "Fz_front_right_n",
+      "Fz_rear_left_n",
+      "Fz_rear_right_n"
+    ],
+    "coordinate_offsets": [
+      0.0001,
+      5e-05,
+      -5e-05,
+      0.001,
+      0.0001,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "difference_limit": 1e-05,
+    "objective_weight": 0.0,
+    "physical_or_ranking_authority": false,
+    "source_hashes": {
+      "src/pssd_vehicle/wufr_steady_cornering_geometry.py": "23923ac1efdaeaac7a2f6d602d5fee0f949e9e2b182ea9c75a52ff0b5ca99c3b",
+      "src/pssd_vehicle/steady_cornering_upright.py": "cbe4cb1d9b96413eff8fca25cc83322d7bf712ce1b33f0618cb3bedbf331e7d7",
+      "src/pssd_vehicle/steady_cornering_tire.py": "b44a8775269983c31baf38ec35618cf9db17a846cce733a6d3d67460c85ecba4",
+      "src/pssd_vehicle/steady_cornering.py": "48d423a33d46f510855b0e96506aa0bfa8a399f78937c37f82d0adc1483c3932",
+      "src/pssd_vehicle/steady_cornering_motion.py": "ec2f781b0d80045616d75a1fa12bed5991868e2473fb62b5cfd8ec4d19e43a5e",
+      "tests/wufr_cornering_fixture.py": "d20ca325e9c83367375d132141f3e12f8d95fd320c65549b75a4a4a5d97062c5",
+      "tests/test_wufr_steady_cornering_geometry.py": "1876859659a29032764d8498614de9c517d269f3569a8ad41b478dc74ac3eeca",
+      "tests/test_steady_cornering_tire.py": "858890c58e2703c71510eea26146b5ff70abcb9eaa75be7747a6358f3a46e307",
+      "tests/test_steady_cornering_upright.py": "38beabf6cdc1057edf76792cd8c71d65e6276aebd0954f31cfe38f810078cd92",
+      "scripts/run_wufr_steady_cornering_benchmarks.py": "5fb375d5742593b3458613328a93fc6a9e311a39ad4c488a6f9f3b71adfbb049",
+      "data_catalog/wufr27_static_equilibrium_composition_v1.toml": "138191d4acef93b4acce58cd0ba2d4da43b8adfd91f5a766447d75d956fa237e",
+      "data_catalog/wufr26_road_contact_reference_v0.toml": "84697749794bb44155154df4caca49a06b43569bb7c601c77f7bfb27de5baf05",
+      "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+      "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml": "85739e46db63deb581b65385410e72d2247d7cee06ee45b656d4515b17cd3ddf",
+      "configurations/steering/WUFR27_STEERING_BASELINE_V0.toml": "cbfa707ca2c0d7c188958ade921027bfe7cb3ae740cf8b8c10d30d64ea7b1317",
+      "configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml": "b06b57cb951421bb4cba8f586c28d8993ae49b7d1ab021952660bbeed87d0f58",
+      "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4",
+      "data_catalog/wufr27_static_gravity_allocation_v0.toml": "2f89a18e4d88869ab7602311dfbba75b6dd12a791d6826dd951099de9b23fd41",
+      "data_catalog/wufr27_spring_package_v0.toml": "24b87ba7103971ffa7ab5c99e03121ec7166dec5ac9bf8fb035b8297fb2f49e5",
+      "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml": "f4887a06d1711bd8111df32266473e4b6f7a88912f69931d08bea4a422c39be2",
+      "authorizations/vehicle/AUTH-VEH-0012.toml": "413e8df06a5bbd8b6f432740641eb2a162471e79f42cdc4e6a016b7a16c38176",
+      "registry/records/assumptions/ASM-VEH-0009.toml": "99fc512e5c712c517a25629c4ac3c2747e1e88313ffdab0792bb8e30213989fa",
+      "scripts/run_native_computational_envelope.py": "c7ad8dbce13294d347a82d9aecee8003264d15cd768177f60915817d7cf53db3",
+      "tests/test_native_computational_envelope.py": "a4448d0c62e3e6fe0b441573e9da981aab464250c5c8cf5c2e0827ff88177788",
+      "tests/varying_state_evidence_fixture.py": "b5223a334ba1357f8f8c82454f35bce8be9cdc433e23378181314d7fc654923b",
+      "scripts/run_native_sensitivity_study.py": "5fffdd079d9ec876e3945078324222ddeac88b8a4268a8683bba201b30428f72",
+      "tests/test_native_sensitivity_study.py": "92bea986cb8b1125c7bdfc4bea850594498bf0828dd5a2f7f0f924ca688351de",
+      "scripts/run_native_numerical_recovery.py": "edc733be8a39779fb0ca8f118c5ce1907c7530526417a9265feabd8f94808558",
+      "tests/test_native_numerical_recovery.py": "ea215c7f405cafa313359e453d6fc7048d9dbff9df3cbef4ab00cd58c44dbe4c"
+    },
+    "recovery_controls_sha256": "5eac96a31136e4107faa3876276e3b8ed648b6ce2477b62ef12d06fa0b159197",
+    "status": "pass",
+    "directions": [
+      {
+        "direction_sign": -1,
+        "common_initial_coordinates": [
+          -0.0010552262688362196,
+          -0.0024483950283975702,
+          0.0017871338727813292,
+          -0.07909906519645511,
+          0.011400051807252655,
+          82.5261746855372,
+          1041.0278029184535,
+          579.0129402037466,
+          1055.3838649983365,
+          328.15066792696484
+        ],
+        "reference_coordinates": [
+          -0.0011552262688362196,
+          -0.0024983950283975704,
+          0.001837133872781329,
+          -0.08009906519645511,
+          0.011300051807252656,
+          82.5261746855372,
+          1041.0278029184535,
+          579.0129402037466,
+          1055.3838649983365,
+          328.15066792696484
+        ],
+        "passed": true,
+        "variants": [
+          {
+            "variant": "anchor",
+            "initial_scaled_residual": 0.059512717470140086,
+            "actually_iterated": true,
+            "same_source_branch": true,
+            "maximum_scaled_coordinate_change": 2.0847329938733505e-10,
+            "outputs": {
+              "body_heave_m": -0.0011552262690058396,
+              "roll_rad": -0.0024983950282657084,
+              "pitch_rad": 0.0018371338717389626,
+              "sideslip_rad": -0.0800990651971155,
+              "rack_m": 0.011300051807252172,
+              "holder_force_n": 82.52617468441433,
+              "Fz_front_left_n": 1041.0278029449416,
+              "Fz_front_right_n": 579.0129401769847,
+              "Fz_rear_left_n": 1055.38386497083,
+              "Fz_rear_right_n": 328.15066795474485,
+              "virtual_holder_power_w": 660.2093974753146,
+              "Fy_front_left_n": -1405.2074973453903,
+              "slip_front_left_rad": -0.039388629755703786,
+              "inclination_front_left_rad": 0.04545770790382236,
+              "Fy_front_right_n": 4.928221516451735,
+              "slip_front_right_rad": -0.004464040799490476,
+              "inclination_front_right_rad": -0.03184062910568618,
+              "Fy_rear_left_n": -560.3945167018563,
+              "slip_rear_left_rad": -0.012079385739760529,
+              "inclination_rear_left_rad": 0.01572250122606432,
+              "Fy_rear_right_n": -502.30390717622697,
+              "slip_rear_right_rad": -0.03289716010295063,
+              "inclination_rear_right_rad": -0.01875648133749692
+            },
+            "passed": true,
+            "ok": true,
+            "iterations": 5,
+            "failure_code": null,
+            "physical_force_norm_n": 1.8684705150090293e-09,
+            "physical_moment_norm_nm": 4.1338299415917905e-09
+          },
+          {
+            "variant": "wider_sideslip_box",
+            "initial_scaled_residual": 0.059512717470140086,
+            "actually_iterated": true,
+            "same_source_branch": true,
+            "maximum_scaled_coordinate_change": 2.0847329938733505e-10,
+            "outputs": {
+              "body_heave_m": -0.0011552262690058396,
+              "roll_rad": -0.0024983950282657084,
+              "pitch_rad": 0.0018371338717389626,
+              "sideslip_rad": -0.0800990651971155,
+              "rack_m": 0.011300051807252172,
+              "holder_force_n": 82.52617468441433,
+              "Fz_front_left_n": 1041.0278029449416,
+              "Fz_front_right_n": 579.0129401769847,
+              "Fz_rear_left_n": 1055.38386497083,
+              "Fz_rear_right_n": 328.15066795474485,
+              "virtual_holder_power_w": 660.2093974753146,
+              "Fy_front_left_n": -1405.2074973453903,
+              "slip_front_left_rad": -0.039388629755703786,
+              "inclination_front_left_rad": 0.04545770790382236,
+              "Fy_front_right_n": 4.928221516451735,
+              "slip_front_right_rad": -0.004464040799490476,
+              "inclination_front_right_rad": -0.03184062910568618,
+              "Fy_rear_left_n": -560.3945167018563,
+              "slip_rear_left_rad": -0.012079385739760529,
+              "inclination_rear_left_rad": 0.01572250122606432,
+              "Fy_rear_right_n": -502.30390717622697,
+              "slip_rear_right_rad": -0.03289716010295063,
+              "inclination_rear_right_rad": -0.01875648133749692
+            },
+            "passed": true,
+            "ok": true,
+            "iterations": 5,
+            "failure_code": null,
+            "physical_force_norm_n": 1.8684705150090293e-09,
+            "physical_moment_norm_nm": 4.1338299415917905e-09
+          },
+          {
+            "variant": "half_fd_steps",
+            "initial_scaled_residual": 0.059512717470140086,
+            "actually_iterated": true,
+            "same_source_branch": true,
+            "maximum_scaled_coordinate_change": 1.306147464491536e-10,
+            "outputs": {
+              "body_heave_m": -0.0011552262692200593,
+              "roll_rad": -0.0024983950281535906,
+              "pitch_rad": 0.0018371338721282554,
+              "sideslip_rad": -0.08009906519751296,
+              "rack_m": 0.011300051807269706,
+              "holder_force_n": 82.52617468477128,
+              "Fz_front_left_n": 1041.0278029631763,
+              "Fz_front_right_n": 579.0129401587549,
+              "Fz_rear_left_n": 1055.3838649516786,
+              "Fz_rear_right_n": 328.1506679738915,
+              "virtual_holder_power_w": 660.2093974781702,
+              "Fy_front_left_n": -1405.2074973634008,
+              "slip_front_left_rad": -0.03938862975591961,
+              "inclination_front_left_rad": 0.04545770790416907,
+              "Fy_front_right_n": 4.928221526303545,
+              "slip_front_right_rad": -0.004464040799092572,
+              "inclination_front_right_rad": -0.03184062910627556,
+              "Fy_rear_left_n": -560.3945166871968,
+              "slip_rear_left_rad": -0.012079385739407478,
+              "inclination_rear_left_rad": 0.01572250122608768,
+              "Fy_rear_right_n": -502.30390719035137,
+              "slip_rear_right_rad": -0.03289716010251764,
+              "inclination_rear_right_rad": -0.018756481337388265
+            },
+            "passed": true,
+            "ok": true,
+            "iterations": 4,
+            "failure_code": null,
+            "physical_force_norm_n": 5.715382426337786e-09,
+            "physical_moment_norm_nm": 2.2038553362706647e-09
+          }
+        ]
+      },
+      {
+        "direction_sign": 1,
+        "common_initial_coordinates": [
+          -0.001056995916118469,
+          0.002388765434138724,
+          0.0017791254845765418,
+          0.08148746619285964,
+          -0.011220961948274353,
+          82.5347226788152,
+          590.5468959033789,
+          1029.777717977486,
+          347.9504309166379,
+          1035.3002312499982
+        ],
+        "reference_coordinates": [
+          -0.0011569959161184691,
+          0.0023387654341387237,
+          0.0018291254845765417,
+          0.08048746619285964,
+          -0.011320961948274352,
+          82.5347226788152,
+          590.5468959033789,
+          1029.777717977486,
+          347.9504309166379,
+          1035.3002312499982
+        ],
+        "passed": true,
+        "variants": [
+          {
+            "variant": "anchor",
+            "initial_scaled_residual": 0.06018150211223068,
+            "actually_iterated": true,
+            "same_source_branch": true,
+            "maximum_scaled_coordinate_change": 2.5106778635264337e-10,
+            "outputs": {
+              "body_heave_m": -0.001156995916854175,
+              "roll_rad": 0.0023387654342301944,
+              "pitch_rad": 0.0018291254858318806,
+              "sideslip_rad": 0.08048746619269218,
+              "rack_m": -0.011320961948282467,
+              "holder_force_n": 82.5347226801023,
+              "Fz_front_left_n": 590.5468959131741,
+              "Fz_front_right_n": 1029.777717967838,
+              "Fz_rear_left_n": 347.9504309079672,
+              "Fz_rear_right_n": 1035.3002312585213,
+              "virtual_holder_power_w": 660.2777814408184,
+              "Fy_front_left_n": 1.1733829678930174,
+              "slip_front_left_rad": 0.004742762689012192,
+              "inclination_front_left_rad": 0.03179175874115158,
+              "Fy_front_right_n": 1400.8350489136042,
+              "slip_front_right_rad": 0.03957388860028299,
+              "inclination_front_right_rad": -0.04554366557132328,
+              "Fy_rear_left_n": 516.271716968356,
+              "slip_rear_left_rad": 0.03242462325071127,
+              "inclination_rear_left_rad": 0.01868370743185667,
+              "Fy_rear_right_n": 544.6968247712708,
+              "slip_rear_right_rad": 0.011683163067341962,
+              "inclination_rear_right_rad": -0.01584421766669589
+            },
+            "passed": true,
+            "ok": true,
+            "iterations": 3,
+            "failure_code": null,
+            "physical_force_norm_n": 1.5008436430323476e-09,
+            "physical_moment_norm_nm": 1.6096453295660811e-09
+          },
+          {
+            "variant": "wider_sideslip_box",
+            "initial_scaled_residual": 0.06018150211223068,
+            "actually_iterated": true,
+            "same_source_branch": true,
+            "maximum_scaled_coordinate_change": 2.5106778635264337e-10,
+            "outputs": {
+              "body_heave_m": -0.001156995916854175,
+              "roll_rad": 0.0023387654342301944,
+              "pitch_rad": 0.0018291254858318806,
+              "sideslip_rad": 0.08048746619269218,
+              "rack_m": -0.011320961948282467,
+              "holder_force_n": 82.5347226801023,
+              "Fz_front_left_n": 590.5468959131741,
+              "Fz_front_right_n": 1029.777717967838,
+              "Fz_rear_left_n": 347.9504309079672,
+              "Fz_rear_right_n": 1035.3002312585213,
+              "virtual_holder_power_w": 660.2777814408184,
+              "Fy_front_left_n": 1.1733829678930174,
+              "slip_front_left_rad": 0.004742762689012192,
+              "inclination_front_left_rad": 0.03179175874115158,
+              "Fy_front_right_n": 1400.8350489136042,
+              "slip_front_right_rad": 0.03957388860028299,
+              "inclination_front_right_rad": -0.04554366557132328,
+              "Fy_rear_left_n": 516.271716968356,
+              "slip_rear_left_rad": 0.03242462325071127,
+              "inclination_rear_left_rad": 0.01868370743185667,
+              "Fy_rear_right_n": 544.6968247712708,
+              "slip_rear_right_rad": 0.011683163067341962,
+              "inclination_rear_right_rad": -0.01584421766669589
+            },
+            "passed": true,
+            "ok": true,
+            "iterations": 3,
+            "failure_code": null,
+            "physical_force_norm_n": 1.5008436430323476e-09,
+            "physical_moment_norm_nm": 1.6096453295660811e-09
+          },
+          {
+            "variant": "half_fd_steps",
+            "initial_scaled_residual": 0.06018150211223068,
+            "actually_iterated": true,
+            "same_source_branch": true,
+            "maximum_scaled_coordinate_change": 7.049152928040314e-11,
+            "outputs": {
+              "body_heave_m": -0.0011569959158342455,
+              "roll_rad": 0.002338765434366464,
+              "pitch_rad": 0.0018291254849289993,
+              "sideslip_rad": 0.08048746619245091,
+              "rack_m": -0.011320961948261996,
+              "holder_force_n": 82.53472267923007,
+              "Fz_front_left_n": 590.5468959202384,
+              "Fz_front_right_n": 1029.7777179607983,
+              "Fz_rear_left_n": 347.95043089870626,
+              "Fz_rear_right_n": 1035.300231267758,
+              "virtual_holder_power_w": 660.2777814338406,
+              "Fy_front_left_n": 1.1733829777791769,
+              "slip_front_left_rad": 0.0047427626891831665,
+              "inclination_front_left_rad": 0.03179175873920673,
+              "Fy_front_right_n": 1400.8350489016616,
+              "slip_front_right_rad": 0.039573888599965024,
+              "inclination_front_right_rad": -0.0455436655698302,
+              "Fy_rear_left_n": 516.2717169626612,
+              "slip_rear_left_rad": 0.032424623250957296,
+              "inclination_rear_left_rad": 0.018683707431702504,
+              "Fy_rear_right_n": 544.6968247782008,
+              "slip_rear_right_rad": 0.011683163067558677,
+              "inclination_rear_right_rad": -0.01584421766635402
+            },
+            "passed": true,
+            "ok": true,
+            "iterations": 4,
+            "failure_code": null,
+            "physical_force_norm_n": 8.832987315732236e-10,
+            "physical_moment_norm_nm": 1.975028540114454e-09
+          }
+        ]
+      }
+    ]
+  },
+  "objective_weight": 0.0,
+  "physical_or_ranking_authority": false,
+  "input_report_sha256": {
+    "native_sensitivity_-1.json": "36d9d640492e2ec3e98f0f5f635032ea9dc46b31588677bcf2f0e7471254076c",
+    "native_sensitivity_1.json": "e341770452ac7109abcf8eaeab12d931bed6cf0aeaed03867056294ac2513949",
+    "native_numerical_recovery_-1.json": "ca7b10ebb6a2edd83307bc93de53a408cd938e8e636492f45c6c663393417eb2",
+    "native_numerical_recovery_1.json": "09b93e774bb8050223b3ff0a7bce5248b5b8439552ea602eb535b960fe7222fd"
+  },
+  "packager_sha256": "4fdc8a9555c6a27e8b0788d4a84e0a368201e5bf0b2209e5f1fb1dfa4b6769cd",
+  "packager_test_sha256": "bb52dff3786c42a046ccb1be848248f14ca179c4924d484ade04107cfa16a074"
+}

@@ -143,3 +143,38 @@ same three previously recorded exact numerical snapshot comparisons failed
 (force-coordinate diagnostic and two static Level-1 interface-load records).
 No new failing test was reported. Python 3.11 CI must verify the published
 integration head; this local result is not described as a fully passing suite.
+
+## Analytical development after consolidation
+
+The merged consolidation tree is the stable base. Later analytical increments
+are separately reviewed work, not implied main releases:
+
+| Increment | Evidence and meaning |
+|---|---|
+| [Straight-state audit](straight_state_tire_force_audit_review.md) | The opposing front forces and nonzero holder have an explicit alignment/slip, inclination and source-bias explanation |
+| [Manufactured low-force reference](analytical_low_force_reference_review.md) | Forty-two cases recover independent first-order steering, sideslip and axle-force limits, with step convergence |
+| [Native computational envelope](native_computational_envelope_review.md) | Sixteen original-bound attempts plus two separate controls identify a numerical sideslip cutoff without claiming a physical grip limit |
+| [Native sensitivity](native_sensitivity_study_review.md) | Fourteen physical runs, six numerical root evaluations and six off-root recoveries distinguish local physical response from numerical recovery behavior |
+
+At the 2026-10-31 snapshot, PRs 117, 118 and 119 each have eleven successful
+workflows and are ready for review but remain unmerged. The sensitivity follow-up
+is a separate dependent change. Main remains the consolidation merge `8bd03e1`.
+This distinction prevents feature-branch evidence from being described as an
+already landed application release.
+
+The current engineering capability is an uncorrelated, internally synchronized
+steady-cornering development engine with source-bounded tire queries and
+verified frame/force interfaces. It can evaluate explicit cases and perturbations
+without an external synchronized simulation export. Static ideal linkage/load
+exchange and prescribed-load steering compliance/structural screens also exist,
+with their own separate limitations. The maneuver producer does not automatically
+promote those static exchange packets or supply actual steering effort.
+
+The next sequence is to close out the reviewed analytical stack, select one
+intended design configuration and representative maneuver matrix, quantify the
+dominant alignment/tire-assumption sensitivities, and then scope a few
+re-equilibrated steering geometry comparisons with an explicit metric. Expand
+physics when that metric requires it, such as tire aligning moments and the
+load path for steering-effort prediction. Transient/lap simulation and physical
+correlation remain later work. No hardware measurements are needed for this
+pre-build analytical sequence.
