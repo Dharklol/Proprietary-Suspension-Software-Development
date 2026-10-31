@@ -30,6 +30,8 @@ python scripts/package_analytical_design_workflow.py \
 Open `analytical_comparison/index.html` locally. No external JavaScript or web
 service is required. The UI filters solved evidence; configuration/run inputs
 remain explicit CLI controls in this first slice. No preferred design is selected.
+The [recorded comparison viewer](docs/reports/analytical_design_workflow_v0.1.0/index.html)
+contains the first complete 51-case result.
 
 ## Source-of-truth boundaries
 

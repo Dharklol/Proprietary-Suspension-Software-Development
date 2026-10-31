@@ -126,6 +126,14 @@ probabilities without evidence and does not rank candidate steering geometries.
 
 ## 5. Resume criteria for design comparisons
 
+The first bounded [analytical design workflow](../reviews/analytical_design_workflow_review.md)
+now defines a provisional source configuration, five operating cases, three
+fore-aft rack candidates and crossed alignment/tire-gain stresses. The offline
+workbench consumes its paired evidence with explicit coverage and failure states.
+It introduces no optimizer weights or design ranking. This is the initial
+implementation of the four requested targets; intended installed setup and
+broader operating coverage remain separate decisions.
+
 Review the analytical discrepancies, supported envelope and sensitivities before
 implementing varying-state optimizer targets. Then define the design question,
 explicit operating cases, root/branch treatment, evaluation metric and candidate
@@ -137,3 +145,8 @@ maneuver steering-effort model.
 Physical correlation is intentionally deferred. Its eventual collection and
 release requirements remain in the earlier roadmaps; no hardware measurements
 are required to start sections 1–4 under their existing development scope.
+
+The next UI increment is configuration forms, case selection and run/status
+controls around this same plan/result contract. Connect the existing 3D viewer
+through a downstream scene adapter. Keep the analytical engine headless; the UI
+must neither reproduce model equations nor replace explicit failed/missing data.

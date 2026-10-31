@@ -53,6 +53,8 @@ compared with the original rack at the same case and stress. Effect ranges and
 sign stability cover only the declared stresses; missing/incomparable coverage
 prevents a stability conclusion. Explicit metric thresholds distinguish resolved
 signs for reporting and do not claim physical accuracy or design superiority.
+Separate assumption-response columns compare each stress to the same candidate
+and operating case under nominal assumptions. They are not geometry effects.
 
 ## Reproduction and UI boundary
 
@@ -68,3 +70,39 @@ The viewer filters solved evidence by case, stress and metric; it runs no physic
 and needs no external JavaScript module. This is the first team-facing reporting
 slice. Configuration forms, run controls and connection to the existing 3D viewer
 are the next application-layer increment.
+
+## Recorded result
+
+All 51 local Python 3.12 cases pass. Maximum independent force and moment norms
+are 9.60e-8 N and 2.58e-8 N*m; the maximum scaled residual is 9.35e-11 against
+the unchanged 1e-10 gate. The compact source-bound reference is
+`benchmarks/vehicle/analytical_design_workflow_summary_v0.1.0.json`. The committed
+[offline viewer](../reports/analytical_design_workflow_v0.1.0/index.html), CSV
+and SVG figures are reproducible outputs. CI regenerates the full kernel/tire
+records separately on Python 3.11; live PR checks determine its current status.
+
+At the two higher-curvature states, each rack candidate's demand and front-split
+effect retains its sign across the seven declared assumptions. The absolute
+rack-demand effect is 0.0832–0.0855 mm; signed heading-split changes have magnitude
+0.0326–0.0341 degrees. These local sign results do not establish packaging
+feasibility, a preferred geometry, real steering effort or robustness outside
+the tested cases and one-at-a-time stresses.
+
+For the reference geometry, the largest rack-demand changes across each pair
+of stress signs and turn directions are:
+
+| Declared stress | Rack change (mm) | Front heading-split change (deg) |
+|---|---:|---:|
+| Front toe +/-0.2 deg | 0.0523 | 0.3786 |
+| Front camber +/-0.5 deg | 0.0206 | 0.00489 |
+| Lateral-force gain 0.95/1.05 | 0.00616 | 0.00466 |
+
+Perturbation sizes have different physical meanings and are not uncertainty
+intervals. Toe directly changes the nominal heading split, so its larger split
+response does not by itself measure a handling advantage. The finding supports
+keeping alignment explicit before attributing a small split change to geometry.
+
+Validation includes 11 new contract/reporting tests and 39 adjacent regressions,
+registry validation, static rendering and browser checks for case/stress/metric
+selection, failure visibility, rejected invalid JSON, download/reopen, desktop
+layout and a 390-pixel viewport without document overflow.
