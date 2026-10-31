@@ -33,3 +33,11 @@ inputs. Tire/pressure/load provenance remains unresolved. The reviewed mass
 catalog supplies 5 kg unsprung corner lumps and individual scale readings. The
 historical calculator's 10 kg-per-corner value is not used. KW vendor curve
 recovery/settings remains separate from the static gas/friction hold.
+
+Subsequent source recovery found the KW vendor document at Box file
+1791709004896. It maps reviewed piggyback part 3980599103 to standard S2FS01
+and gives adjustment ranges at 0.25 m/s: rebound 300–1060 N and compression
+magnitudes 460–1350 N (negative on the vendor plot). This is not a linear
+viscous coefficient. Plot digitization/click-specific curve verification is the
+next data task; the present results continue to use labelled damping proxies.
+See `data_catalog/kw_v5_dynamic_source_recovery_v0.toml`.

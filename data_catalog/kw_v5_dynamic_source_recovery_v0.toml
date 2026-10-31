@@ -1,0 +1,25 @@
+version = "0.1.0"
+record_id = "KW_V5_DYNAMIC_SOURCE_RECOVERY_V0"
+source_box_file_id = "1791709004896"
+source_name = "V5 FSAE Damper Info - German (4).pdf"
+source_url = "https://account.box.com/file/1791709004896"
+read_date = "2026-10-31"
+authority = "vendor family/part/setting and one-speed adjustment envelope; no digitized force law"
+source_text_role = "extracted text; plot ordinates require separate visual digitization and verification"
+
+[standard_setting]
+setting = "S2FS01"
+piggyback_part_number = "3980599103"
+velocity_m_per_s = 0.25
+rebound_force_range_N = [300.0, 1060.0]
+compression_vendor_signed_force_range_N = [-1350.0, -460.0]
+connection = "Matches the part number recorded from the reviewed KW invoice in wufr27_damper_static_force_authority_v0.toml"
+clicks_per_adjuster_inclusive = [0, 18]
+independent_adjusters = ["low_speed_rebound", "high_speed_rebound", "low_speed_compression", "high_speed_compression"]
+
+[limits]
+installed_click_settings_identified = false
+digitized_velocity_force_curves_available = false
+single_speed_range_is_linear_damping_law = false
+static_gas_friction_hold_resolved = false
+next_step = "Visually recover/digitize the standard-setting curves with click combinations, sign convention and interpolation/domain checks; preserve unknown installed settings as explicit scenarios. Do not extrapolate this range to zero speed or call F/v a calibrated viscous coefficient."

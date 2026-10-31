@@ -172,3 +172,8 @@ vehicle modal authority. See [study results](../reports/ride_parameter_study_v0.
 Next: recover KW velocity-force curves/settings and tire operating conditions;
 then equilibrium-based local derivatives and coupled half-car mass/inertia.
 Physical correlation remains deferred; analytical verification continues.
+
+KW source follow-up: recovered vendor Box file 1791709004896 links piggyback
+3980599103 to standard S2FS01 and provides force envelopes at 0.25 m/s. Remaining
+damping work is curve digitization and explicit click-setting scenarios, rather
+than a missing damper-family identity. No one-speed F/v calibration is introduced.
