@@ -1,0 +1,13 @@
+[record]
+id = "MOD-SUSP-0012"
+type = "model"
+title = "Local mapped conservative stiffness"
+status = "active"
+description = "Signed local generalized force and elastic plus loaded geometric stiffness."
+verification_level = "A"
+function_specification = "docs/models/vehicle/reduced_ride_verification_spec_v0.1.0.md"
+maturity = "M2"
+disposition = "accepted_with_restrictions"
+inputs = ["Explicit manufactured SI parameters and source/configuration identities"]
+outputs = ["Signed stiffness"]
+assumptions = ["Manufactured verification only; no installed vehicle authority"]

@@ -1,0 +1,13 @@
+[record]
+id = "MOD-VEH-0010"
+type = "model"
+title = "Manufactured reduced ride model"
+status = "active"
+description = "Linear two-degree-of-freedom ride dynamics and undamped modes about static equilibrium."
+verification_level = "A"
+function_specification = "docs/models/vehicle/reduced_ride_verification_spec_v0.1.0.md"
+maturity = "M2"
+disposition = "accepted_with_restrictions"
+inputs = ["Explicit manufactured SI parameters and source/configuration identities"]
+outputs = ["Modes, guarded time histories and energy residuals"]
+assumptions = ["Manufactured verification only; no installed vehicle authority"]

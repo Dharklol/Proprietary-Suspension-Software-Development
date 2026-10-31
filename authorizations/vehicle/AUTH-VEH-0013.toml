@@ -1,0 +1,11 @@
+version = "0.1.0"
+authorization_id = "AUTH-VEH-0013"
+status = "development_authorized"
+implementation_authorized = true
+function_specification = "docs/models/vehicle/reduced_ride_verification_spec_v0.1.0.md"
+review_record = "docs/models/vehicle/reduced_ride_verification_spec_v0.1.0.md"
+effective_condition = "Owner explicitly requested manufactured verification and reduced transient development on 2026-10-31 regardless of source recovery status."
+[permitted]
+items = ["Manufactured local stiffness, analytical modes and guarded linear quarter-car verification"]
+[prohibited]
+items = ["Installed WUFR predictive authority", "Inferred tire stiffness or KW damping calibration", "Changing static or steady-cornering force providers", "Clipped contact loads or hidden travel violations"]
