@@ -1,0 +1,10 @@
+[record]
+id = "ASM-VEH-0009"
+type = "assumption"
+title = "Development-only negative tire inclination symmetry"
+status = "active"
+description = "For negative signed inclination only, assume Fy(alpha,Fz,gamma,P) = -Fy(-alpha,Fz,-gamma,P) using the reviewed R25B engineering-proxy table. Preserve measured nonnegative-IA source data, explicit transformed lookup and provenance; no extrapolation, smoothing or source-data claims."
+severity = "high"
+affected_ids = ["AUTH-VEH-0012", "MOD-VEH-0009"]
+validity = "Owner explicitly accepted 2026-10-10 for uncorrelated development only. Negative-IA response is assumed, not measured or installed/correlated."
+control = "Require explicit runtime assumption/policy acceptance, retain requested and transformed source queries, reject unsupported transformed source domains, retain the zero-IA boundary and any source-bias discontinuity; no predictive/setup/production promotion."

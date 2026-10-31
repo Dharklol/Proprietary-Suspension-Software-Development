@@ -92,10 +92,23 @@ derive beta from steering geometry, or confuse `u/r` with CG path radius `V/r`.
 
 ### EQ-VEH-0024: tires and speed holding
 
-At each exact current road-contact geometry, project the steered wheel-forward
-direction into the road plane and normalize it to e_xi. Set e_yi = n cross e_xi.
+For native wheel-plane geometry, e_xi is the forward-oriented wheel-plane/road
+intersection, using the existing steering projection primitive. The transported
+forward hint chooses orientation; its simple horizontal projection is not
+equivalent under camber and an inclined steering axis. Set e_yi = n cross e_xi.
 Derive tire inclination in that provider's signed convention from the fully
 steered road-frame wheel plane, not from nominal camber or minimum twist alone.
+
+For the reviewed unchanged-IA R25B adapter, orient the wheel-plane normal toward
+contact-frame left and measure `atan2(normal_left dot n, normal_left dot e_yi)`.
+Positive IA is top leaning right, matching the SAE source definition. Optional
+owner-accepted ASM-VEH-0009 extends only negative IA with
+`Fy(alpha,Fz,gamma,P) = -Fy(-alpha,Fz,-gamma,P)`. Runtime selection must explicitly
+accept that policy; retain both requested and transformed source queries.
+Nonnegative-IA source data are unchanged. Source domains still apply after
+reflection. Zero-IA source bias can create a discontinuity; solver branch guards
+must preserve the direct/reflected boundary rather than smoothing or crossing it.
+This is uncorrelated development evidence, not measured negative-IA behavior.
 
 Evaluate the existing signed tire response **forward** at each wheel's actual
 alpha, recovered Fz, inclination, and explicit pressure:

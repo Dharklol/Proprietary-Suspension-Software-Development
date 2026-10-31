@@ -245,3 +245,9 @@ claim complete implementation, physical correlation or predictive authority.
 Existing static, tire, steering, installed/setup, structural and production
 permissions remain as recorded. See
 `docs/reviews/steady_cornering_development_authorization_review.md`.
+
+The owner separately accepted ASM-VEH-0009 on 2026-10-10: optional negative-IA
+tire reflection for this development producer only. Slip, inclination and
+lateral force are reflected together; source data/domains are retained. This
+does not change AUTH-TIRE-0002/0003 or promote negative-IA data to measured
+authority. The zero-IA source-bias boundary remains explicit and guarded.
