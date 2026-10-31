@@ -29,8 +29,10 @@ setup value, inverse-root selection or design ranking is introduced by this plan
 The initial straight-state source-table audit is implemented; see its
 [review and numerical explanation](../reviews/straight_state_tire_force_audit_review.md).
 It resolves the fixture's large opposing forces within the source/model chain,
-not their physical adequacy. Manufactured zero-alignment/low-force references
-and computational-envelope mapping remain subsequent work.
+not their physical adequacy. The [manufactured low-force reference](../reviews/analytical_low_force_reference_review.md)
+now verifies the zero-alignment straight limit and small-angle steering,
+sideslip and axle force responses. Native computational-envelope mapping is
+the next independent increment.
 
 Write the expected result and acceptance rule before computing the comparison.
 Do not use solver outputs as both the reference and the quantity under test.
