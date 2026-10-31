@@ -1,5 +1,17 @@
 # Post-steering R&D program v0.1.0
 
+## Current development checkpoint — 2026-10-31
+
+The upstream development producer and varying-state baseline evidence reader
+now exist in the open PR 106–110 stack. This historical roadmap is retained;
+its earlier missing-producer statements describe the original stopping point.
+See [the consolidation checkpoint](../reviews/analytical_development_consolidation_2026-10-31.md)
+for current capability and landing status. The next priority is
+[analytical verification and sensitivity](analytical_development_program_v0.1.0.md),
+not another optimizer extension. Physical correlation is deferred until hardware
+is available. Existing steering compliance and structural screens on main remain
+separate from tire-generated effort and coupled maneuver ranking.
+
 ## Decision
 
 The steering R&D vertical slice is feature-complete for its present purpose after PR #32 and PR #33. Further steering-only physics is intentionally paused until upstream suspension, vehicle-state, tire-response, or physical-correlation evidence changes the design question.

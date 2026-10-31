@@ -1,5 +1,17 @@
 # Post-rigid-contact R&D program v0.1.0
 
+## Current development checkpoint — 2026-10-31
+
+The original program below is retained as the architecture and physical-release
+boundary. The owner has selected analytical development while the car is not yet
+built. The immediate work sequence is now documented in
+[the analytical development program](analytical_development_program_v0.1.0.md),
+with the implemented layers and open PR dependencies in
+[the consolidation checkpoint](../reviews/analytical_development_consolidation_2026-10-31.md).
+The accepted AUTH-VEH-0012 development exception permits this work before
+physical correlation. Program D collection and predictive/installed promotion
+remain deferred; they are not prerequisites for the bounded analytical studies.
+
 ## Decision
 
 PR #67 closes the first WUFR design-intent rigid-road compatibility slice. The project now has enough reviewed geometry, conservative suspension-force providers, gravity allocation, and provider-neutral quasi-static mechanics to finish a first uncorrelated static vehicle composition, but WUFR-27-specific prediction is increasingly limited by installed/as-built evidence that cannot exist until the car is assembled.
