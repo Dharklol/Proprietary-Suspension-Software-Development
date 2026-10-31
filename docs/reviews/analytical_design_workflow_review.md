@@ -88,6 +88,25 @@ physical gates, retain the source branch, and agree within the previously used
 precision without promoting it to a physical accuracy claim. The final full
 matrix must be regenerated under the single declared 1e-15 m control.
 
+The first 1e-15 m matrix then retains a separate forward-rack, toe-plus left-high
+line-search failure at scaled residual 1.27622e-10. Its complete rejected record
+is in `benchmarks/vehicle/analytical_workflow_rejected_forward_case_v0.1.0.json`.
+The already declared common off-root perturbation from the earlier recovery
+study recovers this case in five iterations, on the same source branch, within
+3.48e-9 scaled coordinates of the stalled point.
+
+The final plan permits exactly one such bounded recovery for line-search or
+iteration-limit failures with an evaluation and scaled residual between the
+unchanged acceptance gate and 1e-8. The offset vector and coordinate order are
+explicit in the plan. Out-of-box perturbations are rejected, never clipped.
+The recovered solve must actually iterate, pass all original gates, retain the
+same branch and agree within 1e-5 scaled coordinates with the rejected point.
+Domain/source/physical-closure failures are ineligible. The original failed
+attempt and the recovery result remain separate records; a failed or different
+root cannot supply response values. CI exercises these guards and preserves
+the full attempts, while the viewer exposes rejected attempts even when the
+cell eventually has an accepted result.
+
 ## Prior local result — superseded precision
 
 The following result uses the original 1e-14 m study control; the final 1e-15 m
