@@ -144,3 +144,16 @@ jobs:
             native_synced_cornering_export.json
             native_synced_cornering_export_summary.json
           if-no-files-found: error
+      - name: Verify varying-state native steering evidence
+        run: |
+          python scripts/run_varying_state_steering_evidence.py \
+            --output varying_state_steering_evidence.json \
+            --summary-output varying_state_steering_evidence_summary.json
+      - name: Upload varying-state native steering evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: varying-state-native-steering-evidence
+          path: |
+            varying_state_steering_evidence.json
+            varying_state_steering_evidence_summary.json
+          if-no-files-found: error

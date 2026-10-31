@@ -1,0 +1,604 @@
+{
+  "status": "pass",
+  "scope": "native_baseline_varying_state_steering_evidence_only",
+  "tests": {
+    "count": 6,
+    "successful": true
+  },
+  "sample_count": 8,
+  "front_wheel_replay_count": 16,
+  "maximum_forward_force_error_n": 1.1368683772161603e-13,
+  "maximum_center_error_m": 2.7755575615628914e-17,
+  "maximum_observed_heading_error_rad": 3.963843142607004e-16,
+  "source_hashes": {
+    "src/pssd_steering/optimization/varying_state_evidence.py": "354cac3c62773608576eb5be4ae8a0fbe329f817fd6e6fb5c82b92bda271837b",
+    "tests/test_varying_state_steering_evidence.py": "2cb1a591e41a5680a66c7901f547c3531c9c08393b71aa1e8e5d4e8b84a6d6a7",
+    "tests/varying_state_evidence_fixture.py": "b5223a334ba1357f8f8c82454f35bce8be9cdc433e23378181314d7fc654923b",
+    "scripts/run_varying_state_steering_evidence.py": "c087128a0e51f1bdbf04c841e6a63755bc816381f0a26152241190a799f75fc4",
+    "src/pssd_vehicle/steady_cornering_export.py": "d249676c5efe37a388c38cb9859089f195ba160cfe17a7e13ac7f98721398eae"
+  },
+  "native_input_evidence_sha256": "8fd703d865cbeb3e0f09fdb3643ae38c97208301fbac2317e88af3525b427e86",
+  "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+  "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+  "tire_revision": "f28b04264974a39207e358ac26e34a3c8ab56e9abe000b595aa163d1e5b9efb4",
+  "optimizer_target_publication_permitted": false,
+  "design_ranking_or_setup_authority": false,
+  "samples": [
+    {
+      "sample_id": "native_verification_-1_0.0",
+      "ok": true,
+      "failure_code": null,
+      "message": "",
+      "state_id": "native_verification_-1_0.0",
+      "curvature_per_m": -0.0,
+      "rack_displacement_m": -1.1325648148435282e-05,
+      "body_coordinates": [
+        -0.0013225576859841395,
+        -8.00238559316737e-05,
+        0.0005409211113773276
+      ],
+      "role": "evidence_only",
+      "objective_weight": 0.0,
+      "front_wheels": [
+        {
+          "corner_id": "front_left",
+          "center_heading_m": [
+            0.745428290768954,
+            0.60028043444002,
+            0.23221373089272923
+          ],
+          "wheel_heading_rad": -0.017750648976171818,
+          "velocity_heading_rad": 1.7674384833819536e-05,
+          "slip_angle_rad": -0.017768323361005756,
+          "inclination_rad": 0.04110021881556118,
+          "normal_load_n": 793.6708282522758,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": -731.4878241966023,
+          "reflected": false,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            -0.017750648976171846
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 0.0,
+          "center_error_m": 2.7755575615628914e-17,
+          "matched_heading_error_rad": 2.7755575615628914e-17
+        },
+        {
+          "corner_id": "front_right",
+          "center_heading_m": [
+            0.7454322570617461,
+            -0.6129286154006476,
+            0.23221308572851843
+          ],
+          "wheel_heading_rad": 0.018108422368095973,
+          "velocity_heading_rad": 1.7674384833819536e-05,
+          "slip_angle_rad": 0.018090747983261934,
+          "inclination_rad": -0.04116772402733071,
+          "normal_load_n": 782.2628291966014,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": 731.7126877840792,
+          "reflected": true,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            0.018108422368095844
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 0.0,
+          "center_error_m": 2.7755575615628914e-17,
+          "matched_heading_error_rad": 1.2836953722228372e-16
+        }
+      ]
+    },
+    {
+      "sample_id": "native_verification_-1_0.005",
+      "ok": true,
+      "failure_code": null,
+      "message": "",
+      "state_id": "native_verification_-1_0.005",
+      "curvature_per_m": -0.005,
+      "rack_displacement_m": 0.0004596296786751142,
+      "body_coordinates": [
+        -0.0013222420721752557,
+        -0.00017722113297363514,
+        0.0005418792101122529
+      ],
+      "role": "evidence_only",
+      "objective_weight": 0.0,
+      "front_wheels": [
+        {
+          "corner_id": "front_left",
+          "center_heading_m": [
+            0.7456785461847676,
+            0.6002402836476756,
+            0.2322111270087777
+          ],
+          "wheel_heading_rad": -0.025721154118854575,
+          "velocity_heading_rad": -0.007094372353358422,
+          "slip_angle_rad": -0.018626781765496148,
+          "inclination_rad": 0.04137199553146481,
+          "normal_load_n": 802.8141008283541,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": -759.7610602637556,
+          "reflected": false,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            -0.02572115411885445
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 0.0,
+          "center_error_m": 2.7755575615628914e-17,
+          "matched_heading_error_rad": 1.249000902703301e-16
+        },
+        {
+          "corner_id": "front_right",
+          "center_heading_m": [
+            0.7451804342820771,
+            -0.6129670145808437,
+            0.23221578292077094
+          ],
+          "wheel_heading_rad": 0.010097523548582163,
+          "velocity_heading_rad": -0.007135040057927582,
+          "slip_angle_rad": 0.01723256360650982,
+          "inclination_rad": -0.04088476917180609,
+          "normal_load_n": 773.190147393442,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": 704.0310098777719,
+          "reflected": true,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            0.010097523548582288
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 1.1368683772161603e-13,
+          "center_error_m": 2.7755575615628914e-17,
+          "matched_heading_error_rad": 1.249000902703301e-16
+        }
+      ]
+    },
+    {
+      "sample_id": "native_verification_-1_0.01",
+      "ok": true,
+      "failure_code": null,
+      "message": "",
+      "state_id": "native_verification_-1_0.01",
+      "curvature_per_m": -0.01,
+      "rack_displacement_m": 0.0009308855984231689,
+      "body_coordinates": [
+        -0.0013217749415387276,
+        -0.0002744173823270431,
+        0.0005464993389743643
+      ],
+      "role": "evidence_only",
+      "objective_weight": 0.0,
+      "front_wheels": [
+        {
+          "corner_id": "front_left",
+          "center_heading_m": [
+            0.7459274983341373,
+            0.6001978563123616,
+            0.23220858397197855
+          ],
+          "wheel_heading_rad": -0.033656734220216804,
+          "velocity_heading_rad": -0.014168264114882152,
+          "slip_angle_rad": -0.01948847010533461,
+          "inclination_rad": 0.04163571009200296,
+          "normal_load_n": 812.0291568929857,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": -787.9621978875895,
+          "reflected": false,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            -0.033656734220216755
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 1.1368683772161603e-13,
+          "center_error_m": 0.0,
+          "matched_heading_error_rad": 4.85722573273506e-17
+        },
+        {
+          "corner_id": "front_right",
+          "center_heading_m": [
+            0.7449269394046161,
+            -0.6130031129971228,
+            0.23221854342825393
+          ],
+          "wheel_heading_rad": 0.0020389627421732526,
+          "velocity_heading_rad": -0.014331128794974819,
+          "slip_angle_rad": 0.016370091537147857,
+          "inclination_rad": -0.04059313096742335,
+          "normal_load_n": 764.1915870639065,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": 676.2707583391576,
+          "reflected": true,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            0.0020389627421728562
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 0.0,
+          "center_error_m": 0.0,
+          "matched_heading_error_rad": 3.963843142607004e-16
+        }
+      ]
+    },
+    {
+      "sample_id": "native_verification_-1_0.02",
+      "ok": true,
+      "failure_code": null,
+      "message": "",
+      "state_id": "native_verification_-1_0.02",
+      "curvature_per_m": -0.02,
+      "rack_displacement_m": 0.0018708318266287165,
+      "body_coordinates": [
+        -0.0013186068851330764,
+        -0.0004687618807246411,
+        0.0005666097037670588
+      ],
+      "role": "evidence_only",
+      "objective_weight": 0.0,
+      "front_wheels": [
+        {
+          "corner_id": "front_left",
+          "center_heading_m": [
+            0.7464196686319264,
+            0.6001067876433599,
+            0.2322037226700678
+          ],
+          "wheel_heading_rad": -0.04936964146646102,
+          "velocity_heading_rad": -0.028168083891757418,
+          "slip_angle_rad": -0.021201557574703767,
+          "inclination_rad": 0.04213523981902084,
+          "normal_load_n": 830.6739976082491,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": -844.5560530227144,
+          "reflected": false,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            -0.04936964146646128
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 0.0,
+          "center_error_m": 0.0,
+          "matched_heading_error_rad": 2.5673907444456745e-16
+        },
+        {
+          "corner_id": "front_right",
+          "center_heading_m": [
+            0.7444165180115679,
+            -0.6130684199668227,
+            0.23222424706714964
+          ],
+          "wheel_heading_rad": -0.014167558186297446,
+          "velocity_heading_rad": -0.028819179042940183,
+          "slip_angle_rad": 0.014651620856642733,
+          "inclination_rad": -0.03998382723863848,
+          "normal_load_n": 746.4170774251158,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": 620.933589199824,
+          "reflected": true,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            -0.014167558186297668
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 0.0,
+          "center_error_m": 0.0,
+          "matched_heading_error_rad": 2.220446049250313e-16
+        }
+      ]
+    },
+    {
+      "sample_id": "native_verification_1_0.0",
+      "ok": true,
+      "failure_code": null,
+      "message": "",
+      "state_id": "native_verification_1_0.0",
+      "curvature_per_m": 0.0,
+      "rack_displacement_m": -1.1325648148435282e-05,
+      "body_coordinates": [
+        -0.0013225576859841395,
+        -8.00238559316737e-05,
+        0.0005409211113773276
+      ],
+      "role": "evidence_only",
+      "objective_weight": 0.0,
+      "front_wheels": [
+        {
+          "corner_id": "front_left",
+          "center_heading_m": [
+            0.745428290768954,
+            0.60028043444002,
+            0.23221373089272923
+          ],
+          "wheel_heading_rad": -0.017750648976171818,
+          "velocity_heading_rad": 1.7674384833819536e-05,
+          "slip_angle_rad": -0.017768323361005756,
+          "inclination_rad": 0.04110021881556118,
+          "normal_load_n": 793.6708282522758,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": -731.4878241966023,
+          "reflected": false,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            -0.017750648976171846
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 0.0,
+          "center_error_m": 2.7755575615628914e-17,
+          "matched_heading_error_rad": 2.7755575615628914e-17
+        },
+        {
+          "corner_id": "front_right",
+          "center_heading_m": [
+            0.7454322570617461,
+            -0.6129286154006476,
+            0.23221308572851843
+          ],
+          "wheel_heading_rad": 0.018108422368095973,
+          "velocity_heading_rad": 1.7674384833819536e-05,
+          "slip_angle_rad": 0.018090747983261934,
+          "inclination_rad": -0.04116772402733071,
+          "normal_load_n": 782.2628291966014,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": 731.7126877840792,
+          "reflected": true,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            0.018108422368095844
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 0.0,
+          "center_error_m": 2.7755575615628914e-17,
+          "matched_heading_error_rad": 1.2836953722228372e-16
+        }
+      ]
+    },
+    {
+      "sample_id": "native_verification_1_0.005",
+      "ok": true,
+      "failure_code": null,
+      "message": "",
+      "state_id": "native_verification_1_0.005",
+      "curvature_per_m": 0.005,
+      "rack_displacement_m": -0.0004823179832002159,
+      "body_coordinates": [
+        -0.0013220007327807664,
+        1.7174446420713267e-05,
+        0.0005424024888018448
+      ],
+      "role": "evidence_only",
+      "objective_weight": 0.0,
+      "front_wheels": [
+        {
+          "corner_id": "front_left",
+          "center_heading_m": [
+            0.7451764678176012,
+            0.6003185479527707,
+            0.2322164137230616
+          ],
+          "wheel_heading_rad": -0.009737790339805014,
+          "velocity_heading_rad": 0.0071700485091827785,
+          "slip_angle_rad": -0.016907838848987833,
+          "inclination_rad": 0.040818310628250636,
+          "normal_load_n": 784.6018488072335,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": -703.5132078416392,
+          "reflected": false,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            -0.009737790339805041
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 0.0,
+          "center_error_m": 0.0,
+          "matched_heading_error_rad": 2.7755575615628914e-17
+        },
+        {
+          "corner_id": "front_right",
+          "center_heading_m": [
+            0.7456825521669874,
+            -0.6128881756395781,
+            0.2322104671289293
+          ],
+          "wheel_heading_rad": 0.026078274867656376,
+          "velocity_heading_rad": 0.00712921142801822,
+          "slip_angle_rad": 0.018949063439638092,
+          "inclination_rad": -0.04144058663874272,
+          "normal_load_n": 791.4097495584068,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": 759.695090837007,
+          "reflected": true,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            0.026078274867656237
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 1.1368683772161603e-13,
+          "center_error_m": 0.0,
+          "matched_heading_error_rad": 1.3877787807814457e-16
+        }
+      ]
+    },
+    {
+      "sample_id": "native_verification_1_0.01",
+      "ok": true,
+      "failure_code": null,
+      "message": "",
+      "state_id": "native_verification_1_0.01",
+      "curvature_per_m": 0.01,
+      "rack_displacement_m": -0.000953361751064545,
+      "body_coordinates": [
+        -0.001321718707940898,
+        0.00011437124959230137,
+        0.0005479822746979393
+      ],
+      "role": "evidence_only",
+      "objective_weight": 0.0,
+      "front_wheels": [
+        {
+          "corner_id": "front_left",
+          "center_heading_m": [
+            0.7449231392423633,
+            0.6003542345031198,
+            0.23221915043149693
+          ],
+          "wheel_heading_rad": -0.0016816915719427873,
+          "velocity_heading_rad": 0.014365087334492377,
+          "slip_angle_rad": -0.016046778906435133,
+          "inclination_rad": 0.04052872182927726,
+          "normal_load_n": 775.6064448247649,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": -675.2887602157865,
+          "reflected": false,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            -0.0016816915719428671
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 0.0,
+          "center_error_m": 0.0,
+          "matched_heading_error_rad": 7.979727989493313e-17
+        },
+        {
+          "corner_id": "front_right",
+          "center_heading_m": [
+            0.7459314516900718,
+            -0.6128453613175127,
+            0.23220790318950094
+          ],
+          "wheel_heading_rad": 0.03400928267090742,
+          "velocity_heading_rad": 0.014201911003519085,
+          "slip_angle_rad": 0.01980737166738855,
+          "inclination_rad": -0.04170602488648444,
+          "normal_load_n": 800.6279167776102,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": 787.4328321778236,
+          "reflected": true,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            0.03400928267090775
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 0.0,
+          "center_error_m": 0.0,
+          "matched_heading_error_rad": 3.2612801348363973e-16
+        }
+      ]
+    },
+    {
+      "sample_id": "native_verification_1_0.02",
+      "ok": true,
+      "failure_code": null,
+      "message": "",
+      "state_id": "native_verification_1_0.02",
+      "curvature_per_m": 0.02,
+      "rack_displacement_m": -0.001894102974786047,
+      "body_coordinates": [
+        -0.0013188972768821009,
+        0.0003087326087034227,
+        0.0005685514368503558
+      ],
+      "role": "evidence_only",
+      "objective_weight": 0.0,
+      "front_wheels": [
+        {
+          "corner_id": "front_left",
+          "center_heading_m": [
+            0.7444123901933816,
+            0.6004189343202154,
+            0.23222482610244255
+          ],
+          "wheel_heading_rad": 0.014541412902632502,
+          "velocity_heading_rad": 0.028862682127548635,
+          "slip_angle_rad": -0.014321269224915945,
+          "inclination_rad": 0.03992145083145131,
+          "normal_load_n": 757.8412259595273,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": -619.2752418651369,
+          "reflected": false,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            0.014541412902632889
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 0.0,
+          "center_error_m": 0.0,
+          "matched_heading_error_rad": 3.86843335142828e-16
+        },
+        {
+          "corner_id": "front_right",
+          "center_heading_m": [
+            0.746424140060354,
+            -0.6127536093253815,
+            0.2322030046111948
+          ],
+          "wheel_heading_rad": 0.04973318801275589,
+          "velocity_heading_rad": 0.02821087926354969,
+          "slip_angle_rad": 0.021522308749206243,
+          "inclination_rad": -0.0422085241296982,
+          "normal_load_n": 819.2796953895397,
+          "pressure_pa": 68900.0,
+          "lateral_force_n": 843.3736648218132,
+          "reflected": true,
+          "all_root_count": 1,
+          "observed_root_indices": [
+            0
+          ],
+          "all_required_headings_rad": [
+            0.049733188012755836
+          ],
+          "root_selection_applied": false,
+          "forward_force_error_n": 0.0,
+          "center_error_m": 0.0,
+          "matched_heading_error_rad": 5.551115123125783e-17
+        }
+      ]
+    }
+  ]
+}
