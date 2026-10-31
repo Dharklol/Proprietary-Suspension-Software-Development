@@ -149,6 +149,20 @@ jobs:
           python scripts/run_varying_state_steering_evidence.py \
             --output varying_state_steering_evidence.json \
             --summary-output varying_state_steering_evidence_summary.json
+      - name: Audit straight-state tire force sources and independent balance
+        run: |
+          python -m unittest tests.test_straight_state_tire_audit -v
+          python scripts/run_straight_state_tire_audit.py \
+            --output straight_state_tire_audit.json \
+            --summary-output straight_state_tire_audit_summary.json
+      - name: Upload straight-state tire audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: straight-state-tire-audit
+          path: |
+            straight_state_tire_audit.json
+            straight_state_tire_audit_summary.json
+          if-no-files-found: error
       - name: Upload varying-state native steering evidence
         uses: actions/upload-artifact@v4
         with:

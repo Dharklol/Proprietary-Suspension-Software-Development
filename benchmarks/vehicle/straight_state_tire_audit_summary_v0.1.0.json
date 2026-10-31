@@ -1,0 +1,264 @@
+{
+  "status": "pass",
+  "scope": "straight_fixture_conditional_tire_diagnostics_only",
+  "state_id": "native_verification_-1_0.0",
+  "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+  "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+  "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+  "tire_revision": "77f632a33e6a8789978012bbff3e9f4319bdc8a750a0fa036e967fa55097194e",
+  "source_hashes": {
+    "scripts/run_straight_state_tire_audit.py": "4c541b8d4726c285db633b5a1dfbd469fcc24ab836c5a83da5e602966179e58e",
+    "tests/test_straight_state_tire_audit.py": "f3e28272e10d123f0f88385d281ba3ae2ecff7e2239095319dd58fe577131053",
+    "src/pssd_vehicle/steady_cornering_tire.py": "b44a8775269983c31baf38ec35618cf9db17a846cce733a6d3d67460c85ecba4",
+    "tests/varying_state_evidence_fixture.py": "b5223a334ba1357f8f8c82454f35bce8be9cdc433e23378181314d7fc654923b",
+    "tests/wufr_cornering_fixture.py": "d20ca325e9c83367375d132141f3e12f8d95fd320c65549b75a4a4a5d97062c5",
+    "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml": "85739e46db63deb581b65385410e72d2247d7cee06ee45b656d4515b17cd3ddf",
+    "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1"
+  },
+  "case": {
+    "state_id": "native_verification_-1_0.0",
+    "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+    "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+    "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+    "tire_revision": "77f632a33e6a8789978012bbff3e9f4319bdc8a750a0fa036e967fa55097194e",
+    "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+    "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+    "speed_m_s": 8.0,
+    "curvature_per_m": -0.0,
+    "pressures_pa": [
+      68900.0,
+      68900.0,
+      68900.0,
+      68900.0
+    ],
+    "gravity_m_s2": 9.81,
+    "front_arb_setting": 1,
+    "rear_arb_setting": 1,
+    "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+    "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+    "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+    "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+    "accepted_assumptions": [
+      "ASM-VEH-0006",
+      "ASM-VEH-0007",
+      "ASM-VEH-0008"
+    ],
+    "inertia_policy": "uniform_acceleration_current_mass_lumps",
+    "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+    "radius_policy": "fixed_radius_zero_width_rigid_circle",
+    "result_role": "evidence_only",
+    "state_weight": 0.0
+  },
+  "tire_force_sum_heading_n": [
+    -29.080325410278967,
+    -0.0005139845730468551,
+    0.0
+  ],
+  "holder": {
+    "force_heading_n": [
+      29.080325410747932,
+      0.0005139768624557794,
+      0.0
+    ],
+    "power_w": 232.64260332232035,
+    "policy": "virtual_tangential_force_at_current_total_cg"
+  },
+  "independent_horizontal_balance_n": [
+    4.689653110290237e-10,
+    -7.710591075674698e-09,
+    0.0
+  ],
+  "independent_vertical_balance_n": 9.094947017729282e-13,
+  "source_equilibrium_physical_wrench": {
+    "reference_point_id": "current_total_cg",
+    "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+    "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+    "resultant_force_N": [
+      4.68970418054937e-10,
+      -7.710553973083734e-09,
+      2.2737367544323206e-13
+    ],
+    "resultant_moment_Nm": [
+      -2.1076402845210396e-09,
+      -1.0822986951097846e-10,
+      -6.1881166857347125e-09
+    ]
+  },
+  "objective_weight": 0.0,
+  "design_ranking_permitted": false,
+  "interpretation": "Exact conditional finite differences; no additive tire model, bias correction, setup recommendation or independent physical validation.",
+  "wheels": [
+    {
+      "requested_query": {
+        "state_id": "native_verification_-1_0.0",
+        "corner_id": "front_left",
+        "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+        "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+        "tire_revision": "77f632a33e6a8789978012bbff3e9f4319bdc8a750a0fa036e967fa55097194e",
+        "convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+        "slip_angle_rad": -0.017768323361005756,
+        "normal_load_n": 793.6708282522758,
+        "inclination_rad": 0.04110021881556118,
+        "pressure_pa": 68900.0
+      },
+      "reflected": false,
+      "actual_lateral_force_n": -731.4878241966023,
+      "actual_branch": "direct_nonnegative_IA:connected_monotone_central",
+      "decomposition_n": {
+        "source_bias_n": -42.89713894933412,
+        "slip_increment_at_zero_IA_n": -585.4205260449131,
+        "inclination_increment_at_zero_slip_n": -172.19856125256996,
+        "interaction_n": 69.02840205021486
+      },
+      "decomposition_reconstruction_error_n": 0.0,
+      "direct_zero_IA_force_n": -628.3176649942473,
+      "direct_zero_slip_zero_IA_force_n": -42.89713894933412,
+      "original_side_zero_IA_limit_force_n": -628.3176649942473,
+      "zero_IA_boundary_jump_at_fixed_slip_n": 0.0,
+      "original_side_zero_slip_force_n": -215.09570020190407,
+      "probe_role": "conditional_table_queries_not_vehicle_equilibria",
+      "zero_IA_probe_rule": "direct_source",
+      "objective_weight": 0.0,
+      "design_ranking_permitted": false,
+      "corner_id": "front_left",
+      "wheel_heading_deg": -1.0170372699528607,
+      "velocity_heading_deg": 0.0010126676564748648,
+      "slip_angle_deg": -1.0180499376093357,
+      "inclination_deg": 2.3548690751958308,
+      "force_heading_n": [
+        -12.983701743148877,
+        -731.3725866047512,
+        0.0
+      ]
+    },
+    {
+      "requested_query": {
+        "state_id": "native_verification_-1_0.0",
+        "corner_id": "front_right",
+        "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+        "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+        "tire_revision": "77f632a33e6a8789978012bbff3e9f4319bdc8a750a0fa036e967fa55097194e",
+        "convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+        "slip_angle_rad": 0.018090747983261934,
+        "normal_load_n": 782.2628291966014,
+        "inclination_rad": -0.04116772402733071,
+        "pressure_pa": 68900.0
+      },
+      "reflected": true,
+      "actual_lateral_force_n": 731.7126877840792,
+      "actual_branch": "reflected_negative_IA:connected_monotone_central",
+      "decomposition_n": {
+        "source_bias_n": 43.1703677578314,
+        "slip_increment_at_zero_IA_n": 590.9426780382119,
+        "inclination_increment_at_zero_slip_n": 168.7282886402511,
+        "interaction_n": -71.12864665221514
+      },
+      "decomposition_reconstruction_error_n": 0.0,
+      "direct_zero_IA_force_n": 557.0888564255588,
+      "direct_zero_slip_zero_IA_force_n": -43.1703677578314,
+      "original_side_zero_IA_limit_force_n": 634.1130457960433,
+      "zero_IA_boundary_jump_at_fixed_slip_n": 77.02418937048446,
+      "original_side_zero_slip_force_n": 211.8986563980825,
+      "probe_role": "conditional_table_queries_not_vehicle_equilibria",
+      "zero_IA_probe_rule": "reflected_side_limit",
+      "objective_weight": 0.0,
+      "design_ranking_permitted": false,
+      "corner_id": "front_right",
+      "wheel_heading_deg": 1.0375361753321946,
+      "velocity_heading_deg": 0.0010126676564800332,
+      "slip_angle_deg": 1.0365235076757144,
+      "inclination_deg": -2.3587368389253616,
+      "force_heading_n": [
+        -13.249438259947972,
+        731.5927212937518,
+        0.0
+      ]
+    },
+    {
+      "requested_query": {
+        "state_id": "native_verification_-1_0.0",
+        "corner_id": "rear_left",
+        "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+        "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+        "tire_revision": "77f632a33e6a8789978012bbff3e9f4319bdc8a750a0fa036e967fa55097194e",
+        "convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+        "slip_angle_rad": 0.008609897527801724,
+        "normal_load_n": 723.7547169890972,
+        "inclination_rad": 0.017986928107910458,
+        "pressure_pa": 68900.0
+      },
+      "reflected": false,
+      "actual_lateral_force_n": 164.8083676015951,
+      "actual_branch": "direct_nonnegative_IA:connected_monotone_central",
+      "decomposition_n": {
+        "source_bias_n": -44.57167413135622,
+        "slip_increment_at_zero_IA_n": 288.5370167721308,
+        "inclination_increment_at_zero_slip_n": -70.65462108880266,
+        "interaction_n": -8.502353950376829
+      },
+      "decomposition_reconstruction_error_n": 0.0,
+      "direct_zero_IA_force_n": 243.9653426407746,
+      "direct_zero_slip_zero_IA_force_n": -44.57167413135622,
+      "original_side_zero_IA_limit_force_n": 243.9653426407746,
+      "zero_IA_boundary_jump_at_fixed_slip_n": 0.0,
+      "original_side_zero_slip_force_n": -115.22629522015887,
+      "probe_role": "conditional_table_queries_not_vehicle_equilibria",
+      "zero_IA_probe_rule": "direct_source",
+      "objective_weight": 0.0,
+      "design_ranking_permitted": false,
+      "corner_id": "rear_left",
+      "wheel_heading_deg": 0.4943234580396283,
+      "velocity_heading_deg": 0.001012667656468106,
+      "slip_angle_deg": 0.49331079038316017,
+      "inclination_deg": 1.0305750669885005,
+      "force_heading_n": [
+        -1.4218784035478425,
+        164.80223388445933,
+        0.0
+      ]
+    },
+    {
+      "requested_query": {
+        "state_id": "native_verification_-1_0.0",
+        "corner_id": "rear_right",
+        "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+        "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+        "tire_revision": "77f632a33e6a8789978012bbff3e9f4319bdc8a750a0fa036e967fa55097194e",
+        "convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+        "slip_angle_rad": -0.008654486088373936,
+        "normal_load_n": 703.8869016095268,
+        "inclination_rad": -0.01808339691443744,
+        "pressure_pa": 68900.0
+      },
+      "reflected": true,
+      "actual_lateral_force_n": -165.02903765039943,
+      "actual_branch": "reflected_negative_IA:connected_monotone_central",
+      "decomposition_n": {
+        "source_bias_n": 45.04752090317935,
+        "slip_increment_at_zero_IA_n": -287.30226325872997,
+        "inclination_increment_at_zero_slip_n": 68.192768162054,
+        "interaction_n": 9.032936543097179
+      },
+      "decomposition_reconstruction_error_n": 2.842170943040401e-14,
+      "direct_zero_IA_force_n": -328.01382298684905,
+      "direct_zero_slip_zero_IA_force_n": -45.04752090317935,
+      "original_side_zero_IA_limit_force_n": -242.2547423555506,
+      "zero_IA_boundary_jump_at_fixed_slip_n": 85.75908063129845,
+      "original_side_zero_slip_force_n": 113.24028906523334,
+      "probe_role": "conditional_table_queries_not_vehicle_equilibria",
+      "zero_IA_probe_rule": "reflected_side_limit",
+      "objective_weight": 0.0,
+      "design_ranking_permitted": false,
+      "corner_id": "rear_right",
+      "wheel_heading_deg": -0.494852859062042,
+      "velocity_heading_deg": 0.001012667656469299,
+      "slip_angle_deg": -0.49586552671851136,
+      "inclination_deg": -1.0361023224571608,
+      "force_heading_n": [
+        -1.4253070036342717,
+        -165.02288255803296,
+        0.0
+      ]
+    }
+  ]
+}
