@@ -4,6 +4,12 @@ Private, local-first vehicle-dynamics engineering platform for WashU Racing.
 
 ## Current phase
 
+The [master program timeline](docs/roadmaps/vehicle_dynamics_master_program_v0.1.0.md)
+tracks the original phases and current priorities across individual increments.
+The current direction is [Phase 2 scope closure and reduced transient entry](docs/roadmaps/phase2_scope_and_transient_entry_v0.1.0.md).
+A full operational release is deferred; retain a small reproducible reference
+package and develop UI only where it supports the active engineering work.
+
 The project has progressed from Phase 0 assurance into reviewed subsystem mechanics and an **uncorrelated steady-cornering development pipeline**. Model assurance remains a requirement: no physical model, equation, parameter, or legacy calculator is authoritative merely because it already exists.
 
 The current consolidation and dependency status is recorded in [the development checkpoint](docs/reviews/analytical_development_consolidation_2026-10-31.md). The next increment is [analytical verification, operating-envelope mapping and sensitivity](docs/roadmaps/analytical_development_program_v0.1.0.md). Physical correlation is deferred until hardware is available; analytical development does not depend on collecting measurements now. Predictive, installed/setup and production claims retain their existing evidence requirements.

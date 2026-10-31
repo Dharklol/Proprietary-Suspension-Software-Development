@@ -1,5 +1,14 @@
 # Analytical development program v0.1.0
 
+## Program-level continuation
+
+Owner update on 2026-10-31: prioritize the original Phase 2 scope closure and
+reduced transient layers; a fully functional operational release can wait.
+Use the [master program timeline](vehicle_dynamics_master_program_v0.1.0.md) and
+[immediate Phase 2/transient checklist](phase2_scope_and_transient_entry_v0.1.0.md)
+for the next sequence. The analytical studies below remain reusable reference
+evidence; the earlier UI-next statement is not the current main work priority.
+
 ## Decision and authority
 
 Owner direction on 2026-10-31: consolidate the current implementation, then
