@@ -1,2 +1,4 @@
 coordinate_order = ["body_heave_m", "roll_rad", "pitch_rad", "sideslip_rad", "rack_m", "holder_force_n", "Fz_front_left_n", "Fz_front_right_n", "Fz_rear_left_n", "Fz_rear_right_n"]
 coordinate_offsets = [0.0001, 0.00005, -0.00005, 0.001, 0.0001, 0.0, 0.0, 0.0, 0.0, 0.0]
+road_gap_tolerance_m = 0.00000000000001
+comparison_road_gap_tolerance_m = 0.000000000000005

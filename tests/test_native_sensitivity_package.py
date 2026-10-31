@@ -10,8 +10,11 @@ def fixture(sign,recovery=False):
        'controls_sha256':'control','seed_report_sha256':'seed','objective_weight':0.,
        'physical_or_ranking_authority':False,'coordinate_order':[],'coordinate_offsets':[],
        'difference_limit':1e-5,'recovery_controls_sha256':'recovery_control'}
+    r.update(road_gap_tolerance_m=1e-14,comparison_road_gap_tolerance_m=5e-15,
+        geometry_revision='physical_geometry',primary_precision_setup_revision='precision_1',
+        comparison_precision_setup_revision='precision_2')
     d={'direction_sign':sign}
-    if recovery:d['variants']=[{}, {}, {}]
+    if recovery:d['variants']=[{}, {}, {}, {}]
     else:
         d['physical']=[{'tag':str(i)} for i in range(7)]
         d['numerical']=[{'tag':t} for t in ('numerical_anchor','wider_sideslip_box','half_fd_steps')]

@@ -97,20 +97,27 @@ nonfinite/zero offsets, wrong coordinate order and clipping are rejected.
 Acceptance additionally requires a nonzero initial residual above tolerance
 and at least one Newton iteration, preventing a trivial zero-iteration pass.
 
-All six off-root runs pass. Initial scaled residuals are about 0.0595 and
-0.0602; recovery takes 3-5 Newton iterations. The largest final scaled coordinate
-discrepancy from the re-evaluated reference is 2.51e-10, below the declared 1e-5
-criterion. The same source branch is preserved. Wider sideslip bounds therefore
-do not change these recovered roots once the original artificial cutoff has
-been removed; halving the tangent finite-difference steps does not materially
-change them either. This is a local recovery check, not proof of uniqueness or
-convergence from arbitrary initial guesses.
+The original Python 3.11 CI run exposed a contact-root precision floor: two
+positive-turn variants stalled at a scaled residual of 1.1554e-10 against the
+unchanged 1e-10 criterion. They remain rejected in
+`benchmarks/vehicle/native_recovery_ci_precision_failure_v0.1.0.json`, with the
+original run, artifact, iteration history and failed statuses retained.
 
-Across all 26 recorded runs (fourteen physical, six numerical root evaluations
-and six off-root recoveries), maximum force and moment norms are approximately
-2.42e-8 N and 1.48e-8 N*m. No residual tolerance, physical gate or source domain
-was relaxed. Different settings of the numerical sideslip box do not modify the
-baseline source fixture or become a physical sideslip limit.
+The recovery study now explicitly evaluates the nested road-contact root at
+1e-14 m, with a fourth variant at 5e-15 m. This tightens evaluation precision;
+it does not relax Newton or physical acceptance. The baseline provider remains
+at 1e-13 m. Physical geometry and component data are unchanged; distinct setup
+revisions bind the numerical road configuration. Each direction now has four
+off-root variants, including the independent tighter-contact comparison.
+Both Python 3.11 and 3.12 pass all eight recovery cases in 3-7 iterations.
+The maximum scaled-coordinate discrepancy is 5.04e-10, within the declared
+1e-5 comparison criterion, with the same local source branch retained. This is a local recovery check, not
+proof of uniqueness or convergence from arbitrary initial guesses.
+
+The recorded protocol comprises 28 runs: fourteen physical, six numerical root
+evaluations and eight off-root recoveries. No residual tolerance, physical gate
+or source domain was relaxed. Numerical sideslip-box and contact-root controls
+do not modify the baseline fixture or become physical vehicle limits.
 
 ## Reproduction and evidence
 
@@ -151,7 +158,7 @@ is not required. CI regenerates both signed studies and recoveries in separate
 jobs, uploads produced evidence even on failure, and combines only successful
 jobs.
 
-Ten new tests cover perturbation isolation, numerical-control isolation,
+Eleven new tests cover perturbation isolation, numerical-control isolation,
 nonlinear left/right finite-step responses, source changes, invalid controls,
 common off-root seeds, clipping rejection and report packaging. The seventeen
 existing kernel/motion tests and ten existing envelope/control tests are also

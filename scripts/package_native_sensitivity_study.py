@@ -19,7 +19,9 @@ def combine_signed_reports(studies,recoveries):
     study_keys=('scope','controls','stored_seed_revisions','current_provider_revisions',
                 'source_hashes','controls_sha256','seed_report_sha256')
     recovery_keys=('scope','coordinate_order','coordinate_offsets','difference_limit',
-                   'source_hashes','recovery_controls_sha256')
+                   'source_hashes','recovery_controls_sha256','road_gap_tolerance_m',
+                   'comparison_road_gap_tolerance_m','geometry_revision',
+                   'primary_precision_setup_revision','comparison_precision_setup_revision')
     for group,keys in ((studies,study_keys),(recoveries,recovery_keys)):
         signs=set()
         for report in group:
@@ -41,7 +43,7 @@ def combine_signed_reports(studies,recoveries):
                     'numerical_anchor','wider_sideslip_box','half_fd_steps'}):
             raise ValueError('Incomplete sensitivity protocol')
     for report in recoveries:
-        if len(report['directions'][0]['variants'])!=3:
+        if len(report['directions'][0]['variants'])!=4:
             raise ValueError('Incomplete off-root recovery protocol')
     study={k:deepcopy(v) for k,v in studies[0].items() if k not in ('status','directions')}
     recovery={k:deepcopy(v) for k,v in recoveries[0].items() if k not in ('status','directions','input_study_sha256')}
@@ -80,7 +82,7 @@ def main():
     for path,value in ((args.output,combined),(args.summary_output,summary)):
         path.parent.mkdir(parents=True,exist_ok=True)
         path.write_text(json.dumps(value,indent=2,allow_nan=False)+'\n')
-    print(json.dumps({'status':combined['status'],'study_case_count':20,'off_root_case_count':6},indent=2))
+    print(json.dumps({'status':combined['status'],'study_case_count':20,'off_root_case_count':8},indent=2))
     return 0 if combined['status']=='pass' else 1
 
 

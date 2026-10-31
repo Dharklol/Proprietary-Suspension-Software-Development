@@ -101,9 +101,9 @@ supported computational envelope, not maximum lateral acceleration prediction.
 
 The first [native sensitivity study](../reviews/native_sensitivity_study_review.md)
 now records fourteen physical-case runs, six numerical root evaluations and
-six nontrivial off-root numerical recoveries. Pressure +/-1/+2 kPa and individual
+eight nontrivial off-root numerical recoveries. Pressure +/-1/+2 kPa and individual
 front/rear ARB 1-to-2 changes are re-equilibrated in both directions. Wider
-sideslip boxes and halved tangent steps recover the same local roots to the
+sideslip boxes, halved tangent steps and tighter nested contact roots recover the same local roots to the
 declared comparison criterion. These remain small, explicitly scoped response
 studies; broader input uncertainty and alignment/tire-assumption sensitivity
 are not established by them.

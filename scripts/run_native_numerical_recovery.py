@@ -13,6 +13,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 
 from pssd_vehicle.steady_cornering import solve_cornering
+from pssd_vehicle.wufr_steady_cornering_geometry import WUFRCorneringGeometryProvider
 from scripts.run_native_sensitivity_study import (
     StudyControls, _case, numerical_variants, output_values, verify_sources,
 )
@@ -34,14 +35,30 @@ def common_perturbed_seed(anchor,order,offsets,configs):
     return seed
 
 
-def run_recovery(study,order,offsets,progress=None):
+def refined_contact_geometry(geometry,tolerance_m):
+    if (not math.isfinite(tolerance_m) or tolerance_m<=0
+            or tolerance_m>=geometry.road.config.road_gap_tolerance_m):
+        raise ValueError('Explicit contact precision must strictly tighten the original tolerance')
+    road=replace(geometry.road,config=replace(geometry.road.config,road_gap_tolerance_m=tolerance_m))
+    refined=WUFRCorneringGeometryProvider(replace(geometry.components,road_contact=road))
+    if refined.geometry_revision!=geometry.geometry_revision:
+        raise ValueError('Numerical precision refinement changed physical geometry identity')
+    return refined
+
+
+def run_recovery(study,order,offsets,road_gap_tolerance_m,comparison_road_gap_tolerance_m,progress=None):
     if study['objective_weight']!=0. or study['physical_or_ranking_authority'] is not False:
         raise ValueError('Unpromoted study required')
     verify_sources(study['source_hashes'])
     values=dict(study['controls']); values['pressure_steps_pa']=tuple(values['pressure_steps_pa'])
     controls=StudyControls(**values)
-    geometry,tire=providers()
+    original_geometry,tire=providers()
+    if comparison_road_gap_tolerance_m>=road_gap_tolerance_m:
+        raise ValueError('Comparison contact tolerance must be tighter than primary recovery precision')
+    geometry=refined_contact_geometry(original_geometry,road_gap_tolerance_m)
+    finer_geometry=refined_contact_geometry(original_geometry,comparison_road_gap_tolerance_m)
     configs=numerical_variants(solver_config(),controls)
+    configs['tighter_contact_root']=configs['anchor']
     records=[]
     for direction in study['directions']:
         sign=direction['direction_sign']
@@ -54,9 +71,10 @@ def run_recovery(study,order,offsets,progress=None):
                 'reference_coordinates':coordinates,'variants':[],'passed':True}
         records.append(record)
         for tag,config in configs.items():
-            c=_case(anchor['case'],geometry,tire,sign,controls.numerical_curvature_magnitude_per_m,
+            active_geometry=finer_geometry if tag=='tighter_contact_root' else geometry
+            c=_case(anchor['case'],active_geometry,tire,sign,controls.numerical_curvature_magnitude_per_m,
                     f'numerical_recovery_{sign}:{tag}')
-            result=solve_cornering(c,guess,geometry_provider=geometry,tire_provider=tire,config=config)
+            result=solve_cornering(c,guess,geometry_provider=active_geometry,tire_provider=tire,config=config)
             same_branch=(result.evaluation is not None and
                 tuple(result.evaluation.branch_signature)==tuple(anchor['branch_signature']))
             actually_iterated=(result.iterations>0 and bool(result.residual_history) and
@@ -66,6 +84,7 @@ def run_recovery(study,order,offsets,progress=None):
             passed=(result.ok and same_branch and actually_iterated and
                     difference<=controls.numerical_coordinate_difference_limit)
             item={'variant':tag,'solver_config':asdict(config),'result':_sample(result),
+                'native_road_config':asdict(active_geometry.road.config),
                 'initial_scaled_residual':result.residual_history[0] if result.residual_history else None,
                 'actually_iterated':actually_iterated,'same_source_branch':same_branch,
                 'maximum_scaled_coordinate_change':difference,
@@ -76,6 +95,12 @@ def run_recovery(study,order,offsets,progress=None):
     return {'status':'pass' if all(r['passed'] for r in records) else 'fail',
         'scope':'common_off_root_numerical_recovery_only','coordinate_order':tuple(order),
         'coordinate_offsets':tuple(offsets),'difference_limit':controls.numerical_coordinate_difference_limit,
+        'original_native_road_config':asdict(original_geometry.road.config),
+        'road_gap_tolerance_m':road_gap_tolerance_m,
+        'comparison_road_gap_tolerance_m':comparison_road_gap_tolerance_m,
+        'geometry_revision':geometry.geometry_revision,
+        'primary_precision_setup_revision':geometry.setup_revision,
+        'comparison_precision_setup_revision':finer_geometry.setup_revision,
         'directions':records,'objective_weight':0.,'physical_or_ranking_authority':False}
 
 
@@ -109,7 +134,8 @@ def main():
         print(json.dumps({'direction':sign,'variant':item['variant'],'passed':item['passed'],
             'iterations':item['result']['iterations'],'maximum_scaled_change':item['maximum_scaled_coordinate_change'],
             'failure':item['result']['failure_code']}),flush=True)
-    report=run_recovery(study,controls['coordinate_order'],controls['coordinate_offsets'],progress)
+    report=run_recovery(study,controls['coordinate_order'],controls['coordinate_offsets'],
+        controls['road_gap_tolerance_m'],controls['comparison_road_gap_tolerance_m'],progress)
     paths=('scripts/run_native_numerical_recovery.py','tests/test_native_numerical_recovery.py')
     report['source_hashes']={**study['source_hashes'],**{
         p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in paths}}

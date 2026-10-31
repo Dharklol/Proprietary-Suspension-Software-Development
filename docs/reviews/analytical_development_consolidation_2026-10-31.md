@@ -154,13 +154,18 @@ are separately reviewed work, not implied main releases:
 | [Straight-state audit](straight_state_tire_force_audit_review.md) | The opposing front forces and nonzero holder have an explicit alignment/slip, inclination and source-bias explanation |
 | [Manufactured low-force reference](analytical_low_force_reference_review.md) | Forty-two cases recover independent first-order steering, sideslip and axle-force limits, with step convergence |
 | [Native computational envelope](native_computational_envelope_review.md) | Sixteen original-bound attempts plus two separate controls identify a numerical sideslip cutoff without claiming a physical grip limit |
-| [Native sensitivity](native_sensitivity_study_review.md) | Fourteen physical runs, six numerical root evaluations and six off-root recoveries distinguish local physical response from numerical recovery behavior |
+| [Native sensitivity](native_sensitivity_study_review.md) | Fourteen physical runs, six numerical root evaluations and eight off-root recoveries distinguish local physical response from numerical recovery behavior |
 
-At the 2026-10-31 snapshot, PRs 117, 118 and 119 each have eleven successful
-workflows and are ready for review but remain unmerged. The sensitivity follow-up
-is a separate dependent change. Main remains the consolidation merge `8bd03e1`.
-This distinction prevents feature-branch evidence from being described as an
-already landed application release.
+PRs 117, 118 and 119 were subsequently merged through the normal protected
+path after eleven successful workflows each. Their merge commits are
+`34ac9ca3e319d98da23aaf3babf5248e972d9854`,
+`b2ee7db301d73045d6d84856cf821e992bf1b1da` and
+`cb850cac507830fde2b4b1ec195bbb789ce0ecaa`, respectively.
+PR 120 contains the sensitivity follow-up. Its initial CI precision failure is
+retained as rejected evidence; recovery-only contact-root refinement is checked
+on Python 3.11 and 3.12 without changing physical or Newton acceptance limits.
+This document records implementation evidence; live PR metadata determines
+whether that final follow-up has landed.
 
 The current engineering capability is an uncorrelated, internally synchronized
 steady-cornering development engine with source-bounded tire queries and
