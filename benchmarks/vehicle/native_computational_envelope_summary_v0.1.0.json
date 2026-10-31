@@ -1,0 +1,1842 @@
+{
+  "scope": "explicit_native_fixture_warm_started_computational_reachability_only",
+  "controls": {
+    "curvature_magnitudes_per_m": [
+      0.02,
+      0.06,
+      0.1,
+      0.14
+    ],
+    "refinement_steps": 3,
+    "curvature_resolution_per_m": 0.001
+  },
+  "solver_config": {
+    "coordinate_scales": [
+      0.005,
+      0.005,
+      0.005,
+      0.05,
+      0.005,
+      100.0,
+      750.0,
+      750.0,
+      750.0,
+      750.0
+    ],
+    "residual_scales": [
+      3000.0,
+      1500.0,
+      1500.0,
+      750.0,
+      750.0,
+      750.0,
+      750.0,
+      3000.0,
+      3000.0,
+      1500.0
+    ],
+    "lower_bounds": [
+      -0.009,
+      -0.009,
+      -0.009,
+      -0.08,
+      -0.015,
+      -500.0,
+      223.0,
+      223.0,
+      223.0,
+      223.0
+    ],
+    "upper_bounds": [
+      0.009,
+      0.009,
+      0.009,
+      0.08,
+      0.015,
+      500.0,
+      1111.0,
+      1111.0,
+      1111.0,
+      1111.0
+    ],
+    "fd_steps": [
+      2e-06,
+      2e-06,
+      2e-06,
+      2e-06,
+      2e-06,
+      0.001,
+      0.001,
+      0.001,
+      0.001,
+      0.001
+    ],
+    "scaled_residual_tolerance": 1e-10,
+    "minimum_reciprocal_pivot_ratio": 1e-09,
+    "max_iterations": 20,
+    "max_backtracks": 20
+  },
+  "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+  "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+  "tire_revision": "bf1d24bebb5e0fc0cc3eee65df614bad8d48dd671fd8fa0375e8bb2c49e35633",
+  "source_hashes": {
+    "src/pssd_vehicle/wufr_steady_cornering_geometry.py": "23923ac1efdaeaac7a2f6d602d5fee0f949e9e2b182ea9c75a52ff0b5ca99c3b",
+    "src/pssd_vehicle/steady_cornering_upright.py": "cbe4cb1d9b96413eff8fca25cc83322d7bf712ce1b33f0618cb3bedbf331e7d7",
+    "src/pssd_vehicle/steady_cornering_tire.py": "b44a8775269983c31baf38ec35618cf9db17a846cce733a6d3d67460c85ecba4",
+    "src/pssd_vehicle/steady_cornering.py": "48d423a33d46f510855b0e96506aa0bfa8a399f78937c37f82d0adc1483c3932",
+    "src/pssd_vehicle/steady_cornering_motion.py": "ec2f781b0d80045616d75a1fa12bed5991868e2473fb62b5cfd8ec4d19e43a5e",
+    "tests/wufr_cornering_fixture.py": "d20ca325e9c83367375d132141f3e12f8d95fd320c65549b75a4a4a5d97062c5",
+    "tests/test_wufr_steady_cornering_geometry.py": "1876859659a29032764d8498614de9c517d269f3569a8ad41b478dc74ac3eeca",
+    "tests/test_steady_cornering_tire.py": "858890c58e2703c71510eea26146b5ff70abcb9eaa75be7747a6358f3a46e307",
+    "tests/test_steady_cornering_upright.py": "38beabf6cdc1057edf76792cd8c71d65e6276aebd0954f31cfe38f810078cd92",
+    "scripts/run_wufr_steady_cornering_benchmarks.py": "5fb375d5742593b3458613328a93fc6a9e311a39ad4c488a6f9f3b71adfbb049",
+    "data_catalog/wufr27_static_equilibrium_composition_v1.toml": "138191d4acef93b4acce58cd0ba2d4da43b8adfd91f5a766447d75d956fa237e",
+    "data_catalog/wufr26_road_contact_reference_v0.toml": "84697749794bb44155154df4caca49a06b43569bb7c601c77f7bfb27de5baf05",
+    "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+    "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml": "85739e46db63deb581b65385410e72d2247d7cee06ee45b656d4515b17cd3ddf",
+    "configurations/steering/WUFR27_STEERING_BASELINE_V0.toml": "cbfa707ca2c0d7c188958ade921027bfe7cb3ae740cf8b8c10d30d64ea7b1317",
+    "configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml": "b06b57cb951421bb4cba8f586c28d8993ae49b7d1ab021952660bbeed87d0f58",
+    "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4",
+    "data_catalog/wufr27_static_gravity_allocation_v0.toml": "2f89a18e4d88869ab7602311dfbba75b6dd12a791d6826dd951099de9b23fd41",
+    "data_catalog/wufr27_spring_package_v0.toml": "24b87ba7103971ffa7ab5c99e03121ec7166dec5ac9bf8fb035b8297fb2f49e5",
+    "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml": "f4887a06d1711bd8111df32266473e4b6f7a88912f69931d08bea4a422c39be2",
+    "authorizations/vehicle/AUTH-VEH-0012.toml": "413e8df06a5bbd8b6f432740641eb2a162471e79f42cdc4e6a016b7a16c38176",
+    "registry/records/assumptions/ASM-VEH-0009.toml": "99fc512e5c712c517a25629c4ac3c2747e1e88313ffdab0792bb8e30213989fa",
+    "scripts/run_native_computational_envelope.py": "c7ad8dbce13294d347a82d9aecee8003264d15cd768177f60915817d7cf53db3",
+    "tests/test_native_computational_envelope.py": "a4448d0c62e3e6fe0b441573e9da981aab464250c5c8cf5c2e0827ff88177788",
+    "tests/varying_state_evidence_fixture.py": "b5223a334ba1357f8f8c82454f35bce8be9cdc433e23378181314d7fc654923b"
+  },
+  "failed_attempts_are_retained": true,
+  "status_meaning": "mapping_completed_and_first_requested_nonzero_sample_recovered",
+  "physical_limit_or_stability_claim": false,
+  "objective_weight": 0.0,
+  "design_ranking_permitted": false,
+  "status": "pass",
+  "fixed_case_controls": {
+    "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+    "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+    "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+    "tire_revision": "bf1d24bebb5e0fc0cc3eee65df614bad8d48dd671fd8fa0375e8bb2c49e35633",
+    "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+    "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+    "speed_m_s": 8.0,
+    "pressures_pa": [
+      68900.0,
+      68900.0,
+      68900.0,
+      68900.0
+    ],
+    "gravity_m_s2": 9.81,
+    "front_arb_setting": 1,
+    "rear_arb_setting": 1,
+    "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+    "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+    "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+    "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+    "accepted_assumptions": [
+      "ASM-VEH-0006",
+      "ASM-VEH-0007",
+      "ASM-VEH-0008"
+    ],
+    "inertia_policy": "uniform_acceleration_current_mass_lumps",
+    "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+    "radius_policy": "fixed_radius_zero_width_rigid_circle",
+    "result_role": "evidence_only",
+    "state_weight": 0.0
+  },
+  "packager_sha256": "e50b77461a799d23d71675124682def1fbe66de7861ce8850c7ec9941d6b4fc1",
+  "input_report_sha256": {
+    "native_envelope_-1.json": "88f157b5b791fc0af188102e68a358b0e5f05b4328e5ba30b7d09b521d68cef2",
+    "native_envelope_1.json": "7775081a2ddd04b7dbfaede67518b5d610b513bca18b8a9368e7df37deafb85f"
+  },
+  "separate_sideslip_bound_controls": [
+    {
+      "status": "pass",
+      "direction_sign": -1,
+      "case": {
+        "state_id": "native_verification_-1_0.0:direction:-1:refinement:7:0.125:sideslip_bound_control",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+        "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+        "tire_revision": "bf1d24bebb5e0fc0cc3eee65df614bad8d48dd671fd8fa0375e8bb2c49e35633",
+        "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+        "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+        "speed_m_s": 8.0,
+        "curvature_per_m": -0.125,
+        "pressures_pa": [
+          68900.0,
+          68900.0,
+          68900.0,
+          68900.0
+        ],
+        "gravity_m_s2": 9.81,
+        "front_arb_setting": 1,
+        "rear_arb_setting": 1,
+        "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+        "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+        "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+        "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+        "accepted_assumptions": [
+          "ASM-VEH-0006",
+          "ASM-VEH-0007",
+          "ASM-VEH-0008"
+        ],
+        "inertia_policy": "uniform_acceleration_current_mass_lumps",
+        "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+        "radius_policy": "fixed_radius_zero_width_rigid_circle",
+        "result_role": "evidence_only",
+        "state_weight": 0.0
+      },
+      "original_report_sha256": "88f157b5b791fc0af188102e68a358b0e5f05b4328e5ba30b7d09b521d68cef2",
+      "control_report_sha256": "2bf36676b1bf21440177b95226544643dfb24c0a0ee87e79d62c5a4a5152663b",
+      "original_sideslip_bounds_rad": [
+        -0.08,
+        0.08
+      ],
+      "control_sideslip_bounds_rad": [
+        -0.1,
+        0.1
+      ],
+      "original_failure_code": "line_search_failure",
+      "original_failed_coordinates": [
+        -0.001155708960512877,
+        -0.0024948356062388746,
+        0.0018323600276286798,
+        -0.07999999982196036,
+        0.011284755490603055,
+        82.21962545305009,
+        1040.6297777263985,
+        579.2632837804223,
+        1054.9295030112776,
+        328.752649762771
+      ],
+      "coordinates": [
+        -0.0011552262688362196,
+        -0.0024983950283975704,
+        0.001837133872781329,
+        -0.08009906519645511,
+        0.011300051807252656,
+        82.5261746855372,
+        1041.0278029184535,
+        579.0129402037466,
+        1055.3838649983365,
+        328.15066792696484
+      ],
+      "ok": true,
+      "failure_code": null,
+      "same_source_branch": true,
+      "physical_force_norm_n": 1.5809570939009468e-08,
+      "physical_moment_norm_nm": 9.509531989162453e-09,
+      "source_hashes": {
+        "src/pssd_vehicle/wufr_steady_cornering_geometry.py": "23923ac1efdaeaac7a2f6d602d5fee0f949e9e2b182ea9c75a52ff0b5ca99c3b",
+        "src/pssd_vehicle/steady_cornering_upright.py": "cbe4cb1d9b96413eff8fca25cc83322d7bf712ce1b33f0618cb3bedbf331e7d7",
+        "src/pssd_vehicle/steady_cornering_tire.py": "b44a8775269983c31baf38ec35618cf9db17a846cce733a6d3d67460c85ecba4",
+        "src/pssd_vehicle/steady_cornering.py": "48d423a33d46f510855b0e96506aa0bfa8a399f78937c37f82d0adc1483c3932",
+        "src/pssd_vehicle/steady_cornering_motion.py": "ec2f781b0d80045616d75a1fa12bed5991868e2473fb62b5cfd8ec4d19e43a5e",
+        "tests/wufr_cornering_fixture.py": "d20ca325e9c83367375d132141f3e12f8d95fd320c65549b75a4a4a5d97062c5",
+        "tests/test_wufr_steady_cornering_geometry.py": "1876859659a29032764d8498614de9c517d269f3569a8ad41b478dc74ac3eeca",
+        "tests/test_steady_cornering_tire.py": "858890c58e2703c71510eea26146b5ff70abcb9eaa75be7747a6358f3a46e307",
+        "tests/test_steady_cornering_upright.py": "38beabf6cdc1057edf76792cd8c71d65e6276aebd0954f31cfe38f810078cd92",
+        "scripts/run_wufr_steady_cornering_benchmarks.py": "5fb375d5742593b3458613328a93fc6a9e311a39ad4c488a6f9f3b71adfbb049",
+        "data_catalog/wufr27_static_equilibrium_composition_v1.toml": "138191d4acef93b4acce58cd0ba2d4da43b8adfd91f5a766447d75d956fa237e",
+        "data_catalog/wufr26_road_contact_reference_v0.toml": "84697749794bb44155154df4caca49a06b43569bb7c601c77f7bfb27de5baf05",
+        "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+        "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml": "85739e46db63deb581b65385410e72d2247d7cee06ee45b656d4515b17cd3ddf",
+        "configurations/steering/WUFR27_STEERING_BASELINE_V0.toml": "cbfa707ca2c0d7c188958ade921027bfe7cb3ae740cf8b8c10d30d64ea7b1317",
+        "configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml": "b06b57cb951421bb4cba8f586c28d8993ae49b7d1ab021952660bbeed87d0f58",
+        "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4",
+        "data_catalog/wufr27_static_gravity_allocation_v0.toml": "2f89a18e4d88869ab7602311dfbba75b6dd12a791d6826dd951099de9b23fd41",
+        "data_catalog/wufr27_spring_package_v0.toml": "24b87ba7103971ffa7ab5c99e03121ec7166dec5ac9bf8fb035b8297fb2f49e5",
+        "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml": "f4887a06d1711bd8111df32266473e4b6f7a88912f69931d08bea4a422c39be2",
+        "authorizations/vehicle/AUTH-VEH-0012.toml": "413e8df06a5bbd8b6f432740641eb2a162471e79f42cdc4e6a016b7a16c38176",
+        "registry/records/assumptions/ASM-VEH-0009.toml": "99fc512e5c712c517a25629c4ac3c2747e1e88313ffdab0792bb8e30213989fa",
+        "scripts/run_native_computational_envelope.py": "c7ad8dbce13294d347a82d9aecee8003264d15cd768177f60915817d7cf53db3",
+        "tests/test_native_computational_envelope.py": "a4448d0c62e3e6fe0b441573e9da981aab464250c5c8cf5c2e0827ff88177788",
+        "tests/varying_state_evidence_fixture.py": "b5223a334ba1357f8f8c82454f35bce8be9cdc433e23378181314d7fc654923b",
+        "scripts/run_native_envelope_bound_control.py": "369b409b0ddb07d726c606200acbe69f6946f9f8d343c3e2af08be3e9e0d41b7",
+        "tests/test_native_envelope_bound_control.py": "692a289dd3df30578f41b67e849a99828e26319fa6d633402a40eaa593b9f704"
+      }
+    },
+    {
+      "status": "pass",
+      "direction_sign": 1,
+      "case": {
+        "state_id": "native_verification_1_0.0:direction:1:refinement:7:0.125:sideslip_bound_control",
+        "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+        "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+        "setup_revision": "7b6897490fc0762f9aefafd985fc963ad658dfb344d767eb5ec6913850a0802e",
+        "tire_revision": "bf1d24bebb5e0fc0cc3eee65df614bad8d48dd671fd8fa0375e8bb2c49e35633",
+        "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+        "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+        "speed_m_s": 8.0,
+        "curvature_per_m": 0.125,
+        "pressures_pa": [
+          68900.0,
+          68900.0,
+          68900.0,
+          68900.0
+        ],
+        "gravity_m_s2": 9.81,
+        "front_arb_setting": 1,
+        "rear_arb_setting": 1,
+        "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+        "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+        "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+        "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+        "accepted_assumptions": [
+          "ASM-VEH-0006",
+          "ASM-VEH-0007",
+          "ASM-VEH-0008"
+        ],
+        "inertia_policy": "uniform_acceleration_current_mass_lumps",
+        "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+        "radius_policy": "fixed_radius_zero_width_rigid_circle",
+        "result_role": "evidence_only",
+        "state_weight": 0.0
+      },
+      "original_report_sha256": "7775081a2ddd04b7dbfaede67518b5d610b513bca18b8a9368e7df37deafb85f",
+      "control_report_sha256": "685c097c3896c6c8150741ad44f6b2f10ce7616e059fbe16d065397b98d1c8e6",
+      "original_sideslip_bounds_rad": [
+        -0.08,
+        0.08
+      ],
+      "control_sideslip_bounds_rad": [
+        -0.1,
+        0.1
+      ],
+      "original_failure_code": "line_search_failure",
+      "original_failed_coordinates": [
+        -0.0011594601426513694,
+        0.002321708833414109,
+        0.0018068454795581706,
+        0.07999999941086312,
+        -0.011247389703644852,
+        81.18658244823027,
+        591.7564226325727,
+        1027.8751281907532,
+        350.82465742544684,
+        1033.118816580342
+      ],
+      "coordinates": [
+        -0.0011569959161184691,
+        0.0023387654341387237,
+        0.0018291254845765417,
+        0.08048746619285964,
+        -0.011320961948274352,
+        82.5347226788152,
+        590.5468959033789,
+        1029.777717977486,
+        347.9504309166379,
+        1035.3002312499982
+      ],
+      "ok": true,
+      "failure_code": null,
+      "same_source_branch": true,
+      "physical_force_norm_n": 1.1564306292859326e-08,
+      "physical_moment_norm_nm": 1.3307577477750152e-08,
+      "source_hashes": {
+        "src/pssd_vehicle/wufr_steady_cornering_geometry.py": "23923ac1efdaeaac7a2f6d602d5fee0f949e9e2b182ea9c75a52ff0b5ca99c3b",
+        "src/pssd_vehicle/steady_cornering_upright.py": "cbe4cb1d9b96413eff8fca25cc83322d7bf712ce1b33f0618cb3bedbf331e7d7",
+        "src/pssd_vehicle/steady_cornering_tire.py": "b44a8775269983c31baf38ec35618cf9db17a846cce733a6d3d67460c85ecba4",
+        "src/pssd_vehicle/steady_cornering.py": "48d423a33d46f510855b0e96506aa0bfa8a399f78937c37f82d0adc1483c3932",
+        "src/pssd_vehicle/steady_cornering_motion.py": "ec2f781b0d80045616d75a1fa12bed5991868e2473fb62b5cfd8ec4d19e43a5e",
+        "tests/wufr_cornering_fixture.py": "d20ca325e9c83367375d132141f3e12f8d95fd320c65549b75a4a4a5d97062c5",
+        "tests/test_wufr_steady_cornering_geometry.py": "1876859659a29032764d8498614de9c517d269f3569a8ad41b478dc74ac3eeca",
+        "tests/test_steady_cornering_tire.py": "858890c58e2703c71510eea26146b5ff70abcb9eaa75be7747a6358f3a46e307",
+        "tests/test_steady_cornering_upright.py": "38beabf6cdc1057edf76792cd8c71d65e6276aebd0954f31cfe38f810078cd92",
+        "scripts/run_wufr_steady_cornering_benchmarks.py": "5fb375d5742593b3458613328a93fc6a9e311a39ad4c488a6f9f3b71adfbb049",
+        "data_catalog/wufr27_static_equilibrium_composition_v1.toml": "138191d4acef93b4acce58cd0ba2d4da43b8adfd91f5a766447d75d956fa237e",
+        "data_catalog/wufr26_road_contact_reference_v0.toml": "84697749794bb44155154df4caca49a06b43569bb7c601c77f7bfb27de5baf05",
+        "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+        "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml": "85739e46db63deb581b65385410e72d2247d7cee06ee45b656d4515b17cd3ddf",
+        "configurations/steering/WUFR27_STEERING_BASELINE_V0.toml": "cbfa707ca2c0d7c188958ade921027bfe7cb3ae740cf8b8c10d30d64ea7b1317",
+        "configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml": "b06b57cb951421bb4cba8f586c28d8993ae49b7d1ab021952660bbeed87d0f58",
+        "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4",
+        "data_catalog/wufr27_static_gravity_allocation_v0.toml": "2f89a18e4d88869ab7602311dfbba75b6dd12a791d6826dd951099de9b23fd41",
+        "data_catalog/wufr27_spring_package_v0.toml": "24b87ba7103971ffa7ab5c99e03121ec7166dec5ac9bf8fb035b8297fb2f49e5",
+        "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml": "f4887a06d1711bd8111df32266473e4b6f7a88912f69931d08bea4a422c39be2",
+        "authorizations/vehicle/AUTH-VEH-0012.toml": "413e8df06a5bbd8b6f432740641eb2a162471e79f42cdc4e6a016b7a16c38176",
+        "registry/records/assumptions/ASM-VEH-0009.toml": "99fc512e5c712c517a25629c4ac3c2747e1e88313ffdab0792bb8e30213989fa",
+        "scripts/run_native_computational_envelope.py": "c7ad8dbce13294d347a82d9aecee8003264d15cd768177f60915817d7cf53db3",
+        "tests/test_native_computational_envelope.py": "a4448d0c62e3e6fe0b441573e9da981aab464250c5c8cf5c2e0827ff88177788",
+        "tests/varying_state_evidence_fixture.py": "b5223a334ba1357f8f8c82454f35bce8be9cdc433e23378181314d7fc654923b",
+        "scripts/run_native_envelope_bound_control.py": "369b409b0ddb07d726c606200acbe69f6946f9f8d343c3e2af08be3e9e0d41b7",
+        "tests/test_native_envelope_bound_control.py": "692a289dd3df30578f41b67e849a99828e26319fa6d633402a40eaa593b9f704"
+      }
+    }
+  ],
+  "branches": [
+    {
+      "direction_sign": -1,
+      "stopping_reason": "refinement_budget_exhausted",
+      "last_accepted_magnitude_per_m": 0.12000000000000001,
+      "first_failed_magnitude_per_m": 0.125,
+      "first_coarse_failure_magnitude_per_m": 0.14,
+      "reference_branch_signature": [
+        "native_reference_connected_unique_contact_roots",
+        "direct_nonnegative_IA:connected_monotone_central",
+        "reflected_negative_IA:connected_monotone_central",
+        "direct_nonnegative_IA:connected_monotone_central",
+        "reflected_negative_IA:connected_monotone_central"
+      ],
+      "attempts": [
+        {
+          "stage": "seed",
+          "curvature_magnitude_per_m": 0.0,
+          "signed_curvature_per_m": -0.0,
+          "ok": true,
+          "category": "accepted",
+          "failure_code": null,
+          "message": "",
+          "coordinates": [
+            -0.0013225576859841395,
+            -8.00238559316737e-05,
+            0.0005409211113773276,
+            1.7674384833819536e-05,
+            -1.1325648148435282e-05,
+            29.080325415290044,
+            793.6708282522758,
+            782.2628291966014,
+            723.7547169890972,
+            703.8869016095268
+          ],
+          "iterations": 0,
+          "scaled_residual_norm": 7.253265721374192e-11,
+          "reciprocal_pivot_ratio": 0.013829412148252163,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 0.0,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              29.080325410747932,
+              0.0005139768624557794,
+              0.0
+            ],
+            "power_w": 232.64260332232035,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0013225576859841395,
+            -8.00238559316737e-05,
+            0.0005409211113773276
+          ],
+          "sideslip_rad": 1.7674384833819536e-05,
+          "rack_m": -1.1325648148435282e-05,
+          "wheel_coordinates_m": [
+            0.001756409245032342,
+            0.0016583823374802797,
+            0.0009258156144398566,
+            0.0008295145773951074
+          ],
+          "physical_force_norm_n": 7.724802643210166e-09,
+          "physical_moment_norm_nm": 6.538092182728739e-09,
+          "closest_normalized_solver_bound": {
+            "axis": "Fz_front_left_n",
+            "side": "upper",
+            "margin_in_axis_units": 317.3291717477242,
+            "coordinate_scale": 750.0,
+            "dimensionless_margin": 0.42310556233029895
+          },
+          "normal_loads_n": [
+            793.6708282522758,
+            782.2628291966014,
+            723.7547169890972,
+            703.8869016095268
+          ],
+          "inclinations_rad": [
+            0.04110021881556118,
+            -0.04116772402733071,
+            0.017986928107910458,
+            -0.01808339691443744
+          ],
+          "slip_angles_rad": [
+            -0.017768323361005756,
+            0.018090747983261934,
+            0.008609897527801724,
+            -0.008654486088373936
+          ],
+          "lateral_forces_n": [
+            -731.4878241966023,
+            731.7126877840792,
+            164.8083676015951,
+            -165.02903765039943
+          ]
+        },
+        {
+          "stage": "coarse",
+          "curvature_magnitude_per_m": 0.02,
+          "signed_curvature_per_m": -0.02,
+          "ok": true,
+          "category": "accepted",
+          "failure_code": null,
+          "message": "",
+          "coordinates": [
+            -0.0013186068830365679,
+            -0.0004687618805443715,
+            0.0005666097011524094,
+            -0.013583212165067148,
+            0.0018708318265743614,
+            30.354254436259023,
+            830.673997640431,
+            746.4170773924899,
+            779.7039275117874,
+            646.7802735027931
+          ],
+          "iterations": 9,
+          "scaled_residual_norm": 2.1560784565129628e-11,
+          "reciprocal_pivot_ratio": 0.01399995340202499,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 1.28,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              30.35145424390367,
+              -0.41229559950654004,
+              0.0
+            ],
+            "power_w": 242.83403549007218,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0013186068830365679,
+            -0.0004687618805443715,
+            0.0005666097011524094
+          ],
+          "sideslip_rad": -0.013583212165067148,
+          "rack_m": 0.0018708318265743614,
+          "wheel_coordinates_m": [
+            0.0019711367787644263,
+            0.0014757322810133033,
+            0.0011323756320420486,
+            0.0005682662921963344
+          ],
+          "physical_force_norm_n": 2.0334849496277532e-09,
+          "physical_moment_norm_nm": 3.793600648411635e-09,
+          "closest_normalized_solver_bound": {
+            "axis": "Fz_front_left_n",
+            "side": "upper",
+            "margin_in_axis_units": 280.326002359569,
+            "coordinate_scale": 750.0,
+            "dimensionless_margin": 0.373768003146092
+          },
+          "normal_loads_n": [
+            830.673997640431,
+            746.4170773924899,
+            779.7039275117874,
+            646.7802735027931
+          ],
+          "inclinations_rad": [
+            0.042135239814843926,
+            -0.039983827234107296,
+            0.017734968040747614,
+            -0.01830015238061212
+          ],
+          "slip_angles_rad": [
+            -0.021201557572721352,
+            0.014651620856282577,
+            0.005879735838715039,
+            -0.011455123009822987
+          ],
+          "lateral_forces_n": [
+            -844.5560529988343,
+            620.9335891689544,
+            77.0672024015294,
+            -245.87318472208455
+          ]
+        },
+        {
+          "stage": "coarse",
+          "curvature_magnitude_per_m": 0.06,
+          "signed_curvature_per_m": -0.06,
+          "ok": true,
+          "category": "accepted",
+          "failure_code": null,
+          "message": "",
+          "coordinates": [
+            -0.0012892679973662531,
+            -0.0012450893938390792,
+            0.000803905541743024,
+            -0.04039249868491708,
+            0.005595425489417665,
+            40.62841011237585,
+            907.9282569725165,
+            678.4179863792376,
+            888.1337291818623,
+            529.0953035138846
+          ],
+          "iterations": 7,
+          "scaled_residual_norm": 5.337900195930463e-11,
+          "reciprocal_pivot_ratio": 0.01411481196525442,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 3.84,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              40.59527089694417,
+              -1.640636785861546,
+              0.0
+            ],
+            "power_w": 325.0272808990068,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0012892679973662531,
+            -0.0012450893938390792,
+            0.000803905541743024
+          ],
+          "sideslip_rad": -0.04039249868491708,
+          "rack_m": 0.005595425489417665,
+          "wheel_coordinates_m": [
+            0.0025366600014554985,
+            0.0012472645414992045,
+            0.0013718184801636835,
+            -0.00012651127756657665
+          ],
+          "physical_force_norm_n": 5.144943412650296e-09,
+          "physical_moment_norm_nm": 3.764190498524437e-09,
+          "closest_normalized_solver_bound": {
+            "axis": "Fz_front_left_n",
+            "side": "upper",
+            "margin_in_axis_units": 203.07174302748354,
+            "coordinate_scale": 750.0,
+            "dimensionless_margin": 0.2707623240366447
+          },
+          "normal_loads_n": [
+            907.9282569725165,
+            678.4179863792376,
+            888.1337291818623,
+            529.0953035138846
+          ],
+          "inclinations_rad": [
+            0.043801223406071906,
+            -0.037214471016787425,
+            0.01711929527302938,
+            -0.018622524085563
+          ],
+          "slip_angles_rad": [
+            -0.02809014574173707,
+            0.007660204020053296,
+            0.00022436004752579564,
+            -0.017703361952606578
+          ],
+          "lateral_forces_n": [
+            -1068.4858788576144,
+            396.6212988650065,
+            -122.15362317292539,
+            -384.3246858279748
+          ]
+        },
+        {
+          "stage": "coarse",
+          "curvature_magnitude_per_m": 0.1,
+          "signed_curvature_per_m": -0.1,
+          "ok": true,
+          "category": "accepted",
+          "failure_code": null,
+          "message": "",
+          "coordinates": [
+            -0.0012431359889357794,
+            -0.0020182559775732507,
+            0.001339881236774934,
+            -0.06571232341206334,
+            0.009185628375478868,
+            62.08210254559507,
+            988.8358445140691,
+            615.6595010656852,
+            992.2765211674749,
+            406.80340930026864
+          ],
+          "iterations": 4,
+          "scaled_residual_norm": 4.7288873853782813e-11,
+          "reciprocal_pivot_ratio": 0.0149549304117909,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 6.4,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              61.948112114668824,
+              -4.076623837221623,
+              0.0
+            ],
+            "power_w": 496.65682036476056,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0012431359889357794,
+            -0.0020182559775732507,
+            0.001339881236774934
+          ],
+          "sideslip_rad": -0.06571232341206334,
+          "rack_m": 0.009185628375478868,
+          "wheel_coordinates_m": [
+            0.0033315220707245963,
+            0.0012485929336672197,
+            0.0013490520458831479,
+            -0.001079647482868401
+          ],
+          "physical_force_norm_n": 5.931060964483967e-09,
+          "physical_moment_norm_nm": 1.2073126523361877e-08,
+          "closest_normalized_solver_bound": {
+            "axis": "Fz_rear_left_n",
+            "side": "upper",
+            "margin_in_axis_units": 118.72347883252507,
+            "coordinate_scale": 750.0,
+            "dimensionless_margin": 0.1582979717767001
+          },
+          "normal_loads_n": [
+            988.8358445140691,
+            615.6595010656852,
+            992.2765211674749,
+            406.80340930026864
+          ],
+          "inclinations_rad": [
+            0.04498965397512084,
+            -0.034021806779809066,
+            0.01633566275296179,
+            -0.01877941229513767
+          ],
+          "slip_angles_rad": [
+            -0.035098347594543,
+            0.00027911796515489584,
+            -0.006608405632320569,
+            -0.025928034367543873
+          ],
+          "lateral_forces_n": [
+            -1275.8347491137445,
+            155.94800424164782,
+            -365.44337647371265,
+            -482.03171853306765
+          ]
+        },
+        {
+          "stage": "coarse",
+          "curvature_magnitude_per_m": 0.14,
+          "signed_curvature_per_m": -0.14,
+          "ok": false,
+          "category": "numerical_or_derivative_failure",
+          "failure_code": "line_search_failure",
+          "message": "No admissible decreasing Newton trial",
+          "coordinates": [
+            -0.0008166377556993385,
+            -0.0024480047225709086,
+            0.001334328375299079,
+            -0.0799999942216143,
+            0.011268841939240732,
+            29.20752344339938,
+            1032.803883909369,
+            577.6555817233451,
+            1052.1013071576363,
+            341.00085571410807
+          ],
+          "iterations": 10,
+          "scaled_residual_norm": 0.5726398263244667,
+          "reciprocal_pivot_ratio": 0.017611926051011473,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 8.96,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              29.11410921874165,
+              -2.334110129344146,
+              0.0
+            ],
+            "power_w": 233.66018754719505,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0008166377556993385,
+            -0.0024480047225709086,
+            0.001334328375299079
+          ],
+          "sideslip_rad": -0.0799999942216143,
+          "rack_m": 0.011268841939240732,
+          "wheel_coordinates_m": [
+            0.003160044129414591,
+            0.0006482514076017187,
+            0.0011838470317840633,
+            -0.0017619494420325066
+          ],
+          "physical_force_norm_n": 383.17070063712805,
+          "physical_moment_norm_nm": 859.1926362276637,
+          "closest_normalized_solver_bound": {
+            "axis": "sideslip_rad",
+            "side": "lower",
+            "margin_in_axis_units": 5.7783857004833905e-09,
+            "coordinate_scale": 0.05,
+            "dimensionless_margin": 1.1556771400966781e-07
+          },
+          "normal_loads_n": [
+            1032.803883909369,
+            577.6555817233451,
+            1052.1013071576363,
+            341.00085571410807
+          ],
+          "inclinations_rad": [
+            0.044819750345909896,
+            -0.03098782897630199,
+            0.01579646156033201,
+            -0.018767853167191196
+          ],
+          "slip_angles_rad": [
+            -0.0300002208111243,
+            0.009358571706832741,
+            -0.02333698807541662,
+            -0.04666614421537796
+          ],
+          "lateral_forces_n": [
+            -1185.603516105306,
+            377.8556021711255,
+            -929.9366365998252,
+            -638.1479411333162
+          ]
+        },
+        {
+          "stage": "refinement",
+          "curvature_magnitude_per_m": 0.12000000000000001,
+          "signed_curvature_per_m": -0.12000000000000001,
+          "ok": true,
+          "category": "accepted",
+          "failure_code": null,
+          "message": "",
+          "coordinates": [
+            -0.0011772454530588903,
+            -0.00240259689694895,
+            0.001727287754846726,
+            -0.07732249494388918,
+            0.010885624829755013,
+            77.93369065518506,
+            1030.4974276707637,
+            586.1858205888293,
+            1042.8756307183532,
+            344.0163970695549
+          ],
+          "iterations": 8,
+          "scaled_residual_norm": 8.2127674734996e-11,
+          "reciprocal_pivot_ratio": 0.015633938855238637,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 7.680000000000001,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              77.70083297007154,
+              -6.02002449290053,
+              0.0
+            ],
+            "power_w": 623.4695252414805,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0011772454530588903,
+            -0.00240259689694895,
+            0.001727287754846726
+          ],
+          "sideslip_rad": -0.07732249494388918,
+          "rack_m": 0.010885624829755013,
+          "wheel_coordinates_m": [
+            0.003783182876395619,
+            0.0013031581061921649,
+            0.001196212528758095,
+            -0.001694938908804705
+          ],
+          "physical_force_norm_n": 3.58352837443771e-09,
+          "physical_moment_norm_nm": 3.890528280592384e-09,
+          "closest_normalized_solver_bound": {
+            "axis": "sideslip_rad",
+            "side": "lower",
+            "margin_in_axis_units": 0.002677505056110821,
+            "coordinate_scale": 0.05,
+            "dimensionless_margin": 0.05355010112221642
+          },
+          "normal_loads_n": [
+            1030.4974276707637,
+            586.1858205888293,
+            1042.8756307183532,
+            344.0163970695549
+          ],
+          "inclinations_rad": [
+            0.04538023222862043,
+            -0.032287245906549245,
+            0.01585342644853768,
+            -0.01876914562854947
+          ],
+          "slip_angles_rad": [
+            -0.03852812120939131,
+            -0.0034933237604404255,
+            -0.010902265273901257,
+            -0.031372711215263305
+          ],
+          "lateral_forces_n": [
+            -1379.2726469376685,
+            35.128120527782464,
+            -518.4340491462334,
+            -501.0917974146176
+          ]
+        },
+        {
+          "stage": "refinement",
+          "curvature_magnitude_per_m": 0.13,
+          "signed_curvature_per_m": -0.13,
+          "ok": false,
+          "category": "numerical_or_derivative_failure",
+          "failure_code": "line_search_failure",
+          "message": "No admissible decreasing Newton trial",
+          "coordinates": [
+            -0.0011475915591378876,
+            -0.0024944580845875693,
+            0.0018220800232967042,
+            -0.07999999479469523,
+            0.011283990297831838,
+            80.0883757514827,
+            1040.5005971193527,
+            579.0464259338854,
+            1055.0380395404711,
+            328.98906777039605
+          ],
+          "iterations": 12,
+          "scaled_residual_norm": 0.1967206078678485,
+          "reciprocal_pivot_ratio": 0.016196668203597962,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 8.32,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              79.83222963739847,
+              -6.400237623116765,
+              0.0
+            ],
+            "power_w": 640.7070060118616,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0011475915591378876,
+            -0.0024944580845875693,
+            0.0018220800232967042
+          ],
+          "sideslip_rad": -0.07999999479469523,
+          "rack_m": 0.011283990297831838,
+          "wheel_coordinates_m": [
+            0.003879812106692887,
+            0.0013047900015933367,
+            0.001144011360612568,
+            -0.0018576658621758668
+          ],
+          "physical_force_norm_n": 127.77348844751943,
+          "physical_moment_norm_nm": 295.3193885301266,
+          "closest_normalized_solver_bound": {
+            "axis": "sideslip_rad",
+            "side": "lower",
+            "margin_in_axis_units": 5.2053047705502564e-09,
+            "coordinate_scale": 0.05,
+            "dimensionless_margin": 1.0410609541100513e-07
+          },
+          "normal_loads_n": [
+            1040.5005971193527,
+            579.0464259338854,
+            1055.0380395404711,
+            328.98906777039605
+          ],
+          "inclinations_rad": [
+            0.045439674024660995,
+            -0.03183784308343932,
+            0.015727839515055478,
+            -0.018756952063938945
+          ],
+          "slip_angles_rad": [
+            -0.03626473558598775,
+            0.00024394556495899167,
+            -0.015916989688912864,
+            -0.03753053059097455
+          ],
+          "lateral_forces_n": [
+            -1336.972468096465,
+            137.17164001237813,
+            -691.4063426934936,
+            -546.1636038658208
+          ]
+        },
+        {
+          "stage": "refinement",
+          "curvature_magnitude_per_m": 0.125,
+          "signed_curvature_per_m": -0.125,
+          "ok": false,
+          "category": "numerical_or_derivative_failure",
+          "failure_code": "line_search_failure",
+          "message": "No admissible decreasing Newton trial",
+          "coordinates": [
+            -0.001155708960512877,
+            -0.0024948356062388746,
+            0.0018323600276286798,
+            -0.07999999982196036,
+            0.011284755490603055,
+            82.21962545305009,
+            1040.6297777263985,
+            579.2632837804223,
+            1054.9295030112776,
+            328.752649762771
+          ],
+          "iterations": 12,
+          "scaled_residual_norm": 0.007126152217163129,
+          "reciprocal_pivot_ratio": 0.015865635586005126,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 8.0,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              81.95666294433242,
+              -6.570556191748964,
+              0.0
+            ],
+            "power_w": 657.7570036244007,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.001155708960512877,
+            -0.0024948356062388746,
+            0.0018323600276286798
+          ],
+          "sideslip_rad": -0.07999999982196036,
+          "rack_m": 0.011284755490603055,
+          "wheel_coordinates_m": [
+            0.0038957499526719452,
+            0.0013201479547875483,
+            0.0011439529820544414,
+            -0.0018581782665821611
+          ],
+          "physical_force_norm_n": 4.529833920832653,
+          "physical_moment_norm_nm": 10.697219117110588,
+          "closest_normalized_solver_bound": {
+            "axis": "sideslip_rad",
+            "side": "lower",
+            "margin_in_axis_units": 1.780396385875349e-10,
+            "coordinate_scale": 0.05,
+            "dimensionless_margin": 3.560792771750698e-09
+          },
+          "normal_loads_n": [
+            1040.6297777263985,
+            579.2632837804223,
+            1054.9295030112776,
+            328.752649762771
+          ],
+          "inclinations_rad": [
+            0.045454226888638836,
+            -0.031856256538082404,
+            0.015727511662161176,
+            -0.0187570907479704
+          ],
+          "slip_angles_rad": [
+            -0.039243424196553356,
+            -0.004258676288182439,
+            -0.012171528345258142,
+            -0.03300352082135127
+          ],
+          "lateral_forces_n": [
+            -1401.8489355904235,
+            10.812317093724296,
+            -563.5905157617188,
+            -503.91430484229113
+          ]
+        }
+      ]
+    },
+    {
+      "direction_sign": 1,
+      "stopping_reason": "refinement_budget_exhausted",
+      "last_accepted_magnitude_per_m": 0.12000000000000001,
+      "first_failed_magnitude_per_m": 0.125,
+      "first_coarse_failure_magnitude_per_m": 0.14,
+      "reference_branch_signature": [
+        "native_reference_connected_unique_contact_roots",
+        "direct_nonnegative_IA:connected_monotone_central",
+        "reflected_negative_IA:connected_monotone_central",
+        "direct_nonnegative_IA:connected_monotone_central",
+        "reflected_negative_IA:connected_monotone_central"
+      ],
+      "attempts": [
+        {
+          "stage": "seed",
+          "curvature_magnitude_per_m": 0.0,
+          "signed_curvature_per_m": 0.0,
+          "ok": true,
+          "category": "accepted",
+          "failure_code": null,
+          "message": "",
+          "coordinates": [
+            -0.0013225576859841395,
+            -8.00238559316737e-05,
+            0.0005409211113773276,
+            1.7674384833819536e-05,
+            -1.1325648148435282e-05,
+            29.080325415290044,
+            793.6708282522758,
+            782.2628291966014,
+            723.7547169890972,
+            703.8869016095268
+          ],
+          "iterations": 0,
+          "scaled_residual_norm": 7.253265721374192e-11,
+          "reciprocal_pivot_ratio": 0.013829412148252163,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 0.0,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              29.080325410747932,
+              0.0005139768624557794,
+              0.0
+            ],
+            "power_w": 232.64260332232035,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0013225576859841395,
+            -8.00238559316737e-05,
+            0.0005409211113773276
+          ],
+          "sideslip_rad": 1.7674384833819536e-05,
+          "rack_m": -1.1325648148435282e-05,
+          "wheel_coordinates_m": [
+            0.001756409245032342,
+            0.0016583823374802797,
+            0.0009258156144398566,
+            0.0008295145773951074
+          ],
+          "physical_force_norm_n": 7.724802643210166e-09,
+          "physical_moment_norm_nm": 6.538092182728739e-09,
+          "closest_normalized_solver_bound": {
+            "axis": "Fz_front_left_n",
+            "side": "upper",
+            "margin_in_axis_units": 317.3291717477242,
+            "coordinate_scale": 750.0,
+            "dimensionless_margin": 0.42310556233029895
+          },
+          "normal_loads_n": [
+            793.6708282522758,
+            782.2628291966014,
+            723.7547169890972,
+            703.8869016095268
+          ],
+          "inclinations_rad": [
+            0.04110021881556118,
+            -0.04116772402733071,
+            0.017986928107910458,
+            -0.01808339691443744
+          ],
+          "slip_angles_rad": [
+            -0.017768323361005756,
+            0.018090747983261934,
+            0.008609897527801724,
+            -0.008654486088373936
+          ],
+          "lateral_forces_n": [
+            -731.4878241966023,
+            731.7126877840792,
+            164.8083676015951,
+            -165.02903765039943
+          ]
+        },
+        {
+          "stage": "coarse",
+          "curvature_magnitude_per_m": 0.02,
+          "signed_curvature_per_m": 0.02,
+          "ok": true,
+          "category": "accepted",
+          "failure_code": null,
+          "message": "",
+          "coordinates": [
+            -0.0013188972758342533,
+            0.0003087326091617856,
+            0.000568551435724829,
+            0.013633584852962692,
+            -0.001894102974860462,
+            30.398031844919508,
+            757.8412260198726,
+            819.2796953290325,
+            666.6331175019463,
+            759.8212371966497
+          ],
+          "iterations": 5,
+          "scaled_residual_norm": 1.7657991217371698e-11,
+          "reciprocal_pivot_ratio": 0.013821576805451747,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 1.28,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              30.395206777127676,
+              0.4144213078407409,
+              0.0
+            ],
+            "power_w": 243.18425475935607,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0013188972758342533,
+            0.0003087326091617856,
+            0.000568551435724829
+          ],
+          "sideslip_rad": 0.013633584852962692,
+          "rack_m": -0.001894102974860462,
+          "wheel_coordinates_m": [
+            0.0015804031075588865,
+            0.0018797579634269312,
+            0.000668171651365651,
+            0.0010397013795029053
+          ],
+          "physical_force_norm_n": 1.5086586788062757e-08,
+          "physical_moment_norm_nm": 5.530296899175132e-09,
+          "closest_normalized_solver_bound": {
+            "axis": "Fz_front_right_n",
+            "side": "upper",
+            "margin_in_axis_units": 291.7203046709675,
+            "coordinate_scale": 750.0,
+            "dimensionless_margin": 0.38896040622795663
+          },
+          "normal_loads_n": [
+            757.8412260198726,
+            819.2796953290325,
+            666.6331175019463,
+            759.8212371966497
+          ],
+          "inclinations_rad": [
+            0.03992145082940705,
+            -0.04220852412757554,
+            0.018205947024577618,
+            -0.017833717116452447
+          ],
+          "slip_angles_rad": [
+            -0.014321269222430377,
+            0.021522308750080654,
+            0.011393818126541166,
+            -0.005939040414669083
+          ],
+          "lateral_forces_n": [
+            -619.275241833872,
+            843.3736647949098,
+            247.10506131322182,
+            -78.76688674795253
+          ]
+        },
+        {
+          "stage": "coarse",
+          "curvature_magnitude_per_m": 0.06,
+          "signed_curvature_per_m": 0.06,
+          "ok": true,
+          "category": "accepted",
+          "failure_code": null,
+          "message": "",
+          "coordinates": [
+            -0.0012843751645591891,
+            0.0010850552642011286,
+            0.0008021012357832682,
+            0.04047644546299253,
+            -0.005611570704413079,
+            40.777589617665704,
+            689.8584239311797,
+            896.5882861384288,
+            548.9353074157291,
+            868.1932585621636
+          ],
+          "iterations": 4,
+          "scaled_residual_norm": 5.296321129814411e-11,
+          "reciprocal_pivot_ratio": 0.014080587676904389,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 3.84,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              40.74419034613463,
+              1.6500812297299876,
+              0.0
+            ],
+            "power_w": 326.22071694132563,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0012843751645591891,
+            0.0010850552642011286,
+            0.0008021012357832682
+          ],
+          "sideslip_rad": 0.04047644546299253,
+          "rack_m": -0.005611570704413079,
+          "wheel_coordinates_m": [
+            0.0013536621337032761,
+            0.002447296551536776,
+            -1.89185146998172e-05,
+            0.0012868282492868865
+          ],
+          "physical_force_norm_n": 6.52086796495956e-09,
+          "physical_moment_norm_nm": 1.094480528814895e-08,
+          "closest_normalized_solver_bound": {
+            "axis": "Fz_front_right_n",
+            "side": "upper",
+            "margin_in_axis_units": 214.41171386157123,
+            "coordinate_scale": 750.0,
+            "dimensionless_margin": 0.28588228514876163
+          },
+          "normal_loads_n": [
+            689.8584239311797,
+            896.5882861384288,
+            548.9353074157291,
+            868.1932585621636
+          ],
+          "inclinations_rad": [
+            0.03715718232478684,
+            -0.04387044496810748,
+            0.018532909388690635,
+            -0.017222980379759497
+          ],
+          "slip_angles_rad": [
+            -0.007416042436213299,
+            0.028308271526259254,
+            0.017599008196515165,
+            -0.00031962815050734505
+          ],
+          "lateral_forces_n": [
+            -394.593422568322,
+            1067.2132811894944,
+            388.53879827493205,
+            117.18934862586121
+          ]
+        },
+        {
+          "stage": "coarse",
+          "curvature_magnitude_per_m": 0.1,
+          "signed_curvature_per_m": 0.1,
+          "ok": true,
+          "category": "accepted",
+          "failure_code": null,
+          "message": "",
+          "coordinates": [
+            -0.0012407150647291412,
+            0.0018584363815947887,
+            0.0013353938526773548,
+            0.06598655632278458,
+            -0.009206443565781163,
+            62.18532527437875,
+            627.1514153306815,
+            977.5502880760368,
+            426.61590195519216,
+            972.2576706855905
+          ],
+          "iterations": 6,
+          "scaled_residual_norm": 2.0966126612620427e-11,
+          "reciprocal_pivot_ratio": 0.014858076519491581,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 6.4,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              62.0499899236886,
+              4.100418265303228,
+              0.0
+            ],
+            "power_w": 497.48260219503,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0012407150647291412,
+            0.0018584363815947887,
+            0.0013353938526773548
+          ],
+          "sideslip_rad": 0.06598655632278458,
+          "rack_m": -0.009206443565781163,
+          "wheel_coordinates_m": [
+            0.0013652802488286209,
+            0.0032525028001482437,
+            -0.0009577707516874867,
+            0.0012786100417234159
+          ],
+          "physical_force_norm_n": 8.645222152794245e-09,
+          "physical_moment_norm_nm": 8.147987148363381e-09,
+          "closest_normalized_solver_bound": {
+            "axis": "Fz_front_right_n",
+            "side": "upper",
+            "margin_in_axis_units": 133.44971192396315,
+            "coordinate_scale": 750.0,
+            "dimensionless_margin": 0.17793294923195085
+          },
+          "normal_loads_n": [
+            627.1514153306815,
+            977.5502880760368,
+            426.61590195519216,
+            972.2576706855905
+          ],
+          "inclinations_rad": [
+            0.03396759441624691,
+            -0.04506887916755939,
+            0.018698661583852975,
+            -0.01644876218695188
+          ],
+          "slip_angles_rad": [
+            -5.578049557808384e-06,
+            0.03530720786019348,
+            0.025602216947063106,
+            0.0063252534925575254
+          ],
+          "lateral_forces_n": [
+            -151.59163385373648,
+            1272.8070551809,
+            491.47237624586353,
+            354.6775089461014
+          ]
+        },
+        {
+          "stage": "coarse",
+          "curvature_magnitude_per_m": 0.14,
+          "signed_curvature_per_m": 0.14,
+          "ok": false,
+          "category": "numerical_or_derivative_failure",
+          "failure_code": "line_search_failure",
+          "message": "No admissible decreasing Newton trial",
+          "coordinates": [
+            -0.0008065725764306787,
+            0.002275066174908214,
+            0.0013022449717184025,
+            0.07999999693064358,
+            -0.011234511798019585,
+            27.11310817790531,
+            590.0254113450816,
+            1019.9921971093974,
+            363.12672053087607,
+            1030.4157795682156
+          ],
+          "iterations": 8,
+          "scaled_residual_norm": 0.6000893014797537,
+          "reciprocal_pivot_ratio": 0.01745447272472493,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 8.96,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              27.026392501554,
+              2.166735659636745,
+              0.0
+            ],
+            "power_w": 216.90486542324248,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0008065725764306787,
+            0.002275066174908214,
+            0.0013022449717184025
+          ],
+          "sideslip_rad": 0.07999999693064358,
+          "rack_m": -0.011234511798019585,
+          "wheel_coordinates_m": [
+            0.0007480090457589184,
+            0.0030502599331003466,
+            -0.0016119639486122384,
+            0.0011257338889762991
+          ],
+          "physical_force_norm_n": 391.62393943591707,
+          "physical_moment_norm_nm": 900.3610347046385,
+          "closest_normalized_solver_bound": {
+            "axis": "sideslip_rad",
+            "side": "upper",
+            "margin_in_axis_units": 3.069356421803171e-09,
+            "coordinate_scale": 0.05,
+            "dimensionless_margin": 6.138712843606342e-08
+          },
+          "normal_loads_n": [
+            590.0254113450816,
+            1019.9921971093974,
+            363.12672053087607,
+            1030.4157795682156
+          ],
+          "inclinations_rad": [
+            0.030972381163017246,
+            -0.04487405788364335,
+            0.018691400267743213,
+            -0.01593066522381216
+          ],
+          "slip_angles_rad": [
+            -0.009717922259944167,
+            0.029723735144242536,
+            0.04657895022593905,
+            0.02327854886205305
+          ],
+          "lateral_forces_n": [
+            -393.65030678754255,
+            1171.3395061946776,
+            667.6060474031995,
+            922.2637519639287
+          ]
+        },
+        {
+          "stage": "refinement",
+          "curvature_magnitude_per_m": 0.12000000000000001,
+          "signed_curvature_per_m": 0.12000000000000001,
+          "ok": true,
+          "category": "accepted",
+          "failure_code": null,
+          "message": "",
+          "coordinates": [
+            -0.0011781060548977519,
+            0.002242925910135602,
+            0.0017200037109624115,
+            0.07769170633352536,
+            -0.010906760290094216,
+            77.96067271032462,
+            597.7112177222199,
+            1019.2403627739927,
+            363.81808283780003,
+            1022.8056127134886
+          ],
+          "iterations": 4,
+          "scaled_residual_norm": 8.952868787067321e-11,
+          "reciprocal_pivot_ratio": 0.015529143799411699,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 7.680000000000001,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              77.72550567677176,
+              6.050806288130048,
+              0.0
+            ],
+            "power_w": 623.6853816825969,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0011781060548977519,
+            0.002242925910135602,
+            0.0017200037109624115
+          ],
+          "sideslip_rad": 0.07769170633352536,
+          "rack_m": -0.010906760290094216,
+          "wheel_coordinates_m": [
+            0.0014258517237736301,
+            0.0037103006930131743,
+            -0.0015627472270755838,
+            0.0011362696125116478
+          ],
+          "physical_force_norm_n": 6.947263337045645e-10,
+          "physical_moment_norm_nm": 1.3781747755254103e-09,
+          "closest_normalized_solver_bound": {
+            "axis": "sideslip_rad",
+            "side": "upper",
+            "margin_in_axis_units": 0.0023082936664746423,
+            "coordinate_scale": 0.05,
+            "dimensionless_margin": 0.046165873329492846
+          },
+          "normal_loads_n": [
+            597.7112177222199,
+            1019.2403627739927,
+            363.81808283780003,
+            1022.8056127134886
+          ],
+          "inclinations_rad": [
+            0.03223696258050544,
+            -0.04546482230208389,
+            0.018694739487358385,
+            -0.01597336376582824
+          ],
+          "slip_angles_rad": [
+            0.003769989025038001,
+            0.0387172919034966,
+            0.030926545260658855,
+            0.010525352595106341
+          ],
+          "lateral_forces_n": [
+            -29.390223001734658,
+            1375.182770597788,
+            514.1428482274197,
+            503.735262222679
+          ]
+        },
+        {
+          "stage": "refinement",
+          "curvature_magnitude_per_m": 0.13,
+          "signed_curvature_per_m": 0.13,
+          "ok": false,
+          "category": "numerical_or_derivative_failure",
+          "failure_code": "line_search_failure",
+          "message": "No admissible decreasing Newton trial",
+          "coordinates": [
+            -0.001152801118938356,
+            0.0023211404068795866,
+            0.0017983420503604592,
+            0.07999999628998718,
+            -0.011246500467404727,
+            79.60096742310478,
+            591.6218479363907,
+            1027.7538318634595,
+            351.0435282320344,
+            1033.1549936402987
+          ],
+          "iterations": 14,
+          "scaled_residual_norm": 0.22510191927633802,
+          "reciprocal_pivot_ratio": 0.016102363252011188,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 8.32,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              79.34638017429052,
+              6.361286656891415,
+              0.0
+            ],
+            "power_w": 636.8077393848382,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.001152801118938356,
+            0.0023211404068795866,
+            0.0017983420503604592
+          ],
+          "sideslip_rad": 0.07999999628998718,
+          "rack_m": -0.011246500467404727,
+          "wheel_coordinates_m": [
+            0.0014264446397392605,
+            0.003791724242382194,
+            -0.0016984354872797147,
+            0.0010946891608907827
+          ],
+          "physical_force_norm_n": 143.13224510663846,
+          "physical_moment_norm_nm": 337.9134961512509,
+          "closest_normalized_solver_bound": {
+            "axis": "sideslip_rad",
+            "side": "upper",
+            "margin_in_axis_units": 3.710012824731379e-09,
+            "coordinate_scale": 0.05,
+            "dimensionless_margin": 7.420025649462758e-08
+          },
+          "normal_loads_n": [
+            591.6218479363907,
+            1027.7538318634595,
+            351.0435282320344,
+            1033.1549936402987
+          ],
+          "inclinations_rad": [
+            0.03185256748982994,
+            -0.045515248459761674,
+            0.018686066468724064,
+            -0.015868323374775926
+          ],
+          "slip_angles_rad": [
+            -0.0007193982231723517,
+            0.0359179596221364,
+            0.037464335108778446,
+            0.015874479730636715
+          ],
+          "lateral_forces_n": [
+            -154.48470351021135,
+            1320.481507822295,
+            569.9174366874041,
+            686.7474850923606
+          ]
+        },
+        {
+          "stage": "refinement",
+          "curvature_magnitude_per_m": 0.125,
+          "signed_curvature_per_m": 0.125,
+          "ok": false,
+          "category": "numerical_or_derivative_failure",
+          "failure_code": "line_search_failure",
+          "message": "No admissible decreasing Newton trial",
+          "coordinates": [
+            -0.0011594601426513694,
+            0.002321708833414109,
+            0.0018068454795581706,
+            0.07999999941086312,
+            -0.011247389703644852,
+            81.18658244823027,
+            591.7564226325727,
+            1027.8751281907532,
+            350.82465742544684,
+            1033.118816580342
+          ],
+          "iterations": 11,
+          "scaled_residual_norm": 0.03456354125356484,
+          "reciprocal_pivot_ratio": 0.015754221369641143,
+          "trial_failure_counts": {},
+          "kinematic_acceleration_m_s2": 8.0,
+          "objective_weight": 0.0,
+          "design_ranking_permitted": false,
+          "branch_signature": [
+            "native_reference_connected_unique_contact_roots",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central",
+            "direct_nonnegative_IA:connected_monotone_central",
+            "reflected_negative_IA:connected_monotone_central"
+          ],
+          "holder": {
+            "force_heading_n": [
+              80.92692391709654,
+              6.488000843076294,
+              0.0
+            ],
+            "power_w": 649.4926595858421,
+            "policy": "virtual_tangential_force_at_current_total_cg"
+          },
+          "body_coordinates": [
+            -0.0011594601426513694,
+            0.002321708833414109,
+            0.0018068454795581706
+          ],
+          "sideslip_rad": 0.07999999941086312,
+          "rack_m": -0.011247389703644852,
+          "wheel_coordinates_m": [
+            0.0014389547707224226,
+            0.003805014116772837,
+            -0.0016990634183533526,
+            0.0010947450342993492
+          ],
+          "physical_force_norm_n": 20.719374349534583,
+          "physical_moment_norm_nm": 51.879267772072765,
+          "closest_normalized_solver_bound": {
+            "axis": "sideslip_rad",
+            "side": "upper",
+            "margin_in_axis_units": 5.891368781707484e-10,
+            "coordinate_scale": 0.05,
+            "dimensionless_margin": 1.1782737563414969e-08
+          },
+          "normal_loads_n": [
+            591.7564226325727,
+            1027.8751281907532,
+            350.82465742544684,
+            1033.118816580342
+          ],
+          "inclinations_rad": [
+            0.03186747231361608,
+            -0.04552719256679205,
+            0.01868630516364277,
+            -0.015867864980365562
+          ],
+          "slip_angles_rad": [
+            0.003766036492685032,
+            0.038884942118680765,
+            0.03294722573892939,
+            0.012135848177531106
+          ],
+          "lateral_forces_n": [
+            -27.176414918258285,
+            1385.0031202093733,
+            524.6804899038897,
+            560.2842419142609
+          ]
+        }
+      ]
+    }
+  ]
+}
