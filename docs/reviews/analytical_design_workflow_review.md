@@ -107,13 +107,13 @@ root cannot supply response values. CI exercises these guards and preserves
 the full attempts, while the viewer exposes rejected attempts even when the
 cell eventually has an accepted result.
 
-## Prior local result — superseded precision
+## Recorded final result
 
-The following result uses the original 1e-14 m study control; the final 1e-15 m
-matrix is being regenerated. Its source-bound files retain the original plan.
-All 51 local Python 3.12 cases pass. Maximum independent force and moment norms
-are 9.60e-8 N and 2.58e-8 N*m; the maximum scaled residual is 9.35e-11 against
-the unchanged 1e-10 gate. The compact source-bound reference is
+All 51 local Python 3.11 cases have accepted results under the final 1e-15 m
+control. One cell requires the guarded recovery described above, giving 52
+solver attempts with the rejected first attempt retained. Maximum independent
+force and moment norms are 1.272e-7 N and 1.290e-7 N*m; all scaled residuals
+satisfy the unchanged 1e-10 gate. The compact source-bound reference is
 `benchmarks/vehicle/analytical_design_workflow_summary_v0.1.0.json`. The committed
 [offline viewer](../reports/analytical_design_workflow_v0.1.0/index.html), CSV
 and SVG figures are reproducible outputs. CI regenerates the full kernel/tire
@@ -140,7 +140,15 @@ intervals. Toe directly changes the nominal heading split, so its larger split
 response does not by itself measure a handling advantage. The finding supports
 keeping alignment explicit before attributing a small split change to geometry.
 
-Validation includes 11 new contract/reporting tests and 39 adjacent regressions,
+The committed `analytical_contact_precision_py311_v0.1.0.json` and
+`analytical_contact_precision_py312_v0.1.0.json` records preserve the separate
+two-precision checks. Both pass, with maximum scaled-coordinate differences
+9.72e-11 and 1.16e-10 respectively against the declared 1e-5 criterion.
+
+Validation includes 15 new contract/reporting/recovery tests and 39 adjacent regressions,
 registry validation, static rendering and browser checks for case/stress/metric
 selection, failure visibility, rejected invalid JSON, download/reopen, desktop
-layout and a 390-pixel viewport without document overflow.
+layout and a 390-pixel viewport without document overflow. The viewer also
+shows the rejected first attempt and offers absolute or reference-difference
+plot modes. Source hashes and input-report hashes bind the final matrix;
+the historical rejected records do not supply accepted response values.

@@ -10,7 +10,7 @@
     <dc:title>Rack demand across nominal cases</dc:title>
     <dc:date>1970-01-01T00:00:00Z</dc:date>
     <dc:description>ANALYTICAL-RACK-M | model=MOD-VEH-0009 | config=ANALYTICAL_DESIGN_WORKFLOW_V0 | authority=uncorrelated_development_evidence_only
-states=straight, right_moderate, left_moderate, right_high, left_high | sources=336e777542eb3a66e8504383fb9917870059fc2ffafd9ec0b55443167b441894</dc:description>
+states=straight, right_moderate, left_moderate, right_high, left_high | sources=30c9d8aa12040ef247f7075557e78d44e5f7e26739c83172b4b349bf7eec3397</dc:description>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -425,7 +425,7 @@ L 446.0075 90.252812
    <text style="font-size: 6.5px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(5.76 365.108)">ANALYTICAL-RACK-M | model=MOD-VEH-0009 | config=ANALYTICAL_DESIGN_WORKFLOW_V0 |</text>
    <text style="font-size: 6.5px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(5.76 372.567359)">authority=uncorrelated_development_evidence_only</text>
    <text style="font-size: 6.5px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(5.76 380.060844)">states=straight, right_moderate, left_moderate, right_high, left_high |</text>
-   <text style="font-size: 6.5px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(5.76 387.520203)">sources=336e777542eb3a66e8504383fb9917870059fc2ffafd9ec0b55443167b441894</text>
+   <text style="font-size: 6.5px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif" transform="translate(5.76 387.520203)">sources=30c9d8aa12040ef247f7075557e78d44e5f7e26739c83172b4b349bf7eec3397</text>
   </g>
   <g id="text_26">
    <text style="font-size: 6.5px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="5.76" y="349.108203" transform="rotate(-0 5.76 349.108203)">Notes: No design ranking; provisional source configuration.</text>
