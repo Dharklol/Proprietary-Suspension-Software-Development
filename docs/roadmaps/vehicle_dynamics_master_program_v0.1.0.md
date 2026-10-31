@@ -177,3 +177,19 @@ KW source follow-up: recovered vendor Box file 1791709004896 links piggyback
 3980599103 to standard S2FS01 and provides force envelopes at 0.25 m/s. Remaining
 damping work is curve digitization and explicit click-setting scenarios, rather
 than a missing damper-family identity. No one-speed F/v calibration is introduced.
+
+## Checkpoint — manufactured half-car, 2026-10-31
+
+G5a has its first implemented verification slice: coupled sprung heave/pitch and
+front/rear unsprung vertical dynamics, independent roads, energy quadratures and
+sampled contact/travel guards. Six new tests pass, including exact symmetric
+heave/pitch modes, asymmetric force/moment/energy identities and bump refinement.
+The previous nine stiffness/quarter-car tests remain passing. This is not native
+half-car readiness or completion of G5a. See [half-car results](../reports/half_car_verification_v0.1.0/README.md).
+
+G3/G4 source dependency: KW text recovery succeeded but both advertised Box raw
+PDF download tools were unavailable (`Tool ... not found`). Plot digitization
+remains blocked on renderable source access; no fake samples or inferred KW
+linear coefficient were introduced. Native equilibrium linearization and pitch
+inertia remain ahead. Continue analytical verification independently of physical
+car correlation. No UI/operational-release dependency is introduced.

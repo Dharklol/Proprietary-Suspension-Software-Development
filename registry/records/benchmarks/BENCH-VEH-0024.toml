@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-VEH-0024"
+type = "benchmark"
+title = "Manufactured half-car verification"
+status = "active"
+description = "Exact symmetric cosine modes, asymmetric force/moment/energy checks, road refinement and structured failures."
+verification_level = "A"
+function_specification = "docs/models/vehicle/half_car_verification_spec_v0.1.0.md"
+target_ids = ["MOD-VEH-0011", "EQ-VEH-0030", "EQ-VEH-0031"]
+acceptance_criteria = ["All assertions in tests/test_half_car.py pass with predeclared thresholds in the specification."]

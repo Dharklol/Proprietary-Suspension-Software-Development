@@ -1,0 +1,9 @@
+[record]
+id = "QTY-RIDE-0001"
+type = "quantity"
+title = "Sprung heave perturbation"
+status = "active"
+maturity = "M2"
+description = "Vertical-up sprung CG displacement about assumed static balance."
+dimension = "length"
+canonical_unit = "m"

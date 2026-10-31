@@ -1,0 +1,55 @@
+{
+  "scope": "manufactured heave/pitch verification only; no installed vehicle prediction",
+  "tests_run": 6,
+  "system": {
+    "sprung_mass": 3.0,
+    "pitch_inertia": 2.4,
+    "front_distance": 0.8,
+    "rear_distance": 1.2,
+    "front_unsprung_mass": 0.7,
+    "rear_unsprung_mass": 1.1,
+    "front_rate": 2.7,
+    "rear_rate": 1.8,
+    "front_tire_rate": 4.2,
+    "rear_tire_rate": 3.1,
+    "front_damping": 0.3,
+    "rear_damping": 0.5,
+    "compression_limit": 1.0,
+    "extension_limit": 1.0,
+    "source_id": "manufactured",
+    "configuration_id": "asymmetric",
+    "gravity": 9.80665
+  },
+  "road": {
+    "front_height_m": 0.01,
+    "front_start_s": 0.3,
+    "front_duration_s": 0.8,
+    "rear_height_m": 0.008,
+    "rear_start_s": 0.9,
+    "rear_duration_s": 0.6
+  },
+  "dt_s": [
+    0.002,
+    0.001
+  ],
+  "duration_s": 4.0,
+  "completed": [
+    true,
+    true
+  ],
+  "maximum_matching_state_difference": 1.1618509973554403e-12,
+  "state_difference_units": "corresponding SI component units (m,rad,m/s,rad/s)",
+  "maximum_fine_energy_residual_J": 2.197596488465181e-15,
+  "final_dissipated_J": 0.00013392880073775953,
+  "final_road_work_J": 0.00017638614195995516,
+  "minimum_sampled_normal_loads_N": [
+    24.48985007846581,
+    22.546932365520107
+  ],
+  "maximum_abs_pitch_rad": 0.0018595949653138898,
+  "source_sha256": {
+    "src/pssd_vehicle/half_car.py": "076a128d4071fd5e3c4954d38de87a50572db782e071d2d8c787ee8f4b88e5c0",
+    "tests/test_half_car.py": "90c9333c5ed84d7768cfc495a23d7feb332b4d612adc5dafd82aa0fdc685e00d",
+    "scripts/run_half_car_verification.py": "5517a7032829b36db603e0556232ba91835f54c7cf0ab15ee5168d456214ebbf"
+  }
+}

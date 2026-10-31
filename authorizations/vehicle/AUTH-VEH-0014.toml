@@ -1,0 +1,11 @@
+version = "0.1.0"
+authorization_id = "AUTH-VEH-0014"
+status = "development_authorized"
+implementation_authorized = true
+function_specification = "docs/models/vehicle/half_car_verification_spec_v0.1.0.md"
+review_record = "docs/models/vehicle/half_car_verification_spec_v0.1.0.md"
+effective_condition = "Owner authorized continued analytical and half-car development on 2026-10-31."
+[permitted]
+items = ["Manufactured longitudinal four-DOF half-car verification with explicit represented parameters"]
+[prohibited]
+items = ["Native installed modal predictions", "Inferred inertia or damping calibration", "Physical-validation claims", "Changes to existing static/steady-cornering providers"]
