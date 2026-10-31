@@ -4,7 +4,11 @@ Private, local-first vehicle-dynamics engineering platform for WashU Racing.
 
 ## Current phase
 
-The project begins with **Phase 0: Model Assurance and Migration**. No physical model, equation, parameter, or legacy calculator is authoritative merely because it already exists. Every result used for a design decision must be traceable to its definition, derivation, assumptions, evidence, uncertainty, applicable operating range, numerical behavior, dependencies, and verification status.
+The project has progressed from Phase 0 assurance into reviewed subsystem mechanics and an **uncorrelated steady-cornering development pipeline**. Model assurance remains a requirement: no physical model, equation, parameter, or legacy calculator is authoritative merely because it already exists.
+
+The current consolidation and dependency status is recorded in [the development checkpoint](docs/reviews/analytical_development_consolidation_2026-10-31.md). The next increment is [analytical verification, operating-envelope mapping and sensitivity](docs/roadmaps/analytical_development_program_v0.1.0.md). Physical correlation is deferred until hardware is available; analytical development does not depend on collecting measurements now. Predictive, installed/setup and production claims retain their existing evidence requirements.
+
+Every result used for a design decision must be traceable to its definition, derivation, assumptions, evidence, uncertainty, applicable operating range, numerical behavior, dependencies, and verification status.
 
 ## Source-of-truth boundaries
 
