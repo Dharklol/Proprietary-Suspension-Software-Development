@@ -9,7 +9,7 @@ development comparison using the existing native solver and symmetric generator.
 
 The versioned TOML plan freezes a provisional source reference: driver/no-fuel
 306.17484975 kg, V=8 m/s, 68.9 kPa gauge, source spring reference, ARB 1/1 and
-original solver bounds/acceptance. Nested contact precision is 1e-14 m for this
+original solver bounds/acceptance. Nested contact precision is 1e-15 m for this
 study only; original fixture defaults are unchanged. Five cases cover straight,
 +/-0.06 and +/-0.10 per metre. These are analytical test cases, not a complete
 endurance distribution or an owner-selected installed setup.
@@ -71,8 +71,27 @@ and needs no external JavaScript module. This is the first team-facing reporting
 slice. Configuration forms, run controls and connection to the existing 3D viewer
 are the next application-layer increment.
 
-## Recorded result
+## Numerical precision closeout
 
+The first Python 3.11 CI reference left-high case was rejected at contact
+precision 1e-14 m: line search stalled at scaled residual 1.03454e-10 against
+the unchanged 1e-10 gate. Its force/moment norms were 8.44e-10 N / 1.90e-9 N*m.
+The complete failed record and artifact provenance are retained separately in
+`benchmarks/vehicle/analytical_workflow_rejected_ci_case_v0.1.0.json`.
+This historical attempt remains rejected. The intermediate 5e-15 m control also
+fails; changing the study-wide nested precision to 1e-15 m permits convergence.
+
+Before rerunning the matrix, compare the exact CI case at contact precision
+1e-15 and 5e-16 m on Python 3.11 and 3.12. Both must satisfy original solver and
+physical gates, retain the source branch, and agree within the previously used
+1e-5 scaled-coordinate numerical comparison criterion. This isolates evaluation
+precision without promoting it to a physical accuracy claim. The final full
+matrix must be regenerated under the single declared 1e-15 m control.
+
+## Prior local result — superseded precision
+
+The following result uses the original 1e-14 m study control; the final 1e-15 m
+matrix is being regenerated. Its source-bound files retain the original plan.
 All 51 local Python 3.12 cases pass. Maximum independent force and moment norms
 are 9.60e-8 N and 2.58e-8 N*m; the maximum scaled residual is 9.35e-11 against
 the unchanged 1e-10 gate. The compact source-bound reference is

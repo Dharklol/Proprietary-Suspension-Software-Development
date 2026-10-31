@@ -13,7 +13,7 @@ speed_mps = 8.0
 pressure_pa = 68900.0
 front_arb_setting = 1
 rear_arb_setting = 1
-road_gap_tolerance_m = 1e-14
+road_gap_tolerance_m = 1e-15
 
 [sources]
 source_path = "data_catalog/wufr27_static_equilibrium_composition_v1.toml"
