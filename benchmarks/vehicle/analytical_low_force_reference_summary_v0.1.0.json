@@ -1,0 +1,496 @@
+{
+  "status": "pass",
+  "scope": "manufactured_small_angle_single_track_limit_only",
+  "limits": {
+    "gradient_normalized_error": 2e-05,
+    "convergence_floor": 1e-07,
+    "convergence_ratio": 0.6,
+    "physical_force_n": 1e-06,
+    "physical_moment_nm": 1e-06
+  },
+  "case_count": 42,
+  "fixture_count": 6,
+  "source_hashes": {
+    "scripts/run_low_force_reference_benchmarks.py": "0d170e78487d3786e93fdb17eb3b79392622976a982c42aabc9d4adef8aa8b00",
+    "tests/low_force_reference_fixture.py": "5545abc462cd46e8d6bec964c077eae03a8f3f0068bf360b68f65b040410edca",
+    "tests/test_low_force_reference.py": "7501b97b13f92f14acd8f598d2d6e946c1b7edeefd3abbc5e95d0c520b52b4e4",
+    "tests/steady_cornering_fixture.py": "0b415d78f592855690572eb3ad5b4b2d729f396c2c73b668fd956c65ef81890e",
+    "src/pssd_vehicle/steady_cornering.py": "48d423a33d46f510855b0e96506aa0bfa8a399f78937c37f82d0adc1483c3932",
+    "src/pssd_vehicle/steady_cornering_motion.py": "ec2f781b0d80045616d75a1fa12bed5991868e2473fb62b5cfd8ec4d19e43a5e"
+  },
+  "native_tire_or_vehicle_validation": false,
+  "design_ranking_permitted": false,
+  "objective_weight": 0.0,
+  "fixtures": [
+    {
+      "fixture": "equal_axles",
+      "inputs": {
+        "mass_kg": 120.0,
+        "front_distance_m": 0.75,
+        "rear_distance_m": 0.75,
+        "front_stiffness_n_per_rad": 3200.0,
+        "rear_stiffness_n_per_rad": 3200.0,
+        "speed_m_s": 4.0
+      },
+      "analytical": {
+        "steer_per_curvature_m": 1.5,
+        "sideslip_per_curvature_m": 0.45,
+        "front_force_per_curvature_nm": 960.0,
+        "rear_force_per_curvature_nm": 960.0,
+        "steer_speed_squared_coefficient_s2_per_m": 0.0
+      },
+      "passed": true,
+      "straight_analytical": {
+        "heave_m": 0.17547500000000002,
+        "normal_load_n": 294.3
+      },
+      "straight_passed": true,
+      "convergence_passed": true,
+      "steps": [
+        {
+          "curvature_step_per_m": 0.002,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 1.500003665774722,
+            "sideslip_per_curvature_m": 0.45000197737669156,
+            "front_force_per_curvature_nm": 960.0071966124375,
+            "rear_force_per_curvature_nm": 959.9953090205488
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 2.443849814663205e-06,
+            "sideslip_per_curvature_m": 1.9773766915531787e-06,
+            "front_force_per_curvature_nm": 7.496471289059059e-06,
+            "rear_force_per_curvature_nm": 4.886436928330795e-06
+          },
+          "maximum_normalized_error": 7.496471289059059e-06
+        },
+        {
+          "curvature_step_per_m": 0.001,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 1.5000009164434194,
+            "sideslip_per_curvature_m": 0.4500004943439424,
+            "front_force_per_curvature_nm": 960.0017991463687,
+            "rear_force_per_curvature_nm": 959.998827255518
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 6.10962279582831e-07,
+            "sideslip_per_curvature_m": 4.94343942392117e-07,
+            "front_force_per_curvature_nm": 1.8741108007702678e-06,
+            "rear_force_per_curvature_nm": 1.2216088354222165e-06
+          },
+          "maximum_normalized_error": 1.8741108007702678e-06
+        },
+        {
+          "curvature_step_per_m": 0.0005,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 1.5000002291109107,
+            "sideslip_per_curvature_m": 0.4500001235860199,
+            "front_force_per_curvature_nm": 960.000449786861,
+            "rear_force_per_curvature_nm": 959.9997068136759
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 1.5274060712518653e-07,
+            "sideslip_per_curvature_m": 1.2358601986228734e-07,
+            "front_force_per_curvature_nm": 4.685279802648286e-07,
+            "rear_force_per_curvature_nm": 3.054024209821667e-07
+          },
+          "maximum_normalized_error": 4.685279802648286e-07
+        }
+      ]
+    },
+    {
+      "fixture": "equal_axles",
+      "inputs": {
+        "mass_kg": 120.0,
+        "front_distance_m": 0.75,
+        "rear_distance_m": 0.75,
+        "front_stiffness_n_per_rad": 3200.0,
+        "rear_stiffness_n_per_rad": 3200.0,
+        "speed_m_s": 8.0
+      },
+      "analytical": {
+        "steer_per_curvature_m": 1.5000000000000002,
+        "sideslip_per_curvature_m": -0.44999999999999996,
+        "front_force_per_curvature_nm": 3840.0,
+        "rear_force_per_curvature_nm": 3840.0,
+        "steer_speed_squared_coefficient_s2_per_m": 0.0
+      },
+      "passed": true,
+      "straight_analytical": {
+        "heave_m": 0.17547500000000002,
+        "normal_load_n": 294.3
+      },
+      "straight_passed": true,
+      "convergence_passed": true,
+      "steps": [
+        {
+          "curvature_step_per_m": 0.002,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 1.5000062692927636,
+            "sideslip_per_curvature_m": -0.4500021309860201,
+            "front_force_per_curvature_nm": 3840.0240798676464,
+            "rear_force_per_curvature_nm": 3840.006678830732
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 4.179528508914861e-06,
+            "sideslip_per_curvature_m": 2.1309860201434994e-06,
+            "front_force_per_curvature_nm": 6.270798866244339e-06,
+            "rear_force_per_curvature_nm": 1.7392788365100387e-06
+          },
+          "maximum_normalized_error": 6.270798866244339e-06
+        },
+        {
+          "curvature_step_per_m": 0.001,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 1.500001567312688,
+            "sideslip_per_curvature_m": -0.45000053274224244,
+            "front_force_per_curvature_nm": 3840.006019920125,
+            "rear_force_per_curvature_nm": 3840.001669698978
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 1.044875125237136e-06,
+            "sideslip_per_curvature_m": 5.327422424872275e-07,
+            "front_force_per_curvature_nm": 1.5676875324999173e-06,
+            "rear_force_per_curvature_nm": 4.3481744214091125e-07
+          },
+          "maximum_normalized_error": 1.5676875324999173e-06
+        },
+        {
+          "curvature_step_per_m": 0.0005,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 1.5000003918272917,
+            "sideslip_per_curvature_m": -0.4500001331853271,
+            "front_force_per_curvature_nm": 3840.0015049760154,
+            "rear_force_per_curvature_nm": 3840.0004174243068
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 2.612181943343709e-07,
+            "sideslip_per_curvature_m": 1.3318532715578257e-07,
+            "front_force_per_curvature_nm": 3.91920837354102e-07,
+            "rear_force_per_curvature_nm": 1.0870424655233061e-07
+          },
+          "maximum_normalized_error": 3.91920837354102e-07
+        }
+      ]
+    },
+    {
+      "fixture": "front_softer",
+      "inputs": {
+        "mass_kg": 120.0,
+        "front_distance_m": 0.75,
+        "rear_distance_m": 0.75,
+        "front_stiffness_n_per_rad": 2400.0,
+        "rear_stiffness_n_per_rad": 3600.0,
+        "speed_m_s": 4.0
+      },
+      "analytical": {
+        "steer_per_curvature_m": 1.6333333333333333,
+        "sideslip_per_curvature_m": 0.48333333333333334,
+        "front_force_per_curvature_nm": 960.0,
+        "rear_force_per_curvature_nm": 960.0,
+        "steer_speed_squared_coefficient_s2_per_m": 0.008333333333333333
+      },
+      "passed": true,
+      "straight_analytical": {
+        "heave_m": 0.17547500000000002,
+        "normal_load_n": 294.3
+      },
+      "straight_passed": true,
+      "convergence_passed": true,
+      "steps": [
+        {
+          "curvature_step_per_m": 0.002,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 1.633337375124121,
+            "sideslip_per_curvature_m": 0.4833350140870957,
+            "front_force_per_curvature_nm": 960.0072168631168,
+            "rear_force_per_curvature_nm": 959.9957709056133
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 2.474565788334026e-06,
+            "sideslip_per_curvature_m": 1.6807537623897417e-06,
+            "front_force_per_curvature_nm": 7.517565746676761e-06,
+            "rear_force_per_curvature_nm": 4.405306652799368e-06
+          },
+          "maximum_normalized_error": 7.517565746676761e-06
+        },
+        {
+          "curvature_step_per_m": 0.001,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 1.6333343437795784,
+            "sideslip_per_curvature_m": 0.48333375352147845,
+            "front_force_per_curvature_nm": 960.0018042083711,
+            "rear_force_per_curvature_nm": 959.998942727223
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 6.186405582366873e-07,
+            "sideslip_per_curvature_m": 4.2018814511157743e-07,
+            "front_force_per_curvature_nm": 1.8793837199382324e-06,
+            "rear_force_per_curvature_nm": 1.1013258093347153e-06
+          },
+          "maximum_normalized_error": 1.8793837199382324e-06
+        },
+        {
+          "curvature_step_per_m": 0.0005,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 1.6333335859444855,
+            "sideslip_per_curvature_m": 0.4833334383802304,
+            "front_force_per_curvature_nm": 960.0004510508597,
+            "rear_force_per_curvature_nm": 959.9997356833469
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 1.5465988911324932e-07,
+            "sideslip_per_curvature_m": 1.0504689706980486e-07,
+            "front_force_per_curvature_nm": 4.6984464556013944e-07,
+            "rear_force_per_curvature_nm": 2.7532984698079114e-07
+          },
+          "maximum_normalized_error": 4.6984464556013944e-07
+        }
+      ]
+    },
+    {
+      "fixture": "front_softer",
+      "inputs": {
+        "mass_kg": 120.0,
+        "front_distance_m": 0.75,
+        "rear_distance_m": 0.75,
+        "front_stiffness_n_per_rad": 2400.0,
+        "rear_stiffness_n_per_rad": 3600.0,
+        "speed_m_s": 8.0
+      },
+      "analytical": {
+        "steer_per_curvature_m": 2.033333333333333,
+        "sideslip_per_curvature_m": -0.31666666666666665,
+        "front_force_per_curvature_nm": 3840.0,
+        "rear_force_per_curvature_nm": 3840.0,
+        "steer_speed_squared_coefficient_s2_per_m": 0.008333333333333333
+      },
+      "passed": true,
+      "straight_analytical": {
+        "heave_m": 0.17547500000000002,
+        "normal_load_n": 294.3
+      },
+      "straight_passed": true,
+      "convergence_passed": true,
+      "steps": [
+        {
+          "curvature_step_per_m": 0.002,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 2.0333487845545304,
+            "sideslip_per_curvature_m": -0.3166679322600466,
+            "front_force_per_curvature_nm": 3840.037658842283,
+            "rear_force_per_curvature_nm": 3840.005524928082
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 7.5989612445105e-06,
+            "sideslip_per_curvature_m": 1.26559337992882e-06,
+            "front_force_per_curvature_nm": 9.806990177807507e-06,
+            "rear_force_per_curvature_nm": 1.4387833547383858e-06
+          },
+          "maximum_normalized_error": 9.806990177807507e-06
+        },
+        {
+          "curvature_step_per_m": 0.001,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 2.033337196082804,
+            "sideslip_per_curvature_m": -0.31666698306080066,
+            "front_force_per_curvature_nm": 3840.0094145668722,
+            "rear_force_per_curvature_nm": 3840.0013812187144
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 1.8997128545660105e-06,
+            "sideslip_per_curvature_m": 3.163941340034171e-07,
+            "front_force_per_curvature_nm": 2.451710122978549e-06,
+            "rear_force_per_curvature_nm": 3.5969237354530985e-07
+          },
+          "maximum_normalized_error": 2.451710122978549e-06
+        },
+        {
+          "curvature_step_per_m": 0.0005,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 2.033334299017377,
+            "sideslip_per_curvature_m": -0.31666674576493925,
+            "front_force_per_curvature_nm": 3840.0023536331323,
+            "rear_force_per_curvature_nm": 3840.000345304148
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 4.7492657893820096e-07,
+            "sideslip_per_curvature_m": 7.909827259844349e-08,
+            "front_force_per_curvature_nm": 6.129252948738894e-07,
+            "rear_force_per_curvature_nm": 8.992295524497725e-08
+          },
+          "maximum_normalized_error": 6.129252948738894e-07
+        }
+      ]
+    },
+    {
+      "fixture": "rear_softer",
+      "inputs": {
+        "mass_kg": 120.0,
+        "front_distance_m": 0.75,
+        "rear_distance_m": 0.75,
+        "front_stiffness_n_per_rad": 3600.0,
+        "rear_stiffness_n_per_rad": 2400.0,
+        "speed_m_s": 4.0
+      },
+      "analytical": {
+        "steer_per_curvature_m": 1.3666666666666667,
+        "sideslip_per_curvature_m": 0.35,
+        "front_force_per_curvature_nm": 960.0,
+        "rear_force_per_curvature_nm": 960.0,
+        "steer_speed_squared_coefficient_s2_per_m": -0.008333333333333333
+      },
+      "passed": true,
+      "straight_analytical": {
+        "heave_m": 0.17547500000000002,
+        "normal_load_n": 294.3
+      },
+      "straight_passed": true,
+      "convergence_passed": true,
+      "steps": [
+        {
+          "curvature_step_per_m": 0.002,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 1.3666704161549492,
+            "sideslip_per_curvature_m": 0.3500022804724099,
+            "front_force_per_curvature_nm": 960.0064597454381,
+            "rear_force_per_curvature_nm": 959.9957600209875
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 2.7435280116020936e-06,
+            "sideslip_per_curvature_m": 2.2804724099101392e-06,
+            "front_force_per_curvature_nm": 6.72890149798396e-06,
+            "rear_force_per_curvature_nm": 4.4166448046685975e-06
+          },
+          "maximum_normalized_error": 6.72890149798396e-06
+        },
+        {
+          "curvature_step_per_m": 0.001,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 1.366667604037923,
+            "sideslip_per_curvature_m": 0.35000057011745805,
+            "front_force_per_curvature_nm": 960.0016149289187,
+            "rear_force_per_curvature_nm": 959.9989400062227
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 6.858814071169384e-07,
+            "sideslip_per_curvature_m": 5.701174580763357e-07,
+            "front_force_per_curvature_nm": 1.6822176236293747e-06,
+            "rear_force_per_curvature_nm": 1.104160184676554e-06
+          },
+          "maximum_normalized_error": 1.6822176236293747e-06
+        },
+        {
+          "curvature_step_per_m": 0.0005,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 1.366666901009372,
+            "sideslip_per_curvature_m": 0.3500001425293498,
+            "front_force_per_curvature_nm": 960.0004037313354,
+            "rear_force_per_curvature_nm": 959.9997350017588
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 1.7147027212750222e-07,
+            "sideslip_per_curvature_m": 1.4252934982250665e-07,
+            "front_force_per_curvature_nm": 4.205534743562112e-07,
+            "rear_force_per_curvature_nm": 2.7603983454582703e-07
+          },
+          "maximum_normalized_error": 4.205534743562112e-07
+        }
+      ]
+    },
+    {
+      "fixture": "rear_softer",
+      "inputs": {
+        "mass_kg": 120.0,
+        "front_distance_m": 0.75,
+        "rear_distance_m": 0.75,
+        "front_stiffness_n_per_rad": 3600.0,
+        "rear_stiffness_n_per_rad": 2400.0,
+        "speed_m_s": 8.0
+      },
+      "analytical": {
+        "steer_per_curvature_m": 0.9666666666666663,
+        "sideslip_per_curvature_m": -0.8500000000000001,
+        "front_force_per_curvature_nm": 3840.0,
+        "rear_force_per_curvature_nm": 3840.0,
+        "steer_speed_squared_coefficient_s2_per_m": -0.008333333333333333
+      },
+      "passed": true,
+      "straight_analytical": {
+        "heave_m": 0.17547500000000002,
+        "normal_load_n": 294.3
+      },
+      "straight_passed": true,
+      "convergence_passed": true,
+      "steps": [
+        {
+          "curvature_step_per_m": 0.002,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 0.9666655641507658,
+            "sideslip_per_curvature_m": -0.8500064855715646,
+            "front_force_per_curvature_nm": 3840.01822407224,
+            "rear_force_per_curvature_nm": 3840.012671029676
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 1.102515900575085e-06,
+            "sideslip_per_curvature_m": 6.485571564462944e-06,
+            "front_force_per_curvature_nm": 4.745852145878378e-06,
+            "rear_force_per_curvature_nm": 3.2997473114212046e-06
+          },
+          "maximum_normalized_error": 6.485571564462944e-06
+        },
+        {
+          "curvature_step_per_m": 0.001,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 0.9666663910493453,
+            "sideslip_per_curvature_m": -0.8500016213796383,
+            "front_force_per_curvature_nm": 3840.004556005132,
+            "rear_force_per_curvature_nm": 3840.0031677389916
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 2.7561732107717063e-07,
+            "sideslip_per_curvature_m": 1.6213796382169576e-06,
+            "front_force_per_curvature_nm": 1.1864596698292947e-06,
+            "rear_force_per_curvature_nm": 8.249320290569054e-07
+          },
+          "maximum_normalized_error": 1.6213796382169576e-06
+        },
+        {
+          "curvature_step_per_m": 0.0005,
+          "passed": true,
+          "measured": {
+            "steer_per_curvature_m": 0.9666665977631385,
+            "sideslip_per_curvature_m": -0.850000405344097,
+            "front_force_per_curvature_nm": 3840.0011390013337,
+            "rear_force_per_curvature_nm": 3840.000791933562
+          },
+          "normalized_errors": {
+            "steer_per_curvature_m": 6.890352788335719e-08,
+            "sideslip_per_curvature_m": 4.053440969542521e-07,
+            "front_force_per_curvature_nm": 2.966149306615762e-07,
+            "rear_force_per_curvature_nm": 2.0623269847419579e-07
+          },
+          "maximum_normalized_error": 4.053440969542521e-07
+        }
+      ]
+    }
+  ],
+  "maximum_physical_force_norm_n": 3.355643238092427e-10,
+  "maximum_physical_moment_norm_nm": 1.3269689472868605e-09
+}

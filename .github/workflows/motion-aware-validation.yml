@@ -163,6 +163,20 @@ jobs:
             straight_state_tire_audit.json
             straight_state_tire_audit_summary.json
           if-no-files-found: error
+      - name: Verify manufactured analytical low-force references
+        run: |
+          python -m unittest tests.test_low_force_reference -v
+          python scripts/run_low_force_reference_benchmarks.py \
+            --output low_force_reference_report.json \
+            --summary-output low_force_reference_summary.json
+      - name: Upload analytical low-force reference evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: analytical-low-force-reference
+          path: |
+            low_force_reference_report.json
+            low_force_reference_summary.json
+          if-no-files-found: error
       - name: Upload varying-state native steering evidence
         uses: actions/upload-artifact@v4
         with:
