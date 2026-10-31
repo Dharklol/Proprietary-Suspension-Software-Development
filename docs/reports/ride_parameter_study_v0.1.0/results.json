@@ -1,0 +1,2028 @@
+{
+  "scope": "exploratory nominal CAD + static corner mass proxies + legacy tire scenarios + assumed damping; not vehicle predictions",
+  "scenario": {
+    "version": "0.1.0",
+    "record_id": "RIDE_PARAMETER_STUDY_V0",
+    "authority": "exploratory sensitivity scenarios only; no installed predictions",
+    "specification": "docs/models/vehicle/ride_parameter_study_spec_v0.1.0.md",
+    "tire_scenario": {
+      "source_url": "https://drive.google.com/file/d/1kwAzxos_H7goRRTbuyWT3U6eArh5o65v6DR0wY28b6s",
+      "source_modified_time": "2026-06-23T05:35:52.022Z",
+      "read_date": "2026-10-31",
+      "sheet": "Inputs",
+      "row_label": "Tire vertical stiffness",
+      "corner_order": [
+        "front_left",
+        "front_right",
+        "rear_left",
+        "rear_right"
+      ],
+      "rate_N_per_m": [
+        180000.0,
+        180000.0,
+        190000.0,
+        190000.0
+      ],
+      "role": "legacy workbook scenario values, not identified tire calibration",
+      "operating_pressure_load_temperature_identity_available": false
+    },
+    "damping_scenario": {
+      "role": "assumed isolated sprung-oscillator damping proxy; not KW calibration or coupled modal damping",
+      "zeta_proxy": [
+        0.2,
+        0.4,
+        0.6
+      ],
+      "coefficient_rule": "c=2*zeta_proxy*sqrt(ms*ks)"
+    },
+    "mass_proxy": {
+      "source": "data_catalog/wufr27_static_gravity_allocation_v0.toml",
+      "rule": "ms_i=corner_scale_lb_i*lb_to_kg-5; mu_i=5",
+      "role": "independent corner static-load proxy; not identified dynamic modal mass"
+    }
+  },
+  "source_sha256": {
+    "data_catalog/ride_parameter_study_v0.toml": "90855ccd8167b9804b3d99b77f17d42ba4b1d59b22210dfab8de42dd12b87b58",
+    "data_catalog/wufr27_static_gravity_allocation_v0.toml": "2f89a18e4d88869ab7602311dfbba75b6dd12a791d6826dd951099de9b23fd41",
+    "data_catalog/wufr27_spring_package_v0.toml": "24b87ba7103971ffa7ab5c99e03121ec7166dec5ac9bf8fb035b8297fb2f49e5",
+    "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+    "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml": "85739e46db63deb581b65385410e72d2247d7cee06ee45b656d4515b17cd3ddf",
+    "scripts/run_ride_parameter_study.py": "d0fbb715e60fe05e922a17c08d6a67c1f217aaf3311f746626ad161810245ff1",
+    "src/pssd_vehicle/reduced_ride.py": "a152c6963ceb1c2da53487a63ce2055e054d34978ecd2d42eecd53a6cbffbd0e",
+    "src/pssd_suspension/actuation.py": "e0db1685d97916dec0344a2d80ed815a9770a918bc751d6271ae0fde42509fcd",
+    "src/pssd_suspension/local_stiffness.py": "f180953af1acb8270efcb7beeff1b942a05deffac149a8e5f01a8d6a89270679"
+  },
+  "local_stiffness": [
+    {
+      "axle": "front",
+      "side": "left",
+      "compression_m": 0.021100652947832088,
+      "spring_force_N": 759.6235061219552,
+      "derivatives": [
+        {
+          "h_m": 0.001,
+          "rho": 0.8272292110191176,
+          "eta_per_m": 0.5363073932451723,
+          "elastic_N_per_m": 24635.094032279227,
+          "geometric_N_per_m": 407.391702416024,
+          "total_N_per_m": 25042.485734695252,
+          "independent_energy_tangent_N_per_m": 25042.48832332756
+        },
+        {
+          "h_m": 0.0005,
+          "rho": 0.8272357124913532,
+          "eta_per_m": 0.5364159193499418,
+          "elastic_N_per_m": 24635.481264758764,
+          "geometric_N_per_m": 407.47414139623476,
+          "total_N_per_m": 25042.955406155,
+          "independent_energy_tangent_N_per_m": 25042.956053578535
+        }
+      ],
+      "checks": {
+        "rho": true,
+        "eta_per_m": true,
+        "total_N_per_m": true,
+        "energy_tangent": true
+      },
+      "ok": true
+    },
+    {
+      "axle": "front",
+      "side": "right",
+      "compression_m": 0.021100652947832088,
+      "spring_force_N": 759.6235061219552,
+      "derivatives": [
+        {
+          "h_m": 0.001,
+          "rho": 0.8272292777066342,
+          "eta_per_m": 0.5364407682784122,
+          "elastic_N_per_m": 24635.098004221432,
+          "geometric_N_per_m": 407.49301722640286,
+          "total_N_per_m": 25042.591021447835,
+          "independent_energy_tangent_N_per_m": 25042.593611368957
+        },
+        {
+          "h_m": 0.0005,
+          "rho": 0.8272358458587814,
+          "eta_per_m": 0.5369493890627908,
+          "elastic_N_per_m": 24635.48920825297,
+          "geometric_N_per_m": 407.87937752991894,
+          "total_N_per_m": 25043.36858578289,
+          "independent_energy_tangent_N_per_m": 25043.36923449202
+        }
+      ],
+      "checks": {
+        "rho": true,
+        "eta_per_m": true,
+        "total_N_per_m": true,
+        "energy_tangent": true
+      },
+      "ok": true
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "compression_m": 0.021089461209192306,
+      "spring_force_N": 656.0925401754548,
+      "derivatives": [
+        {
+          "h_m": 0.001,
+          "rho": 0.9964175719767709,
+          "eta_per_m": 0.7676939860479237,
+          "elastic_N_per_m": 31989.505533718177,
+          "geometric_N_per_m": 503.67829738360246,
+          "total_N_per_m": 32493.18383110178,
+          "independent_energy_tangent_N_per_m": 32493.228694312926
+        },
+        {
+          "h_m": 0.0005,
+          "rho": 0.9964219083540005,
+          "eta_per_m": 0.7678007211131543,
+          "elastic_N_per_m": 31989.783968922715,
+          "geometric_N_per_m": 503.74832546367537,
+          "total_N_per_m": 32493.53229438639,
+          "independent_energy_tangent_N_per_m": 32493.543512003955
+        }
+      ],
+      "checks": {
+        "rho": true,
+        "eta_per_m": true,
+        "total_N_per_m": true,
+        "energy_tangent": true
+      },
+      "ok": true
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "compression_m": 0.021089461209192306,
+      "spring_force_N": 656.0925401754548,
+      "derivatives": [
+        {
+          "h_m": 0.001,
+          "rho": 0.9964175717261242,
+          "eta_per_m": 0.7676954939805913,
+          "elastic_N_per_m": 31989.505517624395,
+          "geometric_N_per_m": 503.6792867269767,
+          "total_N_per_m": 32493.18480435137,
+          "independent_energy_tangent_N_per_m": 32493.22966766055
+        },
+        {
+          "h_m": 0.0005,
+          "rho": 0.9964219057125023,
+          "eta_per_m": 0.7677881442846868,
+          "elastic_N_per_m": 31989.78379931393,
+          "geometric_N_per_m": 503.74007390033876,
+          "total_N_per_m": 32493.523873214268,
+          "independent_energy_tangent_N_per_m": 32493.535090623027
+        }
+      ],
+      "checks": {
+        "rho": true,
+        "eta_per_m": true,
+        "total_N_per_m": true,
+        "energy_tangent": true
+      },
+      "ok": true
+    }
+  ],
+  "cases": [
+    {
+      "system": {
+        "sprung_mass": 75.73944186,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25042.955406155,
+        "tire_rate": 144000.0,
+        "damping": 550.888658803145,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-left-kt0.8-z0.2",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 0.8,
+      "isolated_oscillator_zeta_proxy": 0.2,
+      "undamped_modes": [
+        {
+          "eigenvalue": 281.2515016070764,
+          "omega": 16.770554600461978,
+          "frequency_hz": 2.66911666305605,
+          "vector": [
+            0.11482045666269464,
+            0.017152828777776036
+          ],
+          "residual": 1.1084466677857563e-12
+        },
+        {
+          "eigenvalue": 33857.98573691203,
+          "omega": 184.0053959450973,
+          "frequency_hz": 29.28536832024363,
+          "vector": [
+            0.004407168998617473,
+            -0.44688452699206344
+          ],
+          "residual": 1.8189894035458565e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.36345767939044593,
+        "peak_incremental_normal_N": 26.693823153270728,
+        "max_energy_residual_J": 2.422624600928458e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.36345767938933216,
+        "peak_incremental_normal_N": 26.69386568434163,
+        "max_energy_residual_J": 1.530095494750583e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 75.73944186,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25042.955406155,
+        "tire_rate": 144000.0,
+        "damping": 1101.77731760629,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-left-kt0.8-z0.4",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 0.8,
+      "isolated_oscillator_zeta_proxy": 0.4,
+      "undamped_modes": [
+        {
+          "eigenvalue": 281.2515016070764,
+          "omega": 16.770554600461978,
+          "frequency_hz": 2.66911666305605,
+          "vector": [
+            0.11482045666269464,
+            0.017152828777776036
+          ],
+          "residual": 1.1084466677857563e-12
+        },
+        {
+          "eigenvalue": 33857.98573691203,
+          "omega": 184.0053959450973,
+          "frequency_hz": 29.28536832024363,
+          "vector": [
+            0.004407168998617473,
+            -0.44688452699206344
+          ],
+          "residual": 1.8189894035458565e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.40410913483140043,
+        "peak_incremental_normal_N": 31.002408368101328,
+        "max_energy_residual_J": 3.166605866411487e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.4041097911178677,
+        "peak_incremental_normal_N": 31.002491923617185,
+        "max_energy_residual_J": 1.9857726574201706e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 75.73944186,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25042.955406155,
+        "tire_rate": 144000.0,
+        "damping": 1652.665976409435,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-left-kt0.8-z0.6",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 0.8,
+      "isolated_oscillator_zeta_proxy": 0.6,
+      "undamped_modes": [
+        {
+          "eigenvalue": 281.2515016070764,
+          "omega": 16.770554600461978,
+          "frequency_hz": 2.66911666305605,
+          "vector": [
+            0.11482045666269464,
+            0.017152828777776036
+          ],
+          "residual": 1.1084466677857563e-12
+        },
+        {
+          "eigenvalue": 33857.98573691203,
+          "omega": 184.0053959450973,
+          "frequency_hz": 29.28536832024363,
+          "vector": [
+            0.004407168998617473,
+            -0.44688452699206344
+          ],
+          "residual": 1.8189894035458565e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.462173766006731,
+        "peak_incremental_normal_N": 36.24751176539576,
+        "max_energy_residual_J": 3.798926451192841e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.462175602843263,
+        "peak_incremental_normal_N": 36.247590799695786,
+        "max_energy_residual_J": 2.377611996173812e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 75.73944186,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25042.955406155,
+        "tire_rate": 180000.0,
+        "damping": 550.888658803145,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-left-kt1.0-z0.2",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.0,
+      "isolated_oscillator_zeta_proxy": 0.2,
+      "undamped_modes": [
+        {
+          "eigenvalue": 289.97504525980224,
+          "omega": 17.028653653762596,
+          "frequency_hz": 2.7101944031961818,
+          "vector": [
+            0.11484766348943108,
+            0.014126830404678405
+          ],
+          "residual": 5.044853423896711e-13
+        },
+        {
+          "eigenvalue": 41049.2621932593,
+          "omega": 202.60617511137045,
+          "frequency_hz": 32.245774269916744,
+          "vector": [
+            0.003629682882912662,
+            -0.44699041674594925
+          ],
+          "residual": 3.637978807091713e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.3700949921077925,
+        "peak_incremental_normal_N": 27.17400425985022,
+        "max_energy_residual_J": 2.8982996558291063e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.37009566572800734,
+        "peak_incremental_normal_N": 27.174004287424168,
+        "max_energy_residual_J": 1.8337414919855632e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 75.73944186,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25042.955406155,
+        "tire_rate": 180000.0,
+        "damping": 1101.77731760629,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-left-kt1.0-z0.4",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.0,
+      "isolated_oscillator_zeta_proxy": 0.4,
+      "undamped_modes": [
+        {
+          "eigenvalue": 289.97504525980224,
+          "omega": 17.028653653762596,
+          "frequency_hz": 2.7101944031961818,
+          "vector": [
+            0.11484766348943108,
+            0.014126830404678405
+          ],
+          "residual": 5.044853423896711e-13
+        },
+        {
+          "eigenvalue": 41049.2621932593,
+          "omega": 202.60617511137045,
+          "frequency_hz": 32.245774269916744,
+          "vector": [
+            0.003629682882912662,
+            -0.44699041674594925
+          ],
+          "residual": 3.637978807091713e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.40566061151590893,
+        "peak_incremental_normal_N": 31.117426768741893,
+        "max_energy_residual_J": 3.687661287443689e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.40566201608851676,
+        "peak_incremental_normal_N": 31.117473007164108,
+        "max_energy_residual_J": 2.3196028431371474e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 75.73944186,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25042.955406155,
+        "tire_rate": 180000.0,
+        "damping": 1652.665976409435,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-left-kt1.0-z0.6",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.0,
+      "isolated_oscillator_zeta_proxy": 0.6,
+      "undamped_modes": [
+        {
+          "eigenvalue": 289.97504525980224,
+          "omega": 17.028653653762596,
+          "frequency_hz": 2.7101944031961818,
+          "vector": [
+            0.11484766348943108,
+            0.014126830404678405
+          ],
+          "residual": 5.044853423896711e-13
+        },
+        {
+          "eigenvalue": 41049.2621932593,
+          "omega": 202.60617511137045,
+          "frequency_hz": 32.245774269916744,
+          "vector": [
+            0.003629682882912662,
+            -0.44699041674594925
+          ],
+          "residual": 3.637978807091713e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.45820826267352366,
+        "peak_incremental_normal_N": 35.9329540654403,
+        "max_energy_residual_J": 4.332305347798382e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.45820892104958133,
+        "peak_incremental_normal_N": 35.932954054205766,
+        "max_energy_residual_J": 2.7230995236493527e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 75.73944186,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25042.955406155,
+        "tire_rate": 216000.0,
+        "damping": 550.888658803145,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-left-kt1.2-z0.2",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.2,
+      "isolated_oscillator_zeta_proxy": 0.2,
+      "undamped_modes": [
+        {
+          "eigenvalue": 296.0816684993722,
+          "omega": 17.207023812948368,
+          "frequency_hz": 2.7385828957306853,
+          "vector": [
+            0.11486358170367555,
+            0.01200740094665974
+          ],
+          "residual": 1.1555061288201268e-12
+        },
+        {
+          "eigenvalue": 48243.155570019735,
+          "omega": 219.64324612885264,
+          "frequency_hz": 34.9573083381567,
+          "vector": [
+            0.0030851264180199035,
+            -0.4470523708946259
+          ],
+          "residual": 1.8189894035458565e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.37427928568898217,
+        "peak_incremental_normal_N": 27.475380976040697,
+        "max_energy_residual_J": 3.350014710079563e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.3742792856716329,
+        "peak_incremental_normal_N": 27.475447601072688,
+        "max_energy_residual_J": 2.1237872571688854e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 75.73944186,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25042.955406155,
+        "tire_rate": 216000.0,
+        "damping": 1101.77731760629,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-left-kt1.2-z0.4",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.2,
+      "isolated_oscillator_zeta_proxy": 0.4,
+      "undamped_modes": [
+        {
+          "eigenvalue": 296.0816684993722,
+          "omega": 17.207023812948368,
+          "frequency_hz": 2.7385828957306853,
+          "vector": [
+            0.11486358170367555,
+            0.01200740094665974
+          ],
+          "residual": 1.1555061288201268e-12
+        },
+        {
+          "eigenvalue": 48243.155570019735,
+          "omega": 219.64324612885264,
+          "frequency_hz": 34.9573083381567,
+          "vector": [
+            0.0030851264180199035,
+            -0.4470523708946259
+          ],
+          "residual": 1.8189894035458565e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.4058713135760851,
+        "peak_incremental_normal_N": 31.13081835152468,
+        "max_energy_residual_J": 4.1689846019821175e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.4058713134380479,
+        "peak_incremental_normal_N": 31.13081835282094,
+        "max_energy_residual_J": 2.624636619152909e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 75.73944186,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25042.955406155,
+        "tire_rate": 216000.0,
+        "damping": 1652.665976409435,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-left-kt1.2-z0.6",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.2,
+      "isolated_oscillator_zeta_proxy": 0.6,
+      "undamped_modes": [
+        {
+          "eigenvalue": 296.0816684993722,
+          "omega": 17.207023812948368,
+          "frequency_hz": 2.7385828957306853,
+          "vector": [
+            0.11486358170367555,
+            0.01200740094665974
+          ],
+          "residual": 1.1555061288201268e-12
+        },
+        {
+          "eigenvalue": 48243.155570019735,
+          "omega": 219.64324612885264,
+          "frequency_hz": 34.9573083381567,
+          "vector": [
+            0.0030851264180199035,
+            -0.4470523708946259
+          ],
+          "residual": 1.8189894035458565e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.45394232578446647,
+        "peak_incremental_normal_N": 35.59622193098983,
+        "max_energy_residual_J": 4.809048992360232e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.4539439278739207,
+        "peak_incremental_normal_N": 35.59636092983715,
+        "max_energy_residual_J": 3.026606743006255e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 74.37866475,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25043.36858578289,
+        "tire_rate": 144000.0,
+        "damping": 545.9219455200719,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-right-kt0.8-z0.2",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 0.8,
+      "isolated_oscillator_zeta_proxy": 0.2,
+      "undamped_modes": [
+        {
+          "eigenvalue": 286.393375313509,
+          "omega": 16.92316091377462,
+          "frequency_hz": 2.693404712166787,
+          "vector": [
+            0.11586444295922732,
+            0.017311685967809753
+          ],
+          "residual": 5.995987194691503e-13
+        },
+        {
+          "eigenvalue": 33858.98131207369,
+          "omega": 184.00810121316314,
+          "frequency_hz": 29.2857988770287,
+          "vector": [
+            0.00448848914068839,
+            -0.446878401278191
+          ],
+          "residual": 0.0
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.37004685224115536,
+        "peak_incremental_normal_N": 26.7074552952364,
+        "max_energy_residual_J": 2.425545875262003e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.3700468522376971,
+        "peak_incremental_normal_N": 26.707491608827127,
+        "max_energy_residual_J": 1.529193438543075e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 74.37866475,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25043.36858578289,
+        "tire_rate": 144000.0,
+        "damping": 1091.8438910401437,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-right-kt0.8-z0.4",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 0.8,
+      "isolated_oscillator_zeta_proxy": 0.4,
+      "undamped_modes": [
+        {
+          "eigenvalue": 286.393375313509,
+          "omega": 16.92316091377462,
+          "frequency_hz": 2.693404712166787,
+          "vector": [
+            0.11586444295922732,
+            0.017311685967809753
+          ],
+          "residual": 5.995987194691503e-13
+        },
+        {
+          "eigenvalue": 33858.98131207369,
+          "omega": 184.00810121316314,
+          "frequency_hz": 29.2857988770287,
+          "vector": [
+            0.00448848914068839,
+            -0.446878401278191
+          ],
+          "residual": 0.0
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.4093628211150444,
+        "peak_incremental_normal_N": 30.860276326616372,
+        "max_energy_residual_J": 3.1669389333188747e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.40936282109346966,
+        "peak_incremental_normal_N": 30.860297337151792,
+        "max_energy_residual_J": 1.9858420463592097e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 74.37866475,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25043.36858578289,
+        "tire_rate": 144000.0,
+        "damping": 1637.7658365602156,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-right-kt0.8-z0.6",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 0.8,
+      "isolated_oscillator_zeta_proxy": 0.6,
+      "undamped_modes": [
+        {
+          "eigenvalue": 286.393375313509,
+          "omega": 16.92316091377462,
+          "frequency_hz": 2.693404712166787,
+          "vector": [
+            0.11586444295922732,
+            0.017311685967809753
+          ],
+          "residual": 5.995987194691503e-13
+        },
+        {
+          "eigenvalue": 33858.98131207369,
+          "omega": 184.00810121316314,
+          "frequency_hz": 29.2857988770287,
+          "vector": [
+            0.00448848914068839,
+            -0.446878401278191
+          ],
+          "residual": 0.0
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.4666103349610986,
+        "peak_incremental_normal_N": 35.96500519235883,
+        "max_energy_residual_J": 3.794818626001728e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.46661033464163293,
+        "peak_incremental_normal_N": 35.96500518723735,
+        "max_energy_residual_J": 2.38073449843057e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 74.37866475,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25043.36858578289,
+        "tire_rate": 180000.0,
+        "damping": 545.9219455200719,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-right-kt1.0-z0.2",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.0,
+      "isolated_oscillator_zeta_proxy": 0.2,
+      "undamped_modes": [
+        {
+          "eigenvalue": 295.2790913714394,
+          "omega": 17.183686780532266,
+          "frequency_hz": 2.734868691664567,
+          "vector": [
+            0.1158924108919675,
+            0.014257402945341216
+          ],
+          "residual": 6.609288865685203e-13
+        },
+        {
+          "eigenvalue": 41050.09559601576,
+          "omega": 202.60823180713996,
+          "frequency_hz": 32.2461016032149,
+          "vector": [
+            0.0036965895992785943,
+            -0.4469862709986227
+          ],
+          "residual": 1.4665161412810538e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.37666872548705355,
+        "peak_incremental_normal_N": 27.17749158983156,
+        "max_energy_residual_J": 2.9008254132101285e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.37666872547393104,
+        "peak_incremental_normal_N": 27.177590292365835,
+        "max_energy_residual_J": 1.8362394937909698e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 74.37866475,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25043.36858578289,
+        "tire_rate": 180000.0,
+        "damping": 1091.8438910401437,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-right-kt1.0-z0.4",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.0,
+      "isolated_oscillator_zeta_proxy": 0.4,
+      "undamped_modes": [
+        {
+          "eigenvalue": 295.2790913714394,
+          "omega": 17.183686780532266,
+          "frequency_hz": 2.734868691664567,
+          "vector": [
+            0.1158924108919675,
+            0.014257402945341216
+          ],
+          "residual": 6.609288865685203e-13
+        },
+        {
+          "eigenvalue": 41050.09559601576,
+          "omega": 202.60823180713996,
+          "frequency_hz": 32.2461016032149,
+          "vector": [
+            0.0036965895992785943,
+            -0.4469862709986227
+          ],
+          "residual": 1.4665161412810538e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.41076314624728555,
+        "peak_incremental_normal_N": 30.96160116458111,
+        "max_energy_residual_J": 3.6863984087531776e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.41076320009105466,
+        "peak_incremental_normal_N": 30.96168026799046,
+        "max_energy_residual_J": 2.3177293417830924e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 74.37866475,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25043.36858578289,
+        "tire_rate": 180000.0,
+        "damping": 1637.7658365602156,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-right-kt1.0-z0.6",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.0,
+      "isolated_oscillator_zeta_proxy": 0.6,
+      "undamped_modes": [
+        {
+          "eigenvalue": 295.2790913714394,
+          "omega": 17.183686780532266,
+          "frequency_hz": 2.734868691664567,
+          "vector": [
+            0.1158924108919675,
+            0.014257402945341216
+          ],
+          "residual": 6.609288865685203e-13
+        },
+        {
+          "eigenvalue": 41050.09559601576,
+          "omega": 202.60823180713996,
+          "frequency_hz": 32.2461016032149,
+          "vector": [
+            0.0036965895992785943,
+            -0.4469862709986227
+          ],
+          "residual": 1.4665161412810538e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.46236366478716373,
+        "peak_incremental_normal_N": 35.6340949116169,
+        "max_energy_residual_J": 4.32390234728075e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.4623641321417057,
+        "peak_incremental_normal_N": 35.63414686167357,
+        "max_energy_residual_J": 2.715674907172172e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 74.37866475,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25043.36858578289,
+        "tire_rate": 216000.0,
+        "damping": 545.9219455200719,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-right-kt1.2-z0.2",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.2,
+      "isolated_oscillator_zeta_proxy": 0.2,
+      "undamped_modes": [
+        {
+          "eigenvalue": 301.4990341679173,
+          "omega": 17.363727542435043,
+          "frequency_hz": 2.763523068879425,
+          "vector": [
+            0.11590877372113306,
+            0.012118210526220722
+          ],
+          "residual": 4.973799150320701e-13
+        },
+        {
+          "eigenvalue": 48243.87565321928,
+          "omega": 219.64488533362046,
+          "frequency_hz": 34.95756922569824,
+          "vector": [
+            0.0031419502671581273,
+            -0.4470493809118207
+          ],
+          "residual": 1.4551915228366852e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.38083223166698715,
+        "peak_incremental_normal_N": 27.47192915085111,
+        "max_energy_residual_J": 3.3522351561288133e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.38083223164619034,
+        "peak_incremental_normal_N": 27.471929187825253,
+        "max_energy_residual_J": 2.1286444829016204e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 74.37866475,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25043.36858578289,
+        "tire_rate": 216000.0,
+        "damping": 1091.8438910401437,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-right-kt1.2-z0.4",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.2,
+      "isolated_oscillator_zeta_proxy": 0.4,
+      "undamped_modes": [
+        {
+          "eigenvalue": 301.4990341679173,
+          "omega": 17.363727542435043,
+          "frequency_hz": 2.763523068879425,
+          "vector": [
+            0.11590877372113306,
+            0.012118210526220722
+          ],
+          "residual": 4.973799150320701e-13
+        },
+        {
+          "eigenvalue": 48243.87565321928,
+          "omega": 219.64488533362046,
+          "frequency_hz": 34.95756922569824,
+          "vector": [
+            0.0031419502671581273,
+            -0.4470493809118207
+          ],
+          "residual": 1.4551915228366852e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.4108660195808833,
+        "peak_incremental_normal_N": 30.966627097681794,
+        "max_energy_residual_J": 4.166764155932867e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.41086601943361667,
+        "peak_incremental_normal_N": 30.966627098494087,
+        "max_energy_residual_J": 2.621652894774229e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 74.37866475,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 25043.36858578289,
+        "tire_rate": 216000.0,
+        "damping": 1637.7658365602156,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "front-right-kt1.2-z0.6",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.2,
+      "isolated_oscillator_zeta_proxy": 0.6,
+      "undamped_modes": [
+        {
+          "eigenvalue": 301.4990341679173,
+          "omega": 17.363727542435043,
+          "frequency_hz": 2.763523068879425,
+          "vector": [
+            0.11590877372113306,
+            0.012118210526220722
+          ],
+          "residual": 4.973799150320701e-13
+        },
+        {
+          "eigenvalue": 48243.87565321928,
+          "omega": 219.64488533362046,
+          "frequency_hz": 34.95756922569824,
+          "vector": [
+            0.0031419502671581273,
+            -0.4470493809118207
+          ],
+          "residual": 1.4551915228366852e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.4579208744754216,
+        "peak_incremental_normal_N": 35.289522704352976,
+        "max_energy_residual_J": 4.7982381956579445e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.45792087365130163,
+        "peak_incremental_normal_N": 35.28952268369085,
+        "max_energy_residual_J": 3.017933125626371e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 68.93555631000001,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.53229438639,
+        "tire_rate": 152000.0,
+        "damping": 598.6597999118334,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-left-kt0.8-z0.2",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 0.8,
+      "isolated_oscillator_zeta_proxy": 0.2,
+      "undamped_modes": [
+        {
+          "eigenvalue": 387.4625443869755,
+          "omega": 19.68406828851636,
+          "frequency_hz": 3.132816768275803,
+          "vector": [
+            0.12030396796008934,
+            0.021413134415300343
+          ],
+          "residual": 9.851976744714398e-13
+        },
+        {
+          "eigenvalue": 36982.60490776734,
+          "omega": 192.30861891180888,
+          "frequency_hz": 30.60686729898993,
+          "vector": [
+            0.005766915699966183,
+            -0.44670065779502977
+          ],
+          "residual": 1.4551915228366852e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.4947597973905849,
+        "peak_incremental_normal_N": 33.716550888083475,
+        "max_energy_residual_J": 2.734888704392091e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.49476158371964624,
+        "peak_incremental_normal_N": 33.71658732025401,
+        "max_energy_residual_J": 1.7225110227059304e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 68.93555631000001,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.53229438639,
+        "tire_rate": 152000.0,
+        "damping": 1197.3195998236667,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-left-kt0.8-z0.4",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 0.8,
+      "isolated_oscillator_zeta_proxy": 0.4,
+      "undamped_modes": [
+        {
+          "eigenvalue": 387.4625443869755,
+          "omega": 19.68406828851636,
+          "frequency_hz": 3.132816768275803,
+          "vector": [
+            0.12030396796008934,
+            0.021413134415300343
+          ],
+          "residual": 9.851976744714398e-13
+        },
+        {
+          "eigenvalue": 36982.60490776734,
+          "omega": 192.30861891180888,
+          "frequency_hz": 30.60686729898993,
+          "vector": [
+            0.005766915699966183,
+            -0.44670065779502977
+          ],
+          "residual": 1.4551915228366852e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.508971478306214,
+        "peak_incremental_normal_N": 35.84024874796353,
+        "max_energy_residual_J": 3.554267991034976e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5089714782072234,
+        "peak_incremental_normal_N": 35.84027997338467,
+        "max_energy_residual_J": 2.2322421688869554e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 68.93555631000001,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.53229438639,
+        "tire_rate": 152000.0,
+        "damping": 1795.9793997354998,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-left-kt0.8-z0.6",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 0.8,
+      "isolated_oscillator_zeta_proxy": 0.6,
+      "undamped_modes": [
+        {
+          "eigenvalue": 387.4625443869755,
+          "omega": 19.68406828851636,
+          "frequency_hz": 3.132816768275803,
+          "vector": [
+            0.12030396796008934,
+            0.021413134415300343
+          ],
+          "residual": 9.851976744714398e-13
+        },
+        {
+          "eigenvalue": 36982.60490776734,
+          "omega": 192.30861891180888,
+          "frequency_hz": 30.60686729898993,
+          "vector": [
+            0.005766915699966183,
+            -0.44670065779502977
+          ],
+          "residual": 1.4551915228366852e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5519780880155865,
+        "peak_incremental_normal_N": 39.624308334563466,
+        "max_energy_residual_J": 4.209133042110125e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5519783215183188,
+        "peak_incremental_normal_N": 39.624464094566065,
+        "max_energy_residual_J": 2.642955299059224e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 68.93555631000001,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.53229438639,
+        "tire_rate": 190000.0,
+        "damping": 598.6597999118334,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-left-kt1.0-z0.2",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.0,
+      "isolated_oscillator_zeta_proxy": 0.2,
+      "undamped_modes": [
+        {
+          "eigenvalue": 401.8948206067671,
+          "omega": 20.047314548506666,
+          "frequency_hz": 3.190629206112904,
+          "vector": [
+            0.12034735574683775,
+            0.01773602464768698
+          ],
+          "residual": 6.431098710768743e-13
+        },
+        {
+          "eigenvalue": 44568.17263154754,
+          "omega": 211.11175389245275,
+          "frequency_hz": 33.59947917678353,
+          "vector": [
+            0.004776608459649397,
+            -0.44686176098397207
+          ],
+          "residual": 5.4569682106375694e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5028170224668024,
+        "peak_incremental_normal_N": 34.24559203486058,
+        "max_energy_residual_J": 3.268101067543938e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.502817369584953,
+        "peak_incremental_normal_N": 34.24559205886203,
+        "max_energy_residual_J": 2.0685536616937839e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 68.93555631000001,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.53229438639,
+        "tire_rate": 190000.0,
+        "damping": 1197.3195998236667,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-left-kt1.0-z0.4",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.0,
+      "isolated_oscillator_zeta_proxy": 0.4,
+      "undamped_modes": [
+        {
+          "eigenvalue": 401.8948206067671,
+          "omega": 20.047314548506666,
+          "frequency_hz": 3.190629206112904,
+          "vector": [
+            0.12034735574683775,
+            0.01773602464768698
+          ],
+          "residual": 6.431098710768743e-13
+        },
+        {
+          "eigenvalue": 44568.17263154754,
+          "omega": 211.11175389245275,
+          "frequency_hz": 33.59947917678353,
+          "vector": [
+            0.004776608459649397,
+            -0.44686176098397207
+          ],
+          "residual": 5.4569682106375694e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5090162782765891,
+        "peak_incremental_normal_N": 35.83431896768661,
+        "max_energy_residual_J": 4.119628249643625e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5090162780656652,
+        "peak_incremental_normal_N": 35.83438121959591,
+        "max_energy_residual_J": 2.5924401514387796e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 68.93555631000001,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.53229438639,
+        "tire_rate": 190000.0,
+        "damping": 1795.9793997354998,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-left-kt1.0-z0.6",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.0,
+      "isolated_oscillator_zeta_proxy": 0.6,
+      "undamped_modes": [
+        {
+          "eigenvalue": 401.8948206067671,
+          "omega": 20.047314548506666,
+          "frequency_hz": 3.190629206112904,
+          "vector": [
+            0.12034735574683775,
+            0.01773602464768698
+          ],
+          "residual": 6.431098710768743e-13
+        },
+        {
+          "eigenvalue": 44568.17263154754,
+          "omega": 211.11175389245275,
+          "frequency_hz": 33.59947917678353,
+          "vector": [
+            0.004776608459649397,
+            -0.44686176098397207
+          ],
+          "residual": 5.4569682106375694e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.544232552485991,
+        "peak_incremental_normal_N": 39.062296867668806,
+        "max_energy_residual_J": 4.756195437494171e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5442325514572055,
+        "peak_incremental_normal_N": 39.062296849108975,
+        "max_energy_residual_J": 2.9896224384984293e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 68.93555631000001,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.53229438639,
+        "tire_rate": 228000.0,
+        "damping": 598.6597999118334,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-left-kt1.2-z0.2",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.2,
+      "isolated_oscillator_zeta_proxy": 0.2,
+      "undamped_modes": [
+        {
+          "eigenvalue": 412.09541811567175,
+          "omega": 20.30013345068627,
+          "frequency_hz": 3.2308665841018547,
+          "vector": [
+            0.1203731185490829,
+            0.015134858858771067
+          ],
+          "residual": 7.447152279942851e-13
+        },
+        {
+          "eigenvalue": 52157.97203403864,
+          "omega": 228.38119895043602,
+          "frequency_hz": 36.34799672221547,
+          "vector": [
+            0.0040760709514368835,
+            -0.4469574208437813
+          ],
+          "residual": 1.4999770885397668e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5076735252096402,
+        "peak_incremental_normal_N": 34.56201504961996,
+        "max_energy_residual_J": 3.766632838964057e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5076735251506751,
+        "peak_incremental_normal_N": 34.56212133331917,
+        "max_energy_residual_J": 2.388436670663907e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 68.93555631000001,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.53229438639,
+        "tire_rate": 228000.0,
+        "damping": 1197.3195998236667,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-left-kt1.2-z0.4",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.2,
+      "isolated_oscillator_zeta_proxy": 0.4,
+      "undamped_modes": [
+        {
+          "eigenvalue": 412.09541811567175,
+          "omega": 20.30013345068627,
+          "frequency_hz": 3.2308665841018547,
+          "vector": [
+            0.1203731185490829,
+            0.015134858858771067
+          ],
+          "residual": 7.447152279942851e-13
+        },
+        {
+          "eigenvalue": 52157.97203403864,
+          "omega": 228.38119895043602,
+          "frequency_hz": 36.34799672221547,
+          "vector": [
+            0.0040760709514368835,
+            -0.4469574208437813
+          ],
+          "residual": 1.4999770885397668e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5077791027020169,
+        "peak_incremental_normal_N": 35.7412875125691,
+        "max_energy_residual_J": 4.6343692772232714e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5077791116257777,
+        "peak_incremental_normal_N": 35.74143032055497,
+        "max_energy_residual_J": 2.919955943703201e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 68.93555631000001,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.53229438639,
+        "tire_rate": 228000.0,
+        "damping": 1795.9793997354998,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-left-kt1.2-z0.6",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.2,
+      "isolated_oscillator_zeta_proxy": 0.6,
+      "undamped_modes": [
+        {
+          "eigenvalue": 412.09541811567175,
+          "omega": 20.30013345068627,
+          "frequency_hz": 3.2308665841018547,
+          "vector": [
+            0.1203731185490829,
+            0.015134858858771067
+          ],
+          "residual": 7.447152279942851e-13
+        },
+        {
+          "eigenvalue": 52157.97203403864,
+          "omega": 228.38119895043602,
+          "frequency_hz": 36.34799672221547,
+          "vector": [
+            0.0040760709514368835,
+            -0.4469574208437813
+          ],
+          "residual": 1.4999770885397668e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5369179927598902,
+        "peak_incremental_normal_N": 38.53384721314603,
+        "max_energy_residual_J": 5.241133915756535e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5369195779713551,
+        "peak_incremental_normal_N": 38.53384718217558,
+        "max_energy_residual_J": 3.2997216070640434e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 67.12118683,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.523873214268,
+        "tire_rate": 152000.0,
+        "damping": 590.7288903257169,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-right-kt0.8-z0.2",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 0.8,
+      "isolated_oscillator_zeta_proxy": 0.2,
+      "undamped_modes": [
+        {
+          "eigenvalue": 397.9113896653911,
+          "omega": 19.947716402269986,
+          "frequency_hz": 3.1747776688165468,
+          "vector": [
+            0.12191524940580577,
+            0.02170613676965624
+          ],
+          "residual": 1.3903416866736517e-12
+        },
+        {
+          "eigenvalue": 36984.89572892903,
+          "omega": 192.31457492589848,
+          "frequency_hz": 30.607815228073417,
+          "vector": [
+            0.005924309292505011,
+            -0.4466865160563244
+          ],
+          "residual": 1.4665161412810538e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.506413669210031,
+        "peak_incremental_normal_N": 33.64068543894416,
+        "max_energy_residual_J": 2.7481072972790344e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5064136691808017,
+        "peak_incremental_normal_N": 33.64074170607614,
+        "max_energy_residual_J": 1.7378459782335653e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 67.12118683,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.523873214268,
+        "tire_rate": 152000.0,
+        "damping": 1181.4577806514337,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-right-kt0.8-z0.4",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 0.8,
+      "isolated_oscillator_zeta_proxy": 0.4,
+      "undamped_modes": [
+        {
+          "eigenvalue": 397.9113896653911,
+          "omega": 19.947716402269986,
+          "frequency_hz": 3.1747776688165468,
+          "vector": [
+            0.12191524940580577,
+            0.02170613676965624
+          ],
+          "residual": 1.3903416866736517e-12
+        },
+        {
+          "eigenvalue": 36984.89572892903,
+          "omega": 192.31457492589848,
+          "frequency_hz": 30.607815228073417,
+          "vector": [
+            0.005924309292505011,
+            -0.4466865160563244
+          ],
+          "residual": 1.4665161412810538e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5177381099229187,
+        "peak_incremental_normal_N": 35.53826388032428,
+        "max_energy_residual_J": 3.559076644510384e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5177397616824481,
+        "peak_incremental_normal_N": 35.53829211709967,
+        "max_energy_residual_J": 2.2362667273512216e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 67.12118683,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.523873214268,
+        "tire_rate": 152000.0,
+        "damping": 1772.1866709771505,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-right-kt0.8-z0.6",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 0.8,
+      "isolated_oscillator_zeta_proxy": 0.6,
+      "undamped_modes": [
+        {
+          "eigenvalue": 397.9113896653911,
+          "omega": 19.947716402269986,
+          "frequency_hz": 3.1747776688165468,
+          "vector": [
+            0.12191524940580577,
+            0.02170613676965624
+          ],
+          "residual": 1.3903416866736517e-12
+        },
+        {
+          "eigenvalue": 36984.89572892903,
+          "omega": 192.31457492589848,
+          "frequency_hz": 30.607815228073417,
+          "vector": [
+            0.005924309292505011,
+            -0.4466865160563244
+          ],
+          "residual": 1.4665161412810538e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5588622336367062,
+        "peak_incremental_normal_N": 39.11277964449914,
+        "max_energy_residual_J": 4.201562708860962e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5588622329706923,
+        "peak_incremental_normal_N": 39.11277963480893,
+        "max_energy_residual_J": 2.640734853009974e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 67.12118683,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.523873214268,
+        "tire_rate": 190000.0,
+        "damping": 590.7288903257169,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-right-kt1.0-z0.2",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.0,
+      "isolated_oscillator_zeta_proxy": 0.2,
+      "undamped_modes": [
+        {
+          "eigenvalue": 412.74089606039115,
+          "omega": 20.316025597059852,
+          "frequency_hz": 3.23339589775355,
+          "vector": [
+            0.12196043842004511,
+            0.01797816841797421
+          ],
+          "residual": 7.169090995165242e-13
+        },
+        {
+          "eigenvalue": 44570.066222534035,
+          "omega": 211.11623865191905,
+          "frequency_hz": 33.600192948421174,
+          "vector": [
+            0.004906825721733969,
+            -0.4468520845428999
+          ],
+          "residual": 1.4665161412810538e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5143205020832399,
+        "peak_incremental_normal_N": 34.14527901760209,
+        "max_energy_residual_J": 3.280972715735686e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5143213418697884,
+        "peak_incremental_normal_N": 34.145307138340854,
+        "max_energy_residual_J": 2.077296668012707e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 67.12118683,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.523873214268,
+        "tire_rate": 190000.0,
+        "damping": 1181.4577806514337,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-right-kt1.0-z0.4",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.0,
+      "isolated_oscillator_zeta_proxy": 0.4,
+      "undamped_modes": [
+        {
+          "eigenvalue": 412.74089606039115,
+          "omega": 20.316025597059852,
+          "frequency_hz": 3.23339589775355,
+          "vector": [
+            0.12196043842004511,
+            0.01797816841797421
+          ],
+          "residual": 7.169090995165242e-13
+        },
+        {
+          "eigenvalue": 44570.066222534035,
+          "omega": 211.11623865191905,
+          "frequency_hz": 33.600192948421174,
+          "vector": [
+            0.004906825721733969,
+            -0.4468520845428999
+          ],
+          "residual": 1.4665161412810538e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5174112098244744,
+        "peak_incremental_normal_N": 35.50648458899195,
+        "max_energy_residual_J": 4.120877250546329e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5174124067472687,
+        "peak_incremental_normal_N": 35.50652273335311,
+        "max_energy_residual_J": 2.596672876720163e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 67.12118683,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.523873214268,
+        "tire_rate": 190000.0,
+        "damping": 1772.1866709771505,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-right-kt1.0-z0.6",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.0,
+      "isolated_oscillator_zeta_proxy": 0.6,
+      "undamped_modes": [
+        {
+          "eigenvalue": 412.74089606039115,
+          "omega": 20.316025597059852,
+          "frequency_hz": 3.23339589775355,
+          "vector": [
+            0.12196043842004511,
+            0.01797816841797421
+          ],
+          "residual": 7.169090995165242e-13
+        },
+        {
+          "eigenvalue": 44570.066222534035,
+          "omega": 211.11623865191905,
+          "frequency_hz": 33.600192948421174,
+          "vector": [
+            0.004906825721733969,
+            -0.4468520845428999
+          ],
+          "residual": 1.4665161412810538e-11
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5505534748251851,
+        "peak_incremental_normal_N": 38.525032506109596,
+        "max_energy_residual_J": 4.7407147651945536e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.550553473756487,
+        "peak_incremental_normal_N": 38.525147479414954,
+        "max_energy_residual_J": 2.9837937676191473e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 67.12118683,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.523873214268,
+        "tire_rate": 228000.0,
+        "damping": 590.7288903257169,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-right-kt1.2-z0.2",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.2,
+      "isolated_oscillator_zeta_proxy": 0.2,
+      "undamped_modes": [
+        {
+          "eigenvalue": 423.22167046639873,
+          "omega": 20.572352088820537,
+          "frequency_hz": 3.274191525962667,
+          "vector": [
+            0.12198726893719097,
+            0.01534110954491867
+          ],
+          "residual": 4.556346636343676e-13
+        },
+        {
+          "eigenvalue": 52159.585448128026,
+          "omega": 228.38473120619958,
+          "frequency_hz": 36.34855889818051,
+          "vector": [
+            0.004187086757941697,
+            -0.4469503891461901
+          ],
+          "residual": 1.8189894035458565e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5190549721643023,
+        "peak_incremental_normal_N": 34.44491840693081,
+        "max_energy_residual_J": 3.7792199925057446e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.519055296197744,
+        "peak_incremental_normal_N": 34.44491843721778,
+        "max_energy_residual_J": 2.3993307340930414e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 67.12118683,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.523873214268,
+        "tire_rate": 228000.0,
+        "damping": 1181.4577806514337,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-right-kt1.2-z0.4",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.2,
+      "isolated_oscillator_zeta_proxy": 0.4,
+      "undamped_modes": [
+        {
+          "eigenvalue": 423.22167046639873,
+          "omega": 20.572352088820537,
+          "frequency_hz": 3.274191525962667,
+          "vector": [
+            0.12198726893719097,
+            0.01534110954491867
+          ],
+          "residual": 4.556346636343676e-13
+        },
+        {
+          "eigenvalue": 52159.585448128026,
+          "omega": 228.38473120619958,
+          "frequency_hz": 36.34855889818051,
+          "vector": [
+            0.004187086757941697,
+            -0.4469503891461901
+          ],
+          "residual": 1.8189894035458565e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.515914953589184,
+        "peak_incremental_normal_N": 35.397850815148104,
+        "max_energy_residual_J": 4.6329398650790665e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5159170308958773,
+        "peak_incremental_normal_N": 35.397850806774045,
+        "max_energy_residual_J": 2.9225233344476464e-13
+      },
+      "converged": true
+    },
+    {
+      "system": {
+        "sprung_mass": 67.12118683,
+        "unsprung_mass": 5.0,
+        "suspension_rate": 32493.523873214268,
+        "tire_rate": 228000.0,
+        "damping": 1772.1866709771505,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "exploratory-mixed-source-scenario",
+        "configuration_id": "rear-right-kt1.2-z0.6",
+        "gravity": 9.81
+      },
+      "tire_multiplier": 1.2,
+      "isolated_oscillator_zeta_proxy": 0.6,
+      "undamped_modes": [
+        {
+          "eigenvalue": 423.22167046639873,
+          "omega": 20.572352088820537,
+          "frequency_hz": 3.274191525962667,
+          "vector": [
+            0.12198726893719097,
+            0.01534110954491867
+          ],
+          "residual": 4.556346636343676e-13
+        },
+        {
+          "eigenvalue": 52159.585448128026,
+          "omega": 228.38473120619958,
+          "frequency_hz": 36.34855889818051,
+          "vector": [
+            0.004187086757941697,
+            -0.4469503891461901
+          ],
+          "residual": 1.8189894035458565e-12
+        }
+      ],
+      "coarse": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5428888652989413,
+        "peak_incremental_normal_N": 37.985197243463176,
+        "max_energy_residual_J": 5.2198662059410594e-12
+      },
+      "fine": {
+        "ok": true,
+        "peak_body_acceleration_m_per_s2": 0.5428888638214256,
+        "peak_incremental_normal_N": 37.98519721148364,
+        "max_energy_residual_J": 3.2895214330253e-13
+      },
+      "converged": true
+    }
+  ],
+  "passed": true
+}
