@@ -22,3 +22,9 @@ owner_direction = "Continue source mapping and report a debrief at a solid stopp
 function_specification = "docs/models/suspension/front_arm_tube_inertia_spec_v0.1.0.md"
 permitted = "Eight nominal front wishbone tube contributions with independently checked source tensors/geometry and compatible upper/lower motion"
 prohibited = "Full arm/corner effective-mass claims, arbitrary fastener grouping, double counting existing lumped masses, diagonal HalfCar substitution, or native transient promotion"
+
+[front_travel_extension_2026_11_01]
+owner_direction = "Carry on with housing verification and tube travel calculations"
+function_specification = "docs/models/suspension/front_tube_travel_spec_v0.1.0.md"
+permitted = "Offline fixed-chassis tube metric, compatible closure derivatives, tensor transport and convective power verification; retain housing sign ambiguity"
+prohibited = "Promote ambiguous housing tensors, imply complete corner dynamics, or replace HalfCar masses"

@@ -1,0 +1,104 @@
+{
+  "source_url": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit",
+  "source_range": "SU!B100:P103",
+  "read_date": "2026-11-01",
+  "convention_status": "Explicit positive-products candidate, source-specific; independent geometry evidence pending. Physicality alone cannot establish signs.",
+  "members": [
+    {
+      "row": 100,
+      "member_id": "SU-70104-AA FRONT LOWER BEARING HOUSING-1",
+      "mass_lb": 0.167,
+      "cg_in": [
+        0.081,
+        -22.116,
+        6.114
+      ],
+      "centroidal_entries_lb_in2": [
+        0.074,
+        0.002,
+        -0.003,
+        0.002,
+        0.041,
+        -0.005,
+        -0.003,
+        -0.005,
+        0.112
+      ],
+      "side": "right",
+      "arm": "lower",
+      "entry_convention": "positive_products"
+    },
+    {
+      "row": 101,
+      "member_id": "SU-70104-AA FRONT LOWER BEARING HOUSING-3",
+      "mass_lb": 0.167,
+      "cg_in": [
+        0.081,
+        22.116,
+        6.114
+      ],
+      "centroidal_entries_lb_in2": [
+        0.074,
+        -0.002,
+        -0.003,
+        -0.002,
+        0.041,
+        0.005,
+        -0.003,
+        0.005,
+        0.112
+      ],
+      "side": "left",
+      "arm": "lower",
+      "entry_convention": "positive_products"
+    },
+    {
+      "row": 102,
+      "member_id": "SU-70103-AA FRONT UPPER BEARING HOUSING-1",
+      "mass_lb": 0.124,
+      "cg_in": [
+        -0.151,
+        21.503,
+        11.829
+      ],
+      "centroidal_entries_lb_in2": [
+        0.038,
+        0,
+        -0.003,
+        0,
+        0.037,
+        0.008,
+        -0.003,
+        0.008,
+        0.07
+      ],
+      "side": "left",
+      "arm": "upper",
+      "entry_convention": "positive_products"
+    },
+    {
+      "row": 103,
+      "member_id": "SU-70103-AA FRONT UPPER BEARING HOUSING-2",
+      "mass_lb": 0.124,
+      "cg_in": [
+        -0.151,
+        -21.503,
+        11.829
+      ],
+      "centroidal_entries_lb_in2": [
+        0.038,
+        0,
+        -0.003,
+        0,
+        0.037,
+        -0.008,
+        -0.003,
+        -0.008,
+        0.07
+      ],
+      "side": "right",
+      "arm": "upper",
+      "entry_convention": "positive_products"
+    }
+  ]
+}
