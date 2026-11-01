@@ -26,3 +26,13 @@ requested_route = "Testing-day Box CSV or AiM Race Studio XRK only if needed"
 used = false
 reason = "Not needed for static equilibrium or local spring tangents. IMU response alone does not identify pitch inertia independently of unknown damping, road/force excitation, sensor pose and configuration."
 preferred_follow_up = "Source mass-property export first; if unavailable, separately scoped identification with calibrated pitch-rate/acceleration, input excitation and synchronized channels. CSV preferred before investigating XRK decoding."
+
+[follow_up_2026_11_01]
+status = "component_COM_source_recovered_provisional_reconstruction"
+source_url = "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit"
+snapshot = "data_catalog/wufr26_com_pitch_snapshot_v0.json"
+study_specification = "docs/models/vehicle/no_driver_pitch_sensitivity_spec_v0.1.0.md"
+configuration = "no fuel, no driver; not the existing 306 kg static reference"
+owner_electrical_assumption = "15.842 lb point at reconstructed dry whole-car CG, zero intrinsic inertia"
+provisional_Jy_kg_m2 = [67.77097239043059, 69.93248489846633, 72.08916111510472]
+limits = "Component centroidal frame assumed; dry CAD/scale inventories differ; mixed-link fractions are bookkeeping sensitivity only, not identified effective mass. Earlier search finding is superseded by recovered COM data, not by installed authority."

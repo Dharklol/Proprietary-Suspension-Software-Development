@@ -217,3 +217,27 @@ local spring tangents are 24.990/24.994 N/mm front and 32.575/32.560 N/mm rear.
 [Evidence](../reports/equilibrium_local_stiffness_v0.1.0/README.md) retains full
 results. Native pitch dynamics remain gated on sprung-CG pitch inertia; there is
 no telemetry requirement for the completed equilibrium calculation.
+
+## Checkpoint — no-driver/no-fuel provisional inertia, 2026-11-01
+
+Owner clarified no fuel/no driver and accepted electrical mass as a point at the
+car CG. Read-only WUFR-26 COM/BOM and subsystem drawings support a provisional
+partition. CAD-origin tensor ordering and mixed production/CAD bases were bypassed
+by reconstructing from component CAD masses, CGs and labelled centroidal Lyy.
+The source snapshot includes the fuel exclusion and manual shock aggregate once.
+This supersedes the earlier narrow finding that no useful COM inertia source
+could be identified; usable component data exists, with frame/completeness limits.
+
+G5a now includes three reproducible inertia-only sensitivity cases, Jy=67.771,
+69.932,72.089 kg*m². Other dynamic inputs are fixed, including the middle-case
+body mass; all refinement/energy checks pass. In the illustrative bump, peak pitch
+acceleration changes about 2.5%, peak heave acceleration <0.2%. These are scenario
+results, not native vehicle predictions or rigorous bounds.
+
+The earlier static state is driver/no-fuel; it is not a compatible equilibrium
+for this no-driver mass study. Native promotion still needs mass-inventory
+reconciliation, tensor-frame verification, distributed electrical inertia review
+and moving-link effective mass reduction. Analytical work can use the labelled
+range without treating physical correlation or telemetry as a prerequisite.
+See [inertia study](../reports/no_driver_pitch_study_v0.1.0/README.md) and
+[specification](../models/vehicle/no_driver_pitch_sensitivity_spec_v0.1.0.md).

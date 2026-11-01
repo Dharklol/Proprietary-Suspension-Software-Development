@@ -1,0 +1,228 @@
+{
+  "scope": "CAD-derived provisional no-driver/no-fuel reconstruction; not native inertia authority",
+  "populated_dry_subset": {
+    "mass_kg": 196.54474906759,
+    "cg_m": [
+      -0.843894575576208,
+      0.006753688990946374,
+      0.29353376011742255
+    ],
+    "pitch_inertia_kg_m2": 93.02880626614639,
+    "independent_origin_shift_kg_m2": 93.0288062661464
+  },
+  "dry_whole_with_electrical": {
+    "mass_kg": 203.73055939313,
+    "cg_m": [
+      -0.8438945755762081,
+      0.006753688990946374,
+      0.29353376011742255
+    ],
+    "pitch_inertia_kg_m2": 93.0288062661464,
+    "independent_origin_shift_kg_m2": 93.0288062661464
+  },
+  "electrical_point": [
+    7.18581032554,
+    -0.843894575576208,
+    0.006753688990946374,
+    0.29353376011742255,
+    0.0
+  ],
+  "category_mass_kg": {
+    "body": 157.21012592593002,
+    "mixed": 7.09781340576,
+    "outboard": 32.2368097359
+  },
+  "allocation_scenarios": [
+    {
+      "mixed_fraction_retained": 0.0,
+      "mass_kg": 164.39593625147,
+      "cg_m": [
+        -0.850206309452222,
+        0.008433619061820245,
+        0.3094804760773229
+      ],
+      "pitch_inertia_kg_m2": 67.77097239043059,
+      "independent_origin_shift_kg_m2": 67.77097239043059
+    },
+    {
+      "mixed_fraction_retained": 0.5,
+      "mass_kg": 167.94484295435,
+      "cg_m": [
+        -0.8535545854002735,
+        0.008224052868683942,
+        0.30752877051243116
+      ],
+      "pitch_inertia_kg_m2": 69.93248489846633,
+      "independent_origin_shift_kg_m2": 69.93248489846633
+    },
+    {
+      "mixed_fraction_retained": 1.0,
+      "mass_kg": 171.49374965723,
+      "cg_m": [
+        -0.8567642823158077,
+        0.008023160237925335,
+        0.3056578424799584
+      ],
+      "pitch_inertia_kg_m2": 72.08916111510472,
+      "independent_origin_shift_kg_m2": 72.0891611151047
+    }
+  ],
+  "cases": [
+    {
+      "system": {
+        "sprung_mass": 167.94484295435,
+        "pitch_inertia": 67.77097239043059,
+        "front_distance": 0.8535545854002735,
+        "rear_distance": 0.7088454145997265,
+        "front_unsprung_mass": 18.0,
+        "rear_unsprung_mass": 18.0,
+        "front_rate": 50000.0,
+        "rear_rate": 65000.0,
+        "front_tire_rate": 360000.0,
+        "rear_tire_rate": 380000.0,
+        "front_damping": 800.0,
+        "rear_damping": 800.0,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "provisional-COM-Jy-with-illustrative-axle-model",
+        "configuration_id": "inertia-only-f0.0",
+        "gravity": 9.80665
+      },
+      "coarse_dt_s": 0.0002,
+      "fine_dt_s": 0.0001,
+      "duration_s": 2.0,
+      "coarse_metrics": {
+        "peak_abs_pitch_rad": 0.0009069769973716768,
+        "peak_abs_pitch_acceleration_rad_s2": 0.5248517627001935,
+        "peak_abs_body_acceleration_m_s2": 0.4738254426746917,
+        "peak_normal_load_N": 1116.1434700759971,
+        "max_energy_residual_J": 1.4280021609636151e-11
+      },
+      "fine_metrics": {
+        "peak_abs_pitch_rad": 0.0009069769973715043,
+        "peak_abs_pitch_acceleration_rad_s2": 0.5248517624855895,
+        "peak_abs_body_acceleration_m_s2": 0.4738254426070692,
+        "peak_normal_load_N": 1116.143470164631,
+        "max_energy_residual_J": 9.088146901703453e-13
+      },
+      "max_matching_state_difference": 6.523359803722872e-11,
+      "peak_metric_changes": {
+        "peak_abs_pitch_acceleration_rad_s2": 2.1460400123629597e-10,
+        "peak_abs_body_acceleration_m_s2": 6.76224631845912e-11,
+        "peak_normal_load_N": 8.863389666657895e-08
+      },
+      "checks": {
+        "state_refinement": true,
+        "energy_balance": true,
+        "peak_refinement": true
+      },
+      "passed": true
+    },
+    {
+      "system": {
+        "sprung_mass": 167.94484295435,
+        "pitch_inertia": 69.93248489846633,
+        "front_distance": 0.8535545854002735,
+        "rear_distance": 0.7088454145997265,
+        "front_unsprung_mass": 18.0,
+        "rear_unsprung_mass": 18.0,
+        "front_rate": 50000.0,
+        "rear_rate": 65000.0,
+        "front_tire_rate": 360000.0,
+        "rear_tire_rate": 380000.0,
+        "front_damping": 800.0,
+        "rear_damping": 800.0,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "provisional-COM-Jy-with-illustrative-axle-model",
+        "configuration_id": "inertia-only-f0.5",
+        "gravity": 9.80665
+      },
+      "coarse_dt_s": 0.0002,
+      "fine_dt_s": 0.0001,
+      "duration_s": 2.0,
+      "coarse_metrics": {
+        "peak_abs_pitch_rad": 0.0009071800949414198,
+        "peak_abs_pitch_acceleration_rad_s2": 0.5184924995887215,
+        "peak_abs_body_acceleration_m_s2": 0.4733542924704107,
+        "peak_normal_load_N": 1116.8781620380462,
+        "max_energy_residual_J": 1.4189385777463315e-11
+      },
+      "fine_metrics": {
+        "peak_abs_pitch_rad": 0.0009071800949403624,
+        "peak_abs_pitch_acceleration_rad_s2": 0.5184924993700537,
+        "peak_abs_body_acceleration_m_s2": 0.4733542924024615,
+        "peak_normal_load_N": 1116.878289847838,
+        "max_energy_residual_J": 9.028749969886007e-13
+      },
+      "max_matching_state_difference": 6.53499736963381e-11,
+      "peak_metric_changes": {
+        "peak_abs_pitch_acceleration_rad_s2": 2.1866775057333143e-10,
+        "peak_abs_body_acceleration_m_s2": 6.794920182073838e-11,
+        "peak_normal_load_N": 0.00012780979182025476
+      },
+      "checks": {
+        "state_refinement": true,
+        "energy_balance": true,
+        "peak_refinement": true
+      },
+      "passed": true
+    },
+    {
+      "system": {
+        "sprung_mass": 167.94484295435,
+        "pitch_inertia": 72.08916111510472,
+        "front_distance": 0.8535545854002735,
+        "rear_distance": 0.7088454145997265,
+        "front_unsprung_mass": 18.0,
+        "rear_unsprung_mass": 18.0,
+        "front_rate": 50000.0,
+        "rear_rate": 65000.0,
+        "front_tire_rate": 360000.0,
+        "rear_tire_rate": 380000.0,
+        "front_damping": 800.0,
+        "rear_damping": 800.0,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "provisional-COM-Jy-with-illustrative-axle-model",
+        "configuration_id": "inertia-only-f1.0",
+        "gravity": 9.80665
+      },
+      "coarse_dt_s": 0.0002,
+      "fine_dt_s": 0.0001,
+      "duration_s": 2.0,
+      "coarse_metrics": {
+        "peak_abs_pitch_rad": 0.0009071762634724942,
+        "peak_abs_pitch_acceleration_rad_s2": 0.5120818322473766,
+        "peak_abs_body_acceleration_m_s2": 0.4730026515728906,
+        "peak_normal_load_N": 1117.6608033301718,
+        "max_energy_residual_J": 1.4106826817794627e-11
+      },
+      "fine_metrics": {
+        "peak_abs_pitch_rad": 0.0009071762634705338,
+        "peak_abs_pitch_acceleration_rad_s2": 0.5120819128161344,
+        "peak_abs_body_acceleration_m_s2": 0.47300435526101275,
+        "peak_normal_load_N": 1117.6608281018368,
+        "max_energy_residual_J": 8.978928711655954e-13
+      },
+      "max_matching_state_difference": 6.54584338122266e-11,
+      "peak_metric_changes": {
+        "peak_abs_pitch_acceleration_rad_s2": 8.056875777651129e-08,
+        "peak_abs_body_acceleration_m_s2": 1.7036881221343947e-06,
+        "peak_normal_load_N": 2.47716650392249e-05
+      },
+      "checks": {
+        "state_refinement": true,
+        "energy_balance": true,
+        "peak_refinement": true
+      },
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "source_sha256": {
+    "data_catalog/wufr26_com_pitch_snapshot_v0.json": "d2ac8dd315e16e7ad920821fabd55aebb6ebccbb6bbff45e2a2442b2c1176317",
+    "scripts/run_no_driver_pitch_study.py": "5cdbcaf9c4c9a22c1bbe9bbb54a12d6fae8c9a61a6f6e4a167febf4501782f06",
+    "src/pssd_vehicle/half_car.py": "076a128d4071fd5e3c4954d38de87a50572db782e071d2d8c787ee8f4b88e5c0"
+  }
+}
