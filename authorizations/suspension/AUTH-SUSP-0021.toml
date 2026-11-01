@@ -28,3 +28,9 @@ owner_direction = "Carry on with housing verification and tube travel calculatio
 function_specification = "docs/models/suspension/front_tube_travel_spec_v0.1.0.md"
 permitted = "Offline fixed-chassis tube metric, compatible closure derivatives, tensor transport and convective power verification; retain housing sign ambiguity"
 prohibited = "Promote ambiguous housing tensors, imply complete corner dynamics, or replace HalfCar masses"
+
+[coupled_tube_extension_2026_11_01]
+owner_direction = "Carry on with coupled body/arm energy verification and controlled integration"
+function_specification = "docs/models/suspension/coupled_tube_inertia_spec_v0.1.0.md"
+permitted = "Offline eight-tube finite-pitch coupled inertia/bias, independent power/pose verification and bounded manufactured-force integration"
+prohibited = "Housing sign promotion, native ride predictions, incompatible lump addition or replacement of HalfCar without a complete compatible force/mass contract"

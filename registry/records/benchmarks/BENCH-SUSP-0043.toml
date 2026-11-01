@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-SUSP-0043"
+type = "benchmark"
+title = "Coupled finite-pitch front tube inertia and force integration"
+status = "active"
+description = "Full mixed-coordinate tube mass matrix and Newton-Euler inertial bias checked against Christoffel/power/pose identities and bounded RK4 work-energy integration."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0013", "EQ-SUSP-0039"]
+function_specification = "docs/models/suspension/coupled_tube_inertia_spec_v0.1.0.md"
+acceptance_criteria = ["Nominal full matrix agrees within 1e-12", "Independent inertial bias and power identities pass stated coordinate tolerances", "World-pose and angular acceleration checks pass", "Forced work-energy residual below 1e-9 J and endpoint differences refine by more than eightfold", "Unforced endpoint stability is distinguished from convergence order", "Only eight verified tubes are included"]
