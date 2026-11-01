@@ -1,0 +1,2302 @@
+{
+  "scope": "WUFR26 bilateral front-corner A0701 ownership audit only",
+  "source_url": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit",
+  "source_range": "SU!B19:H143",
+  "CAD_mass_lb": 5.0680000000000005,
+  "CAD_mass_kg": 2.2988061311600005,
+  "status_totals": {
+    "unresolved": {
+      "count": 72,
+      "mass_lb": 0.6660000000000004
+    },
+    "candidate": {
+      "count": 24,
+      "mass_lb": 1.286
+    },
+    "joint_split_required": {
+      "count": 16,
+      "mass_lb": 0.7360000000000001
+    },
+    "verified_nominal_tube": {
+      "count": 8,
+      "mass_lb": 1.7979999999999998
+    },
+    "source_supported_owner": {
+      "count": 4,
+      "mass_lb": 0.5820000000000001
+    }
+  },
+  "source_nut_counts": {
+    "94450A220": 2,
+    "91847A429": 2,
+    "91845A105": 8
+  },
+  "drawing_discrepancies": [
+    {
+      "part": "91847A429",
+      "drawing_count": 10,
+      "COM_count": 2,
+      "unlisted_COM_part": "91845A105",
+      "unlisted_count": 8,
+      "resolution": "Open; do not silently substitute."
+    },
+    {
+      "field": "weight_label_lb",
+      "drawing": 5.06,
+      "COM_row_sum": 5.068,
+      "resolution": "Separate source labels retained; CAD row sum used."
+    }
+  ],
+  "checks": {
+    "exact_row_manifest": true,
+    "unchanged_CAD_mass_and_CG": true,
+    "tube_subset_preserved": true,
+    "only_tubes_have_verified_nominal_contribution": true,
+    "unresolved_joint_owners_empty": true,
+    "CAD_assembly_mass_closure": true,
+    "status_partition_mass_closure": true,
+    "named_housing_manifest": true,
+    "nut_discrepancy_preserved": true
+  },
+  "passed": true,
+  "assignments": [
+    {
+      "sheet_row": 20,
+      "part_name": "NUT 0.25-28 DEF (95307A500)-7",
+      "CAD_mass_lb": 0.003,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.311,
+        -22.385,
+        11.358
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 21,
+      "part_name": "NUT 0.25-28 DEF (95307A500)-8",
+      "CAD_mass_lb": 0.003,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.042,
+        -23.071,
+        6.828
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 22,
+      "part_name": "NUT 0.25-28 DEF (95307A500)-9",
+      "CAD_mass_lb": 0.003,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.311,
+        22.386,
+        11.357
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 23,
+      "part_name": "NUT 0.25-28 DEF (95307A500)-10",
+      "CAD_mass_lb": 0.003,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.042,
+        23.071,
+        6.826
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 24,
+      "part_name": "0.25 WASHER (91950A029)-2",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.3,
+        -22.355,
+        11.487
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 25,
+      "part_name": "0.25 WASHER (91950A029)-3",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.21,
+        -22.106,
+        12.536
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 26,
+      "part_name": "0.25 WASHER (91950A029)-6",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.033,
+        -23.08,
+        6.696
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 27,
+      "part_name": "0.25 WASHER (91950A029)-7",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.033,
+        -23.148,
+        5.682
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 28,
+      "part_name": "0.25 WASHER (91950A029)-10",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.211,
+        22.108,
+        12.529
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 29,
+      "part_name": "0.25 WASHER (91950A029)-11",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.3,
+        22.355,
+        11.486
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 30,
+      "part_name": "0.25 WASHER (91950A029)-12",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.035,
+        23.15,
+        5.653
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 31,
+      "part_name": "0.25 WASHER (91950A029)-13",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.033,
+        23.08,
+        6.693
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 32,
+      "part_name": "0.25 WASHER (91950A029)-14",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.418,
+        19.81,
+        10.603
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 33,
+      "part_name": "0.25 WASHER (91950A029)-15",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.418,
+        19.847,
+        10.54
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 34,
+      "part_name": "0.25 WASHER (91950A029)-16",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.418,
+        -19.847,
+        10.54
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 35,
+      "part_name": "0.25 WASHER (91950A029)-17",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.418,
+        -19.81,
+        10.603
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 36,
+      "part_name": "0.25 WASHER (91950A029)-18",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.377,
+        9.751,
+        4.634
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 37,
+      "part_name": "0.25 WASHER (91950A029)-19",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.377,
+        9.751,
+        4.634
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 38,
+      "part_name": "0.25 WASHER (91950A029)-20",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.377,
+        -9.751,
+        4.634
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 39,
+      "part_name": "0.25 WASHER (91950A029)-21",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.377,
+        -9.751,
+        4.634
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 40,
+      "part_name": "HEX 0.25-28x1.50 P (91257A566)-6",
+      "CAD_mass_lb": 0.027,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.247,
+        -22.207,
+        12.112
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 41,
+      "part_name": "HEX 0.25-28x1.50 P (91257A566)-7",
+      "CAD_mass_lb": 0.027,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.004,
+        -23.119,
+        6.117
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 42,
+      "part_name": "HEX 0.25-28x1.50 P (91257A566)-8",
+      "CAD_mass_lb": 0.027,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.247,
+        22.208,
+        12.106
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 43,
+      "part_name": "HEX 0.25-28x1.50 P (91257A566)-9",
+      "CAD_mass_lb": 0.027,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.006,
+        23.121,
+        6.088
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 44,
+      "part_name": "HEX 0.25-28x1.50 P (91257A566)-1",
+      "CAD_mass_lb": 0.027,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.017,
+        -19.828,
+        10.573
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 45,
+      "part_name": "HEX 0.25-28x1.50 P (91257A566)-2",
+      "CAD_mass_lb": 0.027,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.017,
+        19.828,
+        10.573
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 46,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-4",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": "",
+      "cg_in": [
+        6.596,
+        -8.229,
+        4.798
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 47,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-3",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": "",
+      "cg_in": [
+        8.294,
+        -10.294,
+        8.489
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 48,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-5",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": "",
+      "cg_in": [
+        -4.241,
+        -10.62,
+        9.641
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 49,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-6",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.759,
+        -8.812,
+        5.492
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 50,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-7",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": "",
+      "cg_in": [
+        8.294,
+        10.294,
+        8.489
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 51,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-8",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": "",
+      "cg_in": [
+        6.596,
+        8.229,
+        4.798
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 52,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-9",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": "",
+      "cg_in": [
+        -4.241,
+        10.62,
+        9.641
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 53,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-10",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.759,
+        8.812,
+        5.492
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 54,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-11",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.054,
+        9.751,
+        4.634
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 55,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-12",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.054,
+        -9.751,
+        4.634
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 56,
+      "part_name": "94450A220 0.25-28 Left-Hand Threaded 18-8 Stainless Steel Thin Hex Nut-1",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        -18.938,
+        10.047
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": "right_pullrod",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_body_parts",
+      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+    },
+    {
+      "sheet_row": 57,
+      "part_name": "91847A429 0.25-28 18-8 Stainless Steel Thin Hex Nut-1",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        -10.601,
+        5.135
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": "right_pullrod",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_body_parts",
+      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+    },
+    {
+      "sheet_row": 58,
+      "part_name": "94450A220 0.25-28 Left-Hand Threaded 18-8 Stainless Steel Thin Hex Nut-2",
+      "CAD_mass_lb": 0.006,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        18.938,
+        10.047
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": "left_pullrod",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_body_parts",
+      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+    },
+    {
+      "sheet_row": 59,
+      "part_name": "91847A429 0.25-28 18-8 Stainless Steel Thin Hex Nut-2",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        10.601,
+        5.135
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": "left_pullrod",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_body_parts",
+      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+    },
+    {
+      "sheet_row": 60,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-8",
+      "CAD_mass_lb": 0.008,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.53,
+        -9.573,
+        5.51
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 61,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-1",
+      "CAD_mass_lb": 0.001,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.607,
+        19.802,
+        10.617
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 62,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-2",
+      "CAD_mass_lb": 0.001,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.607,
+        -19.802,
+        10.617
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 63,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-3",
+      "CAD_mass_lb": 0.001,
+      "production_mass_lb": "",
+      "cg_in": [
+        8.245,
+        10.428,
+        7.923
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 64,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-4",
+      "CAD_mass_lb": 0.001,
+      "production_mass_lb": "",
+      "cg_in": [
+        6.558,
+        8.267,
+        4.217
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 65,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-5",
+      "CAD_mass_lb": 0.001,
+      "production_mass_lb": "",
+      "cg_in": [
+        -4.289,
+        10.754,
+        9.075
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 66,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-6",
+      "CAD_mass_lb": 0.001,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.289,
+        8.706,
+        5.161
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 67,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-7",
+      "CAD_mass_lb": 0.001,
+      "production_mass_lb": "",
+      "cg_in": [
+        8.245,
+        -10.428,
+        7.923
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 68,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-8",
+      "CAD_mass_lb": 0.001,
+      "production_mass_lb": "",
+      "cg_in": [
+        6.558,
+        -8.267,
+        4.217
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 69,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-9",
+      "CAD_mass_lb": 0.001,
+      "production_mass_lb": "",
+      "cg_in": [
+        -4.289,
+        -10.754,
+        9.075
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 70,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-10",
+      "CAD_mass_lb": 0.001,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.289,
+        -8.706,
+        5.161
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 71,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-9",
+      "CAD_mass_lb": 0.008,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.946,
+        -11.494,
+        9.786
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 72,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-10",
+      "CAD_mass_lb": 0.008,
+      "production_mass_lb": "",
+      "cg_in": [
+        7.708,
+        -11.115,
+        8.697
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 73,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-11",
+      "CAD_mass_lb": 0.008,
+      "production_mass_lb": "",
+      "cg_in": [
+        6.275,
+        -8.951,
+        4.831
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 74,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-12",
+      "CAD_mass_lb": 0.008,
+      "production_mass_lb": "",
+      "cg_in": [
+        7.708,
+        11.115,
+        8.697
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 75,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-13",
+      "CAD_mass_lb": 0.008,
+      "production_mass_lb": "",
+      "cg_in": [
+        6.274,
+        8.951,
+        4.831
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 76,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-14",
+      "CAD_mass_lb": 0.008,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.53,
+        9.573,
+        5.51
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 77,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-15",
+      "CAD_mass_lb": 0.008,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.946,
+        11.494,
+        9.786
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 78,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-11",
+      "CAD_mass_lb": 0.001,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.567,
+        9.751,
+        4.634
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 79,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-12",
+      "CAD_mass_lb": 0.001,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.567,
+        -9.751,
+        4.634
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 80,
+      "part_name": "HAB-4TG-TheTimkenCompany-1",
+      "CAD_mass_lb": 0.037,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.255,
+        -22.231,
+        12.01
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "spherical_bearing",
+      "evidence": "HAB-4TG export combines inner and outer bearing bodies at arm/upright joint. No whole-part rigid owner assigned."
+    },
+    {
+      "sheet_row": 81,
+      "part_name": "HAB-4TG-TheTimkenCompany-2",
+      "CAD_mass_lb": 0.037,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.255,
+        22.231,
+        12.01
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "spherical_bearing",
+      "evidence": "HAB-4TG export combines inner and outer bearing bodies at arm/upright joint. No whole-part rigid owner assigned."
+    },
+    {
+      "sheet_row": 82,
+      "part_name": "HAB-4TG-TheTimkenCompany-3",
+      "CAD_mass_lb": 0.037,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        -23.114,
+        6.186
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "spherical_bearing",
+      "evidence": "HAB-4TG export combines inner and outer bearing bodies at arm/upright joint. No whole-part rigid owner assigned."
+    },
+    {
+      "sheet_row": 83,
+      "part_name": "HAB-4TG-TheTimkenCompany-4",
+      "CAD_mass_lb": 0.037,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        23.114,
+        6.186
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "spherical_bearing",
+      "evidence": "HAB-4TG export combines inner and outer bearing bodies at arm/upright joint. No whole-part rigid owner assigned."
+    },
+    {
+      "sheet_row": 84,
+      "part_name": "SU-70110-AA PULLROD TAB-1",
+      "CAD_mass_lb": 0.041,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.276,
+        -19.915,
+        10.761
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": "right_upper_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_attachment",
+      "evidence": "Native actuation pickup belongs to upper arm. Tab/connector rigid attachment must be checked individually."
+    },
+    {
+      "sheet_row": 85,
+      "part_name": "SU-70111-AA PULLROD CONNECTOR-1",
+      "CAD_mass_lb": 0.127,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.151,
+        19.908,
+        11.047
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": "left_upper_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_attachment",
+      "evidence": "Native actuation pickup belongs to upper arm. Tab/connector rigid attachment must be checked individually."
+    },
+    {
+      "sheet_row": 86,
+      "part_name": "SU-70110-AA PULLROD TAB-2",
+      "CAD_mass_lb": 0.041,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.292,
+        19.94,
+        10.718
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": "left_upper_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_attachment",
+      "evidence": "Native actuation pickup belongs to upper arm. Tab/connector rigid attachment must be checked individually."
+    },
+    {
+      "sheet_row": 87,
+      "part_name": "SU-70111-AA PULLROD CONNECTOR-3",
+      "CAD_mass_lb": 0.127,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.151,
+        -19.908,
+        11.047
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": "right_upper_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_attachment",
+      "evidence": "Native actuation pickup belongs to upper arm. Tab/connector rigid attachment must be checked individually."
+    },
+    {
+      "sheet_row": 88,
+      "part_name": "SU-70110-AA PULLROD TAB-3",
+      "CAD_mass_lb": 0.041,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.292,
+        -19.94,
+        10.718
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": "right_upper_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_attachment",
+      "evidence": "Native actuation pickup belongs to upper arm. Tab/connector rigid attachment must be checked individually."
+    },
+    {
+      "sheet_row": 89,
+      "part_name": "SU-70110-AA PULLROD TAB-4",
+      "CAD_mass_lb": 0.041,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.276,
+        19.915,
+        10.761
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": "left_upper_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_attachment",
+      "evidence": "Native actuation pickup belongs to upper arm. Tab/connector rigid attachment must be checked individually."
+    },
+    {
+      "sheet_row": 90,
+      "part_name": "SU-70105-AA FRONT UPPER FORE STEEL TUBE-1",
+      "CAD_mass_lb": 0.234,
+      "production_mass_lb": "",
+      "cg_in": [
+        4.014,
+        -16.271,
+        10.234
+      ],
+      "side": "right",
+      "rigid_owner": "right_upper_arm",
+      "candidate_owner": null,
+      "status": "verified_nominal_tube",
+      "nominal_contribution_verified": true,
+      "family": "arm_tube",
+      "evidence": "BENCH-SUSP-0040; per-instance geometry/tensor/motion gates"
+    },
+    {
+      "sheet_row": 91,
+      "part_name": "SU-70106-AA FRONT UPPER AFT STEEL TUBE-1",
+      "CAD_mass_lb": 0.188,
+      "production_mass_lb": "",
+      "cg_in": [
+        -2.262,
+        -16.392,
+        10.801
+      ],
+      "side": "right",
+      "rigid_owner": "right_upper_arm",
+      "candidate_owner": null,
+      "status": "verified_nominal_tube",
+      "nominal_contribution_verified": true,
+      "family": "arm_tube",
+      "evidence": "BENCH-SUSP-0040; per-instance geometry/tensor/motion gates"
+    },
+    {
+      "sheet_row": 92,
+      "part_name": "SU-70106-AA FRONT UPPER AFT STEEL TUBE-2",
+      "CAD_mass_lb": 0.188,
+      "production_mass_lb": "",
+      "cg_in": [
+        -2.262,
+        16.392,
+        10.801
+      ],
+      "side": "left",
+      "rigid_owner": "left_upper_arm",
+      "candidate_owner": null,
+      "status": "verified_nominal_tube",
+      "nominal_contribution_verified": true,
+      "family": "arm_tube",
+      "evidence": "BENCH-SUSP-0040; per-instance geometry/tensor/motion gates"
+    },
+    {
+      "sheet_row": 93,
+      "part_name": "SU-70105-AA FRONT UPPER FORE STEEL TUBE-2",
+      "CAD_mass_lb": 0.234,
+      "production_mass_lb": "",
+      "cg_in": [
+        4.014,
+        16.271,
+        10.234
+      ],
+      "side": "left",
+      "rigid_owner": "left_upper_arm",
+      "candidate_owner": null,
+      "status": "verified_nominal_tube",
+      "nominal_contribution_verified": true,
+      "family": "arm_tube",
+      "evidence": "BENCH-SUSP-0040; per-instance geometry/tensor/motion gates"
+    },
+    {
+      "sheet_row": 94,
+      "part_name": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-1",
+      "CAD_mass_lb": 0.253,
+      "production_mass_lb": "",
+      "cg_in": [
+        3.433,
+        -15.364,
+        5.445
+      ],
+      "side": "right",
+      "rigid_owner": "right_lower_arm",
+      "candidate_owner": null,
+      "status": "verified_nominal_tube",
+      "nominal_contribution_verified": true,
+      "family": "arm_tube",
+      "evidence": "BENCH-SUSP-0040; per-instance geometry/tensor/motion gates"
+    },
+    {
+      "sheet_row": 95,
+      "part_name": "SU-70108-AA FRONT LOWER AFT STEEL TUBE-1",
+      "CAD_mass_lb": 0.224,
+      "production_mass_lb": "",
+      "cg_in": [
+        -1.95,
+        -15.635,
+        5.813
+      ],
+      "side": "right",
+      "rigid_owner": "right_lower_arm",
+      "candidate_owner": null,
+      "status": "verified_nominal_tube",
+      "nominal_contribution_verified": true,
+      "family": "arm_tube",
+      "evidence": "BENCH-SUSP-0040; per-instance geometry/tensor/motion gates"
+    },
+    {
+      "sheet_row": 96,
+      "part_name": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-2",
+      "CAD_mass_lb": 0.253,
+      "production_mass_lb": "",
+      "cg_in": [
+        3.433,
+        15.364,
+        5.445
+      ],
+      "side": "left",
+      "rigid_owner": "left_lower_arm",
+      "candidate_owner": null,
+      "status": "verified_nominal_tube",
+      "nominal_contribution_verified": true,
+      "family": "arm_tube",
+      "evidence": "BENCH-SUSP-0040; per-instance geometry/tensor/motion gates"
+    },
+    {
+      "sheet_row": 97,
+      "part_name": "SU-70108-AA FRONT LOWER AFT STEEL TUBE-2",
+      "CAD_mass_lb": 0.224,
+      "production_mass_lb": "",
+      "cg_in": [
+        -1.95,
+        15.635,
+        5.813
+      ],
+      "side": "left",
+      "rigid_owner": "left_lower_arm",
+      "candidate_owner": null,
+      "status": "verified_nominal_tube",
+      "nominal_contribution_verified": true,
+      "family": "arm_tube",
+      "evidence": "BENCH-SUSP-0040; per-instance geometry/tensor/motion gates"
+    },
+    {
+      "sheet_row": 98,
+      "part_name": "SU-70109-AA PULLROD-1",
+      "CAD_mass_lb": 0.201,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        -14.77,
+        7.591
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": "right_pullrod",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_body_parts",
+      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+    },
+    {
+      "sheet_row": 99,
+      "part_name": "SU-70109-AA PULLROD-2",
+      "CAD_mass_lb": 0.201,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        14.77,
+        7.591
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": "left_pullrod",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_body_parts",
+      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+    },
+    {
+      "sheet_row": 100,
+      "part_name": "SU-70104-AA FRONT LOWER BEARING HOUSING-1",
+      "CAD_mass_lb": 0.167,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.081,
+        -22.116,
+        6.114
+      ],
+      "side": "right",
+      "rigid_owner": "right_lower_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
+      "nominal_contribution_verified": false,
+      "family": "bearing_housing",
+      "evidence": "Named upper/lower housing; welded A-arm architecture in topology source audit. Full tensor/pose gates pending."
+    },
+    {
+      "sheet_row": 101,
+      "part_name": "SU-70104-AA FRONT LOWER BEARING HOUSING-3",
+      "CAD_mass_lb": 0.167,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.081,
+        22.116,
+        6.114
+      ],
+      "side": "left",
+      "rigid_owner": "left_lower_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
+      "nominal_contribution_verified": false,
+      "family": "bearing_housing",
+      "evidence": "Named upper/lower housing; welded A-arm architecture in topology source audit. Full tensor/pose gates pending."
+    },
+    {
+      "sheet_row": 102,
+      "part_name": "SU-70103-AA FRONT UPPER BEARING HOUSING-1",
+      "CAD_mass_lb": 0.124,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.151,
+        21.503,
+        11.829
+      ],
+      "side": "left",
+      "rigid_owner": "left_upper_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
+      "nominal_contribution_verified": false,
+      "family": "bearing_housing",
+      "evidence": "Named upper/lower housing; welded A-arm architecture in topology source audit. Full tensor/pose gates pending."
+    },
+    {
+      "sheet_row": 103,
+      "part_name": "SU-70103-AA FRONT UPPER BEARING HOUSING-2",
+      "CAD_mass_lb": 0.124,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.151,
+        -21.503,
+        11.829
+      ],
+      "side": "right",
+      "rigid_owner": "right_upper_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
+      "nominal_contribution_verified": false,
+      "family": "bearing_housing",
+      "evidence": "Named upper/lower housing; welded A-arm architecture in topology source audit. Full tensor/pose gates pending."
+    },
+    {
+      "sheet_row": 104,
+      "part_name": "SU-70101-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-1",
+      "CAD_mass_lb": 0.063,
+      "production_mass_lb": 0.252,
+      "cg_in": [
+        0,
+        -18.63,
+        9.865
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": "right_pullrod",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_body_parts",
+      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+    },
+    {
+      "sheet_row": 105,
+      "part_name": "SU-70102-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-1",
+      "CAD_mass_lb": 0.063,
+      "production_mass_lb": 0.249,
+      "cg_in": [
+        0,
+        -10.909,
+        5.317
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": "right_pullrod",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_body_parts",
+      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+    },
+    {
+      "sheet_row": 106,
+      "part_name": "SU-70101-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-2",
+      "CAD_mass_lb": 0.063,
+      "production_mass_lb": 0.252,
+      "cg_in": [
+        0,
+        18.63,
+        9.865
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": "left_pullrod",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_body_parts",
+      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+    },
+    {
+      "sheet_row": 107,
+      "part_name": "SU-70102-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-2",
+      "CAD_mass_lb": 0.063,
+      "production_mass_lb": 0.249,
+      "cg_in": [
+        0,
+        10.909,
+        5.317
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": "left_pullrod",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "pullrod_body_parts",
+      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+    },
+    {
+      "sheet_row": 108,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-1",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        -3.85,
+        -11.773,
+        9.844
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": "right_upper_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "arm_endcap",
+      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+    },
+    {
+      "sheet_row": 109,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-2",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        7.538,
+        -11.353,
+        8.768
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": "right_upper_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "arm_endcap",
+      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+    },
+    {
+      "sheet_row": 110,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-3",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        6.153,
+        -9.226,
+        4.858
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": "right_lower_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "arm_endcap",
+      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+    },
+    {
+      "sheet_row": 111,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-4",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        -3.454,
+        -9.864,
+        5.525
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": "right_lower_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "arm_endcap",
+      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+    },
+    {
+      "sheet_row": 112,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-5",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        7.538,
+        11.353,
+        8.768
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": "left_upper_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "arm_endcap",
+      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+    },
+    {
+      "sheet_row": 113,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-6",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        -3.85,
+        11.773,
+        9.844
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": "left_upper_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "arm_endcap",
+      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+    },
+    {
+      "sheet_row": 114,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-7",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        -3.454,
+        9.864,
+        5.525
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": "left_lower_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "arm_endcap",
+      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+    },
+    {
+      "sheet_row": 115,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-8",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        6.153,
+        9.226,
+        4.858
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": "left_lower_arm",
+      "status": "candidate",
+      "nominal_contribution_verified": false,
+      "family": "arm_endcap",
+      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+    },
+    {
+      "sheet_row": 116,
+      "part_name": "QA1 XML4 0.25-28 LH Rod End-1",
+      "CAD_mass_lb": 0.049,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        19.57,
+        10.419
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "rod_end",
+      "evidence": "Rod-end shank/body and inner ball have different relative rotations; endpoint/shank assignment and mass split pending."
+    },
+    {
+      "sheet_row": 117,
+      "part_name": "QA1 XML4 0.25-28 LH Rod End-2",
+      "CAD_mass_lb": 0.049,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        -19.57,
+        10.419
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "rod_end",
+      "evidence": "Rod-end shank/body and inner ball have different relative rotations; endpoint/shank assignment and mass split pending."
+    },
+    {
+      "sheet_row": 118,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-1",
+      "CAD_mass_lb": 0.049,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        10.01,
+        4.787
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "rod_end",
+      "evidence": "Rod-end shank/body and inner ball have different relative rotations; endpoint/shank assignment and mass split pending."
+    },
+    {
+      "sheet_row": 119,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-2",
+      "CAD_mass_lb": 0.049,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        -10.01,
+        4.787
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "rod_end",
+      "evidence": "Rod-end shank/body and inner ball have different relative rotations; endpoint/shank assignment and mass split pending."
+    },
+    {
+      "sheet_row": 120,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-3",
+      "CAD_mass_lb": 0.049,
+      "production_mass_lb": "",
+      "cg_in": [
+        -4.148,
+        -10.907,
+        9.664
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "rod_end",
+      "evidence": "Rod-end shank/body and inner ball have different relative rotations; endpoint/shank assignment and mass split pending."
+    },
+    {
+      "sheet_row": 121,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-4",
+      "CAD_mass_lb": 0.049,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.654,
+        -9.096,
+        5.487
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "rod_end",
+      "evidence": "Rod-end shank/body and inner ball have different relative rotations; endpoint/shank assignment and mass split pending."
+    },
+    {
+      "sheet_row": 122,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-5",
+      "CAD_mass_lb": 0.049,
+      "production_mass_lb": "",
+      "cg_in": [
+        6.472,
+        -8.505,
+        4.789
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "rod_end",
+      "evidence": "Rod-end shank/body and inner ball have different relative rotations; endpoint/shank assignment and mass split pending."
+    },
+    {
+      "sheet_row": 123,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-6",
+      "CAD_mass_lb": 0.049,
+      "production_mass_lb": "",
+      "cg_in": [
+        8.12,
+        -10.539,
+        8.525
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "rod_end",
+      "evidence": "Rod-end shank/body and inner ball have different relative rotations; endpoint/shank assignment and mass split pending."
+    },
+    {
+      "sheet_row": 124,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-7",
+      "CAD_mass_lb": 0.049,
+      "production_mass_lb": "",
+      "cg_in": [
+        8.12,
+        10.539,
+        8.525
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "rod_end",
+      "evidence": "Rod-end shank/body and inner ball have different relative rotations; endpoint/shank assignment and mass split pending."
+    },
+    {
+      "sheet_row": 125,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-8",
+      "CAD_mass_lb": 0.049,
+      "production_mass_lb": "",
+      "cg_in": [
+        6.472,
+        8.505,
+        4.789
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "rod_end",
+      "evidence": "Rod-end shank/body and inner ball have different relative rotations; endpoint/shank assignment and mass split pending."
+    },
+    {
+      "sheet_row": 126,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-9",
+      "CAD_mass_lb": 0.049,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.654,
+        9.096,
+        5.486
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "rod_end",
+      "evidence": "Rod-end shank/body and inner ball have different relative rotations; endpoint/shank assignment and mass split pending."
+    },
+    {
+      "sheet_row": 127,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-10",
+      "CAD_mass_lb": 0.049,
+      "production_mass_lb": "",
+      "cg_in": [
+        -4.148,
+        10.907,
+        9.664
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "joint_split_required",
+      "nominal_contribution_verified": false,
+      "family": "rod_end",
+      "evidence": "Rod-end shank/body and inner ball have different relative rotations; endpoint/shank assignment and mass split pending."
+    },
+    {
+      "sheet_row": 128,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-1",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        8.317,
+        10.229,
+        8.761
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 129,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-2",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        8.264,
+        10.375,
+        8.148
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 130,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-3",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        6.614,
+        8.21,
+        5.077
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 131,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-4",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        6.573,
+        8.252,
+        4.448
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 132,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-5",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.476,
+        8.749,
+        5.293
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 133,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-6",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.984,
+        8.863,
+        5.651
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 134,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-7",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        -4.217,
+        10.556,
+        9.913
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 135,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-8",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        -4.27,
+        10.701,
+        9.3
+      ],
+      "side": "left",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 136,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-9",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        8.311,
+        -10.222,
+        8.759
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 137,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-10",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        8.264,
+        -10.375,
+        8.148
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 138,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-11",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        6.573,
+        -8.252,
+        4.448
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 139,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-12",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        6.614,
+        -8.21,
+        5.077
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 140,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-13",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.984,
+        -8.863,
+        5.651
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 141,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-14",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        -3.476,
+        -8.749,
+        5.293
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 142,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-15",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        -4.27,
+        -10.701,
+        9.3
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    },
+    {
+      "sheet_row": 143,
+      "part_name": "SU-70114-AA - TOPHAT SPACER-16",
+      "CAD_mass_lb": 0.005,
+      "production_mass_lb": "",
+      "cg_in": [
+        -4.217,
+        -10.556,
+        9.913
+      ],
+      "side": "right",
+      "rigid_owner": null,
+      "candidate_owner": null,
+      "status": "unresolved",
+      "nominal_contribution_verified": false,
+      "family": "joint_hardware",
+      "evidence": "Fastener, washer, nut or spacer requires clamping-stack ownership; position alone does not establish rotation."
+    }
+  ],
+  "source_sha256": {
+    "data_catalog/wufr26_front_corner_inventory_v0.json": "875217608f4fea7ede8a36e0f94245a0daaebf803f0047e1b68d81f9b3c31463",
+    "scripts/run_front_corner_ownership.py": "dd6dc6f1f1ba6b472ce82e2e8577936c4d32f53fb154171dd6b3516ec2746e15",
+    "data_catalog/wufr26_com_pitch_snapshot_v0.json": "d2ac8dd315e16e7ad920821fabd55aebb6ebccbb6bbff45e2a2442b2c1176317",
+    "data_catalog/wufr26_front_arm_tubes_inertia_v0.json": "3716bf64caf487669d756c04ca42d8ffe3ee8d64202ad7f22ab40c3e24d80fae"
+  }
+}

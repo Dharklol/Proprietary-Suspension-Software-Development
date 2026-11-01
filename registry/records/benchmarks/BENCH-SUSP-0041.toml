@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-SUSP-0041"
+type = "benchmark"
+title = "Bilateral front-corner inventory and ownership audit"
+status = "active"
+description = "Enumerate all 124 A0701 source rows, retain uncertain ownership and reconcile CAD mass without promoting joint lumps."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0013"]
+function_specification = "docs/reports/front_corner_ownership_v0.1.0/README.md"
+acceptance_criteria = ["Exact unique source-row coverage and unchanged CAD mass/CG", "Status partition closes to 5.068 lb", "Existing eight-tube nominal contribution remains unchanged", "Candidate and unresolved owners remain unassigned", "Nut BOM discrepancy remains explicit"]

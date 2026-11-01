@@ -320,3 +320,18 @@ source boundaries; do not prioritize operational release, broad UI polish,
 telemetry decoding, lap/QSS3 or physical correlation ahead of these dependencies.
 A useful next integration milestone is an energy-verified generalized-coordinate
 model for a completely enumerated subset, not more isolated mass percentages.
+
+## Checkpoint — front-corner inventory ownership, 2026-11-01
+
+All 124 A0701 COM rows are enumerated and close to 5.068 lb with unchanged CAD
+mass/CG. Eight tubes remain nominally verified; four housings have source-supported
+arm ownership pending tensor/pose gates. Twenty-four candidates, sixteen joint
+components requiring splits, and seventy-two unresolved hardware instances remain
+explicit. The drawing/COM nut part-number mismatch is recorded without substitution.
+See [ownership audit](../reports/front_corner_ownership_v0.1.0/README.md).
+
+Next: verify the four housing tensors/transports, resolve arm/pullrod attachments,
+and advance the already verified tube subset through nonzero-state energy checks.
+Full corner ownership is still open; G3/G5a analytical foundations remain the focus.
+No operational release or UI milestone is introduced, and no owner input is
+currently required for the independent housing/tube work.
