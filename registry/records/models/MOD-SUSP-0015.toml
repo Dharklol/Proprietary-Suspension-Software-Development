@@ -1,0 +1,14 @@
+[record]
+id = "MOD-SUSP-0015"
+type = "model"
+title = "Front design-intent native spring deformation port"
+status = "active"
+description = "Implicit upper-arm/rocker closure derivative binds existing front spring reference and law to heave/pitch/bilateral arm coordinates."
+verification_level = "A"
+function_specification = "docs/models/suspension/native_spring_port_spec_v0.1.0.md"
+maturity = "M2"
+disposition = "accepted_with_restrictions"
+inputs = ["Source-bound front corner, nominal wheel reference, reviewed linear spring package, qL and geometry/source identity"]
+outputs = ["Source-labelled deformation port, native spring/actuation states and analytic coilover derivative"]
+assumptions = ["Existing rocker baseline and ideal kinematic transmission; no installed equilibrium or complete mass authority; ASM-SUSP-0002 retained"]
+authorization_id = "AUTH-SUSP-0021"

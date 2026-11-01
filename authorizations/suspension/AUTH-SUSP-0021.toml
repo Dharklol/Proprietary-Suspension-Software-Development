@@ -40,3 +40,9 @@ owner_direction = "Full speed ahead with force/mass contracts and combined analy
 function_specification = "docs/models/suspension/generalized_force_ports_spec_v0.1.0.md"
 permitted = "Provider-neutral deformation force primitive and artificial massless force ports on the exactly enumerated tube-only subsystem"
 prohibited = "Treat artificial tube-CG supports as wheel contact, invent KW calibration, mix driver/no-driver equilibrium, or add full body/corner lumps without mass reconciliation"
+
+[native_spring_extension_2026_11_01]
+owner_direction = "Onward with native spring geometry, preload reference and virtual-work binding"
+function_specification = "docs/models/suspension/native_spring_port_spec_v0.1.0.md"
+permitted = "Front linear reviewed spring to generalized-force port with exact implicit closure derivative and conservative prescribed-motion verification"
+prohibited = "Added preload offset, unbalanced tube-only native free-response prediction, driver/no-driver equilibrium mixing, installed authority or invented damper law"

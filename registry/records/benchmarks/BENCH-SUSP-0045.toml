@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-SUSP-0045"
+type = "benchmark"
+title = "Native front spring deformation and virtual-work binding"
+status = "active"
+description = "Ten source-mapped spring states, analytic closure Jacobian, independent energy/physical-eye work and prescribed-motion conservative cycle."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0015", "MOD-SUSP-0014", "MOD-SUSP-0003", "MOD-SUSP-0004"]
+function_specification = "docs/models/suspension/native_spring_port_spec_v0.1.0.md"
+acceptance_criteria = ["Ten native states pass compression/energy-gradient checks", "Existing spring provider and direct physical-eye virtual work agree", "Nominal compression and source/assumption authority preserved", "Conservative cycle refines with error below 1e-5 J", "Four adapter unit tests and retained source-provider tests pass"]

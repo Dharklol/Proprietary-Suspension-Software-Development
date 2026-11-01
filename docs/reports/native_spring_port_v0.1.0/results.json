@@ -1,0 +1,443 @@
+{
+  "scope": "Front spring design-intent geometry/rate/reference to generalized force; no vehicle equilibrium/damping/ride prediction",
+  "samples": [
+    {
+      "side": "left",
+      "qL": -0.04,
+      "compression_m": 0.03352557934528594,
+      "force_N": 1206.9208564302937,
+      "energy_J": 20.231360467867134,
+      "gradient": [
+        -0.0,
+        -0.0,
+        -0.30971445685677645,
+        -0.0
+      ],
+      "generalized_force": [
+        0.0,
+        0.0,
+        373.8008375184239,
+        0.0
+      ],
+      "finite_difference_errors": [
+        {
+          "compression_gradient": 7.512124255981689e-11,
+          "energy_force": 2.3162891693573329e-07
+        },
+        {
+          "compression_gradient": 4.982975143619228e-11,
+          "energy_force": 5.2065900035813684e-08
+        }
+      ],
+      "provider_force_error": 0.0,
+      "provider_energy_error_J": 0.0,
+      "eye_power_error_W": 0.0,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "geometry_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+      "source_id": "WUFR27_SPRING_PACKAGE_V0",
+      "assumption_ids": [
+        "ASM-SUSP-0002"
+      ],
+      "installed_as_built_authority": false
+    },
+    {
+      "side": "left",
+      "qL": -0.02,
+      "compression_m": 0.027316519985006588,
+      "force_N": 983.3947194602372,
+      "energy_J": 13.431460753642757,
+      "gradient": [
+        -0.0,
+        -0.0,
+        -0.31088870270520513,
+        -0.0
+      ],
+      "generalized_force": [
+        0.0,
+        0.0,
+        305.7263085801423,
+        0.0
+      ],
+      "finite_difference_errors": [
+        {
+          "compression_gradient": 2.1814883233162163e-11,
+          "energy_force": 1.1560439361346653e-07
+        },
+        {
+          "compression_gradient": 1.0322864785194952e-10,
+          "energy_force": 9.56499093263119e-08
+        }
+      ],
+      "provider_force_error": 0.0,
+      "provider_energy_error_J": -1.7763568394002505e-15,
+      "eye_power_error_W": 0.0,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "geometry_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+      "source_id": "WUFR27_SPRING_PACKAGE_V0",
+      "assumption_ids": [
+        "ASM-SUSP-0002"
+      ],
+      "installed_as_built_authority": false
+    },
+    {
+      "side": "left",
+      "qL": 0.0,
+      "compression_m": 0.021100652947832088,
+      "force_N": 759.6235061219552,
+      "energy_J": 8.01427598684739,
+      "gradient": [
+        -0.0,
+        -0.0,
+        -0.3104637683328235,
+        -0.0
+      ],
+      "generalized_force": [
+        0.0,
+        0.0,
+        235.83557622481385,
+        0.0
+      ],
+      "finite_difference_errors": [
+        {
+          "compression_gradient": 3.788308555741082e-11,
+          "energy_force": 9.306972970080096e-08
+        },
+        {
+          "compression_gradient": 5.962691451699698e-11,
+          "energy_force": 4.105319817426789e-08
+        }
+      ],
+      "provider_force_error": 0.0,
+      "provider_energy_error_J": 0.0,
+      "eye_power_error_W": 0.0,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "geometry_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+      "source_id": "WUFR27_SPRING_PACKAGE_V0",
+      "assumption_ids": [
+        "ASM-SUSP-0002"
+      ],
+      "installed_as_built_authority": false
+    },
+    {
+      "side": "left",
+      "qL": 0.02,
+      "compression_m": 0.014906367050376151,
+      "force_N": 536.6292138135415,
+      "energy_J": 3.9995960155297166,
+      "gradient": [
+        -0.0,
+        -0.0,
+        -0.3087754369146462,
+        -0.0
+      ],
+      "generalized_force": [
+        0.0,
+        0.0,
+        165.69791995643936,
+        0.0
+      ],
+      "finite_difference_errors": [
+        {
+          "compression_gradient": 2.194444626013592e-11,
+          "energy_force": 5.67255256100907e-08
+        },
+        {
+          "compression_gradient": 2.051503411593103e-11,
+          "energy_force": 1.520191972304019e-08
+        }
+      ],
+      "provider_force_error": 0.0,
+      "provider_energy_error_J": 0.0,
+      "eye_power_error_W": -7.105427357601002e-15,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "geometry_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+      "source_id": "WUFR27_SPRING_PACKAGE_V0",
+      "assumption_ids": [
+        "ASM-SUSP-0002"
+      ],
+      "installed_as_built_authority": false
+    },
+    {
+      "side": "left",
+      "qL": 0.04,
+      "compression_m": 0.008756571065283492,
+      "force_N": 315.2365583502057,
+      "energy_J": 1.3801956627844811,
+      "gradient": [
+        -0.0,
+        -0.0,
+        -0.30604426079730945,
+        -0.0
+      ],
+      "generalized_force": [
+        0.0,
+        0.0,
+        96.47633947657661,
+        0.0
+      ],
+      "finite_difference_errors": [
+        {
+          "compression_gradient": 4.1139314177485176e-11,
+          "energy_force": 4.266441067102278e-08
+        },
+        {
+          "compression_gradient": 3.0532021355611505e-11,
+          "energy_force": 1.059387955137936e-08
+        }
+      ],
+      "provider_force_error": 0.0,
+      "provider_energy_error_J": 0.0,
+      "eye_power_error_W": 0.0,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "geometry_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+      "source_id": "WUFR27_SPRING_PACKAGE_V0",
+      "assumption_ids": [
+        "ASM-SUSP-0002"
+      ],
+      "installed_as_built_authority": false
+    },
+    {
+      "side": "right",
+      "qL": -0.04,
+      "compression_m": 0.008756571065283492,
+      "force_N": 315.2365583502057,
+      "energy_J": 1.3801956627844811,
+      "gradient": [
+        -0.0,
+        -0.0,
+        -0.0,
+        0.30604426079730945
+      ],
+      "generalized_force": [
+        0.0,
+        0.0,
+        0.0,
+        -96.47633947657661
+      ],
+      "finite_difference_errors": [
+        {
+          "compression_gradient": 4.1139314177485176e-11,
+          "energy_force": 4.2664453303586924e-08
+        },
+        {
+          "compression_gradient": 3.0532021355611505e-11,
+          "energy_force": 1.0593836918815214e-08
+        }
+      ],
+      "provider_force_error": 0.0,
+      "provider_energy_error_J": 0.0,
+      "eye_power_error_W": 0.0,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "geometry_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+      "source_id": "WUFR27_SPRING_PACKAGE_V0",
+      "assumption_ids": [
+        "ASM-SUSP-0002"
+      ],
+      "installed_as_built_authority": false
+    },
+    {
+      "side": "right",
+      "qL": -0.02,
+      "compression_m": 0.014906367050376151,
+      "force_N": 536.6292138135415,
+      "energy_J": 3.9995960155297166,
+      "gradient": [
+        -0.0,
+        -0.0,
+        -0.0,
+        0.3087754369146462
+      ],
+      "generalized_force": [
+        0.0,
+        0.0,
+        0.0,
+        -165.69791995643936
+      ],
+      "finite_difference_errors": [
+        {
+          "compression_gradient": 2.194444626013592e-11,
+          "energy_force": 5.672555403180013e-08
+        },
+        {
+          "compression_gradient": 2.051503411593103e-11,
+          "energy_force": 1.520177761449304e-08
+        }
+      ],
+      "provider_force_error": 0.0,
+      "provider_energy_error_J": 0.0,
+      "eye_power_error_W": -3.552713678800501e-15,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "geometry_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+      "source_id": "WUFR27_SPRING_PACKAGE_V0",
+      "assumption_ids": [
+        "ASM-SUSP-0002"
+      ],
+      "installed_as_built_authority": false
+    },
+    {
+      "side": "right",
+      "qL": 0.0,
+      "compression_m": 0.021100652947832088,
+      "force_N": 759.6235061219552,
+      "energy_J": 8.01427598684739,
+      "gradient": [
+        -0.0,
+        -0.0,
+        -0.0,
+        0.3104637683328235
+      ],
+      "generalized_force": [
+        0.0,
+        0.0,
+        0.0,
+        -235.83557622481385
+      ],
+      "finite_difference_errors": [
+        {
+          "compression_gradient": 3.788308555741082e-11,
+          "energy_force": 9.306913284490292e-08
+        },
+        {
+          "compression_gradient": 5.962691451699698e-11,
+          "energy_force": 4.105319817426789e-08
+        }
+      ],
+      "provider_force_error": 0.0,
+      "provider_energy_error_J": 0.0,
+      "eye_power_error_W": 0.0,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "geometry_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+      "source_id": "WUFR27_SPRING_PACKAGE_V0",
+      "assumption_ids": [
+        "ASM-SUSP-0002"
+      ],
+      "installed_as_built_authority": false
+    },
+    {
+      "side": "right",
+      "qL": 0.02,
+      "compression_m": 0.027316519985006588,
+      "force_N": 983.3947194602372,
+      "energy_J": 13.431460753642757,
+      "gradient": [
+        -0.0,
+        -0.0,
+        -0.0,
+        0.31088870270520513
+      ],
+      "generalized_force": [
+        0.0,
+        0.0,
+        0.0,
+        -305.7263085801423
+      ],
+      "finite_difference_errors": [
+        {
+          "compression_gradient": 2.1814883233162163e-11,
+          "energy_force": 1.1560439361346653e-07
+        },
+        {
+          "compression_gradient": 1.0322864785194952e-10,
+          "energy_force": 9.564899983161013e-08
+        }
+      ],
+      "provider_force_error": 0.0,
+      "provider_energy_error_J": -1.7763568394002505e-15,
+      "eye_power_error_W": 0.0,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "geometry_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+      "source_id": "WUFR27_SPRING_PACKAGE_V0",
+      "assumption_ids": [
+        "ASM-SUSP-0002"
+      ],
+      "installed_as_built_authority": false
+    },
+    {
+      "side": "right",
+      "qL": 0.04,
+      "compression_m": 0.03352557934528594,
+      "force_N": 1206.9208564302937,
+      "energy_J": 20.231360467867134,
+      "gradient": [
+        -0.0,
+        -0.0,
+        -0.0,
+        0.30971445685677645
+      ],
+      "generalized_force": [
+        0.0,
+        0.0,
+        0.0,
+        -373.8008375184239
+      ],
+      "finite_difference_errors": [
+        {
+          "compression_gradient": 7.512124255981689e-11,
+          "energy_force": 2.3162954221334076e-07
+        },
+        {
+          "compression_gradient": 4.982975143619228e-11,
+          "energy_force": 5.206766218179837e-08
+        }
+      ],
+      "provider_force_error": 0.0,
+      "provider_energy_error_J": 0.0,
+      "eye_power_error_W": 0.0,
+      "configuration_id": "WUFR27_SUSPENSION_BASELINE_V0",
+      "geometry_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+      "source_id": "WUFR27_SPRING_PACKAGE_V0",
+      "assumption_ids": [
+        "ASM-SUSP-0002"
+      ],
+      "installed_as_built_authority": false
+    }
+  ],
+  "cycles": [
+    {
+      "steps": 100,
+      "spring_work_J": 2.865422936203291,
+      "energy_change_J": -2.8655142731835372,
+      "residual_J": -9.133698024577086e-05
+    },
+    {
+      "steps": 200,
+      "spring_work_J": 2.8654914387647574,
+      "energy_change_J": -2.8655142731835372,
+      "residual_J": -2.2834418780703913e-05
+    },
+    {
+      "steps": 400,
+      "spring_work_J": 2.8655085645672593,
+      "energy_change_J": -2.8655142731835372,
+      "residual_J": -5.708616278354839e-06
+    }
+  ],
+  "checks": {
+    "ten_native_states": true,
+    "compression_gradient": true,
+    "energy_gradient": true,
+    "existing_provider_force": true,
+    "existing_provider_energy": true,
+    "direct_eye_virtual_work": true,
+    "no_rigid_body_spring_force": true,
+    "nominal_compression": true,
+    "authority_preserved": true,
+    "spring_work_energy": true,
+    "cycle_refines": true
+  },
+  "passed": true,
+  "preload_policy": "x=185.7mm-L; zero intentional preload at full extension, positive nominal compression from CAD length; no added preload offset",
+  "source_sha256": {
+    "scripts/run_native_spring_port.py": "f944a9e2e2de413a64d214afd1b317bc313355b4ef3966a47322cf75a495c0f5",
+    "scripts/run_coupled_tube_inertia.py": "48c6bf53bd87be5fe93a8941d9f3c266d5d605ab778882b6af1dfc945a8b75f3",
+    "src/pssd_suspension/native_spring_port.py": "6ba0138b16f776dc4280764ad0412f5d4d663b5efeb27656ff4560f1869d1766",
+    "src/pssd_suspension/generalized_forces.py": "d611308b4a39009f33618aae205c29d9097e2210c71aaac5f09dae2b980d75ab",
+    "src/pssd_suspension/actuation.py": "e0db1685d97916dec0344a2d80ed815a9770a918bc751d6271ae0fde42509fcd",
+    "src/pssd_suspension/kinematics.py": "7e1474274e28a005950b94acd0551a87481dc871d06896bcd7dbae127bf1cf79",
+    "src/pssd_suspension/wheel_reference.py": "b54bfafe2eac31ed62c41921fa29edeab69c73aab2c91fc16f959e88ef7b58bf",
+    "src/pssd_suspension/spring_force.py": "9e138ea4e8c75ded5f0e81ac7a03e491c71a7c6507360084e97aeadbeb9c4cf2",
+    "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+    "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml": "85739e46db63deb581b65385410e72d2247d7cee06ee45b656d4515b17cd3ddf",
+    "data_catalog/wufr27_spring_package_v0.toml": "24b87ba7103971ffa7ab5c99e03121ec7166dec5ac9bf8fb035b8297fb2f49e5"
+  }
+}
