@@ -1,0 +1,220 @@
+{
+  "source_url": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit",
+  "sheet": "SU",
+  "source_range": "B90:P97",
+  "read_date": "2026-11-01",
+  "entry_order": [
+    "xx",
+    "xy",
+    "xz",
+    "yx",
+    "yy",
+    "yz",
+    "zx",
+    "zy",
+    "zz"
+  ],
+  "source_convention_scope": "Declared per-row candidate; each must independently pass physicality and slender-member geometry checks before source binding.",
+  "members": [
+    {
+      "row": 90,
+      "member_id": "SU-70105-AA FRONT UPPER FORE STEEL TUBE-1",
+      "mass_lb": 0.234,
+      "cg_in": [
+        4.014,
+        -16.271,
+        10.234
+      ],
+      "centroidal_entries_lb_in2": [
+        2.163,
+        1.41,
+        -0.42,
+        1.41,
+        1.205,
+        -0.586,
+        -0.42,
+        -0.586,
+        2.998
+      ],
+      "arm": "upper",
+      "leg": "fore",
+      "side": "right",
+      "entry_convention": "positive_products"
+    },
+    {
+      "row": 91,
+      "member_id": "SU-70106-AA FRONT UPPER AFT STEEL TUBE-1",
+      "mass_lb": 0.188,
+      "cg_in": [
+        -2.262,
+        -16.392,
+        10.801
+      ],
+      "centroidal_entries_lb_in2": [
+        1.487,
+        -0.485,
+        0.1,
+        -0.485,
+        0.243,
+        -0.292,
+        0.1,
+        -0.292,
+        1.593
+      ],
+      "arm": "upper",
+      "leg": "aft",
+      "side": "right",
+      "entry_convention": "positive_products"
+    },
+    {
+      "row": 92,
+      "member_id": "SU-70106-AA FRONT UPPER AFT STEEL TUBE-2",
+      "mass_lb": 0.188,
+      "cg_in": [
+        -2.262,
+        16.392,
+        10.801
+      ],
+      "centroidal_entries_lb_in2": [
+        1.487,
+        0.485,
+        0.1,
+        0.485,
+        0.243,
+        0.292,
+        0.1,
+        0.292,
+        1.593
+      ],
+      "arm": "upper",
+      "leg": "aft",
+      "side": "left",
+      "entry_convention": "positive_products"
+    },
+    {
+      "row": 93,
+      "member_id": "SU-70105-AA FRONT UPPER FORE STEEL TUBE-2",
+      "mass_lb": 0.234,
+      "cg_in": [
+        4.014,
+        16.271,
+        10.234
+      ],
+      "centroidal_entries_lb_in2": [
+        2.163,
+        -1.41,
+        -0.42,
+        -1.41,
+        1.205,
+        0.586,
+        -0.42,
+        0.586,
+        2.998
+      ],
+      "arm": "upper",
+      "leg": "fore",
+      "side": "left",
+      "entry_convention": "positive_products"
+    },
+    {
+      "row": 94,
+      "member_id": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-1",
+      "mass_lb": 0.253,
+      "cg_in": [
+        3.433,
+        -15.364,
+        5.445
+      ],
+      "centroidal_entries_lb_in2": [
+        3.355,
+        1.463,
+        -0.14,
+        1.463,
+        0.701,
+        -0.316,
+        -0.14,
+        -0.316,
+        3.973
+      ],
+      "arm": "lower",
+      "leg": "fore",
+      "side": "right",
+      "entry_convention": "positive_products"
+    },
+    {
+      "row": 95,
+      "member_id": "SU-70108-AA FRONT LOWER AFT STEEL TUBE-1",
+      "mass_lb": 0.224,
+      "cg_in": [
+        -1.95,
+        -15.635,
+        5.813
+      ],
+      "centroidal_entries_lb_in2": [
+        2.631,
+        -0.679,
+        0.034,
+        -0.679,
+        0.203,
+        -0.13,
+        0.034,
+        -0.13,
+        2.802
+      ],
+      "arm": "lower",
+      "leg": "aft",
+      "side": "right",
+      "entry_convention": "positive_products"
+    },
+    {
+      "row": 96,
+      "member_id": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-2",
+      "mass_lb": 0.253,
+      "cg_in": [
+        3.433,
+        15.364,
+        5.445
+      ],
+      "centroidal_entries_lb_in2": [
+        3.355,
+        -1.463,
+        -0.14,
+        -1.463,
+        0.701,
+        0.316,
+        -0.14,
+        0.316,
+        3.973
+      ],
+      "arm": "lower",
+      "leg": "fore",
+      "side": "left",
+      "entry_convention": "positive_products"
+    },
+    {
+      "row": 97,
+      "member_id": "SU-70108-AA FRONT LOWER AFT STEEL TUBE-2",
+      "mass_lb": 0.224,
+      "cg_in": [
+        -1.95,
+        15.635,
+        5.813
+      ],
+      "centroidal_entries_lb_in2": [
+        2.631,
+        0.679,
+        0.034,
+        0.679,
+        0.203,
+        0.13,
+        0.034,
+        0.13,
+        2.802
+      ],
+      "arm": "lower",
+      "leg": "aft",
+      "side": "left",
+      "entry_convention": "positive_products"
+    }
+  ]
+}
