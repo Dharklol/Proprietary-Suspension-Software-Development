@@ -382,3 +382,19 @@ then reconcile wheel/tire/body mass and road-contact contracts. Artificial rates
 and tube-CG support geometry have no installed prediction authority. No-driver
 inertia cannot inherit driver/no-fuel equilibrium. Remaining ownership/housing
 signs remain open; G3/G5a analytical integration continues ahead of UI/release work.
+
+## Checkpoint — front native spring port, 2026-11-01
+
+MOD-SUSP-0015 / BENCH-SUSP-0045 verifies the existing front design-intent spring
+mapping in the coupled inertia coordinate order. Analytic upper-arm/rocker closure
+gradients, independent energy gradients, physical eye-force virtual work and a
+conservative prescribed cycle pass. The full-extension zero-intentional-preload
+reference is retained; nominal CAD compression is not added again as preload.
+See [native spring evidence](../reports/native_spring_port_v0.1.0/README.md).
+
+Next reconcile a no-driver/no-fuel mass/static composition and bind wheel/tire
+contact before native transient integration. The approximately 760 N nominal
+spring force must not be released onto the eight-tube inventory as a vehicle
+prediction. Older driver/no-fuel equilibrium remains separate; damping/ownership/
+housing uncertainties stay explicit. Continue analytical G3/G5a integration before
+UI/release or physical correlation.
