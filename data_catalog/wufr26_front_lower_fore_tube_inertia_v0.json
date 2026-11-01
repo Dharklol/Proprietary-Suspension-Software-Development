@@ -1,0 +1,36 @@
+{
+  "source_url": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit",
+  "sheet": "SU",
+  "range": "B96:P96",
+  "read_date": "2026-11-01",
+  "member_name": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-2",
+  "mass_lb": 0.253,
+  "cg_in": [
+    3.433,
+    15.364,
+    5.445
+  ],
+  "centroidal_entries_lb_in2": [
+    3.355,
+    -1.463,
+    -0.14,
+    -1.463,
+    0.701,
+    0.316,
+    -0.14,
+    0.316,
+    3.973
+  ],
+  "entry_order": [
+    "xx",
+    "xy",
+    "xz",
+    "yx",
+    "yy",
+    "yz",
+    "zx",
+    "zy",
+    "zz"
+  ],
+  "tensor_sign_policy": "Explicit exploratory variants: as-entered physical entries, or negate off-diagonal products. No automatic selection; macro product sign unresolved."
+}

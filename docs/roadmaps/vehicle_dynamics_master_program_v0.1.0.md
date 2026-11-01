@@ -263,3 +263,22 @@ No-driver 449.149 lb CAD versus 477 lb scale inventory remains unresolved; do no
 combine this CAD mass scenario with the driver/no-fuel equilibrium or infer a
 missing-mass position. Analytical development continues without physical release
 or broader UI work. Native prediction remains source/calibration gated.
+
+## Checkpoint — moving-link kinetic energy, 2026-11-01
+
+G3/G5a now include a verified provider-neutral local rigid-member mass-matrix
+kernel: m*Jv^T*Jv+Jw^T*I_G*Jw, with cross terms, physical tensor checks and exact
+member accounting. Seven manufactured tests pass; the rod integral recovers
+one-third endpoint effective mass and the full translation limit.
+
+One nominal native lower-arm tube CG derivative passes step refinement. Its full
+COM tensor produces an explicit source-sign failure: as-entered entries are not
+physically realizable, whereas negated CAD products pass. The native binding gate
+remains false; no tolerance or sign interpretation is silently changed. This
+question is distinct from the confirmed axis convention and does not alter the
+earlier diagonal-Lyy bookkeeping. See [verification evidence](../reports/reduced_link_inertia_v0.1.0/README.md).
+
+Next dependency: source tensor sign semantics and complete rigid-member manifest,
+then native Jacobian/mass-matrix composition. Cross terms cannot be collapsed
+into the current HalfCar diagonal masses without a new verified formulation.
+PR128 workflows all passed at the start of this increment; it remains unmerged.
