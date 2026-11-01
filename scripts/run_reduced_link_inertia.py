@@ -6,7 +6,7 @@ import math
 from pathlib import Path
 import sys
 import unittest
-from pssd_suspension.reduced_inertia import RigidMemberKinematics, reduce_member_inertia
+from pssd_suspension.reduced_inertia import RigidMemberKinematics, reduce_member_inertia, physical_tensor_from_entries
 from pssd_suspension.geometry import load_optimumk_geometry_snapshot
 from pssd_suspension.kinematics import rotate_point_about_hinge
 
@@ -44,16 +44,25 @@ def main():
         errors.append(math.sqrt(sum((a-b)**2 for a,b in zip(numerical,hinge))))
     ratio=errors[0]/errors[1]
     relative=errors[1]/math.sqrt(sum(v*v for v in hinge))
+    leg=sub(arm.lower_upright.position_m,fore)
+    leg_length=math.sqrt(sum(x*x for x in leg))
+    leg_axis=tuple(x/leg_length for x in leg)
+    projection=sum(x*y for x,y in zip(sub(cg,fore),leg_axis))
+    line_distance=math.sqrt(sum((x-projection*y)**2 for x,y in zip(sub(cg,fore),leg_axis)))
     variants=[]
     unit=.45359237*.0254**2
-    for policy,sign in (('as_entered_physical_tensor',1.),('negated_CAD_products',-1.)):
-        tensor=tuple(tuple(data['centroidal_entries_lb_in2'][3*i+j]*unit*(1 if i==j else sign) for j in range(3)) for i in range(3))
+    if data.get('entry_convention')!='positive_products':
+        raise ValueError('Source convention must match reviewed selected-tube declaration')
+    for policy,convention in (('as_entered_physical_tensor','physical_tensor'),('negated_CAD_products',data['entry_convention'])):
+        entries=tuple(tuple(data['centroidal_entries_lb_in2'][3*i+j]*unit for j in range(3)) for i in range(3))
+        tensor=physical_tensor_from_entries(entries,convention=convention)
+        axial_ratio=sum(leg_axis[i]*tensor[i][j]*leg_axis[j] for i in range(3) for j in range(3))/sum(tensor[i][i] for i in range(3))
         try:
             member=RigidMemberKinematics('SU-70107-AA-tube-2',data['source_url']+'#SU!B96:P96',
             'WUFR26-nominal-no-driver-CAD-diagnostic','CAD-xyz','nominal-qL-zero',
             ('body_heave','body_pitch_front_up','lower_arm_qL'),('m','rad','rad'),data['mass_lb']*.45359237,tensor,v,w)
         except ValueError as error:
-            variants.append(dict(policy=policy,status='rejected',failure=str(error)))
+            variants.append(dict(policy=policy,status='rejected',failure=str(error),axial_moment_trace_ratio=axial_ratio))
             continue
         result=reduce_member_inertia((member,),expected_member_ids=(member.member_id,))
         rates=(.1,.2,-.3)
@@ -61,21 +70,28 @@ def main():
         angular=tuple(sum(w[i][j]*rates[j] for j in range(3)) for i in range(3))
         direct=.5*member.mass_kg*sum(x*x for x in linear)+.5*sum(angular[i]*tensor[i][j]*angular[j] for i in range(3) for j in range(3))
         matrix_energy=result.kinetic_energy_J(rates)
-        variants.append(dict(policy=policy,status='accepted',member=asdict(member),mass_matrix=result.matrix,
+        variants.append(dict(policy=policy,status='accepted',axial_moment_trace_ratio=axial_ratio,member=asdict(member),mass_matrix=result.matrix,
             sample_rates=rates,direct_energy_J=direct,matrix_energy_J=matrix_energy,
             energy_difference_J=matrix_energy-direct))
-    passed=3.9<ratio<4.1 and relative<1e-6 and all(abs(v['energy_difference_J'])<1e-12 for v in variants if v['status']=='accepted')
+    accepted=[v for v in variants if v['status']=='accepted']
+    passed=bool(accepted) and 3.9<ratio<4.1 and relative<1e-6 and all(abs(v['energy_difference_J'])<1e-12 for v in variants if v['status']=='accepted')
     report=dict(scope='local manufactured reduction plus one nominal tube diagnostic; not full suspension effective mass',
         tests_run=outcome.testsRun,hinge_jacobian_errors=errors,error_ratio=ratio,fine_relative_error=relative,
         coordinate_units=('m','rad','rad'),body_reference_cg_m=body_cg,tensor_sign_variants=variants,
-        verification_passed=passed,native_binding_gate_passed=all(v['status']=='accepted' for v in variants),
-        native_gate_rule='Both declared sign interpretations must pass physical tensor checks; no interpretation selected automatically.',source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()
-            for p in (source,budget_path,Path(__file__),ROOT/'src/pssd_suspension/reduced_inertia.py',ROOT/'tests/test_reduced_link_inertia.py',ROOT/'data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml')})
+        source_entry_convention=data['entry_convention'],
+        leg_reference_geometry=dict(CG_line_distance_m=line_distance,CG_projection_m=projection,length_m=leg_length),
+        verification_passed=passed,native_binding_gate_passed=(passed and len(accepted)==1
+            and accepted[0]['policy']=='negated_CAD_products' and variants[0]['status']=='rejected'
+            and line_distance<5e-5 and 0<projection<leg_length
+            and accepted[0]['axial_moment_trace_ratio']<.01),
+        native_gate_scope='Selected nominal tube only; source convention resolved, not complete member ownership or full suspension readiness',
+        native_gate_rule='Declared source conversion + unchanged tensor validation + raw negative control + geometry/energy/derivative checks; review supersedes initial two-variant ambiguity gate.',source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in (source,budget_path,ROOT/'docs/reviews/com_tensor_sign_resolution_2026_11_01.md',Path(__file__),ROOT/'src/pssd_suspension/reduced_inertia.py',ROOT/'tests/test_reduced_link_inertia.py',ROOT/'data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml')})
     output=ROOT/'docs/reports/reduced_link_inertia_v0.1.0'
     output.mkdir(parents=True,exist_ok=True)
     (output/'results.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(report,indent=2))
-    return 0 if passed else 1
+    return 0 if passed and report['native_binding_gate_passed'] else 1
 
 
 if __name__=='__main__': raise SystemExit(main())

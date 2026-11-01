@@ -7,4 +7,4 @@ description = "Independent rod integral, point/hinge limits, frame invariance, m
 verification_level = "A"
 function_specification = "docs/models/suspension/reduced_link_inertia_spec_v0.1.0.md"
 target_ids = ["MOD-SUSP-0013", "EQ-SUSP-0039"]
-acceptance_criteria = ["All assertions in tests/test_reduced_link_inertia.py pass; native diagnostic gate reported separately and not required true for manufactured verification."]
+acceptance_criteria = ["All assertions in tests/test_reduced_link_inertia.py pass; selected-tube gate passes under reviewed declared conversion with raw-as-physical rejection retained; no generic automatic sign selection."]

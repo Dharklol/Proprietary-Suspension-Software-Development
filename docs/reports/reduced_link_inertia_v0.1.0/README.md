@@ -2,35 +2,47 @@
 
 Reproduce: `PYTHONPATH=src python scripts/run_reduced_link_inertia.py`.
 
-Seven manufactured tests pass: exact rod energy/cross coupling, point mass,
-hinge parallel-axis inertia and derivative refinement, orthonormal frame change,
-multiple-member energy addition, rank deficiency, and invalid input/tensor/
-identity/member-manifest rejection. The matrix retains translation/rotation and
-coordinate cross terms; it is not a scalar sprung/unsprung fraction.
+Eight tests pass: exact rod energy/cross coupling, point mass, hinge parallel-axis
+inertia and derivative refinement, orthonormal frame change, member accounting,
+rank deficiency, invalid inputs and explicit CAD-product conversion. The new
+conversion test independently integrates kinetic energy for two off-axis point
+masses; the physical-entry policy is an identity to avoid double-negation.
 
 For a uniform 3 kg rod with one endpoint fixed, endpoint effective mass is 1 kg,
-not 1.5 kg. Its two-endpoint local mass matrix is [[1,.5],[.5,1]] kg. Equal endpoint
-motion recovers the full 3 kg. These exact integral references verify the local
-kinetic-energy formula independently of implementation.
+not 1.5 kg. Its two-endpoint local matrix is [[1,.5],[.5,1]] kg. Equal endpoint
+motion recovers the full 3 kg. Couplings are retained, not folded into fractions.
 
-A single source-linked front-left lower fore tube diagnostic uses COM SU!B96:P96
-and the native lower-arm hinge. CG derivative error ratio is 4.000002 and fine
-relative error is 4.17e-8. Body heave/pitch and arm-angle cross terms are retained.
-This represents one tube at nominal qL=0, not a complete arm/corner model.
+## Selected nominal tube convention resolved
 
-**Native binding gate remains false.** As-entered off-diagonal entries fail
-physical inertia realizability; negating entries as CAD products passes. Both
-outcomes are archived and no interpretation is selected automatically. The
-owner-confirmed axis convention does not determine CAD product signs. Previous
-diagonal-Lyy pitch bookkeeping is unaffected by this off-diagonal question.
+COM SU!B96:P96 is explicitly declared positive-product data for this selected
+member. Off-diagonal entries are negated once; diagonal moments are unchanged.
+The source-specific declaration is grounded in official SOLIDWORKS selectable-
+notation documentation, the MathWorks SolidWorks-to-physical-tensor example,
+and independent geometry/physicality checks. See
+[resolution review](../../reviews/com_tensor_sign_resolution_2026_11_01.md).
 
-`verification_passed` and script exit success cover manufactured verification,
-CG derivative reproduction and accepted-variant energy identities. They do not
-mean `native_binding_gate_passed`; that flag remains false under the predeclared
-rule. No gate was relaxed. Full matrices, source identities, errors and hashes
-are in results.json. No native HalfCar masses or trajectories are replaced.
+The native reference leg line is 0.41505 m long; the COM CG is 0.01564 mm from it
+and projects within the segment. The converted tensor has an axial moment/trace
+ratio 0.002814, consistent with a slender tube, versus 0.2856 for raw-as-physical.
+Raw-as-physical also fails the unchanged physical-realizability check and remains
+a rejected negative control. The accepted tensor's local CG derivative has error
+ratio 4.000002 and fine relative error 4.17e-8. Direct and reduced kinetic energy
+agree, and body-heave/pitch/arm-angle cross terms remain in the full matrix.
 
-Next: establish CAD product-of-inertia sign semantics and a complete rigid-member
-ownership/pose manifest, then assemble state-dependent native inertia. The
-constant diagonal-mass half-car engine needs a separate generalized-coordinate
-formulation before these cross terms can enter its transient calculations.
+Both verification_passed and native_binding_gate_passed are now true, where the
+latter is explicitly scoped to this one nominal tube diagnostic. The initial
+ambiguity gate failed in the preceding revision. It was superseded through the
+recorded source-convention review, not by relaxing tensor tolerances. Script exit
+success now requires this selected-member gate as well as kernel verification.
+
+The owner-confirmed axes remain unchanged. CAD product signs are separate from
+axis direction; the earlier diagonal-Lyy pitch bookkeeping is unaffected. The
+selected convention is not a default for every COM row or every SOLIDWORKS export.
+The macro itself has not been recovered. Raw source values and both diagnostic
+outcomes remain in results.json with hashes and source identities.
+
+Next: full rigid-member ownership/pose manifest and source-checked tensors for
+other members, then state-dependent native inertia composition. No complete arm,
+corner or vehicle effective mass is claimed. The constant diagonal-mass half-car
+engine remains unchanged; it needs a separately verified formulation for these
+couplings. Drive is unchanged.

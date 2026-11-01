@@ -1,6 +1,6 @@
 {
   "scope": "local manufactured reduction plus one nominal tube diagnostic; not full suspension effective mass",
-  "tests_run": 7,
+  "tests_run": 8,
   "hinge_jacobian_errors": [
     2.9464341218665166e-08,
     7.366081339744691e-09
@@ -21,11 +21,13 @@
     {
       "policy": "as_entered_physical_tensor",
       "status": "rejected",
-      "failure": "Unrealizable mass inertia tensor"
+      "failure": "Unrealizable mass inertia tensor",
+      "axial_moment_trace_ratio": 0.28563358345818
     },
     {
       "policy": "negated_CAD_products",
       "status": "accepted",
+      "axial_moment_trace_ratio": 0.0028136441075492192,
       "member": {
         "member_id": "SU-70107-AA-tube-2",
         "source_id": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit#SU!B96:P96",
@@ -122,15 +124,23 @@
       "energy_difference_J": -8.673617379884035e-19
     }
   ],
+  "source_entry_convention": "positive_products",
+  "leg_reference_geometry": {
+    "CG_line_distance_m": 1.5638065147301096e-05,
+    "CG_projection_m": 0.19892749571653215,
+    "length_m": 0.4150468433345808
+  },
   "verification_passed": true,
-  "native_binding_gate_passed": false,
-  "native_gate_rule": "Both declared sign interpretations must pass physical tensor checks; no interpretation selected automatically.",
+  "native_binding_gate_passed": true,
+  "native_gate_scope": "Selected nominal tube only; source convention resolved, not complete member ownership or full suspension readiness",
+  "native_gate_rule": "Declared source conversion + unchanged tensor validation + raw negative control + geometry/energy/derivative checks; review supersedes initial two-variant ambiguity gate.",
   "source_sha256": {
-    "data_catalog/wufr26_front_lower_fore_tube_inertia_v0.json": "06b207c56834f1a15c352af56785a4b4603cab6f6a94490e2ba4aec1707b1230",
+    "data_catalog/wufr26_front_lower_fore_tube_inertia_v0.json": "beb3c0e6bef244bac413361465e500c52e608ba92ce6fb3e55abe57218d8bcd7",
     "docs/reports/no_driver_mass_consistency_v0.1.0/results.json": "4527039b83743364c1881f760a6f7b69889f69d1f7ea4571d359dc42ca7426df",
-    "scripts/run_reduced_link_inertia.py": "d5c15ff82bd6dfa69c629d86ccfdafa613175c5876129cea7fdba153fed17a62",
-    "src/pssd_suspension/reduced_inertia.py": "48f93ec76f8ce7a9ef83f20f90d3035da908f842e6788bc277dd493e003fb8e8",
-    "tests/test_reduced_link_inertia.py": "ef2280b1963be70f4756443d949f5d69f5491a72467dcf88e6c9f58b048dc036",
+    "docs/reviews/com_tensor_sign_resolution_2026_11_01.md": "2c69631d311dfb970d012d22c6794a6e175edf0cfc98f8f964f542b360c6dc04",
+    "scripts/run_reduced_link_inertia.py": "57383c6aa249a4fe477a142327507d4dbb26b8e44ee16f5044b43afad241d6c3",
+    "src/pssd_suspension/reduced_inertia.py": "65adf9d281b72e8477a6984d3cbcff3a2a8cdb5fa1080c75e72ee0f437a4d35f",
+    "tests/test_reduced_link_inertia.py": "cc66bf31d5f70ab7459f4d2a52d1cd2b79e67654f2e7a14006d38e0778849848",
     "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1"
   }
 }

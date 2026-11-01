@@ -32,5 +32,12 @@
     "zy",
     "zz"
   ],
-  "tensor_sign_policy": "Explicit exploratory variants: as-entered physical entries, or negate off-diagonal products. No automatic selection; macro product sign unresolved."
+  "tensor_sign_policy": "Explicit source declaration: positive_products; negate off-diagonal entries only. Raw-as-physical interpretation retained as rejected negative control.",
+  "entry_convention": "positive_products",
+  "convention_resolution": "docs/reviews/com_tensor_sign_resolution_2026_11_01.md",
+  "convention_evidence_urls": [
+    "https://www.mathworks.com/help/sm/ug/specify-custom-inertia.html",
+    "https://help.solidworks.com/2021/english/SolidWorks/sldworks/HIDD_MEASURE_OPTIONS.htm?format=P&value="
+  ],
+  "convention_scope": "Selected SU!B96:P96 row only; documentation + physicality + slender-member geometry consistency; macro setting not independently recovered."
 }

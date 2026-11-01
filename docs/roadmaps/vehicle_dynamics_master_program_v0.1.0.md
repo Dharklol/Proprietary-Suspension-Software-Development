@@ -282,3 +282,19 @@ Next dependency: source tensor sign semantics and complete rigid-member manifest
 then native Jacobian/mass-matrix composition. Cross terms cannot be collapsed
 into the current HalfCar diagonal masses without a new verified formulation.
 PR128 workflows all passed at the start of this increment; it remains unmerged.
+
+## Checkpoint — selected COM product-sign resolution, 2026-11-01
+
+The native tube sign finding is resolved for COM SU!B96:P96 by explicit positive-
+product conversion (off-diagonal negation, diagonals unchanged). Official software
+documentation and a source geometry check support the declaration; the macro has
+not been recovered and no universal policy is assumed for other rows. The CG lies
+0.01564 mm from the native reference leg line, and the converted axial inertia is
+consistent with a slender tube. The raw-as-physical rejection remains a negative
+control. An independent off-axis point-mass energy test verifies the adapter.
+
+Eight inertia tests plus eighteen retained ride/reconstruction tests pass. The
+selected-tube gate now passes with unchanged tensor tolerances; full rigid-member
+ownership/pose and other source rows remain next. Diagonal-Lyy pitch estimates
+are unchanged; no HalfCar dynamics or Drive data was edited. See
+[sign resolution review](../reviews/com_tensor_sign_resolution_2026_11_01.md).

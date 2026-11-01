@@ -107,3 +107,17 @@ This reopens the source convention review before a native member provider.
 Axis alignment confirmation does not resolve product-of-inertia sign semantics.
 The previous pitch-only audit uses diagonal Lyy, so this sign question does not
 alter its diagonal parallel-axis calculation.
+
+## Resolution superseding the initial ambiguity gate — 2026-11-01
+
+The selected native row now has an explicitly declared positive-products policy,
+reviewed in docs/reviews/com_tensor_sign_resolution_2026_11_01.md before adapter
+implementation. Diagonals are preserved and off-diagonal entries negated once.
+No policy is inferred by the generic adapter. The earlier two-interpretation
+failure remains historical evidence, but is no longer an unresolved live variant.
+Selected-member gate requires accepted declared conversion, unchanged tensor
+physicality, retained raw negative-control rejection, CG reference-line distance
+<5e-5 m with projection inside the leg, axial moment/trace <0.01, and all prior
+CG-derivative/energy checks. It passes. Whole-suspension readiness remains open.
+The conversion has an independent off-axis point-mass energy test; physical-entry
+identity and unknown-policy rejection prevent accidental guessing/double-negation.

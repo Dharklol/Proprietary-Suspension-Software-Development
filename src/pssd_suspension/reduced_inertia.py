@@ -93,3 +93,20 @@ def reduce_member_inertia(members, *, expected_member_ids) -> ReducedMassMatrix:
     if not all(math.isfinite(x) for row in matrix for x in row):
         raise ValueError('Nonfinite reduced inertia')
     return ReducedMassMatrix(*key(reference),members,tuple(tuple(r) for r in matrix))
+
+
+def physical_tensor_from_entries(entries, *, convention):
+    """Convert explicitly declared SI centroidal entries; never infer signs.
+
+    positive_products: diagonal moments, off-diagonals integral(x_i*x_j*dm).
+    physical_tensor: entries already use the physical negative-product tensor.
+    The consumer must still validate tensor physicality and frame identity.
+    """
+    if convention not in ('positive_products','physical_tensor'):
+        raise ValueError('Explicit known inertia entry convention required')
+    if len(entries)!=3 or any(len(row)!=3 for row in entries):
+        raise ValueError('A 3x3 centroidal entry matrix is required')
+    if not all(math.isfinite(v) for row in entries for v in row):
+        raise ValueError('Finite centroidal entries required')
+    return tuple(tuple(v*(-1 if convention=='positive_products' and i!=j else 1)
+                       for j,v in enumerate(row)) for i,row in enumerate(entries))

@@ -1,7 +1,7 @@
 from dataclasses import replace
 import math
 import unittest
-from pssd_suspension.reduced_inertia import RigidMemberKinematics, reduce_member_inertia
+from pssd_suspension.reduced_inertia import RigidMemberKinematics, reduce_member_inertia, physical_tensor_from_entries
 
 ZERO=((0.,0.,0.),)*3
 
@@ -83,6 +83,25 @@ class ReducedLinkInertiaTests(unittest.TestCase):
         result=reduce(a)
         for rates in ((1.,),(float('nan'),0.)):
             with self.assertRaises(ValueError): result.kinetic_energy_J(rates)
+
+    def test_explicit_positive_products_against_off_axis_point_masses(self):
+        # Two 2 kg point masses at ±(1,2,3): independently integrate products.
+        r=(1.,2.,3.)
+        mass=4.
+        entries=tuple(tuple(mass*(sum(x*x for x in r)-r[i]*r[i]) if i==j
+                            else mass*r[i]*r[j] for j in range(3)) for i in range(3))
+        physical=physical_tensor_from_entries(entries,convention='positive_products')
+        self.assertEqual(tuple(physical[i][i] for i in range(3)),tuple(entries[i][i] for i in range(3)))
+        self.assertEqual(physical[0][1],-8.)
+        omega=(.4,-.2,.7)
+        tensor_energy=.5*sum(omega[i]*physical[i][j]*omega[j] for i in range(3) for j in range(3))
+        velocity=(omega[1]*r[2]-omega[2]*r[1],omega[2]*r[0]-omega[0]*r[2],omega[0]*r[1]-omega[1]*r[0])
+        direct_energy=2*(.5*2*sum(v*v for v in velocity))
+        self.assertAlmostEqual(tensor_energy,direct_energy,places=12)
+        self.assertEqual(physical_tensor_from_entries(physical,convention='physical_tensor'),physical)
+        for convention in ('', 'auto', 'guess'):
+            with self.assertRaises(ValueError): physical_tensor_from_entries(entries,convention=convention)
+        with self.assertRaises(ValueError): physical_tensor_from_entries(((1.,),),convention='physical_tensor')
 
     def test_rank_deficiency_is_explicitly_allowed(self):
         a=member(v=((1.,0.),(0.,0.),(0.,0.)),w=((0.,0.),)*3,ids=('active','inactive'))

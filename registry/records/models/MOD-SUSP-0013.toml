@@ -10,5 +10,5 @@ maturity = "M2"
 disposition = "accepted_with_restrictions"
 inputs = ["Explicit coordinate order/units, rigid-member mass, full physical centroidal tensor, CG/angular Jacobians, manifest and common identities"]
 outputs = ["Local mass matrix and kinetic energy with preserved cross terms"]
-assumptions = ["Local tangent only; source/geometry binding remains provider-owned; native tube sign gate is unresolved"]
+assumptions = ["Local tangent only; source/geometry binding remains provider-owned; selected tube sign convention is source-reviewed positive products; full member binding remains limited"]
 authorization_id = "AUTH-SUSP-0021"
