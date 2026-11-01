@@ -17,6 +17,7 @@ jobs:
       - run: python scripts/run_half_car_verification.py
       - run: python -m unittest discover -s tests -p test_no_driver_pitch_reconstruction.py
       - run: python scripts/run_no_driver_pitch_study.py
+      - run: python scripts/run_no_driver_mass_consistency.py
       - run: python scripts/run_equilibrium_local_stiffness.py
       - uses: actions/upload-artifact@v4
         with:
@@ -26,4 +27,5 @@ jobs:
             docs/reports/ride_parameter_study_v0.1.0/
             docs/reports/half_car_verification_v0.1.0/
             docs/reports/no_driver_pitch_study_v0.1.0/
+            docs/reports/no_driver_mass_consistency_v0.1.0/
             docs/reports/equilibrium_local_stiffness_v0.1.0/
