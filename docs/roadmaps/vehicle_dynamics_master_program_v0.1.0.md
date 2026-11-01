@@ -351,3 +351,19 @@ verification for the enumerated tubes, then force-driven integration. Front/rear
 inventory and housing orientation evidence remain separate source tasks. G3/G5a
 analytical foundations remain the priority; this is not full native vehicle
 dynamics or a reason to advance UI/operational release work.
+
+## Checkpoint — coupled tube inertia and force integration, 2026-11-01
+
+BENCH-SUSP-0043 extends the eight tubes to finite-pitch heave/pitch/bilateral arm
+motion with complete inertial coupling and convective/gyroscopic terms. Independent
+Christoffel, power and world-pose checks pass. A bounded manufactured-force RK4
+case reaches 4.92e-13 J work-energy residual with endpoint refinement; the unforced
+case is stable at the closure floor. See
+[coupled evidence](../reports/coupled_tube_inertia_v0.1.0/README.md).
+
+The local coupled-inertia and controlled integration milestone is now demonstrated
+for the enumerated tube subset. Next is compatible mass bookkeeping and generalized
+elastic/dissipative/road force contracts, then combined energy/dissipation and
+contact/travel verification. Remaining ownership and housing source signs stay
+open; no full native ride claim is made. Continue G3/G5a analytical integration
+before UI, operational release or physical-correlation work.
