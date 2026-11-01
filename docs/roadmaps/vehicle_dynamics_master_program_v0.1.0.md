@@ -241,3 +241,25 @@ and moving-link effective mass reduction. Analytical work can use the labelled
 range without treating physical correlation or telemetry as a prerequisite.
 See [inertia study](../reports/no_driver_pitch_study_v0.1.0/README.md) and
 [specification](../models/vehicle/no_driver_pitch_sensitivity_spec_v0.1.0.md).
+
+## Checkpoint — stack landed and consistent CAD mass budget, 2026-11-01
+
+PRs 121–127 are merged and verified by GitHub readback; all head workflows passed
+before landing, with no outstanding review threads. See the
+[closeout record](../reviews/analytical_transient_stack_closeout_2026_11_01.md).
+Owner confirmed COM export axes match software. The axis-convention gap is closed
+for development; no new KW source is expected, and damping remains scenario data.
+
+Three no-driver/no-fuel coupled allocation cases now use their own matching body
+mass/Jy/CG and complementary front/rear axle masses, replacing illustrative axle
+mass placeholders. Every case preserves the 203.731 kg CAD mass inventory and
+source first moments before explicit axle-station projection. Refinement, energy
+and represented-model static load identities pass. Unlike the earlier inertia-only
+study, coupled allocation changes peak heave acceleration about 5.8% in the chosen
+bump, identifying moving-link mass reduction as a worthwhile next analytical task.
+[Study evidence](../reports/no_driver_mass_consistency_v0.1.0/README.md).
+
+No-driver 449.149 lb CAD versus 477 lb scale inventory remains unresolved; do not
+combine this CAD mass scenario with the driver/no-fuel equilibrium or infer a
+missing-mass position. Analytical development continues without physical release
+or broader UI work. Native prediction remains source/calibration gated.
