@@ -335,3 +335,19 @@ and advance the already verified tube subset through nonzero-state energy checks
 Full corner ownership is still open; G3/G5a analytical foundations remain the focus.
 No operational release or UI milestone is introduced, and no owner input is
 currently required for the independent housing/tube work.
+
+## Checkpoint — nonzero-state tube inertia, 2026-11-01
+
+BENCH-SUSP-0042 verifies the fixed-chassis front tube metric at ten native states,
+full tensor transport, compatible upper-arm second derivatives and the scalar
+convective term. Work-energy residual reaches 4.18e-9 J with second-order
+quadrature refinement; an omitted-convective control fails by 1.62e-6 J.
+Four housing source tensors pass both sign interpretations, so their source
+binding remains open and they are excluded. See
+[travel evidence](../reports/front_tube_travel_v0.1.0/README.md).
+
+Next is coupled body/arm nonzero-state inertia and complete convective power
+verification for the enumerated tubes, then force-driven integration. Front/rear
+inventory and housing orientation evidence remain separate source tasks. G3/G5a
+analytical foundations remain the priority; this is not full native vehicle
+dynamics or a reason to advance UI/operational release work.
