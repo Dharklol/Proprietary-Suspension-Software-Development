@@ -193,3 +193,27 @@ remains blocked on renderable source access; no fake samples or inferred KW
 linear coefficient were introduced. Native equilibrium linearization and pitch
 inertia remain ahead. Continue analytical verification independently of physical
 car correlation. No UI/operational-release dependency is introduced.
+
+## Checkpoint — inertia source audit and equilibrium local tangents, 2026-10-31
+
+Existing static mass/CG/geometry/spring/ARB providers support solving a source-
+bounded equilibrium without pitch inertia. Local spring tangents are now sampled
+at the solved wheel coordinates rather than nominal CAD coordinates; derivative
+and energy checks remain unchanged. Results and pass/failure status are recorded
+in the equilibrium-local-stiffness report when the reproducible run completes.
+This is not a complete coupled body stiffness matrix or tire-compliant equilibrium.
+
+No usable native sprung pitch inertia was identified in the bounded repository/
+Box audit. Engine inertia, shaft section inertia and an acceleration filter's
+pitch time constant are explicitly rejected as substitutes. The telemetry route
+is deferred: static calculations do not need it, and IMU-only response would not
+uniquely identify inertia with unknown inputs/damping. The next native half-car
+input is a configuration-matched sprung-CG pitch inertia source or a separately
+specified identification experiment. See `data_catalog/pitch_inertia_source_audit_v0.toml`.
+
+Run completion: equilibrium-local study passes, with force/moment closure
+5.16e-8 N / 4.57e-8 N*m and all four derivative/energy checks passing. Solved-state
+local spring tangents are 24.990/24.994 N/mm front and 32.575/32.560 N/mm rear.
+[Evidence](../reports/equilibrium_local_stiffness_v0.1.0/README.md) retains full
+results. Native pitch dynamics remain gated on sprung-CG pitch inertia; there is
+no telemetry requirement for the completed equilibrium calculation.

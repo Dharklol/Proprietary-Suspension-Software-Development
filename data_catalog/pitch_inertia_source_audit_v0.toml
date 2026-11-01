@@ -1,0 +1,28 @@
+version = "0.1.0"
+record_id = "PITCH_INERTIA_SOURCE_AUDIT_V0"
+audit_date = "2026-10-31"
+status = "usable_sprung_pitch_inertia_not_identified"
+authority = "bounded source-search result, not proof that no source exists elsewhere"
+
+[repository]
+searched = ["data_catalog", "configurations", "docs/models", "migration", "src/pssd_vehicle"]
+terms = ["pitch inertia", "Iyy", "inertia tensor", "mass properties"]
+result = "Reviewed mass/CG and static allocation sources exist, but no usable sprung-CG pitch-axis second mass moment identified. Manufactured HalfCar.pitch_inertia is not native source authority."
+
+[box]
+queries = ["mass properties", "inertia"]
+inertia_query_result_count = 48
+reviewed_file_ids = ["1577269207147", "1582602328274", "2194290255643", "2194292116001", "2194323455863", "1669972288485"]
+findings = ["OptimumG workbooks contain mass and pitch gradients, not identified sprung pitch inertia", "load_rev15_params.m and load_rev16_params.m contain engine inertia, not sprung pitch inertia", "Acceleration_simulation_baseline_good_v15test.m has tau_pitch=0.015 as an acceleration/load-transfer filter time constant, not a mass moment", "Compliance_calculator.m has shaft section polar inertia, not vehicle mass moment"]
+
+[needed_for_native_half_car]
+quantity = "Sprung mass moment about CG pitch axis in kg*m^2"
+required_context = ["configuration and driver/fuel boundary matching the mass model", "axis orientation and origin", "included/excluded unsprung components", "CAD mass assignments or measurement derivation", "source uncertainty"]
+no_point_mass_at_cg_substitution = true
+no_mass_times_wheelbase_squared_substitution = true
+
+[telemetry]
+requested_route = "Testing-day Box CSV or AiM Race Studio XRK only if needed"
+used = false
+reason = "Not needed for static equilibrium or local spring tangents. IMU response alone does not identify pitch inertia independently of unknown damping, road/force excitation, sensor pose and configuration."
+preferred_follow_up = "Source mass-property export first; if unavailable, separately scoped identification with calibrated pitch-rate/acceleration, input excitation and synchronized channels. CSV preferred before investigating XRK decoding."

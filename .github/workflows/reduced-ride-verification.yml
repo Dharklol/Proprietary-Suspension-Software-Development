@@ -15,6 +15,7 @@ jobs:
       - run: python scripts/run_reduced_ride_verification.py
       - run: python scripts/run_ride_parameter_study.py
       - run: python scripts/run_half_car_verification.py
+      - run: python scripts/run_equilibrium_local_stiffness.py
       - uses: actions/upload-artifact@v4
         with:
           name: reduced-ride-${{ matrix.python }}
@@ -22,3 +23,4 @@ jobs:
             docs/reports/reduced_ride_verification_v0.1.0/
             docs/reports/ride_parameter_study_v0.1.0/
             docs/reports/half_car_verification_v0.1.0/
+            docs/reports/equilibrium_local_stiffness_v0.1.0/
