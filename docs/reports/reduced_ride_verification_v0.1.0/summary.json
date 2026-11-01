@@ -1,0 +1,63 @@
+{
+  "scope": "manufactured verification only; no installed vehicle prediction",
+  "tests_run": 9,
+  "system": {
+    "sprung_mass": 1.0,
+    "unsprung_mass": 1.0,
+    "suspension_rate": 2.0,
+    "tire_rate": 3.0,
+    "damping": 0.4,
+    "compression_limit": 1.0,
+    "extension_limit": 1.0,
+    "source_id": "manufactured-unit-masses",
+    "configuration_id": "toy-2-3",
+    "gravity": 9.80665
+  },
+  "modes": [
+    {
+      "eigenvalue": 1.0,
+      "omega": 1.0,
+      "frequency_hz": 0.15915494309189535,
+      "vector": [
+        0.8944271909999159,
+        0.44721359549995804
+      ],
+      "residual": 5.4672143489065705e-16
+    },
+    {
+      "eigenvalue": 6.0,
+      "omega": 2.449489742783178,
+      "frequency_hz": 0.389848400616838,
+      "vector": [
+        0.44721359549995804,
+        -0.8944271909999159
+      ],
+      "residual": 4.440892098500626e-16
+    }
+  ],
+  "harmonic_dt": [
+    0.1,
+    0.05,
+    0.025
+  ],
+  "harmonic_max_state_errors": [
+    2.2877211508422896e-07,
+    1.4337538553968465e-08,
+    8.976568715776678e-10
+  ],
+  "harmonic_error_ratios": [
+    15.95616389961912,
+    15.97218158511912
+  ],
+  "ratio_acceptance": [
+    12.0,
+    20.0
+  ],
+  "bump_max_energy_residual_J": 8.524981393552566e-14,
+  "bump_completed": true,
+  "source_sha256": {
+    "src/pssd_vehicle/reduced_ride.py": "a152c6963ceb1c2da53487a63ce2055e054d34978ecd2d42eecd53a6cbffbd0e",
+    "src/pssd_suspension/local_stiffness.py": "f180953af1acb8270efcb7beeff1b942a05deffac149a8e5f01a8d6a89270679",
+    "tests/test_reduced_ride.py": "d68e545b39a5d3114251c42b3431ba8349dadc8bf4f6d95ecc3b0003ef0390aa"
+  }
+}

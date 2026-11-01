@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-SUSP-0038"
+type = "benchmark"
+title = "Mapped stiffness verification"
+status = "active"
+description = "Independent energy derivatives, negative stiffness and identity failures."
+verification_level = "A"
+function_specification = "docs/models/vehicle/reduced_ride_verification_spec_v0.1.0.md"
+target_ids = ["MOD-SUSP-0012"]
+acceptance_criteria = ["All corresponding assertions in tests/test_reduced_ride.py pass; thresholds specified before implementation."]

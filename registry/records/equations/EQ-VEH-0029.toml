@@ -1,0 +1,13 @@
+[record]
+id = "EQ-VEH-0029"
+type = "equation"
+title = "Reduced ride energy balance"
+status = "active"
+description = "Perturbation energy plus viscous dissipation minus incremental road work is conserved."
+verification_level = "A"
+function_specification = "docs/models/vehicle/reduced_ride_verification_spec_v0.1.0.md"
+maturity = "M2"
+disposition = "accepted_with_restrictions"
+inputs = ["Explicit manufactured SI parameters and source/configuration identities"]
+outputs = ["Modes, guarded time histories and energy residuals"]
+assumptions = ["Manufactured verification only; no installed vehicle authority"]

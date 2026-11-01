@@ -1,0 +1,13 @@
+[record]
+id = "EQ-SUSP-0038"
+type = "equation"
+title = "Compression-map stiffness"
+status = "active"
+description = "Q=-F*rho; K=k*rho^2+F*eta."
+verification_level = "A"
+function_specification = "docs/models/vehicle/reduced_ride_verification_spec_v0.1.0.md"
+maturity = "M2"
+disposition = "accepted_with_restrictions"
+inputs = ["Explicit manufactured SI parameters and source/configuration identities"]
+outputs = ["Signed stiffness"]
+assumptions = ["Manufactured verification only; no installed vehicle authority"]

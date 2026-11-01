@@ -1,0 +1,19 @@
+name: Reduced ride verification
+on: [push, pull_request]
+jobs:
+  manufactured:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -e .
+      - run: python scripts/run_reduced_ride_verification.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reduced-ride-${{ matrix.python }}
+          path: docs/reports/reduced_ride_verification_v0.1.0/

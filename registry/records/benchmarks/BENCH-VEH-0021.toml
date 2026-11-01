@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-VEH-0021"
+type = "benchmark"
+title = "Analytical modal verification"
+status = "active"
+description = "Hand-solvable modes and exact free cosine trajectories."
+verification_level = "A"
+function_specification = "docs/models/vehicle/reduced_ride_verification_spec_v0.1.0.md"
+target_ids = ["MOD-VEH-0010"]
+acceptance_criteria = ["All corresponding assertions in tests/test_reduced_ride.py pass; thresholds specified before implementation."]

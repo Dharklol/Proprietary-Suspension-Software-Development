@@ -135,3 +135,24 @@ Status transitions require evidence; preserve historical failures and decisions.
 |---|---|---|---|
 | 2026-10-31 | G1 | PR 121 has 51 accepted comparison cells, one retained guarded recovery, 54 focused tests and 12 successful workflows; ready/unmerged | Do not equate this bounded workflow with full Phase 2 or vehicle validation |
 | 2026-10-31 | G2–G4 | Owner prioritizes Phase 2 scope closure and reduced transients; this checklist/timeline fixes the next sequence, without authorizing new physics | G2 disposition confirmation, then G3 contracts and G4 model/verification packet |
+
+## Checkpoint — manufactured ride verification, 2026-10-31
+
+G2 scope disposition remains tracked in the Phase 2 scope document. The first G3
+local stiffness/modal slice and G4 manufactured quarter-car verification are now
+implemented; this does not close native parameter integration or Phase 2 breadth.
+
+Delivered: signed compression-map stiffness including loaded geometric stiffness;
+undamped mass-normalized modes; fixed-step RK4 sprung/unsprung response with
+same-stage energy quadratures and explicit sampled contact/travel failures.
+Nine analytical/contract tests pass. Harmonic step-halving error ratios are 15.96
+and 15.97 (predeclared acceptance 12–20); manufactured bump energy balance closes
+to 8.53e-14 J at dt=0.005 s. These are manufactured verification results, not
+vehicle accuracy estimates.
+
+Next dependency: recover the documented vertical tire/damper parameter sources,
+bind explicit represented masses and local geometry derivatives, then run native
+parameter sensitivity cases. Half-car heave/pitch follows that adapter. No physical
+car measurements or operational UI release are required for this analytical work.
+See [verification specification](../models/vehicle/reduced_ride_verification_spec_v0.1.0.md)
+and [machine-readable results](../reports/reduced_ride_verification_v0.1.0/summary.json).
