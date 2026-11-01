@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-VEH-0025"
+type = "benchmark"
+title = "CAD dry inventory static balance and source-rebased contact"
+status = "active"
+description = "Exact dry mass/first moments, reaction family closure and centered-rack ideal-circle coordinate checks without borrowing driver equilibrium."
+verification_level = "A"
+target_ids = ["MOD-VEH-0012", "MOD-VEH-0006", "MOD-SUSP-0013"]
+function_specification = "docs/models/vehicle/dry_static_contact_spec_v0.1.0.md"
+acceptance_criteria = ["2468 unique dry CAD instances and electrical approximation close mass/first moments", "Verified tube extraction does not duplicate mass", "Reaction endpoints close global force and moments without fixing crossweight", "Twelve source-rebased contact states pass derivative and virtual-work checks", "Front centered-rack steering closure retained", "Full native suspension-equilibrium gate remains separate and false"]

@@ -46,3 +46,9 @@ owner_direction = "Onward with native spring geometry, preload reference and vir
 function_specification = "docs/models/suspension/native_spring_port_spec_v0.1.0.md"
 permitted = "Front linear reviewed spring to generalized-force port with exact implicit closure derivative and conservative prescribed-motion verification"
 prohibited = "Added preload offset, unbalanced tube-only native free-response prediction, driver/no-driver equilibrium mixing, installed authority or invented damper law"
+
+[dry_static_contact_extension_2026_11_01]
+owner_direction = "Reconcile no-driver/no-fuel mass/static composition and wheel/contact mapping"
+function_specification = "docs/models/vehicle/dry_static_contact_spec_v0.1.0.md"
+permitted = "Exact CAD inventory audit, necessary global reaction family and source-rebased existing centered-rack circle geometry"
+prohibited = "Hidden crossweight, scale-to-CAD mass adjustment, driver-state gravity/equilibrium reuse or full native equilibrium promotion while ownership remains unresolved"
