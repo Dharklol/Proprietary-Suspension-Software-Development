@@ -1,0 +1,14 @@
+[record]
+id = "EQ-SUSP-0039"
+type = "equation"
+title = "Rigid-member mass matrix pullback"
+status = "active"
+description = "M=sum(m*Jv^T*Jv+Jw^T*I_G*Jw); T=qdot^T*M*qdot/2."
+verification_level = "A"
+function_specification = "docs/models/suspension/reduced_link_inertia_spec_v0.1.0.md"
+maturity = "M2"
+disposition = "accepted_with_restrictions"
+inputs = ["Explicit coordinate order/units, rigid-member mass, full physical centroidal tensor, CG/angular Jacobians, manifest and common identities"]
+outputs = ["Local mass matrix and kinetic energy with preserved cross terms"]
+assumptions = ["Local tangent only; source/geometry binding remains provider-owned; native tube sign gate is unresolved"]
+authorization_id = "AUTH-SUSP-0021"

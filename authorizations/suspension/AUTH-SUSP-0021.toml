@@ -1,0 +1,18 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0021"
+status = "development_authorized"
+implementation_authorized = true
+function_specification = "docs/models/suspension/reduced_link_inertia_spec_v0.1.0.md"
+review_record = "docs/models/suspension/reduced_link_inertia_spec_v0.1.0.md"
+effective_condition = "Owner continued kinetic-energy-based moving-link work on 2026-11-01."
+[permitted]
+items = ["Provider-neutral local rigid-member mass matrix and manufactured energy verification", "One source-linked nominal tube diagnostic with explicit tensor sign variants and retained failures"]
+[prohibited]
+items = ["Automatically choosing CAD product signs", "Inventing full inertia from Lyy", "HalfCar constant-diagonal-mass substitution", "Full native effective-mass or installed dynamic predictions"]
+
+[selected_source_convention_review]
+record = "docs/reviews/com_tensor_sign_resolution_2026_11_01.md"
+source = "COM SU!B96:P96"
+declared_policy = "positive_products"
+permitted_conversion = "Explicitly negate off-diagonal entries once; preserve diagonals; retain raw-as-physical negative control. No generic auto-detection."
+native_gate_scope = "One nominal tube; not complete member ownership or full suspension readiness"
