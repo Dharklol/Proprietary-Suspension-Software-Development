@@ -298,3 +298,25 @@ selected-tube gate now passes with unchanged tensor tolerances; full rigid-membe
 ownership/pose and other source rows remain next. Diagonal-Lyy pitch estimates
 are unchanged; no HalfCar dynamics or Drive data was edited. See
 [sign resolution review](../reviews/com_tensor_sign_resolution_2026_11_01.md).
+
+## Checkpoint — compatible bilateral front tube subset, 2026-11-01
+
+Eight front wishbone tubes now have source-mapped full centroidal tensors and
+compatible CG/angular velocity Jacobians in [heave,pitch,left qL,right qL]. The
+upper-arm derivative follows implicit native closure, checked against independent
+±qL solves. Each source row passes tensor/sign/geometry checks; summed kinetic
+energy and reflected matrix checks pass. This extends MOD-SUSP-0013 without
+changing the current HalfCar solver or introducing source-independent fractions.
+
+Mapped mass is 0.815559 kg, 35.48% of the front-corner CAD assembly. This is tube
+coverage, not a complete corner effective mass. Next is rigid ownership of other
+arm-attached/joint parts, then rear/member coverage, q-dependent tensor/Jacobian
+transport and a verified general-mass transient formulation. Do not add native
+contributions to existing lumps without removing the corresponding mass.
+[Evidence and stopping point](../reports/front_arm_tube_inertia_v0.1.0/README.md).
+
+Goal alignment: continue analytical reduced-transient foundations with explicit
+source boundaries; do not prioritize operational release, broad UI polish,
+telemetry decoding, lap/QSS3 or physical correlation ahead of these dependencies.
+A useful next integration milestone is an energy-verified generalized-coordinate
+model for a completely enumerated subset, not more isolated mass percentages.

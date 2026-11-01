@@ -16,3 +16,9 @@ source = "COM SU!B96:P96"
 declared_policy = "positive_products"
 permitted_conversion = "Explicitly negate off-diagonal entries once; preserve diagonals; retain raw-as-physical negative control. No generic auto-detection."
 native_gate_scope = "One nominal tube; not complete member ownership or full suspension readiness"
+
+[front_tube_subset_extension_2026_11_01]
+owner_direction = "Continue source mapping and report a debrief at a solid stopping point"
+function_specification = "docs/models/suspension/front_arm_tube_inertia_spec_v0.1.0.md"
+permitted = "Eight nominal front wishbone tube contributions with independently checked source tensors/geometry and compatible upper/lower motion"
+prohibited = "Full arm/corner effective-mass claims, arbitrary fastener grouping, double counting existing lumped masses, diagonal HalfCar substitution, or native transient promotion"
