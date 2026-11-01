@@ -1,0 +1,63 @@
+name: Analytical design workflow
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  candidate-study:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        candidate: [reference, rack_aft_5mm, rack_forward_5mm]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Verify workflow contracts
+        run: python -m unittest tests.test_analytical_design_workflow tests.test_analytical_numerical_recovery -v
+      - name: Solve declared candidate matrix
+        run: |
+          python -u scripts/run_analytical_design_workflow.py \
+            --candidate ${{ matrix.candidate }} --output candidate_${{ matrix.candidate }}.json
+      - name: Preserve accepted and failed evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: analytical-candidate-${{ matrix.candidate }}
+          path: candidate_${{ matrix.candidate }}.json
+          if-no-files-found: error
+  comparison-report:
+    needs: candidate-study
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install visualization extras
+        run: python -m pip install -e '.[viz]'
+      - name: Verify paired assumption-response reporting
+        run: python -m unittest tests.test_analytical_workflow_reporting -v
+      - name: Verify retained CI seed at two refined contact precisions
+        run: python scripts/check_analytical_contact_precision.py --output analytical_comparison/contact_precision_probe.json
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: analytical-candidate-*
+          merge-multiple: true
+      - name: Validate coverage and render comparison
+        run: |
+          python scripts/package_analytical_design_workflow.py \
+            --reports candidate_reference.json candidate_rack_aft_5mm.json candidate_rack_forward_5mm.json \
+            --output-dir analytical_comparison --figures
+      - name: Upload workbench and evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: analytical-comparison-workbench
+          path: analytical_comparison
+          if-no-files-found: error

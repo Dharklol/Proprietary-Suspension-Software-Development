@@ -83,3 +83,27 @@ PR 35 establishes only the visualization foundation:
 7. isolated visualization CI with a synthetic smoke report.
 
 No steering-specific PDR figure suite, subsystem result adapter, 3D scene schema, Three.js viewer, GUI, or new engineering physics is included. Those are intentionally separate follow-on increments.
+
+## Analytical workbench checkpoint — 2026-10-31
+
+The repository now also contains a steering figure suite, scene contracts and
+a lightweight 3D viewer. The first native analytical comparison workflow adds
+`pssd.analytical-design-workflow.v1` evidence and an offline case/stress/metric
+viewer. This is a downstream reporting client: configuration, candidate generation
+and numerical solves remain in Python. See the analytical design workflow review
+for its provisional source setup, finite stress matrix and numerical closeout.
+
+The next application increment can focus on UI rather than adding another model:
+
+| User action | Existing foundation | Next UI work |
+|---|---|---|
+| Choose configuration and cases | Versioned explicit TOML plan | Validated forms with units, source role and save/load |
+| Run a comparison | Candidate CLI and per-cell atomic checkpoints | Background launch/status/cancel controls, preserving partial evidence |
+| Compare geometry and assumptions | Paired JSON/CSV evidence and offline viewer | Saved-run navigation and direct selection of comparable cases |
+| Inspect a solved mechanism | Existing downstream 3D scene/viewer contracts | Adapter for the selected solved state with source identity retained |
+
+The run controller should call the same plan loader, solver runner and report
+packager. Browser edits must not create a second set of defaults or equations.
+Source/configuration changes create a new run identity. Keep the last completed
+result visible while a new run is pending, and distinguish failed, missing and
+branch-incomparable cells rather than displaying a zero response.

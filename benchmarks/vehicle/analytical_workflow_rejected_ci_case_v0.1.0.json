@@ -1,0 +1,2449 @@
+{
+  "scope": "historical_rejected_ci_precision_attempt_not_an_accepted_result",
+  "head_sha": "305f3db9142eb74c692154028c326c0529cf95cf",
+  "python_version": "3.11.17",
+  "workflow_run_id": 41243886238,
+  "job_id": 124663210856,
+  "artifact_id": 13059040880,
+  "artifact_url": "https://github.com/Dharklol/Proprietary-Suspension-Software-Development/actions/runs/41243886238/artifacts/13059040880",
+  "input_report_sha256": "fbcc06153d2dd306405a05dabcb2ae24197f43eab2fac1a76707a4c79d199a87",
+  "historical_plan": {
+    "version": "0.1.0",
+    "plan_id": "ANALYTICAL_DESIGN_WORKFLOW_V0",
+    "configuration_role": "provisional_source_reference_not_installed_or_recommended_setup",
+    "design_question": "How do small fore-aft rack changes alter coupled rack demand and front wheel-heading split, and do those effects survive declared alignment and tire-gain stresses?",
+    "seed_report": "benchmarks/vehicle/native_computational_envelope_summary_v0.1.0.json",
+    "requirement_set": "configurations/steering/STEERING_INVERSE_DESIGN_DEV_V0.toml",
+    "objective_weight": 0.0,
+    "design_ranking_permitted": false,
+    "reference": {
+      "mass_kg": 306.17484975,
+      "speed_mps": 8.0,
+      "pressure_pa": 68900.0,
+      "front_arb_setting": 1,
+      "rear_arb_setting": 1,
+      "road_gap_tolerance_m": 1e-14
+    },
+    "sources": {
+      "source_path": "data_catalog/wufr27_static_equilibrium_composition_v1.toml",
+      "road_contact_source_path": "data_catalog/wufr26_road_contact_reference_v0.toml",
+      "suspension_geometry_path": "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml",
+      "wheel_profile_path": "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml",
+      "steering_geometry_path": "configurations/steering/WUFR27_STEERING_BASELINE_V0.toml",
+      "whole_vehicle_path": "data_catalog/wufr26_whole_vehicle_frame_v0.toml",
+      "gravity_path": "data_catalog/wufr27_static_gravity_allocation_v0.toml",
+      "spring_package_path": "data_catalog/wufr27_spring_package_v0.toml",
+      "zbar_fixture_path": "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml"
+    },
+    "solver": {
+      "coordinate_scales": [
+        0.005,
+        0.005,
+        0.005,
+        0.05,
+        0.005,
+        100.0,
+        750.0,
+        750.0,
+        750.0,
+        750.0
+      ],
+      "residual_scales": [
+        3000.0,
+        1500.0,
+        1500.0,
+        750.0,
+        750.0,
+        750.0,
+        750.0,
+        3000.0,
+        3000.0,
+        1500.0
+      ],
+      "lower_bounds": [
+        -0.009,
+        -0.009,
+        -0.009,
+        -0.08,
+        -0.015,
+        -500.0,
+        223.0,
+        223.0,
+        223.0,
+        223.0
+      ],
+      "upper_bounds": [
+        0.009,
+        0.009,
+        0.009,
+        0.08,
+        0.015,
+        500.0,
+        1111.0,
+        1111.0,
+        1111.0,
+        1111.0
+      ],
+      "fd_steps": [
+        2e-06,
+        2e-06,
+        2e-06,
+        2e-06,
+        2e-06,
+        0.001,
+        0.001,
+        0.001,
+        0.001,
+        0.001
+      ],
+      "scaled_residual_tolerance": 1e-10,
+      "minimum_reciprocal_pivot_ratio": 1e-09,
+      "max_iterations": 20,
+      "max_backtracks": 20
+    },
+    "cases": [
+      {
+        "id": "straight",
+        "curvature_per_m": 0.0,
+        "assumption_study": false
+      },
+      {
+        "id": "right_moderate",
+        "curvature_per_m": -0.06,
+        "assumption_study": false
+      },
+      {
+        "id": "left_moderate",
+        "curvature_per_m": 0.06,
+        "assumption_study": false
+      },
+      {
+        "id": "right_high",
+        "curvature_per_m": -0.1,
+        "assumption_study": true
+      },
+      {
+        "id": "left_high",
+        "curvature_per_m": 0.1,
+        "assumption_study": true
+      }
+    ],
+    "candidates": [
+      {
+        "id": "reference",
+        "rack_longitudinal_offset_m": 0.0
+      },
+      {
+        "id": "rack_aft_5mm",
+        "rack_longitudinal_offset_m": -0.005
+      },
+      {
+        "id": "rack_forward_5mm",
+        "rack_longitudinal_offset_m": 0.005
+      }
+    ],
+    "assumptions": [
+      {
+        "id": "nominal",
+        "front_toe_delta_deg": 0.0,
+        "front_camber_delta_deg": 0.0,
+        "lateral_force_gain": 1.0
+      },
+      {
+        "id": "front_toe_minus",
+        "front_toe_delta_deg": -0.2,
+        "front_camber_delta_deg": 0.0,
+        "lateral_force_gain": 1.0
+      },
+      {
+        "id": "front_toe_plus",
+        "front_toe_delta_deg": 0.2,
+        "front_camber_delta_deg": 0.0,
+        "lateral_force_gain": 1.0
+      },
+      {
+        "id": "front_camber_minus",
+        "front_toe_delta_deg": 0.0,
+        "front_camber_delta_deg": -0.5,
+        "lateral_force_gain": 1.0
+      },
+      {
+        "id": "front_camber_plus",
+        "front_toe_delta_deg": 0.0,
+        "front_camber_delta_deg": 0.5,
+        "lateral_force_gain": 1.0
+      },
+      {
+        "id": "tire_gain_minus",
+        "front_toe_delta_deg": 0.0,
+        "front_camber_delta_deg": 0.0,
+        "lateral_force_gain": 0.95
+      },
+      {
+        "id": "tire_gain_plus",
+        "front_toe_delta_deg": 0.0,
+        "front_camber_delta_deg": 0.0,
+        "lateral_force_gain": 1.05
+      }
+    ]
+  },
+  "historical_source_hashes": {
+    "authorizations/vehicle/AUTH-VEH-0012.toml": "413e8df06a5bbd8b6f432740641eb2a162471e79f42cdc4e6a016b7a16c38176",
+    "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml": "85739e46db63deb581b65385410e72d2247d7cee06ee45b656d4515b17cd3ddf",
+    "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml": "f4887a06d1711bd8111df32266473e4b6f7a88912f69931d08bea4a422c39be2",
+    "benchmarks/vehicle/native_computational_envelope_summary_v0.1.0.json": "3241059b50f31741d04c4ea10a61cc6f1a6cbdd96712efa6835afcc33e294679",
+    "configurations/steering/STEERING_INVERSE_DESIGN_DEV_V0.toml": "df9bb64edf20598afd2c36632036597589e5ace8b22994c23a04b8af33abfd40",
+    "configurations/steering/WUFR26_DESIGN_NOMINAL_V0.toml": "b06b57cb951421bb4cba8f586c28d8993ae49b7d1ab021952660bbeed87d0f58",
+    "configurations/steering/WUFR27_STEERING_BASELINE_V0.toml": "cbfa707ca2c0d7c188958ade921027bfe7cb3ae740cf8b8c10d30d64ea7b1317",
+    "configurations/vehicle/ANALYTICAL_DESIGN_WORKFLOW_V0.toml": "a4e22d9acd323bf332a4abe729c9ab5e1a52b7502498da704b72f4ad74c28d51",
+    "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+    "data_catalog/wufr26_road_contact_reference_v0.toml": "84697749794bb44155154df4caca49a06b43569bb7c601c77f7bfb27de5baf05",
+    "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4",
+    "data_catalog/wufr27_spring_package_v0.toml": "24b87ba7103971ffa7ab5c99e03121ec7166dec5ac9bf8fb035b8297fb2f49e5",
+    "data_catalog/wufr27_static_equilibrium_composition_v1.toml": "138191d4acef93b4acce58cd0ba2d4da43b8adfd91f5a766447d75d956fa237e",
+    "data_catalog/wufr27_static_gravity_allocation_v0.toml": "2f89a18e4d88869ab7602311dfbba75b6dd12a791d6826dd951099de9b23fd41",
+    "registry/records/assumptions/ASM-VEH-0009.toml": "99fc512e5c712c517a25629c4ac3c2747e1e88313ffdab0792bb8e30213989fa",
+    "scripts/run_analytical_design_workflow.py": "950b10610441c3bf4600ddc82ec0142e3982322791e214b3345e66572b1bcfad",
+    "scripts/run_native_computational_envelope.py": "c7ad8dbce13294d347a82d9aecee8003264d15cd768177f60915817d7cf53db3",
+    "scripts/run_wufr_steady_cornering_benchmarks.py": "5fb375d5742593b3458613328a93fc6a9e311a39ad4c488a6f9f3b71adfbb049",
+    "src/pssd_measurements/__init__.py": "1df859e1060db4bb6a44cbd40175ace478bb6dba3f96433c31209be7bdda9ac4",
+    "src/pssd_measurements/_csv.py": "549dc3cd2516947267ca3a25368a3b45fc6a7c63548b0c490e2aed921b786a27",
+    "src/pssd_measurements/contract.py": "22290789ea45469773e9ee51f7ad209c712ae4438f7b9d096f1e2d8c35eb7097",
+    "src/pssd_measurements/steering.py": "757169158723701634c658eabc9a770447ff6b862095ff501cba78ff0db80c50",
+    "src/pssd_registry/__init__.py": "9ee50c05f0254b0ddd9056519ab270fbb3f83e8cc6621a9fff8140ebf45b794c",
+    "src/pssd_registry/validator.py": "e75cef2578d94af1251d1302dd662cf48b5baa2558218ad2b76e94d36a8d68e3",
+    "src/pssd_steering/__init__.py": "ace4fc8a11c38b91d66ceecebf7dcaf1378591a0743fe1a20cb7078cdc6943f4",
+    "src/pssd_steering/comparison.py": "2537825f9b56fb117be43753cbbf60ae765b7c6955df835b065dfb37677cc6ab",
+    "src/pssd_steering/compliance.py": "51756d1edd50634dd65f2d1b41e1f0abfff5fee0c85f329229f047ef718ede5e",
+    "src/pssd_steering/compliance_bridge.py": "573e26fcbed805a589aa2814431073347928ca6e9dbd85ba2e4ae3a245ca93c4",
+    "src/pssd_steering/config.py": "6795a3fb1b3412a4b05d37c30b206987074ab8e3d5e349f4a051ebcf94a63a30",
+    "src/pssd_steering/core.py": "9dd3c8dfaa1a14acac664642bb21577aa6a924beef8c05131bd812213c5c1b12",
+    "src/pssd_steering/derived.py": "f4eaf0442b7a7c0b359ad6b1cea1d255b4fc480fa0ffb3e397b3ecff7bc59d00",
+    "src/pssd_steering/double_d_fit_screen.py": "856cda8cbfd86e1e36fa67d8bf1b99387f50a4b2604ab9d585263a4dda15e09c",
+    "src/pssd_steering/legacy_fits.py": "47a5753e1c62219e3c0e7420df89972a0dfe637afa10fd38ee33fc898b26f89b",
+    "src/pssd_steering/level_e.py": "20bed938cac8cf4954dc34343d60fd1320037c6821e577d0425efc223c47a971",
+    "src/pssd_steering/optimization/__init__.py": "ec68e2e743117e6bcb9fb9090525576b8cb992ea2e51479ad4a17db5c988e5ad",
+    "src/pssd_steering/optimization/candidate_comparison.py": "38d2369a38612da7d73555c21df4eeaa197d716f987b6cbea6137a6741bb01f4",
+    "src/pssd_steering/optimization/constraints.py": "94b598e37ac8a7cd2bb1fa7f43d6f82fc32d3ac1b44fe57e8fb5f4ddbee7ef53",
+    "src/pssd_steering/optimization/evaluation.py": "c7394fcbb442f86febc4897e2e4008315637d72b8c46adcb92fd7acd4da7e5b9",
+    "src/pssd_steering/optimization/external_poses.py": "66b033e3c56263277c6f40d74e2a9320cb7440f256d6f0a0a8d3e50b98da2f8e",
+    "src/pssd_steering/optimization/force_demand_targets.py": "5e26c5f63a19466dfd747de6ae3e7d8a026891ca99047b1df25e48ef848c9604",
+    "src/pssd_steering/optimization/geometry.py": "4d6c3391198901ea2e88fbd61b7117992e2d350e09342100331b166e6c8d3156",
+    "src/pssd_steering/optimization/motion_force_targets.py": "9bbdeac0e0b77d3fa396f6c7d7492aa91a2d75f3f9b463cce50160ff914006fc",
+    "src/pssd_steering/optimization/multistate.py": "424185a309804193adc5165827a966668fb3b3e97e189f18fb949e54e8f05991",
+    "src/pssd_steering/optimization/native_poses.py": "4fce8b37fc3721ac4d40d736f107bc45b5095870431e9677fa7808cd68a8a9c4",
+    "src/pssd_steering/optimization/operating_evaluation.py": "edb85c64f80945540edb14b2330c854d5d207253836037f6834fe45abc39b061",
+    "src/pssd_steering/optimization/operating_reporting.py": "60d0eed7a775d09a9134bf380e4e0d12413dea6645cd4a85765d9866a7c18db8",
+    "src/pssd_steering/optimization/operating_search.py": "fb1de1de8a4bbdb46269bddbe06656e4caedc367cbce1e4e5b7c3d0f0c51acc3",
+    "src/pssd_steering/optimization/operating_targets.py": "94c9f07700ef1f8bc46d4852e2af5e403f6517d1db39d7cbce78efb607c2bf39",
+    "src/pssd_steering/optimization/pose_reporting.py": "64bbbb01f295b012753712cc707f49d9d83cb315283ac16f1620080999ffd35e",
+    "src/pssd_steering/optimization/poses.py": "032a2521ba59e8018c00c525a6f13c63983004e66f139e8f21815b0428427028",
+    "src/pssd_steering/optimization/reporting.py": "a9a9e0dab891d2f4a49daccf20729f2ebbf25264ede2ec06a5d648157251b3b7",
+    "src/pssd_steering/optimization/roles.py": "16acf8db2f9ce0b18bf25d0ce0b30c135aa4dff5392b5d0c2cf3ba5ae5732c84",
+    "src/pssd_steering/optimization/search.py": "2618b69c8f15679cab267102417e2846453a0c9eef7f96dabd5564b34dd7b7f9",
+    "src/pssd_steering/optimization/sensitivity.py": "fb912bcc7715c37392e5d09b647b44b1a702328f549b8f6359a6ea226ec618b0",
+    "src/pssd_steering/optimization/state_metrics.py": "590cf41c4b7484bdcd92ac38cff7c146851a60b8544b9e9f02c29314ae379755",
+    "src/pssd_steering/optimization/study_reporting.py": "3fa5914feee07de7c57ae9d17560b45f49bf32dcef4c044652d6c6e6e638d871",
+    "src/pssd_steering/optimization/synced_state_targets.py": "433da0798b5fb6e14da6d0db31782a6b9de8528f83d263b53d6617b06b433238",
+    "src/pssd_steering/optimization/targets.py": "323adce3def38b40afd5849465dd93e21a1bd373265cd1353c7b89d72f8fb432",
+    "src/pssd_steering/optimization/tire_targets.py": "9ec226ae2e3d5d73db4ada9434a7da6250d0a1111fdfedcf9d3eaa87321b0874",
+    "src/pssd_steering/optimization/varying_state_evidence.py": "354cac3c62773608576eb5be4ae8a0fbe329f817fd6e6fb5c82b92bda271837b",
+    "src/pssd_steering/projection.py": "4a5acabde842837d51aff9654e0220dcca67e00eb62719988fdcd7a52d200c86",
+    "src/pssd_steering/solidworks.py": "31136ff6f7e2f1266856a08af65fe6dbabbaca9ae3934cc11d21c33e2723d5c7",
+    "src/pssd_steering/steel_joint_screens.py": "504bd1338fbce029bd0a190d3d880e11b9945527510be58e3058ce94353c4b8e",
+    "src/pssd_steering/wufr27_design_compliance.py": "9f936db5975ababc23cafd2fea3bcd9edcf120fa6eac4fb4d3ac32a9b32b3b4a",
+    "src/pssd_suspension/__init__.py": "040b14d5e40733e0bf84033613344f1c8474c788da7485aa8c653f65edcc52f2",
+    "src/pssd_suspension/actuation.py": "e0db1685d97916dec0344a2d80ed815a9770a918bc751d6271ae0fde42509fcd",
+    "src/pssd_suspension/anti_roll_bar.py": "722e0bdf8b73e495bf1e85efc93ca5a44cc6f1513e276e5ed125a223a6de6d19",
+    "src/pssd_suspension/geometry.py": "b963c4310ffae95db77743a4272ef2a8e0e1a29162c70f5a954a726dd595ca31",
+    "src/pssd_suspension/kinematics.py": "7e1474274e28a005950b94acd0551a87481dc871d06896bcd7dbae127bf1cf79",
+    "src/pssd_suspension/linkage_statics.py": "677aa49eb295ed7084aaadaf1b93e18bcd539eb054795c16652ac70123617079",
+    "src/pssd_suspension/rocker_included_load.py": "d3383346261492af7b2bc638570d4acbd267124d00ef58cf07c79ff413790827",
+    "src/pssd_suspension/spring_force.py": "9e138ea4e8c75ded5f0e81ac7a03e491c71a7c6507360084e97aeadbeb9c4cf2",
+    "src/pssd_suspension/wheel_reference.py": "b54bfafe2eac31ed62c41921fa29edeab69c73aab2c91fc16f959e88ef7b58bf",
+    "src/pssd_suspension/wufr_anti_roll_bar.py": "66bb51bab9f8eaa7555eeb353523d896dd7aad161896df6e346bcf4d04fdc551",
+    "src/pssd_suspension/wufr_interface_adapter.py": "f64fb82a47f076f6d064d10d4e9261c4fdf52c982558b3290293a9e4994be7fe",
+    "src/pssd_suspension/wufr_interface_statics.py": "ae32d874f84da394097a840ee754e9411f36321e32bab3d02f88638bfbba1a64",
+    "src/pssd_suspension/wufr_rocker_included_load.py": "cee9d8a6187370cdb1355449b0a75873ddf5b89f4b3121f9ced68ec66f48d9fd",
+    "src/pssd_suspension/wufr_spring_rocker_force.py": "409f31683e7a84ffc06bf21188d3f9197c77c0fc116f9f5bd7a2f370c03a6a00",
+    "src/pssd_suspension/wufr_static_level1_interface_loads.py": "e01ad513963a71a5a31febf1dea562d0fffc7960d6acfdf9bb68d6227465c278",
+    "src/pssd_suspension/wufr_static_load_path_exchange.py": "2d0d7220dffaa2bfc0607689bc752b7a444d9355d6d80d3bd368bca67429d4ff",
+    "src/pssd_suspension/wufr_static_rocker_included_loads.py": "3de36e1e350005b028ec8a1889d1e5f1c9adab5b2dcfe9352b2a03360a04bf02",
+    "src/pssd_suspension/wufr_zbar.py": "9c4bdee8cbb36ddec0cccfddd59462a838d5158f2cdc2e4695ca38ffa08446e6",
+    "src/pssd_suspension/wufr_zbar_link_force.py": "7dbed843922d82e54ddb1ebc5dc58d3b0d531fb78372cf0989b9904a4097dae2",
+    "src/pssd_suspension/wufr_zbar_nominal.py": "ea57e07990154e60fc762301cdeb418e0272ccfeff18f4d42bb1f6f7272fdd48",
+    "src/pssd_suspension/wufr_zbar_wheel.py": "c4919c01bb711d18bb34cff22eab6dbb32db9dbee80fac4df318d9569f8bafc4",
+    "src/pssd_tire/__init__.py": "183ed4c5a4dba3dfe8cde0fac8bd84f13c89e425d70b955ab448cff539a82704",
+    "src/pssd_tire/force_demand.py": "2908e3b300081c6c5cd4d087171d37c59e12e5cd6df66f18da2ed67b033dd648",
+    "src/pssd_tire/io.py": "4f8157725b246ba3a65ba28d0128a4ba946d80039704ea9a9d10a060c0f00a3a",
+    "src/pssd_tire/lateral.py": "097af5a210b75b97ebeaa9e05949432d7da20d145d0f7760f3b668b04799dc5b",
+    "src/pssd_tire/r25b_branch_classification.py": "f2f36a42ff9b01f50a705f7ee34dcb50c98de32e7b0aeb7d1468be085dcd8f38",
+    "src/pssd_tire/r25b_branch_classification_audit.py": "bbbed2458b0be089a7639b5145687d49fc9514a00a4fad961d4dd6970dd93b96",
+    "src/pssd_tire/r25b_force_demand_adapter.py": "0c009491ac39f06d68799307b7c3906e85747c522ad799b3dddaffa115a51820",
+    "src/pssd_tire/r25b_named_runtime.py": "99ebd594acd37e748f4b1cc1892f427d3cc874df7402d2e9d2cbc53563ac983f",
+    "src/pssd_tire/r25b_runtime.py": "d732d239c95671e4c3cba57f6cd801ebf92145fa8abda0e22369bba326595368",
+    "src/pssd_tire/r25b_source_native.py": "2087ea12f02ae74446249d377ee2b1628180c08606b60971db9164a38b31d527",
+    "src/pssd_tire/steady_state_lateral.py": "9e4d47805fd5f4bc91f1bb2460b04f5c95e6a42a17828c01aba9587fef6e1c5a",
+    "src/pssd_tire/steady_state_lateral_benchmarks.py": "3390bb2a072c1ec9a141962282bc5e467011e34514431fd2b6cec4586e1dd8b6",
+    "src/pssd_tire/toml_exchange.py": "3f05dcb7460129fe31e3472a5cd87641a80481951bbe1859d716bb79dffdbf27",
+    "src/pssd_tire/ttc_cornering.py": "67609039a8591246da882ec912c7c7e028963bcad9a394564b186f013aac3be5",
+    "src/pssd_vehicle/__init__.py": "b83df9ce2c34d52f23db3df255d4eac83d45b9e91ff046f9dff2625b28102775",
+    "src/pssd_vehicle/analytical_workflow.py": "6eb68cf052084930829d712e6afc8228cf79d806cdb5b3cb839a98ea6c2b6741",
+    "src/pssd_vehicle/force_coordinates.py": "b7258c6dc110acc85da499bfc2ad0fd5499f60c9a357ea47d9ac523d42731078",
+    "src/pssd_vehicle/operating_states.py": "0b80d2e778839f25d7f647f55d03841719076319bc5a82f49817b7ce40e5170d",
+    "src/pssd_vehicle/planar_kinematics.py": "b53cf8465dbdfe84f3ce26f4653a8854e3ec54fa1388e6779f7082e01934606c",
+    "src/pssd_vehicle/quasi_static.py": "1de4952d41f03a2ab19b500f531c55d679af5141cc442e1a351923a38d24bfc4",
+    "src/pssd_vehicle/reference.py": "25ffb7eda51fcd7220ffbe3242bff0c6a08192f63028a0ca16c74af42e95d171",
+    "src/pssd_vehicle/steady_cornering.py": "48d423a33d46f510855b0e96506aa0bfa8a399f78937c37f82d0adc1483c3932",
+    "src/pssd_vehicle/steady_cornering_export.py": "d249676c5efe37a388c38cb9859089f195ba160cfe17a7e13ac7f98721398eae",
+    "src/pssd_vehicle/steady_cornering_motion.py": "ec2f781b0d80045616d75a1fa12bed5991868e2473fb62b5cfd8ec4d19e43a5e",
+    "src/pssd_vehicle/steady_cornering_tire.py": "b44a8775269983c31baf38ec35618cf9db17a846cce733a6d3d67460c85ecba4",
+    "src/pssd_vehicle/steady_cornering_upright.py": "cbe4cb1d9b96413eff8fca25cc83322d7bf712ce1b33f0618cb3bedbf331e7d7",
+    "src/pssd_vehicle/synced_state.py": "38b756a275a53a7224abce693d0acf21f6cf78978b9e17926b3d5cebca12534b",
+    "src/pssd_vehicle/synced_tire_readiness.py": "af46b79479ac67d0c5be710c13cd8b2373ca220622d1bc9c7650c66f1961884b",
+    "src/pssd_vehicle/tire_bridge.py": "e7e62bd53f7ea202c5feead3930f909937d45cc2988dc4e7db853946be38a174",
+    "src/pssd_vehicle/wufr_gravity.py": "0cfa882067a3e090f1ebdc0659ca1f49fb6ff4c15dceae3f938482cb8f02307c",
+    "src/pssd_vehicle/wufr_road_contact.py": "382b6e982aeb564a1b625ba532fe1bb8107e4435466be31319751bf79eb29060",
+    "src/pssd_vehicle/wufr_static_carrier_wrench.py": "cc0d963d4216e41edf80c3a7e37e92377608201285ba681921faad70b935514f",
+    "src/pssd_vehicle/wufr_static_equilibrium.py": "966d38bbc07eed9ddcbdffa17268764e3fa49790f48931d8c2166e2ba758dab3",
+    "src/pssd_vehicle/wufr_static_equilibrium_core.py": "e8d821cd8de4b3483ae43720aba0b15de425afed30176100db1a715d6acdb405",
+    "src/pssd_vehicle/wufr_static_equilibrium_runtime.py": "cbb1f3354073acbac6c7d1ba9850a07e0c1cc5538d30a43d4f1cdb9e96cffe5a",
+    "src/pssd_vehicle/wufr_static_equilibrium_settings.py": "78306b740da3831a0db8760e8ab39de2373bd68d25c3985dc75e8c3f15e9e02b",
+    "src/pssd_vehicle/wufr_steady_cornering_geometry.py": "23923ac1efdaeaac7a2f6d602d5fee0f949e9e2b182ea9c75a52ff0b5ca99c3b",
+    "tests/test_analytical_design_workflow.py": "2545afb294b5fa587b6d73bb67a7cb78c54b69feaa6093c1b6db1f3a1dda07a6",
+    "tests/test_native_computational_envelope.py": "a4448d0c62e3e6fe0b441573e9da981aab464250c5c8cf5c2e0827ff88177788",
+    "tests/test_steady_cornering_tire.py": "858890c58e2703c71510eea26146b5ff70abcb9eaa75be7747a6358f3a46e307",
+    "tests/test_steady_cornering_upright.py": "38beabf6cdc1057edf76792cd8c71d65e6276aebd0954f31cfe38f810078cd92",
+    "tests/test_wufr_steady_cornering_geometry.py": "1876859659a29032764d8498614de9c517d269f3569a8ad41b478dc74ac3eeca",
+    "tests/varying_state_evidence_fixture.py": "b5223a334ba1357f8f8c82454f35bce8be9cdc433e23378181314d7fc654923b",
+    "tests/wufr_cornering_fixture.py": "d20ca325e9c83367375d132141f3e12f8d95fd320c65549b75a4a4a5d97062c5"
+  },
+  "rejected_cell": {
+    "candidate_id": "reference",
+    "assumption_id": "nominal",
+    "case_id": "left_high",
+    "case": {
+      "state_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high",
+      "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+      "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+      "setup_revision": "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276",
+      "tire_revision": "c29b89f744daf1a0300aacf883e35af2cafd307c1831ef1e78dc15833bb05f46",
+      "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+      "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+      "speed_m_s": 8.0,
+      "curvature_per_m": 0.1,
+      "pressures_pa": [
+        68900.0,
+        68900.0,
+        68900.0,
+        68900.0
+      ],
+      "gravity_m_s2": 9.81,
+      "front_arb_setting": 1,
+      "rear_arb_setting": 1,
+      "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+      "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+      "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+      "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+      "accepted_assumptions": [
+        "ASM-VEH-0006",
+        "ASM-VEH-0007",
+        "ASM-VEH-0008"
+      ],
+      "inertia_policy": "uniform_acceleration_current_mass_lumps",
+      "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+      "radius_policy": "fixed_radius_zero_width_rigid_circle",
+      "result_role": "evidence_only",
+      "state_weight": 0.0
+    },
+    "initial_coordinates": [
+      -0.0012407150647291412,
+      0.0018584363815947887,
+      0.0013353938526773548,
+      0.06598655632278458,
+      -0.009206443565781163,
+      62.18532527437875,
+      627.1514153306815,
+      977.5502880760368,
+      426.61590195519216,
+      972.2576706855905
+    ],
+    "result": {
+      "ok": false,
+      "case": {
+        "state_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high",
+        "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+        "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+        "setup_revision": "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276",
+        "tire_revision": "c29b89f744daf1a0300aacf883e35af2cafd307c1831ef1e78dc15833bb05f46",
+        "heading_frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+        "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+        "speed_m_s": 8.0,
+        "curvature_per_m": 0.1,
+        "pressures_pa": [
+          68900.0,
+          68900.0,
+          68900.0,
+          68900.0
+        ],
+        "gravity_m_s2": 9.81,
+        "front_arb_setting": 1,
+        "rear_arb_setting": 1,
+        "spring_reference_id": "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+        "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+        "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+        "tire_convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+        "accepted_assumptions": [
+          "ASM-VEH-0006",
+          "ASM-VEH-0007",
+          "ASM-VEH-0008"
+        ],
+        "inertia_policy": "uniform_acceleration_current_mass_lumps",
+        "speed_hold_policy": "virtual_tangential_force_at_current_total_cg",
+        "radius_policy": "fixed_radius_zero_width_rigid_circle",
+        "result_role": "evidence_only",
+        "state_weight": 0.0
+      },
+      "coordinates": [
+        -0.0012407150639010267,
+        0.001858436380851887,
+        0.0013353938509082157,
+        0.06598655632383985,
+        -0.009206443565743043,
+        62.185325271395754,
+        627.1514152659244,
+        977.5502881401804,
+        426.61590202045244,
+        972.2576706209439
+      ],
+      "evaluation": {
+        "coordinates": [
+          -0.0012407150639010267,
+          0.001858436380851887,
+          0.0013353938509082157,
+          0.06598655632383985,
+          -0.009206443565743043,
+          62.185325271395754,
+          627.1514152659244,
+          977.5502881401804,
+          426.61590202045244,
+          972.2576706209439
+        ],
+        "geometry": {
+          "body_coordinates": [
+            -0.0012407150639010267,
+            0.001858436380851887,
+            0.0013353938509082157
+          ],
+          "rack_m": -0.009206443565743043,
+          "state_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high",
+          "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+          "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+          "setup_revision": "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276",
+          "wheel_coordinates_m": [
+            0.0013652802471182668,
+            0.0032525027976018084,
+            -0.0009577707506503164,
+            0.0012786100419423518
+          ],
+          "J_wb": [
+            [
+              -0.9902873999815106,
+              -0.6024642717263015,
+              0.7318516617419292
+            ],
+            [
+              -0.9901656709581039,
+              0.6159484373949884,
+              0.7444305915047286
+            ],
+            [
+              -0.9972737674173541,
+              -0.5957929870981687,
+              -0.8149543942387325
+            ],
+            [
+              -0.9973524937832813,
+              0.6075711286884738,
+              -0.8150350227565448
+            ]
+          ],
+          "contact_coefficients": [
+            1.0098078598381346,
+            1.009932003633675,
+            1.00273368524443,
+            1.0026545341122834
+          ],
+          "contact_gaps_m": [
+            -2.1649348980190553e-15,
+            9.96425164601078e-15,
+            -5.800915303666443e-15,
+            -2.275957200481571e-15
+          ],
+          "suspension_force_n": [
+            -574.5860874277173,
+            -797.7433782996081,
+            -427.6457427863999,
+            -890.0040251712073
+          ],
+          "masses": [
+            {
+              "mass_kg": 286.17484975,
+              "point": {
+                "point": {
+                  "point_id": "sprung_body_cg",
+                  "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+                  "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+                  "position_m": [
+                    0.0025131006486580772,
+                    0.0004332054252558862,
+                    0.29304782816309377
+                  ],
+                  "role": "sprung_mass",
+                  "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+                  "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+                  "authority": "AUTH-VEH-0012",
+                  "fixed_role": "body_fixed",
+                  "provenance": [
+                    [
+                      "state_id",
+                      "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high"
+                    ],
+                    [
+                      "mass_source",
+                      "WUFR26_DRIVER_NO_FUEL_DESIGN_INTENT_REFERENCE"
+                    ]
+                  ]
+                },
+                "J_body": [
+                  [
+                    0.0,
+                    5.78499689129247e-07,
+                    0.004288543226994823
+                  ],
+                  [
+                    0.0,
+                    -0.004291895381321196,
+                    0.0
+                  ],
+                  [
+                    1.0,
+                    0.00043320503899336494,
+                    -0.0025131006486580772
+                  ]
+                ],
+                "J_wheel": [
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "jacobian_role": "material_application_point"
+              }
+            },
+            {
+              "mass_kg": 5.0,
+              "point": {
+                "point": {
+                  "point_id": "front_left:center",
+                  "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+                  "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+                  "position_m": [
+                    0.7401945962746229,
+                    0.6005672652118244,
+                    0.2322759358559524
+                  ],
+                  "role": "front_left:center",
+                  "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+                  "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+                  "authority": "AUTH-VEH-0012",
+                  "fixed_role": "instantaneous_upright_material_point",
+                  "provenance": [
+                    [
+                      "state_id",
+                      "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high"
+                    ],
+                    [
+                      "geometry_revision",
+                      "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862"
+                    ],
+                    [
+                      "setup_revision",
+                      "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276"
+                    ],
+                    [
+                      "source_role",
+                      "front_tie_rod_once"
+                    ]
+                  ]
+                },
+                "J_body": [
+                  [
+                    0.0,
+                    0.0008019935946578309,
+                    -0.056483349080146524
+                  ],
+                  [
+                    0.0,
+                    0.05549484769887251,
+                    0.0
+                  ],
+                  [
+                    1.0,
+                    0.6005667297230876,
+                    -0.7401945962746229
+                  ]
+                ],
+                "J_wheel": [
+                  [
+                    0.08436992718842697,
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    -0.15199750890210886,
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    1.0009754995202236,
+                    0.0,
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "jacobian_role": "material_application_point"
+              }
+            },
+            {
+              "mass_kg": 5.0,
+              "point": {
+                "point": {
+                  "point_id": "front_right:center",
+                  "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+                  "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+                  "position_m": [
+                    0.7500773130996364,
+                    -0.6117424418331273,
+                    0.23217400390478765
+                  ],
+                  "role": "front_right:center",
+                  "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+                  "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+                  "authority": "AUTH-VEH-0012",
+                  "fixed_role": "instantaneous_upright_material_point",
+                  "provenance": [
+                    [
+                      "state_id",
+                      "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high"
+                    ],
+                    [
+                      "geometry_revision",
+                      "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862"
+                    ],
+                    [
+                      "setup_revision",
+                      "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276"
+                    ],
+                    [
+                      "source_role",
+                      "front_tie_rod_once"
+                    ]
+                  ]
+                },
+                "J_body": [
+                  [
+                    0.0,
+                    -0.000816916852365348,
+                    -0.05658528103131129
+                  ],
+                  [
+                    0.0,
+                    0.05558358224379487,
+                    0.0
+                  ],
+                  [
+                    1.0,
+                    -0.6117418963801756,
+                    -0.7500773130996364
+                  ]
+                ],
+                "J_wheel": [
+                  [
+                    0.0,
+                    0.07988954492102292,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.15635788089232816,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.9987687239183639,
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "jacobian_role": "material_application_point"
+              }
+            },
+            {
+              "mass_kg": 5.0,
+              "point": {
+                "point": {
+                  "point_id": "rear_left:center",
+                  "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+                  "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+                  "position_m": [
+                    -0.8171440049717448,
+                    0.5930768956432256,
+                    0.23236937127398885
+                  ],
+                  "role": "rear_left:center",
+                  "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+                  "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+                  "authority": "AUTH-VEH-0012",
+                  "fixed_role": "instantaneous_upright_material_point",
+                  "provenance": [
+                    [
+                      "state_id",
+                      "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high"
+                    ],
+                    [
+                      "geometry_revision",
+                      "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862"
+                    ],
+                    [
+                      "setup_revision",
+                      "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276"
+                    ],
+                    [
+                      "source_role",
+                      "rear_native_toe_link"
+                    ]
+                  ]
+                },
+                "J_body": [
+                  [
+                    0.0,
+                    0.0007919910041677924,
+                    -0.05638991366211007
+                  ],
+                  [
+                    0.0,
+                    0.05748107213793143,
+                    0.0
+                  ],
+                  [
+                    1.0,
+                    0.5930763668331885,
+                    0.8171440049717448
+                  ]
+                ],
+                "J_wheel": [
+                  [
+                    0.0,
+                    0.0,
+                    -0.008466514526836532,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    -0.054968532644880365,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.9999117689445419,
+                    0.0
+                  ]
+                ],
+                "jacobian_role": "material_application_point"
+              }
+            },
+            {
+              "mass_kg": 5.0,
+              "point": {
+                "point": {
+                  "point_id": "rear_right:center",
+                  "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+                  "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+                  "position_m": [
+                    -0.8171657583007496,
+                    -0.6053619464553347,
+                    0.2323785600775216
+                  ],
+                  "role": "rear_right:center",
+                  "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+                  "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+                  "authority": "AUTH-VEH-0012",
+                  "fixed_role": "instantaneous_upright_material_point",
+                  "provenance": [
+                    [
+                      "state_id",
+                      "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high"
+                    ],
+                    [
+                      "geometry_revision",
+                      "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862"
+                    ],
+                    [
+                      "setup_revision",
+                      "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276"
+                    ],
+                    [
+                      "source_role",
+                      "rear_native_toe_link"
+                    ]
+                  ]
+                },
+                "J_body": [
+                  [
+                    0.0,
+                    -0.0008083963806044891,
+                    -0.05638072485857731
+                  ],
+                  [
+                    0.0,
+                    0.05747191239184492,
+                    0.0
+                  ],
+                  [
+                    1.0,
+                    -0.6053614066914765,
+                    0.8171657583007496
+                  ]
+                ],
+                "J_wheel": [
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    -0.008326662927354874
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.05845071027407675
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0001223650654023
+                  ]
+                ],
+                "jacobian_role": "material_application_point"
+              }
+            }
+          ],
+          "wheels": [
+            {
+              "corner_id": "front_left",
+              "center": {
+                "point": {
+                  "point_id": "front_left:center",
+                  "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+                  "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+                  "position_m": [
+                    0.7401945962746229,
+                    0.6005672652118244,
+                    0.2322759358559524
+                  ],
+                  "role": "front_left:center",
+                  "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+                  "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+                  "authority": "AUTH-VEH-0012",
+                  "fixed_role": "instantaneous_upright_material_point",
+                  "provenance": [
+                    [
+                      "state_id",
+                      "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high"
+                    ],
+                    [
+                      "geometry_revision",
+                      "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862"
+                    ],
+                    [
+                      "setup_revision",
+                      "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276"
+                    ],
+                    [
+                      "source_role",
+                      "front_tie_rod_once"
+                    ]
+                  ]
+                },
+                "J_body": [
+                  [
+                    0.0,
+                    0.0008019935946578309,
+                    -0.056483349080146524
+                  ],
+                  [
+                    0.0,
+                    0.05549484769887251,
+                    0.0
+                  ],
+                  [
+                    1.0,
+                    0.6005667297230876,
+                    -0.7401945962746229
+                  ]
+                ],
+                "J_wheel": [
+                  [
+                    0.08436992718842697,
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    -0.15199750890210886,
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    1.0009754995202236,
+                    0.0,
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "jacobian_role": "material_application_point"
+              },
+              "contact": {
+                "point": {
+                  "point_id": "front_left:contact",
+                  "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+                  "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+                  "position_m": [
+                    0.7390295602625999,
+                    0.608373699310129,
+                    -2.1094237467877974e-15
+                  ],
+                  "role": "front_left:contact",
+                  "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+                  "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+                  "authority": "AUTH-VEH-0012",
+                  "fixed_role": "instantaneous_upright_material_point",
+                  "provenance": [
+                    [
+                      "state_id",
+                      "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high"
+                    ],
+                    [
+                      "geometry_revision",
+                      "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862"
+                    ],
+                    [
+                      "setup_revision",
+                      "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276"
+                    ],
+                    [
+                      "source_role",
+                      "front_tie_rod_once"
+                    ]
+                  ]
+                },
+                "J_body": [
+                  [
+                    0.0,
+                    0.0008124182556518839,
+                    -0.28875928493610103
+                  ],
+                  [
+                    0.0,
+                    0.28777213223018544,
+                    0.0
+                  ],
+                  [
+                    1.0,
+                    0.6083731568608769,
+                    -0.7390295602625999
+                  ]
+                ],
+                "J_wheel": [
+                  [
+                    0.04627775179779799,
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.10511937407110872,
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    1.0098078598381346,
+                    0.0,
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "jacobian_role": "material_application_point"
+              },
+              "forward_heading": [
+                0.9890462797893013,
+                0.14760574661896908,
+                -0.0
+              ],
+              "inclination_rad": 0.03396759441338034,
+              "steering_owner": "front_tie_rod_once"
+            },
+            {
+              "corner_id": "front_right",
+              "center": {
+                "point": {
+                  "point_id": "front_right:center",
+                  "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+                  "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+                  "position_m": [
+                    0.7500773130996364,
+                    -0.6117424418331273,
+                    0.23217400390478765
+                  ],
+                  "role": "front_right:center",
+                  "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+                  "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+                  "authority": "AUTH-VEH-0012",
+                  "fixed_role": "instantaneous_upright_material_point",
+                  "provenance": [
+                    [
+                      "state_id",
+                      "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high"
+                    ],
+                    [
+                      "geometry_revision",
+                      "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862"
+                    ],
+                    [
+                      "setup_revision",
+                      "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276"
+                    ],
+                    [
+                      "source_role",
+                      "front_tie_rod_once"
+                    ]
+                  ]
+                },
+                "J_body": [
+                  [
+                    0.0,
+                    -0.000816916852365348,
+                    -0.05658528103131129
+                  ],
+                  [
+                    0.0,
+                    0.05558358224379487,
+                    0.0
+                  ],
+                  [
+                    1.0,
+                    -0.6117418963801756,
+                    -0.7500773130996364
+                  ]
+                ],
+                "J_wheel": [
+                  [
+                    0.0,
+                    0.07988954492102292,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.15635788089232816,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.9987687239183639,
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "jacobian_role": "material_application_point"
+              },
+              "contact": {
+                "point": {
+                  "point_id": "front_right:contact",
+                  "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+                  "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+                  "position_m": [
+                    0.7518242788445724,
+                    -0.6220665941717124,
+                    9.992007221626409e-15
+                  ],
+                  "role": "front_right:contact",
+                  "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+                  "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+                  "authority": "AUTH-VEH-0012",
+                  "fixed_role": "instantaneous_upright_material_point",
+                  "provenance": [
+                    [
+                      "state_id",
+                      "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high"
+                    ],
+                    [
+                      "geometry_revision",
+                      "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862"
+                    ],
+                    [
+                      "setup_revision",
+                      "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276"
+                    ],
+                    [
+                      "source_role",
+                      "front_tie_rod_once"
+                    ]
+                  ]
+                },
+                "J_body": [
+                  [
+                    0.0,
+                    -0.0008307036578165186,
+                    -0.28875928493608893
+                  ],
+                  [
+                    0.0,
+                    0.28775504624673304,
+                    0.0
+                  ],
+                  [
+                    1.0,
+                    -0.6220660395133518,
+                    -0.7518242788445724
+                  ]
+                ],
+                "J_wheel": [
+                  [
+                    0.0,
+                    0.045979171059029315,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    -0.10042480911513596,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    1.009932003633675,
+                    0.0,
+                    0.0
+                  ]
+                ],
+                "jacobian_role": "material_application_point"
+              },
+              "forward_heading": [
+                0.9859840040726455,
+                0.1668398744691251,
+                -0.0
+              ],
+              "inclination_rad": -0.04506887916585599,
+              "steering_owner": "front_tie_rod_once"
+            },
+            {
+              "corner_id": "rear_left",
+              "center": {
+                "point": {
+                  "point_id": "rear_left:center",
+                  "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+                  "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+                  "position_m": [
+                    -0.8171440049717448,
+                    0.5930768956432256,
+                    0.23236937127398885
+                  ],
+                  "role": "rear_left:center",
+                  "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+                  "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+                  "authority": "AUTH-VEH-0012",
+                  "fixed_role": "instantaneous_upright_material_point",
+                  "provenance": [
+                    [
+                      "state_id",
+                      "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high"
+                    ],
+                    [
+                      "geometry_revision",
+                      "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862"
+                    ],
+                    [
+                      "setup_revision",
+                      "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276"
+                    ],
+                    [
+                      "source_role",
+                      "rear_native_toe_link"
+                    ]
+                  ]
+                },
+                "J_body": [
+                  [
+                    0.0,
+                    0.0007919910041677924,
+                    -0.05638991366211007
+                  ],
+                  [
+                    0.0,
+                    0.05748107213793143,
+                    0.0
+                  ],
+                  [
+                    1.0,
+                    0.5930763668331885,
+                    0.8171440049717448
+                  ]
+                ],
+                "J_wheel": [
+                  [
+                    0.0,
+                    0.0,
+                    -0.008466514526836532,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    -0.054968532644880365,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.9999117689445419,
+                    0.0
+                  ]
+                ],
+                "jacobian_role": "material_application_point"
+              },
+              "contact": {
+                "point": {
+                  "point_id": "rear_left:contact",
+                  "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+                  "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+                  "position_m": [
+                    -0.8171822230411463,
+                    0.5974222302802374,
+                    -5.717648576819556e-15
+                  ],
+                  "role": "rear_left:contact",
+                  "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+                  "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+                  "authority": "AUTH-VEH-0012",
+                  "fixed_role": "instantaneous_upright_material_point",
+                  "provenance": [
+                    [
+                      "state_id",
+                      "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high"
+                    ],
+                    [
+                      "geometry_revision",
+                      "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862"
+                    ],
+                    [
+                      "setup_revision",
+                      "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276"
+                    ],
+                    [
+                      "source_role",
+                      "rear_native_toe_link"
+                    ]
+                  ]
+                },
+                "J_body": [
+                  [
+                    0.0,
+                    0.0007977937355975501,
+                    -0.28875928493610464
+                  ],
+                  [
+                    0.0,
+                    0.28985028725866946,
+                    0.0
+                  ],
+                  [
+                    1.0,
+                    0.5974216975957338,
+                    0.8171822230411463
+                  ]
+                ],
+                "J_wheel": [
+                  [
+                    0.0,
+                    0.0,
+                    -0.06736228381753205,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.09541713116114985,
+                    0.0
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    1.00273368524443,
+                    0.0
+                  ]
+                ],
+                "jacobian_role": "material_application_point"
+              },
+              "forward_heading": [
+                0.9999613245083102,
+                0.00879485574561168,
+                -0.0
+              ],
+              "inclination_rad": 0.018698661583766183,
+              "steering_owner": "rear_native_toe_link"
+            },
+            {
+              "corner_id": "rear_right",
+              "center": {
+                "point": {
+                  "point_id": "rear_right:center",
+                  "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+                  "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+                  "position_m": [
+                    -0.8171657583007496,
+                    -0.6053619464553347,
+                    0.2323785600775216
+                  ],
+                  "role": "rear_right:center",
+                  "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+                  "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+                  "authority": "AUTH-VEH-0012",
+                  "fixed_role": "instantaneous_upright_material_point",
+                  "provenance": [
+                    [
+                      "state_id",
+                      "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high"
+                    ],
+                    [
+                      "geometry_revision",
+                      "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862"
+                    ],
+                    [
+                      "setup_revision",
+                      "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276"
+                    ],
+                    [
+                      "source_role",
+                      "rear_native_toe_link"
+                    ]
+                  ]
+                },
+                "J_body": [
+                  [
+                    0.0,
+                    -0.0008083963806044891,
+                    -0.05638072485857731
+                  ],
+                  [
+                    0.0,
+                    0.05747191239184492,
+                    0.0
+                  ],
+                  [
+                    1.0,
+                    -0.6053614066914765,
+                    0.8171657583007496
+                  ]
+                ],
+                "J_wheel": [
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    -0.008326662927354874
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.05845071027407675
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0001223650654023
+                  ]
+                ],
+                "jacobian_role": "material_application_point"
+              },
+              "contact": {
+                "point": {
+                  "point_id": "rear_right:contact",
+                  "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+                  "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+                  "position_m": [
+                    -0.8171985610271578,
+                    -0.6091844901474001,
+                    -2.275957200481571e-15
+                  ],
+                  "role": "rear_right:contact",
+                  "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+                  "configuration_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal",
+                  "authority": "AUTH-VEH-0012",
+                  "fixed_role": "instantaneous_upright_material_point",
+                  "provenance": [
+                    [
+                      "state_id",
+                      "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high"
+                    ],
+                    [
+                      "geometry_revision",
+                      "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862"
+                    ],
+                    [
+                      "setup_revision",
+                      "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276"
+                    ],
+                    [
+                      "source_role",
+                      "rear_native_toe_link"
+                    ]
+                  ]
+                },
+                "J_body": [
+                  [
+                    0.0,
+                    -0.0008135009804285488,
+                    -0.2887592849361012
+                  ],
+                  [
+                    0.0,
+                    0.28985030907630555,
+                    0.0
+                  ],
+                  [
+                    1.0,
+                    -0.6091839469752159,
+                    0.8171985610271578
+                  ]
+                ],
+                "J_wheel": [
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    -0.06642122100567309
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    -0.09498537429411628
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0026545341122834
+                  ]
+                ],
+                "jacobian_role": "material_application_point"
+              },
+              "forward_heading": [
+                0.9999631819327915,
+                -0.008581070961535816,
+                0.0
+              ],
+              "inclination_rad": -0.01644876218783711,
+              "steering_owner": "rear_native_toe_link"
+            }
+          ],
+          "source_ids": [
+            "AUTH-VEH-0012",
+            "ASM-VEH-0006",
+            "ASM-VEH-0007",
+            "ASM-VEH-0008",
+            "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+            "WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0",
+            "WUFR27_STEERING_BASELINE_V0",
+            "WUFR26_WHOLE_VEHICLE_FRAME_V0",
+            "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+            "WUFR27_SPRING_PACKAGE_V0",
+            "WUFR27_KW_ZERO_PRELOAD_FULL_EXTENSION_V0",
+            "WUFR26_ZBAR_MECHANISM_V0",
+            "WUFR26_ZBAR_MECHANISM_V0"
+          ],
+          "branch_id": "native_reference_connected_unique_contact_roots"
+        },
+        "motion": {
+          "speed_m_s": 8.0,
+          "curvature_per_m": 0.1,
+          "sideslip_rad": 0.06598655632383985,
+          "forward_velocity_m_s": 7.982589416381136,
+          "lateral_velocity_m_s": 0.5275094401808189,
+          "yaw_rate_rad_s": 0.8,
+          "acceleration_m_s2": [
+            -0.42200755214465513,
+            6.386071533104909,
+            0.0
+          ],
+          "travel_direction": [
+            0.997823677047642,
+            0.06593868002260236,
+            0.0
+          ]
+        },
+        "inertia": {
+          "current_total_cg_heading_m": [
+            -3.2761311245543302e-06,
+            2.1789380551261108e-05,
+            0.2890796145469438
+          ],
+          "forces_heading_n": [
+            [
+              120.76794782836198,
+              -1827.5330614790496,
+              -0.0
+            ],
+            [
+              2.1100377607232756,
+              -31.930357665524546,
+              -0.0
+            ],
+            [
+              2.1100377607232756,
+              -31.930357665524546,
+              -0.0
+            ],
+            [
+              2.1100377607232756,
+              -31.930357665524546,
+              -0.0
+            ],
+            [
+              2.1100377607232756,
+              -31.930357665524546,
+              -0.0
+            ]
+          ],
+          "mass_source_ids": [
+            "WUFR27_STATIC_GRAVITY_ALLOCATION_V0:sprung_body_cg",
+            "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0:front_left:center",
+            "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0:front_right:center",
+            "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0:rear_left:center",
+            "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0:rear_right:center"
+          ],
+          "assumption_id": "ASM-VEH-0006"
+        },
+        "holder": {
+          "force_heading_n": [
+            62.049989920707766,
+            4.100418265172014,
+            0.0
+          ],
+          "power_w": 497.48260217116604,
+          "policy": "virtual_tangential_force_at_current_total_cg"
+        },
+        "tires": [
+          {
+            "query": {
+              "state_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high",
+              "corner_id": "front_left",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_revision": "c29b89f744daf1a0300aacf883e35af2cafd307c1831ef1e78dc15833bb05f46",
+              "convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "slip_angle_rad": -5.57805072354256e-06,
+              "normal_load_n": 627.1514152659244,
+              "inclination_rad": 0.03396759441338034,
+              "pressure_pa": 68900.0
+            },
+            "lateral_force_n": -151.59163385799496,
+            "source_ids": [
+              "R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "ASM-VEH-0009",
+              "development_negative_IA_reflect_slip_inclination_and_force",
+              "uncorrelated_R25B_to_R20_proxy_with_assumed_negative_IA_symmetry",
+              "requested_query:{\"inclination_rad\": 0.03396759441338034, \"normal_load_N\": 627.1514152659244, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": -5.57805072354256e-06, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}",
+              "source_response:{\"derivative_unique\": true, \"domain_and_censor_metadata\": [\"source_slip_domain_deg=[-12,12]\", \"source_speed_kph=40.2\", \"source_slip_ratio=0\", \"pressure_basis=gauge_reviewer_authorized_engineering_interpretation\", \"pressure_basis_is_not_source_stated_fact\", \"source_tire=Hoosier_43105_R25B\", \"intended_tire=Hoosier_43104_R20_engineering_proxy\", \"source_peak_postpeak_and_nonmonotonicity_retained\", \"named_branch_selection_not_authorized\", \"branch_policy=R25B_STRICT_MONOTONIC_PREFIX_SIGNED_V1\", \"central_transition_is_not_named_pre_peak_or_post_peak\", \"positive_post_peak_unavailable_at_source_boundary\", \"negative_post_peak_demonstrated_inside_source_domain\", \"named_branch_selection_exact_source_states_only\", \"multiple_named_roots_fail_closed\", \"positive_post_peak_demonstrated_inside_source_domain\", \"negative_post_peak_unavailable_at_source_boundary\"], \"exact_knot\": false, \"failure_code\": null, \"fidelity_label\": \"exact_processed_ttc_r25b_engineering_proxy_for_r20\", \"lateral_force_N\": -151.59163385799496, \"left_segment_slope_N_per_rad\": 29031.050616191096, \"message\": \"complete-cell multilinear operating-state interpolation\", \"ok\": true, \"operating_state\": {\"inclination_rad\": 0.03396759441338034, \"normal_load_N\": 627.1514152659244, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": -5.57805072354256e-06, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}, \"participating_curve_ids\": [\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1\"], \"right_segment_slope_N_per_rad\": 29031.050616191096, \"slip_interpolation_fractions\": [[\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.49788265818605615], [\"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.49788265818605615], [\"R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.49748315973059504], [\"R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.49748315973059504]], \"slip_segment_ids\": [\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:79\", \"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:79\", \"R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:94\", \"R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:94\"], \"source_and_adapter_provenance\": [\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\"], \"state_interpolation_weights\": [[\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.0048285176226831395], [\"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.17466961181009008], [\"R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.02207158232789349], [\"R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.7984302882393333]], \"status\": \"ok\"}",
+              "source_segment_labels:[[\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:79\", \"central_transition\"], [\"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:79\", \"central_transition\"], [\"R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:94\", \"central_transition\"], [\"R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:94\", \"central_transition\"]]"
+            ],
+            "branch_id": "direct_nonnegative_IA:connected_monotone_central"
+          },
+          {
+            "query": {
+              "state_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high",
+              "corner_id": "front_right",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_revision": "c29b89f744daf1a0300aacf883e35af2cafd307c1831ef1e78dc15833bb05f46",
+              "convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "slip_angle_rad": 0.03530720785783403,
+              "normal_load_n": 977.5502881401804,
+              "inclination_rad": -0.04506887916585599,
+              "pressure_pa": 68900.0
+            },
+            "lateral_force_n": 1272.8070551729027,
+            "source_ids": [
+              "R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "ASM-VEH-0009",
+              "development_negative_IA_reflect_slip_inclination_and_force",
+              "uncorrelated_R25B_to_R20_proxy_with_assumed_negative_IA_symmetry",
+              "requested_query:{\"inclination_rad\": -0.04506887916585599, \"normal_load_N\": 977.5502881401804, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": 0.03530720785783403, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}",
+              "source_response:{\"derivative_unique\": true, \"domain_and_censor_metadata\": [\"source_slip_domain_deg=[-12,12]\", \"source_speed_kph=40.2\", \"source_slip_ratio=0\", \"pressure_basis=gauge_reviewer_authorized_engineering_interpretation\", \"pressure_basis_is_not_source_stated_fact\", \"source_tire=Hoosier_43105_R25B\", \"intended_tire=Hoosier_43104_R20_engineering_proxy\", \"source_peak_postpeak_and_nonmonotonicity_retained\", \"named_branch_selection_not_authorized\", \"branch_policy=R25B_STRICT_MONOTONIC_PREFIX_SIGNED_V1\", \"central_transition_is_not_named_pre_peak_or_post_peak\", \"positive_post_peak_demonstrated_inside_source_domain\", \"negative_post_peak_demonstrated_inside_source_domain\", \"named_branch_selection_exact_source_states_only\", \"multiple_named_roots_fail_closed\", \"negative_post_peak_unavailable_at_source_boundary\"], \"exact_knot\": false, \"failure_code\": null, \"fidelity_label\": \"exact_processed_ttc_r25b_engineering_proxy_for_r20\", \"lateral_force_N\": -1272.8070551729027, \"left_segment_slope_N_per_rad\": 21739.09719567887, \"message\": \"complete-cell multilinear operating-state interpolation\", \"ok\": true, \"operating_state\": {\"inclination_rad\": 0.04506887916585599, \"normal_load_N\": 977.5502881401804, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": -0.03530720785783403, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}, \"participating_curve_ids\": [\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1\"], \"right_segment_slope_N_per_rad\": 21739.09719567887, \"slip_interpolation_fractions\": [[\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.5692372764204155], [\"R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1\", 0.09792977222670106], [\"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.5692372764204155], [\"R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1\", 0.09792977222670106]], \"slip_segment_ids\": [\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:78\", \"R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1:segment:66\", \"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:78\", \"R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1:segment:66\"], \"source_and_adapter_provenance\": [\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\"], \"state_interpolation_weights\": [[\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.4293135056681499], [\"R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1\", 0.17631582703374002], [\"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.27955821253753305], [\"R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1\", 0.11481245476057707]], \"status\": \"ok\"}",
+              "source_segment_labels:[[\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:78\", \"negative_slip_pre_peak\"], [\"R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1:segment:66\", \"negative_slip_pre_peak\"], [\"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:78\", \"negative_slip_pre_peak\"], [\"R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1:segment:66\", \"negative_slip_pre_peak\"]]"
+            ],
+            "branch_id": "reflected_negative_IA:connected_monotone_central"
+          },
+          {
+            "query": {
+              "state_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high",
+              "corner_id": "rear_left",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_revision": "c29b89f744daf1a0300aacf883e35af2cafd307c1831ef1e78dc15833bb05f46",
+              "convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "slip_angle_rad": 0.025602216946019052,
+              "normal_load_n": 426.61590202045244,
+              "inclination_rad": 0.018698661583766183,
+              "pressure_pa": 68900.0
+            },
+            "lateral_force_n": 491.4723762762296,
+            "source_ids": [
+              "R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "ASM-VEH-0009",
+              "development_negative_IA_reflect_slip_inclination_and_force",
+              "uncorrelated_R25B_to_R20_proxy_with_assumed_negative_IA_symmetry",
+              "requested_query:{\"inclination_rad\": 0.018698661583766183, \"normal_load_N\": 426.61590202045244, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": 0.025602216946019052, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}",
+              "source_response:{\"derivative_unique\": true, \"domain_and_censor_metadata\": [\"source_slip_domain_deg=[-12,12]\", \"source_speed_kph=40.2\", \"source_slip_ratio=0\", \"pressure_basis=gauge_reviewer_authorized_engineering_interpretation\", \"pressure_basis_is_not_source_stated_fact\", \"source_tire=Hoosier_43105_R25B\", \"intended_tire=Hoosier_43104_R20_engineering_proxy\", \"source_peak_postpeak_and_nonmonotonicity_retained\", \"named_branch_selection_not_authorized\", \"branch_policy=R25B_STRICT_MONOTONIC_PREFIX_SIGNED_V1\", \"central_transition_is_not_named_pre_peak_or_post_peak\", \"positive_post_peak_demonstrated_inside_source_domain\", \"negative_post_peak_demonstrated_inside_source_domain\", \"named_branch_selection_exact_source_states_only\", \"multiple_named_roots_fail_closed\", \"positive_post_peak_unavailable_at_source_boundary\", \"negative_post_peak_unavailable_at_source_boundary\"], \"exact_knot\": false, \"failure_code\": null, \"fidelity_label\": \"exact_processed_ttc_r25b_engineering_proxy_for_r20\", \"lateral_force_N\": 491.4723762762296, \"left_segment_slope_N_per_rad\": 15624.247270263466, \"message\": \"complete-cell multilinear operating-state interpolation\", \"ok\": true, \"operating_state\": {\"inclination_rad\": 0.018698661583766183, \"normal_load_N\": 426.61590202045244, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": 0.025602216946019052, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}, \"participating_curve_ids\": [\"R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1\"], \"right_segment_slope_N_per_rad\": 15624.247270263466, \"slip_interpolation_fractions\": [[\"R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.21820572385199952], [\"R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.21820572385199952], [\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.21820572385199952], [\"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.21820572385199952]], \"slip_segment_ids\": [\"R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:89\"], \"source_and_adapter_provenance\": [\"R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\"], \"state_interpolation_weights\": [[\"R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.038278726140677594], [\"R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.04416117511289888], [\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.4260440782127174], [\"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.49151602053370613]], \"status\": \"ok\"}",
+              "source_segment_labels:[[\"R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"positive_slip_pre_peak\"], [\"R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"positive_slip_pre_peak\"], [\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"positive_slip_pre_peak\"], [\"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"positive_slip_pre_peak\"]]"
+            ],
+            "branch_id": "direct_nonnegative_IA:connected_monotone_central"
+          },
+          {
+            "query": {
+              "state_id": "ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high",
+              "corner_id": "rear_right",
+              "source_tire_id": "HOOSIER_43105_18X7.5-10_R25B",
+              "intended_tire_id": "HOOSIER_43104_18X7.5-10_R20",
+              "tire_revision": "c29b89f744daf1a0300aacf883e35af2cafd307c1831ef1e78dc15833bb05f46",
+              "convention_id": "SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1",
+              "slip_angle_rad": 0.0063252534917612735,
+              "normal_load_n": 972.2576706209439,
+              "inclination_rad": -0.01644876218783711,
+              "pressure_pa": 68900.0
+            },
+            "lateral_force_n": 354.67750891836147,
+            "source_ids": [
+              "R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1",
+              "ASM-VEH-0009",
+              "development_negative_IA_reflect_slip_inclination_and_force",
+              "uncorrelated_R25B_to_R20_proxy_with_assumed_negative_IA_symmetry",
+              "requested_query:{\"inclination_rad\": -0.01644876218783711, \"normal_load_N\": 972.2576706209439, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": 0.0063252534917612735, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}",
+              "source_response:{\"derivative_unique\": true, \"domain_and_censor_metadata\": [\"source_slip_domain_deg=[-12,12]\", \"source_speed_kph=40.2\", \"source_slip_ratio=0\", \"pressure_basis=gauge_reviewer_authorized_engineering_interpretation\", \"pressure_basis_is_not_source_stated_fact\", \"source_tire=Hoosier_43105_R25B\", \"intended_tire=Hoosier_43104_R20_engineering_proxy\", \"source_peak_postpeak_and_nonmonotonicity_retained\", \"named_branch_selection_not_authorized\", \"branch_policy=R25B_STRICT_MONOTONIC_PREFIX_SIGNED_V1\", \"central_transition_is_not_named_pre_peak_or_post_peak\", \"positive_post_peak_demonstrated_inside_source_domain\", \"negative_post_peak_demonstrated_inside_source_domain\", \"named_branch_selection_exact_source_states_only\", \"multiple_named_roots_fail_closed\"], \"exact_knot\": false, \"failure_code\": null, \"fidelity_label\": \"exact_processed_ttc_r25b_engineering_proxy_for_r20\", \"lateral_force_N\": -354.67750891836147, \"left_segment_slope_N_per_rad\": 35187.766501049475, \"message\": \"complete-cell multilinear operating-state interpolation\", \"ok\": true, \"operating_state\": {\"inclination_rad\": 0.01644876218783711, \"normal_load_N\": 972.2576706209439, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": -0.0063252534917612735, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}, \"participating_curve_ids\": [\"R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1\"], \"right_segment_slope_N_per_rad\": 35187.766501049475, \"slip_interpolation_fractions\": [[\"R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.6460186557520744], [\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.6460186557520744], [\"R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.6460186557520744], [\"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.6460186557520744]], \"slip_segment_ids\": [\"R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:91\"], \"source_and_adapter_provenance\": [\"R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\"], \"state_interpolation_weights\": [[\"R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.33284965728794524], [\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.29662029486996494], [\"R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.19592801692333447], [\"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.17460203091875537]], \"status\": \"ok\"}",
+              "source_segment_labels:[[\"R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"negative_slip_pre_peak\"], [\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"negative_slip_pre_peak\"], [\"R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"negative_slip_pre_peak\"], [\"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"negative_slip_pre_peak\"]]"
+            ],
+            "branch_id": "reflected_negative_IA:connected_monotone_central"
+          }
+        ],
+        "body_direct_force": [
+          -3003.575276047501,
+          563.9729186925891,
+          55.27897448037691
+        ],
+        "wheel_external_force": [
+          -58.716341094013465,
+          -189.51594283392689,
+          -0.13639285848127258,
+          -84.83453658348512
+        ],
+        "residual": [
+          6.565096555277705e-08,
+          8.73445742399781e-08,
+          -3.412657889612092e-08,
+          -7.759047093713889e-08,
+          2.0553784452204127e-08,
+          -2.8036254207108868e-08,
+          1.8844048099708743e-08,
+          4.845106538198252e-10,
+          -6.903064786456525e-10,
+          -1.8820855984813534e-09
+        ],
+        "physical_wrench": {
+          "reference_point_id": "current_total_cg",
+          "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+          "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+          "resultant_force_N": [
+            4.845106538198252e-10,
+            -6.903064786456525e-10,
+            -1.1368683772161603e-13
+          ],
+          "resultant_moment_Nm": [
+            -2.1645973902195692e-10,
+            -1.326725396211259e-10,
+            -1.8820855984813534e-09
+          ],
+          "contributions": [
+            {
+              "wrench_id": "gravity_0",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                0.0,
+                0.0,
+                -2807.3752760475004
+              ],
+              "moment_Nm": [
+                -1.1549992320730176,
+                7.064413956781785,
+                0.0
+              ],
+              "moment_arm_m": [
+                0.0025163767797826316,
+                0.0004114160447046251,
+                0.003968213616149963
+              ],
+              "force_moment_Nm": [
+                -1.1549992320730176,
+                7.064413956781785,
+                0.0
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "WUFR27_STATIC_GRAVITY_ALLOCATION_V0",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "inertia_0",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                120.76794782836198,
+                -1827.5330614790496,
+                -0.0
+              ],
+              "moment_Nm": [
+                7.252041578525391,
+                0.47923301496699433,
+                -4.648447631613584
+              ],
+              "moment_arm_m": [
+                0.0025163767797826316,
+                0.0004114160447046251,
+                0.003968213616149963
+              ],
+              "force_moment_Nm": [
+                7.252041578525391,
+                0.47923301496699433,
+                -4.648447631613584
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "ASM-VEH-0006",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "gravity_1",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                0.0,
+                0.0,
+                -49.050000000000004
+              ],
+              "moment_Nm": [
+                -29.456755589523944,
+                36.30670564150192,
+                0.0
+              ],
+              "moment_arm_m": [
+                0.7401978724057475,
+                0.600545475831273,
+                -0.0568036786909914
+              ],
+              "force_moment_Nm": [
+                -29.456755589523944,
+                36.30670564150192,
+                0.0
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "inertia_1",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                2.1100377607232756,
+                -31.930357665524546,
+                -0.0
+              ],
+              "moment_Nm": [
+                -1.8137617773208905,
+                -0.11985790698598395,
+                -24.901956440211336
+              ],
+              "moment_arm_m": [
+                0.7401978724057475,
+                0.600545475831273,
+                -0.0568036786909914
+              ],
+              "force_moment_Nm": [
+                -1.8137617773208905,
+                -0.11985790698598395,
+                -24.901956440211336
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "ASM-VEH-0006",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "gravity_2",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                0.0,
+                0.0,
+                -49.050000000000004
+              ],
+              "moment_Nm": [
+                30.007035541030938,
+                36.791452901768835,
+                0.0
+              ],
+              "moment_arm_m": [
+                0.750080589230761,
+                -0.6117642312136786,
+                -0.05690561064215616
+              ],
+              "force_moment_Nm": [
+                30.007035541030938,
+                36.791452901768835,
+                0.0
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "inertia_2",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                2.1100377607232756,
+                -31.930357665524546,
+                -0.0
+              ],
+              "moment_Nm": [
+                -1.8170165009791261,
+                -0.12007298725196579,
+                -22.659495863584894
+              ],
+              "moment_arm_m": [
+                0.750080589230761,
+                -0.6117642312136786,
+                -0.05690561064215616
+              ],
+              "force_moment_Nm": [
+                -1.8170165009791261,
+                -0.12007298725196579,
+                -22.659495863584894
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "ASM-VEH-0006",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "gravity_3",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                0.0,
+                0.0,
+                -49.050000000000004
+              ],
+              "moment_Nm": [
+                -29.08935296218418,
+                -40.080752749632424,
+                0.0
+              ],
+              "moment_arm_m": [
+                -0.8171407288406202,
+                0.5930551062626743,
+                -0.05671024327295496
+              ],
+              "force_moment_Nm": [
+                -29.08935296218418,
+                -40.080752749632424,
+                -0.0
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "inertia_3",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                2.1100377607232756,
+                -31.930357665524546,
+                -0.0
+              ],
+              "moment_Nm": [
+                -1.8107783510043591,
+                -0.11966075472573809,
+                24.84022706654441
+              ],
+              "moment_arm_m": [
+                -0.8171407288406202,
+                0.5930551062626743,
+                -0.05671024327295496
+              ],
+              "force_moment_Nm": [
+                -1.8107783510043591,
+                -0.11966075472573809,
+                24.84022706654441
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "ASM-VEH-0006",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "gravity_4",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                0.0,
+                0.0,
+                -49.050000000000004
+              ],
+              "moment_Nm": [
+                29.69407224275021,
+                -40.08181975042011,
+                0.0
+              ],
+              "moment_arm_m": [
+                -0.817162482169625,
+                -0.605383735835886,
+                -0.056701054469422196
+              ],
+              "force_moment_Nm": [
+                29.69407224275021,
+                -40.08181975042011,
+                0.0
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "WUFR26_OPTIMUMK_SUSPENSION_HARDPOINTS_V0",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "inertia_4",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                2.1100377607232756,
+                -31.930357665524546,
+                -0.0
+              ],
+              "moment_Nm": [
+                -1.81048494922104,
+                -0.11964136600330809,
+                27.369672868865393
+              ],
+              "moment_arm_m": [
+                -0.817162482169625,
+                -0.605383735835886,
+                -0.056701054469422196
+              ],
+              "force_moment_Nm": [
+                -1.81048494922104,
+                -0.11964136600330809,
+                27.369672868865393
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "ASM-VEH-0006",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "virtual_speed_hold",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                62.049989920707766,
+                4.100418265172014,
+                0.0
+              ],
+              "moment_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "moment_arm_m": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "force_moment_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "ASM-VEH-0007",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "lateral_front_left",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                22.37579629679874,
+                -149.9311415144318,
+                0.0
+              ],
+              "moment_Nm": [
+                -43.34203659757554,
+                -6.468386568659559,
+                -124.41639519051212
+              ],
+              "moment_arm_m": [
+                0.7390328363937245,
+                0.6083519099295777,
+                -0.2890796145469459
+              ],
+              "force_moment_Nm": [
+                -43.34203659757554,
+                -6.468386568659559,
+                -124.41639519051212
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+ASM-VEH-0009+development_negative_IA_reflect_slip_inclination_and_force+uncorrelated_R25B_to_R20_proxy_with_assumed_negative_IA_symmetry+requested_query:{\"inclination_rad\": 0.03396759441338034, \"normal_load_N\": 627.1514152659244, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": -5.57805072354256e-06, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}+source_response:{\"derivative_unique\": true, \"domain_and_censor_metadata\": [\"source_slip_domain_deg=[-12,12]\", \"source_speed_kph=40.2\", \"source_slip_ratio=0\", \"pressure_basis=gauge_reviewer_authorized_engineering_interpretation\", \"pressure_basis_is_not_source_stated_fact\", \"source_tire=Hoosier_43105_R25B\", \"intended_tire=Hoosier_43104_R20_engineering_proxy\", \"source_peak_postpeak_and_nonmonotonicity_retained\", \"named_branch_selection_not_authorized\", \"branch_policy=R25B_STRICT_MONOTONIC_PREFIX_SIGNED_V1\", \"central_transition_is_not_named_pre_peak_or_post_peak\", \"positive_post_peak_unavailable_at_source_boundary\", \"negative_post_peak_demonstrated_inside_source_domain\", \"named_branch_selection_exact_source_states_only\", \"multiple_named_roots_fail_closed\", \"positive_post_peak_demonstrated_inside_source_domain\", \"negative_post_peak_unavailable_at_source_boundary\"], \"exact_knot\": false, \"failure_code\": null, \"fidelity_label\": \"exact_processed_ttc_r25b_engineering_proxy_for_r20\", \"lateral_force_N\": -151.59163385799496, \"left_segment_slope_N_per_rad\": 29031.050616191096, \"message\": \"complete-cell multilinear operating-state interpolation\", \"ok\": true, \"operating_state\": {\"inclination_rad\": 0.03396759441338034, \"normal_load_N\": 627.1514152659244, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": -5.57805072354256e-06, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}, \"participating_curve_ids\": [\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1\"], \"right_segment_slope_N_per_rad\": 29031.050616191096, \"slip_interpolation_fractions\": [[\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.49788265818605615], [\"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.49788265818605615], [\"R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.49748315973059504], [\"R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.49748315973059504]], \"slip_segment_ids\": [\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:79\", \"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:79\", \"R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:94\", \"R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:94\"], \"source_and_adapter_provenance\": [\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\"], \"state_interpolation_weights\": [[\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.0048285176226831395], [\"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.17466961181009008], [\"R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.02207158232789349], [\"R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.7984302882393333]], \"status\": \"ok\"}+source_segment_labels:[[\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:79\", \"central_transition\"], [\"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:79\", \"central_transition\"], [\"R25B_FZ_0667_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:94\", \"central_transition\"], [\"R25B_FZ_0667_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:94\", \"central_transition\"]]",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "normal_front_left",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                0.0,
+                0.0,
+                627.1514152659244
+              ],
+              "moment_Nm": [
+                381.52876129206277,
+                -463.4854892723147,
+                0.0
+              ],
+              "moment_arm_m": [
+                0.7390328363937245,
+                0.6083519099295777,
+                -0.2890796145469459
+              ],
+              "force_moment_Nm": [
+                381.52876129206277,
+                -463.4854892723147,
+                0.0
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "EQ-VEH-0025",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "lateral_front_right",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                -212.35496930846386,
+                1254.9673966712912,
+                0.0
+              ],
+              "moment_Nm": [
+                362.78549129870584,
+                61.38749267481669,
+                811.4155098171997
+              ],
+              "moment_arm_m": [
+                0.751827554975697,
+                -0.6220883835522637,
+                -0.2890796145469338
+              ],
+              "force_moment_Nm": [
+                362.78549129870584,
+                61.38749267481669,
+                811.4155098171997
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+ASM-VEH-0009+development_negative_IA_reflect_slip_inclination_and_force+uncorrelated_R25B_to_R20_proxy_with_assumed_negative_IA_symmetry+requested_query:{\"inclination_rad\": -0.04506887916585599, \"normal_load_N\": 977.5502881401804, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": 0.03530720785783403, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}+source_response:{\"derivative_unique\": true, \"domain_and_censor_metadata\": [\"source_slip_domain_deg=[-12,12]\", \"source_speed_kph=40.2\", \"source_slip_ratio=0\", \"pressure_basis=gauge_reviewer_authorized_engineering_interpretation\", \"pressure_basis_is_not_source_stated_fact\", \"source_tire=Hoosier_43105_R25B\", \"intended_tire=Hoosier_43104_R20_engineering_proxy\", \"source_peak_postpeak_and_nonmonotonicity_retained\", \"named_branch_selection_not_authorized\", \"branch_policy=R25B_STRICT_MONOTONIC_PREFIX_SIGNED_V1\", \"central_transition_is_not_named_pre_peak_or_post_peak\", \"positive_post_peak_demonstrated_inside_source_domain\", \"negative_post_peak_demonstrated_inside_source_domain\", \"named_branch_selection_exact_source_states_only\", \"multiple_named_roots_fail_closed\", \"negative_post_peak_unavailable_at_source_boundary\"], \"exact_knot\": false, \"failure_code\": null, \"fidelity_label\": \"exact_processed_ttc_r25b_engineering_proxy_for_r20\", \"lateral_force_N\": -1272.8070551729027, \"left_segment_slope_N_per_rad\": 21739.09719567887, \"message\": \"complete-cell multilinear operating-state interpolation\", \"ok\": true, \"operating_state\": {\"inclination_rad\": 0.04506887916585599, \"normal_load_N\": 977.5502881401804, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": -0.03530720785783403, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}, \"participating_curve_ids\": [\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1\"], \"right_segment_slope_N_per_rad\": 21739.09719567887, \"slip_interpolation_fractions\": [[\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.5692372764204155], [\"R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1\", 0.09792977222670106], [\"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.5692372764204155], [\"R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1\", 0.09792977222670106]], \"slip_segment_ids\": [\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:78\", \"R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1:segment:66\", \"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:78\", \"R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1:segment:66\"], \"source_and_adapter_provenance\": [\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\"], \"state_interpolation_weights\": [[\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.4293135056681499], [\"R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1\", 0.17631582703374002], [\"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.27955821253753305], [\"R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1\", 0.11481245476057707]], \"status\": \"ok\"}+source_segment_labels:[[\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:78\", \"negative_slip_pre_peak\"], [\"R25B_FZ_0890_IA_04_P_68p9:CANONICAL_GAUGE_V1:segment:66\", \"negative_slip_pre_peak\"], [\"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:78\", \"negative_slip_pre_peak\"], [\"R25B_FZ_1112_IA_04_P_68p9:CANONICAL_GAUGE_V1:segment:66\", \"negative_slip_pre_peak\"]]",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "normal_front_right",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                0.0,
+                0.0,
+                977.5502881401804
+              ],
+              "moment_Nm": [
+                -608.1226785901745,
+                -734.9492429982199,
+                0.0
+              ],
+              "moment_arm_m": [
+                0.751827554975697,
+                -0.6220883835522637,
+                -0.2890796145469338
+              ],
+              "force_moment_Nm": [
+                -608.1226785901745,
+                -734.9492429982199,
+                0.0
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "EQ-VEH-0025",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "lateral_rear_left",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                -4.322428652302424,
+                491.4533683404252,
+                0.0
+              ],
+              "moment_Nm": [
+                142.06915028765013,
+                1.2495260087142752,
+                -399.0231252131688
+              ],
+              "moment_arm_m": [
+                -0.8171789469100217,
+                0.5974004408996861,
+                -0.2890796145469495
+              ],
+              "force_moment_Nm": [
+                142.06915028765013,
+                1.2495260087142752,
+                -399.0231252131688
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+ASM-VEH-0009+development_negative_IA_reflect_slip_inclination_and_force+uncorrelated_R25B_to_R20_proxy_with_assumed_negative_IA_symmetry+requested_query:{\"inclination_rad\": 0.018698661583766183, \"normal_load_N\": 426.61590202045244, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": 0.025602216946019052, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}+source_response:{\"derivative_unique\": true, \"domain_and_censor_metadata\": [\"source_slip_domain_deg=[-12,12]\", \"source_speed_kph=40.2\", \"source_slip_ratio=0\", \"pressure_basis=gauge_reviewer_authorized_engineering_interpretation\", \"pressure_basis_is_not_source_stated_fact\", \"source_tire=Hoosier_43105_R25B\", \"intended_tire=Hoosier_43104_R20_engineering_proxy\", \"source_peak_postpeak_and_nonmonotonicity_retained\", \"named_branch_selection_not_authorized\", \"branch_policy=R25B_STRICT_MONOTONIC_PREFIX_SIGNED_V1\", \"central_transition_is_not_named_pre_peak_or_post_peak\", \"positive_post_peak_demonstrated_inside_source_domain\", \"negative_post_peak_demonstrated_inside_source_domain\", \"named_branch_selection_exact_source_states_only\", \"multiple_named_roots_fail_closed\", \"positive_post_peak_unavailable_at_source_boundary\", \"negative_post_peak_unavailable_at_source_boundary\"], \"exact_knot\": false, \"failure_code\": null, \"fidelity_label\": \"exact_processed_ttc_r25b_engineering_proxy_for_r20\", \"lateral_force_N\": 491.4723762762296, \"left_segment_slope_N_per_rad\": 15624.247270263466, \"message\": \"complete-cell multilinear operating-state interpolation\", \"ok\": true, \"operating_state\": {\"inclination_rad\": 0.018698661583766183, \"normal_load_N\": 426.61590202045244, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": 0.025602216946019052, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}, \"participating_curve_ids\": [\"R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1\"], \"right_segment_slope_N_per_rad\": 15624.247270263466, \"slip_interpolation_fractions\": [[\"R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.21820572385199952], [\"R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.21820572385199952], [\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.21820572385199952], [\"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.21820572385199952]], \"slip_segment_ids\": [\"R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:89\"], \"source_and_adapter_provenance\": [\"R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\"], \"state_interpolation_weights\": [[\"R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.038278726140677594], [\"R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.04416117511289888], [\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.4260440782127174], [\"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.49151602053370613]], \"status\": \"ok\"}+source_segment_labels:[[\"R25B_FZ_0222_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"positive_slip_pre_peak\"], [\"R25B_FZ_0222_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"positive_slip_pre_peak\"], [\"R25B_FZ_0445_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"positive_slip_pre_peak\"], [\"R25B_FZ_0445_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:89\", \"positive_slip_pre_peak\"]]",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "normal_rear_left",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                0.0,
+                0.0,
+                426.61590202045244
+              ],
+              "moment_Nm": [
+                254.8605279618356,
+                348.62153354814234,
+                0.0
+              ],
+              "moment_arm_m": [
+                -0.8171789469100217,
+                0.5974004408996861,
+                -0.2890796145469495
+              ],
+              "force_moment_Nm": [
+                254.8605279618356,
+                348.62153354814234,
+                -0.0
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "EQ-VEH-0025",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "lateral_rear_right",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                3.0435128724892118,
+                354.66445037800077,
+                0.0
+              ],
+              "moment_Nm": [
+                102.52626260877695,
+                -0.87981752804785,
+                -287.9759894154008
+              ],
+              "moment_arm_m": [
+                -0.8171952848960332,
+                -0.6092062795279514,
+                -0.2890796145469461
+              ],
+              "force_moment_Nm": [
+                102.52626260877695,
+                -0.87981752804785,
+                -287.9759894154008
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1+ASM-VEH-0009+development_negative_IA_reflect_slip_inclination_and_force+uncorrelated_R25B_to_R20_proxy_with_assumed_negative_IA_symmetry+requested_query:{\"inclination_rad\": -0.01644876218783711, \"normal_load_N\": 972.2576706209439, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": 0.0063252534917612735, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}+source_response:{\"derivative_unique\": true, \"domain_and_censor_metadata\": [\"source_slip_domain_deg=[-12,12]\", \"source_speed_kph=40.2\", \"source_slip_ratio=0\", \"pressure_basis=gauge_reviewer_authorized_engineering_interpretation\", \"pressure_basis_is_not_source_stated_fact\", \"source_tire=Hoosier_43105_R25B\", \"intended_tire=Hoosier_43104_R20_engineering_proxy\", \"source_peak_postpeak_and_nonmonotonicity_retained\", \"named_branch_selection_not_authorized\", \"branch_policy=R25B_STRICT_MONOTONIC_PREFIX_SIGNED_V1\", \"central_transition_is_not_named_pre_peak_or_post_peak\", \"positive_post_peak_demonstrated_inside_source_domain\", \"negative_post_peak_demonstrated_inside_source_domain\", \"named_branch_selection_exact_source_states_only\", \"multiple_named_roots_fail_closed\"], \"exact_knot\": false, \"failure_code\": null, \"fidelity_label\": \"exact_processed_ttc_r25b_engineering_proxy_for_r20\", \"lateral_force_N\": -354.67750891836147, \"left_segment_slope_N_per_rad\": 35187.766501049475, \"message\": \"complete-cell multilinear operating-state interpolation\", \"ok\": true, \"operating_state\": {\"inclination_rad\": 0.01644876218783711, \"normal_load_N\": 972.2576706209439, \"pressure_Pa\": 68900.0, \"slip_angle_rad\": -0.0063252534917612735, \"source_convention_id\": \"SAE_J670_TTC_R6_TO_CANONICAL_TIRE_CONTACT_ISO_LEFT_UP_GAUGE_V1\", \"source_id\": \"HOOSIER_43105_18X7.5-10_R25B\", \"state_id\": \"ANALYTICAL_DESIGN_WORKFLOW_V0:reference:nominal:left_high\"}, \"participating_curve_ids\": [\"R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1\", \"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1\"], \"right_segment_slope_N_per_rad\": 35187.766501049475, \"slip_interpolation_fractions\": [[\"R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.6460186557520744], [\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.6460186557520744], [\"R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.6460186557520744], [\"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.6460186557520744]], \"slip_segment_ids\": [\"R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:91\"], \"source_and_adapter_provenance\": [\"R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\", \"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1|/home/runner/work/Proprietary-Suspension-Software-Development/Proprietary-Suspension-Software-Development/benchmarks/tires/WUFR26_H43105_R25B_COMPLETE_SIGNED_SOURCE_NATIVE_V0/manifest.toml|source_sha1:475338b18b6cba21b967c7e75bdd12d9a0e3437a;payload_sha256:3084bce3d519e088a3e3aa32f30ec8d45cf4f365e5d33028b8da45ca3f2fc438|ADAPTER-TIRE-R25B-SAE-J670-TO-CANONICAL-GAUGE-V1\"], \"state_interpolation_weights\": [[\"R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.33284965728794524], [\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.29662029486996494], [\"R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1\", 0.19592801692333447], [\"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1\", 0.17460203091875537]], \"status\": \"ok\"}+source_segment_labels:[[\"R25B_FZ_0890_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"negative_slip_pre_peak\"], [\"R25B_FZ_0890_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"negative_slip_pre_peak\"], [\"R25B_FZ_1112_IA_00_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"negative_slip_pre_peak\"], [\"R25B_FZ_1112_IA_02_P_68p9:CANONICAL_GAUGE_V1:segment:91\", \"negative_slip_pre_peak\"]]",
+              "authority": "AUTH-VEH-0012"
+            },
+            {
+              "wrench_id": "normal_rear_right",
+              "reference_point_id": "current_total_cg",
+              "frame_id": "WUFR27_STEADY_CORNERING_HEADING",
+              "origin_id": "WUFR27_REFERENCE_CG_XY_SOURCE_ROAD_DATUM",
+              "force_N": [
+                0.0,
+                0.0,
+                972.2576706209439
+              ],
+              "moment_Nm": [
+                -592.3054782614977,
+                794.5243841354359,
+                0.0
+              ],
+              "moment_arm_m": [
+                -0.8171952848960332,
+                -0.6092062795279514,
+                -0.2890796145469461
+              ],
+              "force_moment_Nm": [
+                -592.3054782614977,
+                794.5243841354359,
+                0.0
+              ],
+              "free_couple_Nm": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "source_id": "EQ-VEH-0025",
+              "authority": "AUTH-VEH-0012"
+            }
+          ]
+        }
+      },
+      "iterations": 7,
+      "scaled_residual_norm": 1.0345396124951852e-10,
+      "reciprocal_pivot_ratio": 0.014858075953677935,
+      "residual_history": [
+        2.2289911309295954e-10,
+        1.285135719323686e-10,
+        1.1860902304761112e-10,
+        1.036056952822643e-10,
+        1.0355264142466088e-10,
+        1.0346972582434925e-10,
+        1.0345441599686941e-10,
+        1.0345396124951852e-10
+      ],
+      "trial_failures": [],
+      "failure_code": "line_search_failure",
+      "message": "No admissible decreasing Newton trial",
+      "result_label": null
+    },
+    "metrics": null,
+    "branch_signature": [
+      "native_reference_connected_unique_contact_roots",
+      "direct_nonnegative_IA:connected_monotone_central",
+      "reflected_negative_IA:connected_monotone_central",
+      "direct_nonnegative_IA:connected_monotone_central",
+      "reflected_negative_IA:connected_monotone_central"
+    ],
+    "geometry_revision": "6b3035748caac0d8c778934e7d61a2076234e772594dd5a1640b3e981122b862",
+    "setup_revision": "490f75741597d12f2adb132c9da3d7e52c89c4c25ac3ee9b7a2f12ff72d3f276",
+    "tire_revision": "c29b89f744daf1a0300aacf883e35af2cafd307c1831ef1e78dc15833bb05f46",
+    "road_config": {
+      "q_L_limit_rad": 0.07853981633974483,
+      "physical_scan_intervals_per_side": 6,
+      "wheel_coordinate_min_m": -0.02,
+      "wheel_coordinate_max_m": 0.02,
+      "road_scan_intervals": 8,
+      "road_gap_tolerance_m": 1e-14,
+      "wheel_coordinate_tolerance_m": 1e-13,
+      "root_max_iterations": 160,
+      "body_z_limit_m": 0.01,
+      "body_roll_limit_rad": 0.01,
+      "body_pitch_limit_rad": 0.01,
+      "body_fd_steps": [
+        0.0002,
+        0.0002,
+        0.0002
+      ],
+      "wheel_fd_step_m": 0.0002,
+      "derivative_relative_tolerance": 0.005,
+      "derivative_absolute_tolerance": 2e-05,
+      "contact_coefficient_min_abs": 0.001,
+      "unit_normal_tolerance": 1e-10,
+      "contact_projection_min": 1e-10,
+      "physical_q_L_tolerance_rad": 1e-14,
+      "physical_displacement_tolerance_m": 1e-14,
+      "kinematics_root_angle_tolerance_rad": 1e-14,
+      "kinematics_length_residual_tolerance_m": 1e-14,
+      "kinematics_max_iterations": 180
+    },
+    "front_reference": {
+      "half_track_m": 0.6159855599999999,
+      "static_camber_rad": -0.039269908169872414,
+      "static_toe_out_rad": -0.017453292519943295,
+      "tire_radius_m": 0.23241,
+      "longitudinal_offset_m": 0.0,
+      "lateral_offset_m": 0.0,
+      "vertical_offset_m": 0.0
+    },
+    "rear_reference": {
+      "half_track_m": 0.60328556,
+      "static_camber_rad": -0.017453292519943295,
+      "static_toe_out_rad": 0.008726646259971648,
+      "tire_radius_m": 0.23241,
+      "longitudinal_offset_m": 0.0,
+      "lateral_offset_m": 0.0,
+      "vertical_offset_m": 0.0
+    },
+    "left_nominal_center_m": [
+      0.0,
+      0.6068611862194347,
+      0.23223082031270642
+    ],
+    "left_tie_rod_length_m": 0.32989010635816285,
+    "rack_origin_m": [
+      -0.079298,
+      0.0,
+      0.162865
+    ],
+    "physical_force_norm_n": 8.433703937474757e-10,
+    "physical_moment_norm_nm": 1.899132175862935e-09
+  },
+  "objective_weight": 0.0,
+  "design_ranking_permitted": false
+}

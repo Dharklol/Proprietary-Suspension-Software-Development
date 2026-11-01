@@ -1,0 +1,23 @@
+{
+  "plan_fingerprint": "30c9d8aa12040ef247f7075557e78d44e5f7e26739c83172b4b349bf7eec3397",
+  "input_report_sha256": {
+    "reference.json": "dc67b3721a710260f1beea645b8121a0052626cc9b423ee67dd3af3e72b3db11",
+    "rack_aft_5mm.json": "cfad6dbe8f05062cca1015e9fe9ddd8e3a6146878e467d38b08cfe11ee61b819",
+    "rack_forward_5mm.json": "06122b78c6e6729d0409c41d49cc19ccda63e5c509dc7e933b819b814a5fc34a"
+  },
+  "reporting_source_hashes": {
+    "scripts/package_analytical_design_workflow.py": "5bba170c3c54b96a77cf9f771f0623be0ec9ea67ec08b4a8981748d831e84171",
+    "src/pssd_viz/analytical_workflow_report.py": "655563aebf9805b88f53045cdb1a280b5ef43b0173528a9a7d305c86235d342c",
+    "tests/test_analytical_workflow_reporting.py": "7b083e4050a8fae3d4597a76313a90edd9927a087b3e62666fcfd967cc58836a"
+  },
+  "artifact_path_base": "repository_root",
+  "artifacts": {
+    "benchmarks/vehicle/analytical_design_workflow_summary_v0.1.0.json": "8d8901033741ae7111ed1cc4b35e5059066f7a0ee7a9d63257199614379693c5",
+    "docs/reports/analytical_design_workflow_v0.1.0/comparisons.csv": "84d9594bece79a59eb66830acf25c9bbbf718568bbf00e3df1770cfc82529391",
+    "docs/reports/analytical_design_workflow_v0.1.0/front_heading_split_rad.svg": "eb380fe4907ae992a63ac0ab74bca281bfecc703c1271ff9fad5d23bbf972a5a",
+    "docs/reports/analytical_design_workflow_v0.1.0/index.html": "bb060dfcbd4727a2c9cba318822068b0404717792343b9c64db93bdbd91ed0f8",
+    "docs/reports/analytical_design_workflow_v0.1.0/rack_m.svg": "d41e562b1a46d4194f5105f369e94781997636b70f95cfdc37e4e4b1b68e0c9d",
+    "benchmarks/vehicle/analytical_contact_precision_py311_v0.1.0.json": "a93ab8467d3a229ad3501251b74bea5b62bbacd9b57e4a9f3c0422e809a425f3",
+    "benchmarks/vehicle/analytical_contact_precision_py312_v0.1.0.json": "3b95178c41da91436e8903942c0ddc596fc9ee782db9a9cfb87307f1e6165baf"
+  }
+}

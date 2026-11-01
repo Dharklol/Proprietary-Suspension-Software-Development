@@ -1,0 +1,123 @@
+version = "0.1.0"
+plan_id = "ANALYTICAL_DESIGN_WORKFLOW_V0"
+configuration_role = "provisional_source_reference_not_installed_or_recommended_setup"
+design_question = "How do small fore-aft rack changes alter coupled rack demand and front wheel-heading split, and do those effects survive declared alignment and tire-gain stresses?"
+seed_report = "benchmarks/vehicle/native_computational_envelope_summary_v0.1.0.json"
+requirement_set = "configurations/steering/STEERING_INVERSE_DESIGN_DEV_V0.toml"
+objective_weight = 0.0
+design_ranking_permitted = false
+
+[reference]
+mass_kg = 306.17484975
+speed_mps = 8.0
+pressure_pa = 68900.0
+front_arb_setting = 1
+rear_arb_setting = 1
+road_gap_tolerance_m = 1e-15
+
+[sources]
+source_path = "data_catalog/wufr27_static_equilibrium_composition_v1.toml"
+road_contact_source_path = "data_catalog/wufr26_road_contact_reference_v0.toml"
+suspension_geometry_path = "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml"
+wheel_profile_path = "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml"
+steering_geometry_path = "configurations/steering/WUFR27_STEERING_BASELINE_V0.toml"
+whole_vehicle_path = "data_catalog/wufr26_whole_vehicle_frame_v0.toml"
+gravity_path = "data_catalog/wufr27_static_gravity_allocation_v0.toml"
+spring_package_path = "data_catalog/wufr27_spring_package_v0.toml"
+zbar_fixture_path = "benchmarks/suspension/WUFR26_ZBAR_MECHANISM_V0.toml"
+
+[solver]
+coordinate_scales = [0.005, 0.005, 0.005, 0.05, 0.005, 100.0, 750.0, 750.0, 750.0, 750.0]
+residual_scales = [3000.0, 1500.0, 1500.0, 750.0, 750.0, 750.0, 750.0, 3000.0, 3000.0, 1500.0]
+lower_bounds = [-0.009, -0.009, -0.009, -0.08, -0.015, -500.0, 223.0, 223.0, 223.0, 223.0]
+upper_bounds = [0.009, 0.009, 0.009, 0.08, 0.015, 500.0, 1111.0, 1111.0, 1111.0, 1111.0]
+fd_steps = [2e-06, 2e-06, 2e-06, 2e-06, 2e-06, 0.001, 0.001, 0.001, 0.001, 0.001]
+scaled_residual_tolerance = 1e-10
+minimum_reciprocal_pivot_ratio = 1e-09
+max_iterations = 20
+max_backtracks = 20
+
+[[cases]]
+id = "straight"
+curvature_per_m = 0.0
+assumption_study = false
+
+[[cases]]
+id = "right_moderate"
+curvature_per_m = -0.06
+assumption_study = false
+
+[[cases]]
+id = "left_moderate"
+curvature_per_m = 0.06
+assumption_study = false
+
+[[cases]]
+id = "right_high"
+curvature_per_m = -0.1
+assumption_study = true
+
+[[cases]]
+id = "left_high"
+curvature_per_m = 0.1
+assumption_study = true
+
+[[candidates]]
+id = "reference"
+rack_longitudinal_offset_m = 0.0
+
+[[candidates]]
+id = "rack_aft_5mm"
+rack_longitudinal_offset_m = -0.005
+
+[[candidates]]
+id = "rack_forward_5mm"
+rack_longitudinal_offset_m = 0.005
+
+[[assumptions]]
+id = "nominal"
+front_toe_delta_deg = 0.0
+front_camber_delta_deg = 0.0
+lateral_force_gain = 1.0
+
+[[assumptions]]
+id = "front_toe_minus"
+front_toe_delta_deg = -0.2
+front_camber_delta_deg = 0.0
+lateral_force_gain = 1.0
+
+[[assumptions]]
+id = "front_toe_plus"
+front_toe_delta_deg = 0.2
+front_camber_delta_deg = 0.0
+lateral_force_gain = 1.0
+
+[[assumptions]]
+id = "front_camber_minus"
+front_toe_delta_deg = 0.0
+front_camber_delta_deg = -0.5
+lateral_force_gain = 1.0
+
+[[assumptions]]
+id = "front_camber_plus"
+front_toe_delta_deg = 0.0
+front_camber_delta_deg = 0.5
+lateral_force_gain = 1.0
+
+[[assumptions]]
+id = "tire_gain_minus"
+front_toe_delta_deg = 0.0
+front_camber_delta_deg = 0.0
+lateral_force_gain = 0.95
+
+[[assumptions]]
+id = "tire_gain_plus"
+front_toe_delta_deg = 0.0
+front_camber_delta_deg = 0.0
+lateral_force_gain = 1.05
+
+[numerical_recovery]
+coordinate_order = ["body_heave_m", "roll_rad", "pitch_rad", "sideslip_rad", "rack_m", "holder_force_n", "Fz_front_left_n", "Fz_front_right_n", "Fz_rear_left_n", "Fz_rear_right_n"]
+coordinate_offsets = [0.0001, 0.00005, -0.00005, 0.001, 0.0001, 0.0, 0.0, 0.0, 0.0, 0.0]
+maximum_initial_scaled_residual = 1e-8
+maximum_scaled_coordinate_difference = 1e-5
