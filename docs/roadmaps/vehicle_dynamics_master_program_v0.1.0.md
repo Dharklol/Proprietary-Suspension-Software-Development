@@ -398,3 +398,20 @@ spring force must not be released onto the eight-tube inventory as a vehicle
 prediction. Older driver/no-fuel equilibrium remains separate; damping/ownership/
 housing uncertainties stay explicit. Continue analytical G3/G5a integration before
 UI/release or physical correlation.
+
+## Checkpoint — dry global balance and contact bridge, 2026-11-01
+
+BENCH-VEH-0025 closes all 2468 dry CAD instances plus the electrical approximation
+to 203.730559 kg and the reconstructed dry first moments. Verified tubes are
+separated without duplication or selecting a mixed-member fraction. The 27.851 lb
+scale discrepancy stays open. A necessary static reaction family closes weight/
+pitch/roll on the actual ideal-circle supports without choosing crossweight.
+Twelve existing steering-closed contact states are explicitly rebased to the CAD
+dry CG and pass coordinate/virtual-work checks. See
+[dry composition audit](../reports/dry_static_contact_audit_v0.1.0/README.md).
+
+Full native suspension equilibrium remains blocked and explicitly unpassed:
+compatible member ownership/generalized gravity and wheel/body/tire composition
+must precede the no-driver spring/ARB/static solve. Prioritize that source work
+over further isolated force fixtures; driver-state reuse and mass scaling are
+prohibited. This remains G3/G5a analytical integration, not UI/release readiness.
