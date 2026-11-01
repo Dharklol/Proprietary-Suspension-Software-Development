@@ -367,3 +367,18 @@ elastic/dissipative/road force contracts, then combined energy/dissipation and
 contact/travel verification. Remaining ownership and housing source signs stay
 open; no full native ride claim is made. Continue G3/G5a analytical integration
 before UI, operational release or physical-correlation work.
+
+## Checkpoint — generalized forces and dissipative integration, 2026-11-01
+
+MOD-SUSP-0014 / BENCH-SUSP-0044 joins the verified eight-tube coupled inertia to
+generalized deformation force ports with explicit stored energy, dissipation and
+moving-support power. Twelve integrated checks and five unit tests pass; contact
+and numerical-travel failures stop without clipping. The mass ledger is exactly
+the represented tubes, with no full corner/body/wheel lump added. See
+[combined evidence](../reports/generalized_force_verification_v0.1.0/README.md).
+
+Next bind native spring deformation/gradient and preload with virtual-work checks,
+then reconcile wheel/tire/body mass and road-contact contracts. Artificial rates
+and tube-CG support geometry have no installed prediction authority. No-driver
+inertia cannot inherit driver/no-fuel equilibrium. Remaining ownership/housing
+signs remain open; G3/G5a analytical integration continues ahead of UI/release work.

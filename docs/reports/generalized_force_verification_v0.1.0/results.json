@@ -1,0 +1,226 @@
+{
+  "scope": "Eight native tubes with artificial massless spring/damper/support ports; not native ride or wheel contact",
+  "mass_ledger": [
+    {
+      "source_row": 90,
+      "member_id": "SU-70105-AA FRONT UPPER FORE STEEL TUBE-1",
+      "mass_kg": 0.10614061458000001,
+      "represented_once": true
+    },
+    {
+      "source_row": 91,
+      "member_id": "SU-70106-AA FRONT UPPER AFT STEEL TUBE-1",
+      "mass_kg": 0.08527536556000001,
+      "represented_once": true
+    },
+    {
+      "source_row": 92,
+      "member_id": "SU-70106-AA FRONT UPPER AFT STEEL TUBE-2",
+      "mass_kg": 0.08527536556000001,
+      "represented_once": true
+    },
+    {
+      "source_row": 93,
+      "member_id": "SU-70105-AA FRONT UPPER FORE STEEL TUBE-2",
+      "mass_kg": 0.10614061458000001,
+      "represented_once": true
+    },
+    {
+      "source_row": 94,
+      "member_id": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-1",
+      "mass_kg": 0.11475886961000001,
+      "represented_once": true
+    },
+    {
+      "source_row": 95,
+      "member_id": "SU-70108-AA FRONT LOWER AFT STEEL TUBE-1",
+      "mass_kg": 0.10160469088,
+      "represented_once": true
+    },
+    {
+      "source_row": 96,
+      "member_id": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-2",
+      "mass_kg": 0.11475886961000001,
+      "represented_once": true
+    },
+    {
+      "source_row": 97,
+      "member_id": "SU-70108-AA FRONT LOWER AFT STEEL TUBE-2",
+      "mass_kg": 0.10160469088,
+      "represented_once": true
+    }
+  ],
+  "excluded_mass_policy": "All other front inventory/body/wheel/rear masses excluded; no whole-car or HalfCar lump is augmented.",
+  "integration": [
+    {
+      "steps": 8,
+      "moving_support": false,
+      "initial_energy_J": 6.040558040499697e-06,
+      "final_energy_J": 6.035548219075695e-06,
+      "support_work_J": 0.0,
+      "dissipated_J": 5.009821458776853e-09,
+      "maximum_balance_residual_J": 3.489200438571687e-17,
+      "final_balance_residual_J": 3.477428583120261e-17,
+      "minimum_support_compression_m": 0.005364723240732778,
+      "final_state": [
+        -5.665411868250796e-05,
+        8.1378482093291e-05,
+        0.0025143723449369717,
+        -0.0025143723449369717,
+        -0.000761808399432763,
+        0.0010851239434692952,
+        0.0028224422610445294,
+        -0.0028224422610445294,
+        0.0,
+        5.009821458776853e-09
+      ]
+    },
+    {
+      "steps": 16,
+      "moving_support": false,
+      "initial_energy_J": 6.040558040499697e-06,
+      "final_energy_J": 6.035548218853839e-06,
+      "support_work_J": 0.0,
+      "dissipated_J": 5.00982164745496e-09,
+      "maximum_balance_residual_J": 3.312718146161048e-18,
+      "final_balance_residual_J": 1.5966761307284449e-18,
+      "minimum_support_compression_m": 0.005358531187748867,
+      "final_state": [
+        -5.665411823899833e-05,
+        8.137848219911014e-05,
+        0.002514372347814823,
+        -0.002514372347814823,
+        -0.0007618084022429381,
+        0.0010851239439242434,
+        0.002822442246784175,
+        -0.002822442246784175,
+        0.0,
+        5.00982164745496e-09
+      ]
+    },
+    {
+      "steps": 32,
+      "moving_support": false,
+      "initial_energy_J": 6.040558040499697e-06,
+      "final_energy_J": 6.035548218839349e-06,
+      "support_work_J": 0.0,
+      "dissipated_J": 5.009821659240721e-09,
+      "maximum_balance_residual_J": 4.418950619900677e-18,
+      "final_balance_residual_J": -1.1077553132473393e-18,
+      "minimum_support_compression_m": 0.0053553327504697,
+      "final_state": [
+        -5.6654118212663335e-05,
+        8.137848220593319e-05,
+        0.002514372347987556,
+        -0.002514372347987556,
+        -0.0007618084024204145,
+        0.0010851239439547032,
+        0.0028224422458917996,
+        -0.0028224422458917996,
+        0.0,
+        5.009821659240721e-09
+      ]
+    },
+    {
+      "steps": 8,
+      "moving_support": true,
+      "initial_energy_J": 6.040558040499697e-06,
+      "final_energy_J": 6.164455725470293e-06,
+      "support_work_J": 1.339102869891678e-07,
+      "dissipated_J": 1.0012597083616812e-08,
+      "maximum_balance_residual_J": 4.934955137199227e-15,
+      "final_balance_residual_J": -4.934955137199227e-15,
+      "minimum_support_compression_m": 0.005373167304948372,
+      "final_state": [
+        -5.730459340349716e-05,
+        8.267475252013659e-05,
+        0.0025142295308959975,
+        -0.002514622859151327,
+        -0.0007709763171656017,
+        0.001103387102508894,
+        0.002819662925691866,
+        -0.0028267206201704046,
+        1.339102869891678e-07,
+        1.0012597083616812e-08
+      ]
+    },
+    {
+      "steps": 16,
+      "moving_support": true,
+      "initial_energy_J": 6.040558040499697e-06,
+      "final_energy_J": 6.164455725516048e-06,
+      "support_work_J": 1.339102826691857e-07,
+      "dissipated_J": 1.0012597343270613e-08,
+      "maximum_balance_residual_J": 3.0956422133435534e-16,
+      "final_balance_residual_J": -3.0956422133435534e-16,
+      "minimum_support_compression_m": 0.005362802522079315,
+      "final_state": [
+        -5.7304592847410546e-05,
+        8.267475239325592e-05,
+        0.002514229533928346,
+        -0.002514622861840398,
+        -0.0007709763196945526,
+        0.0011033871023915594,
+        0.0028196629112949094,
+        -0.002826720606022192,
+        1.339102826691857e-07,
+        1.0012597343270613e-08
+      ]
+    },
+    {
+      "steps": 32,
+      "moving_support": true,
+      "initial_energy_J": 6.040558040499697e-06,
+      "final_energy_J": 6.164455725518158e-06,
+      "support_work_J": 1.33910282399357e-07,
+      "dissipated_J": 1.0012597359467469e-08,
+      "maximum_balance_residual_J": 2.1428707683865995e-17,
+      "final_balance_residual_J": -2.1428707683865995e-17,
+      "minimum_support_compression_m": 0.005357480151774861,
+      "final_state": [
+        -5.73045928141439e-05,
+        8.267475238568461e-05,
+        0.0025142295341108074,
+        -0.002514622862001296,
+        -0.0007709763198536277,
+        0.0011033871023846437,
+        0.002819662910391891,
+        -0.002826720605133796,
+        1.33910282399357e-07,
+        1.0012597359467469e-08
+      ]
+    }
+  ],
+  "failure_controls": {
+    "contact_loss": "Contact-valid branch ended: artificial-support-0",
+    "travel_boundary": "Outside declared numerical fixture envelope"
+  },
+  "checks": {
+    "exact_eight_member_ledger": true,
+    "unchanged_inventory_masses": true,
+    "represented_mass_closure": true,
+    "reduced_heave_mass_matches_ledger": true,
+    "combined_energy": true,
+    "positive_dissipation": true,
+    "stationary_support_decay": true,
+    "contact_valid_runs": true,
+    "contact_loss_stops": true,
+    "travel_boundary_stops": true,
+    "omitted_support_work_detected": true,
+    "omitted_dissipation_detected": true
+  },
+  "passed": true,
+  "source_sha256": {
+    "scripts/run_generalized_force_verification.py": "905fdf93d50e2791ab6126655b17f3bdd469a8bd017cda0c8eeea7a1ab52cf47",
+    "src/pssd_suspension/generalized_forces.py": "d611308b4a39009f33618aae205c29d9097e2210c71aaac5f09dae2b980d75ab",
+    "scripts/run_coupled_tube_inertia.py": "48c6bf53bd87be5fe93a8941d9f3c266d5d605ab778882b6af1dfc945a8b75f3",
+    "scripts/run_front_tube_travel.py": "630097272d837f273fc7813631dd0b96e174f6d311b7d80193ad5dd93ed7b313",
+    "scripts/run_front_arm_tube_inertia.py": "71ead953ef7a65de174329faf9be7cd391dd262c25eeedd44999e01fe0fa1189",
+    "src/pssd_suspension/reduced_inertia.py": "65adf9d281b72e8477a6984d3cbcff3a2a8cdb5fa1080c75e72ee0f437a4d35f",
+    "src/pssd_suspension/kinematics.py": "7e1474274e28a005950b94acd0551a87481dc871d06896bcd7dbae127bf1cf79",
+    "data_catalog/wufr26_front_arm_tubes_inertia_v0.json": "3716bf64caf487669d756c04ca42d8ffe3ee8d64202ad7f22ab40c3e24d80fae",
+    "data_catalog/wufr26_front_corner_inventory_v0.json": "875217608f4fea7ede8a36e0f94245a0daaebf803f0047e1b68d81f9b3c31463",
+    "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+    "docs/reports/no_driver_mass_consistency_v0.1.0/results.json": "4527039b83743364c1881f760a6f7b69889f69d1f7ea4571d359dc42ca7426df"
+  }
+}

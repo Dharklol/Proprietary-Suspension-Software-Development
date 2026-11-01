@@ -34,3 +34,9 @@ owner_direction = "Carry on with coupled body/arm energy verification and contro
 function_specification = "docs/models/suspension/coupled_tube_inertia_spec_v0.1.0.md"
 permitted = "Offline eight-tube finite-pitch coupled inertia/bias, independent power/pose verification and bounded manufactured-force integration"
 prohibited = "Housing sign promotion, native ride predictions, incompatible lump addition or replacement of HalfCar without a complete compatible force/mass contract"
+
+[generalized_force_extension_2026_11_01]
+owner_direction = "Full speed ahead with force/mass contracts and combined analytical energy, dissipation and boundary verification"
+function_specification = "docs/models/suspension/generalized_force_ports_spec_v0.1.0.md"
+permitted = "Provider-neutral deformation force primitive and artificial massless force ports on the exactly enumerated tube-only subsystem"
+prohibited = "Treat artificial tube-CG supports as wheel contact, invent KW calibration, mix driver/no-driver equilibrium, or add full body/corner lumps without mass reconciliation"
