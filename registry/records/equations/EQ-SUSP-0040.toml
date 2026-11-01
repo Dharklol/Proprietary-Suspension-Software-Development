@@ -1,0 +1,14 @@
+[record]
+id = "EQ-SUSP-0040"
+type = "equation"
+title = "Deformation-port generalized force and support power"
+status = "active"
+description = "Q=-g*(k*e+c*edot); V=k*e^2/2; D=c*edot^2; P_support=(k*e+c*edot)*e_t."
+verification_level = "A"
+maturity = "M2"
+disposition = "accepted_with_restrictions"
+function_specification = "docs/models/suspension/generalized_force_ports_spec_v0.1.0.md"
+inputs = ["Provider-bound deformation, gradient, explicit support rate, stiffness/damping and ordered coordinate rates"]
+outputs = ["Generalized force, stored energy, dissipation and support power"]
+assumptions = ["Scalar linear material law with potentially nonlinear geometry; contact-valid branch only"]
+authorization_id = "AUTH-SUSP-0021"
