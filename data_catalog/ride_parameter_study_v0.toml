@@ -1,0 +1,25 @@
+version = "0.1.0"
+record_id = "RIDE_PARAMETER_STUDY_V0"
+authority = "exploratory sensitivity scenarios only; no installed predictions"
+specification = "docs/models/vehicle/ride_parameter_study_spec_v0.1.0.md"
+
+[tire_scenario]
+source_url = "https://drive.google.com/file/d/1kwAzxos_H7goRRTbuyWT3U6eArh5o65v6DR0wY28b6s"
+source_modified_time = "2026-06-23T05:35:52.022Z"
+read_date = "2026-10-31"
+sheet = "Inputs"
+row_label = "Tire vertical stiffness"
+corner_order = ["front_left", "front_right", "rear_left", "rear_right"]
+rate_N_per_m = [180000.0, 180000.0, 190000.0, 190000.0]
+role = "legacy workbook scenario values, not identified tire calibration"
+operating_pressure_load_temperature_identity_available = false
+
+[damping_scenario]
+role = "assumed isolated sprung-oscillator damping proxy; not KW calibration or coupled modal damping"
+zeta_proxy = [0.2, 0.4, 0.6]
+coefficient_rule = "c=2*zeta_proxy*sqrt(ms*ks)"
+
+[mass_proxy]
+source = "data_catalog/wufr27_static_gravity_allocation_v0.toml"
+rule = "ms_i=corner_scale_lb_i*lb_to_kg-5; mu_i=5"
+role = "independent corner static-load proxy; not identified dynamic modal mass"

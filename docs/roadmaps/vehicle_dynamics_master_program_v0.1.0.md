@@ -156,3 +156,24 @@ parameter sensitivity cases. Half-car heave/pitch follows that adapter. No physi
 car measurements or operational UI release are required for this analytical work.
 See [verification specification](../models/vehicle/reduced_ride_verification_spec_v0.1.0.md)
 and [machine-readable results](../reports/reduced_ride_verification_v0.1.0/summary.json).
+
+## Checkpoint — exploratory parameter binding, 2026-10-31
+
+G3 now includes nominal native geometry compression-gradient/curvature recovery
+with step checks and independent spring-energy tangents. G4 now includes 36
+exploratory tire/damping sensitivity cases with time-step checks. All pass.
+The repo-referenced LLTD workbook tire inputs were recovered (180/190 kN/m
+front/rear); they remain legacy scenarios without operating-condition authority.
+Individual corner scales and the reviewed 5 kg unsprung split replace arbitrary
+total-mass quartering. Damping remains an explicit scenario proxy, pending KW
+curve and setting recovery. Nominal local stiffness is not equilibrium-based
+vehicle modal authority. See [study results](../reports/ride_parameter_study_v0.1.0/README.md).
+
+Next: recover KW velocity-force curves/settings and tire operating conditions;
+then equilibrium-based local derivatives and coupled half-car mass/inertia.
+Physical correlation remains deferred; analytical verification continues.
+
+KW source follow-up: recovered vendor Box file 1791709004896 links piggyback
+3980599103 to standard S2FS01 and provides force envelopes at 0.25 m/s. Remaining
+damping work is curve digitization and explicit click-setting scenarios, rather
+than a missing damper-family identity. No one-speed F/v calibration is introduced.
