@@ -1,0 +1,9 @@
+[record]
+id = "QTY-RIDE-0004"
+type = "quantity"
+title = "Sprung pitch inertia"
+status = "active"
+maturity = "M2"
+description = "Represented longitudinal model inertia about sprung CG pitch axis."
+dimension = "mass * length^2"
+canonical_unit = "kg*m^2"

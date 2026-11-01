@@ -1,0 +1,9 @@
+[record]
+id = "QTY-RIDE-0002"
+type = "quantity"
+title = "Body pitch perturbation"
+status = "active"
+maturity = "M2"
+description = "Small pitch angle positive when front attachment rises."
+dimension = "dimensionless"
+canonical_unit = "rad"

@@ -1,0 +1,9 @@
+[record]
+id = "QTY-RIDE-0003"
+type = "quantity"
+title = "Axle unsprung displacement perturbation"
+status = "active"
+maturity = "M2"
+description = "Vertical-up front or rear unsprung displacement about static balance."
+dimension = "length"
+canonical_unit = "m"

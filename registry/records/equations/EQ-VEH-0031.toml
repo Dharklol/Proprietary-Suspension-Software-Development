@@ -1,0 +1,14 @@
+[record]
+id = "EQ-VEH-0031"
+type = "equation"
+title = "Half-car energy balance"
+status = "active"
+description = "E+D-W-E0 perturbation energy closure with same-stage RK4 quadratures."
+verification_level = "A"
+function_specification = "docs/models/vehicle/half_car_verification_spec_v0.1.0.md"
+maturity = "M2"
+disposition = "accepted_with_restrictions"
+inputs = ["Explicit manufactured masses, inertia, axle lengths, rates, damping and road samples"]
+outputs = ["Guarded heave/pitch/unsprung histories and energy residual"]
+assumptions = ["Small pitch, linear components, perturbations about assumed static balance; no installed authority"]
+quantity_ids = ["QTY-RIDE-0001", "QTY-RIDE-0002", "QTY-RIDE-0003", "QTY-RIDE-0004"]
