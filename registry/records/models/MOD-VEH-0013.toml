@@ -1,0 +1,14 @@
+[record]
+id = "MOD-VEH-0013"
+type = "model"
+title = "Source-supported welded arm gravity subset"
+status = "active"
+description = "Exact named tube/housing/tab/connector ownership with native arm transport and potential-derived gravity; remaining whole-car inventory is not assigned as a rigid lump."
+verification_level = "A"
+function_specification = "docs/models/vehicle/welded_arm_gravity_spec_v0.1.0.md"
+maturity = "M2"
+disposition = "accepted_with_restrictions"
+inputs = ["Welding-jig-supported exact COM instances, geometry/placement and six generalized coordinates"]
+outputs = ["Subset potential and generalized gravity, exact mass/first-moment remainder"]
+assumptions = ["Design architecture evidence; not full inertia, equilibrium or as-built authority"]
+authorization_id = "AUTH-SUSP-0021"

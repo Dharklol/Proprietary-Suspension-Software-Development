@@ -1,0 +1,1408 @@
+{
+  "scope": "Welding-jig-supported tube/housing/tab/connector ownership and gravity only; not complete mass/inertia/static equilibrium",
+  "mapped_members": [
+    {
+      "sheet_row": 84,
+      "part_name": "SU-70110-AA PULLROD TAB-1",
+      "CAD_mass_lb": 0.041,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.276,
+        -19.915,
+        10.761
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "attachment",
+      "side": "right",
+      "owner": "front_right_upper_arm",
+      "evidence_box_id": "2212895915302",
+      "mass_kg": 0.01859728717
+    },
+    {
+      "sheet_row": 85,
+      "part_name": "SU-70111-AA PULLROD CONNECTOR-1",
+      "CAD_mass_lb": 0.127,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.151,
+        19.908,
+        11.047
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "attachment",
+      "side": "left",
+      "owner": "front_left_upper_arm",
+      "evidence_box_id": "2212895915302",
+      "mass_kg": 0.05760623099000001
+    },
+    {
+      "sheet_row": 86,
+      "part_name": "SU-70110-AA PULLROD TAB-2",
+      "CAD_mass_lb": 0.041,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.292,
+        19.94,
+        10.718
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "attachment",
+      "side": "left",
+      "owner": "front_left_upper_arm",
+      "evidence_box_id": "2212895915302",
+      "mass_kg": 0.01859728717
+    },
+    {
+      "sheet_row": 87,
+      "part_name": "SU-70111-AA PULLROD CONNECTOR-3",
+      "CAD_mass_lb": 0.127,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.151,
+        -19.908,
+        11.047
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "attachment",
+      "side": "right",
+      "owner": "front_right_upper_arm",
+      "evidence_box_id": "2212895915302",
+      "mass_kg": 0.05760623099000001
+    },
+    {
+      "sheet_row": 88,
+      "part_name": "SU-70110-AA PULLROD TAB-3",
+      "CAD_mass_lb": 0.041,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.292,
+        -19.94,
+        10.718
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "attachment",
+      "side": "right",
+      "owner": "front_right_upper_arm",
+      "evidence_box_id": "2212895915302",
+      "mass_kg": 0.01859728717
+    },
+    {
+      "sheet_row": 89,
+      "part_name": "SU-70110-AA PULLROD TAB-4",
+      "CAD_mass_lb": 0.041,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.276,
+        19.915,
+        10.761
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "attachment",
+      "side": "left",
+      "owner": "front_left_upper_arm",
+      "evidence_box_id": "2212895915302",
+      "mass_kg": 0.01859728717
+    },
+    {
+      "sheet_row": 90,
+      "part_name": "SU-70105-AA FRONT UPPER FORE STEEL TUBE-1",
+      "CAD_mass_lb": 0.234,
+      "production_mass_lb": "",
+      "cg_in": [
+        4.014,
+        -16.271,
+        10.234
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "fore",
+      "side": "right",
+      "owner": "front_right_upper_arm",
+      "evidence_box_id": "2212894192309",
+      "mass_kg": 0.10614061458000001
+    },
+    {
+      "sheet_row": 91,
+      "part_name": "SU-70106-AA FRONT UPPER AFT STEEL TUBE-1",
+      "CAD_mass_lb": 0.188,
+      "production_mass_lb": "",
+      "cg_in": [
+        -2.262,
+        -16.392,
+        10.801
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "aft",
+      "side": "right",
+      "owner": "front_right_upper_arm",
+      "evidence_box_id": "2212894192309",
+      "mass_kg": 0.08527536556000001
+    },
+    {
+      "sheet_row": 92,
+      "part_name": "SU-70106-AA FRONT UPPER AFT STEEL TUBE-2",
+      "CAD_mass_lb": 0.188,
+      "production_mass_lb": "",
+      "cg_in": [
+        -2.262,
+        16.392,
+        10.801
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "aft",
+      "side": "left",
+      "owner": "front_left_upper_arm",
+      "evidence_box_id": "2212894192309",
+      "mass_kg": 0.08527536556000001
+    },
+    {
+      "sheet_row": 93,
+      "part_name": "SU-70105-AA FRONT UPPER FORE STEEL TUBE-2",
+      "CAD_mass_lb": 0.234,
+      "production_mass_lb": "",
+      "cg_in": [
+        4.014,
+        16.271,
+        10.234
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "fore",
+      "side": "left",
+      "owner": "front_left_upper_arm",
+      "evidence_box_id": "2212894192309",
+      "mass_kg": 0.10614061458000001
+    },
+    {
+      "sheet_row": 94,
+      "part_name": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-1",
+      "CAD_mass_lb": 0.253,
+      "production_mass_lb": "",
+      "cg_in": [
+        3.433,
+        -15.364,
+        5.445
+      ],
+      "axle": "front",
+      "arm": "lower",
+      "leg": "fore",
+      "side": "right",
+      "owner": "front_right_lower_arm",
+      "evidence_box_id": "2212884754818",
+      "mass_kg": 0.11475886961000001
+    },
+    {
+      "sheet_row": 95,
+      "part_name": "SU-70108-AA FRONT LOWER AFT STEEL TUBE-1",
+      "CAD_mass_lb": 0.224,
+      "production_mass_lb": "",
+      "cg_in": [
+        -1.95,
+        -15.635,
+        5.813
+      ],
+      "axle": "front",
+      "arm": "lower",
+      "leg": "aft",
+      "side": "right",
+      "owner": "front_right_lower_arm",
+      "evidence_box_id": "2212884754818",
+      "mass_kg": 0.10160469088
+    },
+    {
+      "sheet_row": 96,
+      "part_name": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-2",
+      "CAD_mass_lb": 0.253,
+      "production_mass_lb": "",
+      "cg_in": [
+        3.433,
+        15.364,
+        5.445
+      ],
+      "axle": "front",
+      "arm": "lower",
+      "leg": "fore",
+      "side": "left",
+      "owner": "front_left_lower_arm",
+      "evidence_box_id": "2212884754818",
+      "mass_kg": 0.11475886961000001
+    },
+    {
+      "sheet_row": 97,
+      "part_name": "SU-70108-AA FRONT LOWER AFT STEEL TUBE-2",
+      "CAD_mass_lb": 0.224,
+      "production_mass_lb": "",
+      "cg_in": [
+        -1.95,
+        15.635,
+        5.813
+      ],
+      "axle": "front",
+      "arm": "lower",
+      "leg": "aft",
+      "side": "left",
+      "owner": "front_left_lower_arm",
+      "evidence_box_id": "2212884754818",
+      "mass_kg": 0.10160469088
+    },
+    {
+      "sheet_row": 100,
+      "part_name": "SU-70104-AA FRONT LOWER BEARING HOUSING-1",
+      "CAD_mass_lb": 0.167,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.081,
+        -22.116,
+        6.114
+      ],
+      "axle": "front",
+      "arm": "lower",
+      "leg": "housing",
+      "side": "right",
+      "owner": "front_right_lower_arm",
+      "evidence_box_id": "2212884754818",
+      "mass_kg": 0.07574992579
+    },
+    {
+      "sheet_row": 101,
+      "part_name": "SU-70104-AA FRONT LOWER BEARING HOUSING-3",
+      "CAD_mass_lb": 0.167,
+      "production_mass_lb": "",
+      "cg_in": [
+        0.081,
+        22.116,
+        6.114
+      ],
+      "axle": "front",
+      "arm": "lower",
+      "leg": "housing",
+      "side": "left",
+      "owner": "front_left_lower_arm",
+      "evidence_box_id": "2212884754818",
+      "mass_kg": 0.07574992579
+    },
+    {
+      "sheet_row": 102,
+      "part_name": "SU-70103-AA FRONT UPPER BEARING HOUSING-1",
+      "CAD_mass_lb": 0.124,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.151,
+        21.503,
+        11.829
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "housing",
+      "side": "left",
+      "owner": "front_left_upper_arm",
+      "evidence_box_id": "2212894192309",
+      "mass_kg": 0.056245453880000004
+    },
+    {
+      "sheet_row": 103,
+      "part_name": "SU-70103-AA FRONT UPPER BEARING HOUSING-2",
+      "CAD_mass_lb": 0.124,
+      "production_mass_lb": "",
+      "cg_in": [
+        -0.151,
+        -21.503,
+        11.829
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "housing",
+      "side": "right",
+      "owner": "front_right_upper_arm",
+      "evidence_box_id": "2212894192309",
+      "mass_kg": 0.056245453880000004
+    },
+    {
+      "sheet_row": 152,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70203-AA REAR UPPER BEARING HOUSING-1",
+      "CAD_mass_lb": 0.125,
+      "cg_in": [
+        -61.448,
+        19.87,
+        11.766
+      ],
+      "axle": "rear",
+      "arm": "upper",
+      "leg": "housing",
+      "side": "left",
+      "owner": "rear_left_upper_arm",
+      "evidence_box_id": "2212897983602",
+      "mass_kg": 0.05669904625
+    },
+    {
+      "sheet_row": 153,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70203-AA REAR UPPER BEARING HOUSING-2",
+      "CAD_mass_lb": 0.125,
+      "cg_in": [
+        -61.448,
+        -19.87,
+        11.766
+      ],
+      "axle": "rear",
+      "arm": "upper",
+      "leg": "housing",
+      "side": "right",
+      "owner": "rear_right_upper_arm",
+      "evidence_box_id": "2212897983602",
+      "mass_kg": 0.05669904625
+    },
+    {
+      "sheet_row": 154,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70204-AA REAR LOWER BEARING HOUSING-1",
+      "CAD_mass_lb": 0.143,
+      "cg_in": [
+        -61.445,
+        21.378,
+        5.233
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "housing",
+      "side": "left",
+      "owner": "rear_left_lower_arm",
+      "evidence_box_id": "2212895802675",
+      "mass_kg": 0.06486370891
+    },
+    {
+      "sheet_row": 155,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70204-AA REAR LOWER BEARING HOUSING-2",
+      "CAD_mass_lb": 0.143,
+      "cg_in": [
+        -61.445,
+        -21.378,
+        5.233
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "housing",
+      "side": "right",
+      "owner": "rear_right_lower_arm",
+      "evidence_box_id": "2212895802675",
+      "mass_kg": 0.06486370891
+    },
+    {
+      "sheet_row": 156,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70205-AA REAR UPPER FORE STEEL TUBE-1",
+      "CAD_mass_lb": 0.183,
+      "cg_in": [
+        -57.992,
+        -15.564,
+        11.307
+      ],
+      "axle": "rear",
+      "arm": "upper",
+      "leg": "fore",
+      "side": "right",
+      "owner": "rear_right_upper_arm",
+      "evidence_box_id": "2212897983602",
+      "mass_kg": 0.08300740371
+    },
+    {
+      "sheet_row": 157,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70205-AA REAR UPPER FORE STEEL TUBE-2",
+      "CAD_mass_lb": 0.183,
+      "cg_in": [
+        -57.992,
+        15.564,
+        11.307
+      ],
+      "axle": "rear",
+      "arm": "upper",
+      "leg": "fore",
+      "side": "left",
+      "owner": "rear_left_upper_arm",
+      "evidence_box_id": "2212897983602",
+      "mass_kg": 0.08300740371
+    },
+    {
+      "sheet_row": 158,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70206-AA REAR UPPER AFT STEEL TUBE-1",
+      "CAD_mass_lb": 0.162,
+      "cg_in": [
+        -63.899,
+        15.551,
+        11.309
+      ],
+      "axle": "rear",
+      "arm": "upper",
+      "leg": "aft",
+      "side": "left",
+      "owner": "rear_left_upper_arm",
+      "evidence_box_id": "2212897983602",
+      "mass_kg": 0.07348196394
+    },
+    {
+      "sheet_row": 159,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70206-AA REAR UPPER AFT STEEL TUBE-2",
+      "CAD_mass_lb": 0.162,
+      "cg_in": [
+        -63.899,
+        -15.551,
+        11.309
+      ],
+      "axle": "rear",
+      "arm": "upper",
+      "leg": "aft",
+      "side": "right",
+      "owner": "rear_right_upper_arm",
+      "evidence_box_id": "2212897983602",
+      "mass_kg": 0.07348196394
+    },
+    {
+      "sheet_row": 160,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70207-AA REAR LOWER FORE STEEL TUBE-1",
+      "CAD_mass_lb": 0.241,
+      "cg_in": [
+        -57.938,
+        15.164,
+        5.426
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "fore",
+      "side": "left",
+      "owner": "rear_left_lower_arm",
+      "evidence_box_id": "2212895802675",
+      "mass_kg": 0.10931576117
+    },
+    {
+      "sheet_row": 161,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70207-AA REAR LOWER FORE STEEL TUBE-2",
+      "CAD_mass_lb": 0.241,
+      "cg_in": [
+        -57.938,
+        -15.164,
+        5.426
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "fore",
+      "side": "right",
+      "owner": "rear_right_lower_arm",
+      "evidence_box_id": "2212895802675",
+      "mass_kg": 0.10931576117
+    },
+    {
+      "sheet_row": 162,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70208-AA REAR LOWER AFT STEEL TUBE-1",
+      "CAD_mass_lb": 0.243,
+      "cg_in": [
+        -63.977,
+        -14.63,
+        5.195
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "aft",
+      "side": "right",
+      "owner": "rear_right_lower_arm",
+      "evidence_box_id": "2212895802675",
+      "mass_kg": 0.11022294591000001
+    },
+    {
+      "sheet_row": 163,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70208-AA REAR LOWER AFT STEEL TUBE-2",
+      "CAD_mass_lb": 0.243,
+      "cg_in": [
+        -63.977,
+        14.63,
+        5.195
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "aft",
+      "side": "left",
+      "owner": "rear_left_lower_arm",
+      "evidence_box_id": "2212895802675",
+      "mass_kg": 0.11022294591000001
+    },
+    {
+      "sheet_row": 164,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70211-AA PUSHROD CONNECTOR-1",
+      "CAD_mass_lb": 0.115,
+      "cg_in": [
+        -61.646,
+        20.386,
+        5.602
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "attachment",
+      "side": "left",
+      "owner": "rear_left_lower_arm",
+      "evidence_box_id": "2212894105772",
+      "mass_kg": 0.05216312255
+    },
+    {
+      "sheet_row": 165,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70211-AA PUSHROD CONNECTOR-2",
+      "CAD_mass_lb": 0.115,
+      "cg_in": [
+        -61.646,
+        -20.386,
+        5.602
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "attachment",
+      "side": "right",
+      "owner": "rear_right_lower_arm",
+      "evidence_box_id": "2212894105772",
+      "mass_kg": 0.05216312255
+    },
+    {
+      "sheet_row": 166,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70210-AA PUSHROD TAB-1",
+      "CAD_mass_lb": 0.041,
+      "cg_in": [
+        -62.671,
+        20.252,
+        5.877
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "attachment",
+      "side": "left",
+      "owner": "rear_left_lower_arm",
+      "evidence_box_id": "2212894105772",
+      "mass_kg": 0.01859728717
+    },
+    {
+      "sheet_row": 167,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70210-AA PUSHROD TAB-2",
+      "CAD_mass_lb": 0.041,
+      "cg_in": [
+        -62.111,
+        20.272,
+        5.899
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "attachment",
+      "side": "left",
+      "owner": "rear_left_lower_arm",
+      "evidence_box_id": "2212894105772",
+      "mass_kg": 0.01859728717
+    },
+    {
+      "sheet_row": 168,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70210-AA PUSHROD TAB-3",
+      "CAD_mass_lb": 0.041,
+      "cg_in": [
+        -62.101,
+        -20.272,
+        5.899
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "attachment",
+      "side": "right",
+      "owner": "rear_right_lower_arm",
+      "evidence_box_id": "2212894105772",
+      "mass_kg": 0.01859728717
+    },
+    {
+      "sheet_row": 169,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70210-AA PUSHROD TAB-4",
+      "CAD_mass_lb": 0.041,
+      "cg_in": [
+        -62.671,
+        -20.252,
+        5.877
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "attachment",
+      "side": "right",
+      "owner": "rear_right_lower_arm",
+      "evidence_box_id": "2212894105772",
+      "mass_kg": 0.01859728717
+    }
+  ],
+  "mapped_mass_kg": 2.44304850482,
+  "remaining_inventory_mass_kg": 201.28751088830998,
+  "remaining_inventory_CG_m": [
+    -0.8451866309482274,
+    0.006835659251885744,
+    0.29461299232378596
+  ],
+  "remaining_inventory_is_rigid_body": false,
+  "cases": [
+    {
+      "q": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "potential_J": 4.903835055433619,
+      "generalized_gravity": [
+        -23.966305832284192,
+        -2.5513319217815047,
+        1.4160224071031404,
+        -1.4160224071031404,
+        1.325869408115772,
+        -1.3258653136231482
+      ],
+      "members": [
+        {
+          "source_row": 84,
+          "world_CG_m": [
+            -0.007010399999999972,
+            -0.505841,
+            0.27332939999999994
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 85,
+          "world_CG_m": [
+            0.0038353999999999333,
+            0.5056632,
+            0.2805938
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 86,
+          "world_CG_m": [
+            0.007416800000000001,
+            0.506476,
+            0.2722372
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 87,
+          "world_CG_m": [
+            0.0038353999999999333,
+            -0.5056632,
+            0.2805938
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 88,
+          "world_CG_m": [
+            0.007416800000000001,
+            -0.506476,
+            0.2722372
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 89,
+          "world_CG_m": [
+            -0.007010399999999972,
+            0.505841,
+            0.27332939999999994
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 90,
+          "world_CG_m": [
+            0.10195560000000004,
+            -0.4132834,
+            0.2599436
+          ],
+          "reference_leg_distance_m": 1.1273347108397787e-05
+        },
+        {
+          "source_row": 91,
+          "world_CG_m": [
+            -0.05745480000000003,
+            -0.41635679999999997,
+            0.2743454
+          ],
+          "reference_leg_distance_m": 1.618878926443495e-05
+        },
+        {
+          "source_row": 92,
+          "world_CG_m": [
+            -0.05745480000000003,
+            0.41635679999999997,
+            0.2743454
+          ],
+          "reference_leg_distance_m": 1.618878926443495e-05
+        },
+        {
+          "source_row": 93,
+          "world_CG_m": [
+            0.10195560000000004,
+            0.4132834,
+            0.2599436
+          ],
+          "reference_leg_distance_m": 1.1273347108397787e-05
+        },
+        {
+          "source_row": 94,
+          "world_CG_m": [
+            0.0871982,
+            -0.3902456,
+            0.138303
+          ],
+          "reference_leg_distance_m": 1.5638065147301096e-05
+        },
+        {
+          "source_row": 95,
+          "world_CG_m": [
+            -0.04952999999999996,
+            -0.39712899999999995,
+            0.14765019999999998
+          ],
+          "reference_leg_distance_m": 1.1158357849038002e-05
+        },
+        {
+          "source_row": 96,
+          "world_CG_m": [
+            0.0871982,
+            0.3902456,
+            0.138303
+          ],
+          "reference_leg_distance_m": 1.5638065147301096e-05
+        },
+        {
+          "source_row": 97,
+          "world_CG_m": [
+            -0.04952999999999996,
+            0.39712899999999995,
+            0.14765019999999998
+          ],
+          "reference_leg_distance_m": 1.1158357849038002e-05
+        },
+        {
+          "source_row": 100,
+          "world_CG_m": [
+            0.002057399999999987,
+            -0.5617464,
+            0.15529559999999998
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 101,
+          "world_CG_m": [
+            0.002057399999999987,
+            0.5617464,
+            0.15529559999999998
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 102,
+          "world_CG_m": [
+            -0.0038353999999999333,
+            0.5461762,
+            0.3004566
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 103,
+          "world_CG_m": [
+            -0.0038353999999999333,
+            -0.5461762,
+            0.3004566
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 152,
+          "world_CG_m": [
+            -1.5607792,
+            0.504698,
+            0.29885639999999997
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 153,
+          "world_CG_m": [
+            -1.5607792,
+            -0.504698,
+            0.29885639999999997
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 154,
+          "world_CG_m": [
+            -1.560703,
+            0.5430012,
+            0.1329182
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 155,
+          "world_CG_m": [
+            -1.560703,
+            -0.5430012,
+            0.1329182
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 156,
+          "world_CG_m": [
+            -1.4729967999999998,
+            -0.3953256,
+            0.2871978
+          ],
+          "reference_leg_distance_m": 5.498701265463119e-06
+        },
+        {
+          "source_row": 157,
+          "world_CG_m": [
+            -1.4729967999999998,
+            0.3953256,
+            0.2871978
+          ],
+          "reference_leg_distance_m": 5.498701265463119e-06
+        },
+        {
+          "source_row": 158,
+          "world_CG_m": [
+            -1.6230346,
+            0.3949954,
+            0.28724859999999997
+          ],
+          "reference_leg_distance_m": 3.76413041185871e-06
+        },
+        {
+          "source_row": 159,
+          "world_CG_m": [
+            -1.6230346,
+            -0.3949954,
+            0.28724859999999997
+          ],
+          "reference_leg_distance_m": 3.76413041185871e-06
+        },
+        {
+          "source_row": 160,
+          "world_CG_m": [
+            -1.4716252,
+            0.3851656,
+            0.1378204
+          ],
+          "reference_leg_distance_m": 1.1830053046038489e-05
+        },
+        {
+          "source_row": 161,
+          "world_CG_m": [
+            -1.4716252,
+            -0.3851656,
+            0.1378204
+          ],
+          "reference_leg_distance_m": 1.1830053046038489e-05
+        },
+        {
+          "source_row": 162,
+          "world_CG_m": [
+            -1.6250158,
+            -0.371602,
+            0.13195300000000001
+          ],
+          "reference_leg_distance_m": 6.847826926099493e-06
+        },
+        {
+          "source_row": 163,
+          "world_CG_m": [
+            -1.6250158,
+            0.371602,
+            0.13195300000000001
+          ],
+          "reference_leg_distance_m": 6.847826926099493e-06
+        },
+        {
+          "source_row": 164,
+          "world_CG_m": [
+            -1.5658083999999999,
+            0.5178043999999999,
+            0.1422908
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 165,
+          "world_CG_m": [
+            -1.5658083999999999,
+            -0.5178043999999999,
+            0.1422908
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 166,
+          "world_CG_m": [
+            -1.5918434,
+            0.5144008,
+            0.1492758
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 167,
+          "world_CG_m": [
+            -1.5776194,
+            0.5149087999999999,
+            0.14983459999999998
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 168,
+          "world_CG_m": [
+            -1.5773654,
+            -0.5149087999999999,
+            0.14983459999999998
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 169,
+          "world_CG_m": [
+            -1.5918434,
+            -0.5144008,
+            0.1492758
+          ],
+          "reference_leg_distance_m": null
+        }
+      ],
+      "energy_gradient_errors": [
+        [
+          3.481659405224491e-13,
+          4.2522244303455636e-07,
+          3.7577140865607817e-07,
+          3.7577140865607817e-07,
+          2.9141847401881193e-07,
+          2.9141815094391177e-07
+        ],
+        [
+          1.4281908988778014e-12,
+          1.0630643831888165e-07,
+          1.9496094161297606e-07,
+          1.9496005343455636e-07,
+          1.3468308468489454e-08,
+          1.346818745417977e-08
+        ]
+      ]
+    },
+    {
+      "q": [
+        0.003,
+        0.025,
+        0.02,
+        -0.015,
+        -0.02,
+        0.01
+      ],
+      "potential_J": 5.03021436828956,
+      "generalized_gravity": [
+        -23.966305832284192,
+        -2.5992530359731614,
+        1.4210885579785089,
+        -1.4204541117537888,
+        1.3233179360325047,
+        -1.3240435381245468
+      ],
+      "members": [
+        {
+          "source_row": 84,
+          "world_CG_m": [
+            -0.007038321463857078,
+            -0.5064989260514701,
+            0.2929326023176914
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 85,
+          "world_CG_m": [
+            0.003536336153712627,
+            0.506721635079102,
+            0.2990191369062945
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 86,
+          "world_CG_m": [
+            0.00731917072481425,
+            0.5073408698759229,
+            0.29073502293833847
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 87,
+          "world_CG_m": [
+            0.0036261645219162197,
+            -0.5064703529545532,
+            0.3004627032517679
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 88,
+          "world_CG_m": [
+            0.007410554555328908,
+            -0.5071379827448719,
+            0.2921830597873375
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 89,
+          "world_CG_m": [
+            -0.007129330112186416,
+            0.5067005364698847,
+            0.2914906831611252
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 90,
+          "world_CG_m": [
+            0.1023354758791879,
+            -0.41389519057424085,
+            0.283899399905153
+          ],
+          "reference_leg_distance_m": 1.1273347108397787e-05
+        },
+        {
+          "source_row": 91,
+          "world_CG_m": [
+            -0.05738392879084786,
+            -0.41696426742183496,
+            0.2943313603207659
+          ],
+          "reference_leg_distance_m": 1.618878926443495e-05
+        },
+        {
+          "source_row": 92,
+          "world_CG_m": [
+            -0.05743865286802463,
+            0.41715571145549046,
+            0.2934370012210555
+          ],
+          "reference_leg_distance_m": 1.618878926443495e-05
+        },
+        {
+          "source_row": 93,
+          "world_CG_m": [
+            0.10228035252050904,
+            0.4140879952781814,
+            0.2829985293926218
+          ],
+          "reference_leg_distance_m": 1.1273347108397787e-05
+        },
+        {
+          "source_row": 94,
+          "world_CG_m": [
+            0.09068087588374218,
+            -0.3904023770937226,
+            0.1619814275084542
+          ],
+          "reference_leg_distance_m": 1.5638065147301096e-05
+        },
+        {
+          "source_row": 95,
+          "world_CG_m": [
+            -0.04623781382317682,
+            -0.3972851068974258,
+            0.16791880555180244
+          ],
+          "reference_leg_distance_m": 1.1158357849038002e-05
+        },
+        {
+          "source_row": 96,
+          "world_CG_m": [
+            0.09064478632097717,
+            0.3904458239001093,
+            0.16109930458994445
+          ],
+          "reference_leg_distance_m": 1.5638065147301096e-05
+        },
+        {
+          "source_row": 97,
+          "world_CG_m": [
+            -0.04627375439864212,
+            0.39732836677993755,
+            0.1670403339079418
+          ],
+          "reference_leg_distance_m": 1.1158357849038002e-05
+        },
+        {
+          "source_row": 100,
+          "world_CG_m": [
+            0.0050411724158822,
+            -0.562050934315369,
+            0.1743443832110451
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 101,
+          "world_CG_m": [
+            0.004971021962658306,
+            0.5621353175206729,
+            0.17262981026097732
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 102,
+          "world_CG_m": [
+            -0.004682180941408931,
+            0.5476841660590723,
+            0.3177060895190712
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 103,
+          "world_CG_m": [
+            -0.0045788398957831156,
+            -0.5473228169942723,
+            0.31939493106227657
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 152,
+          "world_CG_m": [
+            -1.56084803485298,
+            0.503908694307095,
+            0.29048613198000073
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 153,
+          "world_CG_m": [
+            -1.5607682068357063,
+            -0.5043265490003177,
+            0.28721245469103096
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 154,
+          "world_CG_m": [
+            -1.5568961762615297,
+            0.5429952218072271,
+            0.12488370928480327
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 155,
+          "world_CG_m": [
+            -1.5566816177565252,
+            -0.5430152623751606,
+            0.1214667969255141
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 156,
+          "world_CG_m": [
+            -1.4726841670642554,
+            -0.3951289140556124,
+            0.27620913494177474
+          ],
+          "reference_leg_distance_m": 5.498701265463119e-06
+        },
+        {
+          "source_row": 157,
+          "world_CG_m": [
+            -1.472726425936131,
+            0.39490766315859527,
+            0.2779421359679745
+          ],
+          "reference_leg_distance_m": 5.498701265463119e-06
+        },
+        {
+          "source_row": 158,
+          "world_CG_m": [
+            -1.6227184656014395,
+            0.39457831546353905,
+            0.2742363825147117
+          ],
+          "reference_leg_distance_m": 3.76413041185871e-06
+        },
+        {
+          "source_row": 159,
+          "world_CG_m": [
+            -1.622676279569542,
+            -0.3947991190061761,
+            0.2725063707112448
+          ],
+          "reference_leg_distance_m": 3.76413041185871e-06
+        },
+        {
+          "source_row": 160,
+          "world_CG_m": [
+            -1.4677603796726628,
+            0.38516275032414793,
+            0.1287155961634957
+          ],
+          "reference_leg_distance_m": 1.1830053046038489e-05
+        },
+        {
+          "source_row": 161,
+          "world_CG_m": [
+            -1.4676492798008292,
+            -0.38517300366454477,
+            0.12694646920711214
+          ],
+          "reference_leg_distance_m": 1.1830053046038489e-05
+        },
+        {
+          "source_row": 162,
+          "world_CG_m": [
+            -1.6208453114561614,
+            -0.3716094052022223,
+            0.11724706314842198
+          ],
+          "reference_leg_distance_m": 6.847826926099493e-06
+        },
+        {
+          "source_row": 163,
+          "world_CG_m": [
+            -1.620956444304587,
+            0.3715991481491891,
+            0.11901671615543946
+          ],
+          "reference_leg_distance_m": 6.847826926099493e-06
+        },
+        {
+          "source_row": 164,
+          "world_CG_m": [
+            -1.5621865387622889,
+            0.5176128810899071,
+            0.13363232714595338
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 165,
+          "world_CG_m": [
+            -1.5619957668236255,
+            -0.5177244581965824,
+            0.1304626022731995
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 166,
+          "world_CG_m": [
+            -1.5883724557505454,
+            0.5140506382346978,
+            0.1399413778102501
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 167,
+          "world_CG_m": [
+            -1.5741659061543882,
+            0.5145584943559384,
+            0.14084055975627213
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 168,
+          "world_CG_m": [
+            -1.5737294833140543,
+            -0.5147494656915379,
+            0.13769634153565377
+          ],
+          "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 169,
+          "world_CG_m": [
+            -1.5881894808573696,
+            -0.5142414772611514,
+            0.13678353036026678
+          ],
+          "reference_leg_distance_m": null
+        }
+      ],
+      "energy_gradient_errors": [
+        [
+          3.481659405224491e-13,
+          4.3320821596637415e-07,
+          2.2003298916217773e-07,
+          4.267056157303273e-07,
+          2.424919558485783e-07,
+          1.818105714868068e-07
+        ],
+        [
+          1.2363443602225743e-12,
+          1.083023359882418e-07,
+          1.9400758510812466e-07,
+          1.955873800696395e-07,
+          5.957560711422616e-08,
+          1.247846319607504e-07
+        ]
+      ]
+    }
+  ],
+  "checks": {
+    "source_ownership_evidence": true,
+    "exact_36_manifest": true,
+    "source_mass_CG_unchanged": true,
+    "eight_arm_owners": true,
+    "tube_geometry": true,
+    "gravity_energy_gradient": true,
+    "total_vertical_weight": true,
+    "remaining_mass_not_added": true,
+    "remaining_first_moments": true
+  },
+  "passed": true,
+  "source_conflicts": [
+    "Rear upper jig BOM lists SU-70205/6 but its contact note says SU-70105/6. Retain typo conflict; matching rear corner BOM independently corroborates SU-70205/6."
+  ],
+  "drawing_weight_policy": "Jig assembly weights include the tooling; never use as arm mass.",
+  "unresolved": [
+    "Endcap attachment confirmation",
+    "Fastener clamping ownership",
+    "Joint mass distribution or explicit centered-ball/static approximation",
+    "Separate 27.851 lb scale mass gap"
+  ],
+  "tensor_policy": "Gravity uses mass and CG only; no housing tensor sign or rear inertia authority is implied.",
+  "source_sha256": {
+    "scripts/run_welded_arm_gravity.py": "51e542668514f498451777747721c0881cea2c30f8fb70e2295c485473622fbb",
+    "scripts/run_front_tube_travel.py": "630097272d837f273fc7813631dd0b96e174f6d311b7d80193ad5dd93ed7b313",
+    "scripts/run_front_arm_tube_inertia.py": "71ead953ef7a65de174329faf9be7cd391dd262c25eeedd44999e01fe0fa1189",
+    "scripts/run_coupled_tube_inertia.py": "48c6bf53bd87be5fe93a8941d9f3c266d5d605ab778882b6af1dfc945a8b75f3",
+    "scripts/run_no_driver_pitch_study.py": "5cdbcaf9c4c9a22c1bbe9bbb54a12d6fae8c9a61a6f6e4a167febf4501782f06",
+    "src/pssd_suspension/kinematics.py": "7e1474274e28a005950b94acd0551a87481dc871d06896bcd7dbae127bf1cf79",
+    "data_catalog/wufr26_com_pitch_snapshot_v0.json": "d2ac8dd315e16e7ad920821fabd55aebb6ebccbb6bbff45e2a2442b2c1176317",
+    "data_catalog/wufr26_front_corner_inventory_v0.json": "875217608f4fea7ede8a36e0f94245a0daaebf803f0047e1b68d81f9b3c31463",
+    "data_catalog/wufr26_rear_corner_inventory_v0.json": "d084b818135b2a73abd531a0e9beab8be02ab02a7f8034ec93d7616d7802a4be",
+    "data_catalog/wufr26_welded_arm_ownership_evidence_v0.json": "1c3d7258cea939a80dbec167803004461779dc30a44a0cce52fa3c7a4841a065",
+    "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+    "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4"
+  }
+}
