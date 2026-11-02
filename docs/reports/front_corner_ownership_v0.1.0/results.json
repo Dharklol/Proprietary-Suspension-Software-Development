@@ -10,16 +10,16 @@
       "mass_lb": 0.6660000000000004
     },
     "candidate": {
-      "count": 18,
-      "mass_lb": 0.8680000000000001
+      "count": 6,
+      "mass_lb": 0.42400000000000004
     },
     "joint_split_required": {
       "count": 16,
       "mass_lb": 0.7360000000000001
     },
     "source_supported_owner": {
-      "count": 10,
-      "mass_lb": 1.0
+      "count": 22,
+      "mass_lb": 1.444
     },
     "verified_nominal_tube": {
       "count": 8,
@@ -1583,12 +1583,12 @@
         9.865
       ],
       "side": "right",
-      "rigid_owner": null,
-      "candidate_owner": "right_pullrod",
-      "status": "candidate",
+      "rigid_owner": "right_pullrod",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
-      "family": "pullrod_body_parts",
-      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+      "family": "pullrod_endcap",
+      "evidence": "Owner confirmed turnbuckle endcaps fixed to their rod tubes; no arm-transform substitution."
     },
     {
       "sheet_row": 105,
@@ -1601,12 +1601,12 @@
         5.317
       ],
       "side": "right",
-      "rigid_owner": null,
-      "candidate_owner": "right_pullrod",
-      "status": "candidate",
+      "rigid_owner": "right_pullrod",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
-      "family": "pullrod_body_parts",
-      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+      "family": "pullrod_endcap",
+      "evidence": "Owner confirmed turnbuckle endcaps fixed to their rod tubes; no arm-transform substitution."
     },
     {
       "sheet_row": 106,
@@ -1619,12 +1619,12 @@
         9.865
       ],
       "side": "left",
-      "rigid_owner": null,
-      "candidate_owner": "left_pullrod",
-      "status": "candidate",
+      "rigid_owner": "left_pullrod",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
-      "family": "pullrod_body_parts",
-      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+      "family": "pullrod_endcap",
+      "evidence": "Owner confirmed turnbuckle endcaps fixed to their rod tubes; no arm-transform substitution."
     },
     {
       "sheet_row": 107,
@@ -1637,12 +1637,12 @@
         5.317
       ],
       "side": "left",
-      "rigid_owner": null,
-      "candidate_owner": "left_pullrod",
-      "status": "candidate",
+      "rigid_owner": "left_pullrod",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
-      "family": "pullrod_body_parts",
-      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+      "family": "pullrod_endcap",
+      "evidence": "Owner confirmed turnbuckle endcaps fixed to their rod tubes; no arm-transform substitution."
     },
     {
       "sheet_row": 108,
@@ -1655,12 +1655,12 @@
         9.844
       ],
       "side": "right",
-      "rigid_owner": null,
-      "candidate_owner": "right_upper_arm",
-      "status": "candidate",
+      "rigid_owner": "right_upper_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "arm_endcap",
-      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+      "evidence": "Owner confirmed fixed attachment to corresponding arm tubes; exact row/leg geometry checked in welded-arm gravity study."
     },
     {
       "sheet_row": 109,
@@ -1673,12 +1673,12 @@
         8.768
       ],
       "side": "right",
-      "rigid_owner": null,
-      "candidate_owner": "right_upper_arm",
-      "status": "candidate",
+      "rigid_owner": "right_upper_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "arm_endcap",
-      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+      "evidence": "Owner confirmed fixed attachment to corresponding arm tubes; exact row/leg geometry checked in welded-arm gravity study."
     },
     {
       "sheet_row": 110,
@@ -1691,12 +1691,12 @@
         4.858
       ],
       "side": "right",
-      "rigid_owner": null,
-      "candidate_owner": "right_lower_arm",
-      "status": "candidate",
+      "rigid_owner": "right_lower_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "arm_endcap",
-      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+      "evidence": "Owner confirmed fixed attachment to corresponding arm tubes; exact row/leg geometry checked in welded-arm gravity study."
     },
     {
       "sheet_row": 111,
@@ -1709,12 +1709,12 @@
         5.525
       ],
       "side": "right",
-      "rigid_owner": null,
-      "candidate_owner": "right_lower_arm",
-      "status": "candidate",
+      "rigid_owner": "right_lower_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "arm_endcap",
-      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+      "evidence": "Owner confirmed fixed attachment to corresponding arm tubes; exact row/leg geometry checked in welded-arm gravity study."
     },
     {
       "sheet_row": 112,
@@ -1727,12 +1727,12 @@
         8.768
       ],
       "side": "left",
-      "rigid_owner": null,
-      "candidate_owner": "left_upper_arm",
-      "status": "candidate",
+      "rigid_owner": "left_upper_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "arm_endcap",
-      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+      "evidence": "Owner confirmed fixed attachment to corresponding arm tubes; exact row/leg geometry checked in welded-arm gravity study."
     },
     {
       "sheet_row": 113,
@@ -1745,12 +1745,12 @@
         9.844
       ],
       "side": "left",
-      "rigid_owner": null,
-      "candidate_owner": "left_upper_arm",
-      "status": "candidate",
+      "rigid_owner": "left_upper_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "arm_endcap",
-      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+      "evidence": "Owner confirmed fixed attachment to corresponding arm tubes; exact row/leg geometry checked in welded-arm gravity study."
     },
     {
       "sheet_row": 114,
@@ -1763,12 +1763,12 @@
         5.525
       ],
       "side": "left",
-      "rigid_owner": null,
-      "candidate_owner": "left_lower_arm",
-      "status": "candidate",
+      "rigid_owner": "left_lower_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "arm_endcap",
-      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+      "evidence": "Owner confirmed fixed attachment to corresponding arm tubes; exact row/leg geometry checked in welded-arm gravity study."
     },
     {
       "sheet_row": 115,
@@ -1781,12 +1781,12 @@
         4.858
       ],
       "side": "left",
-      "rigid_owner": null,
-      "candidate_owner": "left_lower_arm",
-      "status": "candidate",
+      "rigid_owner": "left_lower_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "arm_endcap",
-      "evidence": "Named steel endcap at corresponding fore/aft arm leg in COM coordinates; attachment and pose check required."
+      "evidence": "Owner confirmed fixed attachment to corresponding arm tubes; exact row/leg geometry checked in welded-arm gravity study."
     },
     {
       "sheet_row": 116,
@@ -2295,8 +2295,9 @@
   ],
   "source_sha256": {
     "data_catalog/wufr26_front_corner_inventory_v0.json": "875217608f4fea7ede8a36e0f94245a0daaebf803f0047e1b68d81f9b3c31463",
-    "scripts/run_front_corner_ownership.py": "1f95906394ab6f7c7fbb915682486d31baf2f781ed237358bfec67cc0877286e",
+    "scripts/run_front_corner_ownership.py": "491aee85039ea2c74fc40ef47ac1df124112cd640d02db74dae9c06842051ce1",
     "data_catalog/wufr26_welded_arm_ownership_evidence_v0.json": "1c3d7258cea939a80dbec167803004461779dc30a44a0cce52fa3c7a4841a065",
+    "data_catalog/wufr26_endcap_attachment_confirmation_v0.json": "8b5317aad0000a52551a52d41bfb1ab455330ae7107a6aea78e5660ab817f75d",
     "data_catalog/wufr26_com_pitch_snapshot_v0.json": "d2ac8dd315e16e7ad920821fabd55aebb6ebccbb6bbff45e2a2442b2c1176317",
     "data_catalog/wufr26_front_arm_tubes_inertia_v0.json": "3716bf64caf487669d756c04ca42d8ffe3ee8d64202ad7f22ab40c3e24d80fae"
   }

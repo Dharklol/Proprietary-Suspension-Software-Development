@@ -431,3 +431,17 @@ rotational splits remain a dynamics issue. Full native static equilibrium stays
 open; resolve these source/assumption boundaries before integrating the complete
 spring/ARB/gravity/contact system. Source work remains ahead of more isolated
 force fixtures or UI/release development.
+
+## Checkpoint — owner-confirmed fixed endcaps
+
+The owner confirmed arm endcaps and pullrod/pushrod turnbuckle endcaps are fixed
+to their respective tubes. Sixteen geometry-checked SU-70112 instances extend
+the arm gravity subset from 36 to 52 parts (2.617227975 kg). Eight rod endcaps
+have confirmed rigid ownership, with rod pose/gravity binding still separate.
+The front ownership report now has twenty-two source-supported parts and six
+candidates, alongside the unchanged joint/hardware and verified-tube categories.
+
+Endcap attachment is closed. Next implement rod/endcap pose mapping and resolve
+joint endpoint/clamping ownership. No new tensor, full-equilibrium, scale-gap or
+installed authority follows from this confirmation. Continue the same G3/G5a
+analytical source-composition work.

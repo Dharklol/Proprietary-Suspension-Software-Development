@@ -16,6 +16,7 @@
       "leg": "attachment",
       "side": "right",
       "owner": "front_right_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212895915302",
       "mass_kg": 0.01859728717
     },
@@ -34,6 +35,7 @@
       "leg": "attachment",
       "side": "left",
       "owner": "front_left_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212895915302",
       "mass_kg": 0.05760623099000001
     },
@@ -52,6 +54,7 @@
       "leg": "attachment",
       "side": "left",
       "owner": "front_left_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212895915302",
       "mass_kg": 0.01859728717
     },
@@ -70,6 +73,7 @@
       "leg": "attachment",
       "side": "right",
       "owner": "front_right_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212895915302",
       "mass_kg": 0.05760623099000001
     },
@@ -88,6 +92,7 @@
       "leg": "attachment",
       "side": "right",
       "owner": "front_right_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212895915302",
       "mass_kg": 0.01859728717
     },
@@ -106,6 +111,7 @@
       "leg": "attachment",
       "side": "left",
       "owner": "front_left_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212895915302",
       "mass_kg": 0.01859728717
     },
@@ -124,6 +130,7 @@
       "leg": "fore",
       "side": "right",
       "owner": "front_right_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212894192309",
       "mass_kg": 0.10614061458000001
     },
@@ -142,6 +149,7 @@
       "leg": "aft",
       "side": "right",
       "owner": "front_right_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212894192309",
       "mass_kg": 0.08527536556000001
     },
@@ -160,6 +168,7 @@
       "leg": "aft",
       "side": "left",
       "owner": "front_left_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212894192309",
       "mass_kg": 0.08527536556000001
     },
@@ -178,6 +187,7 @@
       "leg": "fore",
       "side": "left",
       "owner": "front_left_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212894192309",
       "mass_kg": 0.10614061458000001
     },
@@ -196,6 +206,7 @@
       "leg": "fore",
       "side": "right",
       "owner": "front_right_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212884754818",
       "mass_kg": 0.11475886961000001
     },
@@ -214,6 +225,7 @@
       "leg": "aft",
       "side": "right",
       "owner": "front_right_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212884754818",
       "mass_kg": 0.10160469088
     },
@@ -232,6 +244,7 @@
       "leg": "fore",
       "side": "left",
       "owner": "front_left_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212884754818",
       "mass_kg": 0.11475886961000001
     },
@@ -250,6 +263,7 @@
       "leg": "aft",
       "side": "left",
       "owner": "front_left_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212884754818",
       "mass_kg": 0.10160469088
     },
@@ -268,6 +282,7 @@
       "leg": "housing",
       "side": "right",
       "owner": "front_right_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212884754818",
       "mass_kg": 0.07574992579
     },
@@ -286,6 +301,7 @@
       "leg": "housing",
       "side": "left",
       "owner": "front_left_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212884754818",
       "mass_kg": 0.07574992579
     },
@@ -304,6 +320,7 @@
       "leg": "housing",
       "side": "left",
       "owner": "front_left_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212894192309",
       "mass_kg": 0.056245453880000004
     },
@@ -322,8 +339,161 @@
       "leg": "housing",
       "side": "right",
       "owner": "front_right_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212894192309",
       "mass_kg": 0.056245453880000004
+    },
+    {
+      "sheet_row": 108,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-1",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        -3.85,
+        -11.773,
+        9.844
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "aft",
+      "side": "right",
+      "owner": "front_right_upper_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 109,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-2",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        7.538,
+        -11.353,
+        8.768
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "fore",
+      "side": "right",
+      "owner": "front_right_upper_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 110,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-3",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        6.153,
+        -9.226,
+        4.858
+      ],
+      "axle": "front",
+      "arm": "lower",
+      "leg": "fore",
+      "side": "right",
+      "owner": "front_right_lower_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 111,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-4",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        -3.454,
+        -9.864,
+        5.525
+      ],
+      "axle": "front",
+      "arm": "lower",
+      "leg": "aft",
+      "side": "right",
+      "owner": "front_right_lower_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 112,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-5",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        7.538,
+        11.353,
+        8.768
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "fore",
+      "side": "left",
+      "owner": "front_left_upper_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 113,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-6",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        -3.85,
+        11.773,
+        9.844
+      ],
+      "axle": "front",
+      "arm": "upper",
+      "leg": "aft",
+      "side": "left",
+      "owner": "front_left_upper_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 114,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-7",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        -3.454,
+        9.864,
+        5.525
+      ],
+      "axle": "front",
+      "arm": "lower",
+      "leg": "aft",
+      "side": "left",
+      "owner": "front_left_lower_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 115,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-8",
+      "CAD_mass_lb": 0.024,
+      "production_mass_lb": 0.378,
+      "cg_in": [
+        6.153,
+        9.226,
+        4.858
+      ],
+      "axle": "front",
+      "arm": "lower",
+      "leg": "fore",
+      "side": "left",
+      "owner": "front_left_lower_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
     },
     {
       "sheet_row": 152,
@@ -339,6 +509,7 @@
       "leg": "housing",
       "side": "left",
       "owner": "rear_left_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212897983602",
       "mass_kg": 0.05669904625
     },
@@ -356,6 +527,7 @@
       "leg": "housing",
       "side": "right",
       "owner": "rear_right_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212897983602",
       "mass_kg": 0.05669904625
     },
@@ -373,6 +545,7 @@
       "leg": "housing",
       "side": "left",
       "owner": "rear_left_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212895802675",
       "mass_kg": 0.06486370891
     },
@@ -390,6 +563,7 @@
       "leg": "housing",
       "side": "right",
       "owner": "rear_right_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212895802675",
       "mass_kg": 0.06486370891
     },
@@ -407,6 +581,7 @@
       "leg": "fore",
       "side": "right",
       "owner": "rear_right_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212897983602",
       "mass_kg": 0.08300740371
     },
@@ -424,6 +599,7 @@
       "leg": "fore",
       "side": "left",
       "owner": "rear_left_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212897983602",
       "mass_kg": 0.08300740371
     },
@@ -441,6 +617,7 @@
       "leg": "aft",
       "side": "left",
       "owner": "rear_left_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212897983602",
       "mass_kg": 0.07348196394
     },
@@ -458,6 +635,7 @@
       "leg": "aft",
       "side": "right",
       "owner": "rear_right_upper_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212897983602",
       "mass_kg": 0.07348196394
     },
@@ -475,6 +653,7 @@
       "leg": "fore",
       "side": "left",
       "owner": "rear_left_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212895802675",
       "mass_kg": 0.10931576117
     },
@@ -492,6 +671,7 @@
       "leg": "fore",
       "side": "right",
       "owner": "rear_right_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212895802675",
       "mass_kg": 0.10931576117
     },
@@ -509,6 +689,7 @@
       "leg": "aft",
       "side": "right",
       "owner": "rear_right_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212895802675",
       "mass_kg": 0.11022294591000001
     },
@@ -526,6 +707,7 @@
       "leg": "aft",
       "side": "left",
       "owner": "rear_left_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212895802675",
       "mass_kg": 0.11022294591000001
     },
@@ -543,6 +725,7 @@
       "leg": "attachment",
       "side": "left",
       "owner": "rear_left_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212894105772",
       "mass_kg": 0.05216312255
     },
@@ -560,6 +743,7 @@
       "leg": "attachment",
       "side": "right",
       "owner": "rear_right_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212894105772",
       "mass_kg": 0.05216312255
     },
@@ -577,6 +761,7 @@
       "leg": "attachment",
       "side": "left",
       "owner": "rear_left_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212894105772",
       "mass_kg": 0.01859728717
     },
@@ -594,6 +779,7 @@
       "leg": "attachment",
       "side": "left",
       "owner": "rear_left_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212894105772",
       "mass_kg": 0.01859728717
     },
@@ -611,6 +797,7 @@
       "leg": "attachment",
       "side": "right",
       "owner": "rear_right_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212894105772",
       "mass_kg": 0.01859728717
     },
@@ -628,16 +815,263 @@
       "leg": "attachment",
       "side": "right",
       "owner": "rear_right_lower_arm",
+      "attachment_owner_confirmed": false,
       "evidence_box_id": "2212894105772",
       "mass_kg": 0.01859728717
+    },
+    {
+      "sheet_row": 198,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-1",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -55.221,
+        11.603,
+        10.885
+      ],
+      "axle": "rear",
+      "arm": "upper",
+      "leg": "fore",
+      "side": "left",
+      "owner": "rear_left_upper_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 199,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-3",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -65.975,
+        8.455,
+        5.174
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "aft",
+      "side": "left",
+      "owner": "rear_left_lower_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 200,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-2",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -65.727,
+        11.688,
+        10.9
+      ],
+      "axle": "rear",
+      "arm": "upper",
+      "leg": "aft",
+      "side": "left",
+      "owner": "rear_left_upper_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 201,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-5",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -55.221,
+        -11.603,
+        10.885
+      ],
+      "axle": "rear",
+      "arm": "upper",
+      "leg": "fore",
+      "side": "right",
+      "owner": "rear_right_upper_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 202,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-4",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -55.047,
+        9.434,
+        5.591
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "fore",
+      "side": "left",
+      "owner": "rear_left_lower_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 203,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-6",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -65.727,
+        -11.688,
+        10.9
+      ],
+      "axle": "rear",
+      "arm": "upper",
+      "leg": "aft",
+      "side": "right",
+      "owner": "rear_right_upper_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 204,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-7",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -55.047,
+        -9.434,
+        5.591
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "fore",
+      "side": "right",
+      "owner": "rear_right_lower_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
+    },
+    {
+      "sheet_row": 205,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-8",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -65.975,
+        -8.455,
+        5.174
+      ],
+      "axle": "rear",
+      "arm": "lower",
+      "leg": "aft",
+      "side": "right",
+      "owner": "rear_right_lower_arm",
+      "attachment_owner_confirmed": true,
+      "evidence_box_id": null,
+      "mass_kg": 0.01088621688
     }
   ],
-  "mapped_mass_kg": 2.44304850482,
-  "remaining_inventory_mass_kg": 201.28751088830998,
+  "confirmed_rod_endcaps": [
+    {
+      "sheet_row": 104,
+      "part_name": "SU-70101-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-1",
+      "CAD_mass_lb": 0.063,
+      "production_mass_lb": 0.252,
+      "cg_in": [
+        0,
+        -18.63,
+        9.865
+      ],
+      "owner": "front_right_pullrod",
+      "gravity_pose_bound": false
+    },
+    {
+      "sheet_row": 105,
+      "part_name": "SU-70102-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-1",
+      "CAD_mass_lb": 0.063,
+      "production_mass_lb": 0.249,
+      "cg_in": [
+        0,
+        -10.909,
+        5.317
+      ],
+      "owner": "front_right_pullrod",
+      "gravity_pose_bound": false
+    },
+    {
+      "sheet_row": 106,
+      "part_name": "SU-70101-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-2",
+      "CAD_mass_lb": 0.063,
+      "production_mass_lb": 0.252,
+      "cg_in": [
+        0,
+        18.63,
+        9.865
+      ],
+      "owner": "front_left_pullrod",
+      "gravity_pose_bound": false
+    },
+    {
+      "sheet_row": 107,
+      "part_name": "SU-70102-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-2",
+      "CAD_mass_lb": 0.063,
+      "production_mass_lb": 0.249,
+      "cg_in": [
+        0,
+        10.909,
+        5.317
+      ],
+      "owner": "front_left_pullrod",
+      "gravity_pose_bound": false
+    },
+    {
+      "sheet_row": 194,
+      "part_name": "SU-70201-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-1",
+      "CAD_mass_lb": 0.063,
+      "cg_in": [
+        -62.387,
+        11.672,
+        13.81
+      ],
+      "owner": "rear_left_pushrod",
+      "gravity_pose_bound": false
+    },
+    {
+      "sheet_row": 195,
+      "part_name": "SU-70202-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-1",
+      "CAD_mass_lb": 0.063,
+      "cg_in": [
+        -62.387,
+        19.003,
+        7.066
+      ],
+      "owner": "rear_left_pushrod",
+      "gravity_pose_bound": false
+    },
+    {
+      "sheet_row": 196,
+      "part_name": "SU-70201-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-4",
+      "CAD_mass_lb": 0.063,
+      "cg_in": [
+        -62.387,
+        -19.003,
+        7.066
+      ],
+      "owner": "rear_right_pushrod",
+      "gravity_pose_bound": false
+    },
+    {
+      "sheet_row": 197,
+      "part_name": "SU-70201-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-5",
+      "CAD_mass_lb": 0.063,
+      "cg_in": [
+        -62.387,
+        -11.672,
+        13.81
+      ],
+      "owner": "rear_right_pushrod",
+      "gravity_pose_bound": false
+    }
+  ],
+  "mapped_mass_kg": 2.6172279749,
+  "remaining_inventory_mass_kg": 201.11333141823,
   "remaining_inventory_CG_m": [
-    -0.8451866309482274,
-    0.006835659251885744,
-    0.29461299232378596
+    -0.8452708227405408,
+    0.006841579453683131,
+    0.2946989136801252
   ],
   "remaining_inventory_is_rigid_body": false,
   "cases": [
@@ -650,14 +1084,14 @@
         0.0,
         0.0
       ],
-      "potential_J": 4.903835055433619,
+      "potential_J": 5.2377243372294835,
       "generalized_gravity": [
-        -23.966305832284192,
-        -2.5513319217815047,
-        1.4160224071031404,
-        -1.4160224071031404,
-        1.325869408115772,
-        -1.3258653136231482
+        -25.675006433768985,
+        -2.7152280068446197,
+        1.4286947267894499,
+        -1.4286947267894499,
+        1.338467572689197,
+        -1.3384634781965732
       ],
       "members": [
         {
@@ -823,6 +1257,78 @@
           "reference_leg_distance_m": null
         },
         {
+          "source_row": 108,
+          "world_CG_m": [
+            -0.09779000000000004,
+            -0.2990342,
+            0.25003759999999997
+          ],
+          "reference_leg_distance_m": 1.3211882249246396e-05
+        },
+        {
+          "source_row": 109,
+          "world_CG_m": [
+            0.1914652,
+            -0.28836619999999996,
+            0.22270720000000002
+          ],
+          "reference_leg_distance_m": 1.3114646343632426e-05
+        },
+        {
+          "source_row": 110,
+          "world_CG_m": [
+            0.15628619999999993,
+            -0.2343404,
+            0.12339319999999998
+          ],
+          "reference_leg_distance_m": 1.0865257028337399e-05
+        },
+        {
+          "source_row": 111,
+          "world_CG_m": [
+            -0.08773160000000002,
+            -0.25054560000000003,
+            0.14033500000000002
+          ],
+          "reference_leg_distance_m": 7.086740699561339e-06
+        },
+        {
+          "source_row": 112,
+          "world_CG_m": [
+            0.1914652,
+            0.28836619999999996,
+            0.22270720000000002
+          ],
+          "reference_leg_distance_m": 1.3114646343632426e-05
+        },
+        {
+          "source_row": 113,
+          "world_CG_m": [
+            -0.09779000000000004,
+            0.2990342,
+            0.25003759999999997
+          ],
+          "reference_leg_distance_m": 1.3211882249246396e-05
+        },
+        {
+          "source_row": 114,
+          "world_CG_m": [
+            -0.08773160000000002,
+            0.25054560000000003,
+            0.14033500000000002
+          ],
+          "reference_leg_distance_m": 7.086740699561339e-06
+        },
+        {
+          "source_row": 115,
+          "world_CG_m": [
+            0.15628619999999993,
+            0.2343404,
+            0.12339319999999998
+          ],
+          "reference_leg_distance_m": 1.0865257028337399e-05
+        },
+        {
           "source_row": 152,
           "world_CG_m": [
             -1.5607792,
@@ -983,24 +1489,96 @@
             0.1492758
           ],
           "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 198,
+          "world_CG_m": [
+            -1.4026134,
+            0.2947162,
+            0.276479
+          ],
+          "reference_leg_distance_m": 8.828515431866268e-06
+        },
+        {
+          "source_row": 199,
+          "world_CG_m": [
+            -1.6757649999999997,
+            0.21475699999999998,
+            0.1314196
+          ],
+          "reference_leg_distance_m": 1.1275380869656505e-05
+        },
+        {
+          "source_row": 200,
+          "world_CG_m": [
+            -1.6694658,
+            0.2968752,
+            0.27686
+          ],
+          "reference_leg_distance_m": 9.493994803794036e-06
+        },
+        {
+          "source_row": 201,
+          "world_CG_m": [
+            -1.4026134,
+            -0.2947162,
+            0.276479
+          ],
+          "reference_leg_distance_m": 8.828515431866268e-06
+        },
+        {
+          "source_row": 202,
+          "world_CG_m": [
+            -1.3981937999999998,
+            0.23962359999999994,
+            0.1420114
+          ],
+          "reference_leg_distance_m": 1.2338133375340484e-05
+        },
+        {
+          "source_row": 203,
+          "world_CG_m": [
+            -1.6694658,
+            -0.2968752,
+            0.27686
+          ],
+          "reference_leg_distance_m": 9.493994803794036e-06
+        },
+        {
+          "source_row": 204,
+          "world_CG_m": [
+            -1.3981937999999998,
+            -0.2396236,
+            0.1420114
+          ],
+          "reference_leg_distance_m": 1.2338133375340484e-05
+        },
+        {
+          "source_row": 205,
+          "world_CG_m": [
+            -1.6757649999999997,
+            -0.21475700000000003,
+            0.1314196
+          ],
+          "reference_leg_distance_m": 1.1275380869656505e-05
         }
       ],
       "energy_gradient_errors": [
         [
-          3.481659405224491e-13,
-          4.2522244303455636e-07,
-          3.7577140865607817e-07,
-          3.7577140865607817e-07,
-          2.9141847401881193e-07,
-          2.9141815094391177e-07
+          2.0250467969162855e-13,
+          4.52538754025511e-07,
+          3.7915918382758207e-07,
+          3.7915918382758207e-07,
+          2.9463510742289145e-07,
+          2.946347843479913e-07
         ],
         [
-          1.4281908988778014e-12,
-          1.0630643831888165e-07,
-          1.9496094161297606e-07,
-          1.9496005343455636e-07,
-          1.3468308468489454e-08,
-          1.346818745417977e-08
+          1.1297629498585593e-12,
+          1.1313247316735442e-07,
+          1.9673259488151018e-07,
+          1.9673170670309048e-07,
+          1.403353877549307e-08,
+          1.4034305939603087e-08
         ]
       ]
     },
@@ -1013,14 +1591,14 @@
         -0.02,
         0.01
       ],
-      "potential_J": 5.03021436828956,
+      "potential_J": 5.373311875756554,
       "generalized_gravity": [
-        -23.966305832284192,
-        -2.5992530359731614,
-        1.4210885579785089,
-        -1.4204541117537888,
-        1.3233179360325047,
-        -1.3240435381245468
+        -25.675006433768985,
+        -2.7672505448332103,
+        1.4338095580287646,
+        -1.433168591277409,
+        1.335888814703083,
+        -1.3366242157856105
       ],
       "members": [
         {
@@ -1186,6 +1764,78 @@
           "reference_leg_distance_m": null
         },
         {
+          "source_row": 108,
+          "world_CG_m": [
+            -0.09696823180821645,
+            -0.29915504049782016,
+            0.271169776246374
+          ],
+          "reference_leg_distance_m": 1.3211882249246396e-05
+        },
+        {
+          "source_row": 109,
+          "world_CG_m": [
+            0.19288323378050987,
+            -0.28847408236357597,
+            0.25113548702509086
+          ],
+          "reference_leg_distance_m": 1.3114646343632426e-05
+        },
+        {
+          "source_row": 110,
+          "world_CG_m": [
+            0.16021184767133223,
+            -0.23436240576994777,
+            0.15107929108347457
+          ],
+          "reference_leg_distance_m": 1.0865257028337399e-05
+        },
+        {
+          "source_row": 111,
+          "world_CG_m": [
+            -0.08415478521719133,
+            -0.2505698536165561,
+            0.16187684525768453
+          ],
+          "reference_leg_distance_m": 7.086740699561339e-06
+        },
+        {
+          "source_row": 112,
+          "world_CG_m": [
+            0.19287352912841194,
+            0.2885080841399419,
+            0.25097686323420326
+          ],
+          "reference_leg_distance_m": 1.3114646343632426e-05
+        },
+        {
+          "source_row": 113,
+          "world_CG_m": [
+            -0.09697909927522752,
+            0.29919312686263017,
+            0.27099214201607486
+          ],
+          "reference_leg_distance_m": 1.3211882249246396e-05
+        },
+        {
+          "source_row": 114,
+          "world_CG_m": [
+            -0.08416035286530221,
+            0.250576578386772,
+            0.1617407292817835
+          ],
+          "reference_leg_distance_m": 7.086740699561339e-06
+        },
+        {
+          "source_row": 115,
+          "world_CG_m": [
+            0.16020681543144077,
+            0.23436851166718148,
+            0.15095622915592788
+          ],
+          "reference_leg_distance_m": 1.0865257028337399e-05
+        },
+        {
           "source_row": 152,
           "world_CG_m": [
             -1.56084803485298,
@@ -1346,31 +1996,104 @@
             0.13678353036026678
           ],
           "reference_leg_distance_m": null
+        },
+        {
+          "source_row": 198,
+          "world_CG_m": [
+            -1.4020279037456695,
+            0.2946398655143882,
+            0.2661499880285542
+          ],
+          "reference_leg_distance_m": 8.828515431866268e-06
+        },
+        {
+          "source_row": 199,
+          "world_CG_m": [
+            -1.671484869120841,
+            0.21475635693363132,
+            0.11418588077208006
+          ],
+          "reference_leg_distance_m": 1.1275380869656505e-05
+        },
+        {
+          "source_row": 200,
+          "world_CG_m": [
+            -1.6688080685393023,
+            0.2967910839292186,
+            0.2599269855559526
+          ],
+          "reference_leg_distance_m": 9.493994803794036e-06
+        },
+        {
+          "source_row": 201,
+          "world_CG_m": [
+            -1.4020202011476277,
+            -0.2946802715423539,
+            0.2658341084098915
+          ],
+          "reference_leg_distance_m": 8.828515431866268e-06
+        },
+        {
+          "source_row": 202,
+          "world_CG_m": [
+            -1.3942654985426248,
+            0.23962340803268817,
+            0.1317174362676612
+          ],
+          "reference_leg_distance_m": 1.2338133375340484e-05
+        },
+        {
+          "source_row": 203,
+          "world_CG_m": [
+            -1.668799552730594,
+            -0.2968356170467118,
+            0.25957776103390495
+          ],
+          "reference_leg_distance_m": 9.493994803794036e-06
+        },
+        {
+          "source_row": 204,
+          "world_CG_m": [
+            -1.394249326047273,
+            -0.23962478837079954,
+            0.13146006696736898
+          ],
+          "reference_leg_distance_m": 1.2338133375340484e-05
+        },
+        {
+          "source_row": 205,
+          "world_CG_m": [
+            -1.671468858461346,
+            -0.2147579515662708,
+            0.11393076670468122
+          ],
+          "reference_leg_distance_m": 1.1275380869656505e-05
         }
       ],
       "energy_gradient_errors": [
         [
-          3.481659405224491e-13,
-          4.3320821596637415e-07,
-          2.2003298916217773e-07,
-          4.267056157303273e-07,
-          2.424919558485783e-07,
-          1.818105714868068e-07
+          2.0250467969162855e-13,
+          4.6120743846245205e-07,
+          2.220096551042161e-07,
+          4.305560437067868e-07,
+          2.449345655186619e-07,
+          1.832917055910599e-07
         ],
         [
-          1.2363443602225743e-12,
-          1.083023359882418e-07,
-          1.9400758510812466e-07,
-          1.955873800696395e-07,
-          5.957560711422616e-08,
-          1.247846319607504e-07
+          2.4229507289419416e-12,
+          1.1530235610734962e-07,
+          1.957604300883986e-07,
+          1.9735591783032191e-07,
+          6.017080567133348e-08,
+          1.2641320368267372e-07
         ]
       ]
     }
   ],
   "checks": {
+    "rod_endcap_manifest": true,
     "source_ownership_evidence": true,
-    "exact_36_manifest": true,
+    "exact_52_manifest": true,
     "source_mass_CG_unchanged": true,
     "eight_arm_owners": true,
     "tube_geometry": true,
@@ -1385,14 +2108,14 @@
   ],
   "drawing_weight_policy": "Jig assembly weights include the tooling; never use as arm mass.",
   "unresolved": [
-    "Endcap attachment confirmation",
+    "Rod-tube/endcap pose and gravity mapping",
     "Fastener clamping ownership",
     "Joint mass distribution or explicit centered-ball/static approximation",
     "Separate 27.851 lb scale mass gap"
   ],
   "tensor_policy": "Gravity uses mass and CG only; no housing tensor sign or rear inertia authority is implied.",
   "source_sha256": {
-    "scripts/run_welded_arm_gravity.py": "51e542668514f498451777747721c0881cea2c30f8fb70e2295c485473622fbb",
+    "scripts/run_welded_arm_gravity.py": "481cf7757c34dadf13d62f07d97d9b4abc073a96b4a8dbb5086d00e247f199cd",
     "scripts/run_front_tube_travel.py": "630097272d837f273fc7813631dd0b96e174f6d311b7d80193ad5dd93ed7b313",
     "scripts/run_front_arm_tube_inertia.py": "71ead953ef7a65de174329faf9be7cd391dd262c25eeedd44999e01fe0fa1189",
     "scripts/run_coupled_tube_inertia.py": "48c6bf53bd87be5fe93a8941d9f3c266d5d605ab778882b6af1dfc945a8b75f3",
@@ -1402,6 +2125,7 @@
     "data_catalog/wufr26_front_corner_inventory_v0.json": "875217608f4fea7ede8a36e0f94245a0daaebf803f0047e1b68d81f9b3c31463",
     "data_catalog/wufr26_rear_corner_inventory_v0.json": "d084b818135b2a73abd531a0e9beab8be02ab02a7f8034ec93d7616d7802a4be",
     "data_catalog/wufr26_welded_arm_ownership_evidence_v0.json": "1c3d7258cea939a80dbec167803004461779dc30a44a0cce52fa3c7a4841a065",
+    "data_catalog/wufr26_endcap_attachment_confirmation_v0.json": "8b5317aad0000a52551a52d41bfb1ab455330ae7107a6aea78e5660ab817f75d",
     "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
     "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4"
   }

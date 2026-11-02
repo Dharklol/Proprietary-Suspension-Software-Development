@@ -31,19 +31,27 @@ class WeldedArmGravity:
         self.cg=self.whole['cg_m']
         frame=tomllib.loads((ROOT/'data_catalog/wufr26_whole_vehicle_frame_v0.toml').read_text())
         self.origins={a:frame['geometry'][a+'_axle_source_position_m'][0] for a in ('front','rear')}
+        self.confirmation=json.loads((ROOT/'data_catalog/wufr26_endcap_attachment_confirmation_v0.json').read_text())
         self.members=[]
         for name in ('front','rear'):
             data=json.loads((ROOT/f'data_catalog/wufr26_{name}_corner_inventory_v0.json').read_text())
             for r in data['rows']:
                 matches=[k for k in PARTS if k+'-AA' in r['part_name']]
-                if not matches: continue
-                if len(matches)!=1: raise ValueError('Ambiguous part number')
-                axle,arm,leg=PARTS[matches[0]]
+                endcap=self.confirmation['arm_endcap_rows'].get(str(r['sheet_row']))
+                if endcap:
+                    if 'SU-70112-AA' not in r['part_name']: raise ValueError('Endcap part mismatch')
+                    axle,arm,leg=endcap
+                else:
+                    if not matches: continue
+                    if len(matches)!=1: raise ValueError('Ambiguous part number')
+                    axle,arm,leg=PARTS[matches[0]]
                 side='left' if r['cg_in'][1]>0 else 'right'
+                evidence_id=None if endcap else ('2212895915302' if axle=='front' else '2212894105772') if leg=='attachment' else JIGS[(axle,arm)]
                 self.members.append(dict(r,axle=axle,arm=arm,leg=leg,side=side,owner=f'{axle}_{side}_{arm}_arm',
-                    evidence_box_id=('2212895915302' if axle=='front' else '2212894105772') if leg=='attachment' else JIGS[(axle,arm)],mass_kg=r['CAD_mass_lb']*LB))
-        if len(self.members)!=36 or len({r['sheet_row'] for r in self.members})!=36:
-            raise ValueError('Exactly 36 unique welded-arm rows required')
+                    attachment_owner_confirmed=bool(endcap),
+                    evidence_box_id=evidence_id,mass_kg=r['CAD_mass_lb']*LB))
+        if len(self.members)!=52 or len({r['sheet_row'] for r in self.members})!=52:
+            raise ValueError('Exactly 52 unique arm-attached rows required')
 
     def evaluate(self,q):
         if len(q)!=6 or not all(math.isfinite(x) for x in q): raise ValueError('Six finite coordinates required')
@@ -95,23 +103,31 @@ def main():
     residual_CG=[(total*fixture.cg[i]-moment[i])/residual_mass for i in range(3)]
     evidence=json.loads((ROOT/'data_catalog/wufr26_welded_arm_ownership_evidence_v0.json').read_text())
     evidence_by_id={r['box_file_id']:r for r in evidence['records']}
-    checks=dict(source_ownership_evidence=all(any(part+'-AA' in r['part_name'] for part in evidence_by_id[r['evidence_box_id']]['parts']) and evidence_by_id[r['evidence_box_id']]['owner']==r['axle']+'_'+r['arm']+'_arm' for r in fixture.members),
-        exact_36_manifest=len(fixture.members)==36,
+    rod_endcaps=[]
+    for axle,rows in fixture.confirmation['rod_endcap_rows'].items():
+        inventory=json.loads((ROOT/f'data_catalog/wufr26_{axle}_corner_inventory_v0.json').read_text())
+        for r in inventory['rows']:
+            if r['sheet_row'] in rows:
+                side='left' if r['cg_in'][1]>0 else 'right'
+                rod_endcaps.append(dict(r,owner=f'{axle}_{side}_'+('pullrod' if axle=='front' else 'pushrod'),gravity_pose_bound=False))
+    checks=dict(rod_endcap_manifest=len(rod_endcaps)==8 and len({r['sheet_row'] for r in rod_endcaps})==8 and all('END CAP, 0.75 OD TURNBUCKLE' in r['part_name'] for r in rod_endcaps),
+        source_ownership_evidence=all((r['attachment_owner_confirmed'] and str(r['sheet_row']) in fixture.confirmation['arm_endcap_rows']) or (any(part+'-AA' in r['part_name'] for part in evidence_by_id[r['evidence_box_id']]['parts']) and evidence_by_id[r['evidence_box_id']]['owner']==r['axle']+'_'+r['arm']+'_arm') for r in fixture.members),
+        exact_52_manifest=len(fixture.members)==52,
         source_mass_CG_unchanged=all(r['CAD_mass_lb']==reference[('SU',r['sheet_row'])][1] and r['cg_in']==reference[('SU',r['sheet_row'])][2:5] for r in fixture.members),
-        eight_arm_owners=len({r['owner'] for r in fixture.members})==8 and all(sum(x['owner']==r['owner'] for x in fixture.members)==(6 if (r['axle'],r['arm']) in (('front','upper'),('rear','lower')) else 3) for r in fixture.members),
+        eight_arm_owners=len({r['owner'] for r in fixture.members})==8 and all(sum(x['owner']==r['owner'] for x in fixture.members)==(8 if (r['axle'],r['arm']) in (('front','upper'),('rear','lower')) else 5) for r in fixture.members),
         tube_geometry=all(m['reference_leg_distance_m'] is None or m['reference_leg_distance_m']<1e-4 for m in cases[0]['members']),
         gravity_energy_gradient=all(max(c['energy_gradient_errors'][-1])<1e-5 for c in cases),
         total_vertical_weight=all(abs(c['generalized_gravity'][0]+mass*9.81)<1e-12 for c in cases),
         remaining_mass_not_added=abs(residual_mass+mass-total)<1e-12,
         remaining_first_moments=max(abs(residual_mass*residual_CG[i]+moment[i]-total*fixture.cg[i]) for i in range(3))<1e-12)
     report=dict(scope='Welding-jig-supported tube/housing/tab/connector ownership and gravity only; not complete mass/inertia/static equilibrium',
-        mapped_members=fixture.members,mapped_mass_kg=mass,remaining_inventory_mass_kg=residual_mass,remaining_inventory_CG_m=residual_CG,
+        mapped_members=fixture.members,confirmed_rod_endcaps=rod_endcaps,mapped_mass_kg=mass,remaining_inventory_mass_kg=residual_mass,remaining_inventory_CG_m=residual_CG,
         remaining_inventory_is_rigid_body=False,cases=cases,checks=checks,passed=all(checks.values()),
         source_conflicts=['Rear upper jig BOM lists SU-70205/6 but its contact note says SU-70105/6. Retain typo conflict; matching rear corner BOM independently corroborates SU-70205/6.'],
         drawing_weight_policy='Jig assembly weights include the tooling; never use as arm mass.',
-        unresolved=['Endcap attachment confirmation','Fastener clamping ownership','Joint mass distribution or explicit centered-ball/static approximation','Separate 27.851 lb scale mass gap'],
+        unresolved=['Rod-tube/endcap pose and gravity mapping','Fastener clamping ownership','Joint mass distribution or explicit centered-ball/static approximation','Separate 27.851 lb scale mass gap'],
         tensor_policy='Gravity uses mass and CG only; no housing tensor sign or rear inertia authority is implied.')
-    paths=('scripts/run_welded_arm_gravity.py','scripts/run_front_tube_travel.py','scripts/run_front_arm_tube_inertia.py','scripts/run_coupled_tube_inertia.py','scripts/run_no_driver_pitch_study.py','src/pssd_suspension/kinematics.py','data_catalog/wufr26_com_pitch_snapshot_v0.json','data_catalog/wufr26_front_corner_inventory_v0.json','data_catalog/wufr26_rear_corner_inventory_v0.json','data_catalog/wufr26_welded_arm_ownership_evidence_v0.json','data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml','data_catalog/wufr26_whole_vehicle_frame_v0.toml')
+    paths=('scripts/run_welded_arm_gravity.py','scripts/run_front_tube_travel.py','scripts/run_front_arm_tube_inertia.py','scripts/run_coupled_tube_inertia.py','scripts/run_no_driver_pitch_study.py','src/pssd_suspension/kinematics.py','data_catalog/wufr26_com_pitch_snapshot_v0.json','data_catalog/wufr26_front_corner_inventory_v0.json','data_catalog/wufr26_rear_corner_inventory_v0.json','data_catalog/wufr26_welded_arm_ownership_evidence_v0.json','data_catalog/wufr26_endcap_attachment_confirmation_v0.json','data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml','data_catalog/wufr26_whole_vehicle_frame_v0.toml')
     report['source_sha256']={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in paths}
     out=ROOT/'docs/reports/welded_arm_gravity_v0.1.0';out.mkdir(parents=True,exist_ok=True)
     (out/'results.json').write_text(json.dumps(report,indent=2)+'\n')
