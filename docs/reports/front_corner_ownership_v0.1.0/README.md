@@ -13,8 +13,8 @@ brake, steering and inboard suspension assemblies.
 | Assignment status | Instances | CAD mass (lb) | Meaning |
 |---|---:|---:|---|
 | Verified nominal tubes | 8 | 1.798 | Existing BENCH-SUSP-0040 contribution |
-| Source-supported owner | 22 | 1.444 | Housings, tabs/connectors and confirmed arm/rod endcaps; new inertia gates pending |
-| Candidate owner | 6 | 0.424 | Pullrod tubes and adjacent nuts; detailed pose binding pending |
+| Source-supported owner | 24 | 1.846 | Housings, tabs/connectors, endcaps and rod tubes; new inertia gates pending |
+| Candidate owner | 4 | 0.022 | Adjacent pullrod nuts; rigid ownership pending |
 | Joint split required | 16 | 0.736 | Bearings and rod ends span relatively moving bodies |
 | Unresolved hardware | 72 | 0.666 | Clamping-stack ownership is not established |
 

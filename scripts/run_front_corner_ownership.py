@@ -37,7 +37,9 @@ def main():
                         status='source_supported_owner', evidence='Owner confirmed fixed attachment to corresponding arm tubes; exact row/leg geometry checked in welded-arm gravity study.')
         elif n in (104,105,106,107):
             item.update(family='pullrod_endcap', rigid_owner=f'{side}_pullrod', status='source_supported_owner', evidence='Owner confirmed turnbuckle endcaps fixed to their rod tubes; no arm-transform substitution.')
-        elif n in (98,99,56,57,58,59):
+        elif n in (98,99):
+            item.update(family='pullrod_tube', rigid_owner=f'{side}_pullrod',status='source_supported_owner',evidence='Named rod tube; native endpoint closure and conditional rigid rod pose verified by BENCH-VEH-0027.')
+        elif n in (56,57,58,59):
             item.update(family='pullrod_body_parts', candidate_owner=f'{side}_pullrod',
                         status='candidate', evidence='Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution.')
         elif 84 <= n <= 89:
@@ -83,7 +85,7 @@ def main():
         drawing_discrepancies=[dict(part='91847A429',drawing_count=10,COM_count=counts['91847A429'],unlisted_COM_part='91845A105',unlisted_count=counts['91845A105'],resolution='Open; do not silently substitute.'),
             dict(field='weight_label_lb',drawing=5.06,COM_row_sum=5.068,resolution='Separate source labels retained; CAD row sum used.')],
         checks=checks,passed=all(checks.values()),assignments=assignments,
-        source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (source,Path(__file__),ROOT/'data_catalog/wufr26_welded_arm_ownership_evidence_v0.json',ROOT/'data_catalog/wufr26_endcap_attachment_confirmation_v0.json',ROOT/'data_catalog/wufr26_com_pitch_snapshot_v0.json',ROOT/'data_catalog/wufr26_front_arm_tubes_inertia_v0.json')})
+        source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (source,Path(__file__),ROOT/'data_catalog/wufr26_welded_arm_ownership_evidence_v0.json',ROOT/'data_catalog/wufr26_endcap_attachment_confirmation_v0.json',ROOT/'scripts/run_rod_gravity_map.py',ROOT/'src/pssd_suspension/rod_pose.py',ROOT/'data_catalog/wufr26_com_pitch_snapshot_v0.json',ROOT/'data_catalog/wufr26_front_arm_tubes_inertia_v0.json')})
     destination=ROOT/'docs/reports/front_corner_ownership_v0.1.0'
     destination.mkdir(parents=True,exist_ok=True)
     (destination/'results.json').write_text(json.dumps(report,indent=2)+'\n')

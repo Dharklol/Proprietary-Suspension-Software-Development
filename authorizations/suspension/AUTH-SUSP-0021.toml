@@ -64,3 +64,9 @@ owner_statement = "Both arm endcaps and pullrod/pushrod turnbuckle endcaps are f
 record = "data_catalog/wufr26_endcap_attachment_confirmation_v0.json"
 permitted = "Map sixteen SU-70112 instances with their explicit arm/leg manifest and record eight turnbuckle endcaps as rigid rod members"
 scope_limit = "Attachment confirmation only; rod pose binding, joint clamping, ball inertia, tensor conventions and scale discrepancy remain separate"
+
+[rod_gravity_mapping]
+owner_direction = "Go ahead with rod-motion mapping and joint assignment work"
+function_specification = "docs/models/vehicle/rod_gravity_map_spec_v0.1.0.md"
+permitted = "Native rod/endcap endpoint and CG transport with explicit shortest-rotation spin convention, potential bound and conditional gravity verification"
+prohibited = "Infer source axial spin or full rotational inertia, treat the potential bound as a torque/trajectory bound, or assign joint clamps without evidence"

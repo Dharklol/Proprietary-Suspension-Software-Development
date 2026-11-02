@@ -445,3 +445,18 @@ Endcap attachment is closed. Next implement rod/endcap pose mapping and resolve
 joint endpoint/clamping ownership. No new tensor, full-equilibrium, scale-gap or
 installed authority follows from this confirmation. Continue the same G3/G5a
 analytical source-composition work.
+
+## Checkpoint — rod/endcap pose and conditional gravity
+
+MOD-VEH-0014 / BENCH-VEH-0027 maps four rods and eight confirmed endcaps through
+native endpoint closure. Eight study checks and four primitive tests pass. The
+combined arm/rod inventory is 64 parts / 3.230484859 kg with no duplicate mass.
+Source CG offsets are retained; a declared shortest-rotation spin convention has
+a pose-wise gravitational-potential difference bound of 7.633e-5 J. It does not
+establish source spin, full rod inertia or a torque-error bound. See
+[rod gravity evidence](../reports/rod_gravity_map_v0.1.0/README.md).
+
+Next is joint endpoint/clamping ownership and explicit static bearing/rod-end
+treatment, followed by the matching no-driver spring/ARB/gravity/contact solve.
+Full native equilibrium stays open; the unallocated inventory is not a rigid
+lump. Continue G3/G5a source composition before UI/release development.
