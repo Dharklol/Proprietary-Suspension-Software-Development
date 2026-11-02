@@ -58,3 +58,9 @@ owner_direction = "Resolve component assignments from available BOM and drawings
 function_specification = "docs/models/vehicle/welded_arm_gravity_spec_v0.1.0.md"
 permitted = "Source-supported welded tube/housing/tab/connector ownership and gravity potential for 36 exact instances"
 prohibited = "Use jig/tooling weights as car mass, ignore drawing part-number conflicts, promote tensor signs or treat unallocated remainder as one rigid body"
+
+[confirmed_endcap_attachment]
+owner_statement = "Both arm endcaps and pullrod/pushrod turnbuckle endcaps are fixed to their respective tubes."
+record = "data_catalog/wufr26_endcap_attachment_confirmation_v0.json"
+permitted = "Map sixteen SU-70112 instances with their explicit arm/leg manifest and record eight turnbuckle endcaps as rigid rod members"
+scope_limit = "Attachment confirmation only; rod pose binding, joint clamping, ball inertia, tensor conventions and scale discrepancy remain separate"

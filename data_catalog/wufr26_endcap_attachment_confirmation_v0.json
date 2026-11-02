@@ -1,0 +1,103 @@
+{
+  "source": "Owner response in project conversation",
+  "confirmation": "Both SU-70112 arm endcaps and pullrod/pushrod turnbuckle endcaps are fixed to their respective tubes.",
+  "scope": "Rigid attachment only; no hardware clamp, rod-end ball, tensor convention, installed mass or scale-gap confirmation.",
+  "arm_endcap_rows": {
+    "108": [
+      "front",
+      "upper",
+      "aft"
+    ],
+    "109": [
+      "front",
+      "upper",
+      "fore"
+    ],
+    "110": [
+      "front",
+      "lower",
+      "fore"
+    ],
+    "111": [
+      "front",
+      "lower",
+      "aft"
+    ],
+    "112": [
+      "front",
+      "upper",
+      "fore"
+    ],
+    "113": [
+      "front",
+      "upper",
+      "aft"
+    ],
+    "114": [
+      "front",
+      "lower",
+      "aft"
+    ],
+    "115": [
+      "front",
+      "lower",
+      "fore"
+    ],
+    "198": [
+      "rear",
+      "upper",
+      "fore"
+    ],
+    "199": [
+      "rear",
+      "lower",
+      "aft"
+    ],
+    "200": [
+      "rear",
+      "upper",
+      "aft"
+    ],
+    "201": [
+      "rear",
+      "upper",
+      "fore"
+    ],
+    "202": [
+      "rear",
+      "lower",
+      "fore"
+    ],
+    "203": [
+      "rear",
+      "upper",
+      "aft"
+    ],
+    "204": [
+      "rear",
+      "lower",
+      "fore"
+    ],
+    "205": [
+      "rear",
+      "lower",
+      "aft"
+    ]
+  },
+  "rod_endcap_rows": {
+    "front": [
+      104,
+      105,
+      106,
+      107
+    ],
+    "rear": [
+      194,
+      195,
+      196,
+      197
+    ]
+  },
+  "arm_assignment_evidence": "Exact SU-70112 identities, owner fixed-attachment confirmation and source CG/reference-leg cross-check. Explicit row-to-leg manifest, not unrestricted nearest-part grouping.",
+  "rod_assignment_evidence": "Named turnbuckle endcaps on left/right pullrod or pushrod tubes; detailed rod pose/gravity binding remains separate."
+}

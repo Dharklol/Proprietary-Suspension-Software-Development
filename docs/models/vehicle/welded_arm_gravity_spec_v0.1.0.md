@@ -20,8 +20,12 @@ used as vehicle masses; the original COM instance masses/CGs govern.
 | Front upper attachments | SU-70110 tabs, SU-70111 connector | 2212895915302 |
 | Rear lower attachments | SU-70210 tabs, SU-70211 connector | 2212894105772 |
 
-There are 36 instances total: sixteen tubes, eight housings, eight tabs and four
-connectors. Rear upper jig BOM agrees with the separate rear-corner assembly,
+The six drawings resolve 36 instances: sixteen tubes, eight housings, eight tabs
+and four connectors. The owner subsequently confirmed fixed endcap-to-tube
+attachment. Sixteen SU-70112 endcaps now extend the arm gravity manifest to 52
+instances; eight turnbuckle endcaps have confirmed rod ownership with rod pose
+binding still separate. The explicit row/leg manifest is in
+`data_catalog/wufr26_endcap_attachment_confirmation_v0.json`. Rear upper jig BOM agrees with the separate rear-corner assembly,
 but its contact note incorrectly names front SU-70105/6 tubes. Preserve that
 conflict and use the corroborated BOM identities; do not silently rewrite source.
 
@@ -44,16 +48,17 @@ Generalized gravity is -dVg/dq, using analytic hinge/chassis Jacobians. In parti
 Qh=-sum(m)g. Full centroidal tensors and bearing product signs are not needed for
 this gravity calculation; no new dynamic inertia authority is implied.
 
-The 36-instance source mass is 2.44304850482 kg. Subtract their exact masses and
+The 52-instance arm source mass is 2.6172279749 kg. Rod endcap membership is
+recorded separately and is not added to this arm gravity subset. Subtract their exact masses and
 first moments from the 203.73055939313 kg CAD dry total. The remaining aggregate
 is an unallocated inventory, not a rigid body to be added to the dynamics. Its
 CG only demonstrates bookkeeping closure; it grants no sprung/unsprung ownership.
 
 ## Acceptance
 
-Nine study checks require exact source-evidence part matching, 36 unique rows,
-unchanged COM mass/CG, eight complete arm owner groups (six parts for each front
-upper/rear lower arm, three for the other arms), reference tube CG line distances
+Ten study checks require exact source-evidence part matching, 52 unique arm rows and eight confirmed rod endcaps,
+unchanged COM mass/CG, eight complete arm owner groups (eight parts for each front
+upper/rear lower arm, five for the other arms), reference tube CG line distances
 <1e-4 m, gravity-energy derivative agreement <1e-5 in matching SI force units,
 vertical weight within 1e-12 N and mass/first-moment subtraction closure within
 1e-12 kg/kg m. Independent energy differences use h=0.001/0.0005 in each coordinate
@@ -61,16 +66,17 @@ at nominal and finite mixed states. Numerical bounds |p|<=0.1, |qL|<=0.06 rad ar
 fixture limits, not physical clearance or installed travel limits.
 
 Update BENCH-SUSP-0041's front audit so the six front tabs/connectors are no longer
-uncertain candidates. That report now has ten source-supported owners, eighteen
+uncertain candidates. That report now has twenty-two source-supported owners, six
 candidates, sixteen joint components and seventy-two unresolved hardware instances,
 in addition to eight previously verified nominal tubes. No new tensor binding is
-claimed for the ten source-supported parts.
+claimed for these source-supported parts.
 
 ## Remaining source questions
 
-The SU-70112 endcap detail establishes dimensions/threading, not attachment from
-the accessible text. Confirm it is fixed into each corresponding arm tube. Likewise
-confirm the turnbuckle endcaps are fixed into their respective pull/pushrod tubes.
+The owner confirmed both SU-70112 arm endcaps and the pullrod/pushrod turnbuckle
+endcaps are fixed to their respective tubes. Arm row/leg assignments additionally
+pass the same reference-line geometry gate as the tubes. No new attachment question
+is pending for those caps. Rod pose/gravity binding remains to be implemented.
 Clamping-stack ownership of bolts/washers/spacers and rod-end endpoint assignment
 remain unresolved. Whole-part assembly membership alone is insufficient.
 

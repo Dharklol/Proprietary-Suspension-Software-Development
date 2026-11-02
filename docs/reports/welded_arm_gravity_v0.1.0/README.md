@@ -3,16 +3,18 @@
 Specification: `docs/models/vehicle/welded_arm_gravity_spec_v0.1.0.md`.
 Run `PYTHONPATH=src python scripts/run_welded_arm_gravity.py`.
 
-Six welding-jig drawings resolve 36 component instances to eight moving arms,
-including the previously uncertain front/rear tab/connector attachments. Their
-combined source mass is 2.443048505 kg. Nine checks pass; all source masses/CGs
+Six welding-jig drawings resolve the initial 36 component instances, including
+front/rear tabs and connectors. Owner-confirmed fixed endcaps extend the gravity
+manifest to 52 arm-attached instances with source mass 2.617227975 kg. Eight
+turnbuckle endcaps have separately confirmed rod ownership; their rod pose/gravity
+binding remains open. Ten checks pass; all source masses/CGs
 are unchanged and the remaining inventory subtraction closes exactly.
 Analytic generalized gravity agrees with independent potential-energy derivatives
 within 2e-7 N/Nm in the sampled states (acceptance 1e-5). Rear source-frame placement
 is explicit. Housing tensor ambiguity does not block mass/CG gravity mapping.
 
-The earlier front ownership report is regenerated: ten source-supported parts,
-eighteen candidates, sixteen joint components and seventy-two unresolved hardware
+The earlier front ownership report is regenerated: twenty-two source-supported parts,
+six candidates, sixteen joint components and seventy-two unresolved hardware
 instances, plus eight existing nominally verified tubes. Dynamic tensor authority
 is unchanged. New rear source names are retained in a read-only COM snapshot.
 
@@ -32,14 +34,15 @@ do not claim visual callout inspection. Drive and Box files are unchanged.
 
 ## Solid stopping point
 
-Rigid ownership is resolved for the listed 36 parts, not for the complete car.
-Remaining source facts needed are arm-endcap attachment, rod-endcap attachment,
-rod-end endpoint ownership and clamping stacks. Bearing/rod-end intrinsic rotation
+Rigid ownership is resolved for the 52 arm-attached parts and eight rod endcaps,
+not for the complete car. Endcap attachment is confirmed and no longer a source
+question. Remaining source facts are rod-end endpoint ownership and clamping
+stacks. Rod/endcap pose mapping remains an implementation task. Bearing/rod-end intrinsic rotation
 splits matter for dynamics; a declared joint-centered-ball approximation may be
 sufficient for static gravity. No such approximation is introduced silently.
 
-Full native static equilibrium remains open. Next use the attachment confirmations
-or readable assembly callouts to map the remaining masses, then compose their
+Full native static equilibrium remains open. Next implement the confirmed rod/endcap pose mapping and use readable assembly
+callouts to map the remaining joint hardware, then compose their
 gravity and solve the no-driver spring/ARB/road-compatible static state. This
 continues the G3/G5a analytical path. Housing signs and the 27.851 lb scale gap
 remain separate; UI/release and physical correlation are downstream.
