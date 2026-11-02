@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-VEH-0027"
+type = "benchmark"
+title = "Rod fixed-endcap pose gravity and mass ledger"
+status = "active"
+description = "Twelve source instances preserve nominal CGs and native rigid endpoint distances; gravity and combined 64-part ledger are verified under an explicit axial-spin convention."
+verification_level = "A"
+target_ids = ["MOD-VEH-0014", "MOD-VEH-0013"]
+function_specification = "docs/models/vehicle/rod_gravity_map_spec_v0.1.0.md"
+acceptance_criteria = ["Exact twelve-part source manifest and nominal CG preservation", "Native length and endpoint distances within 1e-9 m", "Gravity-energy gradients within 1e-5 N/Nm", "Combined 64-part inventory is disjoint and closes mass/first moments", "Four offset transport tests pass", "Unknown spin bounds remain limited to pose-wise potential"]

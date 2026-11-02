@@ -10,16 +10,16 @@
       "mass_lb": 0.6660000000000004
     },
     "candidate": {
-      "count": 6,
-      "mass_lb": 0.42400000000000004
+      "count": 4,
+      "mass_lb": 0.022000000000000002
     },
     "joint_split_required": {
       "count": 16,
       "mass_lb": 0.7360000000000001
     },
     "source_supported_owner": {
-      "count": 22,
-      "mass_lb": 1.444
+      "count": 24,
+      "mass_lb": 1.846
     },
     "verified_nominal_tube": {
       "count": 8,
@@ -1475,12 +1475,12 @@
         7.591
       ],
       "side": "right",
-      "rigid_owner": null,
-      "candidate_owner": "right_pullrod",
-      "status": "candidate",
+      "rigid_owner": "right_pullrod",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
-      "family": "pullrod_body_parts",
-      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+      "family": "pullrod_tube",
+      "evidence": "Named rod tube; native endpoint closure and conditional rigid rod pose verified by BENCH-VEH-0027."
     },
     {
       "sheet_row": 99,
@@ -1493,12 +1493,12 @@
         7.591
       ],
       "side": "left",
-      "rigid_owner": null,
-      "candidate_owner": "left_pullrod",
-      "status": "candidate",
+      "rigid_owner": "left_pullrod",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
-      "family": "pullrod_body_parts",
-      "evidence": "Named pullrod/turnbuckle endcaps or adjacent jam nuts. Separate moving member; no arm transform substitution."
+      "family": "pullrod_tube",
+      "evidence": "Named rod tube; native endpoint closure and conditional rigid rod pose verified by BENCH-VEH-0027."
     },
     {
       "sheet_row": 100,
@@ -2295,9 +2295,11 @@
   ],
   "source_sha256": {
     "data_catalog/wufr26_front_corner_inventory_v0.json": "875217608f4fea7ede8a36e0f94245a0daaebf803f0047e1b68d81f9b3c31463",
-    "scripts/run_front_corner_ownership.py": "491aee85039ea2c74fc40ef47ac1df124112cd640d02db74dae9c06842051ce1",
+    "scripts/run_front_corner_ownership.py": "dd222ecfd5b4f12bb5b059045de00fe18ef1dfce49449079160d2b41d8f43c6f",
     "data_catalog/wufr26_welded_arm_ownership_evidence_v0.json": "1c3d7258cea939a80dbec167803004461779dc30a44a0cce52fa3c7a4841a065",
     "data_catalog/wufr26_endcap_attachment_confirmation_v0.json": "8b5317aad0000a52551a52d41bfb1ab455330ae7107a6aea78e5660ab817f75d",
+    "scripts/run_rod_gravity_map.py": "f09b88b6449afb1364245e514a93215850662a1df6ab623112c748accd20e10d",
+    "src/pssd_suspension/rod_pose.py": "fd9ea4d872de41ec92b0ee885ee278027cdb7be36b26cbf40bdc517da2250738",
     "data_catalog/wufr26_com_pitch_snapshot_v0.json": "d2ac8dd315e16e7ad920821fabd55aebb6ebccbb6bbff45e2a2442b2c1176317",
     "data_catalog/wufr26_front_arm_tubes_inertia_v0.json": "3716bf64caf487669d756c04ca42d8ffe3ee8d64202ad7f22ab40c3e24d80fae"
   }

@@ -24,6 +24,8 @@ jobs:
       - run: python scripts/run_native_spring_port.py
       - run: python scripts/run_dry_static_contact_audit.py
       - run: python scripts/run_welded_arm_gravity.py
+      - run: python scripts/run_rod_gravity_map.py
+      - run: python -m unittest discover -s tests -p test_rod_pose.py
       - run: python -m unittest discover -s tests -p test_static_balance.py
       - run: python -m unittest discover -s tests -p test_native_spring_port.py
       - run: python -m unittest discover -s tests -p test_generalized_forces.py
@@ -47,6 +49,7 @@ jobs:
             docs/reports/native_spring_port_v0.1.0/
             docs/reports/dry_static_contact_audit_v0.1.0/
             docs/reports/welded_arm_gravity_v0.1.0/
+            docs/reports/rod_gravity_map_v0.1.0/
             docs/reports/no_driver_pitch_study_v0.1.0/
             docs/reports/no_driver_mass_consistency_v0.1.0/
             docs/reports/equilibrium_local_stiffness_v0.1.0/
