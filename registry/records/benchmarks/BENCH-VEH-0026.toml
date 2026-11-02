@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-VEH-0026"
+type = "benchmark"
+title = "Welded arm ownership and generalized gravity"
+status = "active"
+description = "Six source drawings bind 36 instances to eight arms; exact source bookkeeping and independent gravity-energy checks."
+verification_level = "A"
+target_ids = ["MOD-VEH-0013", "MOD-SUSP-0013"]
+function_specification = "docs/models/vehicle/welded_arm_gravity_spec_v0.1.0.md"
+acceptance_criteria = ["Exact source-evidence and unchanged mass/CG manifest", "Eight complete arm groups", "Tube line geometry below 1e-4 m", "Potential derivatives agree with generalized gravity below 1e-5 N/Nm", "Remaining mass and first moments close without rigid-body assignment", "Source conflicts and unresolved joint/endcap ownership retained"]

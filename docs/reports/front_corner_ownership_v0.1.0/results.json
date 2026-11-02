@@ -10,20 +10,20 @@
       "mass_lb": 0.6660000000000004
     },
     "candidate": {
-      "count": 24,
-      "mass_lb": 1.286
+      "count": 18,
+      "mass_lb": 0.8680000000000001
     },
     "joint_split_required": {
       "count": 16,
       "mass_lb": 0.7360000000000001
     },
+    "source_supported_owner": {
+      "count": 10,
+      "mass_lb": 1.0
+    },
     "verified_nominal_tube": {
       "count": 8,
       "mass_lb": 1.7979999999999998
-    },
-    "source_supported_owner": {
-      "count": 4,
-      "mass_lb": 0.5820000000000001
     }
   },
   "source_nut_counts": {
@@ -1223,12 +1223,12 @@
         10.761
       ],
       "side": "right",
-      "rigid_owner": null,
-      "candidate_owner": "right_upper_arm",
-      "status": "candidate",
+      "rigid_owner": "right_upper_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "pullrod_attachment",
-      "evidence": "Native actuation pickup belongs to upper arm. Tab/connector rigid attachment must be checked individually."
+      "evidence": "Front Pull Rod and Connector Welding Jigs Assembly, Box 2212895915302, includes tabs/connector with upper tubes/housing. Gravity ownership only; no new inertia authority."
     },
     {
       "sheet_row": 85,
@@ -1241,12 +1241,12 @@
         11.047
       ],
       "side": "left",
-      "rigid_owner": null,
-      "candidate_owner": "left_upper_arm",
-      "status": "candidate",
+      "rigid_owner": "left_upper_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "pullrod_attachment",
-      "evidence": "Native actuation pickup belongs to upper arm. Tab/connector rigid attachment must be checked individually."
+      "evidence": "Front Pull Rod and Connector Welding Jigs Assembly, Box 2212895915302, includes tabs/connector with upper tubes/housing. Gravity ownership only; no new inertia authority."
     },
     {
       "sheet_row": 86,
@@ -1259,12 +1259,12 @@
         10.718
       ],
       "side": "left",
-      "rigid_owner": null,
-      "candidate_owner": "left_upper_arm",
-      "status": "candidate",
+      "rigid_owner": "left_upper_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "pullrod_attachment",
-      "evidence": "Native actuation pickup belongs to upper arm. Tab/connector rigid attachment must be checked individually."
+      "evidence": "Front Pull Rod and Connector Welding Jigs Assembly, Box 2212895915302, includes tabs/connector with upper tubes/housing. Gravity ownership only; no new inertia authority."
     },
     {
       "sheet_row": 87,
@@ -1277,12 +1277,12 @@
         11.047
       ],
       "side": "right",
-      "rigid_owner": null,
-      "candidate_owner": "right_upper_arm",
-      "status": "candidate",
+      "rigid_owner": "right_upper_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "pullrod_attachment",
-      "evidence": "Native actuation pickup belongs to upper arm. Tab/connector rigid attachment must be checked individually."
+      "evidence": "Front Pull Rod and Connector Welding Jigs Assembly, Box 2212895915302, includes tabs/connector with upper tubes/housing. Gravity ownership only; no new inertia authority."
     },
     {
       "sheet_row": 88,
@@ -1295,12 +1295,12 @@
         10.718
       ],
       "side": "right",
-      "rigid_owner": null,
-      "candidate_owner": "right_upper_arm",
-      "status": "candidate",
+      "rigid_owner": "right_upper_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "pullrod_attachment",
-      "evidence": "Native actuation pickup belongs to upper arm. Tab/connector rigid attachment must be checked individually."
+      "evidence": "Front Pull Rod and Connector Welding Jigs Assembly, Box 2212895915302, includes tabs/connector with upper tubes/housing. Gravity ownership only; no new inertia authority."
     },
     {
       "sheet_row": 89,
@@ -1313,12 +1313,12 @@
         10.761
       ],
       "side": "left",
-      "rigid_owner": null,
-      "candidate_owner": "left_upper_arm",
-      "status": "candidate",
+      "rigid_owner": "left_upper_arm",
+      "candidate_owner": null,
+      "status": "source_supported_owner",
       "nominal_contribution_verified": false,
       "family": "pullrod_attachment",
-      "evidence": "Native actuation pickup belongs to upper arm. Tab/connector rigid attachment must be checked individually."
+      "evidence": "Front Pull Rod and Connector Welding Jigs Assembly, Box 2212895915302, includes tabs/connector with upper tubes/housing. Gravity ownership only; no new inertia authority."
     },
     {
       "sheet_row": 90,
@@ -2295,7 +2295,8 @@
   ],
   "source_sha256": {
     "data_catalog/wufr26_front_corner_inventory_v0.json": "875217608f4fea7ede8a36e0f94245a0daaebf803f0047e1b68d81f9b3c31463",
-    "scripts/run_front_corner_ownership.py": "dd6dc6f1f1ba6b472ce82e2e8577936c4d32f53fb154171dd6b3516ec2746e15",
+    "scripts/run_front_corner_ownership.py": "1f95906394ab6f7c7fbb915682486d31baf2f781ed237358bfec67cc0877286e",
+    "data_catalog/wufr26_welded_arm_ownership_evidence_v0.json": "1c3d7258cea939a80dbec167803004461779dc30a44a0cce52fa3c7a4841a065",
     "data_catalog/wufr26_com_pitch_snapshot_v0.json": "d2ac8dd315e16e7ad920821fabd55aebb6ebccbb6bbff45e2a2442b2c1176317",
     "data_catalog/wufr26_front_arm_tubes_inertia_v0.json": "3716bf64caf487669d756c04ca42d8ffe3ee8d64202ad7f22ab40c3e24d80fae"
   }

@@ -415,3 +415,19 @@ compatible member ownership/generalized gravity and wheel/body/tire composition
 must precede the no-driver spring/ARB/static solve. Prioritize that source work
 over further isolated force fixtures; driver-state reuse and mass scaling are
 prohibited. This remains G3/G5a analytical integration, not UI/release readiness.
+
+## Checkpoint — welded-arm ownership resolved from jigs, 2026-11-01
+
+Six welding-jig assembly sources establish 36 tube/housing/tab/connector instances
+on the eight arms (2.443048505 kg). Front tab/connector candidates are resolved;
+the front ownership report is regenerated. Generalized gravity passes independent
+potential checks without needing housing product-sign resolution. The unallocated
+remainder is preserved by exact mass/first-moment subtraction, not made a rigid
+body. See [ownership resolution](../reports/welded_arm_gravity_v0.1.0/README.md).
+
+Next source facts: endcap attachment and joint clamping/endpoint ownership. A
+declared centered-ball approximation may suffice for static gravity while full
+rotational splits remain a dynamics issue. Full native static equilibrium stays
+open; resolve these source/assumption boundaries before integrating the complete
+spring/ARB/gravity/contact system. Source work remains ahead of more isolated
+force fixtures or UI/release development.

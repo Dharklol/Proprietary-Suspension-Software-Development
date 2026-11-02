@@ -1,0 +1,1548 @@
+{
+  "source_url": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit",
+  "range": "SU!B152:G305",
+  "read_date": "2026-11-01",
+  "rows": [
+    {
+      "sheet_row": 152,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70203-AA REAR UPPER BEARING HOUSING-1",
+      "CAD_mass_lb": 0.125,
+      "cg_in": [
+        -61.448,
+        19.87,
+        11.766
+      ]
+    },
+    {
+      "sheet_row": 153,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70203-AA REAR UPPER BEARING HOUSING-2",
+      "CAD_mass_lb": 0.125,
+      "cg_in": [
+        -61.448,
+        -19.87,
+        11.766
+      ]
+    },
+    {
+      "sheet_row": 154,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70204-AA REAR LOWER BEARING HOUSING-1",
+      "CAD_mass_lb": 0.143,
+      "cg_in": [
+        -61.445,
+        21.378,
+        5.233
+      ]
+    },
+    {
+      "sheet_row": 155,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70204-AA REAR LOWER BEARING HOUSING-2",
+      "CAD_mass_lb": 0.143,
+      "cg_in": [
+        -61.445,
+        -21.378,
+        5.233
+      ]
+    },
+    {
+      "sheet_row": 156,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70205-AA REAR UPPER FORE STEEL TUBE-1",
+      "CAD_mass_lb": 0.183,
+      "cg_in": [
+        -57.992,
+        -15.564,
+        11.307
+      ]
+    },
+    {
+      "sheet_row": 157,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70205-AA REAR UPPER FORE STEEL TUBE-2",
+      "CAD_mass_lb": 0.183,
+      "cg_in": [
+        -57.992,
+        15.564,
+        11.307
+      ]
+    },
+    {
+      "sheet_row": 158,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70206-AA REAR UPPER AFT STEEL TUBE-1",
+      "CAD_mass_lb": 0.162,
+      "cg_in": [
+        -63.899,
+        15.551,
+        11.309
+      ]
+    },
+    {
+      "sheet_row": 159,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70206-AA REAR UPPER AFT STEEL TUBE-2",
+      "CAD_mass_lb": 0.162,
+      "cg_in": [
+        -63.899,
+        -15.551,
+        11.309
+      ]
+    },
+    {
+      "sheet_row": 160,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70207-AA REAR LOWER FORE STEEL TUBE-1",
+      "CAD_mass_lb": 0.241,
+      "cg_in": [
+        -57.938,
+        15.164,
+        5.426
+      ]
+    },
+    {
+      "sheet_row": 161,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70207-AA REAR LOWER FORE STEEL TUBE-2",
+      "CAD_mass_lb": 0.241,
+      "cg_in": [
+        -57.938,
+        -15.164,
+        5.426
+      ]
+    },
+    {
+      "sheet_row": 162,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70208-AA REAR LOWER AFT STEEL TUBE-1",
+      "CAD_mass_lb": 0.243,
+      "cg_in": [
+        -63.977,
+        -14.63,
+        5.195
+      ]
+    },
+    {
+      "sheet_row": 163,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70208-AA REAR LOWER AFT STEEL TUBE-2",
+      "CAD_mass_lb": 0.243,
+      "cg_in": [
+        -63.977,
+        14.63,
+        5.195
+      ]
+    },
+    {
+      "sheet_row": 164,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70211-AA PUSHROD CONNECTOR-1",
+      "CAD_mass_lb": 0.115,
+      "cg_in": [
+        -61.646,
+        20.386,
+        5.602
+      ]
+    },
+    {
+      "sheet_row": 165,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70211-AA PUSHROD CONNECTOR-2",
+      "CAD_mass_lb": 0.115,
+      "cg_in": [
+        -61.646,
+        -20.386,
+        5.602
+      ]
+    },
+    {
+      "sheet_row": 166,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70210-AA PUSHROD TAB-1",
+      "CAD_mass_lb": 0.041,
+      "cg_in": [
+        -62.671,
+        20.252,
+        5.877
+      ]
+    },
+    {
+      "sheet_row": 167,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70210-AA PUSHROD TAB-2",
+      "CAD_mass_lb": 0.041,
+      "cg_in": [
+        -62.111,
+        20.272,
+        5.899
+      ]
+    },
+    {
+      "sheet_row": 168,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70210-AA PUSHROD TAB-3",
+      "CAD_mass_lb": 0.041,
+      "cg_in": [
+        -62.101,
+        -20.272,
+        5.899
+      ]
+    },
+    {
+      "sheet_row": 169,
+      "part_name": "REAR A-ARM ASSEMBLY-2/SU-70210-AA PUSHROD TAB-4",
+      "CAD_mass_lb": 0.041,
+      "cg_in": [
+        -62.671,
+        -20.252,
+        5.877
+      ]
+    },
+    {
+      "sheet_row": 170,
+      "part_name": "REAR A-ARM ASSEMBLY-2/HAB-4TG-TheTimkenCompany-1",
+      "CAD_mass_lb": 0.037,
+      "cg_in": [
+        -61.512,
+        -20.594,
+        11.843
+      ]
+    },
+    {
+      "sheet_row": 171,
+      "part_name": "REAR A-ARM ASSEMBLY-2/HEX 0.25-28x1.75 P (91257A567)-7",
+      "CAD_mass_lb": 0.03,
+      "cg_in": [
+        -61.512,
+        -20.595,
+        11.832
+      ]
+    },
+    {
+      "sheet_row": 172,
+      "part_name": "REAR A-ARM ASSEMBLY-2/0.25 WASHER (CRITICAL) (98023A029)-13",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -61.511,
+        -20.535,
+        12.396
+      ]
+    },
+    {
+      "sheet_row": 173,
+      "part_name": "REAR A-ARM ASSEMBLY-2/0.25 WASHER (CRITICAL) (98023A029)-14",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -61.512,
+        -20.652,
+        11.294
+      ]
+    },
+    {
+      "sheet_row": 174,
+      "part_name": "REAR A-ARM ASSEMBLY-2/NUT 0.25-28 DEF (95307A500)-7",
+      "CAD_mass_lb": 0.003,
+      "cg_in": [
+        -61.512,
+        -20.665,
+        11.176
+      ]
+    },
+    {
+      "sheet_row": 175,
+      "part_name": "REAR A-ARM ASSEMBLY-2/HEX 0.25-28x1.75 P (91257A567)-8",
+      "CAD_mass_lb": 0.03,
+      "cg_in": [
+        -61.515,
+        -22.25,
+        5.293
+      ]
+    },
+    {
+      "sheet_row": 176,
+      "part_name": "REAR A-ARM ASSEMBLY-2/0.25 WASHER (CRITICAL) (98023A029)-15",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -61.492,
+        -22.244,
+        4.727
+      ]
+    },
+    {
+      "sheet_row": 177,
+      "part_name": "REAR A-ARM ASSEMBLY-2/HAB-4TG-TheTimkenCompany-4",
+      "CAD_mass_lb": 0.037,
+      "cg_in": [
+        -61.512,
+        -22.249,
+        5.222
+      ]
+    },
+    {
+      "sheet_row": 178,
+      "part_name": "REAR A-ARM ASSEMBLY-2/0.25 WASHER (CRITICAL) (98023A029)-16",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -61.532,
+        -22.254,
+        5.742
+      ]
+    },
+    {
+      "sheet_row": 179,
+      "part_name": "REAR A-ARM ASSEMBLY-2/NUT 0.25-28 DEF (95307A500)-8",
+      "CAD_mass_lb": 0.003,
+      "cg_in": [
+        -61.537,
+        -22.255,
+        5.86
+      ]
+    },
+    {
+      "sheet_row": 180,
+      "part_name": "REAR A-ARM ASSEMBLY-2/HEX 0.25-28x1.75 P (91257A567)-9",
+      "CAD_mass_lb": 0.03,
+      "cg_in": [
+        -61.512,
+        20.601,
+        11.774
+      ]
+    },
+    {
+      "sheet_row": 181,
+      "part_name": "REAR A-ARM ASSEMBLY-2/0.25 WASHER (CRITICAL) (98023A029)-17",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -61.512,
+        20.542,
+        12.337
+      ]
+    },
+    {
+      "sheet_row": 182,
+      "part_name": "REAR A-ARM ASSEMBLY-2/HAB-4TG-TheTimkenCompany-5",
+      "CAD_mass_lb": 0.037,
+      "cg_in": [
+        -61.512,
+        20.594,
+        11.843
+      ]
+    },
+    {
+      "sheet_row": 183,
+      "part_name": "REAR A-ARM ASSEMBLY-2/0.25 WASHER (CRITICAL) (98023A029)-18",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -61.512,
+        20.651,
+        11.305
+      ]
+    },
+    {
+      "sheet_row": 184,
+      "part_name": "REAR A-ARM ASSEMBLY-2/NUT 0.25-28 DEF (95307A500)-9",
+      "CAD_mass_lb": 0.003,
+      "cg_in": [
+        -61.512,
+        20.664,
+        11.187
+      ]
+    },
+    {
+      "sheet_row": 185,
+      "part_name": "REAR A-ARM ASSEMBLY-2/HEX 0.25-28x1.75 P (91257A567)-10",
+      "CAD_mass_lb": 0.03,
+      "cg_in": [
+        -61.514,
+        22.25,
+        5.281
+      ]
+    },
+    {
+      "sheet_row": 186,
+      "part_name": "REAR A-ARM ASSEMBLY-2/0.25 WASHER (CRITICAL) (98023A029)-19",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -61.492,
+        22.244,
+        4.715
+      ]
+    },
+    {
+      "sheet_row": 187,
+      "part_name": "REAR A-ARM ASSEMBLY-2/HAB-4TG-TheTimkenCompany-7",
+      "CAD_mass_lb": 0.037,
+      "cg_in": [
+        -61.512,
+        22.249,
+        5.222
+      ]
+    },
+    {
+      "sheet_row": 188,
+      "part_name": "REAR A-ARM ASSEMBLY-2/NUT 0.25-28 DEF (95307A500)-10",
+      "CAD_mass_lb": 0.003,
+      "cg_in": [
+        -61.536,
+        22.254,
+        5.846
+      ]
+    },
+    {
+      "sheet_row": 189,
+      "part_name": "REAR A-ARM ASSEMBLY-2/0.25 WASHER (CRITICAL) (98023A029)-20",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -61.532,
+        22.254,
+        5.728
+      ]
+    },
+    {
+      "sheet_row": 190,
+      "part_name": "SU-70209-AA PUSHROD-1",
+      "CAD_mass_lb": 0.223,
+      "cg_in": [
+        -62.387,
+        15.338,
+        10.438
+      ]
+    },
+    {
+      "sheet_row": 191,
+      "part_name": "SU-70209-AA PUSHROD-3",
+      "CAD_mass_lb": 0.223,
+      "cg_in": [
+        -62.387,
+        -15.338,
+        10.438
+      ]
+    },
+    {
+      "sheet_row": 192,
+      "part_name": "SU-70216-AA TOE LINK CARBON TUBE-2",
+      "CAD_mass_lb": 0.152,
+      "cg_in": [
+        -66.368,
+        -15.56,
+        11.353
+      ]
+    },
+    {
+      "sheet_row": 193,
+      "part_name": "SU-70216-AA TOE LINK CARBON TUBE-3",
+      "CAD_mass_lb": 0.152,
+      "cg_in": [
+        -66.369,
+        15.558,
+        11.353
+      ]
+    },
+    {
+      "sheet_row": 194,
+      "part_name": "SU-70201-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-1",
+      "CAD_mass_lb": 0.063,
+      "cg_in": [
+        -62.387,
+        11.672,
+        13.81
+      ]
+    },
+    {
+      "sheet_row": 195,
+      "part_name": "SU-70202-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-1",
+      "CAD_mass_lb": 0.063,
+      "cg_in": [
+        -62.387,
+        19.003,
+        7.066
+      ]
+    },
+    {
+      "sheet_row": 196,
+      "part_name": "SU-70201-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-4",
+      "CAD_mass_lb": 0.063,
+      "cg_in": [
+        -62.387,
+        -19.003,
+        7.066
+      ]
+    },
+    {
+      "sheet_row": 197,
+      "part_name": "SU-70201-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-5",
+      "CAD_mass_lb": 0.063,
+      "cg_in": [
+        -62.387,
+        -11.672,
+        13.81
+      ]
+    },
+    {
+      "sheet_row": 198,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-1",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -55.221,
+        11.603,
+        10.885
+      ]
+    },
+    {
+      "sheet_row": 199,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-3",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -65.975,
+        8.455,
+        5.174
+      ]
+    },
+    {
+      "sheet_row": 200,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-2",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -65.727,
+        11.688,
+        10.9
+      ]
+    },
+    {
+      "sheet_row": 201,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-5",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -55.221,
+        -11.603,
+        10.885
+      ]
+    },
+    {
+      "sheet_row": 202,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-4",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -55.047,
+        9.434,
+        5.591
+      ]
+    },
+    {
+      "sheet_row": 203,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-6",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -65.727,
+        -11.688,
+        10.9
+      ]
+    },
+    {
+      "sheet_row": 204,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-7",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -55.047,
+        -9.434,
+        5.591
+      ]
+    },
+    {
+      "sheet_row": 205,
+      "part_name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH-8",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -65.975,
+        -8.455,
+        5.174
+      ]
+    },
+    {
+      "sheet_row": 206,
+      "part_name": "SU-70212-AA ALUMINUM END CAP RH 0.75 OD-1",
+      "CAD_mass_lb": 0.025,
+      "cg_in": [
+        -67.966,
+        11.742,
+        10.982
+      ]
+    },
+    {
+      "sheet_row": 207,
+      "part_name": "SU-70212-AA ALUMINUM END CAP RH 0.75 OD-2",
+      "CAD_mass_lb": 0.025,
+      "cg_in": [
+        -67.965,
+        -11.745,
+        10.982
+      ]
+    },
+    {
+      "sheet_row": 208,
+      "part_name": "SU-70213-AA ALUMINUM END CAP LH 0.75 OD-1",
+      "CAD_mass_lb": 0.025,
+      "cg_in": [
+        -64.773,
+        19.374,
+        11.724
+      ]
+    },
+    {
+      "sheet_row": 209,
+      "part_name": "SU-70213-AA ALUMINUM END CAP LH 0.75 OD-3",
+      "CAD_mass_lb": 0.025,
+      "cg_in": [
+        -64.771,
+        -19.376,
+        11.725
+      ]
+    },
+    {
+      "sheet_row": 210,
+      "part_name": "QA1 XML4 0.25-28 LH Rod End-1",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -62.387,
+        19.923,
+        6.219
+      ]
+    },
+    {
+      "sheet_row": 211,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-16",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -62.387,
+        10.891,
+        14.529
+      ]
+    },
+    {
+      "sheet_row": 212,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-17",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -62.387,
+        -10.891,
+        14.529
+      ]
+    },
+    {
+      "sheet_row": 213,
+      "part_name": "QA1 XML4 0.25-28 LH Rod End-3",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -62.387,
+        -19.923,
+        6.219
+      ]
+    },
+    {
+      "sheet_row": 214,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-18",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -66.062,
+        -10.981,
+        10.825
+      ]
+    },
+    {
+      "sheet_row": 215,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-19",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -54.775,
+        -10.965,
+        10.817
+      ]
+    },
+    {
+      "sheet_row": 216,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-20",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -54.69,
+        -8.727,
+        5.612
+      ]
+    },
+    {
+      "sheet_row": 217,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-21",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -66.219,
+        -7.701,
+        5.171
+      ]
+    },
+    {
+      "sheet_row": 218,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-22",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -54.775,
+        10.965,
+        10.817
+      ]
+    },
+    {
+      "sheet_row": 219,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-23",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -66.062,
+        10.981,
+        10.825
+      ]
+    },
+    {
+      "sheet_row": 220,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-24",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -66.219,
+        7.701,
+        5.171
+      ]
+    },
+    {
+      "sheet_row": 221,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-25",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -54.69,
+        8.727,
+        5.612
+      ]
+    },
+    {
+      "sheet_row": 222,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-26",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -64.377,
+        20.318,
+        11.816
+      ]
+    },
+    {
+      "sheet_row": 223,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-27",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -64.377,
+        -20.318,
+        11.816
+      ]
+    },
+    {
+      "sheet_row": 224,
+      "part_name": "QA1 XML4 0.25-28 LH Rod End-4",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -68.35,
+        10.825,
+        10.893
+      ]
+    },
+    {
+      "sheet_row": 225,
+      "part_name": "QA1 XML4 0.25-28 LH Rod End-5",
+      "CAD_mass_lb": 0.049,
+      "cg_in": [
+        -68.35,
+        -10.825,
+        10.893
+      ]
+    },
+    {
+      "sheet_row": 226,
+      "part_name": "94450A220 0.25-28 Left-Hand Threaded 18-8 Stainless Steel Thin Hex Nut-8",
+      "CAD_mass_lb": 0.006,
+      "cg_in": [
+        -62.387,
+        11.409,
+        14.052
+      ]
+    },
+    {
+      "sheet_row": 227,
+      "part_name": "91847A429 0.25-28 18-8 Stainless Steel Thin Hex Nut-4",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -62.387,
+        19.266,
+        6.824
+      ]
+    },
+    {
+      "sheet_row": 228,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-1",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -62.966,
+        20.124,
+        5.993
+      ]
+    },
+    {
+      "sheet_row": 229,
+      "part_name": "94450A220 0.25-28 Left-Hand Threaded 18-8 Stainless Steel Thin Hex Nut-9",
+      "CAD_mass_lb": 0.006,
+      "cg_in": [
+        -62.387,
+        -19.266,
+        6.824
+      ]
+    },
+    {
+      "sheet_row": 230,
+      "part_name": "94450A220 0.25-28 Left-Hand Threaded 18-8 Stainless Steel Thin Hex Nut-10",
+      "CAD_mass_lb": 0.006,
+      "cg_in": [
+        -62.387,
+        -11.409,
+        14.052
+      ]
+    },
+    {
+      "sheet_row": 231,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-1",
+      "CAD_mass_lb": 0.008,
+      "cg_in": [
+        -55.049,
+        11.357,
+        10.859
+      ]
+    },
+    {
+      "sheet_row": 232,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-2",
+      "CAD_mass_lb": 0.008,
+      "cg_in": [
+        -65.856,
+        11.417,
+        10.871
+      ]
+    },
+    {
+      "sheet_row": 233,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-3",
+      "CAD_mass_lb": 0.008,
+      "cg_in": [
+        -54.911,
+        9.165,
+        5.599
+      ]
+    },
+    {
+      "sheet_row": 234,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-4",
+      "CAD_mass_lb": 0.008,
+      "cg_in": [
+        -66.068,
+        8.168,
+        5.172
+      ]
+    },
+    {
+      "sheet_row": 235,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-5",
+      "CAD_mass_lb": 0.008,
+      "cg_in": [
+        -55.049,
+        -11.357,
+        10.859
+      ]
+    },
+    {
+      "sheet_row": 236,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-6",
+      "CAD_mass_lb": 0.008,
+      "cg_in": [
+        -65.856,
+        -11.417,
+        10.872
+      ]
+    },
+    {
+      "sheet_row": 237,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-7",
+      "CAD_mass_lb": 0.008,
+      "cg_in": [
+        -66.068,
+        -8.168,
+        5.173
+      ]
+    },
+    {
+      "sheet_row": 238,
+      "part_name": "NUT 0.24-28 JAM (91845A105)-8",
+      "CAD_mass_lb": 0.008,
+      "cg_in": [
+        -54.911,
+        -9.165,
+        5.599
+      ]
+    },
+    {
+      "sheet_row": 239,
+      "part_name": "91847A429 0.25-28 18-8 Stainless Steel Thin Hex Nut-5",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -64.585,
+        19.822,
+        11.768
+      ]
+    },
+    {
+      "sheet_row": 240,
+      "part_name": "91847A429 0.25-28 18-8 Stainless Steel Thin Hex Nut-6",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -64.584,
+        -19.824,
+        11.768
+      ]
+    },
+    {
+      "sheet_row": 241,
+      "part_name": "94450A220 0.25-28 Left-Hand Threaded 18-8 Stainless Steel Thin Hex Nut-11",
+      "CAD_mass_lb": 0.006,
+      "cg_in": [
+        -68.154,
+        11.294,
+        10.938
+      ]
+    },
+    {
+      "sheet_row": 242,
+      "part_name": "94450A220 0.25-28 Left-Hand Threaded 18-8 Stainless Steel Thin Hex Nut-12",
+      "CAD_mass_lb": 0.006,
+      "cg_in": [
+        -68.152,
+        -11.297,
+        10.939
+      ]
+    },
+    {
+      "sheet_row": 243,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-2",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -62.966,
+        -20.108,
+        6.008
+      ]
+    },
+    {
+      "sheet_row": 244,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-3",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -68.487,
+        10.617,
+        10.322
+      ]
+    },
+    {
+      "sheet_row": 245,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-4",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -66.211,
+        10.779,
+        10.253
+      ]
+    },
+    {
+      "sheet_row": 246,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-5",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -54.603,
+        10.778,
+        10.246
+      ]
+    },
+    {
+      "sheet_row": 247,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-6",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -54.533,
+        8.453,
+        5.072
+      ]
+    },
+    {
+      "sheet_row": 248,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-7",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -66.29,
+        7.41,
+        4.622
+      ]
+    },
+    {
+      "sheet_row": 249,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-8",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -68.487,
+        -10.617,
+        10.322
+      ]
+    },
+    {
+      "sheet_row": 250,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-9",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -66.29,
+        -7.41,
+        4.622
+      ]
+    },
+    {
+      "sheet_row": 251,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-10",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -66.211,
+        -10.779,
+        10.253
+      ]
+    },
+    {
+      "sheet_row": 252,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-11",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -54.603,
+        -10.778,
+        10.246
+      ]
+    },
+    {
+      "sheet_row": 253,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-12",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -54.533,
+        -8.454,
+        5.072
+      ]
+    },
+    {
+      "sheet_row": 254,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-13",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -64.284,
+        20.657,
+        11.284
+      ]
+    },
+    {
+      "sheet_row": 255,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-14",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -64.288,
+        -20.659,
+        11.285
+      ]
+    },
+    {
+      "sheet_row": 256,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-15",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -61.836,
+        -10.671,
+        14.732
+      ]
+    },
+    {
+      "sheet_row": 257,
+      "part_name": "NUT 0-25-28 NLK (CRITICAL) (97135A215)-16",
+      "CAD_mass_lb": 0.001,
+      "cg_in": [
+        -62.937,
+        10.67,
+        14.732
+      ]
+    },
+    {
+      "sheet_row": 258,
+      "part_name": "0.25 WASHER (CRITICAL) (98023A029)-3",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -61.992,
+        20.159,
+        6.031
+      ]
+    },
+    {
+      "sheet_row": 259,
+      "part_name": "0.25 WASHER (CRITICAL) (98023A029)-4",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -62.792,
+        20.13,
+        6
+      ]
+    },
+    {
+      "sheet_row": 260,
+      "part_name": "0.25 WASHER (CRITICAL) (98023A029)-6",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -62.792,
+        -20.114,
+        6.015
+      ]
+    },
+    {
+      "sheet_row": 261,
+      "part_name": "0.25 WASHER (CRITICAL) (98023A029)-5",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -61.982,
+        -20.143,
+        6.046
+      ]
+    },
+    {
+      "sheet_row": 262,
+      "part_name": "0.25 WASHER (CRITICAL) (98023A029)-7",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -64.244,
+        -20.549,
+        12.228
+      ]
+    },
+    {
+      "sheet_row": 263,
+      "part_name": "0.25 WASHER (CRITICAL) (98023A029)-8",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -64.28,
+        -20.639,
+        11.458
+      ]
+    },
+    {
+      "sheet_row": 264,
+      "part_name": "0.25 WASHER (CRITICAL) (98023A029)-9",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -64.247,
+        20.55,
+        12.228
+      ]
+    },
+    {
+      "sheet_row": 265,
+      "part_name": "0.25 WASHER (CRITICAL) (98023A029)-10",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -64.277,
+        20.638,
+        11.458
+      ]
+    },
+    {
+      "sheet_row": 266,
+      "part_name": "0.25 WASHER (CRITICAL) (98023A029)-11",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -62.762,
+        -10.671,
+        14.732
+      ]
+    },
+    {
+      "sheet_row": 267,
+      "part_name": "0.25 WASHER (CRITICAL) (98023A029)-12",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -62.011,
+        -10.671,
+        14.732
+      ]
+    },
+    {
+      "sheet_row": 268,
+      "part_name": "0.25 WASHER (CRITICAL) (98023A029)-13",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -62.011,
+        10.67,
+        14.732
+      ]
+    },
+    {
+      "sheet_row": 269,
+      "part_name": "0.25 WASHER (CRITICAL) (98023A029)-14",
+      "CAD_mass_lb": 0.004,
+      "cg_in": [
+        -62.762,
+        10.67,
+        14.732
+      ]
+    },
+    {
+      "sheet_row": 270,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-1",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -54.603,
+        10.687,
+        11.105
+      ]
+    },
+    {
+      "sheet_row": 271,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-2",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -54.603,
+        10.753,
+        10.476
+      ]
+    },
+    {
+      "sheet_row": 272,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-3",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -54.567,
+        8.461,
+        5.935
+      ]
+    },
+    {
+      "sheet_row": 273,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-4",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -54.542,
+        8.456,
+        5.304
+      ]
+    },
+    {
+      "sheet_row": 274,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-5",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -66.178,
+        10.672,
+        11.11
+      ]
+    },
+    {
+      "sheet_row": 275,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-6",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -66.202,
+        10.75,
+        10.483
+      ]
+    },
+    {
+      "sheet_row": 276,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-7",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -68.478,
+        10.588,
+        10.552
+      ]
+    },
+    {
+      "sheet_row": 277,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-8",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -68.453,
+        10.51,
+        11.179
+      ]
+    },
+    {
+      "sheet_row": 278,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-9",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -66.324,
+        7.418,
+        5.486
+      ]
+    },
+    {
+      "sheet_row": 279,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-10",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -66.299,
+        7.412,
+        4.854
+      ]
+    },
+    {
+      "sheet_row": 280,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-11",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -68.453,
+        -10.51,
+        11.179
+      ]
+    },
+    {
+      "sheet_row": 281,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-12",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -68.478,
+        -10.588,
+        10.552
+      ]
+    },
+    {
+      "sheet_row": 282,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-13",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -66.178,
+        -10.672,
+        11.11
+      ]
+    },
+    {
+      "sheet_row": 283,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-14",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -66.202,
+        -10.75,
+        10.483
+      ]
+    },
+    {
+      "sheet_row": 284,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-15",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -66.324,
+        -7.418,
+        5.486
+      ]
+    },
+    {
+      "sheet_row": 285,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-16",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -66.299,
+        -7.412,
+        4.854
+      ]
+    },
+    {
+      "sheet_row": 286,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-17",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -54.567,
+        -8.461,
+        5.935
+      ]
+    },
+    {
+      "sheet_row": 287,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-18",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -54.542,
+        -8.456,
+        5.304
+      ]
+    },
+    {
+      "sheet_row": 288,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-19",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -54.603,
+        -10.687,
+        11.105
+      ]
+    },
+    {
+      "sheet_row": 289,
+      "part_name": "SU-70113-AA - TOPHAT SPACER-20",
+      "CAD_mass_lb": 0.005,
+      "cg_in": [
+        -54.603,
+        -10.753,
+        10.476
+      ]
+    },
+    {
+      "sheet_row": 290,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-13",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -62.424,
+        -10.671,
+        14.732
+      ]
+    },
+    {
+      "sheet_row": 291,
+      "part_name": "HEX 0.25-28x1.50 P (91257A566)-1",
+      "CAD_mass_lb": 0.027,
+      "cg_in": [
+        -62.442,
+        20.143,
+        6.014
+      ]
+    },
+    {
+      "sheet_row": 292,
+      "part_name": "HEX 0.25-28x1.50 P (91257A566)-2",
+      "CAD_mass_lb": 0.027,
+      "cg_in": [
+        -62.432,
+        -20.127,
+        6.029
+      ]
+    },
+    {
+      "sheet_row": 293,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-1",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -68.464,
+        10.545,
+        10.901
+      ]
+    },
+    {
+      "sheet_row": 294,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-2",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -66.188,
+        10.707,
+        10.832
+      ]
+    },
+    {
+      "sheet_row": 295,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-3",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -54.603,
+        10.716,
+        10.826
+      ]
+    },
+    {
+      "sheet_row": 296,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-4",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -54.556,
+        8.459,
+        5.655
+      ]
+    },
+    {
+      "sheet_row": 297,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-5",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -66.313,
+        7.415,
+        5.205
+      ]
+    },
+    {
+      "sheet_row": 298,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-6",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -68.464,
+        -10.545,
+        10.901
+      ]
+    },
+    {
+      "sheet_row": 299,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-7",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -66.313,
+        -7.415,
+        5.205
+      ]
+    },
+    {
+      "sheet_row": 300,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-8",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -66.188,
+        -10.707,
+        10.832
+      ]
+    },
+    {
+      "sheet_row": 301,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-9",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -54.603,
+        -10.716,
+        10.826
+      ]
+    },
+    {
+      "sheet_row": 302,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-10",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -54.556,
+        -8.459,
+        5.655
+      ]
+    },
+    {
+      "sheet_row": 303,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-11",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -64.26,
+        20.588,
+        11.893
+      ]
+    },
+    {
+      "sheet_row": 304,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-12",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -64.259,
+        -20.588,
+        11.893
+      ]
+    },
+    {
+      "sheet_row": 305,
+      "part_name": "HEX 0.25-28x1.25 P (91257A565)-14",
+      "CAD_mass_lb": 0.024,
+      "cg_in": [
+        -62.349,
+        10.67,
+        14.732
+      ]
+    }
+  ],
+  "scope": "Read-only names/mass/CG snapshot; no product tensor or motion ownership inferred from assembly names."
+}

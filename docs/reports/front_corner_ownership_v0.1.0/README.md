@@ -13,8 +13,8 @@ brake, steering and inboard suspension assemblies.
 | Assignment status | Instances | CAD mass (lb) | Meaning |
 |---|---:|---:|---|
 | Verified nominal tubes | 8 | 1.798 | Existing BENCH-SUSP-0040 contribution |
-| Source-supported housing owner | 4 | 0.582 | Upper/lower arm; tensor and motion gates still pending |
-| Candidate owner | 24 | 1.286 | Endcaps, pullrod parts and attachments; attachment review required |
+| Source-supported owner | 10 | 1.000 | Four housings plus six front tabs/connectors; new inertia gates pending |
+| Candidate owner | 18 | 0.868 | Endcaps and pullrod parts; attachment review required |
 | Joint split required | 16 | 0.736 | Bearings and rod ends span relatively moving bodies |
 | Unresolved hardware | 72 | 0.666 | Clamping-stack ownership is not established |
 
@@ -52,8 +52,8 @@ approximation is introduced here. Fasteners similarly require clamping ownership
 
 1. Recover full centroidal tensors for the four housings, apply a declared sign
    convention and check their arm transport before extending the nominal subset.
-2. Resolve rigid attachment of endcaps and pullrod tabs/connectors using detail
-   drawings or CAD evidence. Keep the pullrod as its own member.
+2. Resolve rigid attachment of endcaps. The front tab/connector attachment is now
+   supported by welding-jig assembly Box 2212895915302. Keep the pullrod as its own member.
 3. For the already verified tube subset, implement nonzero-state tensor rotation,
    compatible Jacobians and convective inertia; verify energy before integration.
 4. Extend inventory to rear members in parallel with those dependencies when useful.
