@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-SUSP-0042"
+type = "benchmark"
+title = "Front tube travel metric and convective inertia verification"
+status = "active"
+description = "Fixed-chassis native tube metric through sampled travel, closure second derivative, work-energy convergence and omitted-convective negative control."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0013", "EQ-SUSP-0039"]
+function_specification = "docs/models/suspension/front_tube_travel_spec_v0.1.0.md"
+acceptance_criteria = ["Ten native states have positive metrics and verified CG/closure/metric derivatives", "Manufactured full tensor transport and bilateral reflection pass", "Work-energy error below 1e-8 J with greater than threefold refinement", "Omitted convective term produces more than tenfold residual", "Ambiguous housing signs remain unbound"]

@@ -1,0 +1,14 @@
+[record]
+id = "MOD-VEH-0012"
+type = "model"
+title = "Symmetric two-axle vertical reaction family"
+status = "active"
+description = "Necessary whole-vehicle weight/pitch/roll balance with explicit remaining corner-load freedom and nonnegative-support interval."
+verification_level = "A"
+function_specification = "docs/models/vehicle/dry_static_contact_spec_v0.1.0.md"
+maturity = "M2"
+disposition = "accepted_with_restrictions"
+inputs = ["Positive mass/gravity, finite CG and symmetric two-axle support geometry"]
+outputs = ["Axle reactions, admissible front-left reaction interval and endpoint loads"]
+assumptions = ["Vertical forces only; global balance is not suspension equilibrium; no implicit crossweight rule"]
+authorization_id = "AUTH-SUSP-0021"

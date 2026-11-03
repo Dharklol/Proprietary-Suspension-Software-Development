@@ -15,8 +15,23 @@ jobs:
       - run: python scripts/run_reduced_ride_verification.py
       - run: python scripts/run_ride_parameter_study.py
       - run: python scripts/run_half_car_verification.py
+      - run: python scripts/run_reduced_link_inertia.py
+      - run: python scripts/run_front_arm_tube_inertia.py
+      - run: python scripts/run_front_corner_ownership.py
+      - run: python scripts/run_front_tube_travel.py
+      - run: python scripts/run_coupled_tube_inertia.py
+      - run: python scripts/run_generalized_force_verification.py
+      - run: python scripts/run_native_spring_port.py
+      - run: python scripts/run_dry_static_contact_audit.py
+      - run: python scripts/run_welded_arm_gravity.py
+      - run: python scripts/run_rod_gravity_map.py
+      - run: python -m unittest discover -s tests -p test_rod_pose.py
+      - run: python -m unittest discover -s tests -p test_static_balance.py
+      - run: python -m unittest discover -s tests -p test_native_spring_port.py
+      - run: python -m unittest discover -s tests -p test_generalized_forces.py
       - run: python -m unittest discover -s tests -p test_no_driver_pitch_reconstruction.py
       - run: python scripts/run_no_driver_pitch_study.py
+      - run: python scripts/run_no_driver_mass_consistency.py
       - run: python scripts/run_equilibrium_local_stiffness.py
       - uses: actions/upload-artifact@v4
         with:
@@ -25,5 +40,16 @@ jobs:
             docs/reports/reduced_ride_verification_v0.1.0/
             docs/reports/ride_parameter_study_v0.1.0/
             docs/reports/half_car_verification_v0.1.0/
+            docs/reports/reduced_link_inertia_v0.1.0/
+            docs/reports/front_arm_tube_inertia_v0.1.0/
+            docs/reports/front_corner_ownership_v0.1.0/
+            docs/reports/front_tube_travel_v0.1.0/
+            docs/reports/coupled_tube_inertia_v0.1.0/
+            docs/reports/generalized_force_verification_v0.1.0/
+            docs/reports/native_spring_port_v0.1.0/
+            docs/reports/dry_static_contact_audit_v0.1.0/
+            docs/reports/welded_arm_gravity_v0.1.0/
+            docs/reports/rod_gravity_map_v0.1.0/
             docs/reports/no_driver_pitch_study_v0.1.0/
+            docs/reports/no_driver_mass_consistency_v0.1.0/
             docs/reports/equilibrium_local_stiffness_v0.1.0/

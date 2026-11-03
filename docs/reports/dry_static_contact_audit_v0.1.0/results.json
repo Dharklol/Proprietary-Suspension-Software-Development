@@ -1,0 +1,561 @@
+{
+  "scope": "CAD dry no-driver total-mass/static balance and source-rebased ideal-circle geometry only; not full suspension equilibrium",
+  "state_id": "WUFR26_CAD_NO_DRIVER_NO_FUEL_RECONSTRUCTED",
+  "reference_cg_source_m": [
+    -0.8438945755762081,
+    0.006753688990946374,
+    0.29353376011742255
+  ],
+  "total_mass_kg": 203.73055939313,
+  "mass_categories": {
+    "outboard_inventory": {
+      "rows": 202,
+      "mass_kg": 32.236809735899996
+    },
+    "body_inventory_candidates": {
+      "rows": 1966,
+      "mass_kg": 157.21012592592737
+    },
+    "unresolved_mixed_members": {
+      "rows": 292,
+      "mass_kg": 6.282254324500012
+    },
+    "verified_front_tubes": {
+      "rows": 8,
+      "mass_kg": 0.8155590812600001
+    },
+    "electrical_CG_approximation": {
+      "rows": 1,
+      "mass_kg": 7.18581032554
+    }
+  },
+  "mass_residual_kg": -3.382183422218077e-12,
+  "scale_mass_gap_lb": 27.851000000000056,
+  "scale_gap_policy": "Unresolved; no scaling or invented ballast",
+  "static_reaction_family": {
+    "weight_N": 1998.5967876466054,
+    "front_axle_N": 919.0312958449601,
+    "rear_axle_N": 1079.5654918016453,
+    "front_left_parameter_interval_N": [
+      0.0,
+      919.0312958449601
+    ],
+    "endpoint_loads_N": [
+      [
+        0.0,
+        919.0312958449601,
+        1020.157893424592,
+        59.40759837705326
+      ],
+      [
+        919.0312958449601,
+        0.0,
+        81.78158753337698,
+        997.7839042682683
+      ]
+    ],
+    "corner_loads_unique": false
+  },
+  "nominal_support_points_source_m": [
+    [
+      0.0001592422797041159,
+      0.6159841703136782,
+      -2.7755575615628914e-17
+    ],
+    [
+      0.0001592422797041159,
+      -0.6159841703136782,
+      -2.7755575615628914e-17
+    ],
+    [
+      -1.5624353958208874,
+      0.6032854055556158,
+      0.0
+    ],
+    [
+      -1.5624353958208874,
+      -0.6032854055556158,
+      0.0
+    ]
+  ],
+  "endpoint_closure": [
+    {
+      "force_N": 0.0,
+      "pitch_first_moment_Nm": 2.2737367544323206e-13,
+      "roll_first_moment_Nm": -3.197442310920451e-14
+    },
+    {
+      "force_N": 0.0,
+      "pitch_first_moment_Nm": 2.2737367544323206e-13,
+      "roll_first_moment_Nm": 3.552713678800501e-15
+    }
+  ],
+  "contact_samples": [
+    {
+      "corner": "front_left",
+      "wheel_coordinate_m": 0.0,
+      "qL_rad": -0.0,
+      "heave_m": 0.0,
+      "pitch_rad": 0.0,
+      "wheel_center_source_m": [
+        0.0,
+        0.6068611862194347,
+        0.23223082031270642
+      ],
+      "contact_world_m": [
+        0.0001592422797041159,
+        0.6159841703136782,
+        -2.7755575615628914e-17
+      ],
+      "steering_rotation_rad": 0.0,
+      "steering_closure_residual_m": 0.0,
+      "transform_role": "front_MOD-SUSP-0002_center_then_MOD-STEER-0001_centered_rack_plane",
+      "derivatives": [
+        {
+          "wheel_step_m": 0.0002,
+          "dgap_dwheel": 1.0099822156900418,
+          "dqL_dwheel": -2.6645237347753667,
+          "dgap_dqL": -0.3790479335982303
+        },
+        {
+          "wheel_step_m": 0.0001,
+          "dgap_dwheel": 1.0099822020354088,
+          "dqL_dwheel": -2.6645236357236213,
+          "dgap_dqL": -0.3790479425644583
+        }
+      ],
+      "heave_derivative_error": -1.1013412404281553e-13,
+      "pitch_virtual_work_error_m_per_rad": -1.4074087451021455e-09
+    },
+    {
+      "corner": "front_left",
+      "wheel_coordinate_m": 0.002,
+      "qL_rad": -0.005330012428602293,
+      "heave_m": 0.003,
+      "pitch_rad": 0.02,
+      "wheel_center_source_m": [
+        0.0001415031957889751,
+        0.6065618128622311,
+        0.23423082031212636
+      ],
+      "contact_world_m": [
+        0.0013253192652903786,
+        0.6162763130754374,
+        0.0219154533559405
+      ],
+      "steering_rotation_rad": -0.000654977653757655,
+      "steering_closure_residual_m": -4.385380947269368e-15,
+      "transform_role": "front_MOD-SUSP-0002_center_then_MOD-STEER-0001_centered_rack_plane",
+      "derivatives": [
+        {
+          "wheel_step_m": 0.0002,
+          "dgap_dwheel": 1.0119692530999314,
+          "dqL_dwheel": -2.6655028155580163,
+          "dgap_dqL": -0.379654167758993
+        },
+        {
+          "wheel_step_m": 0.0001,
+          "dgap_dwheel": 1.0119692313322048,
+          "dqL_dwheel": -2.6655027241256293,
+          "dgap_dqL": -0.3796541726154729
+        }
+      ],
+      "heave_derivative_error": -1.1013412404281553e-13,
+      "pitch_virtual_work_error_m_per_rad": -1.409689476261633e-09
+    },
+    {
+      "corner": "front_left",
+      "wheel_coordinate_m": -0.002,
+      "qL_rad": 0.005328137252588924,
+      "heave_m": -0.002,
+      "pitch_rad": -0.02,
+      "wheel_center_source_m": [
+        -0.0001420175337976857,
+        0.6071487569507433,
+        0.23023082031201425
+      ],
+      "contact_world_m": [
+        -0.0014259707780675025,
+        0.6156851843614312,
+        -0.020883572218422186
+      ],
+      "steering_rotation_rad": 0.0006553475279360869,
+      "steering_closure_residual_m": -4.829470157119431e-15,
+      "transform_role": "front_MOD-SUSP-0002_center_then_MOD-STEER-0001_centered_rack_plane",
+      "derivatives": [
+        {
+          "wheel_step_m": 0.0002,
+          "dgap_dwheel": 1.0076027291234384,
+          "dqL_dwheel": -2.663627583161347,
+          "dgap_dqL": -0.3782821350451542
+        },
+        {
+          "wheel_step_m": 0.0001,
+          "dgap_dwheel": 1.0076027237637675,
+          "dqL_dwheel": -2.6636274917289735,
+          "dgap_dqL": -0.3782821460179958
+        }
+      ],
+      "heave_derivative_error": 2.864375403532904e-14,
+      "pitch_virtual_work_error_m_per_rad": -1.4046258600686201e-09
+    },
+    {
+      "corner": "front_right",
+      "wheel_coordinate_m": 0.0,
+      "qL_rad": -0.0,
+      "heave_m": 0.0,
+      "pitch_rad": 0.0,
+      "wheel_center_source_m": [
+        0.0,
+        -0.6068611862194347,
+        0.23223082031270642
+      ],
+      "contact_world_m": [
+        0.0001592422797041159,
+        -0.6159841703136782,
+        -2.7755575615628914e-17
+      ],
+      "steering_rotation_rad": 0.0,
+      "steering_closure_residual_m": 0.0,
+      "transform_role": "front_MOD-SUSP-0002_center_then_MOD-STEER-0001_centered_rack_plane",
+      "derivatives": [
+        {
+          "wheel_step_m": 0.0002,
+          "dgap_dwheel": 1.009982216026925,
+          "dqL_dwheel": 2.6645237271560016,
+          "dgap_dqL": 0.37904793480857335
+        },
+        {
+          "wheel_step_m": 0.0001,
+          "dgap_dwheel": 1.0099822048782736,
+          "dqL_dwheel": 2.6645236433429864,
+          "dgap_dqL": 0.3790479425474797
+        }
+      ],
+      "heave_derivative_error": -1.1013412404281553e-13,
+      "pitch_virtual_work_error_m_per_rad": -1.4074087451021455e-09
+    },
+    {
+      "corner": "front_right",
+      "wheel_coordinate_m": 0.002,
+      "qL_rad": 0.005330012431650039,
+      "heave_m": 0.003,
+      "pitch_rad": 0.02,
+      "wheel_center_source_m": [
+        0.00014150319580317545,
+        -0.6065618128621051,
+        0.2342308203132572
+      ],
+      "contact_world_m": [
+        0.0013253192652850042,
+        -0.6162763130754547,
+        0.021915453357077397
+      ],
+      "steering_rotation_rad": 0.000654977653757655,
+      "steering_closure_residual_m": 1.5543122344752192e-15,
+      "transform_role": "front_MOD-SUSP-0002_center_then_MOD-STEER-0001_centered_rack_plane",
+      "derivatives": [
+        {
+          "wheel_step_m": 0.0002,
+          "dgap_dwheel": 1.0119692516730865,
+          "dqL_dwheel": 2.6655028307967465,
+          "dgap_dqL": 0.3796541650532025
+        },
+        {
+          "wheel_step_m": 0.0001,
+          "dgap_dwheel": 1.0119692456780904,
+          "dqL_dwheel": 2.6655027241256293,
+          "dgap_dqL": 0.37965417799752915
+        }
+      ],
+      "heave_derivative_error": -1.1013412404281553e-13,
+      "pitch_virtual_work_error_m_per_rad": -1.4092678135568804e-09
+    },
+    {
+      "corner": "front_right",
+      "wheel_coordinate_m": -0.002,
+      "qL_rad": -0.005328137254112797,
+      "heave_m": -0.002,
+      "pitch_rad": -0.02,
+      "wheel_center_source_m": [
+        -0.00014201752434673533,
+        -0.6071487569446625,
+        0.2302308203130795
+      ],
+      "contact_world_m": [
+        -0.0014259707678869107,
+        -0.6156851843741208,
+        -0.020883572216855772
+      ],
+      "steering_rotation_rad": -0.0006553474662359664,
+      "steering_closure_residual_m": -6.827871601444713e-15,
+      "transform_role": "front_MOD-SUSP-0002_center_then_MOD-STEER-0001_centered_rack_plane",
+      "derivatives": [
+        {
+          "wheel_step_m": 0.0002,
+          "dgap_dwheel": 1.0076027280910005,
+          "dqL_dwheel": 2.663627594590395,
+          "dgap_dqL": 0.3782821330344217
+        },
+        {
+          "wheel_step_m": 0.0001,
+          "dgap_dwheel": 1.0076027180749847,
+          "dqL_dwheel": 2.663627476490243,
+          "dgap_dqL": 0.37828214604643706
+        }
+      ],
+      "heave_derivative_error": -1.1013412404281553e-13,
+      "pitch_virtual_work_error_m_per_rad": -1.404814486960504e-09
+    },
+    {
+      "corner": "rear_left",
+      "wheel_coordinate_m": 0.0,
+      "qL_rad": -0.0,
+      "heave_m": 0.0,
+      "pitch_rad": 0.0,
+      "wheel_center_source_m": [
+        -1.5624,
+        0.5992294462199109,
+        0.2323746028312969
+      ],
+      "contact_world_m": [
+        -1.5624353958208874,
+        0.6032854055556158,
+        0.0
+      ],
+      "steering_rotation_rad": null,
+      "steering_closure_residual_m": null,
+      "transform_role": "rear_MOD-SUSP-0002_toe_link_closed_center_and_plane",
+      "derivatives": [
+        {
+          "wheel_step_m": 0.0002,
+          "dgap_dwheel": 1.0026571308199839,
+          "dqL_dwheel": -2.684106552383086,
+          "dgap_dqL": -0.37355340082522953
+        },
+        {
+          "wheel_step_m": 0.0001,
+          "dgap_dwheel": 1.0026571172412624,
+          "dqL_dwheel": -2.684106424758722,
+          "dgap_dqL": -0.37355341352807675
+        }
+      ],
+      "heave_derivative_error": -1.1013412404281553e-13,
+      "pitch_virtual_work_error_m_per_rad": 1.1978037450788293e-09
+    },
+    {
+      "corner": "rear_left",
+      "wheel_coordinate_m": 0.002,
+      "qL_rad": -0.005367237296500793,
+      "heave_m": 0.003,
+      "pitch_rad": 0.02,
+      "wheel_center_source_m": [
+        -1.5624193595208091,
+        0.5991106213042918,
+        0.2343746028303629
+      ],
+      "contact_world_m": [
+        -1.5611310620935246,
+        0.603433187263309,
+        -0.009352899284951033
+      ],
+      "steering_rotation_rad": null,
+      "steering_closure_residual_m": null,
+      "transform_role": "rear_MOD-SUSP-0002_toe_link_closed_center_and_plane",
+      "derivatives": [
+        {
+          "wheel_step_m": 0.0002,
+          "dgap_dwheel": 1.0024975434244632,
+          "dqL_dwheel": -2.6831454856841397,
+          "dgap_dqL": -0.37362772491214713
+        },
+        {
+          "wheel_step_m": 0.0001,
+          "dgap_dwheel": 1.0024975273424663,
+          "dqL_dwheel": -2.6831453752033547,
+          "dgap_dqL": -0.3736277343028748
+        }
+      ],
+      "heave_derivative_error": 2.864375403532904e-14,
+      "pitch_virtual_work_error_m_per_rad": 1.1954960354998434e-09
+    },
+    {
+      "corner": "rear_left",
+      "wheel_coordinate_m": -0.002,
+      "qL_rad": 0.005369246297517083,
+      "heave_m": -0.002,
+      "pitch_rad": -0.02,
+      "wheel_center_source_m": [
+        -1.5623803917201948,
+        0.5993353943895772,
+        0.2303746028306675
+      ],
+      "contact_world_m": [
+        -1.5635324228078435,
+        0.6031303254043434,
+        0.010376979921801227
+      ],
+      "steering_rotation_rad": null,
+      "steering_closure_residual_m": null,
+      "transform_role": "rear_MOD-SUSP-0002_toe_link_closed_center_and_plane",
+      "derivatives": [
+        {
+          "wheel_step_m": 0.0002,
+          "dgap_dwheel": 1.0024313406390566,
+          "dqL_dwheel": -2.685154510320459,
+          "dgap_dqL": -0.37332352264504204
+        },
+        {
+          "wheel_step_m": 0.0001,
+          "dgap_dwheel": 1.002431315008101,
+          "dqL_dwheel": -2.6851544341268023,
+          "dgap_dqL": -0.37332352369299987
+        }
+      ],
+      "heave_derivative_error": 2.864375403532904e-14,
+      "pitch_virtual_work_error_m_per_rad": 1.1995348048188248e-09
+    },
+    {
+      "corner": "rear_right",
+      "wheel_coordinate_m": 0.0,
+      "qL_rad": -0.0,
+      "heave_m": 0.0,
+      "pitch_rad": 0.0,
+      "wheel_center_source_m": [
+        -1.5624,
+        -0.5992294462199109,
+        0.2323746028312969
+      ],
+      "contact_world_m": [
+        -1.5624353958208874,
+        -0.6032854055556158,
+        0.0
+      ],
+      "steering_rotation_rad": null,
+      "steering_closure_residual_m": null,
+      "transform_role": "rear_MOD-SUSP-0002_toe_link_closed_center_and_plane",
+      "derivatives": [
+        {
+          "wheel_step_m": 0.0002,
+          "dgap_dwheel": 1.002657134325513,
+          "dqL_dwheel": 2.6841065695266573,
+          "dgap_dqL": 0.37355339974535057
+        },
+        {
+          "wheel_step_m": 0.0001,
+          "dgap_dwheel": 1.0026571253934913,
+          "dqL_dwheel": 2.684106409519992,
+          "dgap_dqL": 0.37355341868610936
+        }
+      ],
+      "heave_derivative_error": -1.1013412404281553e-13,
+      "pitch_virtual_work_error_m_per_rad": 1.1978037450788293e-09
+    },
+    {
+      "corner": "rear_right",
+      "wheel_coordinate_m": 0.002,
+      "qL_rad": 0.005367237290405301,
+      "heave_m": 0.003,
+      "pitch_rad": 0.02,
+      "wheel_center_source_m": [
+        -1.5624193595207783,
+        -0.5991106212935845,
+        0.23437460283178516
+      ],
+      "contact_world_m": [
+        -1.5611310620937529,
+        -0.6034331872775098,
+        -0.009352899283065041
+      ],
+      "steering_rotation_rad": null,
+      "steering_closure_residual_m": null,
+      "transform_role": "rear_MOD-SUSP-0002_toe_link_closed_center_and_plane",
+      "derivatives": [
+        {
+          "wheel_step_m": 0.0002,
+          "dgap_dwheel": 1.0024975507877398,
+          "dqL_dwheel": 2.6831454799696157,
+          "dgap_dqL": 0.37362772845216435
+        },
+        {
+          "wheel_step_m": 0.0001,
+          "dgap_dwheel": 1.0024975485843635,
+          "dqL_dwheel": 2.6831453980614506,
+          "dgap_dqL": 0.3736277390366766
+        }
+      ],
+      "heave_derivative_error": 2.864375403532904e-14,
+      "pitch_virtual_work_error_m_per_rad": 1.19544674159755e-09
+    },
+    {
+      "corner": "rear_right",
+      "wheel_coordinate_m": -0.002,
+      "qL_rad": -0.005369246290659655,
+      "heave_m": -0.002,
+      "pitch_rad": -0.02,
+      "wheel_center_source_m": [
+        -1.5623803917202366,
+        -0.5993353943903408,
+        0.23037460283291544
+      ],
+      "contact_world_m": [
+        -1.563532422807827,
+        -0.6031303254034136,
+        0.01037697992402184
+      ],
+      "steering_rotation_rad": null,
+      "steering_closure_residual_m": null,
+      "transform_role": "rear_MOD-SUSP-0002_toe_link_closed_center_and_plane",
+      "derivatives": [
+        {
+          "wheel_step_m": 0.0002,
+          "dgap_dwheel": 1.002431334420281,
+          "dqL_dwheel": 2.6851545293688717,
+          "dgap_dqL": 0.373323517680711
+        },
+        {
+          "wheel_step_m": 0.0001,
+          "dgap_dwheel": 1.0024313496105608,
+          "dqL_dwheel": 2.6851544379364807,
+          "dgap_dqL": 0.373323536049912
+        }
+      ],
+      "heave_derivative_error": -1.1013412404281553e-13,
+      "pitch_virtual_work_error_m_per_rad": 1.1995181514734554e-09
+    }
+  ],
+  "full_native_static_equilibrium_passed": false,
+  "blocking_dependencies": [
+    "Unresolved member ownership for compatible generalized gravity and inertia",
+    "Wheel/body inventory and tire law/contact compliance",
+    "No-driver equilibrium must not inherit driver/no-fuel source gravity or CG"
+  ],
+  "checks": {
+    "unique_dry_rows": true,
+    "represented_mass": true,
+    "represented_first_moments": true,
+    "extracted_tube_mass": true,
+    "nominal_contact_symmetry": true,
+    "force_moment_closure": true,
+    "reaction_family_nonnegative": true,
+    "front_centered_rack": true,
+    "wheel_qL_derivative": true,
+    "heave_contact_virtual_work": true,
+    "pitch_contact_virtual_work": true
+  },
+  "passed": true,
+  "source_sha256": {
+    "data_catalog/wufr26_com_pitch_snapshot_v0.json": "d2ac8dd315e16e7ad920821fabd55aebb6ebccbb6bbff45e2a2442b2c1176317",
+    "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4",
+    "scripts/run_dry_static_contact_audit.py": "cc87ce0766dd5a60ed771b78f3d426ef072737ea20a197c7d2a917c6a311ba98",
+    "src/pssd_vehicle/static_balance.py": "aac1caaa042838a4a698b1258d08c4f58ccc260725b1e953bad550a7393e9bbb",
+    "scripts/run_no_driver_pitch_study.py": "5cdbcaf9c4c9a22c1bbe9bbb54a12d6fae8c9a61a6f6e4a167febf4501782f06",
+    "scripts/run_coupled_tube_inertia.py": "48c6bf53bd87be5fe93a8941d9f3c266d5d605ab778882b6af1dfc945a8b75f3",
+    "data_catalog/wufr26_front_arm_tubes_inertia_v0.json": "3716bf64caf487669d756c04ca42d8ffe3ee8d64202ad7f22ab40c3e24d80fae",
+    "src/pssd_vehicle/wufr_road_contact.py": "382b6e982aeb564a1b625ba532fe1bb8107e4435466be31319751bf79eb29060",
+    "data_catalog/wufr26_road_contact_reference_v0.toml": "84697749794bb44155154df4caca49a06b43569bb7c601c77f7bfb27de5baf05",
+    "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+    "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml": "85739e46db63deb581b65385410e72d2247d7cee06ee45b656d4515b17cd3ddf",
+    "configurations/steering/WUFR27_STEERING_BASELINE_V0.toml": "cbfa707ca2c0d7c188958ade921027bfe7cb3ae740cf8b8c10d30d64ea7b1317"
+  }
+}

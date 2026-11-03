@@ -36,3 +36,9 @@ configuration = "no fuel, no driver; not the existing 306 kg static reference"
 owner_electrical_assumption = "15.842 lb point at reconstructed dry whole-car CG, zero intrinsic inertia"
 provisional_Jy_kg_m2 = [67.77097239043059, 69.93248489846633, 72.08916111510472]
 limits = "Component centroidal frame assumed; dry CAD/scale inventories differ; mixed-link fractions are bookkeeping sensitivity only, not identified effective mass. Earlier search finding is superseded by recovered COM data, not by installed authority."
+
+[owner_axis_confirmation_2026_11_01]
+status = "owner_confirmed_same_export_and_software_axes"
+statement = "COM export axis should be the same as us."
+interpretation = "Use the software/CAD +x forward, +y left, +z up convention for the provisional COM reconstruction. Owner confirmation resolves the open convention question for development; it is not an independent macro audit."
+kw_source_instruction = "All currently accessible KW information has already been provided; continue with that evidence and explicit damping scenarios."

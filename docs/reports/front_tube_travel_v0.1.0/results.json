@@ -1,0 +1,317 @@
+{
+  "scope": "Four tubes per corner; fixed chassis; independent 1-DOF qL; nominal source tensors transported through sampled travel",
+  "samples": [
+    {
+      "metric": 0.016598490926340866,
+      "metric_derivative": -0.0020759585481828348,
+      "qU": -0.07291615179777325,
+      "ratio": 1.2197683527340166,
+      "ratio_derivative": -0.15544465884774072,
+      "energy_error": 0.0,
+      "trace_error": 4.336808689942018e-19,
+      "side": "left",
+      "qL": -0.06,
+      "finite_difference_errors": [
+        {
+          "metric_derivative": 5.683158809006994e-10,
+          "ratio_derivative": 2.5007902637597113e-08
+        },
+        {
+          "metric_derivative": 2.481310300457562e-10,
+          "ratio_derivative": 1.4192998110118538e-08
+        }
+      ],
+      "CG_derivative_max_error_m_per_rad": 7.639732539292601e-09
+    },
+    {
+      "metric": 0.016537972966380078,
+      "metric_derivative": -0.0019590024050175955,
+      "qU": -0.03639181633112319,
+      "ratio": 1.2152284099971984,
+      "ratio_derivative": -0.1472351635129278,
+      "energy_error": -1.734723475976807e-18,
+      "trace_error": 2.168404344971009e-19,
+      "side": "left",
+      "qL": -0.03,
+      "finite_difference_errors": [
+        {
+          "metric_derivative": 6.297832758767052e-10,
+          "ratio_derivative": 3.085916949752132e-08
+        },
+        {
+          "metric_derivative": 6.914493456966486e-11,
+          "ratio_derivative": 1.0781029957662724e-09
+        }
+      ],
+      "CG_derivative_max_error_m_per_rad": 1.8072624664696633e-08
+    },
+    {
+      "metric": 0.01648092517645395,
+      "metric_derivative": -0.0018446049587229154,
+      "qU": 0.0,
+      "ratio": 1.2109332081293642,
+      "ratio_derivative": -0.13912900216905388,
+      "energy_error": 0.0,
+      "trace_error": 0.0,
+      "side": "left",
+      "qL": 0.0,
+      "finite_difference_errors": [
+        {
+          "metric_derivative": 3.566330611902424e-10,
+          "ratio_derivative": 1.1475269623417717e-08
+        },
+        {
+          "metric_derivative": 4.034411047425246e-10,
+          "ratio_derivative": 2.6572970490690295e-08
+        }
+      ],
+      "CG_derivative_max_error_m_per_rad": 5.2625014169128783e-08
+    },
+    {
+      "metric": 0.01642727187054952,
+      "metric_derivative": -0.001732685675661932,
+      "qU": 0.03626659216640171,
+      "ratio": 1.206879632404711,
+      "ratio_derivative": -0.1311264533665316,
+      "energy_error": 0.0,
+      "trace_error": 4.336808689942018e-19,
+      "side": "left",
+      "qL": 0.03,
+      "finite_difference_errors": [
+        {
+          "metric_derivative": 5.171810150278455e-10,
+          "ratio_derivative": 2.4740559295688413e-08
+        },
+        {
+          "metric_derivative": 2.521497420582275e-11,
+          "ratio_derivative": 5.506245764896889e-09
+        }
+      ],
+      "CG_derivative_max_error_m_per_rad": 5.309131126254375e-08
+    },
+    {
+      "metric": 0.016376940550174458,
+      "metric_derivative": -0.001623113467026385,
+      "qU": 0.07241516325982972,
+      "ratio": 1.2030646212639635,
+      "ratio_derivative": -0.12322374775387634,
+      "energy_error": 0.0,
+      "trace_error": 4.336808689942018e-19,
+      "side": "left",
+      "qL": 0.06,
+      "finite_difference_errors": [
+        {
+          "metric_derivative": 3.7412807595872677e-10,
+          "ratio_derivative": 1.4994882335805926e-08
+        },
+        {
+          "metric_derivative": 1.1073460226031229e-10,
+          "ratio_derivative": 5.054944574034437e-09
+        }
+      ],
+      "CG_derivative_max_error_m_per_rad": 7.366095261261305e-09
+    },
+    {
+      "metric": 0.016376940550174458,
+      "metric_derivative": 0.001623113467026385,
+      "qU": -0.07241516325982972,
+      "ratio": 1.2030646212639635,
+      "ratio_derivative": 0.12322374775387634,
+      "energy_error": 0.0,
+      "trace_error": 4.336808689942018e-19,
+      "side": "right",
+      "qL": -0.06,
+      "finite_difference_errors": [
+        {
+          "metric_derivative": 3.7412807595872677e-10,
+          "ratio_derivative": 1.4994882335805926e-08
+        },
+        {
+          "metric_derivative": 1.1073460226031229e-10,
+          "ratio_derivative": 5.054944574034437e-09
+        }
+      ],
+      "CG_derivative_max_error_m_per_rad": 7.366095261261305e-09
+    },
+    {
+      "metric": 0.01642727187054952,
+      "metric_derivative": 0.001732685675661932,
+      "qU": -0.03626659216640171,
+      "ratio": 1.206879632404711,
+      "ratio_derivative": 0.1311264533665316,
+      "energy_error": 0.0,
+      "trace_error": 4.336808689942018e-19,
+      "side": "right",
+      "qL": -0.03,
+      "finite_difference_errors": [
+        {
+          "metric_derivative": 5.171810150278455e-10,
+          "ratio_derivative": 2.4740559295688413e-08
+        },
+        {
+          "metric_derivative": 2.5211504758870795e-11,
+          "ratio_derivative": 5.506245764896889e-09
+        }
+      ],
+      "CG_derivative_max_error_m_per_rad": 5.309131126254375e-08
+    },
+    {
+      "metric": 0.01648092517645395,
+      "metric_derivative": 0.0018446049587229154,
+      "qU": 0.0,
+      "ratio": 1.2109332081293642,
+      "ratio_derivative": 0.13912900216905388,
+      "energy_error": 0.0,
+      "trace_error": 0.0,
+      "side": "right",
+      "qL": 0.0,
+      "finite_difference_errors": [
+        {
+          "metric_derivative": 3.566330611902424e-10,
+          "ratio_derivative": 1.1475269623417717e-08
+        },
+        {
+          "metric_derivative": 4.034411047425246e-10,
+          "ratio_derivative": 2.6572970490690295e-08
+        }
+      ],
+      "CG_derivative_max_error_m_per_rad": 5.2625014169128783e-08
+    },
+    {
+      "metric": 0.016537972966380078,
+      "metric_derivative": 0.0019590024050175955,
+      "qU": 0.03639181633112319,
+      "ratio": 1.2152284099971984,
+      "ratio_derivative": 0.1472351635129278,
+      "energy_error": -1.734723475976807e-18,
+      "trace_error": 2.168404344971009e-19,
+      "side": "right",
+      "qL": 0.03,
+      "finite_difference_errors": [
+        {
+          "metric_derivative": 6.297832758767052e-10,
+          "ratio_derivative": 3.085916949752132e-08
+        },
+        {
+          "metric_derivative": 6.914493456966486e-11,
+          "ratio_derivative": 1.0781029957662724e-09
+        }
+      ],
+      "CG_derivative_max_error_m_per_rad": 1.8072624664696633e-08
+    },
+    {
+      "metric": 0.016598490926340866,
+      "metric_derivative": 0.0020759585481828348,
+      "qU": 0.07291615179777325,
+      "ratio": 1.2197683527340166,
+      "ratio_derivative": 0.15544465884774072,
+      "energy_error": 0.0,
+      "trace_error": 4.336808689942018e-19,
+      "side": "right",
+      "qL": 0.06,
+      "finite_difference_errors": [
+        {
+          "metric_derivative": 5.683158809006994e-10,
+          "ratio_derivative": 2.5007902637597113e-08
+        },
+        {
+          "metric_derivative": 2.481310300457562e-10,
+          "ratio_derivative": 1.4192998110118538e-08
+        }
+      ],
+      "CG_derivative_max_error_m_per_rad": 7.639732539292601e-09
+    }
+  ],
+  "work_energy_cases": [
+    {
+      "steps": 200,
+      "work_J": -0.0002562566394036396,
+      "kinetic_energy_change_J": -0.0002563234863013096,
+      "residual_J": 6.684689767000318e-08
+    },
+    {
+      "steps": 400,
+      "work_J": -0.0002563067752269241,
+      "kinetic_energy_change_J": -0.0002563234863013096,
+      "residual_J": 1.6711074385497744e-08
+    },
+    {
+      "steps": 800,
+      "work_J": -0.0002563193085740558,
+      "kinetic_energy_change_J": -0.0002563234863013096,
+      "residual_J": 4.17772725376693e-09
+    }
+  ],
+  "omitted_convective_negative_control": {
+    "steps": 800,
+    "work_J": -0.0002579405632917549,
+    "kinetic_energy_change_J": -0.0002563234863013096,
+    "residual_J": -1.6170769904453046e-06
+  },
+  "housing_diagnostics": [
+    {
+      "row": 100,
+      "variants": {
+        "positive_products": "physicality_pass",
+        "physical_tensor": "physicality_pass"
+      },
+      "source_binding_passed": false,
+      "reason": "Physicality does not discriminate signs; housing-specific orientation evidence pending."
+    },
+    {
+      "row": 101,
+      "variants": {
+        "positive_products": "physicality_pass",
+        "physical_tensor": "physicality_pass"
+      },
+      "source_binding_passed": false,
+      "reason": "Physicality does not discriminate signs; housing-specific orientation evidence pending."
+    },
+    {
+      "row": 102,
+      "variants": {
+        "positive_products": "physicality_pass",
+        "physical_tensor": "physicality_pass"
+      },
+      "source_binding_passed": false,
+      "reason": "Physicality does not discriminate signs; housing-specific orientation evidence pending."
+    },
+    {
+      "row": 103,
+      "variants": {
+        "positive_products": "physicality_pass",
+        "physical_tensor": "physicality_pass"
+      },
+      "source_binding_passed": false,
+      "reason": "Physicality does not discriminate signs; housing-specific orientation evidence pending."
+    }
+  ],
+  "checks": {
+    "manufactured_tensor_rotation": true,
+    "reflected_metrics": true,
+    "reflected_derivatives": true,
+    "ten_native_states": true,
+    "positive_metrics": true,
+    "metric_derivative": true,
+    "closure_second_derivative": true,
+    "CG_transport": true,
+    "direct_energy": true,
+    "tensor_trace": true,
+    "work_energy": true,
+    "work_refines": true,
+    "omitted_convective_term_detected": true,
+    "nominal_matrix_anchor": true,
+    "housing_candidates_unbound": true
+  },
+  "passed": true,
+  "source_sha256": {
+    "data_catalog/wufr26_front_arm_tubes_inertia_v0.json": "3716bf64caf487669d756c04ca42d8ffe3ee8d64202ad7f22ab40c3e24d80fae",
+    "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+    "data_catalog/wufr26_front_housings_inertia_v0.json": "fdda97cff47fd3c145163191aaac40eb350230951ceac76873b71979bacdf6df",
+    "scripts/run_front_tube_travel.py": "630097272d837f273fc7813631dd0b96e174f6d311b7d80193ad5dd93ed7b313",
+    "src/pssd_suspension/reduced_inertia.py": "65adf9d281b72e8477a6984d3cbcff3a2a8cdb5fa1080c75e72ee0f437a4d35f",
+    "src/pssd_suspension/kinematics.py": "7e1474274e28a005950b94acd0551a87481dc871d06896bcd7dbae127bf1cf79",
+    "scripts/run_front_arm_tube_inertia.py": "71ead953ef7a65de174329faf9be7cd391dd262c25eeedd44999e01fe0fa1189",
+    "docs/reports/front_arm_tube_inertia_v0.1.0/results.json": "849fab5b4cc56d1dbc0e7555c061f14e5c765b8891fd34c7dcac38af2b474bf6"
+  }
+}

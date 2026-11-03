@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-SUSP-0040"
+type = "benchmark"
+title = "Bilateral front wishbone tube inertia source study"
+status = "active"
+description = "Eight source-mapped nominal tube contributions with implicit upper-arm closure derivative, independent CG transport, full kinetic-energy reduction and reflection checks."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0013", "EQ-SUSP-0039"]
+function_specification = "docs/models/suspension/front_arm_tube_inertia_spec_v0.1.0.md"
+acceptance_criteria = ["Exactly eight unique source members pass unchanged physical tensor checks", "Per-member geometry and CG derivative checks pass declared thresholds", "Upper-arm closure derivative agrees with independent native ±qL solves", "Direct and reduced energy agree within 1e-12 J", "Reflected full matrix agrees within 0.5% or 1e-8 in matching SI units", "Coverage remains explicitly tube-only"]

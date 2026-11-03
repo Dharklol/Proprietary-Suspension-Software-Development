@@ -1,0 +1,14 @@
+[record]
+id = "MOD-VEH-0014"
+type = "model"
+title = "Conditional native rod and fixed-endcap gravity"
+status = "active"
+description = "Native endpoint closure and shortest-rotation offset transport preserve twelve source CGs with an explicit unresolved axial-spin boundary."
+verification_level = "A"
+function_specification = "docs/models/vehicle/rod_gravity_map_spec_v0.1.0.md"
+maturity = "M2"
+disposition = "accepted_with_restrictions"
+inputs = ["Native arm/rocker endpoints, exact source rod/endcap mass/CG and owner-confirmed fixed attachments"]
+outputs = ["Conditional CG pose, potential, generalized gravity and disjoint mass ledger"]
+assumptions = ["Shortest-rotation axial-spin gauge; potential difference bound does not authorize torque/rate/inertia or full equilibrium"]
+authorization_id = "AUTH-SUSP-0021"

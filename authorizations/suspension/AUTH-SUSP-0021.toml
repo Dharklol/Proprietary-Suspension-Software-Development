@@ -1,0 +1,72 @@
+version = "0.1.0"
+authorization_id = "AUTH-SUSP-0021"
+status = "development_authorized"
+implementation_authorized = true
+function_specification = "docs/models/suspension/reduced_link_inertia_spec_v0.1.0.md"
+review_record = "docs/models/suspension/reduced_link_inertia_spec_v0.1.0.md"
+effective_condition = "Owner continued kinetic-energy-based moving-link work on 2026-11-01."
+[permitted]
+items = ["Provider-neutral local rigid-member mass matrix and manufactured energy verification", "One source-linked nominal tube diagnostic with explicit tensor sign variants and retained failures"]
+[prohibited]
+items = ["Automatically choosing CAD product signs", "Inventing full inertia from Lyy", "HalfCar constant-diagonal-mass substitution", "Full native effective-mass or installed dynamic predictions"]
+
+[selected_source_convention_review]
+record = "docs/reviews/com_tensor_sign_resolution_2026_11_01.md"
+source = "COM SU!B96:P96"
+declared_policy = "positive_products"
+permitted_conversion = "Explicitly negate off-diagonal entries once; preserve diagonals; retain raw-as-physical negative control. No generic auto-detection."
+native_gate_scope = "One nominal tube; not complete member ownership or full suspension readiness"
+
+[front_tube_subset_extension_2026_11_01]
+owner_direction = "Continue source mapping and report a debrief at a solid stopping point"
+function_specification = "docs/models/suspension/front_arm_tube_inertia_spec_v0.1.0.md"
+permitted = "Eight nominal front wishbone tube contributions with independently checked source tensors/geometry and compatible upper/lower motion"
+prohibited = "Full arm/corner effective-mass claims, arbitrary fastener grouping, double counting existing lumped masses, diagonal HalfCar substitution, or native transient promotion"
+
+[front_travel_extension_2026_11_01]
+owner_direction = "Carry on with housing verification and tube travel calculations"
+function_specification = "docs/models/suspension/front_tube_travel_spec_v0.1.0.md"
+permitted = "Offline fixed-chassis tube metric, compatible closure derivatives, tensor transport and convective power verification; retain housing sign ambiguity"
+prohibited = "Promote ambiguous housing tensors, imply complete corner dynamics, or replace HalfCar masses"
+
+[coupled_tube_extension_2026_11_01]
+owner_direction = "Carry on with coupled body/arm energy verification and controlled integration"
+function_specification = "docs/models/suspension/coupled_tube_inertia_spec_v0.1.0.md"
+permitted = "Offline eight-tube finite-pitch coupled inertia/bias, independent power/pose verification and bounded manufactured-force integration"
+prohibited = "Housing sign promotion, native ride predictions, incompatible lump addition or replacement of HalfCar without a complete compatible force/mass contract"
+
+[generalized_force_extension_2026_11_01]
+owner_direction = "Full speed ahead with force/mass contracts and combined analytical energy, dissipation and boundary verification"
+function_specification = "docs/models/suspension/generalized_force_ports_spec_v0.1.0.md"
+permitted = "Provider-neutral deformation force primitive and artificial massless force ports on the exactly enumerated tube-only subsystem"
+prohibited = "Treat artificial tube-CG supports as wheel contact, invent KW calibration, mix driver/no-driver equilibrium, or add full body/corner lumps without mass reconciliation"
+
+[native_spring_extension_2026_11_01]
+owner_direction = "Onward with native spring geometry, preload reference and virtual-work binding"
+function_specification = "docs/models/suspension/native_spring_port_spec_v0.1.0.md"
+permitted = "Front linear reviewed spring to generalized-force port with exact implicit closure derivative and conservative prescribed-motion verification"
+prohibited = "Added preload offset, unbalanced tube-only native free-response prediction, driver/no-driver equilibrium mixing, installed authority or invented damper law"
+
+[dry_static_contact_extension_2026_11_01]
+owner_direction = "Reconcile no-driver/no-fuel mass/static composition and wheel/contact mapping"
+function_specification = "docs/models/vehicle/dry_static_contact_spec_v0.1.0.md"
+permitted = "Exact CAD inventory audit, necessary global reaction family and source-rebased existing centered-rack circle geometry"
+prohibited = "Hidden crossweight, scale-to-CAD mass adjustment, driver-state gravity/equilibrium reuse or full native equilibrium promotion while ownership remains unresolved"
+
+[welded_arm_ownership_extension_2026_11_01]
+owner_direction = "Resolve component assignments from available BOM and drawings"
+function_specification = "docs/models/vehicle/welded_arm_gravity_spec_v0.1.0.md"
+permitted = "Source-supported welded tube/housing/tab/connector ownership and gravity potential for 36 exact instances"
+prohibited = "Use jig/tooling weights as car mass, ignore drawing part-number conflicts, promote tensor signs or treat unallocated remainder as one rigid body"
+
+[confirmed_endcap_attachment]
+owner_statement = "Both arm endcaps and pullrod/pushrod turnbuckle endcaps are fixed to their respective tubes."
+record = "data_catalog/wufr26_endcap_attachment_confirmation_v0.json"
+permitted = "Map sixteen SU-70112 instances with their explicit arm/leg manifest and record eight turnbuckle endcaps as rigid rod members"
+scope_limit = "Attachment confirmation only; rod pose binding, joint clamping, ball inertia, tensor conventions and scale discrepancy remain separate"
+
+[rod_gravity_mapping]
+owner_direction = "Go ahead with rod-motion mapping and joint assignment work"
+function_specification = "docs/models/vehicle/rod_gravity_map_spec_v0.1.0.md"
+permitted = "Native rod/endcap endpoint and CG transport with explicit shortest-rotation spin convention, potential bound and conditional gravity verification"
+prohibited = "Infer source axial spin or full rotational inertia, treat the potential bound as a torque/trajectory bound, or assign joint clamps without evidence"

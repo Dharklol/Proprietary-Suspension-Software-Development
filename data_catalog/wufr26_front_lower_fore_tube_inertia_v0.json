@@ -1,0 +1,43 @@
+{
+  "source_url": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit",
+  "sheet": "SU",
+  "range": "B96:P96",
+  "read_date": "2026-11-01",
+  "member_name": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-2",
+  "mass_lb": 0.253,
+  "cg_in": [
+    3.433,
+    15.364,
+    5.445
+  ],
+  "centroidal_entries_lb_in2": [
+    3.355,
+    -1.463,
+    -0.14,
+    -1.463,
+    0.701,
+    0.316,
+    -0.14,
+    0.316,
+    3.973
+  ],
+  "entry_order": [
+    "xx",
+    "xy",
+    "xz",
+    "yx",
+    "yy",
+    "yz",
+    "zx",
+    "zy",
+    "zz"
+  ],
+  "tensor_sign_policy": "Explicit source declaration: positive_products; negate off-diagonal entries only. Raw-as-physical interpretation retained as rejected negative control.",
+  "entry_convention": "positive_products",
+  "convention_resolution": "docs/reviews/com_tensor_sign_resolution_2026_11_01.md",
+  "convention_evidence_urls": [
+    "https://www.mathworks.com/help/sm/ug/specify-custom-inertia.html",
+    "https://help.solidworks.com/2021/english/SolidWorks/sldworks/HIDD_MEASURE_OPTIONS.htm?format=P&value="
+  ],
+  "convention_scope": "Selected SU!B96:P96 row only; documentation + physicality + slender-member geometry consistency; macro setting not independently recovered."
+}

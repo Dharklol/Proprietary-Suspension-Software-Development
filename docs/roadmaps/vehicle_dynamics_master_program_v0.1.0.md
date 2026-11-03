@@ -241,3 +241,222 @@ and moving-link effective mass reduction. Analytical work can use the labelled
 range without treating physical correlation or telemetry as a prerequisite.
 See [inertia study](../reports/no_driver_pitch_study_v0.1.0/README.md) and
 [specification](../models/vehicle/no_driver_pitch_sensitivity_spec_v0.1.0.md).
+
+## Checkpoint — stack landed and consistent CAD mass budget, 2026-11-01
+
+PRs 121–127 are merged and verified by GitHub readback; all head workflows passed
+before landing, with no outstanding review threads. See the
+[closeout record](../reviews/analytical_transient_stack_closeout_2026_11_01.md).
+Owner confirmed COM export axes match software. The axis-convention gap is closed
+for development; no new KW source is expected, and damping remains scenario data.
+
+Three no-driver/no-fuel coupled allocation cases now use their own matching body
+mass/Jy/CG and complementary front/rear axle masses, replacing illustrative axle
+mass placeholders. Every case preserves the 203.731 kg CAD mass inventory and
+source first moments before explicit axle-station projection. Refinement, energy
+and represented-model static load identities pass. Unlike the earlier inertia-only
+study, coupled allocation changes peak heave acceleration about 5.8% in the chosen
+bump, identifying moving-link mass reduction as a worthwhile next analytical task.
+[Study evidence](../reports/no_driver_mass_consistency_v0.1.0/README.md).
+
+No-driver 449.149 lb CAD versus 477 lb scale inventory remains unresolved; do not
+combine this CAD mass scenario with the driver/no-fuel equilibrium or infer a
+missing-mass position. Analytical development continues without physical release
+or broader UI work. Native prediction remains source/calibration gated.
+
+## Checkpoint — moving-link kinetic energy, 2026-11-01
+
+G3/G5a now include a verified provider-neutral local rigid-member mass-matrix
+kernel: m*Jv^T*Jv+Jw^T*I_G*Jw, with cross terms, physical tensor checks and exact
+member accounting. Seven manufactured tests pass; the rod integral recovers
+one-third endpoint effective mass and the full translation limit.
+
+One nominal native lower-arm tube CG derivative passes step refinement. Its full
+COM tensor produces an explicit source-sign failure: as-entered entries are not
+physically realizable, whereas negated CAD products pass. The native binding gate
+remains false; no tolerance or sign interpretation is silently changed. This
+question is distinct from the confirmed axis convention and does not alter the
+earlier diagonal-Lyy bookkeeping. See [verification evidence](../reports/reduced_link_inertia_v0.1.0/README.md).
+
+Next dependency: source tensor sign semantics and complete rigid-member manifest,
+then native Jacobian/mass-matrix composition. Cross terms cannot be collapsed
+into the current HalfCar diagonal masses without a new verified formulation.
+PR128 workflows all passed at the start of this increment; it remains unmerged.
+
+## Checkpoint — selected COM product-sign resolution, 2026-11-01
+
+The native tube sign finding is resolved for COM SU!B96:P96 by explicit positive-
+product conversion (off-diagonal negation, diagonals unchanged). Official software
+documentation and a source geometry check support the declaration; the macro has
+not been recovered and no universal policy is assumed for other rows. The CG lies
+0.01564 mm from the native reference leg line, and the converted axial inertia is
+consistent with a slender tube. The raw-as-physical rejection remains a negative
+control. An independent off-axis point-mass energy test verifies the adapter.
+
+Eight inertia tests plus eighteen retained ride/reconstruction tests pass. The
+selected-tube gate now passes with unchanged tensor tolerances; full rigid-member
+ownership/pose and other source rows remain next. Diagonal-Lyy pitch estimates
+are unchanged; no HalfCar dynamics or Drive data was edited. See
+[sign resolution review](../reviews/com_tensor_sign_resolution_2026_11_01.md).
+
+## Checkpoint — compatible bilateral front tube subset, 2026-11-01
+
+Eight front wishbone tubes now have source-mapped full centroidal tensors and
+compatible CG/angular velocity Jacobians in [heave,pitch,left qL,right qL]. The
+upper-arm derivative follows implicit native closure, checked against independent
+±qL solves. Each source row passes tensor/sign/geometry checks; summed kinetic
+energy and reflected matrix checks pass. This extends MOD-SUSP-0013 without
+changing the current HalfCar solver or introducing source-independent fractions.
+
+Mapped mass is 0.815559 kg, 35.48% of the front-corner CAD assembly. This is tube
+coverage, not a complete corner effective mass. Next is rigid ownership of other
+arm-attached/joint parts, then rear/member coverage, q-dependent tensor/Jacobian
+transport and a verified general-mass transient formulation. Do not add native
+contributions to existing lumps without removing the corresponding mass.
+[Evidence and stopping point](../reports/front_arm_tube_inertia_v0.1.0/README.md).
+
+Goal alignment: continue analytical reduced-transient foundations with explicit
+source boundaries; do not prioritize operational release, broad UI polish,
+telemetry decoding, lap/QSS3 or physical correlation ahead of these dependencies.
+A useful next integration milestone is an energy-verified generalized-coordinate
+model for a completely enumerated subset, not more isolated mass percentages.
+
+## Checkpoint — front-corner inventory ownership, 2026-11-01
+
+All 124 A0701 COM rows are enumerated and close to 5.068 lb with unchanged CAD
+mass/CG. Eight tubes remain nominally verified; four housings have source-supported
+arm ownership pending tensor/pose gates. Twenty-four candidates, sixteen joint
+components requiring splits, and seventy-two unresolved hardware instances remain
+explicit. The drawing/COM nut part-number mismatch is recorded without substitution.
+See [ownership audit](../reports/front_corner_ownership_v0.1.0/README.md).
+
+Next: verify the four housing tensors/transports, resolve arm/pullrod attachments,
+and advance the already verified tube subset through nonzero-state energy checks.
+Full corner ownership is still open; G3/G5a analytical foundations remain the focus.
+No operational release or UI milestone is introduced, and no owner input is
+currently required for the independent housing/tube work.
+
+## Checkpoint — nonzero-state tube inertia, 2026-11-01
+
+BENCH-SUSP-0042 verifies the fixed-chassis front tube metric at ten native states,
+full tensor transport, compatible upper-arm second derivatives and the scalar
+convective term. Work-energy residual reaches 4.18e-9 J with second-order
+quadrature refinement; an omitted-convective control fails by 1.62e-6 J.
+Four housing source tensors pass both sign interpretations, so their source
+binding remains open and they are excluded. See
+[travel evidence](../reports/front_tube_travel_v0.1.0/README.md).
+
+Next is coupled body/arm nonzero-state inertia and complete convective power
+verification for the enumerated tubes, then force-driven integration. Front/rear
+inventory and housing orientation evidence remain separate source tasks. G3/G5a
+analytical foundations remain the priority; this is not full native vehicle
+dynamics or a reason to advance UI/operational release work.
+
+## Checkpoint — coupled tube inertia and force integration, 2026-11-01
+
+BENCH-SUSP-0043 extends the eight tubes to finite-pitch heave/pitch/bilateral arm
+motion with complete inertial coupling and convective/gyroscopic terms. Independent
+Christoffel, power and world-pose checks pass. A bounded manufactured-force RK4
+case reaches 4.92e-13 J work-energy residual with endpoint refinement; the unforced
+case is stable at the closure floor. See
+[coupled evidence](../reports/coupled_tube_inertia_v0.1.0/README.md).
+
+The local coupled-inertia and controlled integration milestone is now demonstrated
+for the enumerated tube subset. Next is compatible mass bookkeeping and generalized
+elastic/dissipative/road force contracts, then combined energy/dissipation and
+contact/travel verification. Remaining ownership and housing source signs stay
+open; no full native ride claim is made. Continue G3/G5a analytical integration
+before UI, operational release or physical-correlation work.
+
+## Checkpoint — generalized forces and dissipative integration, 2026-11-01
+
+MOD-SUSP-0014 / BENCH-SUSP-0044 joins the verified eight-tube coupled inertia to
+generalized deformation force ports with explicit stored energy, dissipation and
+moving-support power. Twelve integrated checks and five unit tests pass; contact
+and numerical-travel failures stop without clipping. The mass ledger is exactly
+the represented tubes, with no full corner/body/wheel lump added. See
+[combined evidence](../reports/generalized_force_verification_v0.1.0/README.md).
+
+Next bind native spring deformation/gradient and preload with virtual-work checks,
+then reconcile wheel/tire/body mass and road-contact contracts. Artificial rates
+and tube-CG support geometry have no installed prediction authority. No-driver
+inertia cannot inherit driver/no-fuel equilibrium. Remaining ownership/housing
+signs remain open; G3/G5a analytical integration continues ahead of UI/release work.
+
+## Checkpoint — front native spring port, 2026-11-01
+
+MOD-SUSP-0015 / BENCH-SUSP-0045 verifies the existing front design-intent spring
+mapping in the coupled inertia coordinate order. Analytic upper-arm/rocker closure
+gradients, independent energy gradients, physical eye-force virtual work and a
+conservative prescribed cycle pass. The full-extension zero-intentional-preload
+reference is retained; nominal CAD compression is not added again as preload.
+See [native spring evidence](../reports/native_spring_port_v0.1.0/README.md).
+
+Next reconcile a no-driver/no-fuel mass/static composition and bind wheel/tire
+contact before native transient integration. The approximately 760 N nominal
+spring force must not be released onto the eight-tube inventory as a vehicle
+prediction. Older driver/no-fuel equilibrium remains separate; damping/ownership/
+housing uncertainties stay explicit. Continue analytical G3/G5a integration before
+UI/release or physical correlation.
+
+## Checkpoint — dry global balance and contact bridge, 2026-11-01
+
+BENCH-VEH-0025 closes all 2468 dry CAD instances plus the electrical approximation
+to 203.730559 kg and the reconstructed dry first moments. Verified tubes are
+separated without duplication or selecting a mixed-member fraction. The 27.851 lb
+scale discrepancy stays open. A necessary static reaction family closes weight/
+pitch/roll on the actual ideal-circle supports without choosing crossweight.
+Twelve existing steering-closed contact states are explicitly rebased to the CAD
+dry CG and pass coordinate/virtual-work checks. See
+[dry composition audit](../reports/dry_static_contact_audit_v0.1.0/README.md).
+
+Full native suspension equilibrium remains blocked and explicitly unpassed:
+compatible member ownership/generalized gravity and wheel/body/tire composition
+must precede the no-driver spring/ARB/static solve. Prioritize that source work
+over further isolated force fixtures; driver-state reuse and mass scaling are
+prohibited. This remains G3/G5a analytical integration, not UI/release readiness.
+
+## Checkpoint — welded-arm ownership resolved from jigs, 2026-11-01
+
+Six welding-jig assembly sources establish 36 tube/housing/tab/connector instances
+on the eight arms (2.443048505 kg). Front tab/connector candidates are resolved;
+the front ownership report is regenerated. Generalized gravity passes independent
+potential checks without needing housing product-sign resolution. The unallocated
+remainder is preserved by exact mass/first-moment subtraction, not made a rigid
+body. See [ownership resolution](../reports/welded_arm_gravity_v0.1.0/README.md).
+
+Next source facts: endcap attachment and joint clamping/endpoint ownership. A
+declared centered-ball approximation may suffice for static gravity while full
+rotational splits remain a dynamics issue. Full native static equilibrium stays
+open; resolve these source/assumption boundaries before integrating the complete
+spring/ARB/gravity/contact system. Source work remains ahead of more isolated
+force fixtures or UI/release development.
+
+## Checkpoint — owner-confirmed fixed endcaps
+
+The owner confirmed arm endcaps and pullrod/pushrod turnbuckle endcaps are fixed
+to their respective tubes. Sixteen geometry-checked SU-70112 instances extend
+the arm gravity subset from 36 to 52 parts (2.617227975 kg). Eight rod endcaps
+have confirmed rigid ownership, with rod pose/gravity binding still separate.
+The front ownership report now has twenty-two source-supported parts and six
+candidates, alongside the unchanged joint/hardware and verified-tube categories.
+
+Endcap attachment is closed. Next implement rod/endcap pose mapping and resolve
+joint endpoint/clamping ownership. No new tensor, full-equilibrium, scale-gap or
+installed authority follows from this confirmation. Continue the same G3/G5a
+analytical source-composition work.
+
+## Checkpoint — rod/endcap pose and conditional gravity
+
+MOD-VEH-0014 / BENCH-VEH-0027 maps four rods and eight confirmed endcaps through
+native endpoint closure. Eight study checks and four primitive tests pass. The
+combined arm/rod inventory is 64 parts / 3.230484859 kg with no duplicate mass.
+Source CG offsets are retained; a declared shortest-rotation spin convention has
+a pose-wise gravitational-potential difference bound of 7.633e-5 J. It does not
+establish source spin, full rod inertia or a torque-error bound. See
+[rod gravity evidence](../reports/rod_gravity_map_v0.1.0/README.md).
+
+Next is joint endpoint/clamping ownership and explicit static bearing/rod-end
+treatment, followed by the matching no-driver spring/ARB/gravity/contact solve.
+Full native equilibrium stays open; the unallocated inventory is not a rigid
+lump. Continue G3/G5a source composition before UI/release development.

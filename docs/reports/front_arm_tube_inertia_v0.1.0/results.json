@@ -1,0 +1,838 @@
+{
+  "scope": "nominal bilateral front wishbone tube subset only",
+  "members": [
+    {
+      "member_id": "SU-70105-AA FRONT UPPER FORE STEEL TUBE-1",
+      "source_row": 90,
+      "CG_line_distance_m": 1.1273347108397787e-05,
+      "axial_moment_trace_ratio": 0.0031882475016666036,
+      "CG_derivative_relative_errors": [
+        3.3614116650183905e-07,
+        2.8453692781436347e-07
+      ],
+      "checks": {
+        "physical_tensor": true,
+        "CG_on_reference_leg": true,
+        "CG_inside_leg": true,
+        "slender_axis": true,
+        "CG_derivative": true,
+        "upper_closure": true
+      },
+      "passed": true,
+      "member": {
+        "member_id": "SU-70105-AA FRONT UPPER FORE STEEL TUBE-1",
+        "source_id": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit#SU!B90:P90",
+        "configuration_id": "WUFR26-front-tube-subset-no-driver",
+        "frame_id": "CAD-xyz",
+        "state_id": "nominal-qL-zero",
+        "coordinate_ids": [
+          "body_heave",
+          "body_pitch_front_up",
+          "left_qL",
+          "right_qL"
+        ],
+        "coordinate_units": [
+          "m",
+          "rad",
+          "rad",
+          "rad"
+        ],
+        "mass_kg": 0.10614061458000001,
+        "centroidal_tensor_kg_m2": [
+          [
+            0.0006329795703673596,
+            -0.00041262191133517194,
+            0.000122908654440264
+          ],
+          [
+            -0.00041262191133517194,
+            0.00035263078238218605,
+            0.0001714868369095112
+          ],
+          [
+            0.000122908654440264,
+            0.0001714868369095112,
+            0.0008773336809807417
+          ]
+        ],
+        "cg_velocity_jacobian": [
+          [
+            0.0,
+            0.04758517051243116,
+            0.0,
+            0.015378736954647362
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.042456044373928005
+          ],
+          [
+            1.0,
+            0.9555101854002735,
+            0.0,
+            0.17935262313689793
+          ]
+        ],
+        "angular_velocity_jacobian": [
+          [
+            0.0,
+            -0.0,
+            0.0,
+            -1.2054463012912142
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0,
+            -0.03137372725887507
+          ],
+          [
+            0.0,
+            -0.0,
+            0.0,
+            0.11078871103001232
+          ]
+        ]
+      }
+    },
+    {
+      "member_id": "SU-70106-AA FRONT UPPER AFT STEEL TUBE-1",
+      "source_row": 91,
+      "CG_line_distance_m": 1.618878926443495e-05,
+      "axial_moment_trace_ratio": 0.004772299132800843,
+      "CG_derivative_relative_errors": [
+        3.361412625408881e-07,
+        2.84536862444207e-07
+      ],
+      "checks": {
+        "physical_tensor": true,
+        "CG_on_reference_leg": true,
+        "CG_inside_leg": true,
+        "slender_axis": true,
+        "CG_derivative": true,
+        "upper_closure": true
+      },
+      "passed": true,
+      "member": {
+        "member_id": "SU-70106-AA FRONT UPPER AFT STEEL TUBE-1",
+        "source_id": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit#SU!B91:P91",
+        "configuration_id": "WUFR26-front-tube-subset-no-driver",
+        "frame_id": "CAD-xyz",
+        "state_id": "nominal-qL-zero",
+        "coordinate_ids": [
+          "body_heave",
+          "body_pitch_front_up",
+          "left_qL",
+          "right_qL"
+        ],
+        "coordinate_units": [
+          "m",
+          "rad",
+          "rad",
+          "rad"
+        ],
+        "mass_kg": 0.08527536556000001,
+        "centroidal_tensor_kg_m2": [
+          [
+            0.0004351551646492205,
+            0.000141930231913162,
+            -2.9263965342920002e-05
+          ],
+          [
+            0.000141930231913162,
+            7.11114357832956e-05,
+            8.54507788013264e-05
+          ],
+          [
+            -2.9263965342920002e-05,
+            8.54507788013264e-05,
+            0.0004661749679127156
+          ]
+        ],
+        "cg_velocity_jacobian": [
+          [
+            0.0,
+            0.03318337051243114,
+            0.0,
+            0.015267396833890128
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.04215576817508516
+          ],
+          [
+            1.0,
+            0.7960997854002735,
+            0.0,
+            0.1780561433874581
+          ]
+        ],
+        "angular_velocity_jacobian": [
+          [
+            0.0,
+            -0.0,
+            0.0,
+            -1.2054463012912142
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0,
+            -0.03137372725887507
+          ],
+          [
+            0.0,
+            -0.0,
+            0.0,
+            0.11078871103001232
+          ]
+        ]
+      }
+    },
+    {
+      "member_id": "SU-70106-AA FRONT UPPER AFT STEEL TUBE-2",
+      "source_row": 92,
+      "CG_line_distance_m": 1.618878926443495e-05,
+      "axial_moment_trace_ratio": 0.004772299132800843,
+      "CG_derivative_relative_errors": [
+        3.361412625408881e-07,
+        2.84536862444207e-07
+      ],
+      "checks": {
+        "physical_tensor": true,
+        "CG_on_reference_leg": true,
+        "CG_inside_leg": true,
+        "slender_axis": true,
+        "CG_derivative": true,
+        "upper_closure": true
+      },
+      "passed": true,
+      "member": {
+        "member_id": "SU-70106-AA FRONT UPPER AFT STEEL TUBE-2",
+        "source_id": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit#SU!B92:P92",
+        "configuration_id": "WUFR26-front-tube-subset-no-driver",
+        "frame_id": "CAD-xyz",
+        "state_id": "nominal-qL-zero",
+        "coordinate_ids": [
+          "body_heave",
+          "body_pitch_front_up",
+          "left_qL",
+          "right_qL"
+        ],
+        "coordinate_units": [
+          "m",
+          "rad",
+          "rad",
+          "rad"
+        ],
+        "mass_kg": 0.08527536556000001,
+        "centroidal_tensor_kg_m2": [
+          [
+            0.0004351551646492205,
+            -0.000141930231913162,
+            -2.9263965342920002e-05
+          ],
+          [
+            -0.000141930231913162,
+            7.11114357832956e-05,
+            -8.54507788013264e-05
+          ],
+          [
+            -2.9263965342920002e-05,
+            -8.54507788013264e-05,
+            0.0004661749679127156
+          ]
+        ],
+        "cg_velocity_jacobian": [
+          [
+            0.0,
+            0.03318337051243114,
+            -0.015267396833890128,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.04215576817508516,
+            0.0
+          ],
+          [
+            1.0,
+            0.7960997854002735,
+            -0.1780561433874581,
+            0.0
+          ]
+        ],
+        "angular_velocity_jacobian": [
+          [
+            0.0,
+            -0.0,
+            -1.2054463012912142,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.03137372725887507,
+            0.0
+          ],
+          [
+            0.0,
+            -0.0,
+            0.11078871103001232,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "member_id": "SU-70105-AA FRONT UPPER FORE STEEL TUBE-2",
+      "source_row": 93,
+      "CG_line_distance_m": 1.1273347108397787e-05,
+      "axial_moment_trace_ratio": 0.0031882475016666036,
+      "CG_derivative_relative_errors": [
+        3.3614116650183905e-07,
+        2.8453692781436347e-07
+      ],
+      "checks": {
+        "physical_tensor": true,
+        "CG_on_reference_leg": true,
+        "CG_inside_leg": true,
+        "slender_axis": true,
+        "CG_derivative": true,
+        "upper_closure": true
+      },
+      "passed": true,
+      "member": {
+        "member_id": "SU-70105-AA FRONT UPPER FORE STEEL TUBE-2",
+        "source_id": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit#SU!B93:P93",
+        "configuration_id": "WUFR26-front-tube-subset-no-driver",
+        "frame_id": "CAD-xyz",
+        "state_id": "nominal-qL-zero",
+        "coordinate_ids": [
+          "body_heave",
+          "body_pitch_front_up",
+          "left_qL",
+          "right_qL"
+        ],
+        "coordinate_units": [
+          "m",
+          "rad",
+          "rad",
+          "rad"
+        ],
+        "mass_kg": 0.10614061458000001,
+        "centroidal_tensor_kg_m2": [
+          [
+            0.0006329795703673596,
+            0.00041262191133517194,
+            0.000122908654440264
+          ],
+          [
+            0.00041262191133517194,
+            0.00035263078238218605,
+            -0.0001714868369095112
+          ],
+          [
+            0.000122908654440264,
+            -0.0001714868369095112,
+            0.0008773336809807417
+          ]
+        ],
+        "cg_velocity_jacobian": [
+          [
+            0.0,
+            0.04758517051243116,
+            -0.015378736954647362,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.042456044373928005,
+            0.0
+          ],
+          [
+            1.0,
+            0.9555101854002735,
+            -0.17935262313689793,
+            0.0
+          ]
+        ],
+        "angular_velocity_jacobian": [
+          [
+            0.0,
+            -0.0,
+            -1.2054463012912142,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.03137372725887507,
+            0.0
+          ],
+          [
+            0.0,
+            -0.0,
+            0.11078871103001232,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "member_id": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-1",
+      "source_row": 94,
+      "CG_line_distance_m": 1.5638065147301096e-05,
+      "axial_moment_trace_ratio": 0.0028136441075492145,
+      "CG_derivative_relative_errors": [
+        1.6666667844613875e-07,
+        4.166664718373599e-08
+      ],
+      "checks": {
+        "physical_tensor": true,
+        "CG_on_reference_leg": true,
+        "CG_inside_leg": true,
+        "slender_axis": true,
+        "CG_derivative": true,
+        "upper_closure": true
+      },
+      "passed": true,
+      "member": {
+        "member_id": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-1",
+        "source_id": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit#SU!B94:P94",
+        "configuration_id": "WUFR26-front-tube-subset-no-driver",
+        "frame_id": "CAD-xyz",
+        "state_id": "nominal-qL-zero",
+        "coordinate_ids": [
+          "body_heave",
+          "body_pitch_front_up",
+          "left_qL",
+          "right_qL"
+        ],
+        "coordinate_units": [
+          "m",
+          "rad",
+          "rad",
+          "rad"
+        ],
+        "mass_kg": 0.11475886961000001,
+        "centroidal_tensor_kg_m2": [
+          [
+            0.000981806037254966,
+            -0.00042813181296691964,
+            4.0969551480088e-05
+          ],
+          [
+            -0.00042813181296691964,
+            0.0002051403970538692,
+            9.24741304836272e-05
+          ],
+          [
+            4.0969551480088e-05,
+            9.24741304836272e-05,
+            0.0011626573430742115
+          ]
+        ],
+        "cg_velocity_jacobian": [
+          [
+            0.0,
+            0.16922577051243115,
+            0.0,
+            0.011442591493091316
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.0117731283983241
+          ],
+          [
+            1.0,
+            0.9407527854002735,
+            0.0,
+            0.17602205161305037
+          ]
+        ],
+        "angular_velocity_jacobian": [
+          [
+            0.0,
+            -0.0,
+            0.0,
+            -0.9961099441581004
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0,
+            -0.0554764060531872
+          ],
+          [
+            0.0,
+            -0.0,
+            0.0,
+            0.06846420612822467
+          ]
+        ]
+      }
+    },
+    {
+      "member_id": "SU-70108-AA FRONT LOWER AFT STEEL TUBE-1",
+      "source_row": 95,
+      "CG_line_distance_m": 1.1158357849038002e-05,
+      "axial_moment_trace_ratio": 0.0034646265065463758,
+      "CG_derivative_relative_errors": [
+        1.6666663485026924e-07,
+        4.16666626321389e-08
+      ],
+      "checks": {
+        "physical_tensor": true,
+        "CG_on_reference_leg": true,
+        "CG_inside_leg": true,
+        "slender_axis": true,
+        "CG_derivative": true,
+        "upper_closure": true
+      },
+      "passed": true,
+      "member": {
+        "member_id": "SU-70108-AA FRONT LOWER AFT STEEL TUBE-1",
+        "source_id": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit#SU!B95:P95",
+        "configuration_id": "WUFR26-front-tube-subset-no-driver",
+        "frame_id": "CAD-xyz",
+        "state_id": "nominal-qL-zero",
+        "coordinate_ids": [
+          "body_heave",
+          "body_pitch_front_up",
+          "left_qL",
+          "right_qL"
+        ],
+        "coordinate_units": [
+          "m",
+          "rad",
+          "rad",
+          "rad"
+        ],
+        "mass_kg": 0.10160469088,
+        "centroidal_tensor_kg_m2": [
+          [
+            0.0007699349281722251,
+            0.00019870232467842684,
+            -9.949748216592801e-06
+          ],
+          [
+            0.00019870232467842684,
+            5.94058496461276e-05,
+            3.8043154945796e-05
+          ],
+          [
+            -9.949748216592801e-06,
+            3.8043154945796e-05,
+            0.0008199763089086184
+          ]
+        ],
+        "cg_velocity_jacobian": [
+          [
+            0.0,
+            0.15987857051243118,
+            0.0,
+            0.011395308946893983
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            0.01172297960001754
+          ],
+          [
+            1.0,
+            0.8040245854002736,
+            0.0,
+            0.17529348566054678
+          ]
+        ],
+        "angular_velocity_jacobian": [
+          [
+            0.0,
+            -0.0,
+            0.0,
+            -0.9961099441581004
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0,
+            -0.0554764060531872
+          ],
+          [
+            0.0,
+            -0.0,
+            0.0,
+            0.06846420612822467
+          ]
+        ]
+      }
+    },
+    {
+      "member_id": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-2",
+      "source_row": 96,
+      "CG_line_distance_m": 1.5638065147301096e-05,
+      "axial_moment_trace_ratio": 0.0028136441075492145,
+      "CG_derivative_relative_errors": [
+        1.6666667844613875e-07,
+        4.166664718373599e-08
+      ],
+      "checks": {
+        "physical_tensor": true,
+        "CG_on_reference_leg": true,
+        "CG_inside_leg": true,
+        "slender_axis": true,
+        "CG_derivative": true,
+        "upper_closure": true
+      },
+      "passed": true,
+      "member": {
+        "member_id": "SU-70107-AA FRONT LOWER FORE STEEL TUBE-2",
+        "source_id": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit#SU!B96:P96",
+        "configuration_id": "WUFR26-front-tube-subset-no-driver",
+        "frame_id": "CAD-xyz",
+        "state_id": "nominal-qL-zero",
+        "coordinate_ids": [
+          "body_heave",
+          "body_pitch_front_up",
+          "left_qL",
+          "right_qL"
+        ],
+        "coordinate_units": [
+          "m",
+          "rad",
+          "rad",
+          "rad"
+        ],
+        "mass_kg": 0.11475886961000001,
+        "centroidal_tensor_kg_m2": [
+          [
+            0.000981806037254966,
+            0.00042813181296691964,
+            4.0969551480088e-05
+          ],
+          [
+            0.00042813181296691964,
+            0.0002051403970538692,
+            -9.24741304836272e-05
+          ],
+          [
+            4.0969551480088e-05,
+            -9.24741304836272e-05,
+            0.0011626573430742115
+          ]
+        ],
+        "cg_velocity_jacobian": [
+          [
+            0.0,
+            0.16922577051243115,
+            -0.011442591493091316,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0117731283983241,
+            0.0
+          ],
+          [
+            1.0,
+            0.9407527854002735,
+            -0.17602205161305037,
+            0.0
+          ]
+        ],
+        "angular_velocity_jacobian": [
+          [
+            0.0,
+            -0.0,
+            -0.9961099441581004,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0554764060531872,
+            0.0
+          ],
+          [
+            0.0,
+            -0.0,
+            0.06846420612822467,
+            0.0
+          ]
+        ]
+      }
+    },
+    {
+      "member_id": "SU-70108-AA FRONT LOWER AFT STEEL TUBE-2",
+      "source_row": 97,
+      "CG_line_distance_m": 1.1158357849038002e-05,
+      "axial_moment_trace_ratio": 0.0034646265065463758,
+      "CG_derivative_relative_errors": [
+        1.6666663485026924e-07,
+        4.16666626321389e-08
+      ],
+      "checks": {
+        "physical_tensor": true,
+        "CG_on_reference_leg": true,
+        "CG_inside_leg": true,
+        "slender_axis": true,
+        "CG_derivative": true,
+        "upper_closure": true
+      },
+      "passed": true,
+      "member": {
+        "member_id": "SU-70108-AA FRONT LOWER AFT STEEL TUBE-2",
+        "source_id": "https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit#SU!B97:P97",
+        "configuration_id": "WUFR26-front-tube-subset-no-driver",
+        "frame_id": "CAD-xyz",
+        "state_id": "nominal-qL-zero",
+        "coordinate_ids": [
+          "body_heave",
+          "body_pitch_front_up",
+          "left_qL",
+          "right_qL"
+        ],
+        "coordinate_units": [
+          "m",
+          "rad",
+          "rad",
+          "rad"
+        ],
+        "mass_kg": 0.10160469088,
+        "centroidal_tensor_kg_m2": [
+          [
+            0.0007699349281722251,
+            -0.00019870232467842684,
+            -9.949748216592801e-06
+          ],
+          [
+            -0.00019870232467842684,
+            5.94058496461276e-05,
+            -3.8043154945796e-05
+          ],
+          [
+            -9.949748216592801e-06,
+            -3.8043154945796e-05,
+            0.0008199763089086184
+          ]
+        ],
+        "cg_velocity_jacobian": [
+          [
+            0.0,
+            0.15987857051243118,
+            -0.011395308946893983,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.01172297960001754,
+            0.0
+          ],
+          [
+            1.0,
+            0.8040245854002736,
+            -0.17529348566054678,
+            0.0
+          ]
+        ],
+        "angular_velocity_jacobian": [
+          [
+            0.0,
+            -0.0,
+            -0.9961099441581004,
+            0.0
+          ],
+          [
+            0.0,
+            -1.0,
+            0.0554764060531872,
+            0.0
+          ],
+          [
+            0.0,
+            -0.0,
+            0.06846420612822467,
+            0.0
+          ]
+        ]
+      }
+    }
+  ],
+  "upper_closure_derivatives": {
+    "left": {
+      "analytic_dqU_dqL": 1.2109332081293642,
+      "relative_errors": [
+        8.444242747132073e-08,
+        3.451012062169168e-07
+      ],
+      "passed": true
+    },
+    "right": {
+      "analytic_dqU_dqL": 1.2109332081293642,
+      "relative_errors": [
+        8.444242747132073e-08,
+        3.451012062169168e-07
+      ],
+      "passed": true
+    }
+  },
+  "body_reference_CG_m": [
+    -0.8535545854002735,
+    0.008224052868683942,
+    0.30752877051243116
+  ],
+  "passed": true,
+  "mass_matrix": [
+    [
+      0.8155590812600001,
+      0.7179170684651798,
+      -0.07223113245721904,
+      0.07223113245721904
+    ],
+    [
+      0.7179170684651798,
+      0.6502082290575874,
+      -0.06356490117773542,
+      0.06356490117773542
+    ],
+    [
+      -0.07223113245721904,
+      -0.06356490117773542,
+      0.01648092517645395,
+      0.0
+    ],
+    [
+      0.07223113245721904,
+      0.06356490117773542,
+      0.0,
+      0.01648092517645395
+    ]
+  ],
+  "direct_energy_J": 0.047455682440700385,
+  "reduced_energy_J": 0.047455682440700385,
+  "energy_difference_J": 0.0,
+  "total_tube_mass_kg": 0.8155590812600001,
+  "front_corner_CAD_mass_kg": 2.29880613116,
+  "mass_coverage_fraction": 0.3547750591949487,
+  "reflection_max_entry_difference": 0.0,
+  "reflection_passed": true,
+  "source_sha256": {
+    "data_catalog/wufr26_front_arm_tubes_inertia_v0.json": "3716bf64caf487669d756c04ca42d8ffe3ee8d64202ad7f22ab40c3e24d80fae",
+    "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+    "docs/reports/no_driver_mass_consistency_v0.1.0/results.json": "4527039b83743364c1881f760a6f7b69889f69d1f7ea4571d359dc42ca7426df",
+    "scripts/run_front_arm_tube_inertia.py": "71ead953ef7a65de174329faf9be7cd391dd262c25eeedd44999e01fe0fa1189",
+    "src/pssd_suspension/reduced_inertia.py": "65adf9d281b72e8477a6984d3cbcff3a2a8cdb5fa1080c75e72ee0f437a4d35f"
+  }
+}

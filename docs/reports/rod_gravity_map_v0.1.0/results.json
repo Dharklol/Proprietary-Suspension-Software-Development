@@ -1,0 +1,888 @@
+{
+  "scope": "Four rods plus eight fixed endcaps; conditional no-axial-spin CG transport and gravity, not full rod inertia",
+  "members": [
+    {
+      "sheet_row": 98,
+      "part_name": "SU-70109-AA PULLROD-1",
+      "CAD_mass_lb": 0.201,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        -14.77,
+        7.591
+      ],
+      "axle": "front",
+      "side": "right",
+      "mass_kg": 0.09117206637000001,
+      "fraction": 0.5308508547767614,
+      "offset_m": [
+        0.0,
+        -5.719176345841959e-07,
+        -9.707028048311361e-07
+      ],
+      "radial_offset_m": 1.1266559883369088e-06,
+      "kind": "tube"
+    },
+    {
+      "sheet_row": 99,
+      "part_name": "SU-70109-AA PULLROD-2",
+      "CAD_mass_lb": 0.201,
+      "production_mass_lb": "",
+      "cg_in": [
+        0,
+        14.77,
+        7.591
+      ],
+      "axle": "front",
+      "side": "left",
+      "mass_kg": 0.09117206637000001,
+      "fraction": 0.5308508547767614,
+      "offset_m": [
+        0.0,
+        5.719176345841959e-07,
+        -9.707028048311361e-07
+      ],
+      "radial_offset_m": 1.1266559883369088e-06,
+      "kind": "tube"
+    },
+    {
+      "sheet_row": 104,
+      "part_name": "SU-70101-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-1",
+      "CAD_mass_lb": 0.063,
+      "production_mass_lb": 0.252,
+      "cg_in": [
+        0,
+        -18.63,
+        9.865
+      ],
+      "axle": "front",
+      "side": "right",
+      "mass_kg": 0.02857631931,
+      "fraction": 0.1700449130275623,
+      "offset_m": [
+        0.0,
+        -3.134172066425467e-06,
+        -5.319559026363552e-06
+      ],
+      "radial_offset_m": 6.174199768142235e-06,
+      "kind": "confirmed_endcap"
+    },
+    {
+      "sheet_row": 105,
+      "part_name": "SU-70102-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-1",
+      "CAD_mass_lb": 0.063,
+      "production_mass_lb": 0.249,
+      "cg_in": [
+        0,
+        -10.909,
+        5.317
+      ],
+      "axle": "front",
+      "side": "right",
+      "mass_kg": 0.02857631931,
+      "fraction": 0.8917261850478606,
+      "offset_m": [
+        0.0,
+        8.535463129871745e-06,
+        1.4487047607342207e-05
+      ],
+      "radial_offset_m": 1.681453773431787e-05,
+      "kind": "confirmed_endcap"
+    },
+    {
+      "sheet_row": 106,
+      "part_name": "SU-70101-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-2",
+      "CAD_mass_lb": 0.063,
+      "production_mass_lb": 0.252,
+      "cg_in": [
+        0,
+        18.63,
+        9.865
+      ],
+      "axle": "front",
+      "side": "left",
+      "mass_kg": 0.02857631931,
+      "fraction": 0.1700449130275623,
+      "offset_m": [
+        0.0,
+        3.134172066425467e-06,
+        -5.319559026363552e-06
+      ],
+      "radial_offset_m": 6.174199768142235e-06,
+      "kind": "confirmed_endcap"
+    },
+    {
+      "sheet_row": 107,
+      "part_name": "SU-70102-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-2",
+      "CAD_mass_lb": 0.063,
+      "production_mass_lb": 0.249,
+      "cg_in": [
+        0,
+        10.909,
+        5.317
+      ],
+      "axle": "front",
+      "side": "left",
+      "mass_kg": 0.02857631931,
+      "fraction": 0.8917261850478606,
+      "offset_m": [
+        0.0,
+        -8.535463129871745e-06,
+        1.4487047607342207e-05
+      ],
+      "radial_offset_m": 1.681453773431787e-05,
+      "kind": "confirmed_endcap"
+    },
+    {
+      "sheet_row": 190,
+      "part_name": "SU-70209-AA PUSHROD-1",
+      "CAD_mass_lb": 0.223,
+      "cg_in": [
+        -62.387,
+        15.338,
+        10.438
+      ],
+      "axle": "rear",
+      "side": "left",
+      "mass_kg": 0.10115109851000001,
+      "fraction": 0.5073306261677674,
+      "offset_m": [
+        -4.799999999915983e-06,
+        4.83717915170101e-06,
+        5.258011465655854e-06
+      ],
+      "radial_offset_m": 8.607263602203244e-06,
+      "kind": "tube"
+    },
+    {
+      "sheet_row": 191,
+      "part_name": "SU-70209-AA PUSHROD-3",
+      "CAD_mass_lb": 0.223,
+      "cg_in": [
+        -62.387,
+        -15.338,
+        10.438
+      ],
+      "axle": "rear",
+      "side": "right",
+      "mass_kg": 0.10115109851000001,
+      "fraction": 0.5073306261677674,
+      "offset_m": [
+        -4.799999999915983e-06,
+        -4.83717915170101e-06,
+        5.258011465655854e-06
+      ],
+      "radial_offset_m": 8.607263602203244e-06,
+      "kind": "tube"
+    },
+    {
+      "sheet_row": 194,
+      "part_name": "SU-70201-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-1",
+      "CAD_mass_lb": 0.063,
+      "cg_in": [
+        -62.387,
+        11.672,
+        13.81
+      ],
+      "axle": "rear",
+      "side": "left",
+      "mass_kg": 0.02857631931,
+      "fraction": 0.894232001210466,
+      "offset_m": [
+        -4.799999999915983e-06,
+        -2.58621269774717e-06,
+        -2.811211987502338e-06
+      ],
+      "radial_offset_m": 6.134444470028152e-06,
+      "kind": "confirmed_endcap"
+    },
+    {
+      "sheet_row": 195,
+      "part_name": "SU-70202-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-1",
+      "CAD_mass_lb": 0.063,
+      "cg_in": [
+        -62.387,
+        19.003,
+        7.066
+      ],
+      "axle": "rear",
+      "side": "left",
+      "mass_kg": 0.02857631931,
+      "fraction": 0.12048641641349528,
+      "offset_m": [
+        -4.799999999915983e-06,
+        6.175691568931219e-07,
+        6.712973834414881e-07
+      ],
+      "radial_offset_m": 4.8859013334035415e-06,
+      "kind": "confirmed_endcap"
+    },
+    {
+      "sheet_row": 196,
+      "part_name": "SU-70201-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-4",
+      "CAD_mass_lb": 0.063,
+      "cg_in": [
+        -62.387,
+        -19.003,
+        7.066
+      ],
+      "axle": "rear",
+      "side": "right",
+      "mass_kg": 0.02857631931,
+      "fraction": 0.12048641641349528,
+      "offset_m": [
+        -4.799999999915983e-06,
+        -6.175691568931219e-07,
+        6.712973834414881e-07
+      ],
+      "radial_offset_m": 4.8859013334035415e-06,
+      "kind": "confirmed_endcap"
+    },
+    {
+      "sheet_row": 197,
+      "part_name": "SU-70201-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-5",
+      "CAD_mass_lb": 0.063,
+      "cg_in": [
+        -62.387,
+        -11.672,
+        13.81
+      ],
+      "axle": "rear",
+      "side": "right",
+      "mass_kg": 0.02857631931,
+      "fraction": 0.894232001210466,
+      "offset_m": [
+        -4.799999999915983e-06,
+        2.58621269774717e-06,
+        -2.811211987502338e-06
+      ],
+      "radial_offset_m": 6.134444470028152e-06,
+      "kind": "confirmed_endcap"
+    }
+  ],
+  "mapped_rod_mass_kg": 0.61325688424,
+  "cases": [
+    {
+      "q": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "potential_J": 1.3845638583043534,
+      "generalized_gravity": [
+        -6.0160500343944,
+        -0.1551796756060796,
+        0.2841251652403887,
+        -0.2841251652403887,
+        0.34654185649584357,
+        -0.3465418564958436
+      ],
+      "members": [
+        {
+          "source_row": 98,
+          "source_CG_m": [
+            0.0,
+            -0.375158,
+            0.1928114
+          ],
+          "world_CG_m": [
+            0.0,
+            -0.375158,
+            0.1928114
+          ],
+          "CG_derivative_m_per_rad": [
+            0.012467915523558712,
+            -0.011422825288491133,
+            0.1952699479565448
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.1674223973635547,
+          "distance_to_rocker_end_m": 0.14796260363537808
+        },
+        {
+          "source_row": 99,
+          "source_CG_m": [
+            0.0,
+            0.375158,
+            0.1928114
+          ],
+          "world_CG_m": [
+            0.0,
+            0.375158,
+            0.1928114
+          ],
+          "CG_derivative_m_per_rad": [
+            -0.012467915523558712,
+            -0.011422825288491133,
+            -0.1952699479565448
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.1674223973635547,
+          "distance_to_rocker_end_m": 0.14796260363537808
+        },
+        {
+          "source_row": 104,
+          "source_CG_m": [
+            0.0,
+            -0.47320199999999996,
+            0.250571
+          ],
+          "world_CG_m": [
+            0.0,
+            -0.47320199999999996,
+            0.250571
+          ],
+          "CG_derivative_m_per_rad": [
+            0.0220565464481371,
+            0.03214617241217598,
+            0.26922611819602366
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.053629615419094744,
+          "distance_to_rocker_end_m": 0.26175538599998277
+        },
+        {
+          "source_row": 105,
+          "source_CG_m": [
+            0.0,
+            -0.2770886,
+            0.1350518
+          ],
+          "world_CG_m": [
+            0.0,
+            -0.2770886,
+            0.1350518
+          ],
+          "CG_derivative_m_per_rad": [
+            0.0028774405580433153,
+            -0.05499182298915823,
+            0.12129461808747015
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.2812370642575405,
+          "distance_to_rocker_end_m": 0.03414794137572575
+        },
+        {
+          "source_row": 106,
+          "source_CG_m": [
+            0.0,
+            0.47320199999999996,
+            0.250571
+          ],
+          "world_CG_m": [
+            0.0,
+            0.47320199999999996,
+            0.250571
+          ],
+          "CG_derivative_m_per_rad": [
+            -0.0220565464481371,
+            0.03214617241217598,
+            -0.26922611819602366
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.053629615419094744,
+          "distance_to_rocker_end_m": 0.26175538599998277
+        },
+        {
+          "source_row": 107,
+          "source_CG_m": [
+            0.0,
+            0.2770886,
+            0.1350518
+          ],
+          "world_CG_m": [
+            0.0,
+            0.2770886,
+            0.1350518
+          ],
+          "CG_derivative_m_per_rad": [
+            -0.0028774405580433153,
+            -0.05499182298915823,
+            -0.12129461808747015
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.2812370642575405,
+          "distance_to_rocker_end_m": 0.03414794137572575
+        },
+        {
+          "source_row": 190,
+          "source_CG_m": [
+            -1.5846297999999999,
+            0.38958519999999996,
+            0.2651252
+          ],
+          "world_CG_m": [
+            -1.5846297999999999,
+            0.38958519999999996,
+            0.2651252
+          ],
+          "CG_derivative_m_per_rad": [
+            0.005129345371550698,
+            0.10027693365911773,
+            -0.22315267218197807
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.16589655960965558,
+          "distance_to_rocker_end_m": 0.16110234615212776
+        },
+        {
+          "source_row": 191,
+          "source_CG_m": [
+            -1.5846297999999999,
+            -0.38958519999999996,
+            0.2651252
+          ],
+          "world_CG_m": [
+            -1.5846297999999999,
+            -0.38958519999999996,
+            0.2651252
+          ],
+          "CG_derivative_m_per_rad": [
+            -0.005129345371550698,
+            0.10027693365911773,
+            0.22315267218197807
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.16589655960965558,
+          "distance_to_rocker_end_m": 0.16110234615212776
+        },
+        {
+          "source_row": 194,
+          "source_CG_m": [
+            -1.5846297999999999,
+            0.2964688,
+            0.350774
+          ],
+          "world_CG_m": [
+            -1.5846297999999999,
+            0.2964688,
+            0.350774
+          ],
+          "CG_derivative_m_per_rad": [
+            0.0011011859552569202,
+            0.16332686010224048,
+            -0.15460551015929475
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.29241288555205636,
+          "distance_to_rocker_end_m": 0.034586020364881544
+        },
+        {
+          "source_row": 195,
+          "source_CG_m": [
+            -1.5846297999999999,
+            0.4826762,
+            0.17947639999999998
+          ],
+          "world_CG_m": [
+            -1.5846297999999999,
+            0.4826762,
+            0.17947639999999998
+          ],
+          "CG_derivative_m_per_rad": [
+            0.009156909620937057,
+            0.03722700721599493,
+            -0.2916811361244588
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.039398926574717726,
+          "distance_to_rocker_end_m": 0.2875999790783025
+        },
+        {
+          "source_row": 196,
+          "source_CG_m": [
+            -1.5846297999999999,
+            -0.4826762,
+            0.17947639999999998
+          ],
+          "world_CG_m": [
+            -1.5846297999999999,
+            -0.4826762,
+            0.17947639999999998
+          ],
+          "CG_derivative_m_per_rad": [
+            -0.009156909620937057,
+            0.03722700721599493,
+            0.2916811361244588
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.039398926574717726,
+          "distance_to_rocker_end_m": 0.2875999790783025
+        },
+        {
+          "source_row": 197,
+          "source_CG_m": [
+            -1.5846297999999999,
+            -0.2964688,
+            0.350774
+          ],
+          "world_CG_m": [
+            -1.5846297999999999,
+            -0.2964688,
+            0.350774
+          ],
+          "CG_derivative_m_per_rad": [
+            -0.0011011859552569202,
+            0.16332686010224048,
+            0.15460551015929475
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.29241288555205636,
+          "distance_to_rocker_end_m": 0.034586020364881544
+        }
+      ],
+      "energy_gradient_errors": [
+        [
+          8.43769498715119e-14,
+          2.5863536756709493e-08,
+          1.6303557448527073e-08,
+          1.6303557448527073e-08,
+          2.260206379833818e-07,
+          2.260207490611954e-07
+        ],
+        [
+          1.9539925233402755e-13,
+          6.465720070458758e-09,
+          4.118526686358592e-09,
+          4.118526686358592e-09,
+          5.6505014223162675e-08,
+          5.6505014278673826e-08
+        ]
+      ]
+    },
+    {
+      "q": [
+        0.003,
+        0.02,
+        0.02,
+        -0.015,
+        -0.02,
+        0.01
+      ],
+      "potential_J": 1.4062202718157488,
+      "generalized_gravity": [
+        -6.0160500343944,
+        -0.16189533005397871,
+        0.2786009340154606,
+        -0.28006947033965246,
+        0.3384836069042658,
+        -0.3424684964911809
+      ],
+      "members": [
+        {
+          "source_row": 98,
+          "source_CG_m": [
+            -0.00018765904502204532,
+            -0.374942405381789,
+            0.18990480526942408
+          ],
+          "world_CG_m": [
+            0.0017160461240930402,
+            -0.374942405381789,
+            0.20979854378011017
+          ],
+          "CG_derivative_m_per_rad": [
+            0.01255261739247305,
+            -0.017295262595890367,
+            0.19227016624648244
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.16742239736355471,
+          "distance_to_rocker_end_m": 0.14796260363537805
+        },
+        {
+          "source_row": 99,
+          "source_CG_m": [
+            -0.0002504906633172577,
+            0.3748511175943634,
+            0.18894597665801163
+          ],
+          "world_CG_m": [
+            0.001672402365518244,
+            0.3748511175943634,
+            0.2088386503794358
+          ],
+          "CG_derivative_m_per_rad": [
+            -0.012579955444874514,
+            -0.019217035653255884,
+            -0.19126018840896136
+          ],
+          "rod_length_error_m": -5.551115123125783e-17,
+          "distance_to_arm_end_m": 0.16742239736355471,
+          "distance_to_rocker_end_m": 0.14796260363537805
+        },
+        {
+          "source_row": 104,
+          "source_CG_m": [
+            -0.00033198091987028357,
+            -0.47364132497179123,
+            0.24653783248078473
+          ],
+          "world_CG_m": [
+            0.00043916807762323096,
+            -0.47364132497179123,
+            0.2664173585185054
+          ],
+          "CG_derivative_m_per_rad": [
+            0.022206385436338127,
+            0.026441037161264478,
+            0.26851752570130033
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.05362961541909476,
+          "distance_to_rocker_end_m": 0.26175538599998277
+        },
+        {
+          "source_row": 105,
+          "source_CG_m": [
+            -4.330950848896173e-05,
+            -0.27621808747241017,
+            0.13327206893204413
+          ],
+          "world_CG_m": [
+            0.0029929460096237426,
+            -0.27621808747241017,
+            0.15318002041071963
+          ],
+          "CG_derivative_m_per_rad": [
+            0.002897005359301445,
+            -0.06103133564205094,
+            0.11600318636919106
+          ],
+          "rod_length_error_m": 0.0,
+          "distance_to_arm_end_m": 0.2812370642575406,
+          "distance_to_rocker_end_m": 0.034147941375725716
+        },
+        {
+          "source_row": 106,
+          "source_CG_m": [
+            -0.00044313407990586245,
+            0.47376880724143033,
+            0.24519587347178895
+          ],
+          "world_CG_m": [
+            0.0003548745384156504,
+            0.47376880724143033,
+            0.2650734449773657
+          ],
+          "CG_derivative_m_per_rad": [
+            -0.02225474681331633,
+            0.024552960041597828,
+            -0.2682646076206261
+          ],
+          "rod_length_error_m": -5.551115123125783e-17,
+          "distance_to_arm_end_m": 0.05362961541909474,
+          "distance_to_rocker_end_m": 0.2617553859999828
+        },
+        {
+          "source_row": 107,
+          "source_CG_m": [
+            -5.7810365731605906e-05,
+            0.2759080309583934,
+            0.1326964691955472
+          ],
+          "world_CG_m": [
+            0.0029899592797349994,
+            0.2759080309583934,
+            0.15260424579252196
+          ],
+          "CG_derivative_m_per_rad": [
+            -0.0029033203622061596,
+            -0.0629867255808504,
+            -0.11423599895531981
+          ],
+          "rod_length_error_m": -5.551115123125783e-17,
+          "distance_to_arm_end_m": 0.2812370642575405,
+          "distance_to_rocker_end_m": 0.03414794137572575
+        },
+        {
+          "source_row": 190,
+          "source_CG_m": [
+            -1.5847295888509498,
+            0.3875002330531326,
+            0.26953837280520115
+          ],
+          "world_CG_m": [
+            -1.5841015510340946,
+            0.3875002330531326,
+            0.25772745921746393
+          ],
+          "CG_derivative_m_per_rad": [
+            0.0048492071100070715,
+            0.10820771635371386,
+            -0.21810443041934882
+          ],
+          "rod_length_error_m": -5.551115123125783e-17,
+          "distance_to_arm_end_m": 0.16589655960965558,
+          "distance_to_rocker_end_m": 0.16110234615212776
+        },
+        {
+          "source_row": 191,
+          "source_CG_m": [
+            -1.5846803947769657,
+            -0.3885625436551111,
+            0.26734440575796375
+          ],
+          "world_CG_m": [
+            -1.5840084903828833,
+            -0.3885625436551111,
+            0.25553491476489865
+          ],
+          "CG_derivative_m_per_rad": [
+            -0.004989525701279439,
+            0.10425135785493832,
+            0.2206736835577932
+          ],
+          "rod_length_error_m": -5.551115123125783e-17,
+          "distance_to_arm_end_m": 0.16589655960965555,
+          "distance_to_rocker_end_m": 0.1611023461521278
+        },
+        {
+          "source_row": 194,
+          "source_CG_m": [
+            -1.5846512230466159,
+            0.29310982881671005,
+            0.3537810362085234
+          ],
+          "world_CG_m": [
+            -1.5857079418491606,
+            0.29310982881671005,
+            0.3419548418613168
+          ],
+          "CG_derivative_m_per_rad": [
+            0.0010410472898966213,
+            0.17255007698703964,
+            -0.1460079461221404
+          ],
+          "rod_length_error_m": -5.551115123125783e-17,
+          "distance_to_arm_end_m": 0.2924128855520563,
+          "distance_to_rocker_end_m": 0.03458602036488153
+        },
+        {
+          "source_row": 195,
+          "source_CG_m": [
+            -1.5848079431564848,
+            0.4818652401487985,
+            0.18529532846991056
+          ],
+          "world_CG_m": [
+            -1.5824951411043977,
+            0.4818652401487985,
+            0.17349969594778722
+          ],
+          "CG_derivative_m_per_rad": [
+            0.008656812217651317,
+            0.0438650645119179,
+            -0.29018151628168104
+          ],
+          "rod_length_error_m": -5.551115123125783e-17,
+          "distance_to_arm_end_m": 0.03939892657471771,
+          "distance_to_rocker_end_m": 0.2875999790783025
+        },
+        {
+          "source_row": 196,
+          "source_CG_m": [
+            -1.5847201218321694,
+            -0.482287315357503,
+            0.18238961299419085
+          ],
+          "world_CG_m": [
+            -1.582349226908457,
+            -0.482287315357503,
+            0.170596317905185
+          ],
+          "CG_derivative_m_per_rad": [
+            -0.008907306277459053,
+            0.040548970753437594,
+            0.2909539718809357
+          ],
+          "rod_length_error_m": -5.551115123125783e-17,
+          "distance_to_arm_end_m": 0.039398926574717746,
+          "distance_to_rocker_end_m": 0.2875999790783025
+        },
+        {
+          "source_row": 197,
+          "source_CG_m": [
+            -1.5846406618712237,
+            -0.29481237265445465,
+            0.35229900980650175
+          ],
+          "world_CG_m": [
+            -1.5856677442338882,
+            -0.29481237265445465,
+            0.3404733230641221
+          ],
+          "CG_derivative_m_per_rad": [
+            -0.0010711701849980722,
+            0.16795360331510598,
+            0.15037434946573258
+          ],
+          "rod_length_error_m": -5.551115123125783e-17,
+          "distance_to_arm_end_m": 0.2924128855520563,
+          "distance_to_rocker_end_m": 0.034586020364881544
+        }
+      ],
+      "energy_gradient_errors": [
+        [
+          2.6645352591003757e-14,
+          2.6982443390721755e-08,
+          6.933733598391001e-08,
+          5.755185461531198e-08,
+          2.4147430122134494e-07,
+          2.33528044957243e-07
+        ],
+        [
+          2.4868995751603507e-13,
+          6.745520142459327e-09,
+          1.7319723544240162e-08,
+          1.4391490443799171e-08,
+          6.036839317324905e-08,
+          5.83819251276374e-08
+        ]
+      ]
+    }
+  ],
+  "checks": {
+    "exact_12_manifest": true,
+    "nominal_CG_preserved": true,
+    "native_length_closure": true,
+    "rigid_endpoint_distances": true,
+    "gravity_energy_gradient": true,
+    "combined_64_unique": true,
+    "combined_mass_closure": true,
+    "combined_first_moments": true
+  },
+  "passed": true,
+  "nominal_CG_max_error_m": 0.0,
+  "rigid_distance_max_error_m": 5.551115123125783e-17,
+  "unknown_axial_spin_potential_difference_bound_J": 7.632996769072713e-05,
+  "spin_policy": "Shortest rotation from nominal rod direction. Axial spin is not source-defined; only the pose-wise gravitational potential difference is bounded. No torque/rate or full rotational inertia bound claimed.",
+  "combined_arm_and_rod_mass_kg": 3.23048485914,
+  "remaining_inventory_mass_kg": 200.50007453399,
+  "remaining_inventory_CG_m": [
+    -0.8453539275100351,
+    0.006862505359615076,
+    0.29489636063720137
+  ],
+  "remaining_is_rigid_body": false,
+  "source_sha256": {
+    "scripts/run_rod_gravity_map.py": "f09b88b6449afb1364245e514a93215850662a1df6ab623112c748accd20e10d",
+    "scripts/run_welded_arm_gravity.py": "481cf7757c34dadf13d62f07d97d9b4abc073a96b4a8dbb5086d00e247f199cd",
+    "scripts/run_front_tube_travel.py": "630097272d837f273fc7813631dd0b96e174f6d311b7d80193ad5dd93ed7b313",
+    "scripts/run_front_arm_tube_inertia.py": "71ead953ef7a65de174329faf9be7cd391dd262c25eeedd44999e01fe0fa1189",
+    "scripts/run_coupled_tube_inertia.py": "48c6bf53bd87be5fe93a8941d9f3c266d5d605ab778882b6af1dfc945a8b75f3",
+    "data_catalog/wufr26_front_corner_inventory_v0.json": "875217608f4fea7ede8a36e0f94245a0daaebf803f0047e1b68d81f9b3c31463",
+    "data_catalog/wufr26_rear_corner_inventory_v0.json": "d084b818135b2a73abd531a0e9beab8be02ab02a7f8034ec93d7616d7802a4be",
+    "data_catalog/wufr26_endcap_attachment_confirmation_v0.json": "8b5317aad0000a52551a52d41bfb1ab455330ae7107a6aea78e5660ab817f75d",
+    "data_catalog/wufr26_com_pitch_snapshot_v0.json": "d2ac8dd315e16e7ad920821fabd55aebb6ebccbb6bbff45e2a2442b2c1176317",
+    "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+    "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4",
+    "benchmarks/suspension/WUFR26_OPTIMUMK_WHEEL_REFERENCE_V0.toml": "85739e46db63deb581b65385410e72d2247d7cee06ee45b656d4515b17cd3ddf",
+    "src/pssd_suspension/rod_pose.py": "fd9ea4d872de41ec92b0ee885ee278027cdb7be36b26cbf40bdc517da2250738",
+    "src/pssd_suspension/actuation.py": "e0db1685d97916dec0344a2d80ed815a9770a918bc751d6271ae0fde42509fcd",
+    "src/pssd_suspension/kinematics.py": "7e1474274e28a005950b94acd0551a87481dc871d06896bcd7dbae127bf1cf79"
+  }
+}

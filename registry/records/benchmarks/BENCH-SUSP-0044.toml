@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-SUSP-0044"
+type = "benchmark"
+title = "Generalized spring damper and moving-support integration"
+status = "active"
+description = "Native tube-only inertia with artificial massless force ports, exact source mass ledger and combined work/energy/dissipation checks."
+verification_level = "A"
+target_ids = ["MOD-SUSP-0013", "MOD-SUSP-0014", "EQ-SUSP-0040"]
+function_specification = "docs/models/suspension/generalized_force_ports_spec_v0.1.0.md"
+acceptance_criteria = ["Exact eight-member inventory and heave-mass closure", "Combined balance residual below 1e-9 J", "Positive dissipation and stationary-support energy decay", "Omitting moving-support work or dissipation is detectable", "Contact and numerical travel failures stop explicitly", "Five primitive unit tests pass"]

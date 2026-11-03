@@ -1,0 +1,14 @@
+[record]
+id = "MOD-SUSP-0014"
+type = "model"
+title = "Generalized scalar deformation force ports"
+status = "active"
+description = "Energy-consistent elastic/dissipative ports with explicit moving-support power and guarded compression branch."
+verification_level = "A"
+function_specification = "docs/models/suspension/generalized_force_ports_spec_v0.1.0.md"
+maturity = "M2"
+disposition = "accepted_with_restrictions"
+inputs = ["Explicit provider-owned coordinate/state/source binding and scalar deformation ports"]
+outputs = ["Work-conjugate generalized forces and energy ledger"]
+assumptions = ["Numerical primitive does not establish source identity, native contact geometry or installed calibration"]
+authorization_id = "AUTH-SUSP-0021"

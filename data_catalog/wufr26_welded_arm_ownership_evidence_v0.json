@@ -1,0 +1,95 @@
+{
+  "read_date": "2026-11-01",
+  "method": "Box extracted drawing text; raw download tools advertised but unavailable. No visual callout inspection claimed.",
+  "scope": "Source-supported rigid ownership of named welded arm components. No tensor convention or installed/as-built promotion.",
+  "records": [
+    {
+      "box_file_id": "2212894192309",
+      "name": "Front Upper A-Arm Welding Jig Assembly.pdf",
+      "parts": [
+        "SU-70103",
+        "SU-70105",
+        "SU-70106"
+      ],
+      "owner": "front_upper_arm"
+    },
+    {
+      "box_file_id": "2212884754818",
+      "name": "Front Lower A-Arm Welding Jig Assembly.pdf",
+      "parts": [
+        "SU-70104",
+        "SU-70107",
+        "SU-70108"
+      ],
+      "owner": "front_lower_arm"
+    },
+    {
+      "box_file_id": "2212897983602",
+      "name": "Rear Upper A-Arm Welding Jig Assembly.pdf",
+      "parts": [
+        "SU-70203",
+        "SU-70205",
+        "SU-70206"
+      ],
+      "owner": "rear_upper_arm",
+      "conflict": "BOM rear tube identifiers agree with rear corner assembly; contact note instead references front SU-70105/6."
+    },
+    {
+      "box_file_id": "2212895802675",
+      "name": "Rear Lower A-Arm Welding Jig Assembly.pdf",
+      "parts": [
+        "SU-70204",
+        "SU-70207",
+        "SU-70208"
+      ],
+      "owner": "rear_lower_arm"
+    },
+    {
+      "box_file_id": "2212895915302",
+      "name": "Front Pull Rod and Connector Welding Jigs Assembly.pdf",
+      "parts": [
+        "SU-70103",
+        "SU-70105",
+        "SU-70106",
+        "SU-70110",
+        "SU-70111"
+      ],
+      "owner": "front_upper_arm"
+    },
+    {
+      "box_file_id": "2212894105772",
+      "name": "Rear Push Rod and Connector Welding Jigs.pdf",
+      "parts": [
+        "SU-70204",
+        "SU-70207",
+        "SU-70208",
+        "SU-70210",
+        "SU-70211"
+      ],
+      "owner": "rear_lower_arm"
+    }
+  ],
+  "corroborating_assemblies": [
+    "2120119871272",
+    "2142858842201"
+  ],
+  "tooling_rule": "Fixture assembly weights and tooling hardware are excluded from car mass.",
+  "unresolved_detail_sources": [
+    {
+      "box_file_id": "2135632223636",
+      "name": "SU-70112-AA STEEL ENDCAP 0.63 OD RH.pdf",
+      "finding": "Thread and dimensions recovered; attachment to arm tubes not established by text."
+    },
+    {
+      "box_file_id": "2027088607005",
+      "name": "SU-70110-AA PULLROD TAB.pdf",
+      "finding": "Part identity/material only; ownership resolved separately by welding-jig assembly."
+    },
+    {
+      "box_file_id": "2027093106513",
+      "name": "SU-70111-AA PULLROD CONNECTOR.pdf",
+      "finding": "Part identity/material only; ownership resolved separately by welding-jig assembly."
+    }
+  ],
+  "source_scope_warning": "Only exact SU-70xxx baseline part identities used; later SU-30xxx redesign sources not substituted."
+}

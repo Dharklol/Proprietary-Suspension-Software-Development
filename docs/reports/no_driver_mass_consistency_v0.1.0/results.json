@@ -1,0 +1,329 @@
+{
+  "scope": "no-driver/no-fuel CAD-consistent bookkeeping; exploratory axle-lump dynamics only",
+  "axis_confirmation": "Owner confirmed COM export axes match software on 2026-11-01",
+  "force_parameters": "Explicit illustrative values; no new KW calibration",
+  "cases": [
+    {
+      "budget": {
+        "mixed_fraction_retained": 0.0,
+        "body": {
+          "mass_kg": 164.39593625147,
+          "cg_m": [
+            -0.850206309452222,
+            0.008433619061820245,
+            0.3094804760773229
+          ],
+          "pitch_inertia_kg_m2": 67.77097239043059,
+          "independent_origin_shift_kg_m2": 67.77097239043059
+        },
+        "front_axle": {
+          "mass_kg": 18.66351165602,
+          "cg_m": [
+            0.005622631312885823,
+            6.753414669732468e-07,
+            0.22587319092013805
+          ],
+          "pitch_inertia_kg_m2": 0.46688627084017725,
+          "independent_origin_shift_kg_m2": 0.4668862708401772
+        },
+        "rear_axle": {
+          "mass_kg": 20.67111148564,
+          "cg_m": [
+            -1.5607090005354165,
+            -0.0005095260510839969,
+            0.2277999228517511
+          ],
+          "pitch_inertia_kg_m2": 0.47746929918115727,
+          "independent_origin_shift_kg_m2": 0.4774692991811449
+        },
+        "total": {
+          "mass_kg": 203.73055939313,
+          "cg_m": [
+            -0.8438945755762081,
+            0.006753688990946374,
+            0.29353376011742255
+          ],
+          "pitch_inertia_kg_m2": 93.0288062661464,
+          "independent_origin_shift_kg_m2": 93.0288062661464
+        },
+        "mass_residual_kg": 0.0,
+        "first_moment_residual_kg_m": [
+          -2.842170943040401e-14,
+          0.0,
+          0.0
+        ],
+        "axle_station_projection_x_moment_residual_kg_m": -0.13989288350011084
+      },
+      "system": {
+        "sprung_mass": 164.39593625147,
+        "pitch_inertia": 67.77097239043059,
+        "front_distance": 0.850206309452222,
+        "rear_distance": 0.712193690547778,
+        "front_unsprung_mass": 18.66351165602,
+        "rear_unsprung_mass": 20.67111148564,
+        "front_rate": 50000.0,
+        "rear_rate": 65000.0,
+        "front_tire_rate": 360000.0,
+        "rear_tire_rate": 380000.0,
+        "front_damping": 800.0,
+        "rear_damping": 800.0,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "owner-axis-confirmed-CAD-budget-illustrative-forces",
+        "configuration_id": "no-driver-mass-consistent-f0.0",
+        "gravity": 9.80665
+      },
+      "baseline_normal_loads_N": [
+        917.908585860679,
+        1080.0057044119594
+      ],
+      "baseline_force_error_N": 0.0,
+      "baseline_pitch_moment_error_Nm": 0.0,
+      "coarse_dt_s": 0.0002,
+      "fine_dt_s": 0.0001,
+      "duration_s": 2.0,
+      "coarse_metrics": {
+        "peak_abs_pitch_rad": 0.0009073889059716615,
+        "peak_abs_pitch_acceleration_rad_s2": 0.5243193452322472,
+        "peak_abs_body_acceleration_m_s2": 0.4872968888945469,
+        "peak_normal_load_N": 1122.4566448893802,
+        "max_energy_residual_J": 1.4581433283034073e-11
+      },
+      "fine_metrics": {
+        "peak_abs_pitch_rad": 0.0009073889059734638,
+        "peak_abs_pitch_acceleration_rad_s2": 0.5243195671738649,
+        "peak_abs_body_acceleration_m_s2": 0.4872972228305047,
+        "peak_normal_load_N": 1122.4566447621125,
+        "max_energy_residual_J": 9.28132570798823e-13
+      },
+      "max_matching_state_difference": 5.604463768071888e-11,
+      "checks": {
+        "mass_budget": true,
+        "first_moments": true,
+        "static_force": true,
+        "static_moment": true,
+        "state_refinement": true,
+        "energy": true,
+        "peak_refinement": true
+      },
+      "passed": true
+    },
+    {
+      "budget": {
+        "mixed_fraction_retained": 0.5,
+        "body": {
+          "mass_kg": 167.94484295435,
+          "cg_m": [
+            -0.8535545854002735,
+            0.008224052868683942,
+            0.30752877051243116
+          ],
+          "pitch_inertia_kg_m2": 69.93248489846633,
+          "independent_origin_shift_kg_m2": 69.93248489846633
+        },
+        "front_axle": {
+          "mass_kg": 17.40932875297,
+          "cg_m": [
+            0.005314086204111409,
+            6.766759594612557e-07,
+            0.2274863134702066
+          ],
+          "pitch_inertia_kg_m2": 0.45311784838835956,
+          "independent_origin_shift_kg_m2": 0.4531178483883598
+        },
+        "rear_axle": {
+          "mass_kg": 18.376387685810002,
+          "cg_m": [
+            -1.5601291351097177,
+            -0.0002865749216300929,
+            0.2282027423197492
+          ],
+          "pitch_inertia_kg_m2": 0.4584913051416799,
+          "independent_origin_shift_kg_m2": 0.4584913051416777
+        },
+        "total": {
+          "mass_kg": 203.73055939313,
+          "cg_m": [
+            -0.8438945755762081,
+            0.006753688990946374,
+            0.29353376011742255
+          ],
+          "pitch_inertia_kg_m2": 93.0288062661464,
+          "independent_origin_shift_kg_m2": 93.0288062661464
+        },
+        "mass_residual_kg": 2.842170943040401e-14,
+        "first_moment_residual_kg_m": [
+          -2.842170943040401e-14,
+          -2.220446049250313e-16,
+          -7.105427357601002e-15
+        ],
+        "axle_station_projection_x_moment_residual_kg_m": -0.13424496735491948
+      },
+      "system": {
+        "sprung_mass": 167.94484295435,
+        "pitch_inertia": 69.93248489846633,
+        "front_distance": 0.8535545854002735,
+        "rear_distance": 0.7088454145997265,
+        "front_unsprung_mass": 17.40932875297,
+        "rear_unsprung_mass": 18.376387685810002,
+        "front_rate": 50000.0,
+        "rear_rate": 65000.0,
+        "front_tire_rate": 360000.0,
+        "rear_tire_rate": 380000.0,
+        "front_damping": 800.0,
+        "rear_damping": 800.0,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "owner-axis-confirmed-CAD-budget-illustrative-forces",
+        "configuration_id": "no-driver-mass-consistent-f0.5",
+        "gravity": 9.80665
+      },
+      "baseline_normal_loads_N": [
+        917.9440358970751,
+        1079.9702543755634
+      ],
+      "baseline_force_error_N": 0.0,
+      "baseline_pitch_moment_error_Nm": 0.0,
+      "coarse_dt_s": 0.0002,
+      "fine_dt_s": 0.0001,
+      "duration_s": 2.0,
+      "coarse_metrics": {
+        "peak_abs_pitch_rad": 0.000906408522570345,
+        "peak_abs_pitch_acceleration_rad_s2": 0.5174299439058675,
+        "peak_abs_body_acceleration_m_s2": 0.4733959746428465,
+        "peak_normal_load_N": 1120.4861656235287,
+        "max_energy_residual_J": 1.4170262185864146e-11
+      },
+      "fine_metrics": {
+        "peak_abs_pitch_rad": 0.000906408522566854,
+        "peak_abs_pitch_acceleration_rad_s2": 0.5174299436769297,
+        "peak_abs_body_acceleration_m_s2": 0.47339597459233496,
+        "peak_normal_load_N": 1120.4862102423558,
+        "max_energy_residual_J": 9.025280522934054e-13
+      },
+      "max_matching_state_difference": 6.38645924339043e-11,
+      "checks": {
+        "mass_budget": true,
+        "first_moments": true,
+        "static_force": true,
+        "static_moment": true,
+        "state_refinement": true,
+        "energy": true,
+        "peak_refinement": true
+      },
+      "passed": true
+    },
+    {
+      "budget": {
+        "mixed_fraction_retained": 1.0,
+        "body": {
+          "mass_kg": 171.49374965723,
+          "cg_m": [
+            -0.8567642823158077,
+            0.008023160237925335,
+            0.3056578424799584
+          ],
+          "pitch_inertia_kg_m2": 72.08916111510472,
+          "independent_origin_shift_kg_m2": 72.0891611151047
+        },
+        "front_axle": {
+          "mass_kg": 16.15514584992,
+          "cg_m": [
+            0.0049576341307277635,
+            6.78217654988873e-07,
+            0.22934990119609167
+          ],
+          "pitch_inertia_kg_m2": 0.4392409248393437,
+          "independent_origin_shift_kg_m2": 0.4392409248393434
+        },
+        "rear_axle": {
+          "mass_kg": 16.08166388598,
+          "cg_m": [
+            -1.5593837854402888,
+            2.865685113121763e-09,
+            0.228720519969538
+          ],
+          "pitch_inertia_kg_m2": 0.43948976090060426,
+          "independent_origin_shift_kg_m2": 0.43948976090060654
+        },
+        "total": {
+          "mass_kg": 203.73055939313,
+          "cg_m": [
+            -0.8438945755762081,
+            0.006753688990946374,
+            0.29353376011742255
+          ],
+          "pitch_inertia_kg_m2": 93.0288062661464,
+          "independent_origin_shift_kg_m2": 93.0288062661464
+        },
+        "mass_residual_kg": 2.842170943040401e-14,
+        "first_moment_residual_kg_m": [
+          0.0,
+          2.220446049250313e-16,
+          0.0
+        ],
+        "axle_station_projection_x_moment_residual_kg_m": -0.12859705120972367
+      },
+      "system": {
+        "sprung_mass": 171.49374965723,
+        "pitch_inertia": 72.08916111510472,
+        "front_distance": 0.8567642823158077,
+        "rear_distance": 0.7056357176841923,
+        "front_unsprung_mass": 16.15514584992,
+        "rear_unsprung_mass": 16.08166388598,
+        "front_rate": 50000.0,
+        "rear_rate": 65000.0,
+        "front_tire_rate": 360000.0,
+        "rear_tire_rate": 380000.0,
+        "front_damping": 800.0,
+        "rear_damping": 800.0,
+        "compression_limit": 0.01,
+        "extension_limit": 0.01,
+        "source_id": "owner-axis-confirmed-CAD-budget-illustrative-forces",
+        "configuration_id": "no-driver-mass-consistent-f1.0",
+        "gravity": 9.80665
+      },
+      "baseline_normal_loads_N": [
+        917.9794859334711,
+        1079.9348043391674
+      ],
+      "baseline_force_error_N": 4.547473508864641e-13,
+      "baseline_pitch_moment_error_Nm": 0.0,
+      "coarse_dt_s": 0.0002,
+      "fine_dt_s": 0.0001,
+      "duration_s": 2.0,
+      "coarse_metrics": {
+        "peak_abs_pitch_rad": 0.0009052394319882458,
+        "peak_abs_pitch_acceleration_rad_s2": 0.5102220784584096,
+        "peak_abs_body_acceleration_m_s2": 0.45974322139686535,
+        "peak_normal_load_N": 1120.9924744823861,
+        "max_energy_residual_J": 1.3873915905016077e-11
+      },
+      "fine_metrics": {
+        "peak_abs_pitch_rad": 0.0009052394366831387,
+        "peak_abs_pitch_acceleration_rad_s2": 0.5102220782790787,
+        "peak_abs_body_acceleration_m_s2": 0.45974322129734685,
+        "peak_normal_load_N": 1120.9924745185247,
+        "max_energy_residual_J": 8.828354713941167e-13
+      },
+      "max_matching_state_difference": 7.437912612207054e-11,
+      "checks": {
+        "mass_budget": true,
+        "first_moments": true,
+        "static_force": true,
+        "static_moment": true,
+        "state_refinement": true,
+        "energy": true,
+        "peak_refinement": true
+      },
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "source_sha256": {
+    "data_catalog/wufr26_com_pitch_snapshot_v0.json": "d2ac8dd315e16e7ad920821fabd55aebb6ebccbb6bbff45e2a2442b2c1176317",
+    "scripts/run_no_driver_mass_consistency.py": "654d997a7145107db88456e1d4e810b9622599703c8cd35bb156ae9da5a58f72",
+    "scripts/run_no_driver_pitch_study.py": "5cdbcaf9c4c9a22c1bbe9bbb54a12d6fae8c9a61a6f6e4a167febf4501782f06",
+    "src/pssd_vehicle/half_car.py": "076a128d4071fd5e3c4954d38de87a50572db782e071d2d8c787ee8f4b88e5c0"
+  }
+}
