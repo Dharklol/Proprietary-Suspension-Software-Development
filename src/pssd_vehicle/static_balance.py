@@ -19,4 +19,3 @@ def reaction_family(mass,cg,front_x,rear_x,front_half_track,rear_half_track,g=9.
         return (lf,front-lf,.5*(rear+difference),.5*(rear-difference))
     return dict(weight_N=W,front_axle_N=front,rear_axle_N=rear,front_left_parameter_interval_N=(lo,hi),
                 endpoint_loads_N=(loads(lo),loads(hi)),corner_loads_unique=hi-lo<=1e-12)
-
