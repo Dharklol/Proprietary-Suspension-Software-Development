@@ -474,3 +474,11 @@ See `docs/reports/joint_endpoint_audit_v0.1.0/README.md`.
 Next clarify the front attachment placement, then finish endpoint/clamping gravity
 ownership and the matching dry equilibrium. This source decision now precedes
 native transient integration; no further isolated force fixture removes it.
+
+Owner clarification: geometry has not changed since that year's redesign; an
+intervening pickup revision is ruled out. Direct inspection of the frozen OptimumK
+workbook confirms the snapshot hardpoint transcription. The 18.3 mm comparison
+uses inferred COM references, not a direct CAD joint-center export, so it does not
+establish a physical pickup displacement. Next verify the actual ball/bolt-axis
+center, part/reference identity and assembly transform. Governing geometry and CGs
+remain unchanged; conditional calculation success does not close that evidence gap.

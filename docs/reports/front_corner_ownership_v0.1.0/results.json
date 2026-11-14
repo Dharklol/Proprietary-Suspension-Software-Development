@@ -2298,7 +2298,7 @@
     "scripts/run_front_corner_ownership.py": "dd222ecfd5b4f12bb5b059045de00fe18ef1dfce49449079160d2b41d8f43c6f",
     "data_catalog/wufr26_welded_arm_ownership_evidence_v0.json": "1c3d7258cea939a80dbec167803004461779dc30a44a0cce52fa3c7a4841a065",
     "data_catalog/wufr26_endcap_attachment_confirmation_v0.json": "8b5317aad0000a52551a52d41bfb1ab455330ae7107a6aea78e5660ab817f75d",
-    "scripts/run_rod_gravity_map.py": "16aa14858379866f2b6c7c1a3b8e9e566167fc2e6c09b20d6636cb5414c159e2",
+    "scripts/run_rod_gravity_map.py": "7fef946f3f496291b796655209f4a60bc9b0c0349139f8fe85286daaf29e9b1f",
     "src/pssd_suspension/rod_pose.py": "fd9ea4d872de41ec92b0ee885ee278027cdb7be36b26cbf40bdc517da2250738",
     "data_catalog/wufr26_com_pitch_snapshot_v0.json": "d2ac8dd315e16e7ad920821fabd55aebb6ebccbb6bbff45e2a2442b2c1176317",
     "data_catalog/wufr26_front_arm_tubes_inertia_v0.json": "3716bf64caf487669d756c04ca42d8ffe3ee8d64202ad7f22ab40c3e24d80fae"

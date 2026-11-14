@@ -47,16 +47,23 @@ def audit():
             repeated_XML4_CG_offset_m=reference_offset,
             repeated_part_implied_joint_m=rod_end_implied,
             implied_joint_to_projected_fastener_m=dist(rod_end_implied,projection),
-            status='source_conflict_not_repaired',inference='Fastener projection and repeated-part CG offset are cross-checks, not measured ball centers.'))
+            status='reference_correspondence_unverified',inference='Fastener projection and repeated-part CG offset are cross-checks, not measured ball centers. A physical pickup displacement is not established.'))
     bearings=[r for r in results if r['kind']=='spherical_bearing']
-    checks=dict(exact_36_unique_rows=len(results)==36 and len({(r['axle'],r['row']) for r in results})==36,
+    clarification=json.loads((ROOT/'data_catalog/wufr26_joint_geometry_clarification_v0.json').read_text())
+    raw=clarification['verified_optimumk_source']
+    snapshot=fixture.geometry.corner('front','left').actuation.outboard_attachment.position_m
+    checks=dict(verified_source_transcription=dist(snapshot,(raw['left_raw_mm'][0]/1000,-raw['left_raw_mm'][1]/1000,raw['left_raw_mm'][2]/1000))<1e-12,
+        exact_36_unique_rows=len(results)==36 and len({(r['axle'],r['row']) for r in results})==36,
         counts=sum(r['kind']=='rod_end' for r in results)==28 and len(bearings)==8,
         distinct_nearest_candidates=len({(r['axle'],r['side'],r['candidates'][0]['endpoint']) for r in results})==36,
         bearing_center_eligibility=all(r['candidate_screen_passed'] and r['candidates'][0]['endpoint'].endswith('_upright') for r in bearings),
         front_conflicts_preserved={(r['axle'],r['row']) for r in results if not r['candidate_screen_passed']}=={('front',116),('front',117)},
         conflict_crosscheck=all(.018<c['projected_fastener_to_native_pickup_m']<.0186 and c['implied_joint_to_projected_fastener_m']<5e-5 for c in conflicts),
         no_ownership_promotion=all(not r['ownership_confirmed'] for r in results))
-    return dict(scope='Nominal endpoint screening and source conflict diagnosis; no joint/clamp gravity or full equilibrium promotion',
+    return dict(scope='Nominal endpoint screening and reference correspondence diagnosis; no joint/clamp gravity or full equilibrium promotion',
+        owner_geometry_history=clarification['history_status'],
+        physical_pickup_displacement_confirmed=False,
+        reference_limit=clarification['reference_limit'],
         results=results,front_source_conflicts=conflicts,
         centered_bearing_point_potential_difference_bound_J=sum(r['mass_kg']*9.81*r['candidates'][0]['distance_m'] for r in bearings),
         bearing_policy='All eight whole-part CGs are within 50 micrometres of a joint center. This supports an explicitly approximate static point-mass treatment only; it does not verify inner-ball mass split or tensor rotation.',
@@ -67,7 +74,8 @@ def main():
     report=audit()
     paths=('scripts/run_joint_endpoint_audit.py','scripts/run_rod_gravity_map.py','scripts/run_welded_arm_gravity.py',
         'data_catalog/wufr26_front_corner_inventory_v0.json','data_catalog/wufr26_rear_corner_inventory_v0.json',
-        'data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml','data_catalog/wufr26_whole_vehicle_frame_v0.toml')
+        'data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml','data_catalog/wufr26_whole_vehicle_frame_v0.toml',
+        'data_catalog/wufr26_joint_geometry_clarification_v0.json')
     report['source_sha256']={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in paths}
     out=ROOT/'docs/reports/joint_endpoint_audit_v0.1.0';out.mkdir(parents=True,exist_ok=True)
     (out/'results.json').write_text(json.dumps(report,indent=2)+'\n')

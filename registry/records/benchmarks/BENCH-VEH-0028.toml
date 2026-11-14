@@ -1,9 +1,9 @@
 [record]
 id = "BENCH-VEH-0028"
 type = "benchmark"
-title = "Joint endpoint candidates and front pullrod source conflict"
+title = "Joint endpoint candidates and front pullrod reference correspondence"
 status = "active"
-description = "Nominal screening of 36 joint rows with preserved front XML4 discrepancy, independent fastener projection and centered-bearing static eligibility only."
+description = "Nominal screening of 36 joint rows with preserved front XML4 inferred-reference discrepancy, independent fastener projection and centered-bearing static eligibility only."
 verification_level = "A"
 target_ids = ["MOD-VEH-0013", "MOD-VEH-0014"]
 function_specification = "docs/reports/joint_endpoint_audit_v0.1.0/README.md"

@@ -1,5 +1,8 @@
 {
-  "scope": "Nominal endpoint screening and source conflict diagnosis; no joint/clamp gravity or full equilibrium promotion",
+  "scope": "Nominal endpoint screening and reference correspondence diagnosis; no joint/clamp gravity or full equilibrium promotion",
+  "owner_geometry_history": "Owner rules out an intervening pickup revision as the explanation; do not infer an older COM geometry.",
+  "physical_pickup_displacement_confirmed": false,
+  "reference_limit": "COM rows are whole-component CGs. Fastener projection and a repeated-part CG offset are inferred references, not direct joint-center exports.",
   "results": [
     {
       "axle": "front",
@@ -1285,8 +1288,8 @@
         0.2685186348084669
       ],
       "implied_joint_to_projected_fastener_m": 4.605100151323117e-06,
-      "status": "source_conflict_not_repaired",
-      "inference": "Fastener projection and repeated-part CG offset are cross-checks, not measured ball centers."
+      "status": "reference_correspondence_unverified",
+      "inference": "Fastener projection and repeated-part CG offset are cross-checks, not measured ball centers. A physical pickup displacement is not established."
     },
     {
       "side": "right",
@@ -1310,13 +1313,14 @@
         0.2685186348084669
       ],
       "implied_joint_to_projected_fastener_m": 4.605100151323117e-06,
-      "status": "source_conflict_not_repaired",
-      "inference": "Fastener projection and repeated-part CG offset are cross-checks, not measured ball centers."
+      "status": "reference_correspondence_unverified",
+      "inference": "Fastener projection and repeated-part CG offset are cross-checks, not measured ball centers. A physical pickup displacement is not established."
     }
   ],
   "centered_bearing_point_potential_difference_bound_J": 9.414757404213349e-06,
   "bearing_policy": "All eight whole-part CGs are within 50 micrometres of a joint center. This supports an explicitly approximate static point-mass treatment only; it does not verify inner-ball mass split or tensor rotation.",
   "checks": {
+    "verified_source_transcription": true,
     "exact_36_unique_rows": true,
     "counts": true,
     "distinct_nearest_candidates": true,
@@ -1328,12 +1332,13 @@
   "passed": true,
   "joint_ownership_gate_passed": false,
   "source_sha256": {
-    "scripts/run_joint_endpoint_audit.py": "e1a06e9450b2af8a62d01b9cfaf99a8f63b73d237ab9ecae1d0d88910405458d",
-    "scripts/run_rod_gravity_map.py": "16aa14858379866f2b6c7c1a3b8e9e566167fc2e6c09b20d6636cb5414c159e2",
+    "scripts/run_joint_endpoint_audit.py": "20160be3bbb867bb72b1fe2b01ed03b8c5934dc62986afc02c90efa3521ed55d",
+    "scripts/run_rod_gravity_map.py": "7fef946f3f496291b796655209f4a60bc9b0c0349139f8fe85286daaf29e9b1f",
     "scripts/run_welded_arm_gravity.py": "481cf7757c34dadf13d62f07d97d9b4abc073a96b4a8dbb5086d00e247f199cd",
     "data_catalog/wufr26_front_corner_inventory_v0.json": "875217608f4fea7ede8a36e0f94245a0daaebf803f0047e1b68d81f9b3c31463",
     "data_catalog/wufr26_rear_corner_inventory_v0.json": "d084b818135b2a73abd531a0e9beab8be02ab02a7f8034ec93d7616d7802a4be",
     "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
-    "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4"
+    "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4",
+    "data_catalog/wufr26_joint_geometry_clarification_v0.json": "dad2992257a9f7368f9985e045e38408a932a0e1fd4fea50483131ad488139bc"
   }
 }
