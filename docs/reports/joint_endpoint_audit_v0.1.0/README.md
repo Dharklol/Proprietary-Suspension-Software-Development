@@ -42,6 +42,29 @@ preserving endpoint distances under an assumed transform do not establish that
 the COM assembly uses those endpoint locations. BENCH-VEH-0027 remains conditional
 kinematic/gravity verification; front source-compatible composition is blocked.
 
+## Direct drawing inspection
+
+Visual inspection of the front corner assembly (Box 2120119871272, sheets 1–2),
+pullrod connector detail (2027093106513) and welding jig assembly (2212895915302)
+confirms the attachment topology: the front pullrod connects through two
+SU-70110 tabs on the SU-70111 connector of the upper wishbone. The jig BOM
+identifies upper fore/aft tubes SU-70105/70106 and housing SU-70103. The corner
+BOM identifies the LH rod end as QA1 XML4. These observations support the existing
+welded-arm grouping; they do not establish a numerical joint center.
+
+The connector drawing dimensions the plate and tab slots, but none of these
+inspected views supplies the ball center in the vehicle coordinate frame.
+Drawing pixels are not used as coordinate metrology. Source hashes, links and
+limits are recorded in `data_catalog/wufr26_joint_visual_evidence_v0.json`.
+
+The precise remaining request is a CAD coordinate export (or coordinate readout)
+for the front pullrod arm-side ball center/common tab-hole axis center, from the
+same assembly configuration as the COM export. Include the coordinate frame and
+identify whether this is the point intended by `NSMA_PPAttPnt_L/R`. Either side
+is sufficient to investigate the reference discrepancy; bilateral coordinates
+are preferable. No new tire, damper or physical testing information is needed
+for this checkpoint. Clamp-stack and bearing mass ownership remain separate.
+
 ## Other candidates and static bearing treatment
 
 An explicit diagnostic band of 6–9 mm screens the repeated-source rod-end CG
