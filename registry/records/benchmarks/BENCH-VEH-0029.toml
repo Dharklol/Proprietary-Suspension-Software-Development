@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-VEH-0029"
+type = "benchmark"
+title = "Rear corner ownership and bilateral mass coverage"
+status = "active"
+description = "Accounts for all 154 rear corner COM rows and combines both corner ledgers without promoting unresolved joint/hardware owners or new inertia authority."
+verification_level = "A"
+target_ids = ["MOD-VEH-0013", "MOD-VEH-0014"]
+function_specification = "docs/reports/rear_corner_ownership_v0.1.0/README.md"
+acceptance_criteria = ["154 unique rear rows preserve independent source mass and CG", "26 existing arm members and six pushrod members", "Six toe-link candidates remain unpromoted", "20 joint rows and unresolved hardware have no rigid owner", "278 bilateral rows close at 10.709 lb", "No native equilibrium or new nominal inertia authority"]

@@ -18,6 +18,7 @@ jobs:
       - run: python scripts/run_reduced_link_inertia.py
       - run: python scripts/run_front_arm_tube_inertia.py
       - run: python scripts/run_front_corner_ownership.py
+      - run: python scripts/run_rear_corner_ownership.py
       - run: python scripts/run_front_tube_travel.py
       - run: python scripts/run_coupled_tube_inertia.py
       - run: python scripts/run_generalized_force_verification.py
@@ -44,6 +45,7 @@ jobs:
             docs/reports/reduced_link_inertia_v0.1.0/
             docs/reports/front_arm_tube_inertia_v0.1.0/
             docs/reports/front_corner_ownership_v0.1.0/
+            docs/reports/rear_corner_ownership_v0.1.0/
             docs/reports/front_tube_travel_v0.1.0/
             docs/reports/coupled_tube_inertia_v0.1.0/
             docs/reports/generalized_force_verification_v0.1.0/

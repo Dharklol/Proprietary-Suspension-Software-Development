@@ -482,3 +482,21 @@ uses inferred COM references, not a direct CAD joint-center export, so it does n
 establish a physical pickup displacement. Next verify the actual ball/bolt-axis
 center, part/reference identity and assembly transform. Governing geometry and CGs
 remain unchanged; conditional calculation success does not close that evidence gap.
+
+
+## Checkpoint — bilateral ownership coverage, 2026-11-14
+
+Owner confirms geometry pickup points are the CAD ball centers used for assembly;
+a separate ball-center export is no longer requested. COM instance/configuration
+consistency remains open; thread labels disagree in five positional rod/cap pairs.
+
+BENCH-VEH-0029 completes a 154-row rear ledger and combines it with the 124-row
+front ledger. Existing supported owners remain 64 parts / 7.122 lb; the other
+214 rows comprise 36 joints, ten candidates and 168 clamp hardware instances.
+No additional rigid ownership is established by this bookkeeping checkpoint.
+See `docs/reports/rear_corner_ownership_v0.1.0/README.md`.
+
+Continue G3/G5a: source-supported toe-link and clamping ownership can proceed
+independently of the front pullrod discrepancy. Then close compatible dry static
+equilibrium, followed by native reduced transients; UI stays downstream of that
+end-to-end analytical workflow. Full native equilibrium remains open.
