@@ -1,0 +1,10 @@
+[record]
+id = "BENCH-VEH-0028"
+type = "benchmark"
+title = "Joint endpoint candidates and front pullrod source conflict"
+status = "active"
+description = "Nominal screening of 36 joint rows with preserved front XML4 discrepancy, independent fastener projection and centered-bearing static eligibility only."
+verification_level = "A"
+target_ids = ["MOD-VEH-0013", "MOD-VEH-0014"]
+function_specification = "docs/reports/joint_endpoint_audit_v0.1.0/README.md"
+acceptance_criteria = ["36 unique source rows and candidate endpoints", "28 rod ends and eight bearings", "Two front XML4 discrepancies remain blocked", "Fastener projection and repeated-part inference independently agree within 50 micrometres", "No source geometry, mass, CG, tensor or clamping owner is changed", "Joint ownership gate remains separate from audit success"]

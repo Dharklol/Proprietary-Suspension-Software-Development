@@ -1,5 +1,8 @@
 {
   "scope": "Four rods plus eight fixed endcaps; conditional no-axial-spin CG transport and gravity, not full rod inertia",
+  "source_compatibility_gate_passed": false,
+  "source_compatibility_record": "docs/reports/joint_endpoint_audit_v0.1.0/README.md",
+  "source_compatibility_warning": "Front COM arm-side joint diagnostics differ from native pickup by about 18.3 mm along the rod; math verification does not resolve endpoint source compatibility.",
   "members": [
     {
       "sheet_row": 98,
@@ -869,7 +872,7 @@
   ],
   "remaining_is_rigid_body": false,
   "source_sha256": {
-    "scripts/run_rod_gravity_map.py": "f09b88b6449afb1364245e514a93215850662a1df6ab623112c748accd20e10d",
+    "scripts/run_rod_gravity_map.py": "16aa14858379866f2b6c7c1a3b8e9e566167fc2e6c09b20d6636cb5414c159e2",
     "scripts/run_welded_arm_gravity.py": "481cf7757c34dadf13d62f07d97d9b4abc073a96b4a8dbb5086d00e247f199cd",
     "scripts/run_front_tube_travel.py": "630097272d837f273fc7813631dd0b96e174f6d311b7d80193ad5dd93ed7b313",
     "scripts/run_front_arm_tube_inertia.py": "71ead953ef7a65de174329faf9be7cd391dd262c25eeedd44999e01fe0fa1189",

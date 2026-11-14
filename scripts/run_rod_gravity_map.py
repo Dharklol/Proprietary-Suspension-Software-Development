@@ -111,6 +111,9 @@ def main():
         combined_mass_closure=abs(remaining+sum(r['mass_kg'] for r in all_members)-total)<1e-12,
         combined_first_moments=max(abs(remaining*remainder_CG[i]+moments[i]-total*fixture.arms.cg[i]) for i in range(3))<1e-12)
     report=dict(scope='Four rods plus eight fixed endcaps; conditional no-axial-spin CG transport and gravity, not full rod inertia',
+        source_compatibility_gate_passed=False,
+        source_compatibility_record='docs/reports/joint_endpoint_audit_v0.1.0/README.md',
+        source_compatibility_warning='Front COM arm-side joint diagnostics differ from native pickup by about 18.3 mm along the rod; math verification does not resolve endpoint source compatibility.',
         members=fixture.members,mapped_rod_mass_kg=mass,cases=cases,checks=checks,passed=all(checks.values()),
         nominal_CG_max_error_m=nominal_error,rigid_distance_max_error_m=max(rigid_errors),
         unknown_axial_spin_potential_difference_bound_J=gravity_bound,

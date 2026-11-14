@@ -1,5 +1,11 @@
 # Rod and fixed-endcap gravity checkpoint
 
+Source compatibility update: BENCH-VEH-0028 finds an approximately 18.3 mm front
+arm-side pickup discrepancy between the native geometry and COM joint diagnostics.
+The source compatibility gate is false. The calculations below remain conditional
+pose/gravity verification and must not be used as a source-confirmed front rod
+composition. See `docs/reports/joint_endpoint_audit_v0.1.0/README.md`.
+
 Specification: `docs/models/vehicle/rod_gravity_map_spec_v0.1.0.md`.
 Run `PYTHONPATH=src python scripts/run_rod_gravity_map.py`.
 

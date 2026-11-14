@@ -1,0 +1,1339 @@
+{
+  "scope": "Nominal endpoint screening and source conflict diagnosis; no joint/clamp gravity or full equilibrium promotion",
+  "results": [
+    {
+      "axle": "front",
+      "side": "right",
+      "row": 80,
+      "part_name": "HAB-4TG-TheTimkenCompany-1",
+      "mass_kg": 0.01678291769,
+      "CG_source_m": [
+        -0.006477,
+        -0.5646674,
+        0.305054
+      ],
+      "kind": "spherical_bearing",
+      "candidates": [
+        {
+          "endpoint": "upper_upright",
+          "distance_m": 1.1539497389422781e-05,
+          "source_position_m": [
+            -0.006487000000000001,
+            -0.564662,
+            0.305056
+          ]
+        },
+        {
+          "endpoint": "rod_arm",
+          "distance_m": 0.05322984969695108,
+          "source_position_m": [
+            0.0,
+            -0.519405,
+            0.2778
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "left",
+      "row": 81,
+      "part_name": "HAB-4TG-TheTimkenCompany-2",
+      "mass_kg": 0.01678291769,
+      "CG_source_m": [
+        -0.006477,
+        0.5646674,
+        0.305054
+      ],
+      "kind": "spherical_bearing",
+      "candidates": [
+        {
+          "endpoint": "upper_upright",
+          "distance_m": 1.1539497389422781e-05,
+          "source_position_m": [
+            -0.006487000000000001,
+            0.564662,
+            0.305056
+          ]
+        },
+        {
+          "endpoint": "rod_arm",
+          "distance_m": 0.05322984969695108,
+          "source_position_m": [
+            0.0,
+            0.519405,
+            0.2778
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "right",
+      "row": 82,
+      "part_name": "HAB-4TG-TheTimkenCompany-3",
+      "mass_kg": 0.01678291769,
+      "CG_source_m": [
+        0.0,
+        -0.5870956,
+        0.1571244
+      ],
+      "kind": "spherical_bearing",
+      "candidates": [
+        {
+          "endpoint": "lower_upright",
+          "distance_m": 7.410802925450943e-06,
+          "source_position_m": [
+            0.0,
+            -0.5870960000000001,
+            0.157117
+          ]
+        },
+        {
+          "endpoint": "toe_outboard",
+          "distance_m": 0.07864202086874424,
+          "source_position_m": [
+            -0.05876700000000001,
+            -0.549504,
+            0.193427
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "left",
+      "row": 83,
+      "part_name": "HAB-4TG-TheTimkenCompany-4",
+      "mass_kg": 0.01678291769,
+      "CG_source_m": [
+        0.0,
+        0.5870956,
+        0.1571244
+      ],
+      "kind": "spherical_bearing",
+      "candidates": [
+        {
+          "endpoint": "lower_upright",
+          "distance_m": 7.410802925450943e-06,
+          "source_position_m": [
+            0.0,
+            0.5870960000000001,
+            0.157117
+          ]
+        },
+        {
+          "endpoint": "toe_outboard",
+          "distance_m": 0.07864202086874424,
+          "source_position_m": [
+            -0.05876700000000001,
+            0.549504,
+            0.193427
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "left",
+      "row": 116,
+      "part_name": "QA1 XML4 0.25-28 LH Rod End-1",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        0.0,
+        0.49707799999999996,
+        0.2646426
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "rod_arm",
+          "distance_m": 0.025915480002500463,
+          "source_position_m": [
+            0.0,
+            0.519405,
+            0.2778
+          ]
+        },
+        {
+          "endpoint": "upper_upright",
+          "distance_m": 0.07901215808063974,
+          "source_position_m": [
+            -0.006487000000000001,
+            0.564662,
+            0.305056
+          ]
+        }
+      ],
+      "candidate_screen_passed": false,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "right",
+      "row": 117,
+      "part_name": "QA1 XML4 0.25-28 LH Rod End-2",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        0.0,
+        -0.49707799999999996,
+        0.2646426
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "rod_arm",
+          "distance_m": 0.025915480002500463,
+          "source_position_m": [
+            0.0,
+            -0.519405,
+            0.2778
+          ]
+        },
+        {
+          "endpoint": "upper_upright",
+          "distance_m": 0.07901215808063974,
+          "source_position_m": [
+            -0.006487000000000001,
+            -0.564662,
+            0.305056
+          ]
+        }
+      ],
+      "candidate_screen_passed": false,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "left",
+      "row": 118,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-1",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        0.0,
+        0.254254,
+        0.1215898
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "rod_rocker",
+          "distance_m": 0.007640503794907773,
+          "source_position_m": [
+            0.0,
+            0.24767599999999998,
+            0.11770299999999999
+          ]
+        },
+        {
+          "endpoint": "toe_inboard",
+          "distance_m": 0.08357236775896684,
+          "source_position_m": [
+            -0.066598,
+            0.22097999999999998,
+            0.159562
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "right",
+      "row": 119,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-2",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        0.0,
+        -0.254254,
+        0.1215898
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "rod_rocker",
+          "distance_m": 0.007640503794907773,
+          "source_position_m": [
+            0.0,
+            -0.24767599999999998,
+            0.11770299999999999
+          ]
+        },
+        {
+          "endpoint": "toe_inboard",
+          "distance_m": 0.08357236775896684,
+          "source_position_m": [
+            -0.066598,
+            -0.22097999999999998,
+            0.159562
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "right",
+      "row": 120,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-3",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -0.10535919999999999,
+        -0.2770378,
+        0.24546559999999998
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "upper_aft_inboard",
+          "distance_m": 0.007626940254125501,
+          "source_position_m": [
+            -0.10778499999999999,
+            -0.269957,
+            0.244
+          ]
+        },
+        {
+          "endpoint": "toe_inboard",
+          "distance_m": 0.10965553364623234,
+          "source_position_m": [
+            -0.066598,
+            -0.22097999999999998,
+            0.159562
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "right",
+      "row": 121,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-4",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -0.0928116,
+        -0.2310384,
+        0.1393698
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "lower_aft_inboard",
+          "distance_m": 0.007627802498754144,
+          "source_position_m": [
+            -0.094743,
+            -0.223669,
+            0.138989
+          ]
+        },
+        {
+          "endpoint": "toe_inboard",
+          "distance_m": 0.03458394390985506,
+          "source_position_m": [
+            -0.066598,
+            -0.22097999999999998,
+            0.159562
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "right",
+      "row": 122,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-5",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        0.1643888,
+        -0.21602700000000002,
+        0.12164059999999999
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "lower_fore_inboard",
+          "distance_m": 0.007647224764579648,
+          "source_position_m": [
+            0.16748,
+            -0.209065,
+            0.12096599999999999
+          ]
+        },
+        {
+          "endpoint": "upper_fore_inboard",
+          "distance_m": 0.11351031828516736,
+          "source_position_m": [
+            0.210581,
+            -0.261671,
+            0.21474000000000001
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "right",
+      "row": 123,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-6",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        0.20624799999999996,
+        -0.2676906,
+        0.216535
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "upper_fore_inboard",
+          "distance_m": 0.007631022091437058,
+          "source_position_m": [
+            0.210581,
+            -0.261671,
+            0.21474000000000001
+          ]
+        },
+        {
+          "endpoint": "lower_fore_inboard",
+          "distance_m": 0.11863116184358982,
+          "source_position_m": [
+            0.16748,
+            -0.209065,
+            0.12096599999999999
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "left",
+      "row": 124,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-7",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        0.20624799999999996,
+        0.2676906,
+        0.216535
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "upper_fore_inboard",
+          "distance_m": 0.007631022091437058,
+          "source_position_m": [
+            0.210581,
+            0.261671,
+            0.21474000000000001
+          ]
+        },
+        {
+          "endpoint": "lower_fore_inboard",
+          "distance_m": 0.11863116184358982,
+          "source_position_m": [
+            0.16748,
+            0.209065,
+            0.12096599999999999
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "left",
+      "row": 125,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-8",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        0.1643888,
+        0.21602700000000002,
+        0.12164059999999999
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "lower_fore_inboard",
+          "distance_m": 0.007647224764579648,
+          "source_position_m": [
+            0.16748,
+            0.209065,
+            0.12096599999999999
+          ]
+        },
+        {
+          "endpoint": "upper_fore_inboard",
+          "distance_m": 0.11351031828516736,
+          "source_position_m": [
+            0.210581,
+            0.261671,
+            0.21474000000000001
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "left",
+      "row": 126,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-9",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -0.0928116,
+        0.2310384,
+        0.13934439999999998
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "lower_aft_inboard",
+          "distance_m": 0.007626576655354613,
+          "source_position_m": [
+            -0.094743,
+            0.223669,
+            0.138989
+          ]
+        },
+        {
+          "endpoint": "toe_inboard",
+          "distance_m": 0.03459878011259936,
+          "source_position_m": [
+            -0.066598,
+            0.22097999999999998,
+            0.159562
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "left",
+      "row": 127,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-10",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -0.10535919999999999,
+        0.2770378,
+        0.24546559999999998
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "upper_aft_inboard",
+          "distance_m": 0.007626940254125501,
+          "source_position_m": [
+            -0.10778499999999999,
+            0.269957,
+            0.244
+          ]
+        },
+        {
+          "endpoint": "toe_inboard",
+          "distance_m": 0.10965553364623234,
+          "source_position_m": [
+            -0.066598,
+            0.22097999999999998,
+            0.159562
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "row": 170,
+      "part_name": "REAR A-ARM ASSEMBLY-2/HAB-4TG-TheTimkenCompany-1",
+      "mass_kg": 0.01678291769,
+      "CG_source_m": [
+        -1.5624048,
+        -0.5230876,
+        0.3008122
+      ],
+      "kind": "spherical_bearing",
+      "candidates": [
+        {
+          "endpoint": "upper_upright",
+          "distance_m": 4.820788317192815e-06,
+          "source_position_m": [
+            -1.5624,
+            -0.523088,
+            0.300812
+          ]
+        },
+        {
+          "endpoint": "toe_outboard",
+          "distance_m": 0.0698452000014318,
+          "source_position_m": [
+            -1.63225,
+            -0.523088,
+            0.300812
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "row": 177,
+      "part_name": "REAR A-ARM ASSEMBLY-2/HAB-4TG-TheTimkenCompany-4",
+      "mass_kg": 0.01678291769,
+      "CG_source_m": [
+        -1.5624048,
+        -0.5651246,
+        0.1326388
+      ],
+      "kind": "spherical_bearing",
+      "candidates": [
+        {
+          "endpoint": "lower_upright",
+          "distance_m": 4.820788317195118e-06,
+          "source_position_m": [
+            -1.5624,
+            -0.565125,
+            0.132639
+          ]
+        },
+        {
+          "endpoint": "rod_arm",
+          "distance_m": 0.06129876793084833,
+          "source_position_m": [
+            -1.584625,
+            -0.511671,
+            0.152801
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "row": 182,
+      "part_name": "REAR A-ARM ASSEMBLY-2/HAB-4TG-TheTimkenCompany-5",
+      "mass_kg": 0.01678291769,
+      "CG_source_m": [
+        -1.5624048,
+        0.5230876,
+        0.3008122
+      ],
+      "kind": "spherical_bearing",
+      "candidates": [
+        {
+          "endpoint": "upper_upright",
+          "distance_m": 4.820788317192815e-06,
+          "source_position_m": [
+            -1.5624,
+            0.523088,
+            0.300812
+          ]
+        },
+        {
+          "endpoint": "toe_outboard",
+          "distance_m": 0.0698452000014318,
+          "source_position_m": [
+            -1.63225,
+            0.523088,
+            0.300812
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "row": 187,
+      "part_name": "REAR A-ARM ASSEMBLY-2/HAB-4TG-TheTimkenCompany-7",
+      "mass_kg": 0.01678291769,
+      "CG_source_m": [
+        -1.5624048,
+        0.5651246,
+        0.1326388
+      ],
+      "kind": "spherical_bearing",
+      "candidates": [
+        {
+          "endpoint": "lower_upright",
+          "distance_m": 4.820788317195118e-06,
+          "source_position_m": [
+            -1.5624,
+            0.565125,
+            0.132639
+          ]
+        },
+        {
+          "endpoint": "rod_arm",
+          "distance_m": 0.06129876793084833,
+          "source_position_m": [
+            -1.584625,
+            0.511671,
+            0.152801
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "row": 210,
+      "part_name": "QA1 XML4 0.25-28 LH Rod End-1",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.5846297999999999,
+        0.5060441999999999,
+        0.1579626
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "rod_arm",
+          "distance_m": 0.007635641154480784,
+          "source_position_m": [
+            -1.584625,
+            0.511671,
+            0.152801
+          ]
+        },
+        {
+          "endpoint": "lower_upright",
+          "distance_m": 0.06801462823275592,
+          "source_position_m": [
+            -1.5624,
+            0.565125,
+            0.132639
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "row": 211,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-16",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.5846297999999999,
+        0.27663139999999997,
+        0.3690366
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "rod_rocker",
+          "distance_m": 0.007622253181310625,
+          "source_position_m": [
+            -1.584625,
+            0.271018,
+            0.374193
+          ]
+        },
+        {
+          "endpoint": "upper_aft_inboard",
+          "distance_m": 0.1354182916114364,
+          "source_position_m": [
+            -1.681222,
+            0.27205900000000005,
+            0.274236
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "row": 212,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-17",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.5846297999999999,
+        -0.27663139999999997,
+        0.3690366
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "rod_rocker",
+          "distance_m": 0.007622253181310625,
+          "source_position_m": [
+            -1.584625,
+            -0.271018,
+            0.374193
+          ]
+        },
+        {
+          "endpoint": "upper_aft_inboard",
+          "distance_m": 0.1354182916114364,
+          "source_position_m": [
+            -1.681222,
+            -0.27205900000000005,
+            0.274236
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "row": 213,
+      "part_name": "QA1 XML4 0.25-28 LH Rod End-3",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.5846297999999999,
+        -0.5060441999999999,
+        0.1579626
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "rod_arm",
+          "distance_m": 0.007635641154480784,
+          "source_position_m": [
+            -1.584625,
+            -0.511671,
+            0.152801
+          ]
+        },
+        {
+          "endpoint": "lower_upright",
+          "distance_m": 0.06801462823275592,
+          "source_position_m": [
+            -1.5624,
+            -0.565125,
+            0.132639
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "row": 214,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-18",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.6779747999999999,
+        -0.2789174,
+        0.27495499999999995
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "upper_aft_inboard",
+          "distance_m": 0.007622264715948913,
+          "source_position_m": [
+            -1.681222,
+            -0.27205900000000005,
+            0.274236
+          ]
+        },
+        {
+          "endpoint": "toe_inboard",
+          "distance_m": 0.062031551128437994,
+          "source_position_m": [
+            -1.73902,
+            -0.26794799999999996,
+            0.275989
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "row": 215,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-19",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.3912849999999999,
+        -0.278511,
+        0.2747518
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "upper_fore_inboard",
+          "distance_m": 0.007632988827451413,
+          "source_position_m": [
+            -1.386913,
+            -0.27229000000000003,
+            0.274083
+          ]
+        },
+        {
+          "endpoint": "lower_fore_inboard",
+          "distance_m": 0.146670233055109,
+          "source_position_m": [
+            -1.385692,
+            -0.214846,
+            0.142738
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "row": 216,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-20",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.3891259999999999,
+        -0.2216658,
+        0.1425448
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "lower_fore_inboard",
+          "distance_m": 0.007638020311572849,
+          "source_position_m": [
+            -1.385692,
+            -0.214846,
+            0.142738
+          ]
+        },
+        {
+          "endpoint": "upper_fore_inboard",
+          "distance_m": 0.14096100543724852,
+          "source_position_m": [
+            -1.386913,
+            -0.27229000000000003,
+            0.274083
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "row": 217,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-21",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.6819625999999999,
+        -0.19560539999999998,
+        0.1313434
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "lower_aft_inboard",
+          "distance_m": 0.0076402610348076895,
+          "source_position_m": [
+            -1.684317,
+            -0.188337,
+            0.13131600000000002
+          ]
+        },
+        {
+          "endpoint": "upper_aft_inboard",
+          "distance_m": 0.1620617060754329,
+          "source_position_m": [
+            -1.681222,
+            -0.27205900000000005,
+            0.274236
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "row": 218,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-22",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.3912849999999999,
+        0.278511,
+        0.2747518
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "upper_fore_inboard",
+          "distance_m": 0.007632988827451413,
+          "source_position_m": [
+            -1.386913,
+            0.27229000000000003,
+            0.274083
+          ]
+        },
+        {
+          "endpoint": "lower_fore_inboard",
+          "distance_m": 0.146670233055109,
+          "source_position_m": [
+            -1.385692,
+            0.214846,
+            0.142738
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "row": 219,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-23",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.6779747999999999,
+        0.2789174,
+        0.27495499999999995
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "upper_aft_inboard",
+          "distance_m": 0.007622264715948913,
+          "source_position_m": [
+            -1.681222,
+            0.27205900000000005,
+            0.274236
+          ]
+        },
+        {
+          "endpoint": "toe_inboard",
+          "distance_m": 0.062031551128437994,
+          "source_position_m": [
+            -1.73902,
+            0.26794799999999996,
+            0.275989
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "row": 220,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-24",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.6819625999999999,
+        0.19560539999999998,
+        0.1313434
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "lower_aft_inboard",
+          "distance_m": 0.0076402610348076895,
+          "source_position_m": [
+            -1.684317,
+            0.188337,
+            0.13131600000000002
+          ]
+        },
+        {
+          "endpoint": "upper_aft_inboard",
+          "distance_m": 0.1620617060754329,
+          "source_position_m": [
+            -1.681222,
+            0.27205900000000005,
+            0.274236
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "row": 221,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-25",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.3891259999999999,
+        0.2216658,
+        0.1425448
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "lower_fore_inboard",
+          "distance_m": 0.007638020311572849,
+          "source_position_m": [
+            -1.385692,
+            0.214846,
+            0.142738
+          ]
+        },
+        {
+          "endpoint": "upper_fore_inboard",
+          "distance_m": 0.14096100543724852,
+          "source_position_m": [
+            -1.386913,
+            0.27229000000000003,
+            0.274083
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "row": 222,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-26",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.6351757999999998,
+        0.5160772,
+        0.3001264
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "toe_outboard",
+          "distance_m": 0.007627690976960132,
+          "source_position_m": [
+            -1.63225,
+            0.523088,
+            0.300812
+          ]
+        },
+        {
+          "endpoint": "upper_upright",
+          "distance_m": 0.07311592459676602,
+          "source_position_m": [
+            -1.5624,
+            0.523088,
+            0.300812
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "row": 223,
+      "part_name": "QA1 XMR4 0.25-28 RH Rod End-27",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.6351757999999998,
+        -0.5160772,
+        0.3001264
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "toe_outboard",
+          "distance_m": 0.007627690976960132,
+          "source_position_m": [
+            -1.63225,
+            -0.523088,
+            0.300812
+          ]
+        },
+        {
+          "endpoint": "upper_upright",
+          "distance_m": 0.07311592459676602,
+          "source_position_m": [
+            -1.5624,
+            -0.523088,
+            0.300812
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "row": 224,
+      "part_name": "QA1 XML4 0.25-28 LH Rod End-4",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.7360899999999997,
+        0.27495499999999995,
+        0.2766822
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "toe_inboard",
+          "distance_m": 0.007626498229200718,
+          "source_position_m": [
+            -1.73902,
+            0.26794799999999996,
+            0.275989
+          ]
+        },
+        {
+          "endpoint": "upper_aft_inboard",
+          "distance_m": 0.05499880120911697,
+          "source_position_m": [
+            -1.681222,
+            0.27205900000000005,
+            0.274236
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "row": 225,
+      "part_name": "QA1 XML4 0.25-28 LH Rod End-5",
+      "mass_kg": 0.022226026130000003,
+      "CG_source_m": [
+        -1.7360899999999997,
+        -0.27495499999999995,
+        0.2766822
+      ],
+      "kind": "rod_end",
+      "candidates": [
+        {
+          "endpoint": "toe_inboard",
+          "distance_m": 0.007626498229200718,
+          "source_position_m": [
+            -1.73902,
+            -0.26794799999999996,
+            0.275989
+          ]
+        },
+        {
+          "endpoint": "upper_aft_inboard",
+          "distance_m": 0.05499880120911697,
+          "source_position_m": [
+            -1.681222,
+            -0.27205900000000005,
+            0.274236
+          ]
+        }
+      ],
+      "candidate_screen_passed": true,
+      "ownership_confirmed": false
+    }
+  ],
+  "front_source_conflicts": [
+    {
+      "side": "left",
+      "rod_end_row": 116,
+      "fastener_row": 45,
+      "native_arm_pickup_m": [
+        0.0,
+        0.519405,
+        0.2778
+      ],
+      "fastener_CG_projected_on_rod_m": [
+        0.0,
+        0.5036521015684173,
+        0.26851872424289974
+      ],
+      "projected_fastener_to_native_pickup_m": 0.018283760244410793,
+      "repeated_XML4_CG_offset_m": 0.007635641154480784,
+      "repeated_part_implied_joint_m": [
+        0.0,
+        0.5036567058000455,
+        0.2685186348084669
+      ],
+      "implied_joint_to_projected_fastener_m": 4.605100151323117e-06,
+      "status": "source_conflict_not_repaired",
+      "inference": "Fastener projection and repeated-part CG offset are cross-checks, not measured ball centers."
+    },
+    {
+      "side": "right",
+      "rod_end_row": 117,
+      "fastener_row": 44,
+      "native_arm_pickup_m": [
+        0.0,
+        -0.519405,
+        0.2778
+      ],
+      "fastener_CG_projected_on_rod_m": [
+        0.0,
+        -0.5036521015684173,
+        0.26851872424289974
+      ],
+      "projected_fastener_to_native_pickup_m": 0.018283760244410793,
+      "repeated_XML4_CG_offset_m": 0.007635641154480784,
+      "repeated_part_implied_joint_m": [
+        0.0,
+        -0.5036567058000455,
+        0.2685186348084669
+      ],
+      "implied_joint_to_projected_fastener_m": 4.605100151323117e-06,
+      "status": "source_conflict_not_repaired",
+      "inference": "Fastener projection and repeated-part CG offset are cross-checks, not measured ball centers."
+    }
+  ],
+  "centered_bearing_point_potential_difference_bound_J": 9.414757404213349e-06,
+  "bearing_policy": "All eight whole-part CGs are within 50 micrometres of a joint center. This supports an explicitly approximate static point-mass treatment only; it does not verify inner-ball mass split or tensor rotation.",
+  "checks": {
+    "exact_36_unique_rows": true,
+    "counts": true,
+    "distinct_nearest_candidates": true,
+    "bearing_center_eligibility": true,
+    "front_conflicts_preserved": true,
+    "conflict_crosscheck": true,
+    "no_ownership_promotion": true
+  },
+  "passed": true,
+  "joint_ownership_gate_passed": false,
+  "source_sha256": {
+    "scripts/run_joint_endpoint_audit.py": "e1a06e9450b2af8a62d01b9cfaf99a8f63b73d237ab9ecae1d0d88910405458d",
+    "scripts/run_rod_gravity_map.py": "16aa14858379866f2b6c7c1a3b8e9e566167fc2e6c09b20d6636cb5414c159e2",
+    "scripts/run_welded_arm_gravity.py": "481cf7757c34dadf13d62f07d97d9b4abc073a96b4a8dbb5086d00e247f199cd",
+    "data_catalog/wufr26_front_corner_inventory_v0.json": "875217608f4fea7ede8a36e0f94245a0daaebf803f0047e1b68d81f9b3c31463",
+    "data_catalog/wufr26_rear_corner_inventory_v0.json": "d084b818135b2a73abd531a0e9beab8be02ab02a7f8034ec93d7616d7802a4be",
+    "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
+    "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4"
+  }
+}

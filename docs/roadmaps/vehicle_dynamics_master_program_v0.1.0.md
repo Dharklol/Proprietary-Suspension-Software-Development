@@ -460,3 +460,17 @@ Next is joint endpoint/clamping ownership and explicit static bearing/rod-end
 treatment, followed by the matching no-driver spring/ARB/gravity/contact solve.
 Full native equilibrium stays open; the unallocated inventory is not a rigid
 lump. Continue G3/G5a source composition before UI/release development.
+
+## Checkpoint — joint source compatibility, 2026-11-14
+
+BENCH-VEH-0028 screens all 36 corner joint instances and identifies a specific
+front arm-side pullrod source conflict: native pickup versus COM fastener/repeated
+XML4 diagnostics differs by about 18.3 mm along the rod. Preserve both sources;
+front rod source compatibility and joint ownership remain false even though the
+conditional rod-pose energy tests pass. Eight bearings are eligible for an explicit
+centered static approximation; no new mass/CG/owner assignment is introduced.
+See `docs/reports/joint_endpoint_audit_v0.1.0/README.md`.
+
+Next clarify the front attachment placement, then finish endpoint/clamping gravity
+ownership and the matching dry equilibrium. This source decision now precedes
+native transient integration; no further isolated force fixture removes it.
