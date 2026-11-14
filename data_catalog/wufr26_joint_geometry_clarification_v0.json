@@ -1,0 +1,25 @@
+{
+  "owner_statement": "The COM should not predate a pullrod pickup change. The geometry changed that year and has not changed since.",
+  "history_status": "Owner rules out an intervening pickup revision as the explanation; do not infer an older COM geometry.",
+  "verified_optimumk_source": {
+    "box_file_id": "2014803790843",
+    "box_version_id": "2224178574043",
+    "point_name": "NSMA_PPAttPnt_L",
+    "left_raw_mm": [
+      0.0,
+      -519.405,
+      277.8
+    ],
+    "right_raw_mm": [
+      0.0,
+      519.405,
+      277.8
+    ],
+    "verification": "Direct text read of frozen workbook version confirms snapshot coordinates."
+  },
+  "reference_limit": "COM rows are whole-component CGs. Fastener projection and a repeated-part CG offset are inferred references, not direct joint-center exports.",
+  "conclusion": "The approximately 18.3 mm diagnostic difference is reproducible, but a physical pickup displacement or source geometry change is not established.",
+  "next_evidence": "Audit COM instance identity, source configuration and component metadata against the owner-confirmed pickup/ball-center definition. A separate ball-center export is not required to establish intended correspondence.",
+  "owner_joint_definition": "Ball centers are the pickup points in the geometry; CAD is assembled using those points.",
+  "joint_definition_confirmed": true
+}

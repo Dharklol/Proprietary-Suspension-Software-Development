@@ -1,0 +1,49 @@
+{
+  "related_registry_ids": [
+    "BENCH-VEH-0028",
+    "MOD-VEH-0014"
+  ],
+  "method": "Direct visual inspection of PDF assembly views and BOM; no coordinate extraction from drawing pixels.",
+  "sources": [
+    {
+      "box_file_id": "2120119871272",
+      "url": "https://app.box.com/file/2120119871272",
+      "title": "SU-A0701-AA FRONT CORNERS",
+      "pages_inspected": [
+        1,
+        2
+      ],
+      "sha256": "5eaf8bf73a19842d8b9a01b037190841186388e0b92250d65b2c38769cd3f358"
+    },
+    {
+      "box_file_id": "2027093106513",
+      "url": "https://app.box.com/file/2027093106513",
+      "title": "SU-70111-AA PULLROD CONNECTOR",
+      "pages_inspected": [
+        1
+      ],
+      "sha256": "6871d5c5a04910374ecb527f2f29697748e00f8a807ef96c0875c0273750416e"
+    },
+    {
+      "box_file_id": "2212895915302",
+      "url": "https://app.box.com/file/2212895915302",
+      "title": "Front Pull Rod and Connector Welding Jigs Assembly",
+      "pages_inspected": [
+        1
+      ],
+      "sha256": "bf9cef87d45412c68dd25512a950e06a6f50929558d1d74b5579b18dc3a407e4"
+    }
+  ],
+  "observations": [
+    "Front corner assembly BOM identifies item 9 as QA1 XML4 LH rod end and item 10 as QA1 XMR4 RH rod end.",
+    "Welding jig assembly shows two SU-70110 tabs on SU-70111 connector, associated with front upper fore/aft tubes SU-70105/70106 and upper bearing housing SU-70103.",
+    "Connector detail dimensions describe the plate and tab slots; it does not supply a vehicle-frame ball-center coordinate."
+  ],
+  "limits": [
+    "Views support attachment topology; they do not establish the numerical correspondence between COM SU116/117 and NSMA_PPAttPnt_L/R.",
+    "No global joint coordinates or assembly transforms are provided in the inspected drawings.",
+    "No clamp-stack mass ownership, spherical-bearing split, CG reassignment or dynamic inertia authority is inferred."
+  ],
+  "next_required_evidence": "Owner confirms geometry pickups are CAD ball centers. Remaining investigation is COM instance/configuration consistency; no separate ball-center export requested.",
+  "source_compatibility_gate_passed": false
+}

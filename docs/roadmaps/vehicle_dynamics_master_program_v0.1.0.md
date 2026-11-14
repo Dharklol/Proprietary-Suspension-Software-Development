@@ -460,3 +460,43 @@ Next is joint endpoint/clamping ownership and explicit static bearing/rod-end
 treatment, followed by the matching no-driver spring/ARB/gravity/contact solve.
 Full native equilibrium stays open; the unallocated inventory is not a rigid
 lump. Continue G3/G5a source composition before UI/release development.
+
+## Checkpoint — joint source compatibility, 2026-11-14
+
+BENCH-VEH-0028 screens all 36 corner joint instances and identifies a specific
+front arm-side pullrod source conflict: native pickup versus COM fastener/repeated
+XML4 diagnostics differs by about 18.3 mm along the rod. Preserve both sources;
+front rod source compatibility and joint ownership remain false even though the
+conditional rod-pose energy tests pass. Eight bearings are eligible for an explicit
+centered static approximation; no new mass/CG/owner assignment is introduced.
+See `docs/reports/joint_endpoint_audit_v0.1.0/README.md`.
+
+Next clarify the front attachment placement, then finish endpoint/clamping gravity
+ownership and the matching dry equilibrium. This source decision now precedes
+native transient integration; no further isolated force fixture removes it.
+
+Owner clarification: geometry has not changed since that year's redesign; an
+intervening pickup revision is ruled out. Direct inspection of the frozen OptimumK
+workbook confirms the snapshot hardpoint transcription. The 18.3 mm comparison
+uses inferred COM references, not a direct CAD joint-center export, so it does not
+establish a physical pickup displacement. Next verify the actual ball/bolt-axis
+center, part/reference identity and assembly transform. Governing geometry and CGs
+remain unchanged; conditional calculation success does not close that evidence gap.
+
+
+## Checkpoint — bilateral ownership coverage, 2026-11-14
+
+Owner confirms geometry pickup points are the CAD ball centers used for assembly;
+a separate ball-center export is no longer requested. COM instance/configuration
+consistency remains open; thread labels disagree in five positional rod/cap pairs.
+
+BENCH-VEH-0029 completes a 154-row rear ledger and combines it with the 124-row
+front ledger. Existing supported owners remain 64 parts / 7.122 lb; the other
+214 rows comprise 36 joints, ten candidates and 168 clamp hardware instances.
+No additional rigid ownership is established by this bookkeeping checkpoint.
+See `docs/reports/rear_corner_ownership_v0.1.0/README.md`.
+
+Continue G3/G5a: source-supported toe-link and clamping ownership can proceed
+independently of the front pullrod discrepancy. Then close compatible dry static
+equilibrium, followed by native reduced transients; UI stays downstream of that
+end-to-end analytical workflow. Full native equilibrium remains open.
