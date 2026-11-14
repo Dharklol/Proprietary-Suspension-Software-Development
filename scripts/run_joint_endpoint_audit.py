@@ -47,12 +47,32 @@ def audit():
             repeated_XML4_CG_offset_m=reference_offset,
             repeated_part_implied_joint_m=rod_end_implied,
             implied_joint_to_projected_fastener_m=dist(rod_end_implied,projection),
-            status='reference_correspondence_unverified',inference='Fastener projection and repeated-part CG offset are cross-checks, not measured ball centers. A physical pickup displacement is not established.'))
+            status='COM_instance_configuration_unverified',inference='Fastener projection and repeated-part CG offset are cross-checks, not measured ball centers. A physical pickup displacement is not established.'))
+    # Pair by explicit source position, preserving labels as metadata rather than
+    # treating thread names as a verified installed component identity.
+    pairs=[]
+    for axle in ('front','rear'):
+        for side in ('left','right'):
+            a,b,*_=fixture.nominal[axle,side]
+            for endpoint,point in (('rod_arm',a),('rod_rocker',b)):
+                rods=[r for r in results if r['axle']==axle and r['side']==side and r['kind']=='rod_end']
+                rod=min(rods,key=lambda r:dist(r['CG_source_m'],point))
+                caps=[r for r in fixture.members if r['axle']==axle and r['side']==side and r['kind']=='confirmed_endcap']
+                cap=min(caps,key=lambda r:dist(tuple(v*IN for v in r['cg_in']),point))
+                hand=lambda name: 'LH' if ' LH' in name else ('RH' if ' RH' in name else 'unknown')
+                pairs.append(dict(axle=axle,side=side,endpoint=endpoint,
+                    rod_end_row=rod['row'],rod_end_name=rod['part_name'],
+                    endcap_row=cap['sheet_row'],endcap_name=cap['part_name'],
+                    rod_end_label_hand=hand(rod['part_name']),endcap_label_hand=hand(cap['part_name']),
+                    label_hand_match=hand(rod['part_name'])==hand(cap['part_name']),
+                    ownership_confirmed=False))
     bearings=[r for r in results if r['kind']=='spherical_bearing']
     clarification=json.loads((ROOT/'data_catalog/wufr26_joint_geometry_clarification_v0.json').read_text())
     raw=clarification['verified_optimumk_source']
     snapshot=fixture.geometry.corner('front','left').actuation.outboard_attachment.position_m
-    checks=dict(verified_source_transcription=dist(snapshot,(raw['left_raw_mm'][0]/1000,-raw['left_raw_mm'][1]/1000,raw['left_raw_mm'][2]/1000))<1e-12,
+    checks=dict(owner_ball_center_definition_recorded=clarification['joint_definition_confirmed'] is True,
+        eight_unique_rod_cap_pairs=len(pairs)==8 and len({(p['axle'],p['endcap_row']) for p in pairs})==8 and len({(p['axle'],p['rod_end_row']) for p in pairs})==8,
+        verified_source_transcription=dist(snapshot,(raw['left_raw_mm'][0]/1000,-raw['left_raw_mm'][1]/1000,raw['left_raw_mm'][2]/1000))<1e-12,
         exact_36_unique_rows=len(results)==36 and len({(r['axle'],r['row']) for r in results})==36,
         counts=sum(r['kind']=='rod_end' for r in results)==28 and len(bearings)==8,
         distinct_nearest_candidates=len({(r['axle'],r['side'],r['candidates'][0]['endpoint']) for r in results})==36,
@@ -62,6 +82,10 @@ def audit():
         no_ownership_promotion=all(not r['ownership_confirmed'] for r in results))
     return dict(scope='Nominal endpoint screening and reference correspondence diagnosis; no joint/clamp gravity or full equilibrium promotion',
         owner_geometry_history=clarification['history_status'],
+        owner_joint_definition=clarification['owner_joint_definition'],
+        rod_end_cap_instance_pairs=pairs,
+        label_hand_mismatches=[p for p in pairs if not p['label_hand_match']],
+        label_limit='Positional pairing and thread labels diagnose source metadata only; they do not establish actual thread geometry, a CAD error or a corrected joint position.',
         physical_pickup_displacement_confirmed=False,
         reference_limit=clarification['reference_limit'],
         results=results,front_source_conflicts=conflicts,

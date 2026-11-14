@@ -1,6 +1,181 @@
 {
   "scope": "Nominal endpoint screening and reference correspondence diagnosis; no joint/clamp gravity or full equilibrium promotion",
   "owner_geometry_history": "Owner rules out an intervening pickup revision as the explanation; do not infer an older COM geometry.",
+  "owner_joint_definition": "Ball centers are the pickup points in the geometry; CAD is assembled using those points.",
+  "rod_end_cap_instance_pairs": [
+    {
+      "axle": "front",
+      "side": "left",
+      "endpoint": "rod_arm",
+      "rod_end_row": 116,
+      "rod_end_name": "QA1 XML4 0.25-28 LH Rod End-1",
+      "endcap_row": 106,
+      "endcap_name": "SU-70101-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-2",
+      "rod_end_label_hand": "LH",
+      "endcap_label_hand": "RH",
+      "label_hand_match": false,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "left",
+      "endpoint": "rod_rocker",
+      "rod_end_row": 118,
+      "rod_end_name": "QA1 XMR4 0.25-28 RH Rod End-1",
+      "endcap_row": 107,
+      "endcap_name": "SU-70102-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-2",
+      "rod_end_label_hand": "RH",
+      "endcap_label_hand": "LH",
+      "label_hand_match": false,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "right",
+      "endpoint": "rod_arm",
+      "rod_end_row": 117,
+      "rod_end_name": "QA1 XML4 0.25-28 LH Rod End-2",
+      "endcap_row": 104,
+      "endcap_name": "SU-70101-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-1",
+      "rod_end_label_hand": "LH",
+      "endcap_label_hand": "RH",
+      "label_hand_match": false,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "right",
+      "endpoint": "rod_rocker",
+      "rod_end_row": 119,
+      "rod_end_name": "QA1 XMR4 0.25-28 RH Rod End-2",
+      "endcap_row": 105,
+      "endcap_name": "SU-70102-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-1",
+      "rod_end_label_hand": "RH",
+      "endcap_label_hand": "LH",
+      "label_hand_match": false,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "endpoint": "rod_arm",
+      "rod_end_row": 210,
+      "rod_end_name": "QA1 XML4 0.25-28 LH Rod End-1",
+      "endcap_row": 195,
+      "endcap_name": "SU-70202-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-1",
+      "rod_end_label_hand": "LH",
+      "endcap_label_hand": "LH",
+      "label_hand_match": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "left",
+      "endpoint": "rod_rocker",
+      "rod_end_row": 211,
+      "rod_end_name": "QA1 XMR4 0.25-28 RH Rod End-16",
+      "endcap_row": 194,
+      "endcap_name": "SU-70201-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-1",
+      "rod_end_label_hand": "RH",
+      "endcap_label_hand": "RH",
+      "label_hand_match": true,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "endpoint": "rod_arm",
+      "rod_end_row": 213,
+      "rod_end_name": "QA1 XML4 0.25-28 LH Rod End-3",
+      "endcap_row": 196,
+      "endcap_name": "SU-70201-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-4",
+      "rod_end_label_hand": "LH",
+      "endcap_label_hand": "RH",
+      "label_hand_match": false,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "endpoint": "rod_rocker",
+      "rod_end_row": 212,
+      "rod_end_name": "QA1 XMR4 0.25-28 RH Rod End-17",
+      "endcap_row": 197,
+      "endcap_name": "SU-70201-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-5",
+      "rod_end_label_hand": "RH",
+      "endcap_label_hand": "RH",
+      "label_hand_match": true,
+      "ownership_confirmed": false
+    }
+  ],
+  "label_hand_mismatches": [
+    {
+      "axle": "front",
+      "side": "left",
+      "endpoint": "rod_arm",
+      "rod_end_row": 116,
+      "rod_end_name": "QA1 XML4 0.25-28 LH Rod End-1",
+      "endcap_row": 106,
+      "endcap_name": "SU-70101-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-2",
+      "rod_end_label_hand": "LH",
+      "endcap_label_hand": "RH",
+      "label_hand_match": false,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "left",
+      "endpoint": "rod_rocker",
+      "rod_end_row": 118,
+      "rod_end_name": "QA1 XMR4 0.25-28 RH Rod End-1",
+      "endcap_row": 107,
+      "endcap_name": "SU-70102-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-2",
+      "rod_end_label_hand": "RH",
+      "endcap_label_hand": "LH",
+      "label_hand_match": false,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "right",
+      "endpoint": "rod_arm",
+      "rod_end_row": 117,
+      "rod_end_name": "QA1 XML4 0.25-28 LH Rod End-2",
+      "endcap_row": 104,
+      "endcap_name": "SU-70101-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-1",
+      "rod_end_label_hand": "LH",
+      "endcap_label_hand": "RH",
+      "label_hand_match": false,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "front",
+      "side": "right",
+      "endpoint": "rod_rocker",
+      "rod_end_row": 119,
+      "rod_end_name": "QA1 XMR4 0.25-28 RH Rod End-2",
+      "endcap_row": 105,
+      "endcap_name": "SU-70102-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 LH-1",
+      "rod_end_label_hand": "RH",
+      "endcap_label_hand": "LH",
+      "label_hand_match": false,
+      "ownership_confirmed": false
+    },
+    {
+      "axle": "rear",
+      "side": "right",
+      "endpoint": "rod_arm",
+      "rod_end_row": 213,
+      "rod_end_name": "QA1 XML4 0.25-28 LH Rod End-3",
+      "endcap_row": 196,
+      "endcap_name": "SU-70201-AA END CAP, 0.75 OD TURNBUCKLE 0.25-28 RH-4",
+      "rod_end_label_hand": "LH",
+      "endcap_label_hand": "RH",
+      "label_hand_match": false,
+      "ownership_confirmed": false
+    }
+  ],
+  "label_limit": "Positional pairing and thread labels diagnose source metadata only; they do not establish actual thread geometry, a CAD error or a corrected joint position.",
   "physical_pickup_displacement_confirmed": false,
   "reference_limit": "COM rows are whole-component CGs. Fastener projection and a repeated-part CG offset are inferred references, not direct joint-center exports.",
   "results": [
@@ -1288,7 +1463,7 @@
         0.2685186348084669
       ],
       "implied_joint_to_projected_fastener_m": 4.605100151323117e-06,
-      "status": "reference_correspondence_unverified",
+      "status": "COM_instance_configuration_unverified",
       "inference": "Fastener projection and repeated-part CG offset are cross-checks, not measured ball centers. A physical pickup displacement is not established."
     },
     {
@@ -1313,13 +1488,15 @@
         0.2685186348084669
       ],
       "implied_joint_to_projected_fastener_m": 4.605100151323117e-06,
-      "status": "reference_correspondence_unverified",
+      "status": "COM_instance_configuration_unverified",
       "inference": "Fastener projection and repeated-part CG offset are cross-checks, not measured ball centers. A physical pickup displacement is not established."
     }
   ],
   "centered_bearing_point_potential_difference_bound_J": 9.414757404213349e-06,
   "bearing_policy": "All eight whole-part CGs are within 50 micrometres of a joint center. This supports an explicitly approximate static point-mass treatment only; it does not verify inner-ball mass split or tensor rotation.",
   "checks": {
+    "owner_ball_center_definition_recorded": true,
+    "eight_unique_rod_cap_pairs": true,
     "verified_source_transcription": true,
     "exact_36_unique_rows": true,
     "counts": true,
@@ -1332,13 +1509,13 @@
   "passed": true,
   "joint_ownership_gate_passed": false,
   "source_sha256": {
-    "scripts/run_joint_endpoint_audit.py": "20160be3bbb867bb72b1fe2b01ed03b8c5934dc62986afc02c90efa3521ed55d",
-    "scripts/run_rod_gravity_map.py": "7fef946f3f496291b796655209f4a60bc9b0c0349139f8fe85286daaf29e9b1f",
+    "scripts/run_joint_endpoint_audit.py": "fcc1ddf6afde14f6294f5282e51f3fc02010f99a21dd421c2ebe1aeda75dd8a6",
+    "scripts/run_rod_gravity_map.py": "629e6594fff4a9de343a1389212c48c6ac7ec2aef71db0eea32a84292c324b9c",
     "scripts/run_welded_arm_gravity.py": "481cf7757c34dadf13d62f07d97d9b4abc073a96b4a8dbb5086d00e247f199cd",
     "data_catalog/wufr26_front_corner_inventory_v0.json": "875217608f4fea7ede8a36e0f94245a0daaebf803f0047e1b68d81f9b3c31463",
     "data_catalog/wufr26_rear_corner_inventory_v0.json": "d084b818135b2a73abd531a0e9beab8be02ab02a7f8034ec93d7616d7802a4be",
     "data_catalog/wufr26_optimumk_suspension_hardpoints_v0.toml": "6805397421a89857ab453eb13a4e9a51ecc8f945a4cec0bd1c3b20d2a485a9c1",
     "data_catalog/wufr26_whole_vehicle_frame_v0.toml": "7f9eb0daaf6303d768d1bbe486aa369618033a4d33a038b422851c21571a6ec4",
-    "data_catalog/wufr26_joint_geometry_clarification_v0.json": "dad2992257a9f7368f9985e045e38408a932a0e1fd4fea50483131ad488139bc"
+    "data_catalog/wufr26_joint_geometry_clarification_v0.json": "6d91ebdfb55445a1eb9e6afc67e0a1f0f21dea08ad1c4b56166f7a39a72ad5a9"
   }
 }

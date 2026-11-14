@@ -113,7 +113,7 @@ def main():
     report=dict(scope='Four rods plus eight fixed endcaps; conditional no-axial-spin CG transport and gravity, not full rod inertia',
         source_compatibility_gate_passed=False,
         source_compatibility_record='docs/reports/joint_endpoint_audit_v0.1.0/README.md',
-        source_compatibility_warning='Front inferred COM references differ from native pickup by about 18.3 mm along the rod; no physical pickup displacement is established. Owner rules out an intervening geometry change; verify actual CAD joint-center correspondence.',
+        source_compatibility_warning='Front inferred COM references differ from native pickup by about 18.3 mm along the rod; no physical pickup displacement is established. Owner rules out an intervening geometry change; Owner confirms pickups are CAD ball centers; audit COM instance identity, metadata and configuration.',
         members=fixture.members,mapped_rod_mass_kg=mass,cases=cases,checks=checks,passed=all(checks.values()),
         nominal_CG_max_error_m=nominal_error,rigid_distance_max_error_m=max(rigid_errors),
         unknown_axial_spin_potential_difference_bound_J=gravity_bound,

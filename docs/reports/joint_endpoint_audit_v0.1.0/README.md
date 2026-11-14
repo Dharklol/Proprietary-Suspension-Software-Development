@@ -6,12 +6,12 @@ the frozen OptimumK workbook confirms the exported pickup coordinates. The
 18.284 mm result below compares that hardpoint with inferred COM references;
 it is not a confirmed physical pickup displacement. A component CG is not a
 ball center, and repeating a part name does not itself prove the inferred offset.
-The actual CAD joint center/reference correspondence remains to be established.
+The owner confirms that geometry pickup points are the CAD ball centers and are used for CAD assembly. Intended reference identity is established; COM instance/configuration consistency remains open.
 
 Reproduce: `PYTHONPATH=src python scripts/run_joint_endpoint_audit.py`.
 Registry: BENCH-VEH-0028; related MOD-VEH-0013/0014 and BENCH-VEH-0027.
 
-Eight audit checks pass for 36 source rows: 28 rod ends and eight HAB-4TG bearings.
+Ten audit checks pass for 36 source rows: 28 rod ends and eight HAB-4TG bearings.
 Each has a distinct nearest nominal endpoint candidate. This is not confirmation
 of rigid ownership, endpoint identity, clamping or whole-joint tensor rotation.
 The separate joint ownership gate remains false.
@@ -57,13 +57,35 @@ inspected views supplies the ball center in the vehicle coordinate frame.
 Drawing pixels are not used as coordinate metrology. Source hashes, links and
 limits are recorded in `data_catalog/wufr26_joint_visual_evidence_v0.json`.
 
-The precise remaining request is a CAD coordinate export (or coordinate readout)
-for the front pullrod arm-side ball center/common tab-hole axis center, from the
-same assembly configuration as the COM export. Include the coordinate frame and
-identify whether this is the point intended by `NSMA_PPAttPnt_L/R`. Either side
-is sufficient to investigate the reference discrepancy; bilateral coordinates
-are preferable. No new tire, damper or physical testing information is needed
-for this checkpoint. Clamp-stack and bearing mass ownership remain separate.
+The owner subsequently confirmed that the pickup points are the ball centers used
+for CAD assembly. A separate ball-center export is therefore no longer requested.
+The remaining discrepancy belongs to the COM instance/configuration audit.
+
+## COM instance and label audit
+
+Eight rod-end/endcap pairs are screened by proximity to the declared rod endpoints,
+within each axle and side. All eight rod-end rows and eight cap rows are unique.
+This is a positional diagnostic, not a verified mating relationship.
+
+| Corner | Arm-side rod/cap rows | Label hands | Rocker-side rod/cap rows | Label hands |
+|---|---|---|---|---|
+| Front left | 116 / 106 | LH / RH | 118 / 107 | RH / LH |
+| Front right | 117 / 104 | LH / RH | 119 / 105 | RH / LH |
+| Rear left | 210 / 195 | LH / LH | 211 / 194 | RH / RH |
+| Rear right | 213 / 196 | LH / RH | 212 / 197 | RH / RH |
+
+Five of eight pairs have inconsistent thread labels. Targeted read-only reads of
+live WUFR-26 COM tab SU on 2026-11-14 confirm the front tube/cap/rod-end names,
+masses and CG coordinates in rows 98–107 and 116–119, plus rear cap rows 194–197,
+match the committed inventory. Thus these particular labels and front coordinates
+are not a transcription error in the inventory. Source:
+https://docs.google.com/spreadsheets/d/1gUrRtNkEQ4w44esKezqMjeMxAnAau1kG8DxIGr_S-6I/edit
+
+This does not prove incorrect physical threads or explain the 18.284 mm diagnostic.
+Renamed/reused CAD parts, exported configuration or row associations require
+inspection of assembly component identities/transforms. No labels, parts, CGs or
+pickups are swapped to force agreement. The owner-confirmed joint definition is
+retained independently of these source inconsistencies.
 
 ## Other candidates and static bearing treatment
 
@@ -90,7 +112,7 @@ fastener/repeated-part agreement and absence of ownership promotion. Exact COM
 snapshots and geometry remain unchanged. No new user assumptions are silently
 introduced. Results retain source hashes and the false composition gate.
 
-The next necessary evidence is the actual CAD joint-center/reference identity. After that,
+The next necessary evidence is the COM component instance/configuration correspondence. After that,
 continue the hardware clamping map and compatible no-driver gravity composition,
 then solve static spring/ARB/road equilibrium before a native bump case. This is
 the G3/G5a analytical priority. Full native equilibrium remains open; further

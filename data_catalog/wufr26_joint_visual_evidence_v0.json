@@ -44,6 +44,6 @@
     "No global joint coordinates or assembly transforms are provided in the inspected drawings.",
     "No clamp-stack mass ownership, spherical-bearing split, CG reassignment or dynamic inertia authority is inferred."
   ],
-  "next_required_evidence": "CAD arm-side front pullrod ball center or common tab-hole axis center, in the COM assembly configuration and vehicle frame; identify corresponding OptimumK reference.",
+  "next_required_evidence": "Owner confirms geometry pickups are CAD ball centers. Remaining investigation is COM instance/configuration consistency; no separate ball-center export requested.",
   "source_compatibility_gate_passed": false
 }
